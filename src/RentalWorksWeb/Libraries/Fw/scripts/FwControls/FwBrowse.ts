@@ -4247,6 +4247,39 @@ class FwBrowseClass {
                                         })
                                     }
 
+                                    //function showProgressBar($appendToElement: JQuery, currentStep: number, totalSteps: number): JQuery {
+                                    //    let progressCompleted: boolean = false;
+                                    //    const html: Array<string> = [];
+                                    //    html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
+                                    //    html.push(`<div class="progress_bar_text"></div>`);
+                                    //    html.push(`<div class="progress_bar_caption">Initiating upload...</div>`);
+
+                                    //    const $moduleoverlay = jQuery(`<div class="progress_bar">`);
+                                    //    $moduleoverlay.html(html.join(''));
+                                    //    $appendToElement.css('position', 'relative').append($moduleoverlay);
+
+                                    //    let caption: string;
+                                    //  //  let handle: number = window.setInterval(() => {
+                                    //        if ($moduleoverlay) {
+                                    //            caption = 'Upload in progress.  Please Standby...';
+                                    //            currentStep += 0.5;
+                                    //            $moduleoverlay.find('progress').val(currentStep);
+                                    //            $moduleoverlay.find('progress').attr('max', totalSteps);
+                                    //            $moduleoverlay.find('.progress_bar_caption').text(caption);
+                                    //        }
+
+                                    //    //    if (currentStep >= totalSteps) {
+                                    //    //        progressCompleted = true;
+                                    //    //        if (progressCompleted) {
+                                    //    //            window.clearInterval(handle);
+                                    //    //            handle = 0;
+                                    //    //        }
+                                    //    //    }
+                                                   
+                                    //    //}, 500);
+                                    //    return $moduleoverlay;
+                                    //}
+
                                     if (response.length) {
                                         const id = response[0];
                                         let multipleKeys = false;
@@ -4260,10 +4293,27 @@ class FwBrowseClass {
                                         const totalSteps = excelObject.length;
                                         let progressCompleted = false;
 
+                                        const html: Array<string> = [];
+                                        html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
+                                        html.push(`<div class="progress_bar_text"></div>`);
+                                        html.push(`<div class="progress_bar_caption">Initiating upload...</div>`);
+
+                                        const $moduleoverlay = jQuery(`<div class="progress_bar">`);
+                                        $moduleoverlay.html(html.join(''));
+                                        jQuery('#application').css('position', 'relative').append($moduleoverlay);
+                                       // let caption, currentStep = 1;
                                         let handle: number = window.setInterval(async () => {
                                             console.log('step')
                                             if (proceed) {
-                                                //proceed = false;
+                                                if ($moduleoverlay) {
+                                                    //caption = 'Upload in progress.  Please Standby...';
+                                                    //currentStep += 0.5;
+                                                    $moduleoverlay.find('progress').val(i);
+                                                    $moduleoverlay.find('progress').attr('max', totalSteps);
+                                                    $moduleoverlay.find('.progress_bar_caption').text('Upload in progress.  Please Standby...');
+                                                }
+
+                                                proceed = false;
                                                 let method: any = 'PUT'
                                                 const idVal = excelObject[i][`${id}`];
                                                 if (excelObject[i].hasOwnProperty(id)) {
@@ -4328,6 +4378,7 @@ class FwBrowseClass {
                                                 if (progressCompleted) {
                                                     window.clearInterval(handle);
                                                     handle = 0;
+                                                    $moduleoverlay.remove()
                                                 }
                                             }
                                         }, 1000);
