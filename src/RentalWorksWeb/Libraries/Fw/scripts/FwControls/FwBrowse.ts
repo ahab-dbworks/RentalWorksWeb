@@ -4419,7 +4419,7 @@ class FwBrowseClass {
                     //var fileName = "MyReport_";
                     //this will remove the blank-spaces from the title and replace it with an underscore
                     //fileName += ReportTitle.replace(/ /g, "_");
-                    let fileName = `${controller.substring(0, controller.length - 10)}Browse-Template`;
+                    let fileName = `${controller.substring(0, controller.length - 10)}-Template`;
                     //Initialize file format you want csv or xls
                     var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
 
