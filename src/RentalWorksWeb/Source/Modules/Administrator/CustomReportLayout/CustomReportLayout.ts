@@ -508,6 +508,13 @@ class CustomReportLayout {
                         $newDetailRowClone.insertAfter($lastDetailRow);
                         this.addRowColumnSorting($form, $table, tableName, $tr.get(0), 'columnheader');
                         break;
+                    case 'deleterow':
+                        const linkedColumn = $th.attr('data-linkedcolumn');
+                        const $cachedRowsToDelete = $wrapper.find(`${tableNameSelector} tr [data-linkedcolumn="${linkedColumn}"]`).parents('tr');
+                        const $designerRowsToDelete = $table.find(`[data-linkedcolumn="${linkedColumn}"]`).parents('tr');
+                        $cachedRowsToDelete.remove();
+                        $designerRowsToDelete.remove();
+                        break;
                     case 'style':
                         this.updateElementStyle($form, $wrapper, tableNameSelector, $tr, $th);
                         break;
@@ -575,18 +582,21 @@ class CustomReportLayout {
                         const rowType = $row.attr('data-row');
 
                         switch (rowType) {
+                            case 'main-header':
+                                $form.data('updatetype', 'tableheader');
+                                break;
                             case 'header':
                                 $form.data('updatetype', 'headerrow');
-                                $form.data('rowindex', $row.get(0).rowIndex);
-                                break;
-                            case 'footer':
-                                $form.data('updatetype', 'footerrow');
                                 $form.data('rowindex', $row.get(0).rowIndex);
                                 break;
                             case 'sub-header':
                                 linkedColumn = $column.attr('data-linkedcolumn');
                                 $form.data('updatesubheader', { linkedcolumn: linkedColumn, caption: value });
                                 $form.data('updatetype', 'tableheader');
+                                break;
+                            case 'footer':
+                                $form.data('updatetype', 'footerrow');
+                                $form.data('rowindex', $row.get(0).rowIndex);
                                 break;
                         }
                         $column.text(value);
@@ -666,6 +676,30 @@ class CustomReportLayout {
             }
         });
 
+        //delete row
+        $form.on('click', '.delete-row', e => {
+            if (typeof $column !== 'undefined') {
+                $row = $column.parents('tr');
+                let rowIndex = $row.index();
+                if (rowIndex) {
+                    const linkedColumn = jQuery($column).attr('data-linkedcolumn');
+                    const $linkedColumns = $table.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                    $linkedColumns.siblings().addClass('highlight');
+                    const $confirmation = FwConfirmation.renderConfirmation(`Delete Row`, `Delete the highlighted row(s)?`);
+                    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                    FwConfirmation.addButton($confirmation, 'No', true);
+
+                    $yes.on('click', () => {
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        //delete row 
+                        $form.data('updatetype', 'deleterow');
+                        $form.data('deleterow', { rowindex1: rowIndex})
+                        this.updateHTML($form, $table, $row, $column);
+                    });
+                }
+            }
+        });
+
         //hover over header fields
         $form.find('#columnHeader tr th').hover(e => { //mouseenter
             $table = jQuery(e.currentTarget).parents('table');
@@ -687,6 +721,11 @@ class CustomReportLayout {
             $form.find('#reportDesigner .highlight').removeClass('highlight');
             $table.find(`[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight');
             this.showHideControlProperties($form, 'table');
+            if ($column.parents('tr').index()) {
+                $form.find('.delete-row').parent('div').show();
+            } else {
+                $form.find('.delete-row').parent('div').hide();
+            }
         });
 
         //allow td styling
@@ -694,6 +733,8 @@ class CustomReportLayout {
             e.stopPropagation();
             $column = jQuery(e.currentTarget);
             $table = $column.parents('table');
+            $form.find('#reportDesigner .highlight').removeClass('highlight');
+            $column.addClass('highlight');
             const tableName = $table.parents('.table-wrapper').attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
             FwFormField.setValueByDataField($form, 'CellStyleField', $column.attr('style') || '');
@@ -1184,10 +1225,8 @@ class CustomReportLayout {
                                             $cachedTds = $row.find('td');
 
                                             //split tds to the right into empty tds
-                                            //for (let j = 1; j <= columnsToUnmerge; j++) {
-                                            //    const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
                                             for (let j = 1; j <= columnsToUnmerge; j++) {
-                                                const columnToLinkIndex = endTotalNameColumnIndex + columnsToUnmerge - j;
+                                                const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
                                                 const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
                                                 const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
 
