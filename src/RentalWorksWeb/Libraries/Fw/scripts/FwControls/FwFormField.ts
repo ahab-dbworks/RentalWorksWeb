@@ -373,7 +373,9 @@ class FwFormFieldClass {
         try {
             value = this.getValue($parent, selector);
         } catch (ex) {
-            throw new Error(`this.getValueByDataField: Unable to get value for datafield: ${datafield}`);
+            //throw new Error(`this.getValueByDataField: Unable to get value for datafield: ${datafield}`);
+            value = null;  //justin hoffman & matt young 07/16/2020 - If Form has been customized and the field is not found, return a Null without throwing an error.  The Null return value will have to be handled on the Form controller
+            console.error(`FwFormField.getValueByDataField: Unable to get value for datafield: ${datafield}`);
         }
         return value;
     }
