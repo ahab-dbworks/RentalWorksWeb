@@ -761,26 +761,32 @@ class OrderItemGrid {
             // Taxable field
             let taxable = FwBrowse.getValueByDataField($control, $tr, 'Taxable') == 'true' ? 'T' : 'F';
             if (taxable === 'T') {
-                const rentalTax = FwFormField.getValueByDataField($form, 'RentalTaxRate1');
-                const salesTax = FwFormField.getValueByDataField($form, 'SalesTaxRate1');
-                const laborTax = FwFormField.getValueByDataField($form, 'LaborTaxRate1');
-                const $grid = $control.closest('div[data-control="FwGrid"]');
-                if (($grid.hasClass('R')) && (controller === 'PurchaseOrderController') && (!$grid.hasClass('sub'))) { // Rental Inventory grid on PO
-                    if (salesTax === '0') {
-                        taxable = 'F';
-                    }
+                const nonTaxable = FwFormField.getValueByDataField($form, 'NonTaxable') ?? false;
+                if (nonTaxable) {
+                    taxable = 'F';
                 }
-                else if ($grid.hasClass('R')) { // All other Rental grids
-                    if (rentalTax === '0') {
-                        taxable = 'F';
+                else {
+                    const rentalTax = FwFormField.getValueByDataField($form, 'RentalTaxRate1');
+                    const salesTax = FwFormField.getValueByDataField($form, 'SalesTaxRate1');
+                    const laborTax = FwFormField.getValueByDataField($form, 'LaborTaxRate1');
+                    const $grid = $control.closest('div[data-control="FwGrid"]');
+                    if (($grid.hasClass('R')) && (controller === 'PurchaseOrderController') && (!$grid.hasClass('sub'))) { // Rental Inventory grid on PO
+                        if (salesTax === '0') {
+                            taxable = 'F';
+                        }
                     }
-                } else if ($grid.hasClass('L')) { // Labor grid
-                    if (laborTax === '0') {
-                        taxable = 'F';
-                    }
-                } else { // All other grids
-                    if (salesTax === '0') {
-                        taxable = 'F';
+                    else if ($grid.hasClass('R')) { // All other Rental grids
+                        if (rentalTax === '0') {
+                            taxable = 'F';
+                        }
+                    } else if ($grid.hasClass('L')) { // Labor grid
+                        if (laborTax === '0') {
+                            taxable = 'F';
+                        }
+                    } else { // All other grids
+                        if (salesTax === '0') {
+                            taxable = 'F';
+                        }
                     }
                 }
             }

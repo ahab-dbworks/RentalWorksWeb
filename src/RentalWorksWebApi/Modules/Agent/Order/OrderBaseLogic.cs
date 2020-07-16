@@ -1225,6 +1225,9 @@ namespace WebApi.Modules.Agent.Order
         public bool? UnassignedSubs { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwLogicProperty(Id: "DiohURrhZZm9F", IsReadOnly: true)]
+        public bool? NonTaxable { get; set; }
+
 
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "wXMvGhGwlYbqi", DisableDirectAssign: true, DisableDirectModify: true)]
