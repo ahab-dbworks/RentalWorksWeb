@@ -38,22 +38,6 @@ const lateReturnsTemplate = `
                     </div>
                   </div>
                 </div>
-                <div class="flexcolumn" style="max-width:250px;">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-datafield="ShowUnit" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Unit Value" style="float:left;max-width:420px;"></div>
-                    </div>
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-datafield="ShowReplacement" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Replacement Cost" style="float:left;max-width:420px;"></div>
-                    </div>
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-datafield="ShowBarCode" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Bar Codes" style="float:left;max-width:420px;"></div>
-                    </div>
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-datafield="ShowSerial" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Serial Numbers" style="float:left;max-width:420px;"></div>
-                    </div>
-                  </div>
-                </div>
                 <div class="flexcolumn" style="max-width:600px;">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -91,6 +75,7 @@ const lateReturnsTemplate = `
 class LateReturnsReport extends FwWebApiReport {
     constructor() {
         super('LateReturnsReport', 'api/v1/latereturnsreport', lateReturnsTemplate);
+        this.designerProvisioned = true;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -199,29 +184,13 @@ class LateReturnsReport extends FwWebApiReport {
         convertedParams.CustomerId = parameters.CustomerId;
         convertedParams.DealId = parameters.DealId;
         convertedParams.InventoryTypeId = parameters.InventoryTypeId;
-        convertedParams.ShowUnit = parameters.ShowUnit;
-        convertedParams.ShowReplacement = parameters.ShowReplacement;
-        convertedParams.ShowBarCode = parameters.ShowBarCode;
-        convertedParams.ShowSerial = parameters.ShowSerial;
+        //convertedParams.ShowUnit = parameters.ShowUnit;
+        //convertedParams.ShowReplacement = parameters.ShowReplacement;
+        //convertedParams.ShowBarCode = parameters.ShowBarCode;
+        //convertedParams.ShowSerial = parameters.ShowSerial;
 
         return convertedParams;
     }
-    //----------------------------------------------------------------------------------------------
-    //beforeValidate($browse, $form, request) {
-    //    const validationName = request.module;
-    //    const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-    //    request.uniqueids = {};
-
-    //    switch (validationName) {
-    //        case 'DealValidation':
-    //            if (customerId !== '') {
-    //                request.uniqueids.CustomerId = customerId;
-    //            }
-    //            break;
-    //        case 'InventoryTypeValidation':
-    //            request.uniqueids.Rental = true;
-    //    };
-    //};
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
