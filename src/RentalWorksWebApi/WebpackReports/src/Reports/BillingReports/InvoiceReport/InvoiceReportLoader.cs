@@ -368,6 +368,18 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
+    public class UsedSaleInvoiceItemReportLoader : InvoiceItemReportLoader
+    {
+        public UsedSaleInvoiceItemReportLoader()
+        {
+            recType = RwConstants.RECTYPE_USED_SALE;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+    //------------------------------------------------------------------------------------ 
     public class PaymentsInvoiceItemReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -911,6 +923,8 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
         public List<LaborInvoiceItemReportLoader> LaborItems { get; set; } = new List<LaborInvoiceItemReportLoader>(new LaborInvoiceItemReportLoader[] { new LaborInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<UsedSaleInvoiceItemReportLoader> UsedSaleItems { get; set; } = new List<UsedSaleInvoiceItemReportLoader>(new UsedSaleInvoiceItemReportLoader[] { new UsedSaleInvoiceItemReportLoader() });
+        //------------------------------------------------------------------------------------ 
         public List<LossAndDamageInvoiceItemReportLoader> LossAndDamageItems { get; set; } = new List<LossAndDamageInvoiceItemReportLoader>(new LossAndDamageInvoiceItemReportLoader[] { new LossAndDamageInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<AdjustmentInvoiceItemReportLoader> AdjustmentItems { get; set; } = new List<AdjustmentInvoiceItemReportLoader>(new AdjustmentInvoiceItemReportLoader[] { new AdjustmentInvoiceItemReportLoader() });
@@ -970,6 +984,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     LossAndDamageItems.SetDependencies(AppConfig, UserSession);
                     taskLossAndDamageInvoiceItems = LossAndDamageItems.LoadItems<LossAndDamageInvoiceItemReportLoader>(request);
 
+                    //used sale items
+                    Task<List<UsedSaleInvoiceItemReportLoader>> taskUsedSaleInvoiceItems;
+                    UsedSaleInvoiceItemReportLoader UsedSaleItems = new UsedSaleInvoiceItemReportLoader();
+                    UsedSaleItems.SetDependencies(AppConfig, UserSession);
+                    taskUsedSaleInvoiceItems = UsedSaleItems.LoadItems<UsedSaleInvoiceItemReportLoader>(request);
+
                     //labor items
                     Task<List<AdjustmentInvoiceItemReportLoader>> taskAdjustmentInvoiceItems;
                     AdjustmentInvoiceItemReportLoader AdjustmentItems = new AdjustmentInvoiceItemReportLoader();
@@ -982,7 +1002,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     PaymentItems.SetDependencies(AppConfig, UserSession);
                     taskPaymentInvoiceItems = PaymentItems.LoadPaymentItems<PaymentsInvoiceItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems, taskLossAndDamageInvoiceItems, taskAdjustmentInvoiceItems, taskPaymentInvoiceItems });
+                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems, taskLossAndDamageInvoiceItems, taskUsedSaleInvoiceItems, taskAdjustmentInvoiceItems, taskPaymentInvoiceItems });
 
                     Invoice = taskInvoice.Result;
 
@@ -994,6 +1014,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         Invoice.MiscItems = taskMiscInvoiceItems.Result;
                         Invoice.LaborItems = taskLaborInvoiceItems.Result;
                         Invoice.LossAndDamageItems = taskLossAndDamageInvoiceItems.Result;
+                        Invoice.UsedSaleItems = taskUsedSaleInvoiceItems.Result;
                         Invoice.AdjustmentItems = taskAdjustmentInvoiceItems.Result;
                         Invoice.PaymentItems = taskPaymentInvoiceItems.Result;
                     }
