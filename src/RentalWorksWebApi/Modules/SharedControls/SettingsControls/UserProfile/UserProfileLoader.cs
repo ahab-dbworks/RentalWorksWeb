@@ -61,6 +61,9 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwSqlDataField(column: "firstdayofweek", modeltype: FwDataTypes.Integer)]
         public int? FirstDayOfWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
+        public bool? WebAdministrator { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -127,6 +127,10 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwLogicProperty(Id: "654Ji1gmjrEPD")]
         public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
 
+        [FwLogicProperty(Id: "PyJF3dC7sONA9", IsReadOnly: true)]
+        public bool? WebAdministrator { get; set; }
+
+
         [FwLogicProperty(Id: "JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
