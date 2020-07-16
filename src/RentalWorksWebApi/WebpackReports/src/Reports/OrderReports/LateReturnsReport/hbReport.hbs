@@ -62,7 +62,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "OrderNumberheader"}}
-      {{ifEquals ../Type "PASTDUE"}}
+      {{#ifEquals ../Type "PASTDUE"}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
         <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
@@ -95,6 +95,8 @@
         <td data-linkedcolumn="OrderDueIn" data-value="{{OrderPastDue}}" class="number"></td>
       </tr>
       {{/ifEquals}}
+      {{/ifEquals}}
+
       {{#ifEquals RowType "OrderNumberheader"}}
       <tr data-row="sub-header" data-sort="true" data-rowtype="{{RowType}}">
         <!--<td style="width:64px;background-color:white;"></td>-->
