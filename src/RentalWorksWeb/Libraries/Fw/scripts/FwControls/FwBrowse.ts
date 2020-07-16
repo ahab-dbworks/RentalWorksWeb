@@ -4239,12 +4239,27 @@ class FwBrowseClass {
                             })
                                 .then(async (response: any) => {
                                     async function uploadRecord(url, method, data): Promise<any> {
-                                        return FwAjax.callWebApi<any, any>({
-                                            httpMethod: method,
-                                            data: data,
+                                        const ajaxOptions: JQuery.AjaxSettings<any> = {
+                                            method: method,
                                             url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
-                                            $elementToBlock: jQuery('#application'),
-                                        })
+                                            contentType: 'application/json',
+                                            //dataType: 'json',
+                                            data: data,
+                                            headers: {
+                                                Authorization: `Bearer ${sessionStorage.getItem('apiToken')}`
+                                            },
+                                            context: {
+                                                requestid: FwAppData.generateUUID()
+                                            },
+                                        };
+                                        return jQuery.ajax(ajaxOptions)
+
+                                        //return FwAjax.callWebApi<any, any>({
+                                        //    httpMethod: method,
+                                        //    data: data,
+                                        //    url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
+                                        //    $elementToBlock: jQuery('#application'),
+                                        //})
                                     }
 
                                     //function showProgressBar($appendToElement: JQuery, currentStep: number, totalSteps: number): JQuery {
@@ -4331,8 +4346,10 @@ class FwBrowseClass {
                                                     url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
                                                 }
                                                 jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
-                                                // actual API call with err handling to prevent successive calls  
-                                                await uploadRecord(url, method, excelObject[i])
+                                                // actual API call with err handling to prevent successive calls 
+                                                const json = JSON.stringify(excelObject[i])
+                                                console.log('json', json)
+                                                await uploadRecord(url, method, json)
                                                     .then((res) => {
                                                         console.log('res: ', res);
                                                         i++;
@@ -4355,7 +4372,7 @@ class FwBrowseClass {
                                                         console.log('ex: ', ex);
                                                         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click(); // confirmation box still appears to user momentarily - need better solution
 
-                                                        const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message}`);
+                                                        const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.responseJSON.Message}`);
 
                                                         const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
                                                         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
@@ -4469,13 +4486,12 @@ class FwBrowseClass {
                     //Initialize file format you want csv or xls
                     var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
 
-                    // Now the little tricky part.
                     // you can use either>> window.open(uri);
                     // but this will not work in some browsers
                     // or you will not get the correct file extension    
 
                     //this trick will generate a temp <a /> tag
-                    var link = document.createElement("a");
+                    const link = document.createElement("a");
                     link.href = uri;
 
                     //set the visibility hidden so it will not effect on your web-layout
