@@ -1184,8 +1184,10 @@ class CustomReportLayout {
                                             $cachedTds = $row.find('td');
 
                                             //split tds to the right into empty tds
+                                            //for (let j = 1; j <= columnsToUnmerge; j++) {
+                                            //    const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
                                             for (let j = 1; j <= columnsToUnmerge; j++) {
-                                                const columnToLinkIndex = endTotalNameColumnIndex - (j - 1);
+                                                const columnToLinkIndex = endTotalNameColumnIndex + columnsToUnmerge - j;
                                                 const linkedCol = jQuery($detailRowTds[columnToLinkIndex]).attr('data-linkedcolumn');
                                                 const $newTd = jQuery(`<td class="empty-td" data-linkedcolumn="${linkedCol}"></td>`);
 
