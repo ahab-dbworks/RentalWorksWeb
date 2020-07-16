@@ -1126,6 +1126,7 @@ class CustomReportLayout {
                                             $designerTd.insertAfter($designerTds[newIndex]);
                                         }
                                     }
+                                    detailRowIndex++;
                                 } else {
                                     detailRowIndex++;
                                 }
