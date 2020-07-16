@@ -238,6 +238,12 @@ namespace WebApi.Modules.Warehouse.Contract
         [FwSqlDataField(column: "printonorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? PrintNoteOnOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "termsconditionsid", modeltype: FwDataTypes.Text)]
+        public string TermsConditionsId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "termsconditions", modeltype: FwDataTypes.Text)]
+        public string TermsConditions { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

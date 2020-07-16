@@ -41,17 +41,15 @@ export class InContractReport extends WebpackReport {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
                             console.log('DATA: ', data)
-                            // want to add
-                            //if (data.TermsAndConditions !== null && data.TermsAndConditions !== '') {
-                            //    const termEl = document.getElementById('terms');
-                            //    termEl.innerHTML = data.TermsAndConditions;
-                            //    if (data.TermsAndConditionsNewPage) {
-                            //        const termsRow = document.getElementById('termsRow');
-                            //        termsRow.style.cssText = "page-break-before:always;padding:20px 10px 0px 10px;font-size:1em;";
-                            //    }
-                            //}
-
-
+                            // Terms and Conditions
+                            if (data.TermsAndConditionsHtml !== null && data.TermsAndConditionsHtml !== '') {
+                                const termEl = document.getElementById('terms');
+                                termEl.innerHTML = data.TermsAndConditionsHtml;
+                                if (data.TermsAndConditionsNewPage) {
+                                    const termsRow = document.getElementById('termsRow');
+                                    termsRow.style.cssText = `page-break-before:always;padding:10px 10px 0px 10px;font-size:1em;width:1110px;`;
+                                }
+                            }
                             this.onRenderReportCompleted();
                         })
                         .catch((ex) => {

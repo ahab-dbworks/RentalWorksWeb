@@ -333,6 +333,12 @@ namespace WebApi.Modules.Warehouse.Contract
         [FwLogicProperty(Id: "QCswoixUBKV")]
         public bool? PrintNoteOnOrder { get { return contract.PrintNoteOnOrder; } set { contract.PrintNoteOnOrder = value; } }
 
+        [FwLogicProperty(Id: "p1j0jc0ZhlcnU")]
+        public string TermsConditionsId { get { return contract.TermsConditionsId; } set { contract.TermsConditionsId = value; } }
+
+        [FwLogicProperty(Id: "t0pPDO4LT61QV", IsReadOnly: true)]
+        public string TermsConditions { get; set; }
+
         [FwLogicProperty(Id: "7lTe6d93tfl6")]
         public string DateStamp { get { return contract.DateStamp; } set { contract.DateStamp = value; } }
 

@@ -933,6 +933,9 @@ abstract class ContractBase {
                    <div class="flexrow">
                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print on Order" data-datafield="PrintNoteOnOrder"></div>
                    </div>
+                   <div class="flexrow">
+                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Terms &#038; Conditions" data-datafield="TermsConditionsId" data-displayfield="TermsConditions" data-enabled="true" data-validationname="TermsConditionsValidation" style="max-width:300px;"></div>
+                   </div>
                 </div>
               </div>
             </div>
