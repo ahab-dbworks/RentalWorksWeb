@@ -1,9 +1,9 @@
 class FwAppImageClass {
     blankDataUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
     //---------------------------------------------------------------------------------
-    init = function ($control: JQuery) {
+    init = ($control: JQuery) => {
         $control
-            .on('click', '.btnAdd', function (event) {
+            .on('click', '.btnAdd', (event) => {
                 var $confirmation;
                 try {
                     var html = [];
@@ -23,7 +23,7 @@ class FwAppImageClass {
                             html.push('    <div class="pasteimage" contenteditable="true" style="position:absolute;top:0;right:0;bottom:0;left:0;z-index:2;line-height:100px;padding:0 10px;box-sizing:border-box;cursor:text;"></div>');
                         }
                         html.push('  </div>');
-                        html.push('  <input class="inputfile" type="file" style="opacity:0;width:0;height:0;">');
+                        html.push('  <input class="inputfile" type="file" multiple style="opacity:0;width:0;height:0;">');
                         html.push('</div>');
                     }
                     let htmlString = html.join('\n');
@@ -93,17 +93,18 @@ class FwAppImageClass {
                     }
                     FwConfirmation.addButton($confirmation, 'Close', true);
                     $confirmation
-                        .on('change', '.inputfile', function () {
+                        .on('change', '.inputfile', async (e: JQuery.ChangeEvent) => {
                             var blob;
                             try {
-                                for (var i = 0; i < this.files.length; i++) {
-                                    if (this.files[i].type.indexOf("image") === 0) {
-                                        blob = this.files[i];
-                                        break;
-                                    }
-                                }
-                                var $image = jQuery(FwAppImage.getAddImageHtml($control));
-                                FwAppImage.fileToDataUrl($control, $image, blob);
+                                //for (var i = 0; i < this.files.length; i++) {
+                                //    if (this.files[i].type.indexOf("image") === 0) {
+                                //        blob = this.files[i];
+                                //        break;
+                                //    }
+                                //}
+                                //var $image = jQuery(FwAppImage.getAddImageHtml($control));
+                                //FwAppImage.fileToDataUrl($control, $image, blob);
+                                await this.addFiles($control, e.target.files);
                                 FwConfirmation.destroyConfirmation($confirmation);
                             } catch (ex) {
                                 jQuery(this).val('');
@@ -170,46 +171,49 @@ class FwAppImageClass {
             })
             .on('click', '.btnDelete', function (e) {
                 try {
-                    const $fullsizeimage = $control.find('.fullsizeimage');
-                    const appimageid = $fullsizeimage.attr('data-appimageid');
-                    const $deleteThumbnail = $control.find(`.thumb[data-appimageid="${appimageid}"]`);
-                    const $confirmation = FwConfirmation.renderConfirmation('Confirm', 'Delete Image?');
-                    const $btnOk = FwConfirmation.addButton($confirmation, 'OK');
-                    FwConfirmation.addButton($confirmation, 'Cancel');
-                    $btnOk.on('click', function () {
-                        FwAppImage.deleteImage($control, $fullsizeimage);
-                        let deleteThumnailNo = -1;
-                        let $thumbs = $control.find('.thumb');
-                        for (let i = 0; i < $thumbs.length; i++) {
-                            if ($thumbs.eq(i).attr('data-appimageid') === appimageid) {
-                                deleteThumnailNo = i;
-                                break;
-                            }
-                        }
-                        if (deleteThumnailNo >= 0) {
-                            $deleteThumbnail.remove();
-                            $thumbs = $control.find('.thumb');
-                            let newThumbnailNo = deleteThumnailNo;
-                            if ($thumbs.length === 0) {
-                                FwAppImage.selectImage($control, null, null);
-                            } else {
-                                if (newThumbnailNo > $thumbs.length - 1) {
-                                    newThumbnailNo = $thumbs.length - 1;
+                    if ($control.find('.thumb').length > 0) {
+                        const $fullsizeimage = $control.find('.fullsizeimage');
+                        const appimageid = $fullsizeimage.attr('data-appimageid');
+                        const $deleteThumbnail = $control.find(`.thumb[data-appimageid="${appimageid}"]`);
+                        const $confirmation = FwConfirmation.renderConfirmation('Confirm', 'Delete Image?');
+                        const $btnOk = FwConfirmation.addButton($confirmation, 'OK');
+                        $btnOk.focus();
+                        FwConfirmation.addButton($confirmation, 'Cancel');
+                        $btnOk.on('click', function () {
+                            FwAppImage.deleteImage($control, $fullsizeimage);
+                            let deleteThumnailNo = -1;
+                            let $thumbs = $control.find('.thumb');
+                            for (let i = 0; i < $thumbs.length; i++) {
+                                if ($thumbs.eq(i).attr('data-appimageid') === appimageid) {
+                                    deleteThumnailNo = i;
+                                    break;
                                 }
-                                const $newThumbnail = $thumbs.eq(newThumbnailNo);
-                                if ($newThumbnail.length > 0) {
-                                    let ct_appimageid = $newThumbnail.attr('data-appimageid');
-                                    let ct_datestamp = $newThumbnail.attr('data-datestamp');
-                                    FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
-                                    //FwAppImage.updatePageInfo($control, newThumbnailNo + 1, $thumbs.length);
-                                } else {
+                            }
+                            if (deleteThumnailNo >= 0) {
+                                $deleteThumbnail.remove();
+                                $thumbs = $control.find('.thumb');
+                                let newThumbnailNo = deleteThumnailNo;
+                                if ($thumbs.length === 0) {
                                     FwAppImage.selectImage($control, null, null);
+                                } else {
+                                    if (newThumbnailNo > $thumbs.length - 1) {
+                                        newThumbnailNo = $thumbs.length - 1;
+                                    }
+                                    const $newThumbnail = $thumbs.eq(newThumbnailNo);
+                                    if ($newThumbnail.length > 0) {
+                                        let ct_appimageid = $newThumbnail.attr('data-appimageid');
+                                        let ct_datestamp = $newThumbnail.attr('data-datestamp');
+                                        FwAppImage.selectImage($control, ct_appimageid, ct_datestamp);
+                                        //FwAppImage.updatePageInfo($control, newThumbnailNo + 1, $thumbs.length);
+                                    } else {
+                                        FwAppImage.selectImage($control, null, null);
+                                    }
                                 }
+                            } else {
+                                FwAppImage.selectImage($control, null, null);
                             }
-                        } else {
-                            FwAppImage.selectImage($control, null, null);
-                        }
-                    });
+                        });
+                    }
                     return false;
                 } catch (ex) {
                     FwFunc.showError(ex);
