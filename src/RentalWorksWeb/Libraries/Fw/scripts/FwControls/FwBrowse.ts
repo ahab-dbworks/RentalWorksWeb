@@ -4239,61 +4239,13 @@ class FwBrowseClass {
                             })
                                 .then(async (response: any) => {
                                     async function uploadRecord(url, method, data): Promise<any> {
-                                        const ajaxOptions: JQuery.AjaxSettings<any> = {
-                                            method: method,
-                                            url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
-                                            contentType: 'application/json',
-                                            //dataType: 'json',
+                                        return FwAjax.callWebApi<any, any>({
+                                            httpMethod: method,
                                             data: data,
-                                            headers: {
-                                                Authorization: `Bearer ${sessionStorage.getItem('apiToken')}`
-                                            },
-                                            context: {
-                                                requestid: FwAppData.generateUUID()
-                                            },
-                                        };
-                                        return jQuery.ajax(ajaxOptions)
-
-                                        //return FwAjax.callWebApi<any, any>({
-                                        //    httpMethod: method,
-                                        //    data: data,
-                                        //    url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
-                                        //    $elementToBlock: jQuery('#application'),
-                                        //})
+                                            url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
+                                            $elementToBlock: jQuery('#application'),
+                                        })
                                     }
-
-                                    //function showProgressBar($appendToElement: JQuery, currentStep: number, totalSteps: number): JQuery {
-                                    //    let progressCompleted: boolean = false;
-                                    //    const html: Array<string> = [];
-                                    //    html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
-                                    //    html.push(`<div class="progress_bar_text"></div>`);
-                                    //    html.push(`<div class="progress_bar_caption">Initiating upload...</div>`);
-
-                                    //    const $moduleoverlay = jQuery(`<div class="progress_bar">`);
-                                    //    $moduleoverlay.html(html.join(''));
-                                    //    $appendToElement.css('position', 'relative').append($moduleoverlay);
-
-                                    //    let caption: string;
-                                    //  //  let handle: number = window.setInterval(() => {
-                                    //        if ($moduleoverlay) {
-                                    //            caption = 'Upload in progress.  Please Standby...';
-                                    //            currentStep += 0.5;
-                                    //            $moduleoverlay.find('progress').val(currentStep);
-                                    //            $moduleoverlay.find('progress').attr('max', totalSteps);
-                                    //            $moduleoverlay.find('.progress_bar_caption').text(caption);
-                                    //        }
-
-                                    //    //    if (currentStep >= totalSteps) {
-                                    //    //        progressCompleted = true;
-                                    //    //        if (progressCompleted) {
-                                    //    //            window.clearInterval(handle);
-                                    //    //            handle = 0;
-                                    //    //        }
-                                    //    //    }
-                                                   
-                                    //    //}, 500);
-                                    //    return $moduleoverlay;
-                                    //}
 
                                     if (response.length) {
                                         const id = response[0];
@@ -4316,87 +4268,72 @@ class FwBrowseClass {
                                         const $moduleoverlay = jQuery(`<div class="progress_bar">`);
                                         $moduleoverlay.html(html.join(''));
                                         jQuery('#application').css('position', 'relative').append($moduleoverlay);
-                                       // let caption, currentStep = 1;
                                         let handle: number = window.setInterval(async () => {
-                                            console.log('step')
-                                            if (proceed) {
-                                                if ($moduleoverlay) {
-                                                    //caption = 'Upload in progress.  Please Standby...';
-                                                    //currentStep += 0.5;
-                                                    $moduleoverlay.find('progress').val(i);
-                                                    $moduleoverlay.find('progress').attr('max', totalSteps);
-                                                    $moduleoverlay.find('.progress_bar_caption').text('Upload in progress.  Please Standby...');
-                                                }
+                                            try {
+                                                console.log('step: ');
+                                                if (proceed && i <= (totalSteps - 1)) {
+                                                    if ($moduleoverlay) {
+                                                        $moduleoverlay.find('progress').val(i);
+                                                        $moduleoverlay.find('progress').attr('max', totalSteps);
+                                                        $moduleoverlay.find('.progress_bar_caption').text('Upload in progress.  Please Standby...');
+                                                    }
 
-                                                proceed = false;
-                                                let method: any = 'PUT'
-                                                const idVal = excelObject[i][`${id}`];
-                                                if (excelObject[i].hasOwnProperty(id)) {
-                                                    if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
+                                                    proceed = false;
+                                                    let method: any = 'PUT'
+
+                                                    if (excelObject[i].hasOwnProperty(id)) {
+                                                        if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
+                                                            method = 'POST'
+                                                        }
+                                                    } else {
+                                                        // key was missing from row => create key with blank val and POST as new record
+                                                        excelObject[i][`${id}`] = '';
                                                         method = 'POST'
                                                     }
-                                                } else {
-                                                    // key was missing from row => create key with blank val and POST as new record
-                                                    excelObject[i][`${id}`] = '';
-                                                    method = 'POST'
-                                                }
-                                                //if PUT, url needs id
-                                                let url = null;
-                                                if (method === 'PUT') {
-                                                    url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`
-                                                }
-                                                jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
-                                                // actual API call with err handling to prevent successive calls 
-                                                const json = JSON.stringify(excelObject[i])
-                                                console.log('json', json)
-                                                await uploadRecord(url, method, json)
-                                                    .then((res) => {
-                                                        console.log('res: ', res);
-                                                        i++;
-                                                        proceed = true;
-                                                    })
-                                                    .catch((ex) => {
-                                                        //const app = document.getElementById('application');
-                                                        //const observer = new MutationObserver(() => {
-                                                        //    const title = jQuery(app).find('.advisory .fwconfirmationbox .title').text();
-                                                        //    if (title.startsWith("Error")) {
-                                                        //        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
-                                                        //        observer.disconnect();
-                                                        //    }
-                                                            
-                                                        //});
-                                                        //// Start observing the target node for configured mutations
-                                                        //observer.observe(app, { attributes: true, childList: true, subtree: true });
+                                                    //if PUT, url needs id
+                                                    let url = null;
+                                                    if (method === 'PUT') {
+                                                        url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`;
+                                                    }
+                                                    // actual API call with err handling to prevent successive calls 
 
-                                                        proceed = false;
-                                                        console.log('ex: ', ex);
-                                                        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click(); // confirmation box still appears to user momentarily - need better solution
-
-                                                        const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.responseJSON.Message}`);
-
-                                                        const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
-                                                        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-                                                        $yes.on('click', e => {
-                                                            FwConfirmation.destroyConfirmation($confirmation);
-                                                            proceed = true;
+                                                    await uploadRecord(url, method, excelObject[i])
+                                                        .then((res) => {
                                                             i++;
-                                                            uploadRecord(url, method, excelObject[i]);
+                                                            proceed = true;
                                                         })
-                                                        $no.on('click', e => {
-                                                            FwConfirmation.destroyConfirmation($confirmation);
-                                                            i = excelObject.length;
+                                                        .catch((ex) => {
                                                             proceed = false;
-                                                        })
-                                                    });
-                                            }
-
-                                            if (i >= totalSteps) {
-                                                progressCompleted = true;
-                                                if (progressCompleted) {
-                                                    window.clearInterval(handle);
-                                                    handle = 0;
-                                                    $moduleoverlay.remove()
+                                                            const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message}`);
+                                                            const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
+                                                            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                                                            $yes.on('click', e => {
+                                                                FwConfirmation.destroyConfirmation($confirmation);
+                                                                proceed = true;
+                                                                i++;
+                                                            });
+                                                            $no.on('click', e => {
+                                                                FwConfirmation.destroyConfirmation($confirmation);
+                                                                proceed = false;
+                                                                window.clearInterval(handle);
+                                                                handle = 0;
+                                                                $moduleoverlay.remove()
+                                                            });
+                                                        });
                                                 }
+
+                                                if (i >= totalSteps) {
+                                                    progressCompleted = true;
+                                                    if (progressCompleted) {
+                                                        window.clearInterval(handle);
+                                                        handle = 0;
+                                                        $moduleoverlay.remove()
+                                                        FwNotification.renderNotification('INFO', 'Upload Complete.')
+                                                    }
+                                                }
+
+                                            } catch (ex) {
+                                                console.error('exception: ', ex);
                                             }
                                         }, 1000);
                                     }
