@@ -1,5 +1,5 @@
 ﻿<!--ProfitLossReport-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,67 +11,85 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Order No.</th>
-        <th>Deal</th>
-        <th>Description</th>
-        <th>Location</th>
-        <th class="number">Revenue</th>
-        <th class="number">Expenses</th>
-        <th class="number">Profit</th>
-        <th class="number">Profit %</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th data-linkedcolumn="OrderLocation" data-valuefield="OrderLocation">Location</th>
+        <th data-linkedcolumn="Revenue" data-valuefield="Revenue" class="number">Revenue</th>
+        <th data-linkedcolumn="Expenses" data-valuefield="Expenses" class="number">Expenses</th>
+        <th data-linkedcolumn="Profit" data-valuefield="Profit" class="number">Profit</th>
+        <th data-linkedcolumn="MarginPercentage" data-valuefield="MarginPercentage" class="number">Profit %</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="3" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="3" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{OrderDescription}}"></td>
-        <td data-value="{{OrderLocation}}"></td>
-        <td class="number" data-value="{{Revenue}}"></td>
-        <td class="number" data-value="{{Expenses}}"></td>
-        <td class="number" data-value="{{Profit}}"></td>
-        <td class="number" data-value="{{MarginPercentage}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="4" class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{Expenses}}"></td>
-        <td class="total-val" data-value="{{Profit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="4" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{Expenses}}"></td>
-        <td class="total-val" data-value="{{Profit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="4" class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{Expenses}}"></td>
-        <td class="total-val" data-value="{{Profit}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{Expenses}}"></td>
-        <td class="total-val" data-value="{{Profit}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype={{RowType}}>
+        <td colspan="8" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype={{RowType}}>
+        <td colspan="8" class="lower header-row">Department: {{Department}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype={{RowType}}>
+        <td colspan="8" class="lower header-row">Customer: {{Customer}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="OrderLocation" data-value="{{OrderLocation}}"></td>
+        <td data-linkedcolumn="Revenue" class="number" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="Expenses" class="number" data-value="{{Expenses}}"></td>
+        <td data-linkedcolumn="Profit" class="number" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="MarginPercentage" class="number" data-value="{{MarginPercentage}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{Department}}&nbsp;</td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="Expenses" class="total-val" data-value="{{Expenses}}"></td>
+        <td data-linkedcolumn="Profit" class="total-val" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="MarginPercentage" class="empty-td"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="Expenses" class="total-val" data-value="{{Expenses}}"></td>
+        <td data-linkedcolumn="Profit" class="total-val" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="MarginPercentage" class="empty-td"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{Customer}}&nbsp;</td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="Expenses" class="total-val" data-value="{{Expenses}}"></td>
+        <td data-linkedcolumn="Profit" class="total-val" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="MarginPercentage" class="empty-td"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="Expenses" class="total-val" data-value="{{Expenses}}"></td>
+        <td data-linkedcolumn="Profit" class="total-val" data-value="{{Profit}}"></td>
+        <td data-linkedcolumn="MarginPercentage" class="empty-td"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

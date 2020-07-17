@@ -73,6 +73,7 @@ class SalesRepresentativeBillingReport extends FwWebApiReport {
     constructor() {
         super('SalesRepresentativeBillingReport', 'api/v1/salesrepresentativebillingreport', salesRepresentativeTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

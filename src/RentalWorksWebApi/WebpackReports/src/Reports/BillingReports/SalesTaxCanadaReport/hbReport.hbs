@@ -1,5 +1,5 @@
 ﻿<!--SalesTaxCanadaReport-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,71 +11,81 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Invoice No.</th>
-        <th>Date</th>
-        <th class="number">Total Sales</th>
-        <th class="number">Non-Taxable Sales</th>
-        <th class="number">Taxable Sales</th>
-        <th class="number">GST</th>
-        <th class="number">HST</th>
-        <th class="number">PST</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
+        <th data-linkedcolumn="InvoiceDate" data-valuefield="InvoiceDate">Date</th>
+        <th data-linkedcolumn="TotalSales" data-valuefield="TotalSales" class="number">Total Sales</th>
+        <th data-linkedcolumn="NontaxableSales" data-valuefield="NontaxableSales" class="number">Non-Taxable Sales</th>
+        <th data-linkedcolumn="TaxableSales" data-valuefield="TaxableSales" class="number">Taxable Sales</th>
+        <th data-linkedcolumn="Gst" data-valuefield="Gst" class="number">GST</th>
+        <th data-linkedcolumn="Hst" data-valuefield="Hst" class="number">HST</th>
+        <th data-linkedcolumn="Pst" data-valuefield="Pst" class="number">PST</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "TaxOptionheader"}}
-        <td class="lower header-row">Tax Option: {{TaxOption}}</td>
-        <!--<td class="tax-option">&nbsp;</td>
-        <td class="tax-option">Rental: {{RentalRate}}</td>
-        <td class="tax-option">Sales: {{SalesRate}}</td>
-        <td colspan="4" class="tax-option">Labor: {{LaborRate}}</td>-->
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td class="nowrap">{{InvoiceNumber}}</td>
-        <td data-value="{{InvoiceDate}}"></td>
-        <td class="number" data-value="{{TotalSales}}"></td>
-        <td class="number" data-value="{{NontaxableSales}}"></td>
-        <td class="number" data-value="{{TaxableSales}}"></td>
-        <td class="number" data-value="{{Gst}}"></td>
-        <td class="number" data-value="{{Hst}}"></td>
-        <td class="number" data-value="{{Pst}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{TotalSales}}"></td>
-        <td class="total-val" data-value="{{NontaxableSales}}"></td>
-        <td class="total-val" data-value="{{TaxableSales}}"></td>
-        <td class="total-val" data-value="{{Gst}}"></td>
-        <td class="total-val" data-value="{{Hst}}"></td>
-        <td class="total-val" data-value="{{Pst}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "TaxOptionfooter"}}
-        <td colspan="2" class="total-name">{{TaxOption}}&nbsp;</td>
-        <td class="total-val" data-value="{{TotalSales}}"></td>
-        <td class="total-val" data-value="{{NontaxableSales}}"></td>
-        <td class="total-val" data-value="{{TaxableSales}}"></td>
-        <td class="total-val" data-value="{{Gst}}"></td>
-        <td class="total-val" data-value="{{Hst}}"></td>
-        <td class="total-val" data-value="{{Pst}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{TotalSales}}"></td>
-        <td class="total-val" data-value="{{NontaxableSales}}"></td>
-        <td class="total-val" data-value="{{TaxableSales}}"></td>
-        <td class="total-val" data-value="{{Gst}}"></td>
-        <td class="total-val" data-value="{{Hst}}"></td>
-        <td class="total-val" data-value="{{Pst}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="8" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "TaxOptionheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="8" class="lower header-row">Tax Option: {{TaxOption}}</td>
+      </tr>
+      <!--<td class="tax-option">&nbsp;</td>
+      <td class="tax-option">Rental: {{RentalRate}}</td>
+      <td class="tax-option">Sales: {{SalesRate}}</td>
+      <td colspan="4" class="tax-option">Labor: {{LaborRate}}</td>-->
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="InvoiceNumber" class="nowrap">{{InvoiceNumber}}</td>
+        <td data-linkedcolumn="InvoiceDate" data-value="{{InvoiceDate}}"></td>
+        <td data-linkedcolumn="TotalSales" class="number" data-value="{{TotalSales}}"></td>
+        <td data-linkedcolumn="NontaxableSales" class="number" data-value="{{NontaxableSales}}"></td>
+        <td data-linkedcolumn="TaxableSales" class="number" data-value="{{TaxableSales}}"></td>
+        <td data-linkedcolumn="Gst" class="number" data-value="{{Gst}}"></td>
+        <td data-linkedcolumn="Hst" class="number" data-value="{{Hst}}"></td>
+        <td data-linkedcolumn="Pst" class="number" data-value="{{Pst}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td data-linkedcolumn="TotalSales" class="total-val" data-value="{{TotalSales}}"></td>
+        <td data-linkedcolumn="NontaxableSales" class="total-val" data-value="{{NontaxableSales}}"></td>
+        <td data-linkedcolumn="TaxableSales" class="total-val" data-value="{{TaxableSales}}"></td>
+        <td data-linkedcolumn="Gst" class="total-val" data-value="{{Gst}}"></td>
+        <td data-linkedcolumn="Hst" class="total-val" data-value="{{Hst}}"></td>
+        <td data-linkedcolumn="Pst" class="total-val" data-value="{{Pst}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "TaxOptionfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{TaxOption}}&nbsp;</td>
+        <td data-linkedcolumn="TotalSales" class="total-val" data-value="{{TotalSales}}"></td>
+        <td data-linkedcolumn="NontaxableSales" class="total-val" data-value="{{NontaxableSales}}"></td>
+        <td data-linkedcolumn="TaxableSales" class="total-val" data-value="{{TaxableSales}}"></td>
+        <td data-linkedcolumn="Gst" class="total-val" data-value="{{Gst}}"></td>
+        <td data-linkedcolumn="Hst" class="total-val" data-value="{{Hst}}"></td>
+        <td data-linkedcolumn="Pst" class="total-val" data-value="{{Pst}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="TotalSales" class="total-val" data-value="{{TotalSales}}"></td>
+        <td data-linkedcolumn="NontaxableSales" class="total-val" data-value="{{NontaxableSales}}"></td>
+        <td data-linkedcolumn="TaxableSales" class="total-val" data-value="{{TaxableSales}}"></td>
+        <td data-linkedcolumn="Gst" class="total-val" data-value="{{Gst}}"></td>
+        <td data-linkedcolumn="Hst" class="total-val" data-value="{{Hst}}"></td>
+        <td data-linkedcolumn="Pst" class="total-val" data-value="{{Pst}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

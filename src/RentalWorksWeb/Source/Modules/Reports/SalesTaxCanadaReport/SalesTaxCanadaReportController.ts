@@ -65,6 +65,7 @@ class SalesTaxCanadaReport extends FwWebApiReport {
     constructor() {
         super('SalesTaxCanadaReport', 'api/v1/salestaxcanadareport', salesTaxCanadaTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

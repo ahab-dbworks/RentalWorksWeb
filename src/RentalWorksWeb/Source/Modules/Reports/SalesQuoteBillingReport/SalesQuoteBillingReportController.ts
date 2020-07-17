@@ -60,6 +60,7 @@ class SalesQuoteBillingReport extends FwWebApiReport {
     constructor() {
         super('SalesQuoteBillingReport', 'api/v1/salesquotebillingreport', salesQuoteBillingTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

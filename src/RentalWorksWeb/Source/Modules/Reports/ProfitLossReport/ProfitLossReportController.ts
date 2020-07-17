@@ -66,6 +66,7 @@ class ProfitLossReport extends FwWebApiReport {
     constructor() {
         super('ProfitLossReport', 'api/v1/profitlossreport', profitlossTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

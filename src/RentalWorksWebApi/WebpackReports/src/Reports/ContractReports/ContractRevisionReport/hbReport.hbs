@@ -1,5 +1,5 @@
 ﻿<!--ContractRevisionReport-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,67 +11,97 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
+    <thead id="columnHeader">
       <tr>
-        <th>Contract No.</th>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Deal</th>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th>Reason</th>
-        <th class="number">Qty</th>
-        <th>Change Date</th>
-        <th>Changed By</th>
-        <th>From</th>
-        <th>To</th>
+        <th data-linkedcolumn="ContractNumber" data-valuefield="ContractNumber">Contract No.</th>
+        <th data-linkedcolumn="ContractDate" data-valuefield="ContractDate">Date</th>
+        <th data-linkedcolumn="ContractType" data-valuefield="ContractType">Type</th>
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Reason" data-valuefield="Reason">Reason</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">Qty</th>
+        <th data-linkedcolumn="PriorValue" data-valuefield="PriorValue">Change Date</th>
+        <th data-linkedcolumn="RevisedBy" data-valuefield="RevisedBy">Changed By</th>
+        <th data-linkedcolumn="NewValue" data-valuefield="NewValue">From</th>
+        <th data-linkedcolumn="RevisionDate" data-valuefield="RevisionDate">To</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="12" class="header-row">Office: {{OfficeLocation}}</td>
+      </tr>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="12" class="lower header-row">Department: {{Department}}</td>
+      </tr>
         {{/ifEquals}}
         {{#ifEquals RowType "RevisionTypeheader"}}
-        <td colspan="5" class="lower header-row">Change Type: {{RevisionType}}</td>
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="12" class="lower header-row">Change Type: {{RevisionType}}</td>
+      </tr>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="nowrap" data-value="{{ContractNumber}}"></td>
-        <td data-value="{{ContractDate}}"></td>
-        <td data-value="{{ContractType}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td data-value="{{Reason}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td data-value="{{PriorValue}}"></td>
-        <td data-value="{{RevisedBy}}"></td>
-        <td data-value="{{NewValue}}"></td>
-        <td data-value="{{RevisionDate}}"></td>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ContractNumber" class="nowrap" data-value="{{ContractNumber}}"></td>
+        <td data-linkedcolumn="ContractDate" data-value="{{ContractDate}}"></td>
+        <td data-linkedcolumn="ContractType" data-value="{{ContractType}}"></td>
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Reason" data-value="{{Reason}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="PriorValue" data-value="{{PriorValue}}"></td>
+        <td data-linkedcolumn="RevisedBy" data-value="{{RevisedBy}}"></td>
+        <td data-linkedcolumn="NewValue" data-value="{{NewValue}}"></td>
+        <td data-linkedcolumn="RevisionDate" data-value="{{RevisionDate}}"></td>
+      </tr>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">{{OfficeLocation}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="PriorValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisedBy" class="empty-td"></td>
+        <td data-linkedcolumn="NewValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
+      </tr>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">{{Department}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="PriorValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisedBy" class="empty-td"></td>
+        <td data-linkedcolumn="NewValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
+      </tr>
         {{/ifEquals}}
         {{#ifEquals RowType "RevisionTypefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">{{RevisionType}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="PriorValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisedBy" class="empty-td"></td>
+        <td data-linkedcolumn="NewValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
+      </tr>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        {{/ifEquals}}
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="PriorValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisedBy" class="empty-td"></td>
+        <td data-linkedcolumn="NewValue" class="empty-td"></td>
+        <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
       </tr>
+        {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

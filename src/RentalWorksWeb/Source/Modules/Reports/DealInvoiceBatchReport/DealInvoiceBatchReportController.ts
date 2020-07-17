@@ -41,6 +41,7 @@ class DealInvoiceBatchReport extends FwWebApiReport {
     constructor() {
         super('DealInvoiceBatchReport', 'api/v1/dealinvoicebatchreport', dealInvoiceBatchTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

@@ -59,6 +59,7 @@ class GlDistributionReport extends FwWebApiReport {
     constructor() {
         super('GLDistributionReport', 'api/v1/gldistributionreport', GLDistributionTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

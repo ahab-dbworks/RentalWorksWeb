@@ -43,6 +43,7 @@ class CreateInvoiceProcessReport extends FwWebApiReport {
     constructor() {
         super('CreateInvoiceProcessReport', 'api/v1/createinvoiceprocessreport', createInvoiceProcessTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

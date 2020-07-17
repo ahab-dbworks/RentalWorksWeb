@@ -55,6 +55,7 @@ class ArAgingReport extends FwWebApiReport {
     constructor() {
         super('ArAgingReport', 'api/v1/aragingreport', ArAgingTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

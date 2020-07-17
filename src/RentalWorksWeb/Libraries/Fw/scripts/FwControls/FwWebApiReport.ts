@@ -12,6 +12,7 @@ abstract class FwWebApiReport {
         HasEmailMePdf: boolean,
         HasDownloadExcel: boolean
     };
+    designerProvisioned: boolean;
     //----------------------------------------------------------------------------------------------
     constructor(reportName, apiurl, frontEndHtml) {
         this.reportName = reportName;
@@ -25,6 +26,7 @@ abstract class FwWebApiReport {
             HasEmailMePdf: true,
             HasDownloadExcel: true
         };
+        designerProvisioned: false;
     }
     abstract convertParameters(parameters: any);
     //----------------------------------------------------------------------------------------------

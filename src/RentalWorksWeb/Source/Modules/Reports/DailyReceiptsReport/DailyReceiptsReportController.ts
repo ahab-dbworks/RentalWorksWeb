@@ -59,6 +59,7 @@ class DailyReceiptsReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('DailyReceiptsReport', 'api/v1/dailyreceiptsreport', dailyReceiptsTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
