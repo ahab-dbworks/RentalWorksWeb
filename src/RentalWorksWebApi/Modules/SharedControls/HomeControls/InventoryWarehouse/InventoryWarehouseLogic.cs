@@ -148,6 +148,13 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
         [FwLogicProperty(Id: "dqjGqmmSwBFqn")]
         public decimal? ReplacementCost { get { return masterWarehouse.ReplacementCost; } set { masterWarehouse.ReplacementCost = value; } }
 
+        [FwLogicProperty(Id: "C2sCuHzswgRvN", IsReadOnly: true)]
+        public bool? MarkupReplacementCost { get; set; }
+
+        [FwLogicProperty(Id: "x1svhuYzTnIih", IsReadOnly: true)]
+        public decimal? ReplacementCostMarkupPercent { get; set; }
+
+
 
         //------------------------------------------------------------------------------------
     }

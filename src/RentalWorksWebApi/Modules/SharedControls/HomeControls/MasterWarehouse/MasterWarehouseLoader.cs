@@ -185,6 +185,12 @@ namespace WebApi.Modules.HomeControls.MasterWarehouse
         [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "markupreplacementcost", modeltype: FwDataTypes.Boolean)]
+        public bool? MarkupReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcostmarkuppct", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCostMarkupPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
