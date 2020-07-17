@@ -17,6 +17,7 @@ using WebApi.Modules.Inventory.SalesInventory;
 using WebApi.Modules.Settings.MiscellaneousSettings.MiscRate;
 using WebApi.Modules.Settings.LaborSettings.LaborRate;
 using WebApi.Modules.HomeControls.GeneralItem;
+using WebApi.Modules.Inventory.Asset;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -315,13 +316,12 @@ namespace WebApi.Modules.HomeControls.OrderItem
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/orderitem/validatebarcode/browse
-        //[HttpPost("validatebarcode/browse")]
-        //[FwControllerMethod(Id: "xh9fNFxwpvGU", ActionType: FwControllerActionTypes.Browse)]
-        //public async Task<ActionResult<FwJsonDataTable>> ValidateBarcodeBrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
-        //}
-        // barcode validation currnetly disabled on the front end - JG
+        [HttpPost("validatebarcode/browse")]
+        [FwControllerMethod(Id: "xh9fNFxwpvGU", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBarcodeBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ItemLogic>(browseRequest);
+        }
         //------------------------------------------------------------------------------------
         // POST api/v1/orderitem/validateicoderental/browse
         [HttpPost("validateicoderental/browse")]

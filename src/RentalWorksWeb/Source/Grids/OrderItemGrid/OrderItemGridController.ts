@@ -218,16 +218,15 @@ class OrderItemGrid {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
-            //case 'ItemId':
-            //    let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
-            //    if (inventoryId != '') {
-            //        request.uniqueids = {
-            //            InventoryId: inventoryId
-            //        }
-            //    }
-            //    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcode`);
-            //    break;
-            // barcode validation currently disabled on the front-end.
+            case 'ItemId':
+                let inventoryId = $tr.find('.field[data-browsedatafield="InventoryId"] input').val();
+                if (inventoryId != '') {
+                    request.uniqueids = {
+                        InventoryId: inventoryId
+                    }
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcode`);
+                break;
             case 'Description':
             case 'InventoryId':
                 const rate = FwBrowse.getValueByDataField($validationbrowse, $tr, 'RecType');
