@@ -1820,7 +1820,8 @@ class Quote extends OrderBase {
         const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
         this.checkMessages($form, 'quote', quoteId);
         const status = FwFormField.getValueByDataField($form, 'Status');
-        if (status === 'ACTIVE') {
+        const disableOptionStatuses: any = ['ACTIVE', 'PROSPECT', 'ORDERED', 'CANCELLED'];
+        if (disableOptionStatuses.includes(status)) {
             $form.find('.submenu .submenu-btn[data-securityid="7mrZ4Q8ShsJ"]')
                 .css({
                     'pointer-events': 'none',
