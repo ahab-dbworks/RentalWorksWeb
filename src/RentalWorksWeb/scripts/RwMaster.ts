@@ -369,8 +369,8 @@ class RwMaster extends WebMaster {
         ]
 
         userControls.links = [
-            { title: 'User Settings', navigation: 'module/userprofile' },
-            { title: 'Sign Out',      navigation: 'logoff' }
+            { title: 'User Profile', navigation: 'module/userprofile' },
+            { title: 'Sign Out',     navigation: 'logoff' }
         ];
 
         return userControls;

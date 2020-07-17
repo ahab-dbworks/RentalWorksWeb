@@ -316,7 +316,7 @@ class FwApplication {
     };
     //---------------------------------------------------------------------------------
     getModule(path: string): void {
-        const $bodyContainer = jQuery('#master-body');
+        const $bodyContainer = jQuery('#fw-app-body');
         const $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
         path = path.toLowerCase();
         if ($modifiedForms.length > 0) {

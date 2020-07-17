@@ -62,7 +62,7 @@ class FwModule {
         function closeModifiedForms() {
             let $bodyContainer, $openForms, $modifiedForms, $form, $tab, $activeTabId, $tabId;
             $activeTabId = jQuery('body').data('activeTabId');
-            $bodyContainer = jQuery('#master-body');
+            $bodyContainer = jQuery('#fw-app-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
 
             for (let i = 0; i < $modifiedForms.length; i++) {
@@ -104,7 +104,7 @@ class FwModule {
             $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
             $activeTabId = $activeTab.attr('data-tabpageid');
             jQuery('body').data('activeTabId', $activeTabId);
-            $bodyContainer = jQuery('#master-body');
+            $bodyContainer = jQuery('#fw-app-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
 
@@ -130,7 +130,7 @@ class FwModule {
         $tabControl.find('.close-all').click(() => {
             let $rootTab, $bodyContainer, $openForms, moduleNav, controller;
             $rootTab = $tabControl.find('div[data-tabpageid="tabpage1"]');
-            $bodyContainer = jQuery('#master-body');
+            $bodyContainer = jQuery('#fw-app-body');
             $openForms = $bodyContainer.find('div[data-type="form"]');
             controller = $rootTab.closest('#moduleMaster').attr('data-module');
             moduleNav = window[`${controller}`].nav;
@@ -1104,7 +1104,7 @@ class FwModule {
             FwTabs.removeTab($tab);
 
             // remove 'elipsis menu' if less than 2 forms open
-            const $openForms = jQuery('#master-body').find('div[data-type="form"]');
+            const $openForms = jQuery('#fw-app-body').find('div[data-type="form"]');
             if ($openForms.length < 2) {
                 jQuery('#moduletabs').find('.closetabbutton').html('');
             }

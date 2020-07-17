@@ -52,7 +52,7 @@
 #fw-app #fw-app-menu .auxiliary-tray .toggle-buttons .pin-unpin-icon {padding:4px;}
 #fw-app #fw-app-menu:not([pinned]) .auxiliary-tray .toggle-buttons .pin-unpin-icon {transform:rotate(45deg)}
 
-#fw-app #fw-app-body {display:flex;margin-top:var(--header-hight);margin-left:47px;}
+#fw-app #fw-app-body {display:flex;margin-top:var(--header-hight);margin-left:47px;height: calc(100vh - var(--header-hight));}
 #fw-app #fw-app-body > * {flex:1;}
 
 #fw-app #fw-app-menu:not([pinned]) + #fw-app-body {margin-left:0;}
