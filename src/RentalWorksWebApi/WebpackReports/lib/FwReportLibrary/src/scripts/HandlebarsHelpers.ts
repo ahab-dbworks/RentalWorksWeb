@@ -51,5 +51,11 @@ export class HandlebarsHelpers {
                     return options.inverse(this);
             }
         });
+
+        Handlebars.registerHelper('ifInList', function (arg1: string, arg2: string, options: any) {
+            var stringArray = arg2.split(',');
+            return (stringArray.indexOf(arg1) !== -1) ? options.fn(this) : options.inverse(this);
+        });
+
     }
 }
