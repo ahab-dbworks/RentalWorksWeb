@@ -3,6 +3,7 @@ using Fw.Json.Services.Common;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using RentalWorksQuikScan.Source;
+using System;
 using System.Data;
 
 namespace RentalWorksQuikScan.Modules
@@ -128,8 +129,16 @@ namespace RentalWorksQuikScan.Modules
                         select.AddParameter("@orderno", request.searchvalue + "%");
                         break;
                     case "DESCRIPTION":
-                        select.Add("and orderdesc like @orderdesc");
-                        select.AddParameter("@orderdesc",  "%" + request.searchvalue + "%");
+                        //select.Add("and orderdesc like @orderdesc");
+                        //select.AddParameter("@orderdesc",  "%" + request.searchvalue + "%");
+                        {
+                            string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            for (int i = 0; i < searchValues.Length; i++)
+                            {
+                                select.AddWhere($"orderdesc like @searchvalue{i}");
+                                select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                            }
+                        }
                         break;
                     case "DEAL":
                         select.Add("and deal like @deal");

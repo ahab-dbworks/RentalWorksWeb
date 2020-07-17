@@ -67,10 +67,18 @@ namespace RentalWorksQuikScan.Modules
                                 select.Add("where orderno = orderno");
                                 DepartmentFilter.SetDepartmentFilter(session.security.webUser.usersid, select);
                                 select.Parse();
-                                select.AddWhere("orderdesc like @searchvalue");
+                                //select.AddWhere("orderdesc like @searchvalue");
+                                //select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
+                                {
+                                    string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    for (int i = 0; i < searchValues.Length; i++)
+                                    {
+                                        select.AddWhere($"orderdesc like @searchvalue{i}");
+                                        select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                                    }
+                                }
                                 select.AddOrderBy("orderdate desc, orderno desc");
                                 select.AddParameter("@warehouseid", RwAppData.GetWarehouseId(session));
-                                select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
                                 break;
                             case "deal":
                                 select.PageNo = request.pageno;
@@ -134,10 +142,18 @@ namespace RentalWorksQuikScan.Modules
                                 select.Add("  and o.status not in ('INACTIVE')");
                                 DepartmentFilter.SetDepartmentFilter(session.security.webUser.usersid, select);
                                 select.Parse();
-                                select.AddWhere("orderdesc like @searchvalue");
+                                //select.AddWhere("orderdesc like @searchvalue");
+                                //select.AddParameter("@searchvalue", request.searchvalue + "%");
+                                {
+                                    string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    for (int i = 0; i < searchValues.Length; i++)
+                                    {
+                                        select.AddWhere($"orderdesc like @searchvalue{i}");
+                                        select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                                    }
+                                }
                                 select.AddOrderBy("orderno");
                                 select.AddParameter("@locationid", userLocation.locationId);
-                                select.AddParameter("@searchvalue", request.searchvalue + "%");
                                 break;
                             case "sessionno":
                                 select.PageNo = request.pageno;
@@ -195,11 +211,19 @@ namespace RentalWorksQuikScan.Modules
                                 select.Add("  and fromwarehouseid = @warehouseid");
                                 DepartmentFilter.SetDepartmentFilter(session.security.webUser.usersid, select);
                                 select.Parse();
-                                select.AddWhere("orderdesc like @searchvalue");
+                                //select.AddWhere("orderdesc like @searchvalue");
+                                //select.AddParameter("@searchvalue", request.searchvalue + "%");
+                                {
+                                    string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    for (int i = 0; i < searchValues.Length; i++)
+                                    {
+                                        select.AddWhere($"orderdesc like @searchvalue{i}");
+                                        select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                                    }
+                                }
                                 select.AddOrderBy("orderno desc");
                                 select.AddParameter("@locationid", userLocation.locationId);
                                 select.AddParameter("@warehouseid", userLocation.warehouseId);
-                                select.AddParameter("@searchvalue", request.searchvalue + "%");
                                 break;
                             case "sessionno":
                                 select.Add("select contractdate, contracttime, orderid, orderdesc, orderno, status, statusdate, sessionno, usersid, username, contractid, warehouse");
