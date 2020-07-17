@@ -130,6 +130,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "mw.qcrequired", modeltype: FwDataTypes.Boolean)]
+        public bool? QcRequired { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "ml.taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -139,7 +142,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.hourlyrate, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.defaultcost, mw.hourlycost, mw.dailycost, mw.weeklycost, mw.monthlycost, mw.cost, mw.price, mw.replacementcost" +
+                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.hourlyrate, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.defaultcost, mw.hourlycost, mw.dailycost, mw.weeklycost, mw.monthlycost, mw.cost, mw.price, mw.replacementcost, mw.qcrequired" +
                   "              from  masterwh mw with(nolock)" +
                   "              where mw.masterid    = t.masterid" +
                   "              and   mw.warehouseid = @warehouseid) mw" +

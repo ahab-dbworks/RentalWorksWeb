@@ -197,8 +197,8 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(column: "displaywhenrateiszero", modeltype: FwDataTypes.Boolean)]
         public bool? DisplayInSummaryModeWhenRateIsZero { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
-        public bool? QcRequired { get; set; }
+        //[FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
+        //public bool? QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qctime", modeltype: FwDataTypes.Text)]
         public string QcTime { get; set; }
