@@ -780,6 +780,7 @@ class User {
                 <div class="flexrow">
                   <div class="flexcolumn" style="flex: 0 1 800px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rw.NET Settings">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Rw.NET Access" data-datafield="WebAccess"></div>
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Quote Request" data-datafield="WebQuoteRequest"></div>
                     </div>
                   </div>

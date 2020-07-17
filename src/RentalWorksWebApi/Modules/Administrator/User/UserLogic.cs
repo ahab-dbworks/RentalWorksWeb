@@ -378,8 +378,9 @@ namespace WebApi.Modules.Administrator.User
         [FwLogicProperty(Id: "U6qaKCGiV36")]
         public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
 
-        //[FwLogicProperty(Id:"OBcFFr8Zm7y")]
-        //public bool? WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
+        //temporary - can be removed once exporting direct to QBO
+        [FwLogicProperty(Id:"OBcFFr8Zm7y")]
+        public bool? WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
 
         //[FwLogicProperty(Id:"kuTxEDAKkfr")]
         //public bool? LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
