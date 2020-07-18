@@ -4248,14 +4248,17 @@ class FwBrowseClass {
                                     }
 
                                     if (response.length) {
-                                        const id = response[0];
+                                        let id1 = response[0];
+                                        let id2;
                                         let multipleKeys = false;
                                         if (response.length > 1) {
                                             multipleKeys = true;
+                                            id2 = response[1];
                                             // to do : deal with multiple ids
                                         }
 
                                         let proceed = true;
+                                        let hasError = false;
                                         let i = 0;
                                         const totalSteps = excelObject.length;
                                         let progressCompleted = false;
@@ -4268,9 +4271,10 @@ class FwBrowseClass {
                                         const $moduleoverlay = jQuery(`<div class="progress_bar">`);
                                         $moduleoverlay.html(html.join(''));
                                         jQuery('#application').css('position', 'relative').append($moduleoverlay);
+                                        // interval in place of a loop to iterate over rows to be uploaded
                                         let handle: number = window.setInterval(async () => {
                                             try {
-                                                console.log('step: ');
+                                                console.log('step');
                                                 if (proceed && i <= (totalSteps - 1)) {
                                                     if ($moduleoverlay) {
                                                         $moduleoverlay.find('progress').val(i);
@@ -4281,22 +4285,22 @@ class FwBrowseClass {
                                                     proceed = false;
                                                     let method: any = 'PUT'
 
-                                                    if (excelObject[i].hasOwnProperty(id)) {
-                                                        if (excelObject[i][`${id}`] === '') {   // if blank POST (new record)
+                                                    if (excelObject[i].hasOwnProperty(id1)) {
+                                                        if (excelObject[i][`${id1}`] === '') {   // if blank, POST (new record)
                                                             method = 'POST'
                                                         }
                                                     } else {
-                                                        // key was missing from row => create key with blank val and POST as new record
-                                                        excelObject[i][`${id}`] = '';
+                                                        // key was missing from row so create key with blank val and POST as new record
+                                                        excelObject[i][`${id1}`] = '';
                                                         method = 'POST'
                                                     }
-                                                    //if PUT, url needs id
                                                     let url = null;
                                                     if (method === 'PUT') {
-                                                        url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id}`]}`;
+                                                        //if PUT, url needs id
+                                                        url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id1}`]}`;
                                                     }
-                                                    // actual API call with err handling to prevent successive calls 
 
+                                                    // actual API call with err handling to prevent successive calls 
                                                     await uploadRecord(url, method, excelObject[i])
                                                         .then((res) => {
                                                             i++;
@@ -4304,7 +4308,10 @@ class FwBrowseClass {
                                                         })
                                                         .catch((ex) => {
                                                             proceed = false;
+                                                            hasError = true;
                                                             const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message}`);
+                                                            FwConfirmation.addControls($confirmation, `<div style="text-align:center;"></div><div style="margin:10px 0 0 0;text-align:center;">Error on row ${i + 1} of your file<div>`);
+
                                                             const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
                                                             const $no = FwConfirmation.addButton($confirmation, 'Cancel');
                                                             $yes.on('click', e => {
@@ -4315,6 +4322,7 @@ class FwBrowseClass {
                                                             $no.on('click', e => {
                                                                 FwConfirmation.destroyConfirmation($confirmation);
                                                                 proceed = false;
+                                                                i = totalSteps;
                                                                 window.clearInterval(handle);
                                                                 handle = 0;
                                                                 $moduleoverlay.remove()
@@ -4328,7 +4336,7 @@ class FwBrowseClass {
                                                         window.clearInterval(handle);
                                                         handle = 0;
                                                         $moduleoverlay.remove()
-                                                        FwNotification.renderNotification('INFO', 'Upload Complete.')
+                                                        FwNotification.renderNotification('INFO', `File upload complete ${hasError? 'with errors.' : ''}.`)
                                                     }
                                                 }
 
