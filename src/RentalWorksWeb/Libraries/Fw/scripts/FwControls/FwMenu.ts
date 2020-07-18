@@ -1109,7 +1109,7 @@ class FwMenuClass {
                     if (typeof $browseDataField.attr('data-searchfield') !== 'undefined') {
                         altsearchfield = $browseDataField.attr('data-searchfield');
                     }
-                  
+
                     let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type');
                     if (datafield != '') {
                         advancedSearch.searchfieldtypes.push(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
