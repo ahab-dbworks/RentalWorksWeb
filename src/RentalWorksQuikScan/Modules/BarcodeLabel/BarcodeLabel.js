@@ -684,9 +684,9 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                         case 'cordovaNet':
                             {
                                 // enable ZPL mode for Zebra printers
-                                if (port === 9100 || port === 6101) {
-                                    labeldata = labeldata + "! U1 setvar \"device.languages\" \"hybrid_xml_zpl\"\r\n";
-                                }
+                                //if (port === 9100 || port === 6101) {
+                                //    labeldata = "! U1 setvar \"device.languages\" \"hybrid_xml_zpl\"\r\n" + labeldata;
+                                //}
                                 if (typeof window.DwCordovaFunc.printNetworkSocket === 'undefined') {
                                     throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (Google Play Store or https://www.dbwcloud.com/androidapps/) to the latest version.';
                                 }
@@ -727,9 +727,9 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                         case 'electronLocal':
                             {
                                 var printername = $win.find('.printer').val();
-                                if (printername.indexOf('ZPL') >= -1) {
-                                    labeldata = labeldata + "! U1 setvar \"device.languages\" \"hybrid_xml_zpl\"\r\n";
-                                }
+                                //if (printername.indexOf('ZPL') >= -1) {
+                                //    labeldata = "! U1 setvar \"device.languages\" \"hybrid_xml_zpl\"\r\n" + labeldata;
+                                //}
                                 window.electronPlugins.labelPrinter.printLocalAsync(printername, 'Barcode Label', 'RAW', labeldata);
                             }
                             break;
