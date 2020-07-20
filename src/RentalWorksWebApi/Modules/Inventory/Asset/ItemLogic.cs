@@ -104,7 +104,7 @@ namespace WebApi.Modules.Inventory.Asset
         public bool? FixedAsset { get; set; }
 
         [FwLogicProperty(Id: "4F7E6Sp2rYSs", IsReadOnly: true)]
-        public bool? Rank { get; set; }
+        public string Rank { get; set; }
 
         [FwLogicProperty(Id: "SSQlcW1A2vNC", IsReadOnly: true)]
         public string StatusType { get; set; }

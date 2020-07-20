@@ -135,8 +135,8 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? FixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
-        public bool? Rank { get; set; }
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "statustype", modeltype: FwDataTypes.Text)]
         public string StatusType { get; set; }
