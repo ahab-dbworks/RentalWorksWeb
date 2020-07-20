@@ -20,7 +20,7 @@ namespace WebApi.Modules.Warehouse.Contract
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "Z8MlDQp7xOqu")]
-    public class ContractController : AppDataController
+    public partial class ContractController : AppDataController
     {
         public ContractController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContractLogic); }
         //------------------------------------------------------------------------------------

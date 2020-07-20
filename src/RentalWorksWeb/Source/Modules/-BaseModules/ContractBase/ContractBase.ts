@@ -636,6 +636,25 @@ abstract class ContractBase {
             FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
         }
         this.showHideDeliveryLocationField($form);
+
+        //add contract documents grid
+        const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'ContractDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${contractId}/document`;
+            },
+            gridSecurityId: 'JSUZfEv10RSr',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'ContractId',
+            uniqueid1Name: 'ContractId',
+            getUniqueid1Value: () => contractId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+        FwBrowse.search($form.find('[data-name="ContractDocumentGrid"]'));
     }
     //----------------------------------------------------------------------------------------------
     showHideDeliveryLocationField($form) {
@@ -800,6 +819,7 @@ abstract class ContractBase {
             <div data-type="tab" id="rentaltab" class="tab" data-tabpageid="rentaltabpage" data-caption="Rental Detail"></div>
             <div data-type="tab" id="salestab" class="tab" data-tabpageid="salestabpage" data-caption="Sales Detail"></div>
             <div data-type="tab" id="deliverytab" class="tab" data-tabpageid="deliverytabpage" data-caption="Delivery"></div>
+            <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
             <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
           </div>
           <div class="tabpages">
@@ -923,6 +943,12 @@ abstract class ContractBase {
                   </div>
                 </div>
                 </div>
+            </div>
+             <!--Documents Tab-->
+            <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+              <div class="flexrow">
+                <div data-control="FwGrid" data-grid="ContractDocumentGrid"></div>
+              </div>
             </div>
             <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
               <div class="formpage">
