@@ -532,6 +532,24 @@ class Repair {
                 $form.find('.icoderental').show();
             }
         }
+
+        const repairId = FwFormField.getValueByDataField($form, 'RepairId');
+        FwAppDocumentGrid.renderGrid({
+            $form: $form,
+            caption: 'Documents',
+            nameGrid: 'RepairDocumentGrid',
+            getBaseApiUrl: () => {
+                return `${this.apiurl}/${repairId}/document`;
+            },
+            gridSecurityId: 'JSUZfEv10RSr',
+            moduleSecurityId: this.id,
+            parentFormDataFields: 'RepairId',
+            uniqueid1Name: 'RepairId',
+            getUniqueid1Value: () => repairId,
+            uniqueid2Name: '',
+            getUniqueid2Value: () => ''
+        });
+        FwBrowse.search($form.find('[data-name="RepairDocumentGrid"]'));
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -604,6 +622,7 @@ class Repair {
               <div data-type="tab" id="partstab" class="tab" data-tabpageid="partstabpage" data-caption="Parts"></div>
               <div data-type="tab" id="chargetab" class="tab" data-tabpageid="chargetabpage" data-caption="Charge"></div>
               <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="QC"></div>
+              <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -907,6 +926,12 @@ class Repair {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+           <!--Documents Tab-->
+            <div data-type="tabpage" id="documentstabpage" class="tabpage" data-tabid="documentstab">
+              <div class="flexrow">
+                <div data-control="FwGrid" data-grid="RepairDocumentGrid"></div>
               </div>
             </div>
             <!--Notes Tab-->
