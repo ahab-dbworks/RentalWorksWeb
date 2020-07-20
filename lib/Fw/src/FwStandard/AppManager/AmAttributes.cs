@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FwStandard.BusinessLogic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -73,8 +74,12 @@ namespace FwStandard.AppManager
         public readonly bool AuditNoSave;
         public readonly bool DisableDirectAssign;  // for New 
         public readonly bool DisableDirectModify;  // for Editing 
+        public readonly bool IsForeignKey;
+        public readonly string RelatedIdField;
+        public readonly Type RelatedObject;
+        public readonly string RelatedObjectFieldName;
         //---------------------------------------------------------------------------------------------------------------------------
-        public FwLogicPropertyAttribute(string Id, bool IsPrimaryKey = false, bool IsRecordTitle = false, bool IsReadOnly = false, bool IsPrimaryKeyOptional = false, bool IsNotAudited = false, bool IsAuditMasked = false, bool AuditNoSave = false, bool DisableDirectAssign = false, bool DisableDirectModify = false)
+        public FwLogicPropertyAttribute(string Id, bool IsPrimaryKey = false, bool IsRecordTitle = false, bool IsReadOnly = false, bool IsPrimaryKeyOptional = false, bool IsNotAudited = false, bool IsAuditMasked = false, bool AuditNoSave = false, bool DisableDirectAssign = false, bool DisableDirectModify = false, bool IsForeignKey = false, string RelatedIdField = null, Type RelatedObject = null, string RelatedObjectFieldName = "")
         {
             this.Id = Id;
             this.IsPrimaryKey         = IsPrimaryKey;
@@ -86,6 +91,11 @@ namespace FwStandard.AppManager
             this.AuditNoSave          = AuditNoSave;
             this.DisableDirectAssign  = DisableDirectAssign;
             this.DisableDirectModify  = DisableDirectModify;
+
+            this.IsForeignKey           = IsForeignKey;
+            this.RelatedIdField         = RelatedIdField;
+            this.RelatedObject          = RelatedObject;
+            this.RelatedObjectFieldName = RelatedObjectFieldName;
         }
         //---------------------------------------------------------------------------------------------------------------------------
 

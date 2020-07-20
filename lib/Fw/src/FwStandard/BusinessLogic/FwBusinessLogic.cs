@@ -1182,8 +1182,93 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        protected virtual async Task ResolveForeignKeyLookups()
+        {
+            PropertyInfo[] properties = this.GetType().GetProperties();
+            foreach (PropertyInfo idProperty in properties)
+            {
+                bool isForeignKey = false;
+                if (idProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
+                {
+                    foreach (Attribute attribute in idProperty.GetCustomAttributes())
+                    {
+                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                        {
+                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
+                            isForeignKey = businessLogicFieldAttribute.IsForeignKey;
+                        }
+                    }
+                }
+
+                if (isForeignKey)
+                {
+                    object idPropertyValue = idProperty.GetValue(this);
+
+                    if (idPropertyValue == null)
+                    {
+                        bool valuePropertyFound = false;
+                        string valuePropertyName = "";
+                        object valuePropertyValue = null;
+
+                        // use RelatedIdField if provided
+                        if (!valuePropertyFound)
+                        {
+                            foreach (PropertyInfo valueProperty in properties)
+                            {
+                                if (valueProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
+                                {
+                                    foreach (Attribute attribute in valueProperty.GetCustomAttributes())
+                                    {
+                                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                                        {
+                                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
+
+                                            if (businessLogicFieldAttribute.RelatedIdField.Equals(idProperty.Name))
+                                            {
+                                                valuePropertyFound = true;
+                                                valuePropertyName = valueProperty.Name;
+                                                valuePropertyValue = valueProperty.GetValue(this);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // otherwise try to find a counterpart field with the same name as idProperty minus "Id"
+                        if (!valuePropertyFound)
+                        {
+                            foreach (PropertyInfo valueProperty in properties)
+                            {
+                                if (valueProperty.Name.Equals(idProperty.Name.Substring(0, idProperty.Name.Length - 2)))
+                                {
+                                    valuePropertyFound = true;
+                                    valuePropertyName = valueProperty.Name;
+                                    valuePropertyValue = valueProperty.GetValue(this);
+                                }
+                            }
+                        }
+
+                        if (valuePropertyFound)
+                        {
+                            if (valuePropertyValue != null)
+                            {
+                                // this needs more thought.  Do we really want to do a raw sql query here?  Or use the logical loader?
+                                //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                                //{
+                                //    string id = await FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "location", "location", valuePropertyValue.ToString(), "locationid");
+                                //}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task ValidateBusinessLogicAsync(TDataRecordSaveMode saveMode, FwBusinessLogic original, FwValidateResult result)
         {
+            await ResolveForeignKeyLookups();
+
             BeforeValidateEventArgs args = new BeforeValidateEventArgs();
             args.SaveMode = saveMode;
             args.Original = original;

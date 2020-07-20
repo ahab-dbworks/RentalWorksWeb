@@ -34,10 +34,10 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "rheRmVThaqgd")]
         public string CustomerNumber { get { return customer.CustomerNumber; } set { customer.CustomerNumber = value; } }
 
-        [FwLogicProperty(Id: "xwEVJOfzIAzg")]
+        [FwLogicProperty(Id: "xwEVJOfzIAzg", IsForeignKey: true)]
         public string OfficeLocationId { get { return customer.OfficeLocationId; } set { customer.OfficeLocationId = value; } }
 
-        [FwLogicProperty(Id: "spKIvApl9d5O", IsReadOnly: true)]
+        [FwLogicProperty(Id: "spKIvApl9d5O", IsReadOnly: true, RelatedObject: typeof(OfficeLocationLogic), RelatedObjectFieldName: "Location")]
         public string OfficeLocation { get; set; }
 
         [FwLogicProperty(Id: "e22oOxWssdEx")]
