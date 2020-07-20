@@ -20,9 +20,12 @@ namespace WebApi.Modules.Administrator.User
             dataLoader = userLoader;
 
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
 
             user.AfterSave += AfterSaveUser;
             //webUser.AfterSave += AfterSaveWebUser;
+
+            ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "DyZgfLOzppd7z", IsPrimaryKey: true)]
@@ -438,6 +441,8 @@ namespace WebApi.Modules.Administrator.User
         public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
         [FwLogicProperty(Id: "sjKqUWSqxjd0")]
         public bool? WebQuoteRequest { get { return webUser.WebQuoteRequest; } set { webUser.WebQuoteRequest = value; } }
+        [FwLogicProperty(Id: "KH1Ukq1EJ0T1M")]
+        public string EmailSignature { get; set; }
         //------------------------------------------------------------------------------------
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
@@ -464,6 +469,28 @@ namespace WebApi.Modules.Administrator.User
                 object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<UserLogic>(pk).Result;
                 WebUserId = l2.WebUserId;
+            }
+        }
+        //------------------------------------------------------------------------------------   
+        public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            bool doSaveEmailSignature = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveEmailSignature = true;
+            }
+            else if (e.Original != null)
+            {
+                UserLogic orig = (UserLogic)e.Original;
+                doSaveEmailSignature = (!orig.EmailSignature.Equals(EmailSignature));
+            }
+            if (doSaveEmailSignature)
+            {
+                bool saved = AppFunc.SaveNoteAsync(AppConfig, UserSession, UserId, RwConstants.WEBUSER_NOTE_TYPE_EMAIL_SIGNATURE, "", EmailSignature).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
             }
         }
         //------------------------------------------------------------------------------------   

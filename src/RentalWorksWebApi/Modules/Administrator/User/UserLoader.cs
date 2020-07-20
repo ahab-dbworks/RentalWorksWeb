@@ -392,6 +392,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "webquoterequest", modeltype: FwDataTypes.Boolean)]
         public bool? WebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "emailsignature", modeltype: FwDataTypes.Text)]
+        public string EmailSignature { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

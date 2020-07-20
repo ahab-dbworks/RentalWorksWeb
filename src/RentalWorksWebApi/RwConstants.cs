@@ -630,6 +630,7 @@ namespace WebApi
 
         // USER TOOLBAR/FAVORITES
         public const string WEBUSER_NOTE_TYPE_FAVORITES = "TOOLBAR";
+        public const string WEBUSER_NOTE_TYPE_EMAIL_SIGNATURE = "EMAILSIG";
 
     }
 
