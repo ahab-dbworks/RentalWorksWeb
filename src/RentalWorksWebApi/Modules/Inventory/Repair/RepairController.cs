@@ -24,7 +24,7 @@ namespace WebApi.Modules.Inventory.Repair
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"t4gfyzLkSZhyc")]
-    public class RepairController : AppDataController
+    public partial class RepairController : AppDataController
     {
         public RepairController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairLogic); }
         //------------------------------------------------------------------------------------ 
