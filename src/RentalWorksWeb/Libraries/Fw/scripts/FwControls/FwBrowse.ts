@@ -1880,6 +1880,13 @@ class FwBrowseClass {
                     FwFunc.showError(ex);
                 }
             });
+            FwMenu.addSubMenuItem(options.$groupExport, 'Import data from Excel', gridSecurityId, (e: JQuery.ClickEvent) => {
+                try {
+                    FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
         }
 
         FwMenu.applyGridSecurity(options, options.gridSecurityId);
@@ -4279,11 +4286,11 @@ class FwBrowseClass {
                                                     if ($moduleoverlay) {
                                                         $moduleoverlay.find('progress').val(i);
                                                         $moduleoverlay.find('progress').attr('max', totalSteps);
-                                                        $moduleoverlay.find('.progress_bar_caption').text('Upload in progress.  Please Standby...');
+                                                        $moduleoverlay.find('.progress_bar_caption').text('Upload in progress. Please Standby...');
                                                     }
 
                                                     proceed = false;
-                                                    let method: any = 'PUT'
+                                                    let method: any = 'PUT';
                                                     //const json = JSON.stringify(excelObject[i]);  // {"name":"John Smith"}
                                                     //const unquoted = json.replace(/"([^"]+)":/g, '$1:');
                                                     //const currentRow = JSON.parse(unquoted)
@@ -4306,15 +4313,55 @@ class FwBrowseClass {
                                                     //    let here;
                                                     //}
 
-                                                    if (excelObject[i].hasOwnProperty(id1)) {
-                                                        if (excelObject[i][`${id1}`] === '') {   // if blank, POST (new record)
-                                                            method = 'POST'
+                                                    //excelObject.forEach(function (e, i) {
+                                                    //    // Iterate over the keys of object
+                                                    //    Object.keys(e).forEach(function (key) {
+
+                                                    //        // Copy the value
+                                                    //        var val = e[key],
+                                                    //            newKey = key.replace(/\s+/g, '');
+
+                                                    //        // Remove key-value from object
+                                                    //        delete excelObject[i][key];
+
+
+
+                                                    //        // Add value with new key
+                                                    //        excelObject[i][newKey] = val;
+                                                    //    });
+                                                    //});
+
+                                                    if (multipleKeys) {
+                                                        if (excelObject[i].hasOwnProperty(id1)) { // PrimaryKey 1
+                                                            if (excelObject[i][`${id1}`] === '') {   // if blank, POST (new record)
+                                                                method = 'POST';
+                                                            }
+                                                        } else {
+                                                            // key was missing from row so create key with blank val and POST as new record
+                                                            excelObject[i][`${id1}`] = '';
+                                                            method = 'POST';
+                                                        }
+                                                        if (excelObject[i].hasOwnProperty(id2)) { // PrimaryKey 2
+                                                            if (excelObject[i][`${id2}`] === '') {   // if blank, POST (new record)
+                                                                method = 'POST';
+                                                            }
+                                                        } else {
+                                                            // key was missing from row so create key with blank val and POST as new record
+                                                            excelObject[i][`${id2}`] = '';
+                                                            method = 'POST';
                                                         }
                                                     } else {
-                                                        // key was missing from row so create key with blank val and POST as new record
-                                                        excelObject[i][`${id1}`] = '';
-                                                        method = 'POST'
+                                                        if (excelObject[i].hasOwnProperty(id1)) {
+                                                            if (excelObject[i][`${id1}`] === '') {   // if blank, POST (new record)
+                                                                method = 'POST';
+                                                            }
+                                                        } else {
+                                                            // key was missing from row so create key with blank val and POST as new record
+                                                            excelObject[i][`${id1}`] = '';
+                                                            method = 'POST';
+                                                        }
                                                     }
+
                                                     let url = null;
                                                     if (method === 'PUT') {
                                                         //if PUT, url needs id
