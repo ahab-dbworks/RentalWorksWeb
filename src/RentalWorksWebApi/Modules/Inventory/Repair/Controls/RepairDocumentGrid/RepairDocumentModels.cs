@@ -12,13 +12,13 @@ namespace WebApi.Modules.Inventory.Repair
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid1", modeltype: FwDataTypes.Text)]
-        public string InventoryId { get; set; }
+        public string RepairId { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
-            this.addFilterToSelect("InventoryId", "uniqueid1", select, request);
+            this.addFilterToSelect("RepairId", "uniqueid1", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Inventory.Repair
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "3l8QRjnZfrnJ")] 
-        public string InventoryId { get { return this.appDocument.UniqueId1; } set { this.appDocument.UniqueId1 = value; } }
+        public string RepairId { get { return this.appDocument.UniqueId1; } set { this.appDocument.UniqueId1 = value; } }
         //------------------------------------------------------------------------------------ 
     }
     //*******************************************************************************************
@@ -44,13 +44,13 @@ namespace WebApi.Modules.Inventory.Repair
     //*******************************************************************************************
     public class RepairDocumentPutRequest : AppDocumentPutRequest
     {
-        public string InventoryId { get; set; }
+        public string RepairId { get; set; }
         
     }
     //*******************************************************************************************
     public class RepairDocumentPostRequest : AppDocumentPostRequest
     {
-        public string InventoryId { get; set; }
+        public string RepairId { get; set; }
     }
     //*******************************************************************************************
 }

@@ -14,21 +14,21 @@ namespace WebApi.Modules.Inventory.Repair
     [FwControl(Caption: "Document", SecurityId: "JSUZfEv10RSr", ControlType: FwControlTypes.Grid)]
     public partial class RepairController
     {
-        const string VALIDATE_UNIQUEID1_QUERY = "select masterid from master with (nolock) where availfor = 'R'";
+        const string VALIDATE_UNIQUEID1_QUERY = "select repairid from repair with (nolock)";
         //------------------------------------------------------------------------------------ 
         /// <summary>
         /// Get documents.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("{inventoryid}/document/browse")]
+        [HttpPost("{repairid}/document/browse")]
         [FwControllerMethod(Id: "62z0EnDcN2nd", FwControllerActionTypes.ControlBrowse, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<FwJsonDataTable>> DocumentBrowseAsync([FromRoute]string inventoryid, [FromBody]BrowseRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> DocumentBrowseAsync([FromRoute]string repairid, [FromBody]BrowseRequest request)
         {
             try
             {
-                return await FwAppDocumentController.BrowseAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(RepairDocumentLogic), "InventoryId", inventoryid, string.Empty, string.Empty, request);
+                return await FwAppDocumentController.BrowseAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(RepairDocumentLogic), "RepairId", repairid, string.Empty, string.Empty, request);
             }
             catch (Exception ex)
             {
@@ -39,16 +39,16 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Export documents to Excel.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="browserequest"></param>
         /// <returns></returns>
-        [HttpPost("{inventoryid}/document/exportexcelxlsx")]
+        [HttpPost("{repairid}/document/exportexcelxlsx")]
         [FwControllerMethod(Id: "HElENzVYnCEc", FwControllerActionTypes.ControlBrowse, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DocumentExportExcelXlsxFileAsync([FromRoute]string inventoryid, [FromBody]BrowseRequest browserequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DocumentExportExcelXlsxFileAsync([FromRoute]string repairid, [FromBody]BrowseRequest browserequest)
         {
             try
             {
-                return await FwAppDocumentController.ExportExcelXlsxFileAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(RepairDocumentLogic), "InventoryId", inventoryid, string.Empty, string.Empty, browserequest);
+                return await FwAppDocumentController.ExportExcelXlsxFileAsync(this.AppConfig, this.UserSession, this.ModelState, typeof(RepairDocumentLogic), "RepairId", repairid, string.Empty, string.Empty, browserequest);
             }
             catch (Exception ex)
             {
@@ -59,16 +59,16 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Get documents.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("{inventoryid}/documents")]
+        [HttpGet("{repairid}/documents")]
         [FwControllerMethod(Id: "dYiO9lySRGcY", FwControllerActionTypes.ControlBrowse, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<GetResponse<AppDocumentGetManyResponse>>> DocumentGetManyAsync([FromRoute]string inventoryid, [FromQuery]RepairDocumentGetRequest request)
+        public async Task<ActionResult<GetResponse<AppDocumentGetManyResponse>>> DocumentGetManyAsync([FromRoute]string repairid, [FromQuery]RepairDocumentGetRequest request)
         {
             try
             {
-                return await FwAppDocumentController.GetManyAsync<AppDocumentGetManyResponse>(this.AppConfig, this.UserSession, this.ModelState, typeof(RepairDocumentLogic), "InventoryId", inventoryid, string.Empty, string.Empty, request);
+                return await FwAppDocumentController.GetManyAsync<AppDocumentGetManyResponse>(this.AppConfig, this.UserSession, this.ModelState, typeof(RepairDocumentLogic), "RepairId", repairid, string.Empty, string.Empty, request);
             }
             catch (Exception ex)
             {
@@ -79,16 +79,16 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Get a document.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <returns></returns>
-        [HttpGet("{inventoryid}/document/{documentid}")]
+        [HttpGet("{repairid}/document/{documentid}")]
         [FwControllerMethod(Id: "p8e6m5MSGYab", FwControllerActionTypes.ControlBrowse, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<RepairDocumentLogic>> DocumentGetOneAsync([FromRoute]string inventoryid, [FromRoute]string documentid)
+        public async Task<ActionResult<RepairDocumentLogic>> DocumentGetOneAsync([FromRoute]string repairid, [FromRoute]string documentid)
         {
             try
             {
-                return await FwAppDocumentController.GetOneAsync<RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, typeof (RepairDocumentLogic), "InventoryId", inventoryid, string.Empty, string.Empty, documentid);
+                return await FwAppDocumentController.GetOneAsync<RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, typeof (RepairDocumentLogic), "RepairId", repairid, string.Empty, string.Empty, documentid);
             }
             catch (Exception ex)
             {
@@ -99,16 +99,16 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Create a new document.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("{inventoryid}/document")]
+        [HttpPost("{repairid}/document")]
         [FwControllerMethod(Id: "xfrhGNBCZ7E4", FwControllerActionTypes.ControlNew, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<RepairDocumentLogic>> DocumentNewAsync([FromRoute]string inventoryid, [FromBody]RepairDocumentPostRequest model)
+        public async Task<ActionResult<RepairDocumentLogic>> DocumentNewAsync([FromRoute]string repairid, [FromBody]RepairDocumentPostRequest model)
         {
             try
             {
-                return await FwAppDocumentController.NewAsync<RepairDocumentPostRequest, RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "InventoryId", inventoryid, string.Empty, string.Empty, model);
+                return await FwAppDocumentController.NewAsync<RepairDocumentPostRequest, RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "RepairId", repairid, string.Empty, string.Empty, model);
             }
             catch (Exception ex)
             {
@@ -119,17 +119,17 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Update a document.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPut("{inventoryid}/document/{documentid}")]
+        [HttpPut("{repairid}/document/{documentid}")]
         [FwControllerMethod(Id: "4P5PX4Ma7SWG", FwControllerActionTypes.ControlEdit, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<RepairDocumentLogic>> DocumentEditAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromBody]RepairDocumentPutRequest model)
+        public async Task<ActionResult<RepairDocumentLogic>> DocumentEditAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromBody]RepairDocumentPutRequest model)
         {
             try
             {
-                return await FwAppDocumentController.EditAsync<RepairDocumentPutRequest, RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "InventoryId", inventoryid, string.Empty, string.Empty, documentid, model);
+                return await FwAppDocumentController.EditAsync<RepairDocumentPutRequest, RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "RepairId", repairid, string.Empty, string.Empty, documentid, model);
             }
             catch (Exception ex)
             {
@@ -140,16 +140,16 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Delete a document.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <returns></returns>
-        [HttpDelete("{inventoryid}/document/{documentid}")]
+        [HttpDelete("{repairid}/document/{documentid}")]
         [FwControllerMethod(Id: "et1wyVCGDVcR", FwControllerActionTypes.ControlDelete, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<bool>> DocumentDeleteAsync([FromRoute]string inventoryid, [FromRoute]string documentid)
+        public async Task<ActionResult<bool>> DocumentDeleteAsync([FromRoute]string repairid, [FromRoute]string documentid)
         {
             try
             {
-                return await FwAppDocumentController.DeleteAsync<RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "InventoryId", inventoryid, string.Empty, string.Empty, documentid);
+                return await FwAppDocumentController.DeleteAsync<RepairDocumentLogic>(this.AppConfig, this.UserSession, this.ModelState, "RepairId", repairid, string.Empty, string.Empty, documentid);
             }
             catch (Exception ex)
             {
@@ -160,14 +160,14 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Get thumbnails for any images attached to the document.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="pageno">The page number of the result set, starting from page 1.</param>
         /// <param name="pagesize">The number of records per page of the result set.</param>
         /// <returns></returns>
-        [HttpGet("{inventoryid}/document/{documentid}/thumbnails")]
+        [HttpGet("{repairid}/document/{documentid}/thumbnails")]
         [FwControllerMethod(Id: "qQEhRhkmdgu5", FwControllerActionTypes.ControlBrowse, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<GetDocumentThumbnailsResponse>> DocumentGetThumbnailsAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromQuery]int pageno, [FromQuery]int pagesize)
+        public async Task<ActionResult<GetDocumentThumbnailsResponse>> DocumentGetThumbnailsAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromQuery]int pageno, [FromQuery]int pagesize)
         {
             try
             {
@@ -182,13 +182,13 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Get a fullsize image.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="imageid">Unique identifier</param>
         /// <returns></returns>
-        [HttpGet("{inventoryid}/document/{documentid}/image/{imageid}")]
+        [HttpGet("{repairid}/document/{documentid}/image/{imageid}")]
         [FwControllerMethod(Id: "pkxE649Aw9RG", FwControllerActionTypes.ControlBrowse, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<GetDocumentImageResponse>> DocumentGetImageAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromRoute]string imageid)
+        public async Task<ActionResult<GetDocumentImageResponse>> DocumentGetImageAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromRoute]string imageid)
         {
             try
             {
@@ -203,13 +203,13 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Attach an image from a dataurl.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("{inventoryid}/document/{documentid}/image")]
+        [HttpPost("{repairid}/document/{documentid}/image")]
         [FwControllerMethod(Id: "8wAKekEKSEB2", FwControllerActionTypes.ControlEdit, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<bool>> DocumentAttachImageFromDataUrlAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromBody]PostDocumentImageRequest request)
+        public async Task<ActionResult<bool>> DocumentAttachImageFromDataUrlAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromBody]PostDocumentImageRequest request)
         {
             try
             {
@@ -224,13 +224,13 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Attach an image from a form submission.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="file">The file to POST.</param>
         /// <returns></returns>
-        [HttpPost("{inventoryid}/document/{documentid}/imageformupload")]
+        [HttpPost("{repairid}/document/{documentid}/imageformupload")]
         [FwControllerMethod(Id: "As6avKslD7Q6", FwControllerActionTypes.ControlEdit, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<bool>> DocumentAttachImageFromFormAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromForm]IFormFile file)
+        public async Task<ActionResult<bool>> DocumentAttachImageFromFormAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromForm]IFormFile file)
         {
             try
             {
@@ -245,13 +245,13 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Delete an attached image.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="imageid">Unique identifier</param>
         /// <returns></returns>
-        [HttpDelete("{inventoryid}/document/{documentid}/image/{imageid}")]
+        [HttpDelete("{repairid}/document/{documentid}/image/{imageid}")]
         [FwControllerMethod(Id: "UzzxXfpqyGJz", FwControllerActionTypes.ControlEdit, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromRoute]string imageid)
+        public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromRoute]string imageid)
         {
             try
             {
@@ -266,12 +266,12 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Get the attached file.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <returns></returns>
-        [HttpGet("{inventoryid}/document/{documentid}/file")]
+        [HttpGet("{repairid}/document/{documentid}/file")]
         [FwControllerMethod(Id: "1Z1aBKAqKneQ", FwControllerActionTypes.ControlBrowse, ParentId: "JSUZfEv10RSr")]
-        public async Task<IActionResult> GetFileAsync([FromRoute]string inventoryid, [FromRoute]string documentid)
+        public async Task<IActionResult> GetFileAsync([FromRoute]string repairid, [FromRoute]string documentid)
         {
             try
             {
@@ -286,13 +286,13 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Update the attached file from a dataurl.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPut("{inventoryid}/document/{documentid}/file")]
+        [HttpPut("{repairid}/document/{documentid}/file")]
         [FwControllerMethod(Id: "QiPBZCRsbp5v", FwControllerActionTypes.ControlEdit, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<bool>> DocumentAttachFileFromDataUrlAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromBody]PutDocumentFileRequest request)
+        public async Task<ActionResult<bool>> DocumentAttachFileFromDataUrlAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromBody]PutDocumentFileRequest request)
         {
             try
             {
@@ -307,13 +307,13 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Update attached file from a form submission.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <param name="file">The file to PUT.</param>
         /// <returns></returns>
-        [HttpPut("{inventoryid}/document/{documentid}/fileformupload")]
+        [HttpPut("{repairid}/document/{documentid}/fileformupload")]
         [FwControllerMethod(Id: "NRaqH3tmr5G4", FwControllerActionTypes.ControlEdit, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<bool>> DocumentAttachFileFromUploadAsync([FromRoute]string inventoryid, [FromRoute]string documentid, [FromForm]IFormFile file)
+        public async Task<ActionResult<bool>> DocumentAttachFileFromUploadAsync([FromRoute]string repairid, [FromRoute]string documentid, [FromForm]IFormFile file)
         {
             try
             {
@@ -328,12 +328,12 @@ namespace WebApi.Modules.Inventory.Repair
         /// <summary>
         /// Delete attached file.
         /// </summary>
-        /// <param name="inventoryid">Unique identifier</param>
+        /// <param name="repairid">Unique identifier</param>
         /// <param name="documentid">Unique identifier</param>
         /// <returns></returns>
-        [HttpDelete("{inventoryid}/document/{documentid}/file")]
+        [HttpDelete("{repairid}/document/{documentid}/file")]
         [FwControllerMethod(Id: "fiE1SMa3MZeV", FwControllerActionTypes.ControlEdit, ParentId: "JSUZfEv10RSr")]
-        public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string inventoryid, [FromRoute]string documentid)
+        public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string repairid, [FromRoute]string documentid)
         {
             try
             {

@@ -533,23 +533,23 @@ class Repair {
             }
         }
 
-        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        const repairId = FwFormField.getValueByDataField($form, 'RepairId');
         FwAppDocumentGrid.renderGrid({
             $form: $form,
             caption: 'Documents',
             nameGrid: 'RepairDocumentGrid',
             getBaseApiUrl: () => {
-                return `${this.apiurl}/${inventoryId}/document`;
+                return `${this.apiurl}/${repairId}/document`;
             },
             gridSecurityId: 'JSUZfEv10RSr',
             moduleSecurityId: this.id,
-            parentFormDataFields: 'InventoryId',
-            uniqueid1Name: 'InventoryId',
-            getUniqueid1Value: () => inventoryId,
+            parentFormDataFields: 'RepairId',
+            uniqueid1Name: 'RepairId',
+            getUniqueid1Value: () => repairId,
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });
-
+        FwBrowse.search($form.find('[data-name="RepairDocumentGrid"]'));
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
