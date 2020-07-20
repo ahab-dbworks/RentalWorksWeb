@@ -130,16 +130,44 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwLogicProperty(Id: "PyJF3dC7sONA9", IsReadOnly: true)]
         public bool? WebAdministrator { get; set; }
 
+        [FwLogicProperty(Id: "robWDF2GvQMc")]
+        public string EmailSignature { get; set; }
 
         [FwLogicProperty(Id: "JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = webUser.SaveFavoritesJsonAsync(FavoritesJson).Result;
-            if (saved)
+            bool doSaveFavoritesJson = false;
+            bool doSaveEmailSignature = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
-                e.RecordsAffected++;
+                doSaveFavoritesJson = true;
+                doSaveEmailSignature = true;
+            }
+            else if (e.Original != null)
+            {
+                UserProfileLogic orig = (UserProfileLogic)e.Original;
+                doSaveEmailSignature = (!orig.EmailSignature.Equals(EmailSignature));
+                doSaveFavoritesJson = (!orig.FavoritesJson.Equals(FavoritesJson));
+            }
+
+            if (doSaveFavoritesJson)
+            {
+                bool saved = webUser.SaveFavoritesJsonAsync(FavoritesJson).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
+
+            if (doSaveEmailSignature)
+            {
+                bool saved = AppFunc.SaveNoteAsync(AppConfig, UserSession, UserSession.UsersId, RwConstants.WEBUSER_NOTE_TYPE_EMAIL_SIGNATURE, "", EmailSignature).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
             }
         }
         //------------------------------------------------------------------------------------

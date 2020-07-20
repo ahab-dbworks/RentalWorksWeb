@@ -64,6 +64,9 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
         public bool? WebAdministrator { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "emailsignature", modeltype: FwDataTypes.Text)]
+        public string EmailSignature { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

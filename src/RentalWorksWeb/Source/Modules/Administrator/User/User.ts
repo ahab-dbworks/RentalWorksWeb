@@ -443,6 +443,7 @@ class User {
               <div data-type="tab" id="permissionstab" class="tab" data-tabpageid="permissionstabpage" data-caption="Permissions"></div>
               <div data-type="tab" id="settingstab" class="tab" data-tabpageid="settingstabpage" data-caption="Settings"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
+              <div data-type="tab" id="emailsigtab" class="tab" data-tabpageid="emailsigtabpage" data-caption="Email Signature"></div>
               <div data-type="tab" id="picturetab" class="tab" data-tabpageid="picturetabpage" data-caption="Picture"></div>
               <div data-type="tab" id="rwnettab" class="tab" data-tabpageid="rwnettabpage" data-caption="Rw.NET"></div>
             </div>
@@ -763,6 +764,12 @@ class User {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+              <!--EMAIL SIGNATURE PAGE-->
+             <div data-type="tabpage" id="emailsigtabpage" class="tabpage" data-tabid="emailsigtab">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="editor" class="fwcontrol fwformfield" data-caption="Email Signature" data-datafield="EmailSignature" style="width:900px;"></div>
                 </div>
               </div>
               <!--PICTURE TAB-->
