@@ -4291,45 +4291,18 @@ class FwBrowseClass {
 
                                                     proceed = false;
                                                     let method: any = 'PUT';
-                                                    //const json = JSON.stringify(excelObject[i]);  // {"name":"John Smith"}
-                                                    //const unquoted = json.replace(/"([^"]+)":/g, '$1:');
-                                                    //const currentRow = JSON.parse(unquoted)
-                                                    //function trimObj(obj) {
-                                                    //    if (!Array.isArray(obj) && typeof obj != 'object') return obj;
-                                                    //    return Object.keys(obj).reduce(function (acc, key) {
-                                                    //        acc[key.trim()] = typeof obj[key] == 'string' ? obj[key].trim() : trimObj(obj[key]);
-                                                    //        return acc;
-                                                    //    }, Array.isArray(obj) ? [] : {});
-                                                    //}
-                                                    //  JSON.parse(JSON.stringify(excelObject).replace(/(\\)?"\s*|\s+"/g, ($0, $1) => $1 ? $0 : '"'))
-                                                    //trimObj(excelObject);
 
-
+                                                    //// commented method to remove leading or trailing whitespace from keys in row
                                                     //const currentRow = excelObject[i];
-                                                    //for (let prop in excelObject[i]) {
-                                                    //    if (typeof prop === 'string') {
-                                                    //        prop = prop.trim();
-                                                    //    }
-                                                    //    let here;
-                                                    //}
-
-                                                    //excelObject.forEach(function (e, i) {
-                                                    //    // Iterate over the keys of object
-                                                    //    Object.keys(e).forEach(function (key) {
-
-                                                    //        // Copy the value
-                                                    //        var val = e[key],
-                                                    //            newKey = key.replace(/\s+/g, '');
-
-                                                    //        // Remove key-value from object
+                                                    //for (let key in excelObject[i]) {
+                                                    //    if (typeof key === 'string') {
+                                                    //        const val = excelObject[i][key];
+                                                    //        const newKey = key.replace(/\s+/g, '');
                                                     //        delete excelObject[i][key];
-
-
-
                                                     //        // Add value with new key
                                                     //        excelObject[i][newKey] = val;
-                                                    //    });
-                                                    //});
+                                                    //    }
+                                                    //}
 
                                                     if (multipleKeys) {
                                                         if (excelObject[i].hasOwnProperty(id1)) { // PrimaryKey 1
