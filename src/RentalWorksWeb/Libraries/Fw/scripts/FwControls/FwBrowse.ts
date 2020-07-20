@@ -4284,6 +4284,27 @@ class FwBrowseClass {
 
                                                     proceed = false;
                                                     let method: any = 'PUT'
+                                                    //const json = JSON.stringify(excelObject[i]);  // {"name":"John Smith"}
+                                                    //const unquoted = json.replace(/"([^"]+)":/g, '$1:');
+                                                    //const currentRow = JSON.parse(unquoted)
+                                                    //function trimObj(obj) {
+                                                    //    if (!Array.isArray(obj) && typeof obj != 'object') return obj;
+                                                    //    return Object.keys(obj).reduce(function (acc, key) {
+                                                    //        acc[key.trim()] = typeof obj[key] == 'string' ? obj[key].trim() : trimObj(obj[key]);
+                                                    //        return acc;
+                                                    //    }, Array.isArray(obj) ? [] : {});
+                                                    //}
+                                                    //  JSON.parse(JSON.stringify(excelObject).replace(/(\\)?"\s*|\s+"/g, ($0, $1) => $1 ? $0 : '"'))
+                                                    //trimObj(excelObject);
+
+
+                                                    //const currentRow = excelObject[i];
+                                                    //for (let prop in excelObject[i]) {
+                                                    //    if (typeof prop === 'string') {
+                                                    //        prop = prop.trim();
+                                                    //    }
+                                                    //    let here;
+                                                    //}
 
                                                     if (excelObject[i].hasOwnProperty(id1)) {
                                                         if (excelObject[i][`${id1}`] === '') {   // if blank, POST (new record)
@@ -4336,7 +4357,8 @@ class FwBrowseClass {
                                                         window.clearInterval(handle);
                                                         handle = 0;
                                                         $moduleoverlay.remove()
-                                                        FwNotification.renderNotification('INFO', `File upload complete ${hasError? 'with errors.' : ''}.`)
+                                                        const fileName = $confirmation.find('#fileName').text();
+                                                        FwNotification.renderNotification('INFO', `${fileName ? fileName : 'File'} upload complete ${hasError ? 'with errors.' : ''}.`)
                                                     }
                                                 }
 
