@@ -44,9 +44,7 @@
     }
     //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DepartmentId"] input').val(uniqueids.DepartmentId);
         FwModule.loadForm(this.Module, $form);
 
@@ -68,6 +66,9 @@
                 request.uniqueids = {
                     DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
                 };
+            },
+            beforeSave: (request: any) => {
+                request.DepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
             }
         });
     }
