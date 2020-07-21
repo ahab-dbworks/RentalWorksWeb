@@ -397,9 +397,10 @@ abstract class FwWebApiReport {
                         const $btnSend = FwConfirmation.addButton($confirmation, 'Send', false);
                         FwConfirmation.addButton($confirmation, 'Cancel');
 
-                        this.addOpenEmailToListButton($confirmation);
+                        this.addOpenEmailToListButton($confirmation, 'tousers');
+                        //this.addOpenEmailToListButton($confirmation, 'ccusers');
 
-                        const $emailToBtn = $confirmation.find('.email-to');
+                        const $emailToBtn = $confirmation.find('.email-tousers');
                         $emailToBtn.on('click', e => {
                             this.getEmailToList($confirmation);
                         });
@@ -424,12 +425,13 @@ abstract class FwWebApiReport {
                             try {
                                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                                 const requestEmailPdf: any = this.getRenderRequest($form);
+                                let body = FwFormField.getValueByDataField($confirmation, 'body') + '<p>' + signature + '</p>';
                                 requestEmailPdf.renderMode = 'Email';
                                 requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
                                 requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-value').val();
                                 requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-value').val();
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
-                                requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
+                                requestEmailPdf.email.body = body;
                                 requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
                                 //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
                                 if (requestEmailPdf.parameters.hasOrderNo) {
@@ -662,18 +664,18 @@ abstract class FwWebApiReport {
         });
     }
     //----------------------------------------------------------------------------------------------
-    addOpenEmailToListButton($confirmation: JQuery) {
-        const html = `<div class="email-to">
+    addOpenEmailToListButton($confirmation: JQuery, fieldname: string) {
+        const html = `<div class="email-${fieldname}">
                         <i class="material-icons" style="color: #4caf50; cursor:pointer;">add_box</i>
                       </div>`;
 
-        $confirmation.find('.tousers .fwformfield-control').append(html);
+        $confirmation.find(`[data-datafield="${fieldname}"] .fwformfield-control`).append(html);
     }
     //----------------------------------------------------------------------------------------------
     getEmailToList($confirmation: JQuery) {
         const request: any = {};
         request.uniqueids = {
-            OrderId: "Y000XEIW"
+            OrderId: "F0011G58"  //hard-coded wip
         }
         FwAppData.apiMethod(true, 'POST', `api/v1/ordercontact/browse`, request, FwServices.defaultTimeout,
             (successResponse) => {
@@ -726,15 +728,20 @@ abstract class FwWebApiReport {
                             }
                         }
 
-                        $emailToList.on('click', 'tbody tr', e => {
+                        $emailToList.on('click', 'tbody tr td input.value', e => {
+                            e.stopPropagation();
                             const $this = jQuery(e.currentTarget);
-                            let isChecked = $this.find('input.value').prop('checked');
-                            $this.find('input.value').prop('checked', !isChecked);
-                            const email = $this.find('.contact-email').text();
+                            let isChecked = $this.prop('checked');
+                            const $tr = $this.parents('tr');
+                            const email = $tr.find('.contact-email').text();
 
-                            !isChecked ? toEmails.push(email) : toEmails = toEmails.filter(item => item !== email);
-                            !isChecked ? $this.addClass('checked') : $this.removeClass('checked');
+                            isChecked ? toEmails.push(email) : toEmails = toEmails.filter(item => item !== email);
+                            isChecked ? $tr.addClass('checked') : $tr.removeClass('checked');
                             FwFormField.setValueByDataField($confirmation, 'tousers', toEmails.join(', '));
+                        });
+
+                        $emailToList.on('click', 'tbody tr', e => {
+                            jQuery(e.currentTarget).find('input.value').click();
                         });
                     }
                 } catch (ex) {
@@ -804,7 +811,7 @@ abstract class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getEmailTemplate() {
         return `
-              <div style="min-width:540px;">
+              <div style="min-width:540px; max-width:40vw;">
                   <div class="formrow">
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>

@@ -56,5 +56,6 @@ html.no-flexbox .fwpopupbox {position:absolute;top:50%;left:50%;-webkit-transfor
 .fwconfirmation .fwconfirmationbox div.table th,
 .fwconfirmation .fwconfirmationbox div.table td  {padding: .3rem; border: 1px solid #ddd; font-size:.9rem;}
 .fwconfirmation .fwconfirmationbox div.table table {border-collapse:collapse; border:1px solid #ddd;}
-.fwconfirmation .fwconfirmationbox div.table table thead tr {background-color:#eee; cursor:pointer;}
+.fwconfirmation .fwconfirmationbox div.table table thead tr {background-color:#eee;}
+.fwconfirmation .fwconfirmationbox div.table table tbody tr {cursor:pointer;}
 .fwconfirmation .fwconfirmationbox div.table table tbody tr.checked {background-color:#ddf0fe;}
