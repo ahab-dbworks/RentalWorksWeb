@@ -1505,16 +1505,20 @@ class OrderItemGrid {
     copyTemplate(event: any) {
         const $form = jQuery(event.currentTarget).closest('.fwform');
         const $grid = jQuery(event.currentTarget).closest('[data-name="OrderItemGrid"]');
-        let recType;
+        let recType, activity;
         recType = jQuery(event.currentTarget).closest('[data-grid="OrderItemGrid"]');
         if (recType.hasClass('R')) {
             recType = 'R';
+            activity = 'Rental';
         } else if (recType.hasClass('S')) {
             recType = 'S';
+            activity = 'Sales';
         } else if (recType.hasClass('L')) {
             recType = 'L';
+            activity = 'Labor';
         } else if (recType.hasClass('M')) {
             recType = 'M';
+            activity = 'Miscellaneous';
         } else if (recType.hasClass('P')) {
             recType = 'P';
         } else if (recType.hasClass('A')) {
@@ -1540,7 +1544,7 @@ class OrderItemGrid {
                         </div>
                       </div>
                       <div class="formrow add-button">
-                        <div class="select-items fwformcontrol" data-type="button" style="float:right;">Add to ${module}</div>
+                        <div class="add-items fwformcontrol" data-type="button" style="float:right;">Add to ${module}</div>
                       </div>
                     </div>
                   </div>
@@ -1574,11 +1578,18 @@ class OrderItemGrid {
             jQuery(document).off('keydown');
         });
 
-        $popup.on('click', '.select-items', e => {
+        $popup.on('click', '.add-items', e => {
             const $selectedCheckBoxes = $popup.find('[data-control="FwGrid"] tbody .cbselectrow:checked');
             const templateIds: Array<string> = [];
+
+            const activityItems: any = { "HasRentalItems": false, "HasSalesItem": false, "HasMiscellaneousItem": false, "HasLaborItem": false, "HasFacilitiesItem": false, };
+            delete activityItems[`Has${activity}Item`];
+
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                 const $this = jQuery($selectedCheckBoxes[i]);
+                // update activityItems keys to true if 'HasXItem = true;
+                // if any = true, show prompt
+                //on yes, change request.RecType to ''
                 const id = $this.closest('tr').find('div[data-browsedatafield="TemplateId"]').attr('data-originalvalue');
                 templateIds.push(id);
             };
