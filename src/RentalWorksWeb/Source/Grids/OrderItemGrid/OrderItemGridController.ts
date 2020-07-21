@@ -1576,26 +1576,23 @@ class OrderItemGrid {
 
         $popup.on('click', '.select-items', e => {
             const $selectedCheckBoxes = $popup.find('[data-control="FwGrid"] tbody .cbselectrow:checked');
-            let templateIds: Array<string> = [];
+            const templateIds: Array<string> = [];
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                let $this = jQuery($selectedCheckBoxes[i]);
-                let id;
-                id = $this.closest('tr').find('div[data-browsedatafield="TemplateId"]').attr('data-originalvalue');
+                const $this = jQuery($selectedCheckBoxes[i]);
+                const id = $this.closest('tr').find('div[data-browsedatafield="TemplateId"]').attr('data-originalvalue');
                 templateIds.push(id);
             };
 
-            let request: any = {};
-            request = {
-                TemplateIds: templateIds
-                , RecType: recType
-                , OrderId: FwFormField.getValueByDataField($form, `${module}Id`)
+            const request: any = {
+                TemplateIds: templateIds,
+                RecType: recType,
+                OrderId: FwFormField.getValueByDataField($form, `${module}Id`),
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/order/copytemplate`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('.close-modal').click();
                 FwBrowse.databind($grid);
             }, null, $templatePopup);
-
         });
 
         FwBrowse.search($templateBrowse);
