@@ -60,10 +60,11 @@ export abstract class WebpackReport {
         if (!this.renderReportCompleted) {
             this.renderReportCompleted = true;
             if (this.action === 'PrintHtml') {
-                window.print();
+                setTimeout(() => { window.print(); }, 50);
             }
         }
     }
+
 
     onRenderReportFailed(err: any) {
         if (!this.renderReportCompleted) {

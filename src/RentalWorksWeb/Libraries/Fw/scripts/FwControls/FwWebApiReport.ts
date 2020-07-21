@@ -80,7 +80,7 @@ abstract class FwWebApiReport {
             }
         }
         if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
-            companyName = sessionStorage.getItem('clientCode');   
+            companyName = sessionStorage.getItem('clientCode');
         }
 
         // Preview Button
@@ -150,15 +150,13 @@ abstract class FwWebApiReport {
                         const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                         jQuery('.application').append($iframe);
                         $iframe.on('load', () => {
-                            setTimeout(() => {
-                                const message: any = new ReportPageMessage();
-                                message.action = 'PrintHtml';
-                                message.apiUrl = apiUrl;
-                                message.authorizationHeader = authorizationHeader;
-                                message.request = request;
-                                $iframe[0].focus();
-                                (<any>$iframe[0]).contentWindow.postMessage(message, '*');
-                            }, 0);
+                            const message: any = new ReportPageMessage();
+                            message.action = 'PrintHtml';
+                            message.apiUrl = apiUrl;
+                            message.authorizationHeader = authorizationHeader;
+                            message.request = request;
+                            $iframe[0].focus();
+                            (<any>$iframe[0]).contentWindow.postMessage(message, '*');
                         });
                     }
                 } catch (ex) {
