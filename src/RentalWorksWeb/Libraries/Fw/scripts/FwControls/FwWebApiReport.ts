@@ -80,7 +80,7 @@ abstract class FwWebApiReport {
             }
         }
         if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
-            companyName = sessionStorage.getItem('clientCode');   
+            companyName = sessionStorage.getItem('clientCode');
         }
 
         // Preview Button
@@ -397,6 +397,21 @@ abstract class FwWebApiReport {
                         const $btnSend = FwConfirmation.addButton($confirmation, 'Send', false);
                         FwConfirmation.addButton($confirmation, 'Cancel');
 
+
+                        this.addOpenEmailToListButton($confirmation);
+
+
+                        const $emailToBtn = $confirmation.find('.email-to');
+                        $emailToBtn.on('click', e => {
+                            this.getEmailToList($confirmation);
+                        });
+
+                        const signature = "test signature&nbsp;<br />line two sig<br />test line three";
+                        if (typeof signature != 'undefined') {
+                            $confirmation.find('.signature').show();
+                            $confirmation.find('.signature .value').html(signature);
+                        }
+
                         let email = '[me]';
                         if (sessionStorage.getItem('email') !== null && sessionStorage.getItem('email') !== '') {
                             email = sessionStorage.getItem('email');
@@ -649,6 +664,45 @@ abstract class FwWebApiReport {
         });
     }
     //----------------------------------------------------------------------------------------------
+    addOpenEmailToListButton($confirmation: JQuery) {
+        const html = `<div class="email-to">
+                        <i class="material-icons" style="color: #4caf50; cursor:pointer;">add_box</i>
+                      </div>`;
+
+        $confirmation.find('.tousers .fwformfield-control').append(html);
+    }
+    //----------------------------------------------------------------------------------------------
+    getEmailToList($confirmation: JQuery) {
+        const request: any = {};
+        request.uniqueids = {
+            OrderId: "Y000XEIW"
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/ordercontact/browse`, request, FwServices.defaultTimeout,
+            (successResponse) => {
+                try {
+                    const $emailToList = FwConfirmation.renderConfirmation('', '');
+                    const html: any = [];
+                    html.push('<div>')
+                    html.push('<table>');
+                    html.push('<thead>');
+                    html.push('<th></th>');
+                    html.push('<th>Contact</th>');
+                    html.push('<th>Contact Title</th>');
+                    html.push('<th>E-Mail</th>');
+                    html.push('</thead>');
+                    html.push('<tbody>');
+                    html.push('</tbody>');
+                    html.push('</table>');
+                    html.push('</div>')
+                    FwConfirmation.addControls($emailToList, html.join(''));
+                    FwConfirmation.addButton($emailToList, 'Close');
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            null, $confirmation.find('.fwconfirmationbox'));
+    }
+    //----------------------------------------------------------------------------------------------
     async getParameters($form: JQuery): Promise<any> {
         try {
             const parameters: any = {};
@@ -714,8 +768,8 @@ abstract class FwWebApiReport {
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>
+                <div class="flexrow">
+                  <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>           
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
@@ -726,8 +780,13 @@ abstract class FwWebApiReport {
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-allcaps="false" data-enabled="true"></div>
                 </div>
+                    <div class="fwformfield signature" style="display:none;padding:.5rem;">
+            <div class="fwformfield-caption">Signature</div>
+            <div class="value"></div>
+            </div>
               </div>
             </div>`;
+
         //<div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
         //<div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>
     }
