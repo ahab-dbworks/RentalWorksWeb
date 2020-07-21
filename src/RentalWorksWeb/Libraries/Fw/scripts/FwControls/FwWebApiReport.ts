@@ -404,8 +404,8 @@ abstract class FwWebApiReport {
                             this.getEmailToList($confirmation);
                         });
 
-                        const signature = "test signature&nbsp;<br />line two sig<br />test line three";
-                        if (typeof signature != 'undefined') {
+                        const signature = sessionStorage.getItem('emailsignature');
+                        if (typeof signature != 'undefined' && signature != '') {
                             $confirmation.find('.signature').show();
                             $confirmation.find('.signature .value').html(signature);
                         }
@@ -804,29 +804,29 @@ abstract class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getEmailTemplate() {
         return `
-              <div style="width:540px;">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
-                </div>
-                <div class="flexrow">
-                  <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>           
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
-               </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-allcaps="false" data-enabled="true"></div>
-                </div>
-                    <div class="fwformfield signature" style="display:none;padding:.5rem;">
-            <div class="fwformfield-caption">Signature</div>
-            <div class="value"></div>
-            </div>
-              </div>
-            </div>`;
+              <div style="min-width:540px;">
+                  <div class="formrow">
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>           
+                      </div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
+                      /div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
+                      </div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-allcaps="false" data-enabled="true"></div>
+                      </div>
+                      <div class="fwformfield signature" style="display:none;padding:.5rem;">
+                          <div class="fwformfield-caption">Signature</div>
+                          <div class="value"></div>
+                      </div>
+                  </div>
+              </div>`;
 
         //<div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
         //<div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>

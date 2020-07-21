@@ -207,6 +207,7 @@
         sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
         sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
         sessionStorage.setItem('favorites', FwFormField.getValueByDataField($form, 'FavoritesJson'));
+        sessionStorage.setItem('emailsignature', FwFormField.getValueByDataField($form, 'EmailSignature'));
 
         //remove unchecked modules
         $form.find('.selected-modules li[data-selected="F"]').remove();
