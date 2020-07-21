@@ -74,6 +74,8 @@
     }
     //---------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        const $departmentInventoryTypeGrid = $form.find('[data-name="DepartmentInventoryTypeGrid"]');
+        FwBrowse.search($departmentInventoryTypeGrid);
     }
     //---------------------------------------------------------------------------------------------
 }
