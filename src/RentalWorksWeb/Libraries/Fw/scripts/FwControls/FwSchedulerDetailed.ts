@@ -33,6 +33,36 @@ class FwSchedulerDetailedClass {
         schedulerbtns.push('</div>');
         FwMenu.addCustomContent($menucontrol, jQuery(schedulerbtns.join('\n')));
 
+        //FwMenu.addVerticleSeparator($menucontrol);
+        //const $orderNumberView = FwMenu.generateDropDownViewBtn('Order Number', true);
+        //$orderNumberView.on('click', e => {
+        //    try {
+
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+        //const $startView = FwMenu.generateDropDownViewBtn('Start', false);
+        //$startView.on('click', e => {
+        //    try {
+
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+        //const $endView = FwMenu.generateDropDownViewBtn('End', false);
+        //$endView.on('click', e => {
+        //    try {
+
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
+        //const viewItems: JQuery[] = [];
+        //viewItems.push($orderNumberView, $startView, $endView);
+        //FwMenu.addViewBtn($menucontrol, 'Sort', viewItems);
+        //$control.find('.buttonbar .vr').css('margin', '0 0 0 28px');
+
         const $form = $control.closest('.fwform');
         const controller = (<any>window)[$form.attr('data-controller')];
         if ((typeof controller !== 'undefined') && (typeof controller.addSchedulerMenuItems !== 'undefined')) {
