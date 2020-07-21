@@ -42,23 +42,40 @@
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DepartmentId"] input').val(uniqueids.DepartmentId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //---------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'DepartmentInventoryTypeGrid',
+            gridSecurityId: 'TEiHWtIOkGrX0',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.DepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
+            }
+        });
+    }
+    //---------------------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
+    //---------------------------------------------------------------------------------------------
 }
 
 var DepartmentController = new Department();
