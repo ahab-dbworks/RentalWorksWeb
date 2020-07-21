@@ -381,6 +381,7 @@ abstract class InventoryBase {
                         WarehouseId: warehouseId.split(','),
                         FromDate: startOfMonth,
                         ToDate: endOfMonth,
+                        SortReservationsBy: $control.data('sortSelected'),
                     };
                     FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`, availRequest, FwServices.defaultTimeout, function onSuccess(response) {
                         const schedulerEvents = response.InventoryAvailabilityScheduleEvents;
