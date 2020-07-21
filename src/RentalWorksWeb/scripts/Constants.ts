@@ -864,6 +864,7 @@ var Constants = {
         DealHiatusDiscountGrid: { id: 'qyEHq2bK1WIJ4', caption: 'Deal Hiatus' },
         DealNoteGrid: { id: 'jcwmVLFEU88k', caption: 'Deal Notes' },
         DealShipperGrid: { id: '5cMD0y0jSUgz', caption: 'Deal Shipper' },
+        DepartmentInventoryTypeGrid: { id: 'TEiHWtIOkGrX0', caption: 'Department Inventory Type' },
         DiscountItemLaborGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Labor' },
         DiscountItemMiscGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Misc' },
         DiscountItemRentalGrid: { id: 'UMKuETy6vOLA', caption: 'Discount Item Rental' },

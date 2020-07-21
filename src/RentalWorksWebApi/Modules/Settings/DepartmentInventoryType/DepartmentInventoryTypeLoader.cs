@@ -40,8 +40,8 @@ namespace WebApi.Modules.Settings.DepartmentInventoryType
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            addFilterToSelect("DepartmentId", "departmentid", select, request); 
-            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request); 
+            addFilterToSelect("DepartmentId", "departmentid", select, request);
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }
