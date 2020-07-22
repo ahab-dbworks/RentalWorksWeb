@@ -1582,14 +1582,24 @@ class OrderItemGrid {
             const $selectedCheckBoxes = $popup.find('[data-control="FwGrid"] tbody .cbselectrow:checked');
             const templateIds: Array<string> = [];
 
-            const activityItems: any = { "HasRentalItems": false, "HasSalesItem": false, "HasMiscellaneousItem": false, "HasLaborItem": false, "HasFacilitiesItem": false, };
-            delete activityItems[`Has${activity}Item`];
+            const activities: any = { "Rental": false, "Sales": false, "Miscellaneous": false, "Labor": false, "Facilities": false, };
+            delete activities[activity];
 
+            let showPrompt = false;
+            const additionalActivities = [];
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                 const $this = jQuery($selectedCheckBoxes[i]);
-                // update activityItems keys to true if 'HasXItem = true;
-                // if any = true, show prompt
-                //on yes, change request.RecType to ''
+                for (let key in activities) {
+                    if (activities[key] !== true) { // prevent iteration over an already true value
+                        const hasItem = $this.closest('tr').find(`div[data-browsedatafield="Has${key}Item"]`).attr('data-originalvalue');
+                        if (hasItem === 'true') {
+                            activities[key] = true;
+                            showPrompt = true;
+                            additionalActivities.push(key);
+                        }
+                    }
+                }
+
                 const id = $this.closest('tr').find('div[data-browsedatafield="TemplateId"]').attr('data-originalvalue');
                 templateIds.push(id);
             };
@@ -1599,11 +1609,36 @@ class OrderItemGrid {
                 RecType: recType,
                 OrderId: FwFormField.getValueByDataField($form, `${module}Id`),
             }
+            async function sendTemplate(request) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/order/copytemplate`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    $popup.find('.close-modal').click();
+                    FwBrowse.databind($grid);
+                }, null, $templatePopup);
+            }
+            if (showPrompt) {
+                const $confirmation = FwConfirmation.renderConfirmation(`Multiple Activity Types`, ``);
+                $confirmation.find('.fwconfirmationbox').css({
+                    'width': '465px',
+                });
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/order/copytemplate`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                $popup.find('.close-modal').click();
-                FwBrowse.databind($grid);
-            }, null, $templatePopup);
+                FwConfirmation.addControls($confirmation, `<div style="text-align:center;"></div><div style="margin:10px 0 0 0;text-align:center;">You are adding a template from ${activity} but there are additional activities of ${additionalActivities.join(', ')} in selected template. Do you wish to just add ${activity} or include all?<div>`);
+
+                const $yes = FwConfirmation.addButton($confirmation, `Just ${activity}`, false);
+                const $no = FwConfirmation.addButton($confirmation, 'All Activities', false);
+
+                $yes.on('click', e => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    sendTemplate(request);
+                });
+
+                $no.on('click', e => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    request.RecType = '';
+                    sendTemplate(request);
+                });
+            } else {
+                sendTemplate(request);
+            }
         });
 
         FwBrowse.search($templateBrowse);
