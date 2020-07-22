@@ -4238,35 +4238,46 @@ class FwBrowseClass {
                                 FwNotification.closeNotification($notification);
                             }
 
-                            // Getting PrimaryKey
+                            // Getting PrimaryKey from API for this browse or grid
                             const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/keyfieldnames`,
                                 $elementToBlock: jQuery('#application'),
                             })
                                 .then(async (keys: any) => {
-                                    async function uploadRecord(url, method, data): Promise<any> {
-                                        return FwAjax.callWebApi<any, any>({
-                                            httpMethod: method,
-                                            data: data,
-                                            url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
-                                            $elementToBlock: jQuery('#application'),
-                                        })
-                                    }
-
                                     if (keys.length) {
-                                        let primaryKey = keys[0];
-                                        let multipleKeys = false;
-                                        if (keys.length > 1) {
-                                            multipleKeys = true;
+                                        async function uploadRecord(url, method, data): Promise<any> {
+                                            return FwAjax.callWebApi<any, any>({
+                                                httpMethod: method,
+                                                data: data,
+                                                url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
+                                                $elementToBlock: jQuery('#application'),
+                                            })
                                         }
+
+                                        let method: any = 'PUT';
+                                        function processKeys(keys) { // some modules have multiple keys
+                                            for (let j = 0; j < keys.length; j++) {
+                                                const id = keys[j];
+                                                if (excelObject[i].hasOwnProperty(id)) { // Does the key exist within the record?
+                                                    if (excelObject[i][`${id}`] === '') {   // if key value is blank, POST (new record)
+                                                        method = 'POST';
+                                                    }
+                                                } else {
+                                                    // key was missing from row so create key with blank val and POST as new record
+                                                    excelObject[i][`${id}`] = '';
+                                                    method = 'POST';
+                                                }
+                                            }
+                                        }
+                                        let primaryKey = keys[0]; // first key within the loader will be use in the url for any PUT requests
 
                                         let proceed = true;
                                         let hasError = false;
                                         let i = 0;
                                         const totalSteps = excelObject.length;
-                                        let progressCompleted = false;
 
+                                        // progress bar
                                         const html: Array<string> = [];
                                         html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
                                         html.push(`<div class="progress_bar_text"></div>`);
@@ -4275,7 +4286,8 @@ class FwBrowseClass {
                                         const $moduleoverlay = jQuery(`<div class="progress_bar">`);
                                         $moduleoverlay.html(html.join(''));
                                         jQuery('#application').css('position', 'relative').append($moduleoverlay);
-                                        // interval in place of a loop to iterate over rows to be uploaded
+
+                                        // interval in place of a loop to iterate over rows to be uploaded while waiting for user to choose in the case of any errors
                                         let handle: number = window.setInterval(async () => {
                                             try {
                                                 console.log('step');
@@ -4287,47 +4299,18 @@ class FwBrowseClass {
                                                     }
 
                                                     proceed = false;
-                                                    let method: any = 'PUT';
 
-                                                    //// commented method to remove leading or trailing whitespace from keys in row if needed
+                                                    // method to remove leading or trailing whitespace from keys in row if needed
                                                     //for (let key in excelObject[i]) {
                                                     //    if (typeof key === 'string') {
-                                                    //        const val = excelObject[i][key];
-                                                    //        const newKey = key.replace(/\s+/g, '');
-                                                    //        delete excelObject[i][key];
-                                                    //        // Add value with new key
-                                                    //        excelObject[i][newKey] = val;
+                                                    //        if (key.trim() !== key) {
+                                                    //            excelObject[i][key.trim()] = excelObject[i][key];
+                                                    //            delete excelObject[i][key];
+                                                    //        }
                                                     //    }
                                                     //}
 
-                                                    function processKeys(keys) {
-                                                        for (let j = 0; j < keys.length; j++) {
-                                                            const id = keys[j];
-                                                            if (excelObject[i].hasOwnProperty(id)) { // Does the key exist within the record?
-                                                                if (excelObject[i][`${id}`] === '') {   // if key value is blank, POST (new record)
-                                                                    method = 'POST';
-                                                                }
-                                                            } else {
-                                                                // key was missing from row so create key with blank val and POST as new record
-                                                                excelObject[i][`${id}`] = '';
-                                                                method = 'POST';
-                                                            }
-                                                        }
-                                                    }
-
-                                                    if (multipleKeys) {
-                                                        await processKeys(keys);
-                                                    } else {
-                                                        if (excelObject[i].hasOwnProperty(primaryKey)) {
-                                                            if (excelObject[i][`${primaryKey}`] === '') {   // if blank, POST (new record)
-                                                                method = 'POST';
-                                                            }
-                                                        } else {
-                                                            // key was missing from row so create key with blank val and POST as new record
-                                                            excelObject[i][`${primaryKey}`] = '';
-                                                            method = 'POST';
-                                                        }
-                                                    }
+                                                    await processKeys(keys);
 
                                                     let url = null;
                                                     if (method === 'PUT') {
@@ -4366,14 +4349,11 @@ class FwBrowseClass {
                                                 }
 
                                                 if (i >= totalSteps) {
-                                                    progressCompleted = true;
-                                                    if (progressCompleted) {
-                                                        window.clearInterval(handle);
-                                                        handle = 0;
-                                                        $moduleoverlay.remove()
-                                                        const fileName = $confirmation.find('#fileName').text();
-                                                        FwNotification.renderNotification('INFO', `${fileName ? fileName : 'File'} upload complete ${hasError ? 'with errors.' : ''}.`)
-                                                    }
+                                                    window.clearInterval(handle);
+                                                    handle = 0;
+                                                    $moduleoverlay.remove()
+                                                    const fileName = $confirmation.find('#fileName').text();
+                                                    FwNotification.renderNotification('INFO', `${fileName ? fileName : 'File'} upload complete ${hasError ? 'with errors' : ''}.`)
                                                 }
 
                                             } catch (ex) {
