@@ -457,6 +457,34 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
+        public virtual async Task<dynamic> SelectDynamicAsync(BrowseRequest request, FwSqlConnection conn = null)
+        {
+            LoadCustomFields();
+
+            dynamic results = null;
+
+            if (dataLoader == null)
+            {
+                if (dataRecords.Count > 0)
+                {
+                    MethodInfo method = dataRecords[0].GetType().GetMethod("SelectAsync");
+                    MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
+                    FwCustomFields customFields = _Custom.CustomFields;
+                    dynamic result = generic.Invoke(dataRecords[0], new object[] { request, customFields, conn });
+                    results = await result;
+                }
+            }
+            else
+            {
+                MethodInfo method = dataLoader.GetType().GetMethod("SelectAsync");
+                MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
+                FwCustomFields customFields = _Custom.CustomFields;
+                dynamic result = generic.Invoke(dataLoader, new object[] { request, customFields, conn });
+                results = await result;
+            }
+            return results;
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, Func<FwSqlSelect, Task> beforeExecuteQuery = null, FwSqlConnection conn = null)
         {
             LoadCustomFields();
@@ -1279,31 +1307,7 @@ namespace FwStandard.BusinessLogic
                         {
                             if (valuePropertyValue != null)
                             {
-                                // this needs more thought.  Do we really want to do a raw sql query here?  Or use the logical loader?
-                                //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
-                                //{
-                                //    string id = await FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "location", "location", valuePropertyValue.ToString(), "locationid");
-                                //}
-
-                                //FwBusinessLogic l = CreateBusinessLogic(valuePropertyRelatedToType, this.AppConfig, this.UserSession);
-                                //bool fkValueFieldFound = false;
-                                //PropertyInfo[] fkObjectProperties = l.GetType().GetProperties();
-                                //foreach (PropertyInfo fkObjectProperty in fkObjectProperties)
-                                //{
-                                //    if (fkObjectProperty.Name.Equals(relatedObjectFieldName))
-                                //    {
-                                //        fkObjectProperty.SetValue(l, valuePropertyValue);
-                                //        fkValueFieldFound = true;
-                                //    }
-                                //}
-                                //if (fkValueFieldFound)
-                                //{
-                                //    await l.LoadAsync<FwBusinessLogic>();
-                                //}
-
-
                                 BrowseRequest itemBrowseRequest = new BrowseRequest();
-                                //itemBrowseRequest.uniqueids = new Dictionary<string, object>();
                                 itemBrowseRequest.searchfields = new List<string>();
                                 itemBrowseRequest.searchfields.Add(relatedObjectValueFieldName);
 
@@ -1315,51 +1319,19 @@ namespace FwStandard.BusinessLogic
 
                                 FwBusinessLogic l = CreateBusinessLogic(valuePropertyRelatedToType, this.AppConfig, this.UserSession);
                                 l.SetDependencies(AppConfig, UserSession);
-                                List<FwBusinessLogic> values = await l.SelectAsync<FwBusinessLogic>(itemBrowseRequest/*, conn*/);
+                                dynamic values = await l.SelectDynamicAsync(itemBrowseRequest/*, conn*/);
 
                                 if (values.Count.Equals(1))
                                 {
-                                    ////PropertyInfo[] fkObjectProperties = l.GetType().GetProperties();
-                                    //PropertyInfo[] fkObjectProperties = valuePropertyRelatedToType.GetProperties();
-                                    ////PropertyInfo[] fkObjectProperties = values[0].GetType().GetProperties();
-                                    //foreach (PropertyInfo fkObjectProperty in fkObjectProperties)
-                                    //{
-                                    //    if (fkObjectProperty.Name.Equals(relatedObjectIdFieldName))
-                                    //    {
-                                    //        //idProperty
-                                    //        //object idValue = fkObjectProperty.GetValue(values[0]);
-                                    //        //object idValue = values[0].GetType().GetProperty(relatedObjectIdFieldName).GetValue(values[0], null);
-                                    //        //object idValue = (valuePropertyRelatedToType)values[0].GetType().GetProperty(relatedObjectIdFieldName).GetValue((valuePropertyRelatedToType)values[0], null);
-
-
-                                    //        FieldInfo[] myFields = valuePropertyRelatedToType.GetFields(BindingFlags.Public | BindingFlags.Instance);
-                                    //        // Display the values of the fields.
-                                    //        //Response.Write("<br/>Displaying the values of the fields of " + typeOfObj + "<br/>");
-                                    //        for (int i = 0; i < myFields.Length; i++)
-                                    //        {
-                                    //            if (myFields[i].Name.Equals(relatedObjectIdFieldName))
-                                    //            {
-                                    //                object idValue = myFields[i].GetValue(values[0]);
-                                    //                idProperty.SetValue(this, idValue);
-                                    //            }
-                                    //            //Response.Write("<br/>The value of " + myFields[i].Name + " is " + myFields[i].GetValue(Session[sn]) + "<br/>");
-                                    //        }
-
-                                    //    }
-                                    //}
-
-                                    //FieldInfo[] myFields = valuePropertyRelatedToType.GetFields(BindingFlags.Public | BindingFlags.Instance);
-                                    //for (int i = 0; i < myFields.Length; i++)
-                                    //{
-                                    //    if (myFields[i].Name.Equals(relatedObjectIdFieldName))
-                                    //    {
-                                    //        object idValue = myFields[i].GetValue(values[0]);
-                                    //        idProperty.SetValue(this, idValue);
-                                    //    }
-                                    //}
-
-
-
+                                    PropertyInfo[] fkObjectProperties = values[0].GetType().GetProperties();
+                                    foreach (PropertyInfo fkObjectProperty in fkObjectProperties)
+                                    {
+                                        if (fkObjectProperty.Name.Equals(relatedObjectIdFieldName))
+                                        {
+                                            object idValue = fkObjectProperty.GetValue(values[0]);
+                                            idProperty.SetValue(this, idValue);
+                                        }
+                                    }
                                 }
                             }
                         }
