@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     var combinedViewModel, screen, $menu, $ordersearch, $sessionsearch, $dealsearch;
     combinedViewModel = jQuery.extend({
@@ -104,7 +104,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         service:   'CheckInMenu',
         method:    'OrderSearch',
         searchModes: [
-            { value: 'ORDERNO',     caption: 'Order No.' },
+            { value: 'ORDERNO',     caption: 'Order No', placeholder: 'Scan Order No Barcode' },
             { value: 'DESCRIPTION', caption: 'Description' },
             { value: 'DEAL',        caption: 'Deal' }
         ],
