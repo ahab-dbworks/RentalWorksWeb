@@ -105,6 +105,9 @@ class CustomerCredit {
              <div class="column flexcolumn" max-width="250px" data-visible="true">
                <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="off"></div>
              </div>
+             <div class="column flexcolumn" max-width="250px" data-visible="true">
+               <div class="field" data-caption="Deal" data-datafield="Deal" data-browsedatatype="text" data-sort="off"></div>
+             </div>
              <div class="column flexcolumn" max-width="150px" data-visible="true">
                <div class="field" data-caption="Payment Type" data-datafield="PaymentType" data-cellcolor="RecTypeColor" data-browsedatatype="text" data-sort="off"></div>
              </div>

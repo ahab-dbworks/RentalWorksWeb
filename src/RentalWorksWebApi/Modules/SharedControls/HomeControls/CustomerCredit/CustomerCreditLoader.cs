@@ -27,6 +27,12 @@ namespace WebApi.Modules.HomeControls.CustomerCredit
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        public string Deal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -74,7 +80,7 @@ namespace WebApi.Modules.HomeControls.CustomerCredit
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER + "'");
+            //select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER + "'");
 
             //addFilterToSelect("CustomerId", "customerid", select, request);
             string customerId = GetUniqueIdAsString("CustomerId", request) ?? "xx~xx~xx";
