@@ -51,7 +51,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
         service:   'TransferInMenu',
         method:    'OrderSearch',
         searchModes: [
-            { value: 'ORDERNO',     caption: 'Order No.' },
+            { value: 'ORDERNO',     caption: 'Order No', placeholder: 'Scan Transfer Order No Barcode' },
             { value: 'DESCRIPTION', caption: 'Description' },
             { value: 'DEAL',        caption: 'Deal' }
         ],

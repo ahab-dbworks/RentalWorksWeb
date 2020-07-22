@@ -246,9 +246,26 @@ QuikPick.getQuikPickScreen = function() {
         program.pushScreen(RwQuote.getQuoteScreen({}, quoteScreen_properties));
     };
 
-    screen.load = function() {
+    screen.load = function () {
+        program.onScanBarcode = function (barcode, barcodeType) {
+            try {
+                screen.scanCode(barcode);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }
         $search.showscreen();
     };
+
+    screen.unload = function () {
+        program.onScanBarcode = null
+        $search.showscreen();
+    };
+
+    screen.scanCode = (barcode, barcodeType) => {
+        $search.find('#quotesearch').fwmobilesearch('setsearchmode', 'QUOTE');
+        $search.find('#quotesearch').fwmobilesearch('setSearchText', barcode, true);
+    }
 
     return screen;
 };
