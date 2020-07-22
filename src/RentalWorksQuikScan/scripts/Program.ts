@@ -59,7 +59,7 @@ class Program extends FwApplication {
         //FastClick.attach(document.body);
         
         me.setScanTarget('#scanBarcodeView-txtBarcodeData');
-        me.onBarcodeData = function(barcode, barcodeType) {
+        me.onBarcodeData = function (barcode, barcodeType) {
             if (typeof me.onScanBarcode === 'function') {
                 me.onScanBarcode(barcode, barcodeType);
             } else {
@@ -278,6 +278,8 @@ class Program extends FwApplication {
                             }
                         );
                     }
+
+                    RwRFID.registerBarcodeEvents();
 
                     setTimeout(function() {
                         me.loadApplication();

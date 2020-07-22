@@ -82,7 +82,7 @@ RwInventoryController.getRepairItemScreen = function(viewModel, properties) {
                 screen.$view.find('.repairItemView-Scan').show();
                 screen.$view.find('.modeSelector .modebtn').removeClass('selected');
                 jQuery(this).addClass('selected');
-                RwRFID.unregisterEvents();
+                RwRFID.unregisterRFIDEvents();
             } catch(ex) {
                 FwFunc.showError(ex);
             }
@@ -94,7 +94,7 @@ RwInventoryController.getRepairItemScreen = function(viewModel, properties) {
                 screen.$view.find('.repairItemView-RFID').show();
                 screen.$view.find('.modeSelector .modebtn').removeClass('selected');
                 jQuery(this).addClass('selected');
-                RwRFID.registerEvents(screen.rfidscan);
+                RwRFID.registerRFIDEvents(screen.rfidscan);
             } catch(ex) {
                 FwFunc.showError(ex);
             }

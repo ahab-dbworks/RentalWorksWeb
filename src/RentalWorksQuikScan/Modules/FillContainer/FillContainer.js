@@ -848,7 +848,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         jQuery('#fillcontainer-btnrfid').removeClass('selected').addClass('unselected');
         jQuery('#fillcontainer-btnpendingitems').removeClass('unselected').addClass('selected');
         jQuery('#fillcontainer-scan').attr('data-mode', 'PENDING');
-        RwRFID.unregisterEvents();
+        RwRFID.unregisterRFIDEvents();
         if (properties.mode === 'fillcontainer') {
             request = {
                 mode: properties.mode,
@@ -887,7 +887,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             jQuery('#fillcontainer-btnrfid').removeClass('selected').addClass('unselected');
             jQuery('#fillcontainer-btnscan').removeClass('unselected').addClass('selected');
             jQuery('#fillcontainer-scan').attr('data-mode', 'SCAN');
-            RwRFID.unregisterEvents();
+            RwRFID.unregisterRFIDEvents();
         } catch(ex) {
             FwFunc.showError(ex);
         }
@@ -905,7 +905,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             jQuery('#fillcontainer-btnrfid').removeClass('selected').addClass('unselected');
             jQuery('#fillcontainer-btncontaineritems').removeClass('unselected').addClass('selected');
             jQuery('#fillcontainer-scan').attr('data-mode', 'STAGEDLIST');
-            RwRFID.unregisterEvents();
+            RwRFID.unregisterRFIDEvents();
             
             if (properties.mode === 'fillcontainer') {
                 request = {

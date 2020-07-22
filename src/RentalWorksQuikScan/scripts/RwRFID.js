@@ -19,7 +19,8 @@ RwRFID.init = function() {
         });
     }
     if ((typeof window.ZebraRFIDAPI3 === 'object') && (typeof applicationOptions.rfid !== 'undefined') && (applicationOptions.rfid.enabled)) {
-        window.ZebraRFIDAPI3.isConnected(isConnected => {
+        window.ZebraRFIDAPI3.isConnected(result => {
+            const isConnected = result[0];
             RwRFID.isRFIDAPI3 = true;
             RwRFID.isConnected = isConnected;
             if (!RwRFID.isConnected) {
@@ -29,7 +30,31 @@ RwRFID.init = function() {
     }
 };
 //----------------------------------------------------------------------------------------------
-RwRFID.registerEvents = function(callbackfunction) {
+RwRFID.registerBarcodeEvents = function () {
+    if (typeof window.TslReader !== 'undefined') {
+        window.TslReader.registerListener('barcodeReceived', 'barcodeReceived_rwrfidjs', function (barcode) {
+            program.onBarcodeData(barcode);
+        });
+    }
+
+    if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+        window.ZebraRFIDAPI3.registerListener('barcodeReceived', 'barcodeReceived_rwrfidjs', function (barcode, barcodetype, source, platform) {
+            program.onBarcodeData(barcode);
+        });
+    }
+}
+//----------------------------------------------------------------------------------------------
+RwRFID.unregisterBarcodeEvents = function () {
+    if (typeof window.TslReader !== 'undefined') {
+        window.TslReader.unregisterListener('barcodeReceived', 'barcodeReceived_rwrfidjs');
+    }
+
+    if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+        window.ZebraRFIDAPI3.unregisterListener('barcodeReceived', 'barcodeReceived_rwrfidjs');
+    }
+}
+//----------------------------------------------------------------------------------------------
+RwRFID.registerRFIDEvents = function (callbackfunction) {
     var me = this;
     if (typeof window.TslReader !== 'undefined') {
         //window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwrfidjs', function() {
@@ -53,9 +78,6 @@ RwRFID.registerEvents = function(callbackfunction) {
         //    }
         //    FwMobileMasterController.generateDeviceStatusIcons();
         //});
-        window.TslReader.registerListener('barcodeReceived', 'epcsReceived_rwrfidjs', function(barcode) {
-            program.onBarcodeData(barcode);
-        });
         window.TslReader.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function (epcs) {
             RwRFID.isConnected = true;
             callbackfunction(epcs);
@@ -193,9 +215,6 @@ RwRFID.registerEvents = function(callbackfunction) {
                 }
             }
         });
-        window.ZebraRFIDAPI3.registerListener('barcodeReceived', 'barcodeReceived_rwrfidjs', function (barcode, barcodetype, source, platform) {
-            program.onBarcodeData(barcode);
-        });
         window.ZebraRFIDAPI3.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function (epcs, count) {
             RwRFID.isConnected = true;
             callbackfunction(epcs);
@@ -241,6 +260,25 @@ RwRFID.registerEvents = function(callbackfunction) {
         window.ZebraRFIDAPI3.registerListener('tagFinderStopped', 'tagFinderStopped_rwrfidjs', function () {
             RwRFID.hideTagFinderNotification();
         });
+    }
+};
+//----------------------------------------------------------------------------------------------
+RwRFID.unregisterRFIDEvents = function () {
+    if (typeof window.TslReader !== 'undefined') {
+        window.TslReader.unregisterListener('epcsReceived', 'epcsReceived_rwrfidjs');
+        window.TslReader.unregisterListener('epcReceived', 'epcReceived_rwrfidjs');
+        window.TslReader.unregisterListener('epcReceived', 'deviceConnected_rwrfidjs');
+        window.TslReader.unregisterListener('epcReceived', 'deviceDisconnected_rwrfidjs');
+    }
+    if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
+        window.ZebraRFIDAPI3.unregisterListener('beginResume', 'beginResume_rwrfidjs');
+        window.ZebraRFIDAPI3.unregisterListener('endResume', 'endResume_rwrfidjs');
+        window.ZebraRFIDAPI3.unregisterListener('emdkScannerStatus', 'emdkScannerStatus_rwrfidjs');
+        window.ZebraRFIDAPI3.unregisterListener('emdkKeyPressed', 'emdkKeyPressed_rwrfidjs');
+        window.ZebraRFIDAPI3.unregisterListener('triggerPress', 'triggerPulled_rwrfidjs');
+        window.ZebraRFIDAPI3.unregisterListener('epcsReceived', 'epcsReceived_rwrfidjs');
+        window.ZebraRFIDAPI3.unregisterListener('epcReceived', 'epcReceived_rwrfidjs');
+        window.ZebraRFIDAPI3.unregisterListener('tagFinder', 'tagFinder_rwrfidjs');
     }
 };
 //----------------------------------------------------------------------------------------------
@@ -362,26 +400,6 @@ RwRFID.showRFIDNotification = function (text, autoHide) {
         }, 500);
     }
 }
-//----------------------------------------------------------------------------------------------
-RwRFID.unregisterEvents = function () {
-    if (typeof window.TslReader !== 'undefined') {
-        window.TslReader.unregisterListener('epcsReceived', 'epcsReceived_rwrfidjs');
-        window.TslReader.unregisterListener('epcReceived', 'epcReceived_rwrfidjs');
-        window.TslReader.unregisterListener('epcReceived', 'deviceConnected_rwrfidjs');
-        window.TslReader.unregisterListener('epcReceived', 'deviceDisconnected_rwrfidjs');
-    }
-    if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
-        window.ZebraRFIDAPI3.unregisterListener('beginResume', 'beginResume_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('endResume', 'endResume_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('emdkScannerStatus', 'emdkScannerStatus_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('emdkKeyPressed', 'emdkKeyPressed_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('triggerPress', 'triggerPulled_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('barcodeReceived', 'barcodeReceived_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('epcsReceived', 'epcsReceived_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('epcReceived', 'epcReceived_rwrfidjs');
-        window.ZebraRFIDAPI3.unregisterListener('tagFinder', 'tagFinder_rwrfidjs');
-    }
-};
 //----------------------------------------------------------------------------------------------
 RwRFID.setTslRfidPowerLevel = function () {
     if (typeof window.TslReader === 'object' && typeof window.TslReader.getPowerLevel === 'function') {

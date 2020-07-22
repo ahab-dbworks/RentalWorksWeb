@@ -281,14 +281,14 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         program.setScanTargetLpNearfield('.fwmobilecontrol-value');
 
         // setup RFID Readers
-        RwRFID.registerEvents(screen.rfidscan);
+        RwRFID.registerRFIDEvents(screen.rfidscan);
     };
 
     screen.unload = function() {
         // reset scan target for LineaPro
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
         program.setScanTargetLpNearfield('');
-        RwRFID.unregisterEvents();
+        RwRFID.unregisterRFIDEvents();
     };
     
     return screen;

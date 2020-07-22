@@ -442,7 +442,7 @@
             $itemassign.find('div[data-datafield="rfid"]').hide();
             if (selectedrecord.trackedby == 'RFID') {
                 $itemassign.find('div[data-datafield="rfid"]').show();
-                RwRFID.registerEvents($itemassign.rfidscan);
+                RwRFID.registerRFIDEvents($itemassign.rfidscan);
             }
 
             if (recorddata.mixedcaseserialno === 'T') {
@@ -500,7 +500,7 @@
             FwFormField.setValue($itemassign, 'div[data-datafield="rfid"]', '');
             FwFormField.setValue($itemassign, 'div[data-datafield="mfgdate"]', '');
             $itemassign.find('div[data-datafield="mfgserial"]').attr('data-mixedcase', false);
-            if (selectedrecord.trackedby == 'RFID') RwRFID.unregisterEvents();
+            if (selectedrecord.trackedby == 'RFID') RwRFID.unregisterRFIDEvents();
             $itemlist.showscreen();
         };
 
@@ -628,11 +628,11 @@
             $multiscan.show();
             $multiscan.find('.multiscan-title').html(selectedrecord.master);
             $multiscan.find('.pending .value').html(qty);
-            RwRFID.registerEvents($multiscan.rfidscan);
+            RwRFID.registerRFIDEvents($multiscan.rfidscan);
         };
         $multiscan.clearscreen = function() {
             $multiscan.hide();
-            RwRFID.unregisterEvents();
+            RwRFID.unregisterRFIDEvents();
             $multiscan.find('.multiscan-readready').show();
             $multiscan.find('.assigned .value').html('0');
             $multiscan.find('.exception .value').html('0');
@@ -687,7 +687,7 @@
             $scan.show();
             program.setScanTarget('.ui-scan .fwmobilecontrol-value');
             program.setScanTargetLpNearfield('.ui-scan .fwmobilecontrol-value', false);
-            RwRFID.registerEvents($scan.rfidscan);
+            RwRFID.registerRFIDEvents($scan.rfidscan);
         };
         $scan.on('change', '.fwmobilecontrol-value', function() {
             var $this = jQuery(this);
@@ -698,7 +698,7 @@
                 };
                 RwServices.callMethod("AssignItem", "GetBarcodeRFIDItem", request, function(response) {
                     if (response.recorddata.status == 0) {
-                        RwRFID.unregisterEvents();
+                        RwRFID.unregisterRFIDEvents();
                         selectedrecord = response.recorddata;
                         $scan.hide();
                         $itemassign.showscreen(response.recorddata);
@@ -805,7 +805,7 @@
             $itemassign.find('div[data-datafield="rfid"]').hide();
             if (selectedrecord.trackedby == 'RFID') {
                 $itemassign.find('div[data-datafield="rfid"]').show();
-                RwRFID.registerEvents($itemassign.rfidscan);
+                RwRFID.registerRFIDEvents($itemassign.rfidscan);
             }
 
             if (recorddata.mixedcaseserialno === 'T') {
@@ -849,7 +849,7 @@
             FwFormField.setValue($itemassign, 'div[data-datafield="rfid"]', '');
             FwFormField.setValue($itemassign, 'div[data-datafield="mfgdate"]', '');
             $itemassign.find('div[data-datafield="mfgserial"]').attr('data-mixedcase', false);
-            if (selectedrecord.trackedby == 'RFID') RwRFID.unregisterEvents();
+            if (selectedrecord.trackedby == 'RFID') RwRFID.unregisterRFIDEvents();
             $scan.showscreen();
         };
 

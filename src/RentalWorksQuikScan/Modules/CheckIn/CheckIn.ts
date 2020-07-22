@@ -1012,7 +1012,7 @@
             $rfid.hide();
             $sessionin.hide();
             $orderpriority.show();
-            RwRFID.unregisterEvents();
+            RwRFID.unregisterRFIDEvents();
             $barcodescanwindow.hide();
             $checkinmodeselector.hide();
             $checkincontrol.hide();
@@ -1038,7 +1038,7 @@
             }
 
             $orderpriority.hide();
-            RwRFID.registerEvents(screen.rfidscan);
+            RwRFID.registerRFIDEvents(screen.rfidscan);
             $checkinmodeselector.show();
             $checkincontrol.show();
         };
@@ -1165,7 +1165,7 @@
             RwServices.callMethod('CheckIn', 'GetSerialInfo', request, function (response) {
                 var html = [];
                 $checkinserial.show();
-                RwRFID.unregisterEvents();
+                RwRFID.unregisterRFIDEvents();
                 $barcodescanwindow.hide();
                 $checkinmodeselector.hide();
                 $checkincontrol.hide();
@@ -1217,7 +1217,7 @@
             $checkinserial.data('recorddata', '');
             $checkinserial.find('#serialcontroller').fwmobilemodulecontrol('changeState', 0);
             $checkinserial.hide();
-            RwRFID.registerEvents(screen.rfidscan);
+            RwRFID.registerRFIDEvents(screen.rfidscan);
             $checkinmodeselector.show();
             $checkincontrol.show();
         };
@@ -1364,7 +1364,7 @@
                         }
 
                         $extraitems.hide();
-                        RwRFID.registerEvents(screen.rfidscan);
+                        RwRFID.registerRFIDEvents(screen.rfidscan);
                         $checkinmodeselector.show();
                         $checkincontrol.show();
                     }
@@ -1432,7 +1432,7 @@
         });
         $extraitems.showscreen = function() {
             $extraitems.show();
-            RwRFID.unregisterEvents();
+            RwRFID.unregisterRFIDEvents();
             $barcodescanwindow.hide();
             $checkinmodeselector.hide();
             $checkincontrol.hide();
@@ -1444,7 +1444,7 @@
                 $checkinmodeselector.fwmobilemoduletabs('showTab', '#rfidtab');
                 $checkincontrol.fwmobilemodulecontrol('showButton', '#startrfid')
                                .fwmobilemodulecontrol('showButton', '#stoprfid');
-                RwRFID.registerEvents(screen.rfidscan);
+                RwRFID.registerRFIDEvents(screen.rfidscan);
 
                 var request = {
                     sessionid: screen.getContractId()
@@ -1454,7 +1454,7 @@
                 $checkinmodeselector.fwmobilemoduletabs('hideTab', '#rfidtab');
                 $checkincontrol.fwmobilemodulecontrol('hideButton', '#startrfid')
                                .fwmobilemodulecontrol('hideButton', '#stoprfid');
-                RwRFID.unregisterEvents();
+                RwRFID.unregisterRFIDEvents();
             }
         };
 
@@ -2112,7 +2112,7 @@
                     RwRFID.isConnected = false;
                     screen.toggleRfid();
                 });
-                RwRFID.registerEvents(screen.rfidscan);
+                RwRFID.registerRFIDEvents(screen.rfidscan);
             }
             if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
                 window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen', function () {
@@ -2121,7 +2121,7 @@
                 window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen', function () {
                     screen.toggleRfid();
                 });
-                RwRFID.registerEvents(screen.rfidscan);
+                RwRFID.registerRFIDEvents(screen.rfidscan);
             }
 
             jQuery(window)
@@ -2151,12 +2151,12 @@
             if (typeof window.TslReader !== 'undefined') {
                 window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen');
                 window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen');
-                RwRFID.unregisterEvents();
+                RwRFID.unregisterRFIDEvents();
             }
             if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
                 window.ZebraRFIDAPI3.unregisterListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen');
                 window.ZebraRFIDAPI3.unregisterListener('deviceDisconnected', 'deviceDisconnected_checkincontrollerjs_getCheckInScreen');
-                RwRFID.unregisterEvents();
+                RwRFID.unregisterRFIDEvents();
             }
             jQuery(window).off('scroll').off('touchmove');
         };

@@ -730,7 +730,7 @@ class StagingControllerClass {
                             jQuery('#staging-rfid').hide();
                             jQuery('#staging-pendingList').show();
                             jQuery('#staging-scan').attr('data-mode', 'PENDING');
-                            RwRFID.unregisterEvents();
+                            RwRFID.unregisterRFIDEvents();
                             program.setScanTargetLpNearfield('#pendingsearch .searchbox');
                             screen.$view.find('#pendingsearch').fwmobilesearch('refresh');
                         } catch (ex) {
@@ -749,7 +749,7 @@ class StagingControllerClass {
                             jQuery('#staging-scan').hide();
                             jQuery('#staging-rfid').show();
                             jQuery('#staging-scan').attr('data-mode', 'RFID');
-                            RwRFID.registerEvents(screen.rfidscan);
+                            RwRFID.registerRFIDEvents(screen.rfidscan);
                             request = {
                                 rfidmode: 'STAGING',
                                 sessionid: screen.getOrderId(),
@@ -776,7 +776,7 @@ class StagingControllerClass {
                             jQuery('#staging-rfid').hide();
                             jQuery('#staging-stagedList').show();
                             jQuery('#staging-scan').attr('data-mode', 'STAGEDLIST');
-                            RwRFID.unregisterEvents();
+                            RwRFID.unregisterRFIDEvents();
                             program.setScanTargetLpNearfield('#stagedsearch .searchbox');
                             screen.$view.find('#stagedsearch').fwmobilesearch('refresh');
                         } catch (ex) {
@@ -3171,27 +3171,27 @@ class StagingControllerClass {
                 }
             }
 
-            if (typeof window.TslReader !== 'undefined') {
+            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
                 // setup TSL RFID Reader
-                RwRFID.registerEvents(screen.rfidscan);
+                RwRFID.registerRfidEvents(screen.rfidscan);
+                window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen', function () {
+                    //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
+                    screen.toggleRfid();
+                });
+                window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen', function () {
+                    //FwNotification.renderNotification('INFO', 'Staging: RFID Disconnected');
+                    screen.toggleRfid();
+                });
+            }
+            else if (typeof window.TslReader !== 'undefined') {
+                // setup TSL RFID Reader
+                RwRFID.registerRFIDEvents(screen.rfidscan);
             
                 window.TslReader.registerListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen', function() {
                     //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
                     screen.toggleRfid();
                 });
                 window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen', function() {
-                    //FwNotification.renderNotification('INFO', 'Staging: RFID Disconnected');
-                    screen.toggleRfid();
-                });
-            }
-            if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
-                // setup TSL RFID Reader
-                RwRFID.registerEvents(screen.rfidscan);
-                window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen', function () {
-                    //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
-                    screen.toggleRfid();
-                });
-                window.ZebraRFIDAPI3.registerListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen', function () {
                     //FwNotification.renderNotification('INFO', 'Staging: RFID Disconnected');
                     screen.toggleRfid();
                 });
@@ -3213,15 +3213,15 @@ class StagingControllerClass {
             program.setScanTarget('#scanBarcodeView-txtBarcodeData');
             program.setScanTargetLpNearfield('');
             program.onScanBarcode = null;
-            if (typeof window.TslReader !== 'undefined') {
-                window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen');
-                window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen');
-                RwRFID.unregisterEvents();
-            }
             if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
                 window.ZebraRFIDAPI3.unregisterListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen');
                 window.ZebraRFIDAPI3.unregisterListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen');
-                RwRFID.unregisterEvents();
+                RwRFID.unregisterRFIDEvents();
+            }
+            else if (typeof window.TslReader !== 'undefined') {
+                window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen');
+                window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_stagingcontrollerjs_getStagingScreen');
+                RwRFID.unregisterRFIDEvents();
             }
             jQuery(window).off('scroll').off('touchmove');
         };
