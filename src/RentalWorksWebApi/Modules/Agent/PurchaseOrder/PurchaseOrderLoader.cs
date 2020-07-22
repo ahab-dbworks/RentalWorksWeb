@@ -15,9 +15,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         {
             AfterLoad += OnAfterLoad;
         }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
-        public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
         public string AgentId { get; set; }

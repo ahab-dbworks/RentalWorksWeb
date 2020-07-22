@@ -29,6 +29,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string PurchaseOrderDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
+        public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
