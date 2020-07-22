@@ -2270,18 +2270,6 @@ class StagingControllerClass {
             ;
         };
 
-        screen.disableBarcodeField = function () {
-            //screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true && applicationConfig.allowDisableBarcodeFieldInStaging);
-        };
-
-        screen.enableBarcodeField = function () {
-            screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', false);
-        };
-
-        screen.isBarcodeFieldDisabled = function () {
-            return screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled');
-        };
-
         screen.scanCode = function (code: string) {
             var strippedCode = RwAppData.stripBarcode(code.toUpperCase());
             if (screen.getCurrentPage().name === 'search') {
@@ -2323,15 +2311,12 @@ class StagingControllerClass {
                         playStatus: true
                     };
 
-                    // trying to prevent duplicate scans
                     FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
                         function success(responseStageItem) {
-                            screen.enableBarcodeField();
                             properties.responseStageItem = responseStageItem;
                             screen.pdastageitemCallback(responseStageItem);
                         },
                         function fail(response) {
-                            screen.enableBarcodeField();
                             FwFunc.showError(response);
                         },
                         null);
