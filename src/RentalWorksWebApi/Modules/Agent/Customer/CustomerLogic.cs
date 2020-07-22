@@ -37,7 +37,7 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "xwEVJOfzIAzg", IsForeignKey: true)]
         public string OfficeLocationId { get { return customer.OfficeLocationId; } set { customer.OfficeLocationId = value; } }
 
-        [FwLogicProperty(Id: "spKIvApl9d5O", IsReadOnly: true, RelatedObject: typeof(OfficeLocationLogic), RelatedObjectFieldName: "Location")]
+        [FwLogicProperty(Id: "spKIvApl9d5O", IsReadOnly: true, RelatedObject: typeof(OfficeLocationLogic), RelatedObjectValueFieldName: "Location", RelatedObjectIdFieldName: "LocationId")]
         public string OfficeLocation { get; set; }
 
         [FwLogicProperty(Id: "e22oOxWssdEx")]
@@ -435,37 +435,37 @@ namespace WebApi.Modules.Agent.Customer
                     }
                 }
 
-                if (string.IsNullOrEmpty(CreditStatusId))
-                {
-                    if (!string.IsNullOrEmpty(CreditStatus))
-                    {
-                        CreditStatusId = AppFunc.GetStringDataAsync(AppConfig, "creditstatus", "creditstatus", CreditStatus, "creditstatusid").Result;
-                    }
-                    if (string.IsNullOrEmpty(CreditStatusId))
-                    {
-                        CreditStatusId = defaults.DefaultCreditStatusId;
-                    }
-                }
-
-                if (string.IsNullOrEmpty(CustomerStatusId))
-                {
-                    if (!string.IsNullOrEmpty(CustomerStatus))
-                    {
-                        CustomerStatusId = AppFunc.GetStringDataAsync(AppConfig, "custstatus", "custstatus", CustomerStatus, "custstatusid").Result;
-                    }
-                    if (string.IsNullOrEmpty(CustomerStatusId))
-                    {
-                        CustomerStatusId = defaults.DefaultCustomerStatusId;
-                    }
-                }
-
-                if (string.IsNullOrEmpty(CustomerTypeId))
-                {
-                    if (!string.IsNullOrEmpty(CustomerType))
-                    {
-                        CustomerTypeId = AppFunc.GetStringDataAsync(AppConfig, "custtype", "custtype", CustomerType, "custtypeid").Result;
-                    }
-                }
+                //if (string.IsNullOrEmpty(CreditStatusId))
+                //{
+                //    if (!string.IsNullOrEmpty(CreditStatus))
+                //    {
+                //        CreditStatusId = AppFunc.GetStringDataAsync(AppConfig, "creditstatus", "creditstatus", CreditStatus, "creditstatusid").Result;
+                //    }
+                //    if (string.IsNullOrEmpty(CreditStatusId))
+                //    {
+                //        CreditStatusId = defaults.DefaultCreditStatusId;
+                //    }
+                //}
+                //
+                //if (string.IsNullOrEmpty(CustomerStatusId))
+                //{
+                //    if (!string.IsNullOrEmpty(CustomerStatus))
+                //    {
+                //        CustomerStatusId = AppFunc.GetStringDataAsync(AppConfig, "custstatus", "custstatus", CustomerStatus, "custstatusid").Result;
+                //    }
+                //    if (string.IsNullOrEmpty(CustomerStatusId))
+                //    {
+                //        CustomerStatusId = defaults.DefaultCustomerStatusId;
+                //    }
+                //}
+                //
+                //if (string.IsNullOrEmpty(CustomerTypeId))
+                //{
+                //    if (!string.IsNullOrEmpty(CustomerType))
+                //    {
+                //        CustomerTypeId = AppFunc.GetStringDataAsync(AppConfig, "custtype", "custtype", CustomerType, "custtypeid").Result;
+                //    }
+                //}
 
                 if (string.IsNullOrEmpty(BillingAddressType))
                 {

@@ -1204,11 +1204,14 @@ namespace FwStandard.BusinessLogic
                 {
                     object idPropertyValue = idProperty.GetValue(this);
 
-                    if (idPropertyValue == null)
+                    if ((idPropertyValue == null) || (string.IsNullOrEmpty(idPropertyValue.ToString())))
                     {
                         bool valuePropertyFound = false;
                         string valuePropertyName = "";
                         object valuePropertyValue = null;
+                        Type valuePropertyRelatedToType = null;
+                        string relatedObjectValueFieldName = "";
+                        string relatedObjectIdFieldName = idProperty.Name;
 
                         // use RelatedIdField if provided
                         if (!valuePropertyFound)
@@ -1223,11 +1226,17 @@ namespace FwStandard.BusinessLogic
                                         {
                                             FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
 
-                                            if (businessLogicFieldAttribute.RelatedIdField.Equals(idProperty.Name))
+                                            if ((businessLogicFieldAttribute.RelatedIdField != null) && (businessLogicFieldAttribute.RelatedIdField.Equals(idProperty.Name)))
                                             {
                                                 valuePropertyFound = true;
                                                 valuePropertyName = valueProperty.Name;
                                                 valuePropertyValue = valueProperty.GetValue(this);
+                                                valuePropertyRelatedToType = businessLogicFieldAttribute.RelatedObject;
+                                                relatedObjectValueFieldName = businessLogicFieldAttribute.RelatedObjectValueFieldName;
+                                                if (!string.IsNullOrEmpty(businessLogicFieldAttribute.RelatedObjectIdFieldName))
+                                                {
+                                                    relatedObjectIdFieldName = businessLogicFieldAttribute.RelatedObjectIdFieldName;
+                                                }
                                             }
                                         }
                                     }
@@ -1245,6 +1254,23 @@ namespace FwStandard.BusinessLogic
                                     valuePropertyFound = true;
                                     valuePropertyName = valueProperty.Name;
                                     valuePropertyValue = valueProperty.GetValue(this);
+
+                                    if (valueProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
+                                    {
+                                        foreach (Attribute attribute in valueProperty.GetCustomAttributes())
+                                        {
+                                            if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                                            {
+                                                FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
+                                                valuePropertyRelatedToType = businessLogicFieldAttribute.RelatedObject;
+                                                relatedObjectValueFieldName = businessLogicFieldAttribute.RelatedObjectValueFieldName;
+                                                if (!string.IsNullOrEmpty(businessLogicFieldAttribute.RelatedObjectIdFieldName))
+                                                {
+                                                    relatedObjectIdFieldName = businessLogicFieldAttribute.RelatedObjectIdFieldName;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1258,6 +1284,83 @@ namespace FwStandard.BusinessLogic
                                 //{
                                 //    string id = await FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "location", "location", valuePropertyValue.ToString(), "locationid");
                                 //}
+
+                                //FwBusinessLogic l = CreateBusinessLogic(valuePropertyRelatedToType, this.AppConfig, this.UserSession);
+                                //bool fkValueFieldFound = false;
+                                //PropertyInfo[] fkObjectProperties = l.GetType().GetProperties();
+                                //foreach (PropertyInfo fkObjectProperty in fkObjectProperties)
+                                //{
+                                //    if (fkObjectProperty.Name.Equals(relatedObjectFieldName))
+                                //    {
+                                //        fkObjectProperty.SetValue(l, valuePropertyValue);
+                                //        fkValueFieldFound = true;
+                                //    }
+                                //}
+                                //if (fkValueFieldFound)
+                                //{
+                                //    await l.LoadAsync<FwBusinessLogic>();
+                                //}
+
+
+                                BrowseRequest itemBrowseRequest = new BrowseRequest();
+                                //itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                                itemBrowseRequest.searchfields = new List<string>();
+                                itemBrowseRequest.searchfields.Add(relatedObjectValueFieldName);
+
+                                itemBrowseRequest.searchfieldvalues = new List<string>();
+                                itemBrowseRequest.searchfieldvalues.Add(valuePropertyValue.ToString());
+
+                                itemBrowseRequest.searchfieldoperators = new List<string>();
+                                itemBrowseRequest.searchfieldoperators.Add("=");
+
+                                FwBusinessLogic l = CreateBusinessLogic(valuePropertyRelatedToType, this.AppConfig, this.UserSession);
+                                l.SetDependencies(AppConfig, UserSession);
+                                List<FwBusinessLogic> values = await l.SelectAsync<FwBusinessLogic>(itemBrowseRequest/*, conn*/);
+
+                                if (values.Count.Equals(1))
+                                {
+                                    ////PropertyInfo[] fkObjectProperties = l.GetType().GetProperties();
+                                    //PropertyInfo[] fkObjectProperties = valuePropertyRelatedToType.GetProperties();
+                                    ////PropertyInfo[] fkObjectProperties = values[0].GetType().GetProperties();
+                                    //foreach (PropertyInfo fkObjectProperty in fkObjectProperties)
+                                    //{
+                                    //    if (fkObjectProperty.Name.Equals(relatedObjectIdFieldName))
+                                    //    {
+                                    //        //idProperty
+                                    //        //object idValue = fkObjectProperty.GetValue(values[0]);
+                                    //        //object idValue = values[0].GetType().GetProperty(relatedObjectIdFieldName).GetValue(values[0], null);
+                                    //        //object idValue = (valuePropertyRelatedToType)values[0].GetType().GetProperty(relatedObjectIdFieldName).GetValue((valuePropertyRelatedToType)values[0], null);
+
+
+                                    //        FieldInfo[] myFields = valuePropertyRelatedToType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+                                    //        // Display the values of the fields.
+                                    //        //Response.Write("<br/>Displaying the values of the fields of " + typeOfObj + "<br/>");
+                                    //        for (int i = 0; i < myFields.Length; i++)
+                                    //        {
+                                    //            if (myFields[i].Name.Equals(relatedObjectIdFieldName))
+                                    //            {
+                                    //                object idValue = myFields[i].GetValue(values[0]);
+                                    //                idProperty.SetValue(this, idValue);
+                                    //            }
+                                    //            //Response.Write("<br/>The value of " + myFields[i].Name + " is " + myFields[i].GetValue(Session[sn]) + "<br/>");
+                                    //        }
+
+                                    //    }
+                                    //}
+
+                                    //FieldInfo[] myFields = valuePropertyRelatedToType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+                                    //for (int i = 0; i < myFields.Length; i++)
+                                    //{
+                                    //    if (myFields[i].Name.Equals(relatedObjectIdFieldName))
+                                    //    {
+                                    //        object idValue = myFields[i].GetValue(values[0]);
+                                    //        idProperty.SetValue(this, idValue);
+                                    //    }
+                                    //}
+
+
+
+                                }
                             }
                         }
                     }
