@@ -4244,7 +4244,7 @@ class FwBrowseClass {
                                 url: `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/keyfieldnames`,
                                 $elementToBlock: jQuery('#application'),
                             })
-                                .then(async (response: any) => {
+                                .then(async (keys: any) => {
                                     async function uploadRecord(url, method, data): Promise<any> {
                                         return FwAjax.callWebApi<any, any>({
                                             httpMethod: method,
@@ -4254,14 +4254,11 @@ class FwBrowseClass {
                                         })
                                     }
 
-                                    if (response.length) {
-                                        let id1 = response[0];
-                                        let id2;
+                                    if (keys.length) {
+                                        let primaryKey = keys[0];
                                         let multipleKeys = false;
-                                        if (response.length > 1) {
+                                        if (keys.length > 1) {
                                             multipleKeys = true;
-                                            id2 = response[1];
-                                            // to do : deal with multiple ids
                                         }
 
                                         let proceed = true;
@@ -4292,8 +4289,7 @@ class FwBrowseClass {
                                                     proceed = false;
                                                     let method: any = 'PUT';
 
-                                                    //// commented method to remove leading or trailing whitespace from keys in row
-                                                    //const currentRow = excelObject[i];
+                                                    //// commented method to remove leading or trailing whitespace from keys in row if needed
                                                     //for (let key in excelObject[i]) {
                                                     //    if (typeof key === 'string') {
                                                     //        const val = excelObject[i][key];
@@ -4304,33 +4300,31 @@ class FwBrowseClass {
                                                     //    }
                                                     //}
 
+                                                    function processKeys(keys) {
+                                                        for (let j = 0; j < keys.length; j++) {
+                                                            const id = keys[j];
+                                                            if (excelObject[i].hasOwnProperty(id)) { // Does the key exist within the record?
+                                                                if (excelObject[i][`${id}`] === '') {   // if key value is blank, POST (new record)
+                                                                    method = 'POST';
+                                                                }
+                                                            } else {
+                                                                // key was missing from row so create key with blank val and POST as new record
+                                                                excelObject[i][`${id}`] = '';
+                                                                method = 'POST';
+                                                            }
+                                                        }
+                                                    }
+
                                                     if (multipleKeys) {
-                                                        if (excelObject[i].hasOwnProperty(id1)) { // PrimaryKey 1
-                                                            if (excelObject[i][`${id1}`] === '') {   // if blank, POST (new record)
-                                                                method = 'POST';
-                                                            }
-                                                        } else {
-                                                            // key was missing from row so create key with blank val and POST as new record
-                                                            excelObject[i][`${id1}`] = '';
-                                                            method = 'POST';
-                                                        }
-                                                        if (excelObject[i].hasOwnProperty(id2)) { // PrimaryKey 2
-                                                            if (excelObject[i][`${id2}`] === '') {   // if blank, POST (new record)
-                                                                method = 'POST';
-                                                            }
-                                                        } else {
-                                                            // key was missing from row so create key with blank val and POST as new record
-                                                            excelObject[i][`${id2}`] = '';
-                                                            method = 'POST';
-                                                        }
+                                                        await processKeys(keys);
                                                     } else {
-                                                        if (excelObject[i].hasOwnProperty(id1)) {
-                                                            if (excelObject[i][`${id1}`] === '') {   // if blank, POST (new record)
+                                                        if (excelObject[i].hasOwnProperty(primaryKey)) {
+                                                            if (excelObject[i][`${primaryKey}`] === '') {   // if blank, POST (new record)
                                                                 method = 'POST';
                                                             }
                                                         } else {
                                                             // key was missing from row so create key with blank val and POST as new record
-                                                            excelObject[i][`${id1}`] = '';
+                                                            excelObject[i][`${primaryKey}`] = '';
                                                             method = 'POST';
                                                         }
                                                     }
@@ -4338,7 +4332,7 @@ class FwBrowseClass {
                                                     let url = null;
                                                     if (method === 'PUT') {
                                                         //if PUT, url needs id
-                                                        url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${id1}`]}`;
+                                                        url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${primaryKey}`]}`;
                                                     }
 
                                                     // actual API call with err handling to prevent successive calls 
