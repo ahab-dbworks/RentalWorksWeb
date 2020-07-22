@@ -3158,7 +3158,7 @@ class StagingControllerClass {
 
             if (typeof window.ZebraRFIDAPI3 !== 'undefined') {
                 // setup TSL RFID Reader
-                RwRFID.registerRfidEvents(screen.rfidscan);
+                RwRFID.registerRFIDEvents(screen.rfidscan);
                 window.ZebraRFIDAPI3.registerListener('deviceConnected', 'deviceConnected_stagingcontrollerjs_getStagingScreen', function () {
                     //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
                     screen.toggleRfid();
