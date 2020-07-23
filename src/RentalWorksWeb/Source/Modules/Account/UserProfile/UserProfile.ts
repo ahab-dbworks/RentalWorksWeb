@@ -9,12 +9,15 @@
         screen.viewModel = {};
         screen.properties = {};
 
-        const $form = this.openForm('EDIT');
-
+        //const $form = this.openForm('EDIT');
+        let $form;
         screen.load = () => {
+            const userId = JSON.parse(sessionStorage.getItem('userid'));
+            $form = this.loadForm(userId);
             FwModule.openModuleTab($form, 'User Profile', false, 'FORM', true);
         };
         screen.unload = function () {
+            FwModule.beforeCloseForm($form);
         };
 
         return screen;
@@ -96,10 +99,6 @@
         const $availModules = $form.find('.available-modules');
         FwFormField.loadItems($availModules, favoritesModules, true);
 
-        const userId = JSON.parse(sessionStorage.getItem('userid'));
-        $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
-        FwModule.loadForm(this.Module, $form);
-
         $form.data('beforesave', request => {
             const $selectedModules = FwFormField.getValue2($form.find('.selected-modules'));
             const modules: any = [];
@@ -138,6 +137,15 @@
         });
 
         this.events($form);
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        const $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="UserId"] input').val(uniqueids.webusersid);
+        FwModule.loadForm(this.Module, $form);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
