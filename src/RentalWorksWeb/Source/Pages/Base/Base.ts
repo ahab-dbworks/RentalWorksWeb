@@ -342,7 +342,8 @@ class Base {
                                                 userassignedvendornumber: responseGetSystemSettings.IsVendorNumberAssignedByUser,
                                                 userassignedcustomernumber: userassignedcustnum,
                                                 userassigneddealnumber: userassigneddealnum,
-                                                multiwarehouse: (responseGetWarehouses.Rows.length > 1)
+                                                multiwarehouse: (responseGetWarehouses.Rows.length > 1),
+                                                defaultquikactivitysetting: responseGetUserSettings.QuikActivitySetting
                                             }
                                             sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 

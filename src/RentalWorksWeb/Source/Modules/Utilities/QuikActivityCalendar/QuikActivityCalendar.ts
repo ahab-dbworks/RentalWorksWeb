@@ -332,6 +332,9 @@ class QuikActivityCalendar {
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
+        const id = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        const $settingsField = $form.find('[data-datafield="Load"]');
+        const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults')).defaultquikactivitysetting;
         $form.find('.calendarmenu').css({
             'border-left': '1px solid #a9a9a9',
             'border-right': '1px solid #a9a9a9'
@@ -341,33 +344,6 @@ class QuikActivityCalendar {
         $form.on('change', '[data-datafield="WarehouseId"]', e => {
             FwScheduler.refresh($calendar);
         });
-
-        //Initial settings load
-        const id = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-        const $loadSettings = $form.find('[data-datafield="Load"]');
-        const loadSettings = (loadSavedId?: string) => {
-            const request: any = {};
-            request.WebUsersId = id;
-            FwAppData.apiMethod(true, 'GET', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
-                let settingsObj: any = [];
-                $loadSettings.data('settings', response);
-                for (let i = 0; i < response.length; i++) {
-                    let $this = response[i];
-                    const setting = {
-                        text: $this.Description,
-                        value: $this.Id
-                    }
-                    settingsObj.push(setting);
-                }
-                FwFormField.loadItems($loadSettings, settingsObj);
-                if (loadSavedId) {
-                    FwFormField.setValueByDataField($form, 'Load', loadSavedId, null, false);
-                };
-            }, ex => {
-                FwFunc.showError(ex);
-            }, $calendar);
-        };
-        loadSettings();
 
         //Save settings
         $form.find('.save-settings').on('click', e => {
@@ -401,9 +377,10 @@ class QuikActivityCalendar {
             if (isNew) {
                 request.Description = FwFormField.getValueByDataField($form, 'Description');
                 FwAppData.apiMethod(true, 'POST', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
-                    loadSettings(response.Id);
+                    this.loadSettings($form, $calendar, $settingsField, false, response.Id);
                     $form.find('.add-new-settings').hide();
                     FwFormField.setValueByDataField($form, 'Description', '');
+                    this.updateDefaultSetting($form, $calendar, response.Id.toString());
                 }, ex => {
                     FwFunc.showError(ex);
                 }, $form);
@@ -411,7 +388,7 @@ class QuikActivityCalendar {
                 request.Description = $form.find('[data-datafield="Load"] option:selected').text();
                 request.Id = settingId;
                 FwAppData.apiMethod(true, 'PUT', `api/v1/quikactivitysettings/${settingId}`, request, FwServices.defaultTimeout, response => {
-                    loadSettings(settingId);
+                    this.loadSettings($form, $calendar, $settingsField, false, settingId);
                 }, ex => {
                     FwFunc.showError(ex);
                 }, $form);
@@ -420,8 +397,9 @@ class QuikActivityCalendar {
 
         //Load settings
         $form.find('[data-datafield="Load"]').on('change', e => {
-            let settingId = jQuery(e.target).val();
-            let settings = $loadSettings.data('settings');
+            let settingId: any = jQuery(e.target).val();
+            let settings = $settingsField.data('settings');
+            const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults'));
             settings = settings.filter(obj => { return obj.Id == settingId });
             if (settings.length > 0) {
                 let savedSettings = JSON.parse(settings[0].Settings);
@@ -432,6 +410,9 @@ class QuikActivityCalendar {
                 FwNotification.renderNotification('SUCCESS', 'Settings Successfully Loaded.');
                 $form.find('.activities [data-type="checkbox"]').eq(0).change();
             }
+            if (settingId != defaultSettings.defaultquikactivitysetting) {
+                this.updateDefaultSetting($form, $calendar, settingId);
+            }
         });
 
         $form.find('.add-settings').on('click', e => {
@@ -441,7 +422,7 @@ class QuikActivityCalendar {
         $form.find('.delete-settings').on('click', e => {
             const settingId = FwFormField.getValueByDataField($form, 'Load');
             FwAppData.apiMethod(true, 'DELETE', `api/v1/quikactivitysettings/${settingId}`, null, FwServices.defaultTimeout, response => {
-                loadSettings();
+                this.loadSettings($form, $calendar, $settingsField, false);
             }, ex => {
                 FwFunc.showError(ex);
             }, $calendar);
@@ -465,7 +446,54 @@ class QuikActivityCalendar {
             }
             FwScheduler.refresh($calendar);
         });
+
+        //Initial settings load
+        this.loadSettings($form, $calendar, $settingsField, true, defaultSettings);
     };
+    //----------------------------------------------------------------------------------------------
+    loadSettings($form: JQuery, $calendar: any, $settingsField: JQuery, initialLoad: boolean, loadSavedId?: string) {
+        const id = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        const request: any = {};
+        request.WebUsersId = id;
+        FwAppData.apiMethod(true, 'GET', `api/v1/quikactivitysettings/`, request, FwServices.defaultTimeout, response => {
+            let settingsObj: any = [];
+            $settingsField.data('settings', response);
+            for (let i = 0; i < response.length; i++) {
+                let $this = response[i];
+                const setting = {
+                    text: $this.Description,
+                    value: $this.Id
+                }
+                settingsObj.push(setting);
+            }
+            FwFormField.loadItems($settingsField, settingsObj);
+            if (loadSavedId) {
+                FwFormField.setValueByDataField($form, 'Load', loadSavedId, null, initialLoad);
+            };
+        }, ex => {
+            FwFunc.showError(ex);
+        }, $calendar)
+    }
+    //----------------------------------------------------------------------------------------------
+    updateDefaultSetting($form: JQuery, $calendar: any, id: string) {
+        const userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        const req: any = {
+            UserId: userId,
+            QuikActivitySetting: id
+        };
+        let prevData = JSON.parse(sessionStorage.getItem('controldefaults'));
+        if (prevData.defaultquikactivitysetting != id) {
+            FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${userId}`, req, FwServices.defaultTimeout, response => {
+                let value = { defaultquikactivitysetting: id };
+                Object.keys(value).forEach(function (val, key) {
+                    prevData[val] = value[val];
+                })
+                sessionStorage.setItem('controldefaults', JSON.stringify(prevData));
+            }, ex => {
+                FwFunc.showError(ex);
+            }, $calendar);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     quikActivityCalendarPopupContent() {
         let $content = jQuery(`
