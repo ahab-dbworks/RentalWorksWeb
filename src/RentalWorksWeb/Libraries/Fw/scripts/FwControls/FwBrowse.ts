@@ -4172,16 +4172,17 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     importExcelFromBrowse($browse, controller) {
-        const $confirmation = FwConfirmation.renderConfirmation('Import an Excel File', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '350px');
+        const $confirmation = FwConfirmation.renderConfirmation('Import from Excel (*.xlsx, *.csv)', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '650px');
         const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
                           <div class="import-title" style="font-size: 13px;margin-bottom:3px;">Select Excel file to import</div>
-                          <div class="flexrow import-excel">
+                          <div class="flexrow import-excel" style="align-items:center;">
                             <div class="btn-wrapper" style="max-width:77px;">
                               <label class="import-excel-label" for="uploadExcel">Browse</label>
                               <input id="uploadExcel" type="file">
                             </div>
-                            <div id="fileName" style="margin:8px;"></div>
+                            <div id="fileName" style="border:1px solid #dcdcdc;background-color:#dcdcdc;max-width:475px;max-height:35px;min-height:35px;border-radius: 2px;"><span style="vertical-align:middle;"></span></div>
+                            <div id="cancel" style="max-width:20px;"></div>
                           </div>
                         </div>`;
 
@@ -4190,15 +4191,24 @@ class FwBrowseClass {
             'min-height': '40px',
             'padding': '4px 10px 10px 10px',
         })
-        const $yes = FwConfirmation.addButton($confirmation, 'Import', false);
-        $yes.css('pointer-events', 'none');
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        $confirmation.find('.fwconfirmation-buttonbar').append('<div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;float:left;margin:10px 10px 10px 20px;">Download an Excel template file to use for this import</div>');
+        const $import = FwConfirmation.addButton($confirmation, 'Import', false);
+        $import.css('pointer-events', 'none');
+        const $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+        $confirmation.find('#cancel').append($cancel);
+        $confirmation.find('.fwconfirmation-buttonbar')
+            .prepend('<div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;margin:10px 10px 10px 20px;min-width:534px;">Download an Excel template file to use for this import</div>')
+            .css({
+                "display": "flex",
+                "align-items": "center",
+                "align-content": "space-between",
+            });
+        $confirmation.find('#cancel').addClass('fwconfirmation-buttonbar');
         // ----------
         $confirmation.find('#uploadExcel').on('change', e => {
             $confirmation.find('.import-title').css('visibility', 'hidden');
-            $confirmation.find('#fileName').text('');
-            $yes.css('pointer-events', '');
+            $confirmation.find('.dl-template').css('visibility', 'hidden');
+            $confirmation.find('#fileName span').text('');
+            $import.css('pointer-events', '');
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
             if (folder.files) {
@@ -4206,7 +4216,7 @@ class FwBrowseClass {
                 const file: any = folder.files[0];
                 if (file) {
                     if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
-                        $confirmation.find('#fileName').text(file.name);
+                        $confirmation.find('#fileName span').text(file.name);
                         const url = URL.createObjectURL(file);
                         $confirmation.find('#uploadExcel').attr("src", url);
                     } else {
@@ -4214,12 +4224,12 @@ class FwBrowseClass {
                         FwNotification.renderNotification('WARNING', 'Only Excel file types supported.')
                     }
                 } else {
-                    $yes.css('pointer-events', 'none');
+                    $import.css('pointer-events', 'none');
                 }
             }
         });
         // ----------
-        $yes.on('click', e => {
+        $import.on('click', e => {
             if ($confirmation.find('#uploadExcel').attr("src") !== '') {
                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Processing your Excel file. This may take some time...');
                 // ----------
@@ -4349,7 +4359,7 @@ class FwBrowseClass {
                                                                 i = totalSteps;
                                                                 window.clearInterval(handle);
                                                                 handle = 0;
-                                                                $moduleoverlay.remove()
+                                                                $moduleoverlay.remove();
                                                             });
                                                         });
                                                 }
@@ -4357,9 +4367,10 @@ class FwBrowseClass {
                                                 if (i >= totalSteps) {
                                                     window.clearInterval(handle);
                                                     handle = 0;
-                                                    $moduleoverlay.remove()
-                                                    const fileName = $confirmation.find('#fileName').text();
-                                                    FwNotification.renderNotification('INFO', `${fileName ? fileName : 'File'} upload complete ${hasError ? 'with errors' : ''}.`)
+                                                    $moduleoverlay.remove();
+                                                    const fileName = $confirmation.find('#fileName span').text();
+                                                    FwNotification.renderNotification('INFO', `${fileName ? fileName : 'File'} upload complete ${hasError ? 'with errors' : ''}.`);
+                                                    FwBrowse.search($browse);
                                                 }
 
                                             } catch (ex) {
@@ -4387,7 +4398,7 @@ class FwBrowseClass {
                 // if satisfactory excelFile
                 FwConfirmation.destroyConfirmation($confirmation);
             } else {
-                FwNotification.renderNotification('WARNING', 'Upload a file first')
+                FwNotification.renderNotification('WARNING', 'Upload a file first');
             }
         });
         // ----------
