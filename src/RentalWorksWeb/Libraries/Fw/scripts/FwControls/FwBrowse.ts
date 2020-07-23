@@ -4177,6 +4177,7 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     importExcelFromBrowse($browse, controller) {
+        // referenced in FwBrowse (grids) and FwMenu (browses)
         const $confirmation = FwConfirmation.renderConfirmation('Import from Excel (*.xlsx, *.csv)', '');
         $confirmation.find('.fwconfirmationbox').css('width', '650px');
         const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
