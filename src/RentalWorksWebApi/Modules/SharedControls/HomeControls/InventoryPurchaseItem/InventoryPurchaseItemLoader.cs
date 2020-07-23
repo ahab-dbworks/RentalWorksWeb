@@ -42,7 +42,8 @@ namespace WebApi.Modules.HomeControls.InventoryPurchaseItem
             select.Parse();
             select.AddWhere("(sessionid > '')"); 
             select.AddWhere("(issuspend <> 'T')"); 
-            addFilterToSelect("SessionId", "sessionid", select, request); 
+            addFilterToSelect("SessionId", "sessionid", select, request);
+            addFilterToSelect("BarCode", "barcode", select, request); 
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -64,13 +64,13 @@ namespace WebApi.Modules.HomeControls.InventoryPurchaseItem
             return await DoEditAsync<InventoryPurchaseItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// DELETE api/v1/inventorypurchaseitem/A0000001 
-        //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"NHRl1EZnR1W9o", ActionType: FwControllerActionTypes.Delete)]
-        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await DoDeleteAsync<InventoryPurchaseItemLogic>(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
+        // DELETE api/v1/inventorypurchaseitem/A0000001 
+        [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"NHRl1EZnR1W9o", ActionType: FwControllerActionTypes.Delete)]
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        {
+            return await DoDeleteAsync<InventoryPurchaseItemLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
