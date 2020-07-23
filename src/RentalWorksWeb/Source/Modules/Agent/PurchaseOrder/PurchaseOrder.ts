@@ -849,23 +849,6 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyTemplate(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyLineItems(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
@@ -940,22 +923,6 @@ class PurchaseOrder implements IModule {
                         FwFunc.showError(ex);
                     }
                 });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyTemplate(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyLineItems(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
                         OrderItemGridController.boldUnbold(e);
@@ -1022,22 +989,6 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyTemplate(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyLineItems(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
 
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
@@ -1106,22 +1057,6 @@ class PurchaseOrder implements IModule {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
                 const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Template', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyTemplate(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($optionsgroup, 'Copy Line-Items', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        OrderItemGridController.copyLineItems(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
 
                 FwMenu.addSubMenuItem($optionsgroup, 'Bold / Unbold Selected', '', (e: JQuery.ClickEvent) => {
                     try {
