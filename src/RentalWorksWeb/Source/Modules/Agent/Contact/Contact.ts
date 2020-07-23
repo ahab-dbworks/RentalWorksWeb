@@ -375,7 +375,7 @@ class Contact {
               <div data-type="tabpage" id="contacttabpage" class="tabpage" data-tabid="contacttab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <div class="flexcolumn" style="flex:1 1 300px;">
+                    <div class="flexcolumn" style="flex:1 0 400px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="First Name" data-datafield="FirstName" data-duplicategroup="name" style="flex:1 1 225px;"></div>

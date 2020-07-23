@@ -26,9 +26,15 @@
             html.push(' maxlength="' + $control.attr('data-maxlength') + '"');
         }
         html.push(' />');
+        html.push('<i class="material-icons btnCall" style="flex: 0 0 auto;padding: 0 .2em;color: #616161;cursor:pointer;">phone</i>');
         html.push('</div>');
         $control.html(html.join(''));
         $control.find('input').inputmask('(999) 999-9999');
+        $control.find('.btnCall').on('click', (e) => {
+            var mail = document.createElement("a");
+            mail.href = "tel:" + this.getValue2($control);
+            mail.click();
+        });
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {

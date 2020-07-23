@@ -305,18 +305,21 @@ html.theme-material .fwformfield[data-type="percent"].focused .fwformfield-contr
 /*#endregion*/
 
 /*#region data-type="phone" */
+html.theme-material .fwformfield[data-type="phone"] {min-width:175px;}
 html.theme-material .fwformfield[data-type="phone"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
 html.theme-material .fwformfield[data-type="phone"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="phone"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
-html.theme-material .fwformfield[data-type="phone"] .fwformfield-value {border:0 !important;}
+html.theme-material .fwformfield[data-type="phone"] .fwformfield-value {width:100%;border:0 !important;}
 html.theme-material .fwformfield[data-type="phone"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 /*#endregion*/
 
 /*#region data-type="phoneinternational" */
+html.theme-material .fwformfield[data-type="phoneinternational"] {min-width:240px;}
 html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
+html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-control .iti {flex: 1 1 0;}
 html.theme-material .fwformfield[data-type="phoneinternational"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="phoneinternational"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
-html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-value {border:0 !important;width:173px;padding:9px 0 5px 0;}
+html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-value {border:0 !important;width:100%;padding:9px 0 5px 0;}
 html.theme-material .fwformfield[data-type="phoneinternational"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 /*#endregion*/
 
