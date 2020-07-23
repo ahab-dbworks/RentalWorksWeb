@@ -1250,7 +1250,7 @@ namespace FwStandard.BusinessLogic
                 bool emptyIds = true;
                 foreach (object id in idValues)
                 {
-                    if (!string.IsNullOrEmpty(id.ToString()))
+                    if ((id != null) && (!string.IsNullOrEmpty(id.ToString())))
                     {
                         emptyIds = false;
                         break;
@@ -1263,7 +1263,7 @@ namespace FwStandard.BusinessLogic
                     bool emptyDisplayValues = true;
                     foreach (object value in displayValues)
                     {
-                        if (!string.IsNullOrEmpty(value.ToString()))
+                        if ((value != null) && (!string.IsNullOrEmpty(value.ToString())))
                         {
                             emptyDisplayValues = false;
                             break;
