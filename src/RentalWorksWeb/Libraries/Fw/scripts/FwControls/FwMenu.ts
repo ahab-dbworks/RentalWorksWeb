@@ -1190,9 +1190,10 @@ class FwMenuClass {
                 e.stopPropagation();
             });
         }
+
+        const gridSecurityId = options.$browse.data('secid');
+        const gridName = options.$browse.data('name');
         if (options.hasDownloadExcel) { // Browse menu
-            const gridSecurityId = options.$browse.data('secid');
-            const gridName = options.$browse.data('name');
             FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
                     FwBrowse.downloadExcelWorkbook(options.$browse, `${gridName}Controller`);
@@ -1200,20 +1201,21 @@ class FwMenuClass {
                     FwFunc.showError(ex);
                 }
             });
+        }
 
-            if (options.hasEdit && options.hasNew) {
-                const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
-                if (isWebAdmin === 'true') {
-                    const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
-                    if (userEmail.endsWith('dbworks.com')) {
-                        FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', gridSecurityId, (e: JQuery.ClickEvent) => {
-                            try {
-                                FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        });
-                    }
+        // Import to Excel menu option
+        if (options.hasEdit || options.hasNew) {
+            const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+            if (isWebAdmin === 'true') {
+                const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                if (userEmail.endsWith('dbworks.com')) {
+                    FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', gridSecurityId, (e: JQuery.ClickEvent) => {
+                        try {
+                            FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
                 }
             }
         }

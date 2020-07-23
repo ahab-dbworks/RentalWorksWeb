@@ -1881,19 +1881,21 @@ class FwBrowseClass {
                 }
             });
 
-            if (options.hasEdit && options.hasNew) {
-                const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
-                if (isWebAdmin === 'true') {
-                    const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
-                    if (userEmail.endsWith('dbworks.com')) {
-                        FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
-                            try {
-                                FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        });
-                    }
+        }
+
+        // Import to Excel menu option
+        if (options.hasEdit || options.hasNew) {
+            const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+            if (isWebAdmin === 'true') {
+                const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                if (userEmail.endsWith('dbworks.com')) {
+                    FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
                 }
             }
         }
