@@ -334,7 +334,8 @@ class QuikActivityCalendar {
     events($form: any) {
         const id = JSON.parse(sessionStorage.getItem('userid')).webusersid;
         const $settingsField = $form.find('[data-datafield="Load"]');
-        const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults')).defaultquikactivitysetting;
+        //const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults')).defaultquikactivitysetting;
+        const defaultSettings = JSON.parse(sessionStorage.getItem('userid')).defaultquikactivitysetting;
         $form.find('.calendarmenu').css({
             'border-left': '1px solid #a9a9a9',
             'border-right': '1px solid #a9a9a9'
@@ -399,7 +400,8 @@ class QuikActivityCalendar {
         $form.find('[data-datafield="Load"]').on('change', e => {
             let settingId: any = jQuery(e.target).val();
             let settings = $settingsField.data('settings');
-            const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults'));
+            //const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults'));
+            const defaultSetting = JSON.parse(sessionStorage.getItem('userid')).defaultquikactivitysetting;
             settings = settings.filter(obj => { return obj.Id == settingId });
             if (settings.length > 0) {
                 let savedSettings = JSON.parse(settings[0].Settings);
@@ -410,7 +412,8 @@ class QuikActivityCalendar {
                 FwNotification.renderNotification('SUCCESS', 'Settings Successfully Loaded.');
                 $form.find('.activities [data-type="checkbox"]').eq(0).change();
             }
-            if (settingId != defaultSettings.defaultquikactivitysetting) {
+            //if (settingId != defaultSettings.defaultquikactivitysetting) {
+            if (settingId != defaultSetting) {
                 this.updateDefaultSetting($form, $calendar, settingId);
             }
         });
