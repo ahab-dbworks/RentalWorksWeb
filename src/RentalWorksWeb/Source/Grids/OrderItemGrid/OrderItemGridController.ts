@@ -1527,6 +1527,17 @@ class OrderItemGrid {
             recType = 'RS'
         }
         let module = $form.attr('data-controller').replace('Controller', '');
+        let moduleDisplayName: string = "";
+        if (module === 'Quote') {
+            moduleDisplayName = "Quote";
+        }
+        else if (module === 'Order') {
+            moduleDisplayName = "Order";
+        }
+        else if (module === 'PurchaseOrder') {
+            moduleDisplayName = "Purchase Order";
+        }
+
         const HTML: Array<string> = [];
         HTML.push(
             `<div class="fwcontrol fwcontainer fwform popup template-popup" data-control="FwContainer" data-type="form">
@@ -1538,13 +1549,13 @@ class OrderItemGrid {
                       <div class="formrow">
                         <div class="formcolumn" style="width:100%;margin-top:5px;">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div class="fwform-section-title" style="margin-bottom:10px;">Copy Template to ${module}</div>
+                            <div class="fwform-section-title" style="margin-bottom:10px;">Copy Template to ${moduleDisplayName}</div>
                             <div data-control="FwGrid" class="container"></div>
                           </div>
                         </div>
                       </div>
                       <div class="formrow add-button">
-                        <div class="add-items fwformcontrol" data-type="button" style="float:right;">Add to ${module}</div>
+                        <div class="add-items fwformcontrol" data-type="button" style="float:right;">Add to ${moduleDisplayName}</div>
                       </div>
                     </div>
                   </div>
