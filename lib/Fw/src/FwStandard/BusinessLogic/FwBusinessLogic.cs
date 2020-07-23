@@ -187,6 +187,9 @@ namespace FwStandard.BusinessLogic
         protected List<FwDataReadWriteRecord> dataRecords = new List<FwDataReadWriteRecord>();
 
         [JsonIgnore]
+        protected List<FwForeignKey> foreignKeys = new List<FwForeignKey>();
+
+        [JsonIgnore]
         protected FwDataRecord dataLoader = null;
 
         [JsonIgnore]
@@ -457,6 +460,7 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
+        // returns generic/dynamic objects.  Useful when the return Type is not known at compile time.
         public virtual async Task<dynamic> SelectDynamicAsync(BrowseRequest request, FwSqlConnection conn = null)
         {
             LoadCustomFields();
@@ -1212,124 +1216,94 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         protected virtual async Task ResolveForeignKeyLookups()
         {
-            PropertyInfo[] properties = this.GetType().GetProperties();
-            foreach (PropertyInfo idProperty in properties)
+            foreach (FwForeignKey foreignKey in foreignKeys)
             {
-                bool isForeignKey = false;
-                if (idProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
+                PropertyInfo[] properties = this.GetType().GetProperties();
+
+                List<PropertyInfo> idFields = new List<PropertyInfo>();
+                List<object> idValues = new List<object>();
+                List<object> displayValues = new List<object>();
+                foreach (FwForeignKeyField keyField in foreignKey.KeyFields)
                 {
-                    foreach (Attribute attribute in idProperty.GetCustomAttributes())
+                    foreach (PropertyInfo property in properties)
                     {
-                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                        if (property.Name.Equals(keyField.IdFieldName))
                         {
-                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
-                            isForeignKey = businessLogicFieldAttribute.IsForeignKey;
+                            idFields.Add(property);
+                            idValues.Add(property.GetValue(this));
+                            break;
+                        }
+                    }
+                }
+                foreach (FwForeignKeyDisplayField displayField in foreignKey.KeyDisplayFields)
+                {
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (property.Name.Equals(displayField.DisplayFieldName))
+                        {
+                            displayValues.Add(property.GetValue(this));
+                            break;
                         }
                     }
                 }
 
-                if (isForeignKey)
+                bool emptyIds = true;
+                foreach (object id in idValues)
                 {
-                    object idPropertyValue = idProperty.GetValue(this);
-
-                    if ((idPropertyValue == null) || (string.IsNullOrEmpty(idPropertyValue.ToString())))
+                    if (!string.IsNullOrEmpty(id.ToString()))
                     {
-                        bool valuePropertyFound = false;
-                        string valuePropertyName = "";
-                        object valuePropertyValue = null;
-                        Type valuePropertyRelatedToType = null;
-                        string relatedObjectValueFieldName = "";
-                        string relatedObjectIdFieldName = idProperty.Name;
+                        emptyIds = false;
+                        break;
+                    }
+                }
 
-                        // use RelatedIdField if provided
-                        if (!valuePropertyFound)
+                if (emptyIds)
+                {
+
+                    bool emptyDisplayValues = true;
+                    foreach (object value in displayValues)
+                    {
+                        if (!string.IsNullOrEmpty(value.ToString()))
                         {
-                            foreach (PropertyInfo valueProperty in properties)
-                            {
-                                if (valueProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
-                                {
-                                    foreach (Attribute attribute in valueProperty.GetCustomAttributes())
-                                    {
-                                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
-                                        {
-                                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
+                            emptyDisplayValues = false;
+                            break;
+                        }
+                    }
 
-                                            if ((businessLogicFieldAttribute.RelatedIdField != null) && (businessLogicFieldAttribute.RelatedIdField.Equals(idProperty.Name)))
-                                            {
-                                                valuePropertyFound = true;
-                                                valuePropertyName = valueProperty.Name;
-                                                valuePropertyValue = valueProperty.GetValue(this);
-                                                valuePropertyRelatedToType = businessLogicFieldAttribute.RelatedObject;
-                                                relatedObjectValueFieldName = businessLogicFieldAttribute.RelatedObjectValueFieldName;
-                                                if (!string.IsNullOrEmpty(businessLogicFieldAttribute.RelatedObjectIdFieldName))
-                                                {
-                                                    relatedObjectIdFieldName = businessLogicFieldAttribute.RelatedObjectIdFieldName;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                    if (!emptyDisplayValues)
+                    {
+                        BrowseRequest itemBrowseRequest = new BrowseRequest();
+                        itemBrowseRequest.searchfields = new List<string>();
+                        itemBrowseRequest.searchfieldoperators = new List<string>();
+                        itemBrowseRequest.searchfieldvalues = new List<string>();
+
+                        int i = 0;
+                        foreach (FwForeignKeyDisplayField fkDisplayField in foreignKey.KeyDisplayFields)
+                        {
+                            itemBrowseRequest.searchfields.Add(fkDisplayField.ForeignDisplayFieldName);
+                            itemBrowseRequest.searchfieldoperators.Add("=");
+                            itemBrowseRequest.searchfieldvalues.Add(displayValues[i].ToString());
+                            i++;
                         }
 
-                        // otherwise try to find a counterpart field with the same name as idProperty minus "Id"
-                        if (!valuePropertyFound)
+                        FwBusinessLogic l = CreateBusinessLogic(foreignKey.ForeignObjectType, this.AppConfig, this.UserSession);
+                        l.SetDependencies(AppConfig, UserSession);
+                        dynamic values = await l.SelectDynamicAsync(itemBrowseRequest/*, conn*/);
+
+                        if (values.Count.Equals(1))
                         {
-                            foreach (PropertyInfo valueProperty in properties)
+                            foreach (PropertyInfo idField in idFields)
                             {
-                                if (valueProperty.Name.Equals(idProperty.Name.Substring(0, idProperty.Name.Length - 2)))
-                                {
-                                    valuePropertyFound = true;
-                                    valuePropertyName = valueProperty.Name;
-                                    valuePropertyValue = valueProperty.GetValue(this);
-
-                                    if (valueProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
-                                    {
-                                        foreach (Attribute attribute in valueProperty.GetCustomAttributes())
-                                        {
-                                            if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
-                                            {
-                                                FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
-                                                valuePropertyRelatedToType = businessLogicFieldAttribute.RelatedObject;
-                                                relatedObjectValueFieldName = businessLogicFieldAttribute.RelatedObjectValueFieldName;
-                                                if (!string.IsNullOrEmpty(businessLogicFieldAttribute.RelatedObjectIdFieldName))
-                                                {
-                                                    relatedObjectIdFieldName = businessLogicFieldAttribute.RelatedObjectIdFieldName;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (valuePropertyFound)
-                        {
-                            if (valuePropertyValue != null)
-                            {
-                                BrowseRequest itemBrowseRequest = new BrowseRequest();
-                                itemBrowseRequest.searchfields = new List<string>();
-                                itemBrowseRequest.searchfields.Add(relatedObjectValueFieldName);
-
-                                itemBrowseRequest.searchfieldvalues = new List<string>();
-                                itemBrowseRequest.searchfieldvalues.Add(valuePropertyValue.ToString());
-
-                                itemBrowseRequest.searchfieldoperators = new List<string>();
-                                itemBrowseRequest.searchfieldoperators.Add("=");
-
-                                FwBusinessLogic l = CreateBusinessLogic(valuePropertyRelatedToType, this.AppConfig, this.UserSession);
-                                l.SetDependencies(AppConfig, UserSession);
-                                dynamic values = await l.SelectDynamicAsync(itemBrowseRequest/*, conn*/);
-
-                                if (values.Count.Equals(1))
+                                foreach (FwForeignKeyField keyField in foreignKey.KeyFields)
                                 {
                                     PropertyInfo[] fkObjectProperties = values[0].GetType().GetProperties();
                                     foreach (PropertyInfo fkObjectProperty in fkObjectProperties)
                                     {
-                                        if (fkObjectProperty.Name.Equals(relatedObjectIdFieldName))
+                                        if (fkObjectProperty.Name.Equals(keyField.ForeignIdFieldName))
                                         {
                                             object idValue = fkObjectProperty.GetValue(values[0]);
-                                            idProperty.SetValue(this, idValue);
+                                            idField.SetValue(this, idValue);
+                                            break;
                                         }
                                     }
                                 }
@@ -2062,6 +2036,11 @@ namespace FwStandard.BusinessLogic
         {
             // only serialize the _Fields property when this IsEmptyObject
             return IsEmptyObject;
+        }
+        //------------------------------------------------------------------------------------
+        protected void AddForeignKey(FwForeignKey foreignKey)
+        {
+            this.foreignKeys.Add(foreignKey);
         }
         //------------------------------------------------------------------------------------
     }
