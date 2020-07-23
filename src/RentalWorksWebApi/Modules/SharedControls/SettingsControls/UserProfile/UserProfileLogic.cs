@@ -130,6 +130,8 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwLogicProperty(Id: "PyJF3dC7sONA9", IsReadOnly: true)]
         public bool? WebAdministrator { get; set; }
 
+        [FwLogicProperty(Id: "fR3t20LsLMMU0")]
+        public string QuikActivitySetting { get { return webUser.QuikActivitySetting; } set { webUser.QuikActivitySetting = value; } }
 
         [FwLogicProperty(Id: "JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
