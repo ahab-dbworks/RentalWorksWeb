@@ -1871,7 +1871,7 @@ class FwBrowseClass {
         }
 
         const gridName = options.$browse.data('name');
-        if (options.hasDownloadExcel) {
+        if (options.hasDownloadExcel) { // Grid menu
             const gridSecurityId = options.$browse.data('secid');
             FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
@@ -1880,19 +1880,24 @@ class FwBrowseClass {
                     FwFunc.showError(ex);
                 }
             });
+
+            if (options.hasEdit && options.hasNew) {
+                const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+                if (isWebAdmin === 'true') {
+                    const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                    if (userEmail.endsWith('dbworks.com')) {
+                        FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
+                            try {
+                                FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+                    }
+                }
+            }
         }
 
-        // NEED TO ADD THIS LOGIC BELOW
-        // only show this menu if the grid supports New or Edit.
-        // and only if the JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true'
-        // and only if the JSON.parse(sessionStorage.getItem('userid')).email ends with "dbworks.com"  (we will take off this restriction once the utility is proven)
-        FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
-            try {
-                FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
 
 
         FwMenu.applyGridSecurity(options, options.gridSecurityId);
