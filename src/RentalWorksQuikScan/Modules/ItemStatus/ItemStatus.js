@@ -86,6 +86,9 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                         RwRFID.startTagFinder(tag);
                     });
                 }
+                FwContextMenu.addMenuItem($contextmenu, 'Cancel', function () {
+                    FwContextMenu.destroy($contextmenu);
+                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }

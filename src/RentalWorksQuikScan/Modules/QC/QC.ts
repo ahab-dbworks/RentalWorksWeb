@@ -359,8 +359,13 @@ class QCClass {
                                 });
                             });
                         }
-                        FwContextMenu.addMenuItem($contextMenu, 'Tag Finder', (e: JQuery.ClickEvent) => {
-                            RwRFID.startTagFinder($rfiditem.data('recorddata').tag);
+                        if (RwRFID.isRFIDAPI3) {
+                            FwContextMenu.addMenuItem($contextMenu, 'Tag Finder', (e: JQuery.ClickEvent) => {
+                                RwRFID.startTagFinder($rfiditem.data('recorddata').tag);
+                            });
+                        }
+                        FwContextMenu.addMenuItem($contextMenu, 'Cancel', (e: JQuery.ClickEvent) => {
+                            FwContextMenu.destroy($contextMenu);
                         });
                     });
                 });
