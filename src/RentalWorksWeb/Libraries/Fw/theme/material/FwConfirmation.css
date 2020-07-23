@@ -52,7 +52,7 @@ html.no-flexbox .fwpopupbox {position:absolute;top:50%;left:50%;-webkit-transfor
 .fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button:active {background-color:rgba(0,0,0,.2);}
 /*#endregion Default Theme*/
 
-.fwconfirmation .fwconfirmationbox div.table {max-height:50vh;}
+.fwconfirmation .fwconfirmationbox div.table {max-height:50vh;overflow: auto;border: 1px solid #e0e0e0;}
 .fwconfirmation .fwconfirmationbox div.table th,
 .fwconfirmation .fwconfirmationbox div.table td  {padding: .3rem; border: 1px solid #ddd; font-size:.9rem;}
 .fwconfirmation .fwconfirmationbox div.table table {border-collapse:collapse; border:1px solid #ddd;}

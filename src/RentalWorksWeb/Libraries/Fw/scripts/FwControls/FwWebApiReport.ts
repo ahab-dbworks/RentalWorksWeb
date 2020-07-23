@@ -403,7 +403,12 @@ abstract class FwWebApiReport {
 
                         const $emailToBtn = this.addOpenEmailToListButton($confirmation, 'tousers');
                         $emailToBtn.on('click', e => {
-                            this.getContacts($form, $confirmation);
+                            this.getContacts($form, $confirmation, 'tousers');
+                        });
+
+                        const $emailCcBtn = this.addOpenEmailToListButton($confirmation, 'ccusers');
+                        $emailCcBtn.on('click', e => {
+                            this.getContacts($form, $confirmation, 'ccusers');
                         });
 
                         const signature = sessionStorage.getItem('emailsignature');
@@ -697,7 +702,7 @@ abstract class FwWebApiReport {
             null, $confirmation.find('.fwconfirmationbox'));
     }
     //----------------------------------------------------------------------------------------------
-    getContacts($form: JQuery, $confirmation: JQuery) {
+    getContacts($form: JQuery, $confirmation: JQuery, datafield: string) {
         const request: any = {};
         const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField') ?? '';
         let apiurl = 'api/v1/companycontact/browse';;
@@ -707,76 +712,150 @@ abstract class FwWebApiReport {
         FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
             (successResponse) => {
                 try {
-                    const personIndex = successResponse.ColumnIndex.Person;
-                    const contactTitleIndex = successResponse.ColumnIndex.ContactTitle;
-                    const emailIndex = successResponse.ColumnIndex.Email;
-                    const $emailToList = FwConfirmation.renderConfirmation('Contacts', '');
-                    const html: any = [];
-                    html.push('<div class="table">')
-                    html.push('<table>');
-                    html.push('<thead>');
-                    html.push('<tr>');
-                    html.push('<th></th>');
-                    html.push('<th>Contact</th>');
-                    html.push('<th>Contact Title</th>');
-                    html.push('<th>E-Mail</th>');
-                    html.push('</tr>');
-                    html.push('</thead>');
-                    html.push('<tbody>');
-                    for (let i = 0; i < successResponse.Rows.length; i++) {
-                        html.push(`<tr><td><input type="checkbox" class="value"></td>
-                                            <td class="contact-person">${successResponse.Rows[i][personIndex]}</td>
-                                            <td class="contact-title">${successResponse.Rows[i][contactTitleIndex]}</td>
-                                            <td class="contact-email">${successResponse.Rows[i][emailIndex]}</td>
-                                           </tr>`);
-                    }
-                    html.push('</tbody>');
-                    html.push('</table>');
-                    html.push('<div class="show-all" style="text-align:center;margin-top: 1rem;">');
-                    html.push('<span style="font-size:.8rem;text-decoration:underline; color:blue; cursor:pointer;">Show All Contacts</span>');
-                    html.push('<div>');
-                    html.push('</div>');
-                    FwConfirmation.addControls($emailToList, html.join(''));
-                    FwConfirmation.addButton($emailToList, 'Close');
-
-                    const toUsers = FwFormField.getValueByDataField($confirmation, 'tousers');
-                    let toEmails: any = [];
-
-                    if (toUsers.length) {
-                        toEmails = toUsers.split(',').map(item => {
-                            return item.trim();
-                        });
-
-                        //check boxes for emails already in list
-                        for (let i = 0; i < toEmails.length; i++) {
-                            $emailToList.find(`td.contact-email:contains(${toEmails[i]})`)
-                                .parents('tr')
-                                .addClass('checked')
-                                .find('input.value')
-                                .prop('checked', true);
-                        }
-                    }
-
-                    $emailToList.on('click', 'tbody tr td input.value', e => {
-                        e.stopPropagation();
-                        const $this = jQuery(e.currentTarget);
-                        let isChecked = $this.prop('checked');
-                        const $tr = $this.parents('tr');
-                        const email = $tr.find('.contact-email').text();
-
-                        isChecked ? toEmails.push(email) : toEmails = toEmails.filter(item => item !== email);
-                        isChecked ? $tr.addClass('checked') : $tr.removeClass('checked');
-                        FwFormField.setValueByDataField($confirmation, 'tousers', toEmails.join(', '));
-                    });
-
-                    $emailToList.on('click', 'tbody tr', e => {
-                        jQuery(e.currentTarget).find('input.value').click();
-                    });
+                    this.renderContactsList($form, $confirmation, successResponse, companyId, datafield);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             },
             null, $confirmation.find('.fwconfirmationbox'));
+    }
+    //----------------------------------------------------------------------------------------------
+    renderContactsList($form: JQuery, $confirmation: JQuery, response: any, companyId: string, datafield: string, $contactList?: JQuery) {
+        const rows = response.Rows;
+        const personIndex = response.ColumnIndex.Person;
+        const contactTitleIndex = response.ColumnIndex.ContactTitle;
+        const emailIndex = response.ColumnIndex.Email;
+        const companyIndex = response.ColumnIndex.Company;
+
+        if (!$contactList) {
+            $contactList = FwConfirmation.renderConfirmation('Contacts', '');
+            FwConfirmation.addButton($contactList, 'Close');
+        }
+        rows.sort((a, b) => (a[personIndex] > b[personIndex]) ? 1 : ((b[personIndex] > a[personIndex]) ? -1 : 0));
+        const html: any = [];
+        html.push('<div class="contact-list">')
+        html.push('<div class="table" style="overflow:auto;">')
+        html.push('<table>');
+        html.push('<thead>');
+        html.push('<tr>');
+        html.push('<th></th>');
+        html.push('<th>Contact</th>');
+        html.push('<th>Contact Title</th>');
+        html.push('<th>Company</th>');
+        html.push('<th>E-Mail</th>');
+        html.push('</tr>');
+        html.push('</thead>');
+        html.push('<tbody>');
+
+        for (let i = 0; i < rows.length; i++) {
+            html.push(`<tr><td><input type="checkbox" class="value"></td>
+                           <td class="contact-person">${rows[i][personIndex]}</td>
+                           <td class="contact-title">${rows[i][contactTitleIndex]}</td>
+                           <td class="contact-company">${rows[i][companyIndex]}</td>
+                           <td class="contact-email">${rows[i][emailIndex]}</td>
+                      </tr>`);
+        }
+        html.push('</tbody>');
+        html.push('</table>');
+        html.push('</div>');
+        if (companyId != '') {
+            html.push('<div class="show-all" style="text-align:center;margin-top: 1rem;">');
+            html.push('<span style="font-size:.8rem;text-decoration:underline; color:blue; cursor:pointer;">Show All Contacts</span>');
+            html.push('</div>');
+        }
+        html.push('</div>');
+        FwConfirmation.addControls($contactList, html.join(''));
+
+        const toUsers = FwFormField.getValueByDataField($confirmation, 'tousers');
+        let toEmails: any = [];
+
+        if (toUsers.length) {
+            toEmails = toUsers.split(',').map(item => {
+                return item.trim();
+            });
+
+            //check boxes for emails already in list
+            for (let i = 0; i < toEmails.length; i++) {
+                $contactList.find(`td.contact-email:contains(${toEmails[i]})`)
+                    .parents('tr')
+                    .addClass('checked tousers')
+                    .find('input.value')
+                    .prop('checked', true);
+            }
+        }
+
+        const ccUsers = FwFormField.getValueByDataField($confirmation, 'ccusers');
+        let ccEmails: any = [];
+
+        if (ccUsers.length) {
+            ccEmails = ccUsers.split(',').map(item => {
+                return item.trim();
+            });
+
+            //check boxes for emails already in list
+            for (let i = 0; i < ccEmails.length; i++) {
+                $contactList.find(`td.contact-email:contains(${ccEmails[i]})`)
+                    .parents('tr')
+                    .addClass('checked ccusers')
+                    .find('input.value')
+                    .prop('checked', true);
+            }
+        }
+        $contactList.off('click', 'tbody tr td input.value');
+        $contactList.on('click', 'tbody tr td input.value', e => {
+            e.stopPropagation();
+            const $this = jQuery(e.currentTarget);
+            let emailList;
+            let isChecked = $this.prop('checked');
+            const $tr = $this.parents('tr');
+            const email = $tr.find('.contact-email').text();
+
+            if (datafield === 'tousers') {
+                emailList = toEmails;
+            } else if (datafield === 'ccusers') {
+                emailList = ccEmails;
+            }
+
+            if (isChecked) {
+                emailList.push(email);
+                $tr.addClass(`checked ${datafield}`);
+                FwFormField.setValueByDataField($confirmation, datafield, emailList.join(', '));
+            } else {
+                if ($tr.hasClass('tousers')) {
+                    toEmails = toEmails.filter(item => item !== email);
+                    $tr.removeClass('tousers');
+                    FwFormField.setValueByDataField($confirmation, 'tousers', toEmails.join(', '));
+                } else if ($tr.hasClass('ccusers')) {
+                    ccEmails = ccEmails.filter(item => item !== email);
+                    $tr.removeClass('ccusers');
+                    FwFormField.setValueByDataField($confirmation, 'ccusers', ccEmails.join(', '));
+                }
+                $tr.removeClass('checked');
+            }
+        });
+
+        $contactList.off('click', 'tbody tr');
+        $contactList.on('click', 'tbody tr', e => {
+            jQuery(e.currentTarget).find('input.value').click();
+        });
+
+        $contactList.off('click', '.show-all');
+        $contactList.on('click', '.show-all', e => {
+            const request: any = {};
+            request.uniqueids = {};
+            let apiurl = 'api/v1/companycontact/browse';
+
+            FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
+                (successResponse) => {
+                    try {
+                        $contactList.find('.contact-list').empty();
+                        this.renderContactsList($form, $confirmation, successResponse, '', datafield, $contactList);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                },
+                null, $contactList.find('.fwconfirmationbox'));
+        });
     }
     //----------------------------------------------------------------------------------------------
     async getParameters($form: JQuery): Promise<any> {
