@@ -1870,9 +1870,9 @@ class FwBrowseClass {
             });
         }
 
+        const gridName = options.$browse.data('name');
         if (options.hasDownloadExcel) {
             const gridSecurityId = options.$browse.data('secid');
-            const gridName = options.$browse.data('name');
             FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
                     FwBrowse.downloadExcelWorkbook(options.$browse, `${gridName}Controller`);
@@ -1880,14 +1880,20 @@ class FwBrowseClass {
                     FwFunc.showError(ex);
                 }
             });
-            FwMenu.addSubMenuItem(options.$groupExport, 'Import data from Excel', gridSecurityId, (e: JQuery.ClickEvent) => {
-                try {
-                    FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
         }
+
+        // NEED TO ADD THIS LOGIC BELOW
+        // only show this menu if the grid supports New or Edit.
+        // and only if the JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true'
+        // and only if the JSON.parse(sessionStorage.getItem('userid')).email ends with "dbworks.com"  (we will take off this restriction once the utility is proven)
+        FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
+            try {
+                FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
 
         FwMenu.applyGridSecurity(options, options.gridSecurityId);
         FwMenu.cleanupMenu(options.$menu);
