@@ -363,6 +363,61 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
     }
     //------------------------------------------------------------------------------------ 
 
+
+    public class PurchaseOrderNoteReportLoader : AppReportLoader
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date)]
+        public string NoteDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notedesc", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<List<T>> LoadItems<T>(PurchaseOrderReportRequest request)
+        {
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintnotes", this.AppConfig.DatabaseSettings.ReportTimeout))
+                {
+                    qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.PurchaseOrderId);
+                    AddPropertiesAsQueryColumns(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+                //--------------------------------------------------------------------------------- 
+            }
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+
+            List<T> items = new List<T>();
+            foreach (List<object> row in dt.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        object value = row[dt.GetColumnNo(fieldName)];
+                        property.SetValue(item, (value ?? "").ToString());
+                    }
+                }
+                items.Add(item);
+            }
+
+            return items;
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+
+
     public class PurchaseOrderReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -943,6 +998,20 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         public string TotalReplacementValue { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "tax1referencename", modeltype: FwDataTypes.Text)]
+        public string Tax1ReferenceName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax1referenceno", modeltype: FwDataTypes.Text)]
+        public string Tax1ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2referencename", modeltype: FwDataTypes.Text)]
+        public string Tax2ReferenceName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "tax2referenceno", modeltype: FwDataTypes.Text)]
+        public string Tax2ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+
+
         public List<RentalOrderItemReportLoader> RentalItems { get; set; } = new List<RentalOrderItemReportLoader>(new RentalOrderItemReportLoader[] { new RentalOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<SalesOrderItemReportLoader> SalesItems { get; set; } = new List<SalesOrderItemReportLoader>(new SalesOrderItemReportLoader[] { new SalesOrderItemReportLoader() });
@@ -958,6 +1027,8 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
         //------------------------------------------------------------------------------------ 
         public List<OrderActivitySummaryLogic> ActivitySummary { get; set; } = new List<OrderActivitySummaryLogic>(new OrderActivitySummaryLogic[] { new OrderActivitySummaryLogic() });
+        //------------------------------------------------------------------------------------ 
+        public List<PurchaseOrderNoteReportLoader> Notes { get; set; } = new List<PurchaseOrderNoteReportLoader>(new PurchaseOrderNoteReportLoader[] { new PurchaseOrderNoteReportLoader() });
         //------------------------------------------------------------------------------------ 
 
 
@@ -1011,7 +1082,13 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                     PartsItems.SetDependencies(AppConfig, UserSession);
                     taskPartsOrderItems = PartsItems.LoadItems<PartsOrderItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskPartsOrderItems });
+                    //notes
+                    Task<List<PurchaseOrderNoteReportLoader>> taskNotesOrderItems;
+                    PurchaseOrderNoteReportLoader NotesItems = new PurchaseOrderNoteReportLoader();
+                    NotesItems.SetDependencies(AppConfig, UserSession);
+                    taskNotesOrderItems = NotesItems.LoadItems<PurchaseOrderNoteReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskPartsOrderItems, taskNotesOrderItems});
 
                     Order = taskOrder.Result;
 
@@ -1023,6 +1100,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                         Order.MiscItems = taskMiscOrderItems.Result;
                         Order.LaborItems = taskLaborOrderItems.Result;
                         Order.PartsItems = taskPartsOrderItems.Result;
+                        Order.Notes = taskNotesOrderItems.Result;
 
 
                         //activity dates and times
