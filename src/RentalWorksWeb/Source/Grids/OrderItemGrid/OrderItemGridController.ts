@@ -1634,18 +1634,23 @@ class OrderItemGrid {
 
                 FwConfirmation.addControls($confirmation, `<div style="text-align:center;"></div><div style="margin:10px 0 0 0;text-align:center;">You are adding a template from ${activity} but there are additional activities of ${additionalActivities.join(', ')} in selected template. Do you wish to just add ${activity} or include all?<div>`);
 
-                const $yes = FwConfirmation.addButton($confirmation, `Just ${activity}`, false);
-                const $no = FwConfirmation.addButton($confirmation, 'All Activities', false);
+                const $just = FwConfirmation.addButton($confirmation, `Just ${activity}`, false);
+                const $all = FwConfirmation.addButton($confirmation, 'All Activities', false);
+                const $cancel = FwConfirmation.addButton($confirmation, 'Cancel', false);
 
-                $yes.on('click', e => {
+                $just.on('click', e => {
                     FwConfirmation.destroyConfirmation($confirmation);
                     sendTemplate(request);
                 });
 
-                $no.on('click', e => {
+                $all.on('click', e => {
                     FwConfirmation.destroyConfirmation($confirmation);
                     request.RecType = '';
                     sendTemplate(request);
+                });
+
+                $cancel.on('click', e => {
+                    FwConfirmation.destroyConfirmation($confirmation);
                 });
             } else {
                 sendTemplate(request);
