@@ -2758,11 +2758,13 @@ class OrderBase {
             const module = this.Module;
             const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
             const orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
+            const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
 
             const $report = (module === 'Order') ? OrderReportController.openForm() : QuoteReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
+            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId); 
             const $tab = FwTabs.getTabByElement($report);
             $tab.find('.caption').html(`Print ${module}`);
         } catch (ex) {

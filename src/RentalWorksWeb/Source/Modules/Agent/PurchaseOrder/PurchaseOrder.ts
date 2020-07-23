@@ -294,10 +294,12 @@ class PurchaseOrder implements IModule {
         try {
             const purchaseOrderNumber = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderNumber"]`);
             const purchaseOrderId = FwFormField.getValue($form, `div[data-datafield="PurchaseOrderId"]`);
+            const vendorId = FwFormField.getValue($form, `div[data-datafield="VendorId"]`);
             const $report = PurchaseOrderReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="PurchaseOrderId"]`, purchaseOrderId, purchaseOrderNumber);
+            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, vendorId);
             const $tab = FwTabs.getTabByElement($report);
             $tab.find('.caption').html(`Print Purchase Order`);
         } catch (ex) {

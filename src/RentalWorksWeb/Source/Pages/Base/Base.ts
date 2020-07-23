@@ -232,6 +232,7 @@ class Base {
                                             const favorites = responseGetUserSettings.FavoritesJson;
                                             sessionStorage.setItem('homePage', JSON.stringify(homePage));
                                             sessionStorage.setItem('favorites', favorites);
+                                            sessionStorage.setItem('emailsignature', responseGetUserSettings.EmailSignature);
 
                                             // Web admin - security for peek validation show / hide   J.Pace 7/12/19
                                             //justin hoffman 12/16/2019 re-added after merge

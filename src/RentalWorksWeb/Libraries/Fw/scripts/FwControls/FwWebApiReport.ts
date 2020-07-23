@@ -395,6 +395,26 @@ abstract class FwWebApiReport {
                         const $btnSend = FwConfirmation.addButton($confirmation, 'Send', false);
                         FwConfirmation.addButton($confirmation, 'Cancel');
 
+                        if ($form.find('.order-contact-field').length) {
+                            this.populateEmailToField($form, $confirmation);
+                        }
+
+                        const $emailToBtn = this.addOpenEmailToListButton($confirmation, 'tousers');
+                        $emailToBtn.on('click', e => {
+                            this.getContacts($form, $confirmation, 'tousers');
+                        });
+
+                        const $emailCcBtn = this.addOpenEmailToListButton($confirmation, 'ccusers');
+                        $emailCcBtn.on('click', e => {
+                            this.getContacts($form, $confirmation, 'ccusers');
+                        });
+
+                        const signature = sessionStorage.getItem('emailsignature');
+                        if (typeof signature != 'undefined' && signature != '') {
+                            $confirmation.find('.signature').show();
+                            $confirmation.find('.signature .value').html(signature);
+                        }
+
                         let email = '[me]';
                         if (sessionStorage.getItem('email') !== null && sessionStorage.getItem('email') !== '') {
                             email = sessionStorage.getItem('email');
@@ -409,12 +429,13 @@ abstract class FwWebApiReport {
                             try {
                                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                                 const requestEmailPdf: any = this.getRenderRequest($form);
+                                let body = FwFormField.getValueByDataField($confirmation, 'body') + '<p>' + signature + '</p>';
                                 requestEmailPdf.renderMode = 'Email';
                                 requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
                                 requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-value').val();
                                 requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-value').val();
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
-                                requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
+                                requestEmailPdf.email.body = body;
                                 requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
                                 //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
                                 if (requestEmailPdf.parameters.hasOrderNo) {
@@ -647,6 +668,194 @@ abstract class FwWebApiReport {
         });
     }
     //----------------------------------------------------------------------------------------------
+    addOpenEmailToListButton($confirmation: JQuery, fieldname: string) {
+        const $btn = jQuery(`<div class="email-${fieldname}">
+                        <i class="material-icons" style="color: #4caf50; cursor:pointer;">add_box</i>
+                      </div>`);
+
+        $confirmation.find(`[data-datafield="${fieldname}"] .fwformfield-control`).append($btn);
+
+        return $btn;
+    }
+    //----------------------------------------------------------------------------------------------
+    populateEmailToField($form: JQuery, $confirmation: JQuery) {
+        const request: any = {};
+        request.uniqueids = {
+            OrderId: FwFormField.getValue2($form.find('.order-contact-field'))
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/ordercontact/browse`, request, FwServices.defaultTimeout,
+            (successResponse) => {
+                try {
+                    if (successResponse.Rows.length) {
+                        const rows = successResponse.Rows;
+                        const isOrderedByIndex = successResponse.ColumnIndex.IsOrderedBy;
+                        const emailIndex = successResponse.ColumnIndex.Email;
+                        const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(', ');
+                        FwFormField.setValueByDataField($confirmation, 'tousers', emails);
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            null, $confirmation.find('.fwconfirmationbox'));
+    }
+    //----------------------------------------------------------------------------------------------
+    getContacts($form: JQuery, $confirmation: JQuery, datafield: string) {
+        const request: any = {};
+        const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField') ?? '';
+        let apiurl = 'api/v1/companycontact/browse';;
+
+        companyId == '' ? request.uniqueids = {} : request.uniqueids = { CompanyId: companyId };
+
+        FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
+            (successResponse) => {
+                try {
+                    this.renderContactsList($form, $confirmation, successResponse, companyId, datafield);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            null, $confirmation.find('.fwconfirmationbox'));
+    }
+    //----------------------------------------------------------------------------------------------
+    renderContactsList($form: JQuery, $confirmation: JQuery, response: any, companyId: string, datafield: string, $contactList?: JQuery) {
+        const rows = response.Rows;
+        const personIndex = response.ColumnIndex.Person;
+        const contactTitleIndex = response.ColumnIndex.ContactTitle;
+        const emailIndex = response.ColumnIndex.Email;
+        const companyIndex = response.ColumnIndex.Company;
+
+        if (!$contactList) {
+            $contactList = FwConfirmation.renderConfirmation('Contacts', '');
+            FwConfirmation.addButton($contactList, 'Close');
+        }
+        rows.sort((a, b) => (a[personIndex] > b[personIndex]) ? 1 : ((b[personIndex] > a[personIndex]) ? -1 : 0));
+        const html: any = [];
+        html.push('<div class="contact-list">')
+        html.push('<div class="table" style="overflow:auto;">')
+        html.push('<table>');
+        html.push('<thead>');
+        html.push('<tr>');
+        html.push('<th></th>');
+        html.push('<th>Contact</th>');
+        html.push('<th>Contact Title</th>');
+        html.push('<th>Company</th>');
+        html.push('<th>E-Mail</th>');
+        html.push('</tr>');
+        html.push('</thead>');
+        html.push('<tbody>');
+
+        for (let i = 0; i < rows.length; i++) {
+            html.push(`<tr><td><input type="checkbox" class="value"></td>
+                           <td class="contact-person">${rows[i][personIndex]}</td>
+                           <td class="contact-title">${rows[i][contactTitleIndex]}</td>
+                           <td class="contact-company">${rows[i][companyIndex]}</td>
+                           <td class="contact-email">${rows[i][emailIndex]}</td>
+                      </tr>`);
+        }
+        html.push('</tbody>');
+        html.push('</table>');
+        html.push('</div>');
+        if (companyId != '') {
+            html.push('<div class="show-all" style="text-align:center;margin-top: 1rem;">');
+            html.push('<span style="font-size:.8rem;text-decoration:underline; color:blue; cursor:pointer;">Show All Contacts</span>');
+            html.push('</div>');
+        }
+        html.push('</div>');
+        FwConfirmation.addControls($contactList, html.join(''));
+
+        const toUsers = FwFormField.getValueByDataField($confirmation, 'tousers');
+        let toEmails: any = [];
+
+        if (toUsers.length) {
+            toEmails = toUsers.split(',').map(item => {
+                return item.trim();
+            });
+
+            //check boxes for emails already in list
+            for (let i = 0; i < toEmails.length; i++) {
+                $contactList.find(`td.contact-email:contains(${toEmails[i]})`)
+                    .parents('tr')
+                    .addClass('checked tousers')
+                    .find('input.value')
+                    .prop('checked', true);
+            }
+        }
+
+        const ccUsers = FwFormField.getValueByDataField($confirmation, 'ccusers');
+        let ccEmails: any = [];
+
+        if (ccUsers.length) {
+            ccEmails = ccUsers.split(',').map(item => {
+                return item.trim();
+            });
+
+            //check boxes for emails already in list
+            for (let i = 0; i < ccEmails.length; i++) {
+                $contactList.find(`td.contact-email:contains(${ccEmails[i]})`)
+                    .parents('tr')
+                    .addClass('checked ccusers')
+                    .find('input.value')
+                    .prop('checked', true);
+            }
+        }
+        $contactList.off('click', 'tbody tr td input.value');
+        $contactList.on('click', 'tbody tr td input.value', e => {
+            e.stopPropagation();
+            const $this = jQuery(e.currentTarget);
+            let emailList;
+            let isChecked = $this.prop('checked');
+            const $tr = $this.parents('tr');
+            const email = $tr.find('.contact-email').text();
+
+            if (datafield === 'tousers') {
+                emailList = toEmails;
+            } else if (datafield === 'ccusers') {
+                emailList = ccEmails;
+            }
+
+            if (isChecked) {
+                emailList.push(email);
+                $tr.addClass(`checked ${datafield}`);
+                FwFormField.setValueByDataField($confirmation, datafield, emailList.join(', '));
+            } else {
+                if ($tr.hasClass('tousers')) {
+                    toEmails = toEmails.filter(item => item !== email);
+                    $tr.removeClass('tousers');
+                    FwFormField.setValueByDataField($confirmation, 'tousers', toEmails.join(', '));
+                } else if ($tr.hasClass('ccusers')) {
+                    ccEmails = ccEmails.filter(item => item !== email);
+                    $tr.removeClass('ccusers');
+                    FwFormField.setValueByDataField($confirmation, 'ccusers', ccEmails.join(', '));
+                }
+                $tr.removeClass('checked');
+            }
+        });
+
+        $contactList.off('click', 'tbody tr');
+        $contactList.on('click', 'tbody tr', e => {
+            jQuery(e.currentTarget).find('input.value').click();
+        });
+
+        $contactList.off('click', '.show-all');
+        $contactList.on('click', '.show-all', e => {
+            const request: any = {};
+            request.uniqueids = {};
+            let apiurl = 'api/v1/companycontact/browse';
+
+            FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
+                (successResponse) => {
+                    try {
+                        $contactList.find('.contact-list').empty();
+                        this.renderContactsList($form, $confirmation, successResponse, '', datafield, $contactList);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                },
+                null, $contactList.find('.fwconfirmationbox'));
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     async getParameters($form: JQuery): Promise<any> {
         try {
             const parameters: any = {};
@@ -707,25 +916,30 @@ abstract class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getEmailTemplate() {
         return `
-              <div style="width:540px;">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
-               </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-allcaps="false" data-enabled="true"></div>
-                </div>
-              </div>
-            </div>`;
+              <div style="min-width:540px; max-width:40vw;">
+                  <div class="formrow">
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>           
+                      </div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
+                      /div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
+                      </div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-allcaps="false" data-enabled="true"></div>
+                      </div>
+                      <div class="fwformfield signature" style="display:none;padding:.5rem;">
+                          <div class="fwformfield-caption">Signature</div>
+                          <div class="value"></div>
+                      </div>
+                  </div>
+              </div>`;
+
         //<div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
         //<div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>
     }

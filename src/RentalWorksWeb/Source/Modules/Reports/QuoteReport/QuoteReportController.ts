@@ -17,8 +17,9 @@ const quoteTemplate = `
             <div class="flexcolumn" style="max-width:300px;">
                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="QuoteId" data-displayfield="QuoteNumber" data-savesetting="false" data-required="true" data-validationname="QuoteValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield order-contact-field" data-caption="Quote" data-datafield="QuoteId" data-displayfield="QuoteNumber" data-savesetting="false" data-required="true" data-validationname="QuoteValidation" style="float:left;max-width:300px;"></div>
                 </div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="CompanyIdField" data-savesetting="false" style="display:none;"></div>
               </div>
           </div>
         </div>
@@ -56,6 +57,9 @@ class QuoteReport extends FwWebApiReport {
         // Store info for emailing subject line
         $form.find('div[data-datafield="QuoteId"]').data('onchange', $tr => {
             $form.attr('data-caption', `Quote ${$tr.find('.field[data-formdatafield="QuoteNumber"]').attr('data-originalvalue')} ${$tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue')}`);
+
+            //set CompanyId value for filtering contact list
+            FwFormField.setValueByDataField($form, 'CompanyIdField', FwBrowse.getValueByDataField($tr, $tr, 'DealId'));
         });
         return $form;
     }
