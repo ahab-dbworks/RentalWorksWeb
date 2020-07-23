@@ -1632,7 +1632,7 @@ class OrderItemGrid {
                     'width': '465px',
                 });
 
-                FwConfirmation.addControls($confirmation, `<div style="text-align:center;"></div><div style="margin:10px 0 0 0;text-align:center;">You are adding a template from ${activity} but there are additional activities of ${additionalActivities.join(', ')} in selected template. Do you wish to just add ${activity} or include all?<div>`);
+                FwConfirmation.addControls($confirmation, `<div style="text-align:center;"></div><div style="margin:10px 0 0 0;text-align:center;">You are adding a template from ${activity} but there ${additionalActivities.length > 1 ? 'are' : 'is an'} additional activit${additionalActivities.length > 1 ? 'ies' : 'y'} of ${additionalActivities.join(', ')} in the selected template${$selectedCheckBoxes.length > 1 ? 's' : ''}. Do you wish to just add ${activity} or include all?<div>`);
 
                 const $just = FwConfirmation.addButton($confirmation, `Just ${activity}`, false);
                 const $all = FwConfirmation.addButton($confirmation, 'All Activities', false);
