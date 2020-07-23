@@ -728,6 +728,7 @@ class FwSettingsClass {
         let showNew = false;
         let showDelete = false;
         let showEdit = false;
+        let hasDownloadExcel = false;
 
         $modulecontainer = $control.find('#' + moduleName);
         const controllerName = moduleName + 'Controller';
@@ -767,6 +768,7 @@ class FwSettingsClass {
                 showNew = browseMenuOptions.hasNew && ((nodeNew !== null && nodeNew.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
                 showEdit = browseMenuOptions.hasEdit && ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
                 showDelete = browseMenuOptions.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
+                hasDownloadExcel = browseMenuOptions.hasDownloadExcel;
 
                 html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${title}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
                 html.push('  <div class="panel panel-primary">');
@@ -787,6 +789,12 @@ class FwSettingsClass {
                     html.push(`         <div class="flexrow new-row-menu" data-caption="${title}"><i class="material-icons">add</i>New Item</div>`);
                 }
                 html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+
+                //if (hasDownloadExcel) {
+                //    html.push('          <div class="download-excel flexrow"><i class="material-icons">cloud_download</i>Download Excel</div>');
+                //    html.push('          <div class="upload-excel flexrow"><i class="material-icons">cloud_upload</i>Upload Excel</div>');
+                //}
+
                 html.push('        </div>');
                 html.push('        </div>');
                 html.push('        <div class="panel-icons" style="margin-left:auto;">');
@@ -858,6 +866,35 @@ class FwSettingsClass {
                     }
                     program.popOutTab('#/module/' + moduleName);
                 });
+
+                //$settingsPageModules.on('click', '.download-excel', e => {
+                //    try {
+                //        e.stopPropagation();
+                //        const $this = jQuery(e.currentTarget);
+                //        const $browse = window[`${moduleName}Controller`].openBrowse();
+                //        $this.append($browse);
+                //        $browse.css('display', 'none');
+                //        FwBrowse.databind($browse)
+                //            .then(() => {
+                //                FwBrowse.downloadExcelWorkbook($browse, controller);
+                //            })
+                //    } catch (ex) {
+                //        FwFunc.showError(ex);
+                //    }
+                //});
+
+                //$settingsPageModules.on('click', '.upload-excel', e => {
+                //    e.stopPropagation();
+                //    const $this = jQuery(e.currentTarget);
+                //    const $browse = window[`${moduleName}Controller`].openBrowse();
+                //    $this.append($browse);
+                //    $browse.css('display', 'none');
+                //    try {
+                //        FwBrowse.importExcelFromBrowse($browse, controller);
+                //    } catch (ex) {
+                //        FwFunc.showError(ex);
+                //    }
+                //});
 
                 $settingsPageModules
                     .on('click', '.panel-heading', e => {

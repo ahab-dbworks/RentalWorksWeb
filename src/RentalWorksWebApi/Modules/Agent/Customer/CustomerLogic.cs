@@ -1,10 +1,12 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
+using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
 
 namespace WebApi.Modules.Agent.Customer
 {
@@ -22,6 +24,18 @@ namespace WebApi.Modules.Agent.Customer
             dataRecords.Add(customer);
             dataLoader = customerLoader;
             browseLoader = customerBrowseLoader;
+            AddForeignKey(new FwForeignKey(typeof(Settings.OfficeLocationSettings.OfficeLocation.OfficeLocationLogic), "OfficeLocationId", "LocationId", "OfficeLocation", "Location"));
+            AddForeignKey(new FwForeignKey(typeof(Settings.DepartmentSettings.Department.DepartmentLogic)));
+            AddForeignKey(new FwForeignKey(typeof(Settings.CustomerSettings.CustomerType.CustomerTypeLogic)));
+            AddForeignKey(new FwForeignKey(typeof(Settings.CustomerSettings.CustomerStatus.CustomerStatusLogic)));
+            AddForeignKey(new FwForeignKey(typeof(Settings.CustomerSettings.CustomerCategory.CustomerCategoryLogic)));
+            AddForeignKey(new FwForeignKey(typeof(Settings.AddressSettings.Country.CountryLogic), "CountryId", "CountryId", "Country", "Country"));
+            AddForeignKey(new FwForeignKey(typeof(Settings.AddressSettings.Country.CountryLogic), "BillToCountryId", "CountryId", "BillToCountry", "Country"));
+            AddForeignKey(new FwForeignKey(typeof(Settings.AddressSettings.Country.CountryLogic), "ShipCountryId", "CountryId", "ShipCountry", "Country"));
+            AddForeignKey(new FwForeignKey(typeof(CustomerLogic), "ParentCustomerId", "CustomerId", "ParentCustomer", "Customer"));
+            AddForeignKey(new FwForeignKey(typeof(Settings.PaymentSettings.PaymentTerms.PaymentTermsLogic)));
+            AddForeignKey(new FwForeignKey(typeof(Settings.DiscountTemplateSettings.DiscountTemplate.DiscountTemplateLogic)));
+            AddForeignKey(new FwForeignKey(typeof(Settings.PaymentSettings.PaymentType.PaymentTypeLogic), "CreditCardTypeId", "PaymentTypeId", "CreditCardType", "PaymentType"));
 
             BeforeValidate += OnBeforeValidate;
             BeforeSave += OnBeforeSave;
@@ -36,7 +50,7 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "xwEVJOfzIAzg")]
         public string OfficeLocationId { get { return customer.OfficeLocationId; } set { customer.OfficeLocationId = value; } }
 
-        [FwLogicProperty(Id: "spKIvApl9d5O", IsReadOnly: true)]
+        [FwLogicProperty(Id: "spKIvApl9d5O")]
         public string OfficeLocation { get; set; }
 
         [FwLogicProperty(Id: "e22oOxWssdEx")]
@@ -416,11 +430,32 @@ namespace WebApi.Modules.Agent.Customer
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+                DefaultSettingsLogic defaults = new DefaultSettingsLogic();
+                defaults.SetDependencies(AppConfig, UserSession);
+                defaults.DefaultSettingsId = RwConstants.CONTROL_ID;
+                bool b = defaults.LoadAsync<DefaultSettingsLogic>().Result;
+
                 if (string.IsNullOrEmpty(CustomerNumber))
                 {
                     tmpCustomerNumber = AppFunc.GetNextIdAsync(AppConfig).Result;
                     CustomerNumber = tmpCustomerNumber;
                 }
+
+                if (string.IsNullOrEmpty(CreditStatusId))
+                {
+                    CreditStatusId = defaults.DefaultCreditStatusId;
+                }
+
+                if (string.IsNullOrEmpty(CustomerStatusId))
+                {
+                    CustomerStatusId = defaults.DefaultCustomerStatusId;
+                }
+
+                if (string.IsNullOrEmpty(BillingAddressType))
+                {
+                    BillingAddressType = RwConstants.BILLING_ADDRESS_TYPE_CUSTOMER;
+                }
+
             }
         }
         //------------------------------------------------------------------------------------ 

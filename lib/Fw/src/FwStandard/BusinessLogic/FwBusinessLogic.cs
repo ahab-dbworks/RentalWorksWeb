@@ -187,6 +187,9 @@ namespace FwStandard.BusinessLogic
         protected List<FwDataReadWriteRecord> dataRecords = new List<FwDataReadWriteRecord>();
 
         [JsonIgnore]
+        protected List<FwForeignKey> foreignKeys = new List<FwForeignKey>();
+
+        [JsonIgnore]
         protected FwDataRecord dataLoader = null;
 
         [JsonIgnore]
@@ -455,6 +458,35 @@ namespace FwStandard.BusinessLogic
 
             }
             return records;
+        }
+        //------------------------------------------------------------------------------------
+        // returns generic/dynamic objects.  Useful when the return Type is not known at compile time.
+        public virtual async Task<dynamic> SelectDynamicAsync(BrowseRequest request, FwSqlConnection conn = null)
+        {
+            LoadCustomFields();
+
+            dynamic results = null;
+
+            if (dataLoader == null)
+            {
+                if (dataRecords.Count > 0)
+                {
+                    MethodInfo method = dataRecords[0].GetType().GetMethod("SelectAsync");
+                    MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
+                    FwCustomFields customFields = _Custom.CustomFields;
+                    dynamic result = generic.Invoke(dataRecords[0], new object[] { request, customFields, conn });
+                    results = await result;
+                }
+            }
+            else
+            {
+                MethodInfo method = dataLoader.GetType().GetMethod("SelectAsync");
+                MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
+                FwCustomFields customFields = _Custom.CustomFields;
+                dynamic result = generic.Invoke(dataLoader, new object[] { request, customFields, conn });
+                results = await result;
+            }
+            return results;
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<GetResponse<T>> GetManyAsync<T>(GetRequest request, Func<FwSqlSelect, Task> beforeExecuteQuery = null, FwSqlConnection conn = null)
@@ -1182,8 +1214,110 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        protected virtual async Task ResolveForeignKeyLookups()
+        {
+            foreach (FwForeignKey foreignKey in foreignKeys)
+            {
+                PropertyInfo[] properties = this.GetType().GetProperties();
+
+                List<PropertyInfo> idFields = new List<PropertyInfo>();
+                List<object> idValues = new List<object>();
+                List<object> displayValues = new List<object>();
+                foreach (FwForeignKeyField keyField in foreignKey.KeyFields)
+                {
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (property.Name.Equals(keyField.IdFieldName))
+                        {
+                            idFields.Add(property);
+                            idValues.Add(property.GetValue(this));
+                            break;
+                        }
+                    }
+                }
+                foreach (FwForeignKeyDisplayField displayField in foreignKey.KeyDisplayFields)
+                {
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (property.Name.Equals(displayField.DisplayFieldName))
+                        {
+                            displayValues.Add(property.GetValue(this));
+                            break;
+                        }
+                    }
+                }
+
+                bool emptyIds = true;
+                foreach (object id in idValues)
+                {
+                    if ((id != null) && (!string.IsNullOrEmpty(id.ToString())))
+                    {
+                        emptyIds = false;
+                        break;
+                    }
+                }
+
+                if (emptyIds)
+                {
+
+                    bool emptyDisplayValues = true;
+                    foreach (object value in displayValues)
+                    {
+                        if ((value != null) && (!string.IsNullOrEmpty(value.ToString())))
+                        {
+                            emptyDisplayValues = false;
+                            break;
+                        }
+                    }
+
+                    if (!emptyDisplayValues)
+                    {
+                        BrowseRequest itemBrowseRequest = new BrowseRequest();
+                        itemBrowseRequest.searchfields = new List<string>();
+                        itemBrowseRequest.searchfieldoperators = new List<string>();
+                        itemBrowseRequest.searchfieldvalues = new List<string>();
+
+                        int i = 0;
+                        foreach (FwForeignKeyDisplayField fkDisplayField in foreignKey.KeyDisplayFields)
+                        {
+                            itemBrowseRequest.searchfields.Add(fkDisplayField.ForeignDisplayFieldName);
+                            itemBrowseRequest.searchfieldoperators.Add("=");
+                            itemBrowseRequest.searchfieldvalues.Add(displayValues[i].ToString());
+                            i++;
+                        }
+
+                        FwBusinessLogic l = CreateBusinessLogic(foreignKey.ForeignObjectType, this.AppConfig, this.UserSession);
+                        l.SetDependencies(AppConfig, UserSession);
+                        dynamic values = await l.SelectDynamicAsync(itemBrowseRequest/*, conn*/);
+
+                        if (values.Count.Equals(1))
+                        {
+                            foreach (PropertyInfo idField in idFields)
+                            {
+                                foreach (FwForeignKeyField keyField in foreignKey.KeyFields)
+                                {
+                                    PropertyInfo[] fkObjectProperties = values[0].GetType().GetProperties();
+                                    foreach (PropertyInfo fkObjectProperty in fkObjectProperties)
+                                    {
+                                        if (fkObjectProperty.Name.Equals(keyField.ForeignIdFieldName))
+                                        {
+                                            object idValue = fkObjectProperty.GetValue(values[0]);
+                                            idField.SetValue(this, idValue);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task ValidateBusinessLogicAsync(TDataRecordSaveMode saveMode, FwBusinessLogic original, FwValidateResult result)
         {
+            await ResolveForeignKeyLookups();
+
             BeforeValidateEventArgs args = new BeforeValidateEventArgs();
             args.SaveMode = saveMode;
             args.Original = original;
@@ -1902,6 +2036,11 @@ namespace FwStandard.BusinessLogic
         {
             // only serialize the _Fields property when this IsEmptyObject
             return IsEmptyObject;
+        }
+        //------------------------------------------------------------------------------------
+        protected void AddForeignKey(FwForeignKey foreignKey)
+        {
+            this.foreignKeys.Add(foreignKey);
         }
         //------------------------------------------------------------------------------------
     }

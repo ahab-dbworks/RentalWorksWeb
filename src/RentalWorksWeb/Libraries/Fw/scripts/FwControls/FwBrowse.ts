@@ -1870,17 +1870,37 @@ class FwBrowseClass {
             });
         }
 
-        if (options.hasDownloadExcel) {
+        const gridName = options.$browse.data('name');
+        if (options.hasDownloadExcel) { // Grid menu
             const gridSecurityId = options.$browse.data('secid');
-            const gridName = options.$browse.data('name');
             FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    FwBrowse.downloadExcelWorkbook(options.$browse, gridName + 'Controller');
+                    FwBrowse.downloadExcelWorkbook(options.$browse, `${gridName}Controller`);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
+
         }
+
+        // Import to Excel menu option
+        if (options.hasEdit || options.hasNew) {
+            const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+            if (isWebAdmin === 'true') {
+                const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                if (userEmail.endsWith('dbworks.com')) {
+                    FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
+                        try {
+                            FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
+            }
+        }
+
+
 
         FwMenu.applyGridSecurity(options, options.gridSecurityId);
         FwMenu.cleanupMenu(options.$menu);
@@ -4156,6 +4176,324 @@ class FwBrowseClass {
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    importExcelFromBrowse($browse, controller) { // referenced in FwBrowse (grids) and FwMenu (browses)
+        // inital confirmation for the import workflow
+        const $confirmation = FwConfirmation.renderConfirmation('Import from Excel (*.xlsx, *.csv)', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '650px');
+        const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
+                          <div class="import-title" style="font-size: 13px;margin-bottom:3px;">Select Excel file to import</div>
+                          <div class="flexrow import-excel" style="align-items:center;">
+                            <div class="btn-wrapper" style="max-width:77px;">
+                              <label class="import-excel-label" for="uploadExcel">Browse</label>
+                              <input id="uploadExcel" type="file">
+                            </div>
+                            <div id="fileName" style="border:1px solid #dcdcdc;background-color:#dcdcdc;max-width:475px;max-height:35px;min-height:35px;border-radius: 2px;"><span style="vertical-align:middle;"></span></div>
+                            <div id="cancel" style="max-width:20px;"></div>
+                          </div>
+                        </div>`;
+
+        FwConfirmation.addControls($confirmation, htmlStr);
+        $confirmation.find('.body').css({
+            'min-height': '40px',
+            'padding': '4px 10px 10px 10px',
+        })
+        const $import = FwConfirmation.addButton($confirmation, 'Import', false);
+        $import.css('pointer-events', 'none');
+        const $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+        $confirmation.find('#cancel').append($cancel);
+        $confirmation.find('.fwconfirmation-buttonbar')
+            .prepend('<div class="dl-template" style="font-size:.8em;color:#2626f3;cursor:pointer;margin:10px 10px 10px 20px;min-width:534px;">Download an Excel template file to use for this import</div>')
+            .css({
+                "display": "flex",
+                "align-items": "center",
+                "align-content": "space-between",
+            });
+        $confirmation.find('#cancel').addClass('fwconfirmation-buttonbar');
+
+        // ----------
+        $confirmation.find('#uploadExcel').on('change', e => { // user has chosen a file to upload using the file input dialog
+            $confirmation.find('.import-title').css('visibility', 'hidden');
+            $confirmation.find('.dl-template').css('visibility', 'hidden');
+            $confirmation.find('#fileName span').text('');
+            $import.css('pointer-events', '');
+            const $this = jQuery(e.currentTarget);
+            const folder: any = $this[0];
+            if (folder.files) {
+                $confirmation.find('#uploadExcel').attr("src", '');
+                const file: any = folder.files[0];
+                if (file) {
+                    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
+                        $confirmation.find('#fileName span').text(file.name);
+                        const url = URL.createObjectURL(file);
+                        $confirmation.find('#uploadExcel').attr("src", url);
+                    } else {
+                        $confirmation.find('#uploadExcel').val('');
+                        FwNotification.renderNotification('WARNING', 'Only Excel file types supported.')
+                    }
+                } else {
+                    $import.css('pointer-events', 'none');
+                }
+            }
+        });
+        // ----------
+        $import.on('click', e => {
+            if ($confirmation.find('#uploadExcel').attr("src") !== '') {
+                const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Processing your Excel file. This may take some time...');
+                // ----------
+                (function ExcelToJSON() {
+                    const $this = $confirmation.find('#uploadExcel');
+                    const folder: any = $this[0];
+                    const excelFile: any = folder.files[0];
+
+                    // ----------
+                    function parseExcel(file) {
+                        const reader = new FileReader();
+                        // ----------
+                        reader.onload = e => {
+                            const data = e.target.result;
+                            const workbook = XLSX.read(data, { type: 'binary' });
+
+                            const sheetNames = workbook.SheetNames;
+                            let excelObject;
+                            for (let i = 0; i < sheetNames.length; i++) {
+                                excelObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[i]], { raw: true, defval: '' })
+                                //let JSON_arr = JSON.stringify(excelObject);
+                                FwNotification.closeNotification($notification);
+                            }
+
+                            // Getting PrimaryKey from API for this browse or grid
+                            const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>({
+                                httpMethod: 'GET',
+                                url: `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/keyfieldnames`,
+                                $elementToBlock: jQuery('#application'),
+                            })
+                                .then(async (keys: any) => {
+                                    if (keys.length) {
+                                        async function uploadRecord(url, method, data): Promise<any> {
+                                            return FwAjax.callWebApi<any, any>({
+                                                httpMethod: method,
+                                                data: data,
+                                                url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
+                                                $elementToBlock: jQuery('#application'),
+                                            })
+                                        }
+
+                                        let method: any = 'PUT';
+                                        function processKeys(keys) { // some modules have multiple keys
+                                            for (let j = 0; j < keys.length; j++) {
+                                                const id = keys[j];
+                                                if (excelObject[i].hasOwnProperty(id)) { // Does the key exist within the record?
+                                                    if (excelObject[i][`${id}`] === '') {   // if key value is blank, POST (new record)
+                                                        method = 'POST';
+                                                    }
+                                                } else {
+                                                    // key was missing from row so create key with blank val and POST as new record
+                                                    excelObject[i][`${id}`] = '';
+                                                    method = 'POST';
+                                                }
+                                            }
+                                        }
+                                        let primaryKey = keys[0]; // first key within the loader will be use in the url for any PUT requests
+
+                                        let proceed = true;
+                                        let hasError = false;
+                                        let i = 0;
+                                        const totalSteps = excelObject.length;
+
+                                        // progress bar
+                                        const html: Array<string> = [];
+                                        html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
+                                        html.push(`<div class="progress_bar_text"></div>`);
+                                        html.push(`<div class="progress_bar_caption">Initiating upload...</div>`);
+
+                                        const $moduleoverlay = jQuery(`<div class="progress_bar">`);
+                                        $moduleoverlay.html(html.join(''));
+                                        jQuery('#application').css('position', 'relative').append($moduleoverlay);
+
+                                        // interval in place of a loop to iterate over rows to be uploaded while waiting for user to choose in the case of any errors
+                                        let handle: number = window.setInterval(async () => {
+                                            try {
+                                                console.log('step');
+                                                if (proceed && i <= (totalSteps - 1)) {
+                                                    if ($moduleoverlay) {
+                                                        $moduleoverlay.find('progress').val(i);
+                                                        $moduleoverlay.find('progress').attr('max', totalSteps);
+                                                        $moduleoverlay.find('.progress_bar_caption').text('Upload in progress. Please Standby...');
+                                                    }
+
+                                                    proceed = false;
+
+                                                    // method to remove leading or trailing whitespace from keys in row if needed
+                                                    //for (let key in excelObject[i]) {
+                                                    //    if (typeof key === 'string') {
+                                                    //        if (key.trim() !== key) {
+                                                    //            excelObject[i][key.trim()] = excelObject[i][key];
+                                                    //            delete excelObject[i][key];
+                                                    //        }
+                                                    //    }
+                                                    //}
+
+                                                    await processKeys(keys);
+
+                                                    let url = null;
+                                                    if (method === 'PUT') {
+                                                        //if PUT, url needs id
+                                                        url = `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/${excelObject[i][`${primaryKey}`]}`;
+                                                    }
+
+                                                    // actual API call with err handling to prevent successive calls 
+                                                    await uploadRecord(url, method, excelObject[i])
+                                                        .then((res) => {
+                                                            i++;
+                                                            proceed = true;
+                                                        })
+                                                        .catch((ex) => {
+                                                            proceed = false;
+                                                            hasError = true;
+                                                            const $confirmation = FwConfirmation.renderConfirmation(`${ex.statusText}`, `${ex.message}`);
+                                                            FwConfirmation.addControls($confirmation, `<div style="text-align:center;"></div><div style="margin:10px 0 0 0;text-align:center;">Error on row ${i + 1} of your file<div>`);
+
+                                                            const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
+                                                            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                                                            $yes.on('click', e => {
+                                                                FwConfirmation.destroyConfirmation($confirmation);
+                                                                proceed = true;
+                                                                i++;
+                                                            });
+                                                            $no.on('click', e => {
+                                                                FwConfirmation.destroyConfirmation($confirmation);
+                                                                proceed = false;
+                                                                i = totalSteps;
+                                                                window.clearInterval(handle);
+                                                                handle = 0;
+                                                                $moduleoverlay.remove();
+                                                            });
+                                                        });
+                                                }
+
+                                                if (i >= totalSteps) {
+                                                    window.clearInterval(handle);
+                                                    handle = 0;
+                                                    $moduleoverlay.remove();
+                                                    const fileName = $confirmation.find('#fileName span').text();
+                                                    FwNotification.renderNotification('INFO', `${fileName ? fileName : 'File'} upload complete ${hasError ? 'with errors' : ''}.`);
+                                                    FwBrowse.search($browse);
+                                                }
+
+                                            } catch (ex) {
+                                                console.error('exception: ', ex);
+                                            }
+                                        }, 1000);
+                                    }
+                                });
+                        };
+
+                        reader.onerror = ex => {
+                            console.error(ex);
+                        };
+
+                        reader.readAsBinaryString(file);
+                    };
+
+                    if (excelFile.size <= 32691405) { // 22800 records
+                        parseExcel(excelFile);
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'File size limit is 32.6MB');
+                    }
+                })();
+
+                // if satisfactory excelFile
+                FwConfirmation.destroyConfirmation($confirmation);
+            } else {
+                FwNotification.renderNotification('WARNING', 'Upload a file first.');
+            }
+        });
+        // ----------
+        $confirmation.find('.dl-template').on('click', e => {
+            FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                const resFields = response._Fields
+                const obj = {}
+                for (let i = 0; i < resFields.length; i++) {
+                    const item = resFields[i];
+                    obj[item.Name] = "";
+                }
+                const fields = [];
+                fields.push(obj);
+
+                function JSONToCSVConvertor(JSONData, ShowLabel) {
+                    //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+                    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+                    var CSV = 'sep=,' + '\r\n';
+
+                    //This condition will generate the Label/Header
+                    if (ShowLabel) {
+                        var row = "";
+
+                        //This loop will extract the label from 1st index of on array
+                        for (var index in arrData[0]) {
+
+                            //Now convert each value to string and comma-seprated
+                            row += index + ',';
+                        }
+
+                        row = row.slice(0, -1);
+
+                        //append Label row with line break
+                        CSV += row + '\r\n';
+                    }
+
+                    //1st loop is to extract each row
+                    for (let i = 0; i < arrData.length; i++) {
+                        var row = "";
+
+                        //2nd loop will extract each column and convert it in string comma-seprated
+                        for (var index in arrData[i]) {
+                            row += '"' + arrData[i][index] + '",';
+                        }
+
+                        row.slice(0, row.length - 1);
+
+                        //add a line break after each row
+                        CSV += row + '\r\n';
+                    }
+
+                    if (CSV == '') {
+                        alert("Invalid data");
+                        return;
+                    }
+
+                    //Generate a file name
+                    let fileName = `${controller.substring(0, controller.length - 10)}-Template`;
+                    //Initialize file format you want csv or xls
+                    var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+                    // you can use either>> window.open(uri);
+                    // but this will not work in some browsers
+                    // or you will not get the correct file extension    
+
+                    //this trick will generate a temp <a /> tag
+                    const link = document.createElement("a");
+                    link.href = uri;
+
+                    //set the visibility hidden so it will not effect on your web-layout
+                    // link.style = "visibility:hidden";
+                    link.download = fileName + ".csv";
+
+                    //this part will append the anchor tag and remove it after automatic click
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+
+                JSONToCSVConvertor(fields, true);
+
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, null);
+        });
     }
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {

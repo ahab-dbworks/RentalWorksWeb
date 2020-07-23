@@ -8,3 +8,4 @@ declare var DayPilot: any;
 declare var moment: any;
 declare var Sortable: any;
 declare var CKEDITOR: any;
+declare var XLSX: any;

@@ -152,6 +152,8 @@
     <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
+    <Content Include="Libraries\sheetsJS\jszip.js" />
+    <Content Include="Libraries\sheetsJS\xlsx.js" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.js" />
     <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.js" />
@@ -1409,6 +1411,7 @@
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.js.map" />
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />
+    <Content Include="Libraries\sheetsJS\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

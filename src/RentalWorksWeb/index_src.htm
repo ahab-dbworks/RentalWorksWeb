@@ -16,89 +16,89 @@
     <!--<script src="https://js.braintreegateway.com/web/dropin/1.14.1/js/dropin.min.js"></script>-->
     <script src=""></script>  <!-- 07/21/2020 justin hoffman this tag is used by dynatrace -->
 
-    <!-- StyleSheets -->
-    {{{stylesheets}}}
+  <!-- StyleSheets -->
+  {{{stylesheets}}}
 
-    <!-- Controls & Pages -->
-    {{{Pages}}}
+  <!-- Controls & Pages -->
+  {{{Pages}}}
 
-    <!-- Validations -->
-    {{{Validations}}}
+  <!-- Validations -->
+  {{{Validations}}}
 
-    <!-- Grids -->
-    {{{Grids}}}
+  <!-- Grids -->
+  {{{Grids}}}
 
-    <!-- Modules -->
-    {{{Modules}}}
+  <!-- Modules -->
+  {{{Modules}}}
 
-    <!-- Reports -->
-    {{{Reports}}}
+  <!-- Reports -->
+  {{{Reports}}}
 
-    <!-- ApplicationConfig Overrides -->
-    <!--<script type="text/javascript">
-      var FwGlobalLeakTest = {
-        globalsBefore: {}
-      };
-      for (var key in window) {
-          FwGlobalLeakTest.globalsBefore[key] = true;
-      }
-    </script>-->
+  <!-- ApplicationConfig Overrides -->
+  <!--<script type="text/javascript">
+    var FwGlobalLeakTest = {
+      globalsBefore: {}
+    };
+    for (var key in window) {
+        FwGlobalLeakTest.globalsBefore[key] = true;
+    }
+  </script>-->
 
-    <link rel="stylesheet" href="libraries/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="libraries/codemirror/lib/codemirror.css">
 
 </head>
 <body>
 
-<div id="application" class="application hidden"></div>
+  <div id="application" class="application hidden"></div>
 
-<!-- JavaScript -->
-{{{javascripts}}}
+  <!-- JavaScript -->
+  {{{javascripts}}}
 
-<!-- Version -->
-{{{applicationConfigVersion}}}
+  <!-- Version -->
+  {{{applicationConfigVersion}}}
 
-<script type="text/javascript" src="ApplicationConfig.js"></script>
-<script src="libraries/ckeditor/ckeditor.js"></script>
-<script src="libraries/ckeditor/adapters/jquery.js"></script>
-<script src="libraries/ckeditor/config.js"></script>
-<script src="libraries/codemirror/lib/codemirror.js"></script>
-<script src="libraries/codemirror/addon/fold/foldcode.js"></script>
-<script src="libraries/codemirror/addon/fold/foldgutter.js"></script>
-<script src="libraries/codemirror/addon/fold/xml-fold.js"></script>
-<script src="libraries/codemirror/mode/xml/xml.js"></script>
+  <script type="text/javascript" src="ApplicationConfig.js"></script>
+  <script src="libraries/ckeditor/ckeditor.js"></script>
+  <script src="libraries/ckeditor/adapters/jquery.js"></script>
+  <script src="libraries/ckeditor/config.js"></script>
+  <script src="libraries/codemirror/lib/codemirror.js"></script>
+  <script src="libraries/codemirror/addon/fold/foldcode.js"></script>
+  <script src="libraries/codemirror/addon/fold/foldgutter.js"></script>
+  <script src="libraries/codemirror/addon/fold/xml-fold.js"></script>
+  <script src="libraries/codemirror/mode/xml/xml.js"></script>
 
-<script type="text/javascript">
-  // inline templates when debugging by ajaxing for the src url
-  var $templates = jQuery('script[data-ajaxload="true"]');
-  $templates.each(function () {
+  <script type="text/javascript">
+    // inline templates when debugging by ajaxing for the src url
+    var $templates = jQuery('script[data-ajaxload="true"]');
+    $templates.each(function () {
       let $element = jQuery(this);
       $element.removeAttr('data-ajaxload');
       if ($element.attr("src")) {
-          jQuery.ajax(
-            $element.attr("src"),
-            {
-              async: true,
-              context: this,
-              success: function (data) { jQuery(this).html(data); }
-            }
-          );
+        jQuery.ajax(
+          $element.attr("src"),
+          {
+            async: true,
+            context: this,
+            success: function (data) { jQuery(this).html(data); }
+          }
+        );
       }
-  });
-</script>
+    });
+  </script>
 
-<!--<script type="text/javascript">
-  FwGlobalLeakTest.leaked = [];
-  for (var key in window) {
-  if (!FwGlobalLeakTest.globalsBefore.hasOwnProperty(key)) {
-      FwGlobalLeakTest.leaked.push(key);
+  <!--<script type="text/javascript">
+    FwGlobalLeakTest.leaked = [];
+    for (var key in window) {
+    if (!FwGlobalLeakTest.globalsBefore.hasOwnProperty(key)) {
+        FwGlobalLeakTest.leaked.push(key);
+      }
     }
-  }
-  FwGlobalLeakTest.logResults = function() {
-    if (FwGlobalLeakTest.leaked.length > 0) {
-      console.log('Leaked global variables: [' + FwGlobalLeakTest.leaked.join('\n') + ']');
-    }
-  };
-</script>-->
+    FwGlobalLeakTest.logResults = function() {
+      if (FwGlobalLeakTest.leaked.length > 0) {
+        console.log('Leaked global variables: [' + FwGlobalLeakTest.leaked.join('\n') + ']');
+      }
+    };
+  </script>-->
 
 </body>
 </html>

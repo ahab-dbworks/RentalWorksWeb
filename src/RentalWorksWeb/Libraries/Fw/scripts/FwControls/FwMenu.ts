@@ -1109,7 +1109,7 @@ class FwMenuClass {
                     if (typeof $browseDataField.attr('data-searchfield') !== 'undefined') {
                         altsearchfield = $browseDataField.attr('data-searchfield');
                     }
-                  
+
                     let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type');
                     if (datafield != '') {
                         advancedSearch.searchfieldtypes.push(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
@@ -1190,16 +1190,34 @@ class FwMenuClass {
                 e.stopPropagation();
             });
         }
-        if (options.hasDownloadExcel) {
-            const gridSecurityId = options.$browse.data('secid');
-            const gridName = options.$browse.data('name');
+
+        const gridSecurityId = options.$browse.data('secid');
+        const gridName = options.$browse.data('name');
+        if (options.hasDownloadExcel) { // Browse menu
             FwMenu.addSubMenuItem(options.$groupExport, 'Download Excel Workbook (*.xlsx)', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    FwBrowse.downloadExcelWorkbook(options.$browse, gridName + 'Controller');
+                    FwBrowse.downloadExcelWorkbook(options.$browse, `${gridName}Controller`);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
+        }
+
+        // Import to Excel menu option
+        if (options.hasEdit || options.hasNew) {
+            const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+            if (isWebAdmin === 'true') {
+                const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                if (userEmail.endsWith('dbworks.com')) {
+                    FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', gridSecurityId, (e: JQuery.ClickEvent) => {
+                        try {
+                            FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
+            }
         }
 
         if (options.hasCustomize) {
