@@ -334,7 +334,6 @@ class QuikActivityCalendar {
     events($form: any) {
         const id = JSON.parse(sessionStorage.getItem('userid')).webusersid;
         const $settingsField = $form.find('[data-datafield="Load"]');
-        //const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults')).defaultquikactivitysetting;
         const defaultSettings = JSON.parse(sessionStorage.getItem('userid')).defaultquikactivitysetting;
         $form.find('.calendarmenu').css({
             'border-left': '1px solid #a9a9a9',
@@ -400,7 +399,6 @@ class QuikActivityCalendar {
         $form.find('[data-datafield="Load"]').on('change', e => {
             let settingId: any = jQuery(e.target).val();
             let settings = $settingsField.data('settings');
-            //const defaultSettings = JSON.parse(sessionStorage.getItem('controldefaults'));
             const defaultSetting = JSON.parse(sessionStorage.getItem('userid')).defaultquikactivitysetting;
             settings = settings.filter(obj => { return obj.Id == settingId });
             if (settings.length > 0) {
@@ -412,7 +410,6 @@ class QuikActivityCalendar {
                 FwNotification.renderNotification('SUCCESS', 'Settings Successfully Loaded.');
                 $form.find('.activities [data-type="checkbox"]').eq(0).change();
             }
-            //if (settingId != defaultSettings.defaultquikactivitysetting) {
             if (settingId != defaultSetting) {
                 this.updateDefaultSetting($form, $calendar, settingId);
             }
@@ -484,14 +481,14 @@ class QuikActivityCalendar {
             UserId: userId,
             QuikActivitySetting: id
         };
-        let prevData = JSON.parse(sessionStorage.getItem('controldefaults'));
+        let prevData = JSON.parse(sessionStorage.getItem('userid'));
         if (prevData.defaultquikactivitysetting != id) {
             FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${userId}`, req, FwServices.defaultTimeout, response => {
                 let value = { defaultquikactivitysetting: id };
                 Object.keys(value).forEach(function (val, key) {
                     prevData[val] = value[val];
                 })
-                sessionStorage.setItem('controldefaults', JSON.stringify(prevData));
+                sessionStorage.setItem('userid', JSON.stringify(prevData));
             }, ex => {
                 FwFunc.showError(ex);
             }, $calendar);
