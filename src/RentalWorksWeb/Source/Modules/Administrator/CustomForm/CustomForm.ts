@@ -555,6 +555,8 @@ class CustomForm {
             FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
             $customForm.find('tr.fieldnames .column >, .submenu-btn').off('click');
 
+            $customForm.find(`[data-control="FwAppImage"]`).replaceWith('[Image Control]');
+
             //disables availability calendar
             $customForm.find('[data-control="FwSchedulerDetailed"]').unbind('onactivatetab');
             $customForm.find('[data-control="FwScheduler"]').unbind('onactivatetab');
