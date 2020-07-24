@@ -222,7 +222,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
         .on('click', '.btntakepicture', function() {
             var $appdocument;
             try {
-                if (typeof navigator.camera === 'undefined') {
+                if (typeof navigator.camera === 'undefined' || !program.hasCamera) {
                     throw 'Camera is not supported in the current environment.';
                 }
                 $appdocument = jQuery(this).closest('.appdocument');

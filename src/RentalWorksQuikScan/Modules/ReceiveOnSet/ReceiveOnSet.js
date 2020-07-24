@@ -420,6 +420,9 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
 
         $takepicture.on('click', function() {
             try {
+                if (typeof navigator.camera === 'undefined' || !program.hasCamera) {
+                    throw 'Camera is not supported in the current environment.';
+                }
                 navigator.camera.getPicture(
                     function(imageData) { //success
                         var request;

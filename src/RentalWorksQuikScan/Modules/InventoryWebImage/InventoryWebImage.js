@@ -19,7 +19,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
     properties.item = null;
     properties.mode = 'icode';
 
-    if (typeof navigator.camera !== 'undefined') {
+    if (typeof navigator.camera !== 'undefined' && program.hasCamera) {
         screen.$view.find('#scancontrol').fwmobilemodulecontrol({
             buttons: [
                 { 

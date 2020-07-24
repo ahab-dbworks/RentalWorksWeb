@@ -208,7 +208,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
         .on('click', '.contract-photo[data-status="empty"]', function () {
             var $this = jQuery(this);
             try {
-                if (typeof navigator.camera !== 'undefined') {
+                if (typeof navigator.camera !== 'undefined' && program.hasCamera) {
                     navigator.camera.getPicture(
                         //success
                         function (imageData) {
@@ -249,7 +249,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                         }
                     );
                 } else {
-                    FwNotification.renderNotification('ERROR', 'Only supported on mobile devices');
+                    FwNotification.renderNotification('ERROR', 'Taking pictures is not supported on this device.');
                 }
             } catch (ex) {
                 FwFunc.showError(ex);

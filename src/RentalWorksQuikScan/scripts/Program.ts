@@ -24,6 +24,7 @@ class Program extends FwApplication {
     lineaPro_BatteryStatus_Status: 'unknown' | 'critical' | 'low' | 'ok' = 'unknown';
     showRfidStatusIcon: boolean = false;
     hasHfRfidApplicationOption: boolean = true;
+    hasCamera: boolean = false;
     //---------------------------------------------------------------------------------
     constructor() {
         super();
@@ -164,6 +165,14 @@ class Program extends FwApplication {
                         } else {
                             (<any>window).screen.lockOrientation(<OrientationLockType | OrientationLockType[]>orientation);
                         }
+                    }
+
+                    // for backwards compatibility we'll set hasCamera to true when app is running in Cordova
+                    this.hasCamera = true;
+                    if (DwCordovaFunc !== undefined && DwCordovaFunc.getHasCamera !== undefined) {
+                        DwCordovaFunc.getHasCamera((args: Array<any>) => {
+                            this.hasCamera = args[0];
+                        });
                     }
 
                     if (typeof DTDevices === 'object') {
