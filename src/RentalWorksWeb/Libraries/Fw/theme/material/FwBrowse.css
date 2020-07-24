@@ -463,7 +463,7 @@ html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;
 
 /*import excel files from browse*/
 input[type="file"]#uploadExcel { position: absolute; z-index: -1;top: 6px;left: 0;font-size: 15px;color: rgb(153,153,153); }
-.import-excel-label { display: inline-block;padding:6px 12px;cursor:pointer;border-radius:4px;background-color: #145ece;font-size: 16px;color: #fff;box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
+.import-excel-label { display: inline-block;padding:6px 12px;cursor:pointer;border-radius:4px;background-color: #145ece;font-size: 16px;color: #fff; }
 .import .import-title { font-size: 13px;margin-bottom:3px; }
 .import-excel { align-items:center; }
 .import-excel .btn-wrapper { position: relative; max-width:77px; }

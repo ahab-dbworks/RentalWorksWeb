@@ -4220,7 +4220,6 @@ class FwBrowseClass {
             $import.css({
                 'pointer-events': '',
                 'background-color': '#145ece',
-                'box-shadow': '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
             });
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
@@ -4240,7 +4239,6 @@ class FwBrowseClass {
                     $import.css({
                         'pointer-events': 'none',
                         'background-color': '#dcdcdc',
-                        'box-shadow': '',
                     });
                 }
             }
