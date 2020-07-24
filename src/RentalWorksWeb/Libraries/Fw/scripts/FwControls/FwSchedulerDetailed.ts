@@ -32,43 +32,6 @@ class FwSchedulerDetailedClass {
         schedulerbtns.push('  <div class="jumpdate"><span>Jump To: <input class="value" type="text" data-type="text" /><i class="material-icons btndate">&#xE8DF;</i></span></div>');
         schedulerbtns.push('</div>');
         FwMenu.addCustomContent($menucontrol, jQuery(schedulerbtns.join('\n')));
-        // separate sort menu from other options
-        FwMenu.addVerticleSeparator($menucontrol);
-        // default sort view is Order Number on load
-        $control.data('sortSelected', 'OrderNumber');
-        // menu options and evt listeners
-        const $orderNumberView = FwMenu.generateDropDownViewBtn('Order Number', true);
-        $orderNumberView.on('click', e => {
-            try {
-                $control.data('sortSelected', 'OrderNumber');
-                FwSchedulerDetailed.loadEvents($control);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        const $startView = FwMenu.generateDropDownViewBtn('Reservation Start', false);
-        $startView.on('click', e => {
-            try {
-                $control.data('sortSelected', 'Start');
-                FwSchedulerDetailed.loadEvents($control);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        const $endView = FwMenu.generateDropDownViewBtn('Reservation End', false);
-        $endView.on('click', e => {
-            try {
-                $control.data('sortSelected', 'End');
-                FwSchedulerDetailed.loadEvents($control);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        const viewItems: JQuery[] = [];
-        viewItems.push($orderNumberView, $startView, $endView);
-        FwMenu.addViewBtn($menucontrol, 'Sort', viewItems);
-        // verticle sepaerator needs margin-left
-        $control.find('.buttonbar .vr').css('margin', '0 0 0 28px');
 
         const $form = $control.closest('.fwform');
         const controller = (<any>window)[$form.attr('data-controller')];

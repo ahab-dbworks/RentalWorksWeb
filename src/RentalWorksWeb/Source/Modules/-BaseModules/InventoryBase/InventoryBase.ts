@@ -147,6 +147,8 @@ abstract class InventoryBase {
 
         const $realScheduler = $form.find('.realscheduler');
         this.addCalSchedEvents($form, $realScheduler, inventoryId);
+        const $menuControl = $realScheduler.find('.fwmenu');
+        this.renderSchedulerSortMenu($realScheduler, $menuControl);
 
         if (mode === 'NEW') {
             this.setupNewMode($form);
@@ -464,6 +466,44 @@ abstract class InventoryBase {
                     FwValidation.validationPeek($control, module, id, datafield, $form, title);
                 });
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    renderSchedulerSortMenu(scheduler: JQuery, menu: JQuery): void {
+        FwMenu.addVerticleSeparator(menu);
+        scheduler.data('sortSelected', 'OrderNumber');
+        // menu options and evt listeners
+        const $orderNumberView = FwMenu.generateDropDownViewBtn('Order Number', true);
+        $orderNumberView.on('click', e => {
+            try {
+                scheduler.data('sortSelected', 'OrderNumber');
+                FwSchedulerDetailed.loadEvents(scheduler);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const $startView = FwMenu.generateDropDownViewBtn('Reservation Start', false);
+        $startView.on('click', e => {
+            try {
+                scheduler.data('sortSelected', 'Start');
+                FwSchedulerDetailed.loadEvents(scheduler);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const $endView = FwMenu.generateDropDownViewBtn('Reservation End', false);
+        $endView.on('click', e => {
+            try {
+                scheduler.data('sortSelected', 'End');
+                FwSchedulerDetailed.loadEvents(scheduler);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        const viewItems: JQuery[] = [];
+        viewItems.push($orderNumberView, $startView, $endView);
+        FwMenu.addViewBtn(menu, 'Sort', viewItems);
+        // verticle sepaerator needs margin-left
+        scheduler.find('.buttonbar .vr').css('margin', '0 0 0 28px');
     }
     //----------------------------------------------------------------------------------------------
     loadScheduler($form, events, resources) {

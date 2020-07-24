@@ -514,6 +514,8 @@ class OrderItemGrid {
                     FwSchedulerDetailed.renderRuntimeHtml($scheduler);
                     FwSchedulerDetailed.init($scheduler);
                     RentalInventoryController.addCalSchedEvents($generatedtr, $scheduler, inventoryId);
+                    const $menuControl = $scheduler.find('.fwmenu');
+                    RentalInventoryController.renderSchedulerSortMenu($scheduler, $menuControl);
                     FwSchedulerDetailed.loadControl($scheduler);
                     FwSchedulerDetailed.navigate($scheduler, schedDate, 35);
                     FwSchedulerDetailed.refresh($scheduler);
