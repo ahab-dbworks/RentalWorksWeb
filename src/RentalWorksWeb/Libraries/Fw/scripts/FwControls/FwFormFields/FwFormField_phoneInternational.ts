@@ -1,4 +1,6 @@
-﻿class FwFormField_phoneinternationalClass implements IFwFormField {
+﻿// https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
+
+class FwFormField_phoneinternationalClass implements IFwFormField {
     //---------------------------------------------------------------------------------
     renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
@@ -30,9 +32,9 @@
         html.push('</div>');
         $control.html(html.join(''));
 
-        $control.find('.btnCall').on('click', (e) => {
-            var mail = document.createElement("a");
-            mail.href = "tel:" + this.getValue2($control);
+        $control.find('.btnCall').on('click', e => {
+            const mail = document.createElement("a");
+            mail.href = `tel:${this.getValue2($control)}`;
             mail.click();
         });
 
@@ -43,12 +45,12 @@
             {
                 nationalMode: true,
                 separateDialCode: true,
-                utilsScript: "https://localhost/rentalworksweb/libraries/fw/scripts/jquery/internationalphone/build/js/utils.js",
+                //utilsScript: `${applicationConfig.apiurl}/scripts/jquery/internationalphone/build/js/utils.js"`,
                 autoPlaceholder: "off",
                 formatOnDisplay: false,
             }
         );
-                                                             // https://github.com/jackocnr/intl-tel-input intlTelInput Documentation
+
         $input.on("countrychange", e => {
             const $this = jQuery(e.currentTarget);
             const countryCode = $this.intlTelInput('getSelectedCountryData').dialCode;
@@ -72,7 +74,7 @@
             $fwformfield.attr('data-originalvalue', value);
             $fwformfield.find('input').intlTelInput('setNumber', value);
         }
-        const $form = $fwformfield.closest('.fwform'); 
+        const $form = $fwformfield.closest('.fwform');
         if ($form.attr('data-modified') === 'true') {        // required because if country is not US, when value is set above, it triggers countrychange event. Event registration cannot be moved because loadForm is not called when opening a new record
             const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
             $tab.find('.modified').html('');
