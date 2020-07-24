@@ -4182,15 +4182,15 @@ class FwBrowseClass {
         // inital confirmation for the import workflow
         const $confirmation = FwConfirmation.renderConfirmation('Import from Excel (*.xlsx, *.csv)', '');
         $confirmation.find('.fwconfirmationbox').css('width', '650px');
-        const htmlStr = `<div class="fwform" data-controller="none" style="background-color: transparent;">
-                          <div class="import-title" style="font-size: 13px;margin-bottom:3px;">Select Excel file to import</div>
-                          <div class="flexrow import-excel" style="align-items:center;">
-                            <div class="btn-wrapper" style="max-width:77px;">
+        const htmlStr = `<div class="fwform import" data-controller="none" style="background-color: transparent;">
+                          <div class="import-title">Select Excel file to import</div>
+                          <div class="flexrow import-excel">
+                            <div class="btn-wrapper">
                               <label class="import-excel-label" for="uploadExcel">Browse</label>
                               <input id="uploadExcel" type="file">
                             </div>
-                            <div id="fileName" style="border:1px solid #dcdcdc;background-color:#dcdcdc;max-width:475px;max-height:35px;min-height:35px;border-radius: 2px;"><span style="vertical-align:middle;"></span></div>
-                            <div id="cancel" style="max-width:20px;"></div>
+                            <div id="fileName"><span></span></div>
+                            <div id="cancel"></div>
                           </div>
                         </div>`;
 
@@ -4217,7 +4217,11 @@ class FwBrowseClass {
             $confirmation.find('.import-title').css('visibility', 'hidden');
             $confirmation.find('.dl-template').css('visibility', 'hidden');
             $confirmation.find('#fileName span').text('');
-            $import.css('pointer-events', '');
+            $import.css({
+                'pointer-events': '',
+                'background-color': '#145ece',
+                'box-shadow': '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
+            });
             const $this = jQuery(e.currentTarget);
             const folder: any = $this[0];
             if (folder.files) {
@@ -4226,14 +4230,18 @@ class FwBrowseClass {
                 if (file) {
                     if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
                         $confirmation.find('#fileName span').text(file.name);
-                        const url = URL.createObjectURL(file);
+                        const url = URL.createObjectURL(file); // url and attr being used to ensure there is a file present for downstream operations
                         $confirmation.find('#uploadExcel').attr("src", url);
                     } else {
                         $confirmation.find('#uploadExcel').val('');
                         FwNotification.renderNotification('WARNING', 'Only Excel file types supported.')
                     }
-                } else {
-                    $import.css('pointer-events', 'none');
+                } else { // user has opened file browser dialog and selected cancel without choosing a file
+                    $import.css({
+                        'pointer-events': 'none',
+                        'background-color': '#dcdcdc',
+                        'box-shadow': '',
+                    });
                 }
             }
         });
@@ -4258,8 +4266,7 @@ class FwBrowseClass {
                             const sheetNames = workbook.SheetNames;
                             let excelObject;
                             for (let i = 0; i < sheetNames.length; i++) {
-                                excelObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[i]], { raw: true, defval: '' })
-                                //let JSON_arr = JSON.stringify(excelObject);
+                                excelObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[i]], { raw: true, defval: '' }) // using sheetsJS
                                 FwNotification.closeNotification($notification);
                             }
 
@@ -4412,7 +4419,7 @@ class FwBrowseClass {
         });
         // ----------
         $confirmation.find('.dl-template').on('click', e => {
-            FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) { // using the emptyobject endpoint for each API to get a list of fields associated with each module
                 const resFields = response._Fields
                 const obj = {}
                 for (let i = 0; i < resFields.length; i++) {
@@ -4422,19 +4429,18 @@ class FwBrowseClass {
                 const fields = [];
                 fields.push(obj);
 
-                function JSONToCSVConvertor(JSONData, ShowLabel) {
+                function ConvertJSONToCSV(JSONData, ShowLabel) {
                     //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
-                    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+                    const arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
 
-                    var CSV = 'sep=,' + '\r\n';
+                    let CSV = 'sep=,' + '\r\n';
 
                     //This condition will generate the Label/Header
                     if (ShowLabel) {
-                        var row = "";
+                        let row = "";
 
                         //This loop will extract the label from 1st index of on array
-                        for (var index in arrData[0]) {
-
+                        for (let index in arrData[0]) {
                             //Now convert each value to string and comma-seprated
                             row += index + ',';
                         }
@@ -4447,10 +4453,10 @@ class FwBrowseClass {
 
                     //1st loop is to extract each row
                     for (let i = 0; i < arrData.length; i++) {
-                        var row = "";
+                        let row = "";
 
-                        //2nd loop will extract each column and convert it in string comma-seprated
-                        for (var index in arrData[i]) {
+                        //2nd loop will extract each column and convert it in string comma-seperated
+                        for (let index in arrData[i]) {
                             row += '"' + arrData[i][index] + '",';
                         }
 
@@ -4461,14 +4467,14 @@ class FwBrowseClass {
                     }
 
                     if (CSV == '') {
-                        alert("Invalid data");
+                        FwFunc.showError('Invalid Data');
                         return;
                     }
 
                     //Generate a file name
-                    let fileName = `${controller.substring(0, controller.length - 10)}-Template`;
+                    const fileName = `${controller.substring(0, controller.length - 10)}-Template`;
                     //Initialize file format you want csv or xls
-                    var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+                    const uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
 
                     // you can use either>> window.open(uri);
                     // but this will not work in some browsers
@@ -4488,7 +4494,7 @@ class FwBrowseClass {
                     document.body.removeChild(link);
                 }
 
-                JSONToCSVConvertor(fields, true);
+                ConvertJSONToCSV(fields, true);
 
             }, function onError(response) {
                 FwFunc.showError(response);

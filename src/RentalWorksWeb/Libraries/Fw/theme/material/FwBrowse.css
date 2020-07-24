@@ -462,27 +462,14 @@ html.theme-material .fwbrowse table tbody tr.selected:not(.rowbackgroundcolor):n
 html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;}
 
 /*import excel files from browse*/
-input[type="file"]#uploadExcel {
-    position: absolute;
-    z-index: -1;
-    top: 6px;
-    left: 0;
-    font-size: 15px;
-    color: rgb(153,153,153);
-}
-
-.import-excel-label {
-    display: inline-block;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 4px;
-    background-color: #145ece;
-    font-size: 16px;
-    color: #fff;
-}
-.import-excel .btn-wrapper {
-    position: relative;
-}
+input[type="file"]#uploadExcel { position: absolute; z-index: -1;top: 6px;left: 0;font-size: 15px;color: rgb(153,153,153); }
+.import-excel-label { display: inline-block;padding:6px 12px;cursor:pointer;border-radius:4px;background-color: #145ece;font-size: 16px;color: #fff;box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
+.import .import-title { font-size: 13px;margin-bottom:3px; }
+.import-excel { align-items:center; }
+.import-excel .btn-wrapper { position: relative; max-width:77px; }
+.import-excel #fileName { border:1px solid #dcdcdc;background-color:#dcdcdc;max-width:475px;max-height:33px;min-height:33px;border-radius:2px; }
+.import-excel #fileName span { vertical-align:middle; }
+.import-excel #cancel { max-width:20px; }
     /*------------------------------------------------------------------------------------------------*/
     /*Collapsible grid flex flow col*/
     @media only screen and (max-width: 1200px) {
