@@ -51,13 +51,6 @@ namespace WebApi.Modules.Inventory.RentalInventory
         [FwSqlDataField(column: "primarydimensionlengthin", modeltype: FwDataTypes.Integer)]
         public int? WallLengthIn { get; set; }
 
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
-        public string CompletePackagePrice { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
-        public string KitPackagePrice { get; set; }
-
         // for cusomizing browse 
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Decimal)]

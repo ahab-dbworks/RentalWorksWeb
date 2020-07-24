@@ -259,8 +259,11 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwLogicProperty(Id: "hYjnM5FeLLg5")]
         public bool? WarehouseSpecificPackage { get { return master.WarehouseSpecificPackage; } set { master.WarehouseSpecificPackage = value; } }
 
-        [FwLogicProperty(Id: "FcYVoobiatMZ")]
-        public string PackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
+        [FwLogicProperty(Id: "zRuOXwkm25MV")]
+        public string CompletePackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
+
+        [FwLogicProperty(Id: "BmlVKXeDU54G")]
+        public string KitPackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
 
         [FwLogicProperty(Id: "EGXULbx61APZ")]
         public bool? SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
@@ -450,7 +453,14 @@ namespace WebApi.Modules.HomeControls.Inventory
 
             if (isValid)
             {
-                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.PackagePrice));
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.CompletePackagePrice));
+                string[] acceptableValues = { "", RwConstants.INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_ITEM_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.KitPackagePrice));
                 string[] acceptableValues = { "", RwConstants.INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_ITEM_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }

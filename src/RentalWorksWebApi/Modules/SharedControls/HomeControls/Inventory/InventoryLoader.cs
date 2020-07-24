@@ -237,7 +237,10 @@ namespace WebApi.Modules.HomeControls.Inventory
         public bool? WarehouseSpecificPackage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
-        public string PackagePrice { get; set; }
+        public string CompletePackagePrice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
+        public string KitPackagePrice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "separate", modeltype: FwDataTypes.Boolean)]
         public bool? SeparatePackageOnQuoteOrder { get; set; }

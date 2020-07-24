@@ -67,12 +67,6 @@ namespace WebApi.Modules.Inventory.RentalInventory
         public int? WallLengthIn { get { return primaryDimension.LengthIn; } set { primaryDimension.LengthIn = value; } }
 
 
-        [FwLogicProperty(Id: "zRuOXwkm25MV")]
-        public string CompletePackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
-
-        [FwLogicProperty(Id: "BmlVKXeDU54G")]
-        public string KitPackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
-
 
         // for cusomizing browse 
         //------------------------------------------------------------------------------------ 
