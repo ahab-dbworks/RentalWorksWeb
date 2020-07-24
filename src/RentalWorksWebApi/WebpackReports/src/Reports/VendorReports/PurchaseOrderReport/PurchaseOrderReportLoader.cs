@@ -207,6 +207,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.PurchaseOrderId);
                     qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, recType);
+                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }

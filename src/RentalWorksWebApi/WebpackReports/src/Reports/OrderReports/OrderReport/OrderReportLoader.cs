@@ -245,6 +245,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, recType);
+                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }

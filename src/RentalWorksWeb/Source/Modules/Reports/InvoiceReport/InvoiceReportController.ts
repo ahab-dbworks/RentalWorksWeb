@@ -14,10 +14,14 @@ const invoiceTemplate = `
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
-            <div class="flexcolumn" style="max-width:300px;">
+            <div class="flexcolumn" style="max-width:500px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Invoice" data-savesetting="false" data-required="true" data-datafield="InvoiceId" data-displayfield="InvoiceNumber" data-validationname="InvoiceValidation" style="float:left;max-width:300px;"></div>
+                </div>
+                <div data-datafield="IsSummary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" style="margin-top:1rem">
+                  <div data-value="true" data-caption="Summary - Hide no-cost Complete/Kit accessories"></div>
+                  <div data-value="false" data-caption="Detail - Show all items"></div>
                 </div>
               </div>
             </div>

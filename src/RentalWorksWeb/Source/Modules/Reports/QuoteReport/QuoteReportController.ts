@@ -14,10 +14,14 @@ const quoteTemplate = `
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
-            <div class="flexcolumn" style="max-width:300px;">
+            <div class="flexcolumn" style="max-width:500px;">
                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield order-contact-field" data-caption="Quote" data-datafield="QuoteId" data-displayfield="QuoteNumber" data-savesetting="false" data-required="true" data-validationname="QuoteValidation" style="float:left;max-width:300px;"></div>
+                </div>
+                <div data-datafield="IsSummary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" style="margin-top:1rem">
+                  <div data-value="true" data-caption="Summary - Hide no-cost Complete/Kit accessories"></div>
+                  <div data-value="false" data-caption="Detail - Show all items"></div>
                 </div>
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="CompanyIdField" data-savesetting="false" style="display:none;"></div>
               </div>

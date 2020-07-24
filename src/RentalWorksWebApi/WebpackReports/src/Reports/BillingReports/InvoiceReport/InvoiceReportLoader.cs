@@ -179,6 +179,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 {
                     qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.InvoiceId);
                     qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, recType);
+                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }

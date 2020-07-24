@@ -15,7 +15,7 @@ using WebApi.Modules.Billing.Invoice;
 
 namespace WebApi.Modules.Reports.Billing.InvoiceReport
 {
-    public class InvoiceReportRequest
+    public class InvoiceReportRequest : AppReportRequest
     {
         public string InvoiceId { get; set; }
     }
@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
     [FwController(Id: "o5nbWmTr7xy0n")]
     public class InvoiceReportController : AppReportController
     {
-        public InvoiceReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {loaderType = typeof(InvoiceReportLoader); }
+        public InvoiceReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(InvoiceReportLoader); }
         protected override string GetReportFileName(FwReportRenderRequest request) { return "InvoiceReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Invoice Report"; }
