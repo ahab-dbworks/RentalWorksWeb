@@ -223,7 +223,7 @@ class PurchaseOrder implements IModule {
         FwFormField.loadItems($form.find('div[data-datafield="totalTypeSubRental"]'), [
             { value: 'W', caption: 'Weekly' },
             { value: 'M', caption: 'Monthly' },
-            { value: 'P', caption: 'Period' }
+            { value: 'P', caption: 'Period', checked: 'checked' }
         ]);
         FwFormField.loadItems($form.find('div[data-datafield="ReceiveDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Vendor Deliver' },
@@ -899,6 +899,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                $browse.data('totals', dt.Totals);
                 this.calculateOrderItemGridTotals($form, 'subrental', dt.Totals);
                 const subrentItems = $form.find('.subrentalgrid tbody').children();
                 subrentItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubRent"]')) : FwFormField.enable($form.find('[data-datafield="SubRent"]'));
@@ -973,6 +974,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                $browse.data('totals', dt.Totals);
                 this.calculateOrderItemGridTotals($form, 'subsales', dt.Totals);
                 const subsalesItems = $form.find('.subsalesgrid tbody').children();
                 subsalesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubSale"]')) : FwFormField.enable($form.find('[data-datafield="SubSale"]'));
@@ -1041,6 +1043,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                $browse.data('totals', dt.Totals);
                 this.calculateOrderItemGridTotals($form, 'sublabor', dt.Totals);
                 const sublaborItems = $form.find('.sublaborgrid tbody').children();
                 sublaborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubLabor"]')) : FwFormField.enable($form.find('[data-datafield="SubLabor"]'));
@@ -1109,6 +1112,7 @@ class PurchaseOrder implements IModule {
                 $browse.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                $browse.data('totals', dt.Totals);
                 this.calculateOrderItemGridTotals($form, 'submisc', dt.Totals);
                 const submiscItems = $form.find('.submiscgrid tbody').children();
                 submiscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="SubMisc"]')) : FwFormField.enable($form.find('[data-datafield="SubMisc"]'));
@@ -1490,7 +1494,8 @@ class PurchaseOrder implements IModule {
             } else {
                 FwFormField.enable($form.find(`.${gridType}-total-wtax:visible`));
             }
-            this.calculateOrderItemGridTotals($form, gridType);
+            const totals = $form.find(`.R[data-issubgrid="true"] [data-name="OrderItemGrid"]`).data('totals');
+            this.calculateOrderItemGridTotals($form, gridType, totals);
         });
         this.disableCheckboxesOnLoad($form);
 
