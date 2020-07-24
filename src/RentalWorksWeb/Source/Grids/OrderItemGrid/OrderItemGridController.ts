@@ -1088,12 +1088,14 @@ class OrderItemGrid {
         }
 
         function calculateExtended(type, field?) {
-            let rateType, recType, fromDate, toDate, quantity, rate, rate2, rate3, rate4, unitCost, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
+            let rateType, recType, fromDate, toDate, billingFromDate, billingToDate, quantity, rate, rate2, rate3, rate4, unitCost, daysPerWeek, discountPercent, weeklyExtended, unitExtended, periodExtended,
                 monthlyExtended, unitDiscountAmount, weeklyDiscountAmount, monthlyDiscountAmount, periodDiscountAmount;
             rateType = FwFormField.getValueByDataField($form, 'RateType');
             recType = FwBrowse.getValueByDataField($control, $generatedtr, 'RecType');
             fromDate = FwBrowse.getValueByDataField($control, $generatedtr, 'FromDate');
             toDate = FwBrowse.getValueByDataField($control, $generatedtr, 'ToDate');
+            billingFromDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
+            billingToDate = FwFormField.getValueByDataField($form, 'BillingEndDate');
             quantity = FwBrowse.getValueByDataField($control, $generatedtr, 'QuantityOrdered');
             rate = FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
             rate2 = FwBrowse.getValueByDataField($control, $generatedtr, 'Price2');
@@ -1123,7 +1125,7 @@ class OrderItemGrid {
             } else if (type == "Discount") {
                 apiurl += "calculatediscountpercent?";
             }
-            apiurl += `RateType=${rateType}&RecType=${recType}&FromDate=${fromDate}&ToDate=${toDate}&Quantity=${quantity}&Rate=${rate}&Rate2=${rate2}&Rate3=${rate3}&Rate4=${rate4}&UnitCost=${unitCost}&DaysPerWeek=${daysPerWeek}`;
+            apiurl += `RateType=${rateType}&RecType=${recType}&FromDate=${fromDate}&ToDate=${toDate}&BillingFromDate=${billingFromDate}&BillingToDate=${billingToDate}&Quantity=${quantity}&Rate=${rate}&Rate2=${rate2}&Rate3=${rate3}&Rate4=${rate4}&UnitCost=${unitCost}&DaysPerWeek=${daysPerWeek}`;
 
             if (type == 'Extended') {
                 apiurl += `&DiscountPercent=${discountPercent}`;
