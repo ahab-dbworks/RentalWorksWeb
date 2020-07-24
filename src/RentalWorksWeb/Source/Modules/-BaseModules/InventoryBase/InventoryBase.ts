@@ -690,22 +690,29 @@ abstract class InventoryBase {
         });
 
         //Price calculation section for completes and kits
-        $form.find('[data-datafield="PackagePrice"]').on('change', e => {
-            const packagePrice = FwFormField.getValue2($form.find('[data-datafield="PackagePrice"]:visible'));
-            const classification = FwFormField.getValueByDataField($form, 'Classification');
+        $form.on('change', '[data-datafield="CompletePackagePrice"], [data-datafield="KitPackagePrice"]', e => {
+            let classification = FwFormField.getValueByDataField($form, 'Classification');
+            if (classification === 'C') {
+                classification = 'Complete';
+            } else if (classification === 'K') {
+                classification = 'Kit';
+            }
+
+
+            const packagePrice = FwFormField.getValue2($form.find(`[data-datafield="${classification}PackagePrice"]`));
             if (packagePrice == 'CP') {
                 this.enablePricingFields($form);
             } else {
-                if (classification == 'K') {
+                if (classification == 'Kit') {
                     FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
-                } else if (classification == 'C') {
+                } else if (classification == 'Complete') {
                     FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
                 }
             }
 
-            if (classification == 'K') {
+            if (classification == 'Kit') {
                 FwBrowse.search($form.find('[data-name="InventoryWarehouseKitPricingGrid"]'));
-            } else if (classification == 'C') {
+            } else if (classification == 'Complete') {
                 FwBrowse.search($form.find('[data-name="InventoryWarehouseCompletePricingGrid"]'));
             }
         });
@@ -1313,14 +1320,22 @@ abstract class InventoryBase {
         });
 
         //Enable/disable grid based on packageprice
-        const packagePrice = FwFormField.getValueByDataField($form, 'PackagePrice');
-        if (packagePrice == 'CP') {
-            this.enablePricingFields($form);
-        } else {
-            FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
-            FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
-        };
+        let classificationName;
+        if (classification === 'C') {
+            classificationName = 'Complete';
+        } else if (classification === 'K') {
+            classificationName = 'Kit';
+        }
 
+        if (classification === 'C' || classification === 'K') {
+            const packagePrice = FwFormField.getValueByDataField($form, `${classificationName}PackagePrice`);
+            if (packagePrice == 'CP') {
+                this.enablePricingFields($form);
+            } else {
+                FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseCompletePricingGrid"]'));
+                FwBrowse.disableGrid($form.find('[data-grid="InventoryWarehouseKitPricingGrid"]'));
+            };
+        }
         this.afterLoadSetClassification($form);
     }
     //----------------------------------------------------------------------------------------------

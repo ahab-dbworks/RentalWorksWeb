@@ -48,6 +48,30 @@ namespace WebApi.Modules.Inventory.RentalInventory
         public string SetSurface { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwLogicProperty(Id: "i7M6ls3sIfXd")]
+        public int? WallWidthFt { get { return primaryDimension.WidthFt; } set { primaryDimension.WidthFt = value; } }
+
+        [FwLogicProperty(Id: "YxFp5SoHqEwK")]
+        public int? WallWidthIn { get { return primaryDimension.WidthIn; } set { primaryDimension.WidthIn = value; } }
+
+        [FwLogicProperty(Id: "VbpLzz0ZjAP5")]
+        public int? WallHeightFt { get { return primaryDimension.HeightFt; } set { primaryDimension.HeightFt = value; } }
+
+        [FwLogicProperty(Id: "kuoyDXtfuSwN")]
+        public int? WallHeightIn { get { return primaryDimension.HeightIn; } set { primaryDimension.HeightIn = value; } }
+
+        [FwLogicProperty(Id: "x6sLTfuTnTkO")]
+        public int? WallLengthFt { get { return primaryDimension.LengthFt; } set { primaryDimension.LengthFt = value; } }
+
+        [FwLogicProperty(Id: "nibxo6MVaiWt")]
+        public int? WallLengthIn { get { return primaryDimension.LengthIn; } set { primaryDimension.LengthIn = value; } }
+
+
+        [FwLogicProperty(Id: "zRuOXwkm25MV")]
+        public string CompletePackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
+
+        [FwLogicProperty(Id: "BmlVKXeDU54G")]
+        public string KitPackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
 
 
         // for cusomizing browse 

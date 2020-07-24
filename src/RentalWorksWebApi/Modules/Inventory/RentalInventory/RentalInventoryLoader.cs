@@ -32,6 +32,31 @@ namespace WebApi.Modules.Inventory.RentalInventory
         public string SetSurface { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensionwidthft", modeltype: FwDataTypes.Integer)]
+        public int? WallWidthFt { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensionwidthin", modeltype: FwDataTypes.Integer)]
+        public int? WallWidthIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensionheightft", modeltype: FwDataTypes.Integer)]
+        public int? WallHeightFt { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensionheightin", modeltype: FwDataTypes.Integer)]
+        public int? WallHeightIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensionlengthft", modeltype: FwDataTypes.Integer)]
+        public int? WallLengthFt { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensionlengthin", modeltype: FwDataTypes.Integer)]
+        public int? WallLengthIn { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
+        public string CompletePackagePrice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
+        public string KitPackagePrice { get; set; }
 
         // for cusomizing browse 
         ////------------------------------------------------------------------------------------ 
