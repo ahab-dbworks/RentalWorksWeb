@@ -830,7 +830,7 @@ class FwAppImageClass {
             uniqueid1 = $control.attr('data-uniqueid1');
         } else {
             $uniqueid1field = $form.find('div[data-datafield="' + $control.attr('data-uniqueid1field') + '"]');
-            if ($uniqueid1field.length === 0) throw 'FwAppImage.loadControl: Unable to find data-uniqueid1field: ' + $control.attr('data-uniqueid1field');
+            if ($uniqueid1field.length === 0) throw 'FwAppImage.setGetAppImagesRequest: Unable to find data-uniqueid1field: ' + $control.attr('data-uniqueid1field');
             uniqueid1 = FwFormField.getValue2($uniqueid1field);
         }
         request.uniqueid1 = uniqueid1;
