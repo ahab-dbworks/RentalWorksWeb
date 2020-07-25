@@ -1212,9 +1212,11 @@ class FwSettingsClass {
                                 FwModule.setFormReadOnly($form);
                             }
 
-                            if ($form.find('.fwappimage')[0]) {
-                                FwAppImage.getAppImages($form.find('.fwappimage'))  // - 12/16/19 J. Pace Moved into this scope to prvent undefined error in sortable library
-                            }
+                            FwControl.loadControls($form.find('.fwcontrol'));
+
+                            //if ($form.find('.fwappimage')[0]) {
+                            //    FwAppImage.getAppImages($form.find('.fwappimage'))  // - 12/16/19 J. Pace Moved into this scope to prvent undefined error in sortable library
+                            //}
 
                             //if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {  // - 01/07/2020 Jason H - afterLoad is already being called in FwModule.loadForm above. 
                             //    window[moduleName + 'Controller']['afterLoad']($form);
