@@ -93,13 +93,15 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
 
-                    if (request.ExcludeGlAccountId.Length > 0)
-                    {
-                        select.AddWhere("(glaccountid not in (" + string.Join(",", request.ExcludeGlAccountId.Split(",").Select(x => "'" + x + "'")) + "))");
-                    }
+                    //if (request.ExcludeGlAccountId.Length > 0)
+                    //{
+                    //    select.AddWhere("(glaccountid not in (" + string.Join(",", request.ExcludeGlAccountId.Split(",").Select(x => "'" + x + "'")) + "))");
+                    //}
+                    //07/27/2020 justin hoffman - created special Fw method for this purpose.  Allows ID values to be parameterized to prevent sql injection
                     
                     select.AddWhereIn("locationid", request.OfficeLocationId);
                     select.AddWhereIn("glaccountid", request.GlAccountId);
+                    select.AddWhereNotIn("glaccountid", "exc", request.ExcludeGlAccountId);
                     select.AddParameter("@dealid", request.DealId);
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
