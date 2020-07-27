@@ -205,16 +205,19 @@ abstract class InventoryBase {
     //----------------------------------------------------------------------------------------------
     createComplete($form: JQuery) {
         try {
+            const controllerInstance = (<any>window)[$form.attr('data-controller')];
             const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/inventorycompletekit/createcomplete/${inventoryId}`, null, FwServices.defaultTimeout,
-                response => {
-                    const uniqueIds: any = {};
-                    uniqueIds.InventoryId = response.PackageId;
-                    const $completeForm = RentalInventoryController.loadForm(uniqueIds);
-                    FwModule.openSubModuleTab($form, $completeForm);
-                }, ex => {
-                    FwFunc.showError(ex);
-                }, $form);
+            if (controllerInstance !== undefined) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventorycompletekit/createcomplete/${inventoryId}`, null, FwServices.defaultTimeout,
+                    response => {
+                        const uniqueIds: any = {};
+                        uniqueIds.InventoryId = response.PackageId;
+                        const $completeForm = controllerInstance.loadForm(uniqueIds);
+                        FwModule.openSubModuleTab($form, $completeForm);
+                    }, ex => {
+                        FwFunc.showError(ex);
+                    }, $form);
+            }
         }
         catch (ex) {
             FwFunc.showError(ex);
