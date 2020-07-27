@@ -41,6 +41,7 @@ class VendorInvoiceBatchReport extends FwWebApiReport {
     constructor() {
         super('VendorInvoiceBatchReport', 'api/v1/vendorinvoicebatchreport', vendorInvoiceBatchTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

@@ -1,5 +1,5 @@
 ﻿<!-- Vendor Invoice Batch Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,44 +11,54 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Invoice No.</th>
-        <th>Invoice Date</th>
-        <th>PO No.</th>
-        <th class="number">Total</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-valuefield="InvoiceNumber" data-linkedcolumn="InvoiceNumber">Invoice No.</th>
+        <th data-valuefield="InvoiceDate" data-linkedcolumn="InvoiceDate">Invoice Date</th>
+        <th data-valuefield="PurchaseOrderNumber" data-linkedcolumn="PurchaseOrderNumber">PO No.</th>
+        <th data-valuefield="InvoiceTotal" data-linkedcolumn="InvoiceTotal" class="number">Total</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Locationheader"}}
+      {{#ifEquals RowType "Locationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="4" class="header-row">Office: {{Location}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Vendorheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="4" class="lower header-row">Vendor: {{Vendor}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td>{{InvoiceNumber}}</td>
-        <td>{{InvoiceDate}}</td>
-        <td>{{PurchaseOrderNumber}}</td>
-        <td class="number" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Vendorfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
+        <td data-linkedcolumn="InvoiceDate" data-value="{{InvoiceDate}}"></td>
+        <td data-linkedcolumn="PurchaseOrderNumber" data-value="{{PurchaseOrderNumber}}"></td>
+        <td data-linkedcolumn="InvoiceTotal" data-value="{{InvoiceTotal}}" class="number"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Vendorfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="3" class="total-name">{{Vendor}}&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Locationfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Locationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="3" class="total-name">{{Location}}&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
