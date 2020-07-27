@@ -1239,6 +1239,11 @@ class OrderItemGrid {
         }
     }
     //----------------------------------------------------------------------------------------------
+    beforeRowEditMode($control, $tr) {
+        //changes description field from validation to text when editing
+        $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+    }
+    //----------------------------------------------------------------------------------------------
     afterRowEditMode($grid: JQuery, $tr: JQuery) {
         $tr.find('.divcancelsaverow').on('click', e => {
             const itemClass = FwBrowse.getValueByDataField($grid, $tr, 'ItemClass');
