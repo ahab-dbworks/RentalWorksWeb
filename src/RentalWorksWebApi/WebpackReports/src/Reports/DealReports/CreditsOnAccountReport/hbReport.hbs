@@ -1,5 +1,5 @@
 ﻿<!--Credits On Account Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -10,70 +10,81 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Deal</th>
-        <th class="number">Depleting Deposits</th>
-        <th class="number">Credit Memos</th>
-        <th class="number">Overpayments</th>
-        <th class="number">Total Deposits</th>
-        <th class="number">Total Applied</th>
-        <th class="number">Total Refunded</th>
-        <th class="number">Remaining</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="TotalDepletingDeposit" data-valuefield="TotalDepletingDeposit" class="number">Depleting Deposits</th>
+        <th data-linkedcolumn="TotalCredit" data-valuefield="TotalCredit" class="number">Credit Memos</th>
+        <th data-linkedcolumn="TotalOverpayment" data-valuefield="TotalOverpayment" class="number">Overpayments</th>
+        <th data-linkedcolumn="TotalDeposit" data-valuefield="TotalDeposit" class="number">Total Deposits</th>
+        <th data-linkedcolumn="TotalApplied" data-valuefield="TotalApplied" class="number">Total Applied</th>
+        <th data-linkedcolumn="TotalRefunded" data-valuefield="TotalRefunded" class="number">Total Refunded</th>
+        <th data-linkedcolumn="Remaining" data-valuefield="Remaining" class="number">Remaining</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{Deal}}"></td>
-        <td class="number" data-value="{{TotalDepletingDeposit}}"></td>
-        <td class="number" data-value="{{TotalCredit}}"></td>
-        <td class="number" data-value="{{TotalOverpayment}}"></td>
-        <td class="number" data-value="{{TotalDeposit}}"></td>
-        <td class="number" data-value="{{TotalApplied}}"></td>
-        <td class="number" data-value="{{TotalRefunded}}"></td>
-        <td class="number" data-value="{{Remaining}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td class="total-name">{{Customer}}</td>
-        <td class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
-        <td class="total-val" data-value="{{TotalCredit}}"></td>
-        <td class="total-val" data-value="{{TotalOverpayment}}"></td>
-        <td class="total-val" data-value="{{TotalDeposit}}"></td>
-        <td class="total-val" data-value="{{TotalApplied}}"></td>
-        <td class="total-val" data-value="{{TotalRefunded}}"></td>
-        <td class="total-val" data-value="{{Remaining}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td class="total-name">{{OfficeLocation}}</td>
-        <td class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
-        <td class="total-val" data-value="{{TotalCredit}}"></td>
-        <td class="total-val" data-value="{{TotalOverpayment}}"></td>
-        <td class="total-val" data-value="{{TotalDeposit}}"></td>
-        <td class="total-val" data-value="{{TotalApplied}}"></td>
-        <td class="total-val" data-value="{{TotalRefunded}}"></td>
-        <td class="total-val" data-value="{{Remaining}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
-        <td class="total-val" data-value="{{TotalCredit}}"></td>
-        <td class="total-val" data-value="{{TotalOverpayment}}"></td>
-        <td class="total-val" data-value="{{TotalDeposit}}"></td>
-        <td class="total-val" data-value="{{TotalApplied}}"></td>
-        <td class="total-val" data-value="{{TotalRefunded}}"></td>
-        <td class="total-val" data-value="{{Remaining}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="8" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="8" class="lower header-row">Customer: {{Customer}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="TotalDepletingDeposit" class="number" data-value="{{TotalDepletingDeposit}}"></td>
+        <td data-linkedcolumn="TotalCredit" class="number" data-value="{{TotalCredit}}"></td>
+        <td data-linkedcolumn="TotalOverpayment" class="number" data-value="{{TotalOverpayment}}"></td>
+        <td data-linkedcolumn="TotalDeposit" class="number" data-value="{{TotalDeposit}}"></td>
+        <td data-linkedcolumn="TotalApplied" class="number" data-value="{{TotalApplied}}"></td>
+        <td data-linkedcolumn="TotalRefunded" class="number" data-value="{{TotalRefunded}}"></td>
+        <td data-linkedcolumn="Remaining" class="number" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Deal" class="total-name">{{Customer}}</td>
+        <td data-linkedcolumn="TotalDepletingDeposit" class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
+        <td data-linkedcolumn="TotalCredit" class="total-val" data-value="{{TotalCredit}}"></td>
+        <td data-linkedcolumn="TotalOverpayment" class="total-val" data-value="{{TotalOverpayment}}"></td>
+        <td data-linkedcolumn="TotalDeposit" class="total-val" data-value="{{TotalDeposit}}"></td>
+        <td data-linkedcolumn="TotalApplied" class="total-val" data-value="{{TotalApplied}}"></td>
+        <td data-linkedcolumn="TotalRefunded" class="total-val" data-value="{{TotalRefunded}}"></td>
+        <td data-linkedcolumn="Remaining" class="total-val" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Deal" class="total-name">{{OfficeLocation}}</td>
+        <td data-linkedcolumn="TotalDepletingDeposit" class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
+        <td data-linkedcolumn="TotalCredit" class="total-val" data-value="{{TotalCredit}}"></td>
+        <td data-linkedcolumn="TotalOverpayment" class="total-val" data-value="{{TotalOverpayment}}"></td>
+        <td data-linkedcolumn="TotalDeposit" class="total-val" data-value="{{TotalDeposit}}"></td>
+        <td data-linkedcolumn="TotalApplied" class="total-val" data-value="{{TotalApplied}}"></td>
+        <td data-linkedcolumn="TotalRefunded" class="total-val" data-value="{{TotalRefunded}}"></td>
+        <td data-linkedcolumn="Remaining" class="total-val" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Deal" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="TotalDepletingDeposit" class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
+        <td data-linkedcolumn="TotalCredit" class="total-val" data-value="{{TotalCredit}}"></td>
+        <td data-linkedcolumn="TotalOverpayment" class="total-val" data-value="{{TotalOverpayment}}"></td>
+        <td data-linkedcolumn="TotalDeposit" class="total-val" data-value="{{TotalDeposit}}"></td>
+        <td data-linkedcolumn="TotalApplied" class="total-val" data-value="{{TotalApplied}}"></td>
+        <td data-linkedcolumn="TotalRefunded" class="total-val" data-value="{{TotalRefunded}}"></td>
+        <td data-linkedcolumn="Remaining" class="total-val" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

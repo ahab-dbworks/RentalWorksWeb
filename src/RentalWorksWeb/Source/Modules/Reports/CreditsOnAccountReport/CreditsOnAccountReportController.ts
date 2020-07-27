@@ -46,6 +46,7 @@ class CreditsOnAccountReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('CreditsOnAccountReport', 'api/v1/creditsonaccountreport', creditsOnAccountTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
