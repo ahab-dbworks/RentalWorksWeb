@@ -1241,7 +1241,12 @@ class OrderItemGrid {
     //----------------------------------------------------------------------------------------------
     beforeRowEditMode($control, $tr) {
         //changes description field from validation to text when editing
-        $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+        const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+        //const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+        const recType = $tr.find('[data-browsedatafield="RecType"]').attr('data-originalvalue');
+        if (recType === 'M' || recType === 'L' || itemClass === 'M') {
+            $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterRowEditMode($grid: JQuery, $tr: JQuery) {
