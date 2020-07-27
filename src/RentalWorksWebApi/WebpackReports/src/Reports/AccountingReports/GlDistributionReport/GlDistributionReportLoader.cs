@@ -6,6 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
 {
@@ -92,6 +93,11 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
 
+                    if (request.ExcludeGlAccountId.Length > 0)
+                    {
+                        select.AddWhere("(glaccountid not in (" + string.Join(",", request.ExcludeGlAccountId.Split(",").Select(x => "'" + x + "'")) + "))");
+                    }
+                    
                     select.AddWhereIn("locationid", request.OfficeLocationId);
                     select.AddWhereIn("glaccountid", request.GlAccountId);
                     select.AddParameter("@dealid", request.DealId);
