@@ -422,6 +422,16 @@ namespace FwStandard.SqlServer
             AddWhereIn("and", column, "", parameterList, true);
         }
         //---------------------------------------------------------------------------------------------
+        public void AddWhereNotIn(string column, string parameterList)
+        {
+            AddWhereNotIn("and", column, "", parameterList, true);
+        }
+        //---------------------------------------------------------------------------------------------
+        public void AddWhereNotIn(string column, string parameterPrefix, string parameterList)
+        {
+            AddWhereNotIn("and", column, parameterPrefix, parameterList, true);
+        }
+        //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string conjunction, string column, string parameterList)
         {
             AddWhereIn(conjunction, column, "", parameterList, true);
@@ -468,9 +478,40 @@ namespace FwStandard.SqlServer
         }
         //---------------------------------------------------------------------------------------------
 
+        public void AddWhereNotIn(string conjunction, string column, string parameterNamePrefix, string parameterList, bool selectAllIfEmpty)
+        {
+            string[] fields;
+            StringBuilder sb;
+            string result, parameterName, parameterValue;
+
+            sb = new StringBuilder();
+            if (((selectAllIfEmpty) && !string.IsNullOrWhiteSpace(parameterList)) || (!selectAllIfEmpty))
+            {
+                fields = parameterList.Split(new char[] { ',' }, StringSplitOptions.None);
+                sb.Append(column);
+                sb.Append(" not in (");
+                for (int i = 0; i < fields.Length; i++)
+                {
+                    parameterName = "@" + parameterNamePrefix + column.Replace('.', '_') + i.ToString();
+                    //parameterValue = fields[i];
+                    parameterValue = fields[i].Trim();
+                    if (i > 0)
+                    {
+                        sb.Append(",");
+                    }
+                    sb.Append(parameterName);
+                    this.AddParameter(parameterName, parameterValue);
+                }
+                sb.Append(")");
+                result = sb.ToString();
+                this.AddWhere(conjunction, result);
+            }
+        }
+        //---------------------------------------------------------------------------------------------
 
 
-            //01/09/2020 justin hoffman - commenting the following two methods to avoid confusion with the above method. Are the two below used anywhere anymore?
+
+        //01/09/2020 justin hoffman - commenting the following two methods to avoid confusion with the above method. Are the two below used anywhere anymore?
 
         //public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after)
         //{
