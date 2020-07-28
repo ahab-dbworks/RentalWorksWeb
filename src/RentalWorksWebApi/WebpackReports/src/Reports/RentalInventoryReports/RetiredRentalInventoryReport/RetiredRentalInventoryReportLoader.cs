@@ -64,6 +64,9 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
         public int? DepreciationMonths { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthsowned", modeltype: FwDataTypes.Integer)]
+        public int? MonthsOwned { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchaseid", modeltype: FwDataTypes.Text)]
         public string PurchaseId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -88,6 +91,9 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         [FwSqlDataField(column: "purchaseamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseAmount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchaseamtextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? PurchaseAmountExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasecurrencyid", modeltype: FwDataTypes.Text)]
         public string PurchaseCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -96,6 +102,18 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasecurrency", modeltype: FwDataTypes.Text)]
         public string PurchaseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciation", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? Depreciation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciationextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? DepreciationExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "netbookvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? NetBookValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "netbookvalueextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? NetBookValueExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text)]
         public string RetiredReasonId { get; set; }
@@ -111,9 +129,6 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtybar", modeltype: FwDataTypes.Text)]
-        public string QuantityOrBarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer)]
         public int? Quantity { get; set; }
@@ -162,6 +177,9 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billedamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? BilledAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billedamtextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? BilledAmountExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unretiredid", modeltype: FwDataTypes.Text)]
         public string UnretireId { get; set; }
@@ -216,7 +234,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-                string[] totalFields = new string[] { "Quantity" };
+                string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "DepreciationExtended", "NetBookValueExtended", "BilledAmountExtended" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
