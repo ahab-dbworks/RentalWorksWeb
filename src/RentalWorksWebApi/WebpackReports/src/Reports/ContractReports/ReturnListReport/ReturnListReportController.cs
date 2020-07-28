@@ -49,7 +49,8 @@ namespace WebApi.Modules.Reports.ContractReports.ReturnListReport
         //------------------------------------------------------------------------------------ 
         public ReturnListReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReturnListReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName() { return "ReturnListReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "ReturnListReport"; }
+
         protected override string GetReportFriendlyName() { return "Return List Report"; }
         protected override PdfOptions GetPdfOptions()
         {

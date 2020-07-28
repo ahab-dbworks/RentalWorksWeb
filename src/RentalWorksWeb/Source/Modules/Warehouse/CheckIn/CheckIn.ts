@@ -10,7 +10,6 @@ class CheckIn extends CheckInBase {
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
-        super.addFormMenuItems(options);
         FwMenu.addFormMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, 'Print Return List', 'jaDNwtLAhtNB', (e: JQuery.ClickEvent) => {
