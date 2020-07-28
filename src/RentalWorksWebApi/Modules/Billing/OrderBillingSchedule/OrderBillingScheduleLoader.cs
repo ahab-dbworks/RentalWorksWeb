@@ -13,7 +13,7 @@ namespace WebApi.Modules.Billing.OrderBillingSchedule
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderId { get; set; }
+        public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billschedid", modeltype: FwDataTypes.Text)]
         public string EpisodeId { get; set; }
@@ -142,23 +142,16 @@ namespace WebApi.Modules.Billing.OrderBillingSchedule
                 }
             }
 
+            if (dt.Rows.Count > 0)
+            {
+                foreach (List<object> row in dt.Rows)
+                {
+                    row[dt.GetColumnNo("HiatusColor")] = getHiatusColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsHiatus")].ToString()));
+                }
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------    
-        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
-        {
-            if (e.DataTable != null)
-            {
-                FwJsonDataTable dt = e.DataTable;
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (List<object> row in dt.Rows)
-                    {
-                        row[dt.GetColumnNo("HiatusColor")] = getHiatusColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsHiatus")].ToString()));
-                    }
-                }
-            }
-        }
-        //------------------------------------------------------------------------------------
     }
 }

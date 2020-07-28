@@ -115,20 +115,6 @@ namespace WebApi.Modules.Agent.PurchaseOrderPaymentSchedule
         [FwSqlDataField(column: "duedate", modeltype: FwDataTypes.Date)]
         public string DueDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
-        //{
-        //    //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
-        //    //DateTime paramDate = GetUniqueIdAsDate("ParamDate", request) ?? DateTime.MinValue; 
-        //    //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
-        //    base.SetBaseSelectQuery(select, qry, customFields, request);
-        //    select.Parse();
-        //    //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-        //    //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-        //    //select.AddParameter("@paramstring", paramString); 
-        //    //select.AddParameter("@paramdate", paramDate); 
-        //    //select.AddParameter("@paramboolean", paramBoolean); 
-        //}
-        //------------------------------------------------------------------------------------ 
         protected string getHiatusColor(bool? isHiatus)
         {
             string color = null;
@@ -155,30 +141,16 @@ namespace WebApi.Modules.Agent.PurchaseOrderPaymentSchedule
                 }
             }
 
-            //foreach (List<object> row in dt.Rows)
-            //{
-            //    row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
-            //    row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
-            //    row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
-            //}
+            if (dt.Rows.Count > 0)
+            {
+                foreach (List<object> row in dt.Rows)
+                {
+                    row[dt.GetColumnNo("HiatusColor")] = getHiatusColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsHiatus")].ToString()));
+                }
+            }
 
             return dt;
         }
         //------------------------------------------------------------------------------------    
-        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
-        {
-            if (e.DataTable != null)
-            {
-                FwJsonDataTable dt = e.DataTable;
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (List<object> row in dt.Rows)
-                    {
-                        row[dt.GetColumnNo("HiatusColor")] = getHiatusColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsHiatus")].ToString()));
-                    }
-                }
-            }
-        }
-        //------------------------------------------------------------------------------------
     }
 }
