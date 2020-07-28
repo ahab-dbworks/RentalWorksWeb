@@ -467,6 +467,63 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
     }
     //------------------------------------------------------------------------------------ 
 
+
+
+    public class InvoiceNoteReportLoader : AppReportLoader
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date)]
+        public string NoteDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notedesc", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<List<T>> LoadItems<T>(InvoiceReportRequest request)
+        {
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetinvoiceprintnotes", this.AppConfig.DatabaseSettings.ReportTimeout))
+                {
+                    qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.InvoiceId);
+                    AddPropertiesAsQueryColumns(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+                //--------------------------------------------------------------------------------- 
+            }
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+
+            List<T> items = new List<T>();
+            foreach (List<object> row in dt.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        object value = row[dt.GetColumnNo(fieldName)];
+                        property.SetValue(item, (value ?? "").ToString());
+                    }
+                }
+                items.Add(item);
+            }
+
+            return items;
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+
+
+
     public class InvoiceReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -934,6 +991,8 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
         public List<PaymentsInvoiceItemReportLoader> PaymentItems { get; set; } = new List<PaymentsInvoiceItemReportLoader>(new PaymentsInvoiceItemReportLoader[] { new PaymentsInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<InvoiceNoteReportLoader> Notes { get; set; } = new List<InvoiceNoteReportLoader>(new InvoiceNoteReportLoader[] { new InvoiceNoteReportLoader() });
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -1003,7 +1062,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     PaymentItems.SetDependencies(AppConfig, UserSession);
                     taskPaymentInvoiceItems = PaymentItems.LoadPaymentItems<PaymentsInvoiceItemReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems, taskLossAndDamageInvoiceItems, taskUsedSaleInvoiceItems, taskAdjustmentInvoiceItems, taskPaymentInvoiceItems });
+                    //notes
+                    Task<List<InvoiceNoteReportLoader>> taskNotesItems;
+                    InvoiceNoteReportLoader NotesItems = new InvoiceNoteReportLoader();
+                    NotesItems.SetDependencies(AppConfig, UserSession);
+                    taskNotesItems = NotesItems.LoadItems<InvoiceNoteReportLoader>(request);
+
+                    await Task.WhenAll(new Task[] { taskInvoice, taskInvoiceItems, taskRentalInvoiceItems, taskSalesInvoiceItems, taskMiscInvoiceItems, taskLaborInvoiceItems, taskLossAndDamageInvoiceItems, taskUsedSaleInvoiceItems, taskAdjustmentInvoiceItems, taskPaymentInvoiceItems, taskNotesItems });
 
                     Invoice = taskInvoice.Result;
 
@@ -1018,6 +1083,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         Invoice.UsedSaleItems = taskUsedSaleInvoiceItems.Result;
                         Invoice.AdjustmentItems = taskAdjustmentInvoiceItems.Result;
                         Invoice.PaymentItems = taskPaymentInvoiceItems.Result;
+                        Invoice.Notes = taskNotesItems.Result;
                     }
                 }
             }

@@ -41,6 +41,21 @@ export class InvoiceReport extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
+
+                            if (data.Notes !== null && data.Notes !== '') {
+                                const notesEl = document.getElementById('notes');
+                                const notes = data.Notes;
+                                if (notes.length) {
+                                    const container: Array<string> = [];
+                                    for (let i = 0; i < notes.length; i++) {
+                                        container.push(`<div><span style="font-weight:700;">${notes[i].Description}:</span><div>${notes[i].Notes}</div></div>`);
+                                    }
+                                    notesEl.innerHTML = container.join('');
+                                    const notesRow = document.getElementById('notesRow');
+                                    notesRow.style.cssText = "padding:5px 10px 0px 10px;font-size:1em;width:1110px;";
+                                }
+                            }
+
                             this.onRenderReportCompleted();
                         })
                         .catch((ex) => {
