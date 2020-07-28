@@ -386,7 +386,7 @@ class OrderItemGrid {
             }
 
             //Allow searching on description field
-            const validDescriptionValidationTypes: any = ['R', 'S', 'P', 'M', 'L'];
+            const validDescriptionValidationTypes: any = ['R', 'RS', 'S', 'P', 'M', 'L'];
             const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
             if (validDescriptionValidationTypes.includes(recType)) {
                 if (validTextItemClasses.includes(itemClass)) {
