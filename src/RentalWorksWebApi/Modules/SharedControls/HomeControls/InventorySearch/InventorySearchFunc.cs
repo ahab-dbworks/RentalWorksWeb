@@ -82,6 +82,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                         qrySessionItems.Add(" from  tmpsearchsession t                                       ");
                         qrySessionItems.Add("            join master m on (t.masterid = m.masterid)          ");
                         qrySessionItems.Add(" where t.sessionid = @sessionid                                 ");
+                        qrySessionItems.Add("   and t.parentid  = ''                                         ");  //eg 7/28/20 #2796
                         qrySessionItems.AddParameter("@sessionid", request.SessionId);
                         FwJsonDataTable dt = await qrySessionItems.QueryToFwJsonTableAsync();
 
