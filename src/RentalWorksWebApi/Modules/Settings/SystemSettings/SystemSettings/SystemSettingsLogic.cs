@@ -45,10 +45,11 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwLogicProperty(Id: "CSiC9ZwpMLerq")]
         public int? LastVendorNumber { get { return sysControl.LastVendorNumber; } set { sysControl.LastVendorNumber = value; } }
 
-
         [FwLogicProperty(Id: "mxRFY4F28GOiA")]
         public bool? AllowDeleteExportedBeceipts { get { return sysControl.AllowDeleteExportedBeceipts; } set { sysControl.AllowDeleteExportedBeceipts = value; } }
 
+        [FwLogicProperty(Id: "XrAtztYJOWSQs")]
+        public bool? EnableReceipts { get { return sysControl.EnableReceipts; } set { sysControl.EnableReceipts = value; } }
 
         /*
         //[FwLogicProperty(Id:"3RwUcgRBA7gxg")]

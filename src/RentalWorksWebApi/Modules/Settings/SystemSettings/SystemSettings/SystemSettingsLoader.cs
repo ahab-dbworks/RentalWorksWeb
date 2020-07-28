@@ -34,6 +34,9 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwSqlDataField(column: "allowdeletebatchedreceipt", modeltype: FwDataTypes.Boolean)]
         public bool? AllowDeleteExportedBeceipts { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enablereceipts", modeltype: FwDataTypes.Boolean)]
+        public bool? EnableReceipts { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         /*
         [FwSqlDataField(column: "maxrows", modeltype: FwDataTypes.Integer)]
