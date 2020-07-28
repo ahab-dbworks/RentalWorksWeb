@@ -1,5 +1,5 @@
 ﻿<!--CustomerRevenueByMonth-->
-<div class="rpt-flexrow" style="width:1555px;">
+<div data-section="header" class="rpt-flexrow" style="width:1555px;">
   <style type="text/css" media="print">
     @page {
       size: landscape;
@@ -18,214 +18,297 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
-  <!--SUMMARY VIEW TABLE-->
-  {{#ifEquals IsSummary true}}
-  <table>
-    <thead>
-      <tr id="HeaderRow"></tr>
+<!--SUMMARY VIEW TABLE-->
+{{#ifEquals IsSummary true}}
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;width:1555px;">
+  <table data-tablename="Summary View">
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="Month01" data-valuefield="Month01" class="number" id="Month01Header">Month 01</th>
+        <th data-linkedcolumn="Month02" data-valuefield="Month02" class="number" id="Month02Header">Month 02</th>
+        <th data-linkedcolumn="Month03" data-valuefield="Month03" class="number" id="Month03Header">Month 03</th>
+        <th data-linkedcolumn="Month04" data-valuefield="Month04" class="number" id="Month04Header">Month 04</th>
+        <th data-linkedcolumn="Month05" data-valuefield="Month05" class="number" id="Month05Header">Month 05</th>
+        <th data-linkedcolumn="Month06" data-valuefield="Month06" class="number" id="Month06Header">Month 06</th>
+        <th data-linkedcolumn="Month07" data-valuefield="Month07" class="number" id="Month07Header">Month 07</th>
+        <th data-linkedcolumn="Month08" data-valuefield="Month08" class="number" id="Month08Header">Month 08</th>
+        <th data-linkedcolumn="Month09" data-valuefield="Month09" class="number" id="Month09Header">Month 09</th>
+        <th data-linkedcolumn="Month10" data-valuefield="Month10" class="number" id="Month10Header">Month 10</th>
+        <th data-linkedcolumn="Month11" data-valuefield="Month11" class="number" id="Month11Header">Month 11</th>
+        <th data-linkedcolumn="Month12" data-valuefield="Month12" class="number" id="Month12Header">Month 12</th>
+        <th data-linkedcolumn="AllMonths" data-valuefield="AllMonths" class="number">All Months</th>
+      </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td>{{Deal}}</td>
-        <td class="number">{{Month01RevenueAsText}}</td>
-        <td class="number">{{Month02RevenueAsText}}</td>
-        <td class="number">{{Month03RevenueAsText}}</td>
-        <td class="number">{{Month04RevenueAsText}}</td>
-        <td class="number">{{Month05RevenueAsText}}</td>
-        <td class="number">{{Month06RevenueAsText}}</td>
-        <td class="number">{{Month07RevenueAsText}}</td>
-        <td class="number">{{Month08RevenueAsText}}</td>
-        <td class="number">{{Month09RevenueAsText}}</td>
-        <td class="number">{{Month10RevenueAsText}}</td>
-        <td class="number">{{Month11RevenueAsText}}</td>
-        <td class="number">{{Month12RevenueAsText}}</td>
-        <td class="number">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="lower header-row">Department: {{Department}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="lower header-row">Customer: {{Customer}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td class="number" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal" data-valuefield="Deal">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal" data-valuefield="Deal">{{Department}}&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal" data-valuefield="Deal">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal">Grand Total</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
-  {{/ifEquals}}
-  <!--DETAIL VIEW TABLE-->
-  {{#ifEquals IsSummary false}}
-   <table>
-    <thead>
-      <tr id="HeaderRow"></tr>
-    </thead>
-    <tbody>
-      {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td>{{Category}}</td>
-        <td class="number">{{Month01RevenueAsText}}</td>
-        <td class="number">{{Month02RevenueAsText}}</td>
-        <td class="number">{{Month03RevenueAsText}}</td>
-        <td class="number">{{Month04RevenueAsText}}</td>
-        <td class="number">{{Month05RevenueAsText}}</td>
-        <td class="number">{{Month06RevenueAsText}}</td>
-        <td class="number">{{Month07RevenueAsText}}</td>
-        <td class="number">{{Month08RevenueAsText}}</td>
-        <td class="number">{{Month09RevenueAsText}}</td>
-        <td class="number">{{Month10RevenueAsText}}</td>
-        <td class="number">{{Month11RevenueAsText}}</td>
-        <td class="number">{{Month12RevenueAsText}}</td>
-        <td class="number">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealfooter"}}
-        <td class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val">{{Month01RevenueAsText}}</td>
-        <td class="total-val">{{Month02RevenueAsText}}</td>
-        <td class="total-val">{{Month03RevenueAsText}}</td>
-        <td class="total-val">{{Month04RevenueAsText}}</td>
-        <td class="total-val">{{Month05RevenueAsText}}</td>
-        <td class="total-val">{{Month06RevenueAsText}}</td>
-        <td class="total-val">{{Month07RevenueAsText}}</td>
-        <td class="total-val">{{Month08RevenueAsText}}</td>
-        <td class="total-val">{{Month09RevenueAsText}}</td>
-        <td class="total-val">{{Month10RevenueAsText}}</td>
-        <td class="total-val">{{Month11RevenueAsText}}</td>
-        <td class="total-val">{{Month12RevenueAsText}}</td>
-        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
-        {{/ifEquals}}
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-  {{/ifEquals}}
 </div>
+{{/ifEquals}}
+<!--DETAIL VIEW TABLE-->
+{{#ifEquals IsSummary false}}
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
+  <table data-tablename="Detail View">
+    <thead>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="Category" data-valuefield="Category">Category</th>
+        <th data-linkedcolumn="Month01" data-valuefield="Month01" class="number" id="Month01Header">Month 01</th>
+        <th data-linkedcolumn="Month02" data-valuefield="Month02" class="number" id="Month02Header">Month 02</th>
+        <th data-linkedcolumn="Month03" data-valuefield="Month03" class="number" id="Month03Header">Month 03</th>
+        <th data-linkedcolumn="Month04" data-valuefield="Month04" class="number" id="Month04Header">Month 04</th>
+        <th data-linkedcolumn="Month05" data-valuefield="Month05" class="number" id="Month05Header">Month 05</th>
+        <th data-linkedcolumn="Month06" data-valuefield="Month06" class="number" id="Month06Header">Month 06</th>
+        <th data-linkedcolumn="Month07" data-valuefield="Month07" class="number" id="Month07Header">Month 07</th>
+        <th data-linkedcolumn="Month08" data-valuefield="Month08" class="number" id="Month08Header">Month 08</th>
+        <th data-linkedcolumn="Month09" data-valuefield="Month09" class="number" id="Month09Header">Month 09</th>
+        <th data-linkedcolumn="Month10" data-valuefield="Month10" class="number" id="Month10Header">Month 10</th>
+        <th data-linkedcolumn="Month11" data-valuefield="Month11" class="number" id="Month11Header">Month 11</th>
+        <th data-linkedcolumn="Month12" data-valuefield="Month12" class="number" id="Month12Header">Month 12</th>
+        <th data-linkedcolumn="AllMonths" data-valuefield="AllMonths" class="number">All Months</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="header-row">Office: {{OfficeLocation}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="lower header-row">Department: {{Department}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="lower header-row">Customer: {{Customer}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="lower header-row">Deal: {{Deal}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Category" data-value="{{Category}}"></td>
+        <td class="number" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="number" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+
+
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal" data-valuefield="Deal">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal" data-valuefield="Deal">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal" data-valuefield="Deal">{{Department}}&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal" data-valuefield="Deal">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name" data-linkedcolumn="Deal">Grand Total</td>
+        <td class="total-val" data-linkedcolumn="Month01" data-value="{{Month01RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month02" data-value="{{Month02RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month03" data-value="{{Month03RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month04" data-value="{{Month04RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month05" data-value="{{Month05RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month06" data-value="{{Month06RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month07" data-value="{{Month07RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month08" data-value="{{Month08RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month09" data-value="{{Month09RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month10" data-value="{{Month10RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month11" data-value="{{Month11RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="Month12" data-value="{{Month12RevenueAsText}}"></td>
+        <td class="total-val" data-linkedcolumn="AllMonths" data-value="{{AllMonthsRevenueAsText}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/ifEquals}}

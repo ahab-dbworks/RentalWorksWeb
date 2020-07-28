@@ -76,7 +76,7 @@ class CustomerRevenueByMonthReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('CustomerRevenueByMonthReport', 'api/v1/customerrevenuebymonthreport', customerRevenueMonthTemplate);
-        this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

@@ -57,18 +57,17 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     } else {
                         data.IsSummary = false;
                     }
-                    const headerNames = [];
-                    let headerCount = 0;
 
+                    //peek at the first detail row and gather all of the month names for the column heaader row
+                    const headerNames = [];
                     for (let i = 0; i < data.length; i++) {
-                        const el = data[i];
-                        if (el) {
-                            if (el.RowType === 'detail') {
-                                for (let key in el) {
-                                    if (key.endsWith('Name')) {
-                                        if (el[key] !== '') {
-                                            headerNames.push(el[key]);
-                                            headerCount++
+                        const row = data[i];
+                        if (row) {
+                            if (row.RowType === 'detail') {
+                                for (let fieldname in row) {
+                                    if (fieldname.endsWith('Name')) {
+                                        if (row[fieldname] !== '') {
+                                            headerNames.push(row[fieldname]);
                                         }
                                     }
                                 }
@@ -88,19 +87,19 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     } else {
                         document.getElementById('pageBody').innerHTML = hbReport(data);
                     }
-                    let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
-                    if (data.IsSummary) {
-                        mappedHeader = `<th>Deal</th>` + mappedHeader;
-                    } else {
-                        mappedHeader = `<th>Category</th>` + mappedHeader;
+
+                    // blank out all of the column headers
+                    for (let i = 0; i < 12; i++) {          // all month columns
+                        let monthIndex: number = i + 1;
+                        let elementId: string = "Month" + ("0" + monthIndex).slice(-2) + "Header";  // Month01Header, Month02Header, .. Month12Header
+                        document.getElementById(elementId).innerHTML = "";
                     }
-                    if (headerCount < 12) {
-                        const intialColspan = (12 - headerCount);
-                        mappedHeader = mappedHeader + `<th colspan="${intialColspan}"></th><th class="number">All Months</th>`;
-                    } else if (headerCount === 12) {
-                        mappedHeader = mappedHeader + `<th class="number">All Months</th>`;
+                    // inject the column headers gathered above
+                    for (let i = 0; i < headerNames.length; i++) {   // only the months within the report date range
+                        let monthIndex: number = i + 1;
+                        let elementId: string = "Month" + ("0" + monthIndex).slice(-2) + "Header";  // Month01Header, Month02Header, .. Month12Header
+                        document.getElementById(elementId).innerHTML = headerNames[i];
                     }
-                    document.getElementById('HeaderRow').innerHTML = mappedHeader;
 
                     this.onRenderReportCompleted();
                 })
