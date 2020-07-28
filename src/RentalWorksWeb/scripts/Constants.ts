@@ -931,6 +931,7 @@ var Constants = {
         MarketSegmentJobGrid: { id: 'OWZGrnUnJHon', caption: 'Market Segment Job' },
         MigrateItemGrid: { id: 'szZ66eT0VS5', caption: 'Migrate Orders Item' },
         MiscCategoryGrid: { id: 'BRtP4O9fieRK', caption: 'Misc Category' },
+        OrderBillingScheduleGrid: { id: 'uOnqzcfEDJnJ', caption: 'Billing Schedule' },
         OrderContactGrid: { id: '7CUe9WvpWNat', caption: 'Order Contact' },
         OrderHiatusDiscountGrid: { id: 'q4N43Gk5H1471', caption: 'Order Hiatus' },
         OrderItemGrid: {  id: 'RFgCJpybXoEb', caption: 'Order Item',

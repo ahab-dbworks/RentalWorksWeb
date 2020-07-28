@@ -153,6 +153,23 @@ class OrderBase {
             }
         });
         // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'OrderBillingScheduleGrid',
+            gridSecurityId: 'uOnqzcfEDJnJ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
+                }
+            }
+        });
+        // ----------
         let $orderItemGridRental: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',

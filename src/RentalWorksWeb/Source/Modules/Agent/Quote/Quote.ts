@@ -381,6 +381,7 @@ class Quote extends OrderBase {
               <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
               <div data-type="tab" id="alltab" class="tab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
               <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="billingscheduletab" class="tab billingscheduletab" data-tabpageid="billingscheduletabpage" data-caption="Billing Schedule"></div>
               <div data-type="tab" id="profitlosstab" class="tab profitlosstab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
               <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="activitytab" class="tab activitytab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
@@ -1406,6 +1407,13 @@ class Quote extends OrderBase {
                       <div class="rwGrid" data-control="FwGrid" data-grid="DealHiatusDiscountGrid"></div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <!-- BILLING SCHEDULE TAB -->
+              <div data-type="tabpage" id="billingscheduletabpage" class="tabpage" data-tabid="billingscheduletab">
+                <div class="flexrow">
+                  <div data-control="FwGrid" data-grid="OrderBillingScheduleGrid" data-securitycaption="Billing Schedule"></div>
                 </div>
               </div>
 
