@@ -1755,6 +1755,14 @@ class OrderItemGrid {
         const $browse = jQuery(event.currentTarget).closest('.fwbrowse');
         const lockedItems = [];
         const $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+        const pageNo = parseInt($browse.attr('data-pageno'));
+        const onDataBind = $browse.data('ondatabind');
+        if (typeof onDataBind == 'function') {
+            $browse.data('ondatabind', request => {
+                onDataBind(request);
+                request.pageno = pageNo;
+            });
+        }
 
         if ($selectedCheckBoxes.length) {
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
@@ -1779,12 +1787,12 @@ class OrderItemGrid {
             FwNotification.renderNotification('WARNING', 'Select a record.')
         }
 
-        function lockUnlockItem(orders): void {
+        function lockUnlockItem(orders): any {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
-                FwBrowse.search($browse);
+                FwBrowse.search($browse).then(() => FwBrowse.setPageNo($browse, pageNo));
             }, function onError(response) {
                 FwFunc.showError(response);
-                FwBrowse.search($browse);
+                FwBrowse.search($browse).then(() => FwBrowse.setPageNo($browse, pageNo));
             }, $browse);
         };
     }
