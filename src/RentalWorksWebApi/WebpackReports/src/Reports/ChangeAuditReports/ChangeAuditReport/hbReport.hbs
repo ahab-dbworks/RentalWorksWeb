@@ -1,5 +1,5 @@
 ﻿<!--Change Audit Report-->
-<div data-section="header" class="rpt-flexrow">
+<div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,41 +11,45 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:40px;">
   <table style="width:1110px; table-layout:fixed">
-    <thead id="columnHeader" class="main-header">
-      <tr data-row="main-header" >
-        <th data-valuefield="DateStamp" data-linkedcolumn="DateStamp">Date/Time</th>
-        <th data-valuefield="RecordTitle" data-linkedcolumn="RecordTitle">Record Title</th>
+    <thead class="main-header">
+      <tr>
+        <th>Date/Time</th>
+        <th>Record Title</th>
         <th colspan="3">Changes</th>
       </tr>
     </thead>
-    <tbody data-rowtype="{{RowType}}">
     {{#each this}}
     {{#ifEquals RenderModuleHeader true}}
-      <tr data-sort="true" data-row="header" data-rowtype="ModuleNameHeader">
+    <thead>
+      <tr data-rowtype="ModuleNameHeader">
         <th class="header-row" colspan="5">Module: {{ModuleName}}</th>
       </tr>
+    </thead>
     {{/ifEquals}}
     {{#ifEquals RenderUserHeader true}}
-      <tr data-sort="true" data-row="header" data-rowtype="UserNameHeader">
+    <thead>
+      <tr data-rowtype="UserNameHeader">
         <th class="lower header-row" colspan="5">User: {{UserName}}</th>
       </tr>
+    </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
-      <tr data-row="detail">
-        <td data-linkedcolumn="DateStamp" data-value="{{DateStamp}}"></td>
-        <td data-linkedcolumn="RecordTitle" data-value="{{RecordTitle}}"></td>
-        <td data-linkedcolumn="FieldName" class="changes-header">Field Name</td>
-        <td data-linkedcolumn="OldValue" class="changes-header">Old Value</td>
-        <td data-linkedcolumn="NewValue" class="changes-header">New Value</td>
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td data-value="{{DateStamp}}"></td>
+        <td data-value="{{RecordTitle}}"></td>
+        <td class="changes-header">Field Name</td>
+        <td class="changes-header">Old Value</td>
+        <td class="changes-header">New Value</td>
       </tr>
       {{#each Json}}
-      <tr data-row="sub-detail">
-        <td data-linkedcolumn="EmptyTd-1" colspan="2"></td>
-        <td data-linkedcolumn="FieldName" class="field-name" data-value="{{FieldName}}"></td>
-        <td data-linkedcolumn="OldValue" class="value-fields" data-value="{{OldValue}}"></td>
-        <td data-linkedcolumn="NewValue" class="value-fields" data-value="{{NewValue}}"></td>
+      <tr>
+        <td colspan="2"></td>
+        <td class="field-name" data-value="{{FieldName}}"></td>
+        <td class="value-fields" data-value="{{OldValue}}"></td>
+        <td class="value-fields" data-value="{{NewValue}}"></td>
       </tr>
     {{/each}}
     </tbody>
