@@ -215,8 +215,9 @@ class Repair {
             FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
             FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
             FwFormField.setValueByDataField($form, 'Quantity', 1);
-            const userId = JSON.parse(sessionStorage.getItem('userid'));
-            FwFormField.setValueByDataField($form, 'InputByUserId', userId.webusersid);
+            //07/28/2020 justin hoffman - moved to API layer
+            //const userId = JSON.parse(sessionStorage.getItem('userid'));
+            //FwFormField.setValueByDataField($form, 'InputByUserId', userId.webusersid);
             const locationId = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', locationId.locationid);
 

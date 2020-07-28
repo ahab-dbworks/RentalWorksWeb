@@ -29,6 +29,8 @@ namespace WebApi.Modules.Inventory.Repair
             dataLoader = repairLoader;
             browseLoader = repairBrowseLoader;
 
+            BeforeValidate += OnBeforeValidate;
+
             repair.BeforeSave += OnBeforeSaveRepair;
             repair.AfterSave += OnAfterSaveRepair;
 
@@ -365,10 +367,18 @@ namespace WebApi.Modules.Inventory.Repair
             ((TaxRecord)sender).TaxId = tmpTaxId;
         }
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeValidate(object sender, BeforeValidateEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                InputByUserId = UserSession.UsersId;
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
-            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
                 {
@@ -396,18 +406,18 @@ namespace WebApi.Modules.Inventory.Repair
         //------------------------------------------------------------------------------------
         public void OnBeforeSaveRepair(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 RepairNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR, LocationId, e.SqlConnection).Result;
                 Status = RwConstants.REPAIR_STATUS_NEW;
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 InputDate = FwConvert.ToString(DateTime.Today);
 
-                if ((RepairDate == null) || (RepairDate.Equals(string.Empty)))
+                if (string.IsNullOrEmpty(RepairDate))
                 {
                     RepairDate = FwConvert.ToString(DateTime.Today);
                 }
-                if ((Priority == null) || (Priority.Equals(string.Empty)))
+                if (string.IsNullOrEmpty(Priority))
                 {
                     Priority = RwConstants.REPAIR_PRIORITY_MEDIUM;
                 }
@@ -415,11 +425,11 @@ namespace WebApi.Modules.Inventory.Repair
                 {
                     InventoryId = AppFunc.GetStringDataAsync(AppConfig, "rentalitem", "rentalitemid", ItemId, "masterid").Result;
                 }
-                if ((InventoryId == null) || (InventoryId.Equals(string.Empty)))
+                if (string.IsNullOrEmpty(InventoryId))
                 {
                     RepairType = RwConstants.REPAIR_TYPE_OUTSIDE;
                 }
-                if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
+                if (string.IsNullOrEmpty(TaxOptionId))
                 {
                     TaxOptionId = AppFunc.GetDepartmentLocationAsync(AppConfig, UserSession, DepartmentId, LocationId, "repairtaxoptionid").Result;
                 }
@@ -428,13 +438,8 @@ namespace WebApi.Modules.Inventory.Repair
             }
             else
             {
-                if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+                if (string.IsNullOrEmpty(TaxId))
                 {
-                    //RepairLogic l2 = new RepairLogic();
-                    //l2.SetDependencies(this.AppConfig, this.UserSession);
-                    //object[] pk = GetPrimaryKeys();
-                    //bool b = l2.LoadAsync<RepairLogic>(pk).Result;
-                    //tax.TaxId = l2.TaxId;
                     tax.TaxId = ((RepairRecord)e.Original).TaxId;
                 }
             }
@@ -442,7 +447,7 @@ namespace WebApi.Modules.Inventory.Repair
         //------------------------------------------------------------------------------------
         public void OnAfterSaveRepair(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
                 {
@@ -454,7 +459,7 @@ namespace WebApi.Modules.Inventory.Repair
                 }
             }
 
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
                 {
@@ -473,7 +478,7 @@ namespace WebApi.Modules.Inventory.Repair
 
             string invId = InventoryId;
             string whId = WarehouseId;
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 RepairRecord orig = (RepairRecord)e.Original;
                 if (invId == null)
