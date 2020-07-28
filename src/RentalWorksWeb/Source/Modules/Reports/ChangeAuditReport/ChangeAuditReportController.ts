@@ -49,6 +49,7 @@ class ChangeAuditReport extends FwWebApiReport {
     constructor() {
         super('ChangeAuditReport', 'api/v1/changeauditreport', changeAuditReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
