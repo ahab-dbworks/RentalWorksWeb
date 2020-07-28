@@ -256,7 +256,8 @@ class MigrateOrders {
             const request: any = {};
             request.OrderIds = orderIds;
             request.DealId = FwFormField.getValueByDataField($form, 'DealId');
-            request.DepartmentId = JSON.parse(sessionStorage.getItem('department')).departmentid;
+            //request.DepartmentId = JSON.parse(sessionStorage.getItem('department')).departmentid;
+            request.DepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
 
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/startsession`, request, FwServices.defaultTimeout,
                 response => {
