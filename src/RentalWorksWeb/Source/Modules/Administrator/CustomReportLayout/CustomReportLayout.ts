@@ -245,37 +245,35 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        let $customReportLayoutGroupGrid;
-        let $customReportLayoutGroupGridControl;
-        $customReportLayoutGroupGrid = $form.find('div[data-grid="CustomReportLayoutGroupGrid"]');
-        $customReportLayoutGroupGridControl = FwBrowse.loadGridFromTemplate('CustomReportLayoutGroupGrid');
-        $customReportLayoutGroupGrid.empty().append($customReportLayoutGroupGridControl);
-        $customReportLayoutGroupGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomReportLayoutId: FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'CustomReportLayoutGroupGrid',
+            gridSecurityId: 'N5ZpGhzZvahV2',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CustomReportLayoutId: FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CustomReportLayoutId = FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
+            }
         });
-        $customReportLayoutGroupGridControl.data('beforesave', function (request) {
-            request.CustomReportLayoutId = FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
-        });
-        FwBrowse.init($customReportLayoutGroupGridControl);
-        FwBrowse.renderRuntimeHtml($customReportLayoutGroupGridControl);
 
-        let $customReportLayoutUserGrid;
-        let $customReportLayoutUserGridControl;
-        $customReportLayoutUserGrid = $form.find('div[data-grid="CustomReportLayoutUserGrid"]');
-        $customReportLayoutUserGridControl = FwBrowse.loadGridFromTemplate('CustomReportLayoutUserGrid');
-        $customReportLayoutUserGrid.empty().append($customReportLayoutUserGridControl);
-        $customReportLayoutUserGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomReportLayoutId: FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
-            };
+        FwBrowse.renderGrid({
+            nameGrid: 'CustomReportLayoutUserGrid',
+            gridSecurityId: 'JjgsAURBr00RK',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    CustomReportLayoutId: FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.CustomReportLayoutId = FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
+            }
         });
-        $customReportLayoutUserGridControl.data('beforesave', function (request) {
-            request.CustomReportLayoutId = FwFormField.getValueByDataField($form, 'CustomReportLayoutId')
-        });
-        FwBrowse.init($customReportLayoutUserGridControl);
-        FwBrowse.renderRuntimeHtml($customReportLayoutUserGridControl);
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
@@ -693,7 +691,7 @@ class CustomReportLayout {
                         FwConfirmation.destroyConfirmation($confirmation);
                         //delete row 
                         $form.data('updatetype', 'deleterow');
-                        $form.data('deleterow', { rowindex1: rowIndex})
+                        $form.data('deleterow', { rowindex1: rowIndex })
                         this.updateHTML($form, $table, $row, $column);
                     });
                 }
