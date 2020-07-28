@@ -314,13 +314,13 @@
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Complete Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Kit Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Container Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Container Accessory -->
         {{else}}
         <td data-itemclass="{{ItemClass}}">{{Description}}</td><!-- Item -->
         {{/ifCond}}
@@ -715,16 +715,16 @@
         <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
-        <td style="min-width:100px;">I-Code</td>
-        <td style="min-width:355px;">Description</td>
+        <td style="min-width:90px;">I-Code</td>
+        <td style="min-width:365px;">Description</td>
         <td style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</td>
         <td style="min-width:85px;" class="">Bar Code</td>
         <td style="min-width:105px;" class="">Serial Number</td>
         <td style="min-width:95px;" class="number alignRight">Price</td>
         {{#if HasDiscount}}
-        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:95px;" class="number alignRight">Discount %</td>
         {{else}}
-        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:95px;" class="number alignRight">&nbsp;</td>
         {{/if}}
         <td style="min-width:105px;" class="number alignRight">Extended</td>
       </tr>
@@ -851,11 +851,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}        
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1933,7 +1933,7 @@
     {{#ifNotEquals PeriodTax 0}}
     <tr>
       <td style="min-width:638px;"></td>
-      <td class="" style="text-align:right;padding-top:12px;padding-right:0px;font-weight:bold;"><span class="shaded-totals" style="padding:12px 5px 4px 58px;border-top:1px solid #000000;">SUB TOTAL</span></td>
+      <td class="" style="text-align:right;padding-top:13px;padding-right:0px;font-weight:bold;"><span class="shaded-totals" style="padding:12px 5px 4px 58px;">SUB TOTAL</span></td>
       <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{PeriodExtended}}"></td>
     </tr>
     <tr>
@@ -1951,7 +1951,7 @@
     {{/ifNotEquals}}
     <tr>
       <td style="min-width:638px;"></td>
-      <td class="" style="text-align:right;padding-top:12px;padding-right:0px;font-weight:bold;"><span class="shaded-totals" style="padding:12px 5px 4px 35px;border-top:1px solid #000000;">GRAND TOTAL</span></td>
+      <td class="" style="text-align:right;padding-top:13px;padding-right:0px;font-weight:bold;"><span class="shaded-totals" style="padding:12px 5px 4px 35px;">GRAND TOTAL</span></td>
       <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
   </table>

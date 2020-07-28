@@ -251,13 +251,13 @@
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{ICode}}</td><!-- Complete Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{ICode}}</td><!-- Kit Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{ICode}}</td><!-- Container Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Container Accessory -->
         {{else}}
         <td data-itemclass="{{ItemClass}}">{{ICode}}</td><!-- Items -->
         {{/ifCond}}
@@ -461,16 +461,16 @@
         <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
-        <td style="min-width:100px;">I-Code</td>
-        <td style="min-width:360px;">Description</td>
+        <td style="min-width:90px;">I-Code</td>
+        <td style="min-width:365px;">Description</td>
         <td style="min-width:80px;padding-right:15px;" class="number alignRight">Quantity</td>
         <td style="min-width:85px;" class="">Bar Code</td>
         <td style="min-width:105px;" class="">Serial Number</td>
         <td style="min-width:95px;" class="number alignRight">Price</td>
         {{#if HasDiscount}}
-        <td style="min-width:140px;" class="number alignRight">Discount %</td>
+        <td style="min-width:95px;" class="number alignRight">Discount %</td>
         {{else}}
-        <td style="min-width:140px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:95px;" class="number alignRight">&nbsp;</td>
         {{/if}}
         <td style="min-width:105px;" class="number alignRight">Extended</td>
       </tr>
@@ -670,13 +670,13 @@
     </tr>
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
+      <td colspan="5" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
       <td class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;" data-value="{{Tax1}}"></td>
     </tr>
     {{#ifNotEquals ../Tax2Name ""}}
     <tr>
       <td colspan="2"></td>
-      <td colspan="4" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
+      <td colspan="5" class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
       <td class="tax" style="text-align:right;font-weight:700;padding:10px 5px 3px 6px;" data-value="{{Tax2}}"></td>
     </tr>
     {{/ifNotEquals}}

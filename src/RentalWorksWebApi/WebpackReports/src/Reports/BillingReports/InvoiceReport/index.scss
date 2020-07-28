@@ -5,6 +5,17 @@ body {
     padding: 10px;
 }
 
+tbody {
+  td:after {
+    content: attr(data-value);
+  }
+
+  td {
+    padding: 3px;
+    vertical-align: top;
+  }
+}
+
 tbody[data-rowtype="detail"]:nth-child(even) {
     /*background-color: #DCDCDC;*/
 }
