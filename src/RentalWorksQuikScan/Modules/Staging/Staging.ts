@@ -67,8 +67,9 @@ class StagingControllerClass {
         const screen: any = {};
         screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
 
-        const $primarywindow = screen.$view.find('#staging-primary');
-        const $orderlocation = screen.$view.find('#staging-orderlocation');
+        const $primarywindow      = screen.$view.find('#staging-primary');
+        const $orderlocation      = screen.$view.find('#staging-orderlocation');
+        const $substituteitemskit = screen.$view.find('#staging-substituteitemkit');
 
         screen.$modulecontrol = screen.$view.find('.modulecontrol');
         screen.$modulecontrol.fwmobilemodulecontrol({
@@ -442,7 +443,7 @@ class StagingControllerClass {
                 const isHeaderRow = ((model.itemclass === 'N') || (model.missingqty === 0));
                 if (!isHeaderRow) {
                     const isClickableRentalItem = ((model.rectype === 'R') &&
-                        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO')) &&
+                        ((model.trackedby === 'QUANTITY') || (model.trackedby === 'SERIALNO') || (model.trackedby === 'BARCODE')) &&
                         (model.itemclass[0] !== 'N') &&
                         (model.qtysub === 0)
                     );
@@ -460,67 +461,88 @@ class StagingControllerClass {
                     if (rectype === 'R') {
                         if (trackedby === 'QUANTITY') {
                             requestStageItem = {
-                                orderid: screen.getOrderId(),
-                                code: '',
-                                masteritemid: recorddata.masteritemid,
-                                qty: 0,
-                                additemtoorder: false,
-                                addcompletetoorder: false,
-                                releasefromrepair: false,
-                                unstage: false,
-                                vendorid: '',
-                                meter: 0,
-                                location: '',
-                                locationdata: screen._locationdata(),
-                                addcontainertoorder: false,
-                                overridereservation: false,
-                                stageconsigned: false,
-                                transferrepair: false,
-                                removefromcontainer: false,
-                                contractid: screen.getContractId(),
-                                ignoresuspendedin: false,
-                                consignorid: recorddata.consignorid,
+                                orderid:              screen.getOrderId(),
+                                code:                 '',
+                                masteritemid:         recorddata.masteritemid,
+                                qty:                  0,
+                                additemtoorder:       false,
+                                addcompletetoorder:   false,
+                                releasefromrepair:    false,
+                                unstage:              false,
+                                vendorid:             '',
+                                meter:                0,
+                                location:             '',
+                                locationdata:         screen._locationdata(),
+                                addcontainertoorder:  false,
+                                overridereservation:  false,
+                                stageconsigned:       false,
+                                transferrepair:       false,
+                                removefromcontainer:  false,
+                                contractid:           screen.getContractId(),
+                                ignoresuspendedin:    false,
+                                consignorid:          recorddata.consignorid,
                                 consignoragreementid: recorddata.consignoragreementid,
-                                playStatus: false
+                                playStatus:           false
                             };
                             RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
                                 properties.responseStageItem = responseStageItem;
                                 screen.pdastageitemCallback(responseStageItem);
                             });
                         } else if (trackedby === 'SERIALNO') {
-                            var masterid = recorddata.masterid;
-                            var masteritemid = recorddata.masteritemid;
-                            var description = recorddata.description;
-                            var masterno = recorddata.masterno;
-                            var missingqty = recorddata.missingqty;
-                            var qtyordered = recorddata.qtyordered;
+                            var masterid        = recorddata.masterid;
+                            var masteritemid    = recorddata.masteritemid;
+                            var description     = recorddata.description;
+                            var masterno        = recorddata.masterno;
+                            var missingqty      = recorddata.missingqty;
+                            var qtyordered      = recorddata.qtyordered;
                             var qtystagedandout = recorddata.qtystagedandout;
-                            screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
+                            //screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
+                            screen.renderPopupQty();
+                            screen.$popupQty.find('#staging-popupQty-pnlSelectSerialNo').show();
+                            screen.$popupQty.find('#staging-popupQty-pnlSubstituteKit').show();
+
+                            jQuery('#staging-popupQty-btnSelectSerialNo').on('click', function () {
+                                screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
+                                FwPopup.destroyPopup(screen.$popupQty);
+                            });
+                            screen.$popupQty.find('#staging-popupQty-btnSubstituteItem').on('click', function () {
+                                $primarywindow.hide();
+                                $substituteitemskit.showscreen(recorddata.masterid, recorddata.masteritemid, recorddata.masterno, recorddata.description);
+                                FwPopup.destroyPopup(screen.$popupQty);
+                            });
+                        } else if (trackedby === 'BARCODE') {
+                            screen.renderPopupQty();
+                            screen.$popupQty.find('#staging-popupQty-pnlSubstituteKit').show();
+                            screen.$popupQty.find('#staging-popupQty-btnSubstituteItem').on('click', function () {
+                                $primarywindow.hide();
+                                $substituteitemskit.showscreen(recorddata.masterid, recorddata.masteritemid, recorddata.masterno, recorddata.description);
+                                FwPopup.destroyPopup(screen.$popupQty);
+                            });
                         }
                     } else if (rectype === 'S') {
                         requestStageItem = {
-                            orderid: screen.getOrderId(),
-                            code: '',
-                            masteritemid: recorddata.masteritemid,
-                            qty: 0,
-                            additemtoorder: false,
-                            addcompletetoorder: false,
-                            releasefromrepair: false,
-                            unstage: false,
-                            vendorid: '',
-                            meter: 0,
-                            location: '',
-                            locationdata: screen._locationdata(),
-                            addcontainertoorder: false,
-                            overridereservation: false,
-                            stageconsigned: false,
-                            transferrepair: false,
-                            removefromcontainer: false,
-                            contractid: screen.getContractId(),
-                            ignoresuspendedin: false,
-                            consignorid: '',
+                            orderid:              screen.getOrderId(),
+                            code:                 '',
+                            masteritemid:         recorddata.masteritemid,
+                            qty:                  0,
+                            additemtoorder:       false,
+                            addcompletetoorder:   false,
+                            releasefromrepair:    false,
+                            unstage:              false,
+                            vendorid:             '',
+                            meter:                0,
+                            location:             '',
+                            locationdata:         screen._locationdata(),
+                            addcontainertoorder:  false,
+                            overridereservation:  false,
+                            stageconsigned:       false,
+                            transferrepair:       false,
+                            removefromcontainer:  false,
+                            contractid:           screen.getContractId(),
+                            ignoresuspendedin:    false,
+                            consignorid:          '',
                             consignoragreementid: '',
-                            playStatus: false
+                            playStatus:           false
                         };
                         RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
                             properties.responseStageItem = responseStageItem;
@@ -1899,6 +1921,16 @@ class StagingControllerClass {
             jQuery('#staging-popupQty-pnlSubstitute')  .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.showsubstituteitem || responseStageItem.webStageItem.showsubstitutecomplete));
             jQuery('#staging-popupQty-btnSubItem')     .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.showsubstituteitem));
             jQuery('#staging-popupQty-btnSubComplete') .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.showsubstitutecomplete));
+
+            if (!(responseStageItem.webStageItem.showsubstituteitem || responseStageItem.webStageItem.showsubstitutecomplete) && (responseStageItem.webStageItem.status === 0)) {
+                screen.$popupQty.find('#staging-popupQty-pnlSubstituteKit').show();
+                screen.$popupQty.find('#staging-popupQty-btnSubstituteItem').on('click', function () {
+                    $primarywindow.hide();
+                    $substituteitemskit.showscreen(responseStageItem.webStageItem.masterId, responseStageItem.webStageItem.masterItemId, responseStageItem.webStageItem.masterNo, responseStageItem.webStageItem.description);
+                    FwPopup.destroyPopup(screen.$popupQty);
+                });
+            }
+
             if (responseStageItem.webStageItem.status === 0) {
                 if (responseStageItem.webStageItem.isIcode) {
                     screen.hidePopupQty();
@@ -2275,8 +2307,7 @@ class StagingControllerClass {
             if (screen.getCurrentPage().name === 'search') {
                 screen.$search.fwmobilesearch('setsearchmode', 'orderno');
                 screen.$search.fwmobilesearch('setSearchText', strippedCode, true);
-            }
-            else if (screen.getCurrentPage().name === 'staging') {
+            } else if (screen.getCurrentPage().name === 'staging') {
                 const scanMode = jQuery('#staging-scan').attr('data-mode');
                 if (scanMode === 'PENDING') {
                     screen.$view.find('#pendingsearch').fwmobilesearch('setsearchmode', 'code');
@@ -2476,6 +2507,7 @@ class StagingControllerClass {
                   , captionAddContainerToOrder:RwLanguages.translate('Add Container to Order')
                   , captionSubItem:            RwLanguages.translate('Substitute Item')
                   , captionSubComplete:        RwLanguages.translate('Substitute Complete')
+                  , captionSelectSerialNo:     RwLanguages.translate('Select Serial No(s)')
             });
             var $popupcontent = jQuery(template);
             if (typeof screen.$popupQty === 'object' && screen.$popupQty.length > 0) {
@@ -2488,6 +2520,8 @@ class StagingControllerClass {
             screen.$popupQty.find('#staging-popupQty-pnlSubstitute').hide();
             screen.$popupQty.find('#staging-popupQty-unstageBarcode').hide();
             screen.$popupQty.find('#staging-popupQty-qty').hide();
+            screen.$popupQty.find('#staging-popupQty-pnlSelectSerialNo').hide();
+            screen.$popupQty.find('#staging-popupQty-pnlSubstituteKit').hide();
             FwPopup.showPopup(screen.$popupQty);
             screen.$popupQty
                 .on('click', '#staging-popupQty-btnUnstageBarcode', function() {
@@ -3141,6 +3175,165 @@ class StagingControllerClass {
                 var $this = jQuery(this);
                 $this.siblings().removeClass('selected');
                 $this.addClass('selected');
+            })
+        ;
+
+        $substituteitemskit.find('#substituteitemkitcontroller').fwmobilemodulecontrol({
+            buttons: [
+                {
+                    caption:     'Back',
+                    orientation: 'left',
+                    icon:        '&#xE5CB;', //chevron_left
+                    state:       0,
+                    buttonclick: function () {
+                        $substituteitemskit.hideScreen();
+                        $primarywindow.show();
+
+                        program.onScanBarcode = function (barcode, barcodeType) {
+                            try {
+                                screen.scanCode(barcode);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        }
+                    }
+                },
+                {
+                    caption:     'Submit Substitution',
+                    orientation: 'right',
+                    icon:        '&#xE5CC;', //chevron_right
+                    state:       0,
+                    buttonclick: function () {
+                        var request = {
+                            SessionId: $substituteitemskit.data('sessionid')
+                        }
+
+                        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/applysubstitutesession`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                            if (response.success) {
+                                $substituteitemskit.hideScreen();
+                                $primarywindow.show();
+                                screen.refreshbottomspacer();
+
+                                program.onScanBarcode = function (barcode, barcodeType) {
+                                    try {
+                                        screen.scanCode(barcode);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                }
+                            } else {
+                                FwNotification.renderNotification('ERROR', response.msg);
+                            }
+                        }, null, null);
+                    }
+                }
+            ]
+        });
+        $substituteitemskit.showscreen = function (masterid, masteritemid, icode, caption) {
+            var request = {
+                OrderId:     screen.getOrderId(),
+                OrderItemId: masteritemid
+            }
+            RwServices.callMethod("Staging", "StartSubstituteSession", request, function(response) {
+                $substituteitemskit.show();
+                $substituteitemskit.data('sessionid', response.sessionid);
+
+                $substituteitemskit.find('.iteminfo').html(`${icode} - ${caption}`);
+
+                program.onScanBarcode = function (barcode, barcodeType) {
+                    try {
+                        $substituteitemskit.scanCode(barcode);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
+            });
+        };
+        $substituteitemskit.hideScreen = function () {
+            $substituteitemskit.hide();
+            $substituteitemskit.find('.fwmobilecontrol-value').val('');
+            $substituteitemskit.find('.substituteitems').html('');
+            $substituteitemskit.data('sessionid', '');
+        };
+        $substituteitemskit.scanCode = function (code: string) {
+            var strippedCode = RwAppData.stripBarcode(code.toUpperCase());
+
+            var request = {
+                SessionId:     $substituteitemskit.data('sessionid'),
+                Code:          strippedCode,
+                Qty:           0
+            };
+            RwServices.callMethod("Staging", "StageSubstituteItem", request, function(response) {
+                if (response.stagesubstituteitem.status === 0) {
+                    $substituteitemskit.renderItems(response.items);
+                    $substituteitemskit.find('.fwmobilecontrol-value').val('');
+                } else if (response.stagesubstituteitem.status === 107) {
+                    var $confirmation = FwConfirmation.renderConfirmation('How Many?', '');
+                    var $ok           = FwConfirmation.addButton($confirmation, 'OK', false);
+                    var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+
+                    FwConfirmation.addControls($confirmation, '<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="qty" data-minvalue="0" data-formatnumeric="true"></div>');
+
+                    $ok.on('click', function () {
+                        request.Qty = FwFormField.getValueByDataField($confirmation, 'qty');
+                        FwConfirmation.destroyConfirmation($confirmation);
+
+                        RwServices.callMethod("Staging", "StageSubstituteItem", request, function(response) {
+                            if (response.stagesubstituteitem.status === 0) {
+                                $substituteitemskit.renderItems(response.items);
+                                $substituteitemskit.find('.fwmobilecontrol-value').val('');
+                            } else {
+                                FwNotification.renderNotification('ERROR', response.stagesubstituteitem.msg);
+                            }
+                        });
+                    });
+                } else {
+                    FwNotification.renderNotification('ERROR', response.stagesubstituteitem.msg);
+                }
+            });
+        };
+        $substituteitemskit.renderItems = function (items) {
+            for (var item of items) {
+                var html = [];
+                html.push('<div class="item">');
+                html.push(`  <div class="row1"><div class="title">${item.master}</div></div>`);
+                html.push('  <div class="row2">');
+                html.push('    <div class="col1">');
+                html.push('      <div class="datafield masterno">');
+                html.push('        <div class="caption">I-Code:</div>');
+                html.push(`        <div class="value">${item.masterno}</div>`);
+                html.push('      </div>');
+                html.push('    </div>');
+                html.push('    <div class="col2">');
+                html.push('      <div class="datafield rate">');
+                html.push('        <div class="caption">Qty:</div>');
+                html.push(`        <div class="value">${item.qty}</div>`);
+                html.push('      </div>');
+                html.push('    </div>');
+                html.push('  </div>');
+                if (item.barcode) {
+                    html.push('  <div class="row3">');
+                    html.push('    <div class="col1">');
+                    html.push('      <div class="datafield masterno">');
+                    html.push('        <div class="caption">Barcode:</div>');
+                    html.push(`        <div class="value">${item.barcode}</div>`);
+                    html.push('      </div>');
+                    html.push('    </div>');
+                    html.push('  </div>');
+                }
+                html.push('</div>');
+                var $item = jQuery(html.join(''));
+                $item.data('recorddata', item);
+
+                $substituteitemskit.find('.substituteitems').append($item);
+            }
+        };
+        $substituteitemskit
+            .on('change', '.fwmobilecontrol-value', function () {
+                var value = jQuery(this).val();
+                if (value != '') {
+                    $substituteitemskit.scanCode(value);
+                }
             })
         ;
 

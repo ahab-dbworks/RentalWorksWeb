@@ -165,3 +165,16 @@
 #staging #staging-orderlocation .orderlocations .location .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
 #staging #staging-orderlocation .orderlocations .location .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
 #staging #staging-orderlocation .orderlocations .location .value {flex: 1 1 0;font-size:.625em;}
+
+#staging #staging-substituteitemkit {display:none;}
+#staging #staging-substituteitemkit .substituteforiteminfo {padding: 4px;text-align: center;background-color: #616161;}
+#staging #staging-substituteitemkit .substituteitems {background-color: #212121;}
+#staging #staging-substituteitemkit .substituteitems .item {padding: 0 0 12px 0;}
+#staging #staging-substituteitemkit .substituteitems .item .row1 {font-size:12px;font-weight: bold;padding: 2px 5px;background-color: #424242;}
+#staging #staging-substituteitemkit .substituteitems .item .row2,
+#staging #staging-substituteitemkit .substituteitems .item .row3 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#staging #staging-substituteitemkit .substituteitems .item .col1 {flex: 1 1 0;}
+#staging #staging-substituteitemkit .substituteitems .item .col2 {flex: 1 1 0;}
+#staging #staging-substituteitemkit .substituteitems .item .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;padding:2px;}
+#staging #staging-substituteitemkit .substituteitems .item .caption {flex: 0 0 6em;font-size:.625em;color: #aaaaaa;}
+#staging #staging-substituteitemkit .substituteitems .item .value {flex: 1 1 0;font-size:.625em;}

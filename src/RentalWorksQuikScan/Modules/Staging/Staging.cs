@@ -852,5 +852,60 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public void StartSubstituteSession(dynamic request, dynamic response, dynamic session)
+        {
+            response.sessionid = CreateNewSubstituteSession(orderid:     request.OrderId,
+                                                            orderitemid: request.OrderItemId);
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static string CreateNewSubstituteSession(string orderid, string orderitemid)
+        {
+            string sessionid = FwSqlData.GetNextId(FwSqlConnection.RentalWorks);
+
+            FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("insert into stagingsubstitutesession(sessionid,  orderid,  masteritemid, datestamp)");
+            qry.Add("                             values (@SessionId, @OrderId, @OrderItemId, getutcdate())");
+            qry.AddParameter("@SessionId", sessionid);
+            qry.AddParameter("@OrderId", orderid);
+            qry.AddParameter("@OrderItemId", orderitemid);
+            qry.Execute();
+
+            return sessionid;
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public void StageSubstituteItem(dynamic request, dynamic response, dynamic session)
+        {
+            FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.stageaddsubstituteitemtosession");
+            sp.AddParameter("@sessionid",       request.SessionId);
+            sp.AddParameter("@code",            request.Code);
+            sp.AddParameter("@warehouseid",     RwAppData.GetWarehouseId(session));
+            sp.AddParameter("@qty",             request.Qty);
+            sp.AddParameter("@usersid",         session.security.webUser.usersid);
+            sp.AddParameter("@masterno",        SqlDbType.VarChar,  ParameterDirection.Output);
+            sp.AddParameter("@description",     SqlDbType.VarChar,  ParameterDirection.Output);
+            sp.AddParameter("@status",          SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@msg",             SqlDbType.NVarChar, ParameterDirection.Output);
+            sp.Execute();
+            dynamic result     = new ExpandoObject();
+            result.masterno    = sp.GetParameter("@masterno").ToString().TrimEnd();
+            result.description = sp.GetParameter("@description").ToString().TrimEnd();
+            result.status      = sp.GetParameter("@status").ToInt32();
+            result.msg         = sp.GetParameter("@msg").ToString().TrimEnd();
+
+            response.stagesubstituteitem = result;
+
+            if (result.status == 0)
+            {
+                FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+                qry.Add("select id, sessionid, masterid, rentalitemid, masterno, master, barcode, mfgserial, qty, rentalstatusid, rentalstatus, rentalstatuscolor");
+                qry.Add("  from stagingsubstitutesessionview with (nolock)");
+                qry.Add(" where sessionid = @sessionid");
+                qry.AddParameter("@sessionid", request.SessionId);
+                response.items = qry.QueryToDynamicList2();
+            }
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }
