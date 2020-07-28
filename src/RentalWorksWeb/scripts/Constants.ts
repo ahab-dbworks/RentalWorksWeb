@@ -185,6 +185,7 @@ var Constants = {
                         OutContractReport:      { id: 'p2tH0HSDc930',  caption: 'Out Contract',               nav: 'reports/outcontractreport',       nodetype: 'Module', description: 'Check-Out Contract document.' },
                         ReceiveContractReport:  { id: 'KXKz4J1x0t71K', caption: 'Receive Contract',           nav: 'reports/receivecontractreport',   nodetype: 'Module', description: 'Receive Contract document.' },
                         ReturnContractReport:   { id: 'gkK2yG12BU8kk', caption: 'Return Contract',            nav: 'reports/returncontractreport',    nodetype: 'Module', description: 'Return Contract document.' },
+                        ReturnListReport:       { id: 'cYzbGgLOUMRz',  caption: 'Return List',                nav: 'reports/returnlistreport',        nodetype: 'Module', description: 'Return List document.' },
                         TransferManifestReport: { id: 'wf68uZe0JPXDt', caption: 'Transfer Manifest ',         nav: 'reports/transfermanifesttreport', nodetype: 'Module', description: 'Transfer Manifest document.' },
                         TransferReceiptReport:  { id: 'F6XtBsrOH4cjm', caption: 'Transfer Receipt',           nav: 'reports/transferreceiptreport',   nodetype: 'Module', description: 'Transfer Receipt document.' }
                     }
