@@ -159,10 +159,10 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
                         if (isValid)
                         {
                             string classification = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
-                            if (classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                            if (!(classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ITEM) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY)))
                             {
                                 isValid = false;
-                                validateMsg = "The Primary item cannot be a Complete, Kit, or Container.";
+                                validateMsg = "The Primary item must be either an Item or Accessory.  (It cannot be a Complete, Kit, Container, or Miscellaneous).";
                             }
                         }
                         if (isValid)
