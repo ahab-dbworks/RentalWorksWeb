@@ -30,6 +30,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public bool? IncludeUnretired { get; set; }
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }

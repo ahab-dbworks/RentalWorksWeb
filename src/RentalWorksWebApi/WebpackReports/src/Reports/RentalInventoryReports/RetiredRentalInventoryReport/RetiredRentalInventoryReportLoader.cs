@@ -208,6 +208,12 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
         [FwSqlDataField(column: "retirednotes", modeltype: FwDataTypes.Text)]
         public string RetiredNotes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcostextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? ReplacementCostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RetiredRentalInventoryReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -227,6 +233,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RetiredRentalInventoryRe
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
                     qry.AddParameter("@retiredreasonid", SqlDbType.Text, ParameterDirection.Input, request.RetiredReasonId);
+                    qry.AddParameter("@rank", SqlDbType.Text, ParameterDirection.Input, request.Ranks.ToString());
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
