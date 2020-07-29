@@ -60,8 +60,9 @@ class CheckIn extends CheckInBase {
     printReturnList($form: any) {
         try {
             const module = this.Module;
-            const contractId = $form.data('ContractData').ContractId;
-            const dealId = FwFormField.getValueByDataField($form, 'DealId');
+            //const contractId = $form.data('ContractData').ContractId;
+            const contractId   = FwFormField.getValueByDataField($form, 'ContractId');
+            const dealId       = FwFormField.getValueByDataField($form, 'DealId');
             const departmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
             const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
 

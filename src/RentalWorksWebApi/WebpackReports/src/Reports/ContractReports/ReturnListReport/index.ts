@@ -41,10 +41,10 @@ export class ReturnListReport extends WebpackReport {
                                 data.Items[i].PrintOut = data.PrintOut;
                             }
                             data.Warehouse = parameters.warehouse;
-                            data.Company = parameters.companyName;
-                            if (logoObject.LogoImage != '') {
-                                data.Logosrc = logoObject.LogoImage;
-                            }
+                            data.Company   = parameters.companyName;
+                            //if (logoObject.LogoImage != '') {
+                            //    data.Logosrc = logoObject.LogoImage;
+                            //}
                             console.log(parameters, 'parameters');
                             console.log(data, 'DATA');
 
