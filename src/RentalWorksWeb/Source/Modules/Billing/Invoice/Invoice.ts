@@ -161,6 +161,11 @@ class Invoice {
         $form = FwModule.openForm($form, mode);
         //FwTabs.hideTab($form.find('.emailhistorytab'));
 
+        const enableReceipts = JSON.parse(sessionStorage.getItem('controldefaults')).enablereceipts;
+        if (!enableReceipts) {
+            FwTabs.hideTab($form.find('.receipt-tab'));
+        }
+
         if (FwApplicationTree.isVisibleInSecurityTree('3XHEm3Q8WSD8z')) {
             const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
             $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);

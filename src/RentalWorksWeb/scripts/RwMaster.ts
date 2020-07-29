@@ -5,6 +5,7 @@ class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     initMainMenu() {
         let userType = sessionStorage.getItem('userType');
+        const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
         //const applicationOptions = JSON.parse(sessionStorage.getItem('applicationOptions'));
         this.navigation = [];
 
@@ -113,7 +114,9 @@ class RwMaster extends WebMaster {
                 menuBilling.children.push(Constants.Modules.Billing.children.Billing);
                 menuBilling.children.push(Constants.Modules.Billing.children.BillingWorksheet);
                 menuBilling.children.push(Constants.Modules.Billing.children.Invoice);
-                menuBilling.children.push(Constants.Modules.Billing.children.Receipt);
+                if (controlDefaults.enablereceipts) {
+                    menuBilling.children.push(Constants.Modules.Billing.children.Receipt);
+                }
                 menuBilling.children.push(Constants.Modules.Billing.children.VendorInvoice);
             }
             this.navigation.push(menuBilling);

@@ -19,7 +19,8 @@
         $reports = this.openReports();
 
         screen.load = () => {
-            FwModule.openModuleTab($reports, this.caption, false, 'REPORTS', true)
+            FwModule.openModuleTab($reports, this.caption, false, 'REPORTS', true);
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             //var nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
             const rootConstNodeReports = Constants.Modules.Reports;
             var moduleArray = [];
@@ -29,6 +30,9 @@
                 const secNodeCategory = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeCategory.id);
                 if (secNodeCategory !== null && secNodeCategory.properties.visible === 'T') {
                     for (let keyReport in constNodeCategory.children) {
+                        if (!controlDefaults.enablereceipts && (keyReport === 'DailyReceiptsReport' || keyReport === 'ReceiptBatchReport')) {
+                            continue;
+                        }
                         const constNodeReport = constNodeCategory.children[keyReport];
                         const secNodeReport = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeReport.id);
                         if (secNodeReport === null) { console.error(`${keyReport} not found. Check report API controller and/ or security ids`); }

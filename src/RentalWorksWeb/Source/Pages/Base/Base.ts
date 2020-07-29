@@ -337,6 +337,7 @@ class Base {
                                                 defaulticodemask: responseGetInventorySettings.ICodeMask,
                                                 userassignedicodes: responseGetInventorySettings.UserAssignedICodes,
                                                 enable3weekpricing: responseGetInventorySettings.Enable3WeekPricing,
+                                                enablereceipts: responseGetSystemSettings.EnableReceipts,
                                                 sharedealsacrossofficelocations: responseGetSystemSettings.ShareDealsAcrossOfficeLocations,
                                                 systemname: responseGetSystemSettings.SystemName,
                                                 companyname: responseGetSystemSettings.CompanyName,
@@ -344,7 +345,7 @@ class Base {
                                                 userassignedvendornumber: responseGetSystemSettings.IsVendorNumberAssignedByUser,
                                                 userassignedcustomernumber: userassignedcustnum,
                                                 userassigneddealnumber: userassigneddealnum,
-                                                multiwarehouse: (responseGetWarehouses.Rows.length > 1),
+                                                multiwarehouse: (responseGetWarehouses.Rows.length > 1)
                                             }
                                             sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 
