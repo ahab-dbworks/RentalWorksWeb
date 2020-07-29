@@ -26,7 +26,16 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
     public class InvoiceReportController : AppReportController
     {
         public InvoiceReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(InvoiceReportLoader); }
-        protected override string GetReportFileName(FwReportRenderRequest request) { return "InvoiceReport"; }
+        //------------------------------------------------------------------------------------ 
+        protected override string GetReportFileName(FwReportRenderRequest request) {
+            //return "InvoiceReport"; 
+            InvoiceLogic invoice = new InvoiceLogic();
+            invoice.SetDependencies(AppConfig, UserSession);
+            invoice.InvoiceId = GetUniqueId(request);
+            bool b = invoice.LoadAsync<InvoiceLogic>().Result;
+            string fileName = invoice.InvoiceNumber + " " + invoice.InvoiceDescription;
+            return fileName;
+        }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Invoice Report"; }
         //------------------------------------------------------------------------------------ 
