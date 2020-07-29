@@ -9,6 +9,21 @@
         });
     };
     //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const totalRowCount = $tr.closest('.fwbrowse').data('totalRowCount');
+        if (!totalRowCount) {
+            switch (datafield) {
+                case 'InventoryId':
+                    request.uniqueids = {
+                        Classification: 'I,A'
+                    };
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     addLegend($control) {
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, response => {
