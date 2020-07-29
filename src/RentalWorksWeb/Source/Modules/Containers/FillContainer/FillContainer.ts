@@ -117,7 +117,8 @@ class FillContainer extends StagingCheckoutBase {
                                 });
                             } else {
                                 FwFormField.disable($form.find('[data-datafield="BarCode"]'));
-                                FwFormField.setValueByDataField($form, 'OrderId', response.OrderId);
+                                //FwFormField.setValueByDataField($form, 'OrderId', response.OrderId);
+                                FwFormField.setValueByDataField($form, 'OrderId', response.ContainerItemId);
                                 FwFormField.setValueByDataField($form, 'ContainerItemId', response.ContainerItemId, barcode, true);
                             }
                         } else {
