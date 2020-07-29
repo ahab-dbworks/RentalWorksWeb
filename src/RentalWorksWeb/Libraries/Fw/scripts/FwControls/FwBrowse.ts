@@ -4390,7 +4390,7 @@ class FwBrowseClass {
                                             } catch (ex) {
                                                 console.error('exception: ', ex);
                                             }
-                                        }, 1000);
+                                        }, 100);
                                     }
                                 });
                         };
