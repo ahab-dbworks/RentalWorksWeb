@@ -21,6 +21,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteReport
         {
             OrderReportRequest orderRequest = new OrderReportRequest();
             orderRequest.OrderId = request.QuoteId;
+            orderRequest.IsSummary = request.IsSummary;
             return await RunReportAsync(orderRequest);
 
         }
