@@ -244,8 +244,8 @@ class Base {
                                             }
                                             userid.reportsnavexpanded = `${responseGetUserSettings.ReportsNavigationMenuVisible}`;
                                             userid.settingsnavexpanded = `${responseGetUserSettings.SettingsNavigationMenuVisible}`;
+                                            userid.mainmenupinned = responseGetUserSettings.MainMenuPinned;
                                             userid.defaultquikactivitysetting = responseGetUserSettings.QuikActivitySetting;
-
                                             sessionStorage.setItem('userid', JSON.stringify(userid));
 
                                             // Include department's default activity selection in sessionStorage for use in Quote / Order

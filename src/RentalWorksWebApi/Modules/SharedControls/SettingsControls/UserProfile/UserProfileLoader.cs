@@ -69,6 +69,9 @@ namespace WebApi.Modules.Settings.UserProfile
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reportsnavmenuvisible", modeltype: FwDataTypes.Boolean)]
         public bool? ReportsNavigationMenuVisible { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "mainmenupinned", modeltype: FwDataTypes.Boolean)]
+        public bool? MainMenuPinned { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikactivitysetting", modeltype: FwDataTypes.Text)]
         public string QuikActivitySetting { get; set; }

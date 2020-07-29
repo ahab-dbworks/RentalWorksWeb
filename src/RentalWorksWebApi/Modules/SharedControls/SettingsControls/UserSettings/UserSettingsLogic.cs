@@ -127,6 +127,9 @@
 //        [FwLogicProperty(Id: "vdJ6xJC3Bkqph")]
 //        public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
 
+//        [FwLogicProperty(Id: "MCdODvWgjz9y")]
+//        public bool? MainMenuPinned { get { return webUser.MainMenuPinned; } set { webUser.MainMenuPinned = value; } }
+
 //        [FwLogicProperty(Id:"JGq0mOToNeqi")]
 //        public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
 //        //------------------------------------------------------------------------------------ 

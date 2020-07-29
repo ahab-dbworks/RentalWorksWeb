@@ -104,6 +104,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "reportsnavmenuvisible", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
         public bool? ReportsNavigationMenuVisible { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "mainmenupinned", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
+        public bool? MainMenuPinned { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webquoterequest", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
         public bool? WebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------

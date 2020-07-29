@@ -1423,6 +1423,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
+    <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />

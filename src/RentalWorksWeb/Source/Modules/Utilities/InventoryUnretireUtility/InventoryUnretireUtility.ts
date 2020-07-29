@@ -63,7 +63,7 @@ class InventoryUnretireUtility {
                 FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryunretireutility/unretireinventory', request, FwServices.defaultTimeout, response => {
                     if (response.success) {
                         const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
-                        const $prevTabPage = jQuery('#master-body').find(`div[data-tabid="${$tab.prev().attr('id')}"]`);
+                        const $prevTabPage = jQuery('#fw-app-body').find(`div[data-tabid="${$tab.prev().attr('id')}"]`);
                         const $prevForm = $prevTabPage.find('.fwform');
                         FwModule.closeFormTab($tab, $form, true);
                         FwNotification.renderNotification('SUCCESS', 'Unretired Successfully');

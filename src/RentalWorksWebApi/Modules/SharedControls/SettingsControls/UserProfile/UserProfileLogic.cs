@@ -127,15 +127,18 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwLogicProperty(Id: "654Ji1gmjrEPD")]
         public bool? ReportsNavigationMenuVisible { get { return webUser.ReportsNavigationMenuVisible; } set { webUser.ReportsNavigationMenuVisible = value; } }
 
+        [FwLogicProperty(Id: "KBpq7SgKbuls")]
+        public bool? MainMenuPinned { get { return webUser.MainMenuPinned; } set { webUser.MainMenuPinned = value; } }
+
         [FwLogicProperty(Id: "PyJF3dC7sONA9", IsReadOnly: true)]
         public bool? WebAdministrator { get; set; }
 
         [FwLogicProperty(Id: "fR3t20LsLMMU0")]
         public string QuikActivitySetting { get { return webUser.QuikActivitySetting; } set { webUser.QuikActivitySetting = value; } }
+        
         [FwLogicProperty(Id: "robWDF2GvQMc")]
         public string EmailSignature { get; set; }
 
-        [FwLogicProperty(Id: "JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)

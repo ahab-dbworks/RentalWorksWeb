@@ -13,6 +13,7 @@ class RwMaster extends WebMaster {
         let menuAgent = {
             caption: 'Agent',
             id: 'Agent',
+            icon: 'person',
             children: []
         };
         if (userType == 'USER') {
@@ -35,79 +36,11 @@ class RwMaster extends WebMaster {
         this.navigation.push(menuAgent);
 
         if (userType == 'USER') {
-            // Inventory Menu
-            let menuInventory = {
-                caption: 'Inventory',
-                id: 'Inventory',
-                children: [
-                    Constants.Modules.Inventory.children.Asset,
-                    Constants.Modules.Inventory.children.AvailabilityConflicts,
-                    Constants.Modules.Inventory.children.CompleteQc,
-                    Constants.Modules.Inventory.children.PartsInventory,
-                    Constants.Modules.Inventory.children.PurchaseHistory,
-                    Constants.Modules.Inventory.children.PhysicalInventory,
-                    Constants.Modules.Inventory.children.QuikSearch,
-                    Constants.Modules.Inventory.children.RentalInventory,
-                    Constants.Modules.Inventory.children.Repair,
-                    Constants.Modules.Inventory.children.SalesInventory
-                ]
-            };
-            this.navigation.push(menuInventory);
-            // Warehouse Menu
-            let menuWarehouse = {
-                caption: 'Warehouse',
-                id: 'Warehouse',
-                children: [
-                    Constants.Modules.Warehouse.children.AssignBarCodes,
-                    Constants.Modules.Warehouse.children.CheckIn,
-                    Constants.Modules.Warehouse.children.Contract,
-                    Constants.Modules.Warehouse.children.Exchange,
-                    Constants.Modules.Warehouse.children.OrderStatus,
-                    Constants.Modules.Warehouse.children.PickList,
-                    Constants.Modules.Warehouse.children.ReceiveFromVendor,
-                    Constants.Modules.Warehouse.children.ReturnToVendor,
-                    Constants.Modules.Warehouse.children.StagingCheckout,
-                ]
-            };
-            this.navigation.push(menuWarehouse);
-            // Containers Menu
-            const menuContainer = {
-                caption: 'Container',
-                id: 'Containers',
-                children: [
-                    Constants.Modules.Container.children.Container,
-                    Constants.Modules.Container.children.ContainerStatus,
-                    Constants.Modules.Container.children.EmptyContainer,
-                    Constants.Modules.Container.children.FillContainer,
-                    Constants.Modules.Container.children.RemoveFromContainer
-                ]
-            };
-            //jh 07/31/2019 #790: I just discovered that in v2019, we removed the "Container" application option.  Module is available for all sites now.
-            //if ((applicationOptions.container != undefined) && (applicationOptions.container.enabled != null) && (applicationOptions.container.enabled)) {
-            this.navigation.push(menuContainer);
-            //}
-            // Transfers Menu
-            const menuTransfers = {
-                caption: 'Transfers',
-                id: 'Transfers',
-                children: [
-                    Constants.Modules.Transfers.children.TransferIn,
-                    Constants.Modules.Transfers.children.Manifest,
-                    Constants.Modules.Transfers.children.TransferOrder,
-                    Constants.Modules.Transfers.children.TransferOut,
-                    Constants.Modules.Transfers.children.TransferReceipt,
-                    Constants.Modules.Transfers.children.TransferStatus,
-                ]
-            };
-            //if ((applicationOptions.multiwarehouse != undefined) && (applicationOptions.multiwarehouse.enabled != null) && (applicationOptions.multiwarehouse.enabled) && (applicationOptions.multiwarehouse.value !== 1)) {
-            if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
-                this.navigation.push(menuTransfers);
-            }
-
             // Billing Menu
             let menuBilling = {
                 caption: 'Billing',
                 id: 'Billing',
+                icon: 'attach_money',
                 children: []
             };
             if (userType == 'USER') {
@@ -121,10 +54,104 @@ class RwMaster extends WebMaster {
             }
             this.navigation.push(menuBilling);
 
+            // Inventory Menu
+            let menuInventory = {
+                caption: 'Inventory',
+                id: 'Inventory',
+                icon: 'storage',
+                children: [
+                    Constants.Modules.Inventory.children.Asset,
+                    Constants.Modules.Inventory.children.AvailabilityConflicts,
+                    Constants.Modules.Inventory.children.CompleteQc,
+                    Constants.Modules.Inventory.children.PartsInventory,
+                    Constants.Modules.Inventory.children.PurchaseHistory,
+                    Constants.Modules.Inventory.children.PhysicalInventory,
+                    Constants.Modules.Inventory.children.QuikSearch,
+                    Constants.Modules.Inventory.children.RentalInventory,
+                    Constants.Modules.Inventory.children.Repair,
+                    Constants.Modules.Inventory.children.SalesInventory
+                ]
+            };
+            if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferIn)
+                menuInventory.children.push(Constants.Modules.Transfers.children.Manifest)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferOrder)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferOut)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferReceipt)
+                menuInventory.children.push(Constants.Modules.Transfers.children.TransferStatus)
+            }
+            this.navigation.push(menuInventory);
+            // Warehouse Menu
+            let menuWarehouse = {
+                caption: 'Warehouse',
+                id: 'Warehouse',
+                icon: 'store',
+                children: [
+                    Constants.Modules.Warehouse.children.AssignBarCodes,
+                    Constants.Modules.Warehouse.children.CheckIn,
+                    Constants.Modules.Warehouse.children.Contract,
+                    Constants.Modules.Warehouse.children.Exchange,
+                    Constants.Modules.Warehouse.children.OrderStatus,
+                    Constants.Modules.Warehouse.children.PickList,
+                    Constants.Modules.Warehouse.children.ReceiveFromVendor,
+                    Constants.Modules.Warehouse.children.ReturnToVendor,
+                    Constants.Modules.Warehouse.children.StagingCheckout,
+                    Constants.Modules.Container.children.Container,
+                    Constants.Modules.Container.children.ContainerStatus,
+                    Constants.Modules.Container.children.EmptyContainer,
+                    Constants.Modules.Container.children.FillContainer,
+                    Constants.Modules.Container.children.RemoveFromContainer
+                ]
+            };
+            this.navigation.push(menuWarehouse);
+            let menuReports = {
+                caption:    Constants.Modules.Administrator.children.Reports.caption,
+                navigation: Constants.Modules.Administrator.children.Reports.nav,
+                id:         Constants.Modules.Administrator.children.Reports.id,
+                icon:       'assignment'
+            }
+            this.navigation.push(menuReports);
+            // Containers Menu
+            //const menuContainer = {
+            //    caption: 'Container',
+            //    id: 'Containers',
+            //    icon: 'new_releases',
+            //    children: [
+            //        Constants.Modules.Container.children.Container,
+            //        Constants.Modules.Container.children.ContainerStatus,
+            //        Constants.Modules.Container.children.EmptyContainer,
+            //        Constants.Modules.Container.children.FillContainer,
+            //        Constants.Modules.Container.children.RemoveFromContainer
+            //    ]
+            //};
+            //jh 07/31/2019 #790: I just discovered that in v2019, we removed the "Container" application option.  Module is available for all sites now.
+            //if ((applicationOptions.container != undefined) && (applicationOptions.container.enabled != null) && (applicationOptions.container.enabled)) {
+            //this.navigation.push(menuContainer);
+            //}
+            // Transfers Menu
+            //const menuTransfers = {
+            //    caption: 'Transfers',
+            //    id: 'Transfers',
+            //    icon: 'new_releases',
+            //    children: [
+            //        Constants.Modules.Transfers.children.TransferIn,
+            //        Constants.Modules.Transfers.children.Manifest,
+            //        Constants.Modules.Transfers.children.TransferOrder,
+            //        Constants.Modules.Transfers.children.TransferOut,
+            //        Constants.Modules.Transfers.children.TransferReceipt,
+            //        Constants.Modules.Transfers.children.TransferStatus,
+            //    ]
+            //};
+            //if ((applicationOptions.multiwarehouse != undefined) && (applicationOptions.multiwarehouse.enabled != null) && (applicationOptions.multiwarehouse.enabled) && (applicationOptions.multiwarehouse.value !== 1)) {
+            //if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
+            //    this.navigation.push(menuTransfers);
+            //}
+
             // Utilities Menu
             let menuUtilities = {
                 caption: 'Utilities',
                 id: 'Utilities',
+                icon: 'build',
                 children: [
                     Constants.Modules.Utilities.children.ChangeICodeUtility,
                     Constants.Modules.Utilities.children.ChangeOrderStatus,
@@ -143,10 +170,19 @@ class RwMaster extends WebMaster {
             };
             this.navigation.push(menuUtilities);
 
+            let menuSettings = {
+                caption:    Constants.Modules.Administrator.children.Settings.caption,
+                navigation: Constants.Modules.Administrator.children.Settings.nav,
+                id:         Constants.Modules.Administrator.children.Settings.id,
+                icon:       'settings'
+            }
+            this.navigation.push(menuSettings);
+
             // Administrator Menu
             let menuAdministrator = {
                 caption: 'Administrator',
                 id: 'Administrator',
+                icon: 'security',
                 children: [
                     Constants.Modules.Administrator.children.Alert,
                     Constants.Modules.Administrator.children.CustomField,
@@ -156,14 +192,13 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Administrator.children.DuplicateRule,
                     Constants.Modules.Administrator.children.EmailHistory,
                     Constants.Modules.Administrator.children.Group,
-                    Constants.Modules.Administrator.children.Reports,
-                    Constants.Modules.Administrator.children.Settings,
+                    //Constants.Modules.Administrator.children.Reports,
+                    //Constants.Modules.Administrator.children.Settings,
                     Constants.Modules.Administrator.children.SystemUpdate,
                     Constants.Modules.Administrator.children.User
                 ]
             };
             this.navigation.push(menuAdministrator);
-
 
             // Settings
             this.settings = Constants.Modules.Settings.children;
@@ -280,65 +315,71 @@ class RwMaster extends WebMaster {
         }
     }
     //----------------------------------------------------------------------------------------------
-    buildMainMenu($view: JQuery) {
+    buildMainMenu(): (MenuCategory | MenuModule)[] {
         this.initMainMenu();
         var nodeApplication = FwApplicationTree.getMyTree();
-        for (var i = 0; i < this.navigation.length; i++) {
-            var categorySecurityObject = FwFunc.getObjects(nodeApplication, 'id', this.navigation[i].id);
-            if (this.navigation[i].id === '' || (categorySecurityObject !== undefined && categorySecurityObject.length > 0 && categorySecurityObject[0].properties.visible === 'T')) {
-                var $menu = FwFileMenu.addMenu($view, this.navigation[i].caption);
-                for (var j = 0; j < this.navigation[i].children.length; j++) {
-                    var moduleSecurityObject = FwFunc.getObjects(nodeApplication, 'id', this.navigation[i].children[j].id);
-                    if (this.navigation[i].children[j].id === '' || (moduleSecurityObject !== undefined && moduleSecurityObject.length > 0 && moduleSecurityObject[0].properties.visible === 'T')) {
-                        FwFileMenu.generateStandardModuleBtn($menu, this.navigation[i].children[j].id, this.navigation[i].children[j].caption, this.navigation[i].children[j].nav, '');
+
+        var applicationMenu: (MenuCategory | MenuModule)[] = [];
+        for (var node of this.navigation) {
+            var categorySecurityObject = FwFunc.getObjects(nodeApplication, 'id', node.id);
+            if (node.id === '' || (categorySecurityObject !== undefined && categorySecurityObject.length > 0 && categorySecurityObject[0].properties.visible === 'T')) {
+                if (node.children) {
+                    var modules: MenuCategoryModule[] = [];
+                    for (var child of node.children) {
+                        var moduleSecurityObject = FwFunc.getObjects(nodeApplication, 'id', child.id);
+                        if (child.id === '' || (moduleSecurityObject !== undefined && moduleSecurityObject.length > 0 && moduleSecurityObject[0].properties.visible === 'T')) {
+                            var module: MenuCategoryModule = {
+                                title:       child.caption,
+                                navigation:  child.nav,
+                                securityid:  child.id
+                            };
+                            modules.push(module);
+                        }
                     }
+                    if (modules.length > 0) {
+                        var category: MenuCategory = {
+                            title:   node.caption,
+                            icon:    node.icon,
+                            modules: modules
+                        };
+                        applicationMenu.push(category);
+                    }
+                } else {
+                    var lv1module: MenuModule = {
+                        title:      node.caption,
+                        icon:       node.icon,
+                        securityid: node.id,
+                        navigation: node.navigation
+                    }
+                    applicationMenu.push(lv1module);
                 }
             }
         }
+        return applicationMenu;
     }
     //----------------------------------------------------------------------------------------------
-    getUserControl($context: JQuery) {
+    getUserControls(): MenuUserControls {
         var usertype = sessionStorage.getItem('userType');
         var username = sessionStorage.getItem('fullname')
 
-        const $usercontrol = FwFileMenu.UserControl_render($context);
+        var userControls: MenuUserControls = {};
 
-        this.buildSystemBar($context);
-        if (usertype === 'USER') {
-            this.buildOfficeLocation($context);
-        }
-        else if (usertype === 'CONTACT') {
-            this.buildDealPicker($context);
-        }
+        userControls.bookmarks = this.getBookmarks();
 
-        // Add SystemBarControl: User Name
-        var $controlUserName = jQuery(`<div title="User Type: ${usertype}">${username}</div>`);
-        FwFileMenu.UserControl_addSystemBarControl('username', $controlUserName, $usercontrol);
-        // Add DropDownMenuItem: User Settings
-        var $miUserProfile = jQuery(`<div>${RwLanguages.translate('User Profile')}</div>`);
-        FwFileMenu.UserControl_addDropDownMenuItem('userprofile', $miUserProfile, $usercontrol);
-        $miUserProfile.on('click', (event) => {
-            try {
-                program.getModule('module/userprofile');
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        // Add DropDownMenuItem: Sign Out
-        var $miSignOut = jQuery(`<div>${RwLanguages.translate('Sign Out')}</div>`);
-        FwFileMenu.UserControl_addDropDownMenuItem('signout', $miSignOut, $usercontrol);
-        $miSignOut.on('click', (event) => {
-            try {
-                program.getModule('logoff');
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        userControls.controls = [
+            { control: (usertype === 'USER') ? this.buildOfficeLocation() : this.buildDealPicker() },
+            { control: jQuery(`<div title="User Type: ${usertype}">${username}</div>`) }
+        ]
+
+        userControls.links = [
+            { title: 'User Profile', navigation: 'module/userprofile' },
+            { title: 'Sign Out',     navigation: 'logoff' }
+        ];
+
+        return userControls;
     }
     //----------------------------------------------------------------------------------------------
-    buildOfficeLocation($usercontrol: JQuery<HTMLElement>) {
+    buildOfficeLocation(): JQuery {
         const userlocation = JSON.parse(sessionStorage.getItem('location'));
         const userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const userdepartment = JSON.parse(sessionStorage.getItem('department'));
@@ -354,8 +395,6 @@ class RwMaster extends WebMaster {
                                         <div class="locationcolor" style="background-color:${userlocation.locationcolor}"></div>
                                         <div class="value">${locationCaption}</div>
                                       </div>`);
-
-        FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
 
         // navigation header location icon
         $officelocation.on('click', function () {
@@ -442,9 +481,11 @@ class RwMaster extends WebMaster {
                 FwFunc.showError(ex);
             }
         });
+
+        return $officelocation;
     }
     //----------------------------------------------------------------------------------------------
-    buildDealPicker($usercontrol: JQuery<HTMLElement>) {
+    buildDealPicker(): JQuery {
         var deal = JSON.parse(sessionStorage.getItem('deal'));
         var $btnDealPicker = jQuery(`<div class="dealpicker" style="display:flex; align-items:center;">
                                        <div class="caption" style="font-size:.8em;color:#b71c1c;flex:0 0 auto; margin:0 .4em 0 0;">Job:</div> 
@@ -452,9 +493,6 @@ class RwMaster extends WebMaster {
                                      </div>`)
             .css('cursor', 'pointer')
             .attr('title', 'Switch Jobs');
-
-
-        FwFileMenu.UserControl_addSystemBarControl('dealpicker', $btnDealPicker, $usercontrol);
 
         $btnDealPicker.hover((e: JQuery.Event) => {
             $btnDealPicker.css('background-color', '#eeeeee');
@@ -499,62 +537,78 @@ class RwMaster extends WebMaster {
                 FwFunc.showError(ex);
             }
         });
+
+        return $btnDealPicker;
     }
     //----------------------------------------------------------------------------------------------
-    buildSystemBar($usercontrol: JQuery<HTMLElement>) {
+    getBookmarks(): UserControlBookmark[] {
+        var bookmarks: UserControlBookmark[] = [];
+        FwApplicationTree.getMyTree();
+
         if (sessionStorage.getItem('userType') === 'USER') {
             if (sessionStorage['favorites']) {
                 const favoritesModules = JSON.parse(sessionStorage.getItem('favorites'));
-                const modules = jQuery(`<div style="display:flex; max-width:1300px; overflow:hidden;flex-flow:row wrap; justify-content: flex-end; height:25px;"></div>`);
                 for (let i = 0; i < favoritesModules.length; i++) {
                     const $this = favoritesModules[i];
-                    const $module = jQuery(`<div class="toolbar-module dashboard" style="display:flex;" title="${$this.text}"><i class="material-icons">star</i><span>${$this.text}</span></div>`);
-                    $module.on('click', function () {
-                        try {
-                            program.getModule($this.value);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-                    modules.append($module);
+                    bookmarks.push({ title: $this.text, navigation: $this.value, type: 'userdefined' });
                 }
-                FwFileMenu.UserControl_addSystemBarControl('favorites', modules, $usercontrol);
             }
-            const $dashboard = jQuery('<i class="material-icons dashboard" title="Dashboard">insert_chart</i>');
-            $dashboard.on('click', function () {
-                try {
-                    program.getModule('module/dashboard');
-                } catch (ex) {
-                    FwFunc.showError(ex);
+
+            bookmarks.push({ title: 'Dashboard', icon: 'dashboard', navigation: 'module/dashboard', type: 'system' });
+
+            //const nodeSettings = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
+            //if (typeof nodeSettings === 'object' && nodeSettings.properties.visible === 'T') {
+            //    bookmarks.push({ title: 'Settings', icon: 'settings', navigation: 'module/settings', type: 'system' });
+            //}
+
+            //const nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+            //if (typeof nodeReports === 'object' && nodeReports.properties.visible === 'T') {
+            //    bookmarks.push({ title: 'Reports', icon: 'assignment', navigation: 'module/reports', type: 'system' });
+            //}
+        }
+
+        return (bookmarks.length > 0) ? bookmarks : null;
+    }
+    //----------------------------------------------------------------------------------------------
+    events($appmaster: JQuery) {
+        // color nav header for non-default user location on app refresh. Event listener in RwMaster.buildOfficeLocation()
+        if (sessionStorage.getItem('location') !== null && sessionStorage.getItem('defaultlocation') !== null) {
+            const userLocation = JSON.parse(sessionStorage.getItem('location'));
+            const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
+            if (userLocation.location !== defaultLocation.location) {
+                $appmaster.data('header').find('.header-wrapper').css('border-color', `${userLocation.locationcolor}`); 
+            }
+        }
+
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid) {
+            if (userid.mainmenupinned === false) {
+                $appmaster.data('menu').removeAttr('pinned');
+            }
+            $appmaster.data('menu').find('.pin-unpin').off('click');
+            $appmaster.data('menu').find('.pin-unpin').on('click', (e) => {
+                let request: any = {};
+                if ($appmaster.data('menu')[0].hasAttribute('pinned')) {
+                    $appmaster.data('menu').removeAttr('pinned');
+                    userid.mainmenupinned = false;
+                    request.MainMenuPinned = false;
+                } else {
+                    $appmaster.data('menu').attr('pinned', '');
+                    userid.mainmenupinned = true;
+                    request.MainMenuPinned = true;
+                }
+                sessionStorage.setItem('userid', JSON.stringify(userid));
+
+                const webusersid = sessionStorage.getItem('webusersid');
+                if (webusersid) {
+                    request.UserId = webusersid;
+                    FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${webusersid}`, request, FwServices.defaultTimeout, response => { }, ex => {
+                        if (ex !== 'Forbidden') {
+                            FwFunc.showError(ex)
+                        }
+                    }, null);
                 }
             });
-            FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol);
-
-            const nodeSettings = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Settings');
-            if (typeof nodeSettings === 'object' && nodeSettings.properties.visible === 'T') {
-                const $settings = jQuery('<i class="material-icons dashboard" title="Settings">settings</i>');
-                $settings.on('click', function () {
-                    try {
-                        program.getModule('module/settings');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwFileMenu.UserControl_addSystemBarControl('settings', $settings, $usercontrol)
-            }
-
-            const nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
-            if (typeof nodeReports === 'object' && nodeReports.properties.visible === 'T') {
-                const $reports = jQuery('<i class="material-icons dashboard" title="Reports">assignment</i>');
-                $reports.on('click', function () {
-                    try {
-                        program.getModule('module/reports');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwFileMenu.UserControl_addSystemBarControl('reports', $reports, $usercontrol);
-            }
         }
     }
     //----------------------------------------------------------------------------------------------
