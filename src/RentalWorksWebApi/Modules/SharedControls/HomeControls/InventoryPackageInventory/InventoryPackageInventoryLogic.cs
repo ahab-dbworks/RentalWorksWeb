@@ -156,14 +156,26 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
                 {
                     if (!GetPackageHasAccessories())
                     {
-                        if (DefaultQuantity == null)
+                        if (isValid)
                         {
-                            DefaultQuantity = 1;
+                            string classification = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
+                            if (classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                            {
+                                isValid = false;
+                                validateMsg = "The Primary item cannot be a Complete, Kit, or Container.";
+                            }
                         }
-                        if (DefaultQuantity != 1)
+                        if (isValid)
                         {
-                            isValid = false;
-                            validateMsg = "The Default Quantity of the Primary item must be 1.";
+                            if (DefaultQuantity == null)
+                            {
+                                DefaultQuantity = 1;
+                            }
+                            if (DefaultQuantity != 1)
+                            {
+                                isValid = false;
+                                validateMsg = "The Default Quantity of the Primary item must be 1.";
+                            }
                         }
                     }
                 }
