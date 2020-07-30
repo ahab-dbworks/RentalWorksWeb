@@ -32,7 +32,7 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         public bool? UserAssignedICodes { get { return sysControl.Userassignmasterno; } set { sysControl.Userassignmasterno = value; } }
 
         [FwLogicProperty(Id: "FTFg0VWQ9Iy6y")]
-        public int? NextICode { get { return sysControl.Masterno; } set { sysControl.Masterno = value; } }
+        public int? LastICode { get { return sysControl.Masterno; } set { sysControl.Masterno = value; } }
 
         [FwLogicProperty(Id: "ntSppR4GkjOc3")]
         public string ICodePrefix { get { return sysControl.Icodeprefix; } set { sysControl.Icodeprefix = value; } }

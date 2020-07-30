@@ -23,7 +23,7 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         public bool? UserAssignedICodes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Integer)]
-        public int? NextICode { get; set; }
+        public int? LastICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "icodeprefix", modeltype: FwDataTypes.Text)]
         public string ICodePrefix { get; set; }

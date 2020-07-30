@@ -57,11 +57,11 @@ class InventorySettings {
     afterLoad($form: any) {
         const userAssignedICodes = FwFormField.getValueByDataField($form, 'UserAssignedICodes');
         if (userAssignedICodes) {
-            FwFormField.disable($form.find('[data-datafield="NextICode"]'));
+            FwFormField.disable($form.find('[data-datafield="LastICode"]'));
             FwFormField.disable($form.find('[data-datafield="ICodePrefix"]'));
         }
         else {
-            FwFormField.enable($form.find('[data-datafield="NextICode"]'));
+            FwFormField.enable($form.find('[data-datafield="LastICode"]'));
             FwFormField.enable($form.find('[data-datafield="ICodePrefix"]'));
         }
     }
@@ -69,11 +69,11 @@ class InventorySettings {
     events($form: any) {
         $form.find('[data-datafield="UserAssignedICodes"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
-                FwFormField.disable($form.find('[data-datafield="NextICode"]'));
+                FwFormField.disable($form.find('[data-datafield="LastICode"]'));
                 FwFormField.disable($form.find('[data-datafield="ICodePrefix"]'));
             }
             else {
-                FwFormField.enable($form.find('[data-datafield="NextICode"]'));
+                FwFormField.enable($form.find('[data-datafield="LastICode"]'));
                 FwFormField.enable($form.find('[data-datafield="ICodePrefix"]'));
             }
         });
