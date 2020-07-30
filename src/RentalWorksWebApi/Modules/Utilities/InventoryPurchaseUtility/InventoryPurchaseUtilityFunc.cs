@@ -94,7 +94,6 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         }
     }
 
-
     public static class InventoryPurchaseUtilityFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -108,7 +107,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
             {
                 for (int i = 0; i < request.Quantity; i++)
                 {
-                    await AppFunc.InsertDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { response.SessionId });
+                    await AppFunc.InsertDataAsync(appConfig, "barcodeholding", new string[] { "sessionid", "masterid" }, new string[] { response.SessionId, request.InventoryId });
                 }
             }
             return response;
@@ -130,7 +129,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                     int increaseQty = (request.Quantity - existingBarCodes);
                     for (int i = 0; i < increaseQty; i++)
                     {
-                        response.success = await AppFunc.InsertDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId });
+                        response.success = await AppFunc.InsertDataAsync(appConfig, "barcodeholding", new string[] { "sessionid", "masterid" }, new string[] { request.SessionId, request.InventoryId });
                     }
                 }
                 else if (request.Quantity < existingBarCodes)
@@ -149,6 +148,11 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                 response.success = await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { request.SessionId });
             }
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> DeleteSession(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
+        {
+            return await AppFunc.DeleteDataAsync(appConfig, "barcodeholding", new string[] { "sessionid" }, new string[] { sessionId });
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<CodeExistsResponse> CodeExists(FwApplicationConfig appConfig, FwUserSession userSession, CodeExistsRequest request)
