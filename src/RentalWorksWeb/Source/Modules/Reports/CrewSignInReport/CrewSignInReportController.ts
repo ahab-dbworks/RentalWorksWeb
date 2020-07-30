@@ -50,6 +50,7 @@ class CrewSignInReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('CrewSignInReport', 'api/v1/crewsigninreport', crewSignInReportTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

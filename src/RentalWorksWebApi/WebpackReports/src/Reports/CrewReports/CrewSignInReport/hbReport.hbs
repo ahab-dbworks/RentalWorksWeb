@@ -1,5 +1,5 @@
 ﻿<!--Crew Sign-In Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,61 +11,87 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="body rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="body rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Location</th>
-        <th>Crew</th>
-        <th class="header-box" rowspan="2">Employee ID</th>
-        <th class="text header-box" colspan="2">Schedule Time</th>
-        <th class="text header-box" colspan="4">Actual Time</th>
-        <th class="text header-box" colspan="3">Hours</th>
-        <th class="header-box" rowspan="2">Signature / Notes</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="OrderLocation" data-valuefield="OrderLocation">Location</th>
+        <th data-linkedcolumn="Person" data-valuefield="Person" class="header-box">Crew</th>
+        <th data-linkedcolumn="EmployeeId" data-valuefield="EmployeeId" class="header-box">Employee ID</th>
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield="EmptyTd-1">Schedule Time</th>
+        <th data-linkedcolumn="EmptyTd-2" data-valuefield="EmptyTd-2" class="border-right"></th>
+        <th data-linkedcolumn="EmptyTd-3" data-valuefield="EmptyTd-3">Actual Time</th>
+        <th data-linkedcolumn="EmptyTd-4" data-valuefield="EmptyTd-4"></th>
+        <th data-linkedcolumn="EmptyTd-5" data-valuefield="EmptyTd-5"></th>
+        <th data-linkedcolumn="EmptyTd-6" data-valuefield="EmptyTd-6" class="border-right"></th>
+        <th data-linkedcolumn="EmptyTd-7" data-valuefield="EmptyTd-7">Hours</th>
+        <th data-linkedcolumn="EmptyTd-8" data-valuefield="EmptyTd-8"></th>
+        <th data-linkedcolumn="EmptyTd-9" data-valuefield="EmptyTd-9"></th>
+        <th data-linkedcolumn="EmptyTd-10" data-valuefield="EmptyTd-10" class="header-box">Signature / Notes</th>
       </tr>
-      <tr>
-        <th class="empty"></th>
-        <th>Position</th>
-        <th class="text time-field header-box">Start</th>
-        <th class="text time-field header-box">Stop</th>
-        <th class="text time-field header-box">In</th>
-        <th class="text time-field header-box">Out</th>
-        <th class="text time-field header-box">In</th>
-        <th class="text time-field header-box">Out</th>
-        <th class="text time-field header-box">Regular</th>
-        <th class="text time-field header-box">OT</th>
-        <th class="text time-field header-box">DT</th>
+      <tr data-row="main-header">
+        <th data-linkedcolumn="EmptyTd-11" data-valuefield="EmptyTd-11" class="empty"></th>
+        <th data-linkedcolumn="Position" data-valuefield="Position">Position</th>
+        <th data-linkedcolumn="EmptyTd-13" data-valuefield="EmptyTd-13" class="text time-field header-box"></th>
+        <th data-linkedcolumn="RentFromTime" data-valuefield="RentFromTime" class="text time-field header-box">Start</th>
+        <th data-linkedcolumn="RentToTime" data-valuefield="RentToTime" class="text time-field header-box">Stop</th>
+        <th data-linkedcolumn="EmptyTd-14" data-valuefield="EmptyTd-14" class="text time-field header-box">In</th>
+        <th data-linkedcolumn="EmptyTd-15" data-valuefield="EmptyTd-15" class="text time-field header-box">Out</th>
+        <th data-linkedcolumn="EmptyTd-16" data-valuefield="EmptyTd-16" class="text time-field header-box">In</th>
+        <th data-linkedcolumn="EmptyTd-17" data-valuefield="EmptyTd-17" class="text time-field header-box">Out</th>
+        <th data-linkedcolumn="EmptyTd-18" data-valuefield="EmptyTd-18" class="text time-field header-box">Regular</th>
+        <th data-linkedcolumn="EmptyTd-19" data-valuefield="EmptyTd-19" class="text time-field header-box">OT</th>
+        <th data-linkedcolumn="EmptyTd-20" data-valuefield="EmptyTd-20" class="text time-field header-box">DT</th>
+        <th data-linkedcolumn="EmptyTd-21" data-valuefield="EmptyTd-" class="text time-field header-box"></th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Locationheader"}}
-        <td colspan="3" class="header-row">Office: {{Location}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="3" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "RentFromDateheader"}}
-        <td colspan="3" class="lower header-row">Date: {{RentFromDate}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td style="padding-bottom:12px;">{{OrderLocation}}</td>
-        <td>
-          <div>{{Person}}</div>
-          <div>{{Position}}</div>
-        </td>
-        <td class="boxcol" style="text-align:center;">{{EmployeeId}}</td>
-        <td class="boxcol">{{RentFromTime}}</td>
-        <td class="boxcol">{{RentToTime}}</td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
-        <td class="boxcol"></td>
+      {{#ifEquals RowType "Locationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="13" class="header-row">Office: {{Location}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="13" class="lower header-row">Deal: {{Deal}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "RentFromDateheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="13" class="lower header-row">Date: {{RentFromDate}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="OrderLocation" data-value="{{OrderLocation}}"></td>
+        <td data-linkedcolumn="Person" data-value="{{Person}}"></td>
+        <td data-linkedcolumn="EmployeeId" data-value="{{EmployeeId}}" class="boxcol" style="text-align:center;"></td>
+        <td data-linkedcolumn="EmptyTd-1" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-2" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-3" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-4" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-5" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-6" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-7" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-8" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-9" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-10" class="boxcol"></td>
+      </tr>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="EmptyTd-11" style="padding-bottom:12px;"></td>
+        <td data-linkedcolumn="Position" data-value="{{Position}}"></td>
+        <td data-linkedcolumn="EmptyTd-13" class="boxcol"></td>
+        <td data-linkedcolumn="RentFromTime" data-value="{{RentFromTime}}" class="boxcol"></td>
+        <td data-linkedcolumn="RentToTime" data-value="{{RentToTime}}" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-14" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-15" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-16" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-17" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-18" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-19" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-20" class="boxcol"></td>
+        <td data-linkedcolumn="EmptyTd-21" class="boxcol"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}
