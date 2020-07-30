@@ -127,7 +127,8 @@ export class FwModuleBase {
         openBrowseResponse.recordCount = 0;
         openBrowseResponse.errorMessage = "browse not opened";
 
-        let mainMenuSelector = `.appmenu`;
+        //let mainMenuSelector = `.appmenu`;
+        let mainMenuSelector = `.app-menu-button`;
         await page.waitForSelector(mainMenuSelector);
 
         //await ModuleBase.wait(500); // wait for menu option to get its click event // #stresstest s/b 1000+
