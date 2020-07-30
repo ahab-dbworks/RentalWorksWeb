@@ -104,6 +104,14 @@ namespace FwStandard.BusinessLogic
         public FwDataRecord Source { get; set; }
     }
 
+
+    public class InsteadOfDeleteEventArgs : EventArgs
+    {
+        public FwSqlConnection SqlConnection { get; set; }
+        public bool Success { get; set; } = true;
+    }
+
+
     //---------------------------------------------------------------------------------------------
     public class FwBusinessLogicFieldDefinition
     {
@@ -241,6 +249,7 @@ namespace FwStandard.BusinessLogic
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
         public event EventHandler<AfterMapEventArgs> AfterMap;
+        public event EventHandler<InsteadOfDeleteEventArgs> InsteadOfDelete;
 
         public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
         public delegate void InsteadOfSaveEventHandler(InsteadOfSaveEventArgs e);
@@ -249,6 +258,7 @@ namespace FwStandard.BusinessLogic
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
         public delegate void AfterMapEventHandler(AfterMapEventArgs e);
+        public delegate void InsteadOfDeleteEventHandler(InsteadOfDeleteEventArgs e);
 
         protected virtual async Task BeforeSaveAsync(BeforeSaveEventArgs e)
         {
@@ -289,6 +299,11 @@ namespace FwStandard.BusinessLogic
         protected virtual async Task AfterMapAsync(AfterMapEventArgs e)
         {
             AfterMap?.Invoke(this, e);
+            await Task.CompletedTask;
+        }
+        protected virtual async Task InsteadOfDeleteAsync(InsteadOfDeleteEventArgs e)
+        {
+            InsteadOfDelete?.Invoke(this, e);
             await Task.CompletedTask;
         }
 
@@ -1548,6 +1563,10 @@ namespace FwStandard.BusinessLogic
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
 
+            InsteadOfDeleteEventArgs insteadOfDeleteArgs = new InsteadOfDeleteEventArgs();
+            insteadOfDeleteArgs.SqlConnection = conn;
+
+
             bool transactionInitializedHere = false;
             try
             {
@@ -1571,22 +1590,29 @@ namespace FwStandard.BusinessLogic
                 await BeforeDeleteAsync(beforeDeleteArgs);
                 if (beforeDeleteArgs.PerformDelete)
                 {
-
-
-                    if (DeleteRecordsInReverseSequence)
+                    if (InsteadOfDelete != null)
                     {
-                        foreach (FwDataReadWriteRecord rec in dataRecords.Reverse<FwDataReadWriteRecord>())
-                        {
-                            success &= await rec.DeleteAsync(conn);
-                        }
+                        InsteadOfDelete(this, insteadOfDeleteArgs);
+                        success = insteadOfDeleteArgs.Success;
                     }
                     else
                     {
-                        foreach (FwDataReadWriteRecord rec in dataRecords)
+                        if (DeleteRecordsInReverseSequence)
                         {
-                            success &= await rec.DeleteAsync(conn);
+                            foreach (FwDataReadWriteRecord rec in dataRecords.Reverse<FwDataReadWriteRecord>())
+                            {
+                                success &= await rec.DeleteAsync(conn);
+                            }
+                        }
+                        else
+                        {
+                            foreach (FwDataReadWriteRecord rec in dataRecords)
+                            {
+                                success &= await rec.DeleteAsync(conn);
+                            }
                         }
                     }
+
                     await AfterDeleteAsync(afterDeleteArgs);
 
                     // process alerts on another thread without blocking
