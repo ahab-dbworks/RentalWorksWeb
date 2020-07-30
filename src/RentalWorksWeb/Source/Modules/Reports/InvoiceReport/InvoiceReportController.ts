@@ -19,6 +19,7 @@ const invoiceTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Invoice" data-savesetting="false" data-required="true" data-datafield="InvoiceId" data-displayfield="InvoiceNumber" data-validationname="InvoiceValidation" style="float:left;max-width:300px;"></div>
                 </div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="CompanyIdField" data-savesetting="false" style="display:none;"></div>
                 <div data-datafield="IsSummary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" style="margin-top:1rem">
                   <div data-value="true" data-caption="Summary - Hide no-cost Complete/Kit accessories"></div>
                   <div data-value="false" data-caption="Detail - Show all items"></div>
@@ -57,6 +58,15 @@ class InvoiceReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+
+        // Store info for emailing subject line
+        $form.find('div[data-datafield="InvoiceId"]').data('onchange', $tr => {
+            $form.attr('data-caption', `Invoice ${$tr.find('.field[data-formdatafield="InvoiceNumber"]').attr('data-originalvalue')} ${$tr.find('.field[data-formdatafield="InvoiceDescription"]').attr('data-originalvalue')}`);
+
+            //set CompanyId value for filtering contact list
+            FwFormField.setValueByDataField($form, 'CompanyIdField', FwBrowse.getValueByDataField($tr, $tr, 'DealId'));
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
