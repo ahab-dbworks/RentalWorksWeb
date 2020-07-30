@@ -1,12 +1,8 @@
-using FwStandard.Data;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
-namespace WebApi.Modules.Reports.RepairTag
+namespace WebApi.Modules.Reports.RepairOrderReports.RepairTag
 {
     [FwSqlTable("repairtagview")]
     public class RepairTagLoader : AppReportLoader

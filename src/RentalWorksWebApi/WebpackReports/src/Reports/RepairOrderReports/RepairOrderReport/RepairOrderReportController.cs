@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.RepairOrderReport
+namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
 {
     public class RepairOrderReportRequest : AppReportRequest
     {

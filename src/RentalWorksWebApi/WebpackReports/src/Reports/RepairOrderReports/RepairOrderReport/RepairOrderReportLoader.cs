@@ -10,7 +10,7 @@ using System.Globalization;
 using System;
 using System.Collections.Generic;
 
-namespace WebApi.Modules.Reports.RepairOrderReport
+namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
 {
 
     [FwSqlTable("repairdetailwebview")]

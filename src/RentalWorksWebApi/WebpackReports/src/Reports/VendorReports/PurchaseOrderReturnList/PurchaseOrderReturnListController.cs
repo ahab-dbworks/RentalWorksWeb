@@ -12,23 +12,24 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.RepairTag
+namespace WebApi.Modules.Reports.PurchaseOrderReports.PurchaseOrderReturnList
 {
-    public class RepairTagRequest : AppReportRequest
+    public class PurchaseOrderReturnListRequest : AppReportRequest
     {
-        public string RepairId { get; set; }
+        public string PurchaseOrderId { get; set; }
+        public string WarehouseId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "TNvVB0kI42ngF")]
-    public class RepairTagController : AppReportController
+    [FwController(Id: "tM8if9Yclmiv6")]
+    public class PurchaseOrderReturnListController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public RepairTagController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairTagLoader); }
+        public PurchaseOrderReturnListController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PurchaseOrderReturnListLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName(FwReportRenderRequest request) { return "RepairTag"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "PurchaseOrderReturnList"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Repair Tag"; }
+        protected override string GetReportFriendlyName() { return "Purchase Order Return List"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -41,12 +42,12 @@ namespace WebApi.Modules.Reports.RepairTag
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "RepairTag";
+            return "PurchaseOrderReturnList";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/repairtag/render 
+        // POST api/v1/purchaseorderreturnlist/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "TO8sfR0pZZvd4")]
+        [FwControllerMethod(Id: "Tmmi18ZaeR3Tm")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -54,20 +55,20 @@ namespace WebApi.Modules.Reports.RepairTag
             return actionResult;
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/repairtag/exportexcelxlsx 
+        // POST api/v1/purchaseorderreturnlist/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "tOBRe1J9xrgv3")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]RepairTagRequest request)
+        [FwControllerMethod(Id: "TMRYLXvHj5Tv9")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]PurchaseOrderReturnListRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/repairtag/runreport 
+        // POST api/v1/purchaseorderreturnlist/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "tohUS9ZyHTnu7")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]RepairTagRequest request)
+        [FwControllerMethod(Id: "tnfp5DUl51pKX")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]PurchaseOrderReturnListRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -75,7 +76,7 @@ namespace WebApi.Modules.Reports.RepairTag
             }
             try
             {
-                RepairTagLoader l = new RepairTagLoader();
+                PurchaseOrderReturnListLoader l = new PurchaseOrderReturnListLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 l.HideDetailColumnsInSummaryDataTable(request, dt);

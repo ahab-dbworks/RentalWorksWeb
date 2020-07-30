@@ -3,7 +3,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
-namespace WebApi.Modules.Reports.PurchaseOrderReturnList
+namespace WebApi.Modules.Reports.PurchaseOrderReports.PurchaseOrderReturnList
 {
     [FwSqlTable("poreturnlistview")]
     public class PurchaseOrderReturnListLoader : AppReportLoader
