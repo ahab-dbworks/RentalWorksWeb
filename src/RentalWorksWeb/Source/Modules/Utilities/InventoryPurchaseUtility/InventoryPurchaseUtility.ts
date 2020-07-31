@@ -224,18 +224,7 @@ class InventoryPurchaseUtility {
                 $browse.on('keydown', '[data-browsedatafield="BarCode"], [data-browsedatafield="SerialNumber"]', e => {
                     const keycode = e.keyCode || e.which;
                     if (keycode === 13) {
-                        const $tr = jQuery(e.currentTarget).parents('tr');
-                        const datafield = jQuery(e.currentTarget).attr('data-browsedatafield');
-                        let $nextRow = FwBrowse.selectNextRow($browse);
-                        const nextIndex = FwBrowse.getSelectedIndex($browse);
-                        FwBrowse.saveRow($browse, $tr)
-                            .then((value) => {
-                                if (nextIndex != -1) {
-                                    $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
-                                    FwBrowse.setRowEditMode($browse, $nextRow);
-                                    $browse.data('selectedfield', datafield);
-                                }
-                            });
+                        this.saveBarCodeOnRow($form, $browse, e);
                     }
                 });
             }
