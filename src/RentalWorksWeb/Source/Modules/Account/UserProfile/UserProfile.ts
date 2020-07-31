@@ -95,9 +95,18 @@
                 }
             }
         });
-        FwApplicationTree.sortModules(favoritesModules);
+
+        const reports = FwApplicationTree.getAllReports(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                //modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl, designer: moduleController.designerProvisioned ? true : false });
+                modules.push({ value: `reports/${moduleController.reportName}`, text: `Report - ${moduleCaption}`, selected: 'T' });
+            }
+        });
+
+        const allmodules = favoritesModules.concat(reports);
+        FwApplicationTree.sortModules(allmodules);
         const $availModules = $form.find('.available-modules');
-        FwFormField.loadItems($availModules, favoritesModules, true);
+        FwFormField.loadItems($availModules, allmodules, true);
 
         $form.data('beforesave', request => {
             const $selectedModules = FwFormField.getValue2($form.find('.selected-modules'));
