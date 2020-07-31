@@ -428,49 +428,51 @@ class RwAsset {
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
           </div>
-          <div class="column flexcolumn" max-width="250px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-cellcolor="BarCodeColor" data-browsedatatype="text" data-sort="asc"></div>
           </div>
-          <div class="column flexcolumn" max-width="250px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Serial Number" data-datafield="SerialNumber" data-browsedatatype="text" data-sort="asc"></div>
           </div>
-          <div class="column flexcolumn" max-width="150px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="450px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Description" data-datafield="Description" data-cellcolor="DescriptionColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="125px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Status" data-datafield="InventoryStatus" data-cellcolor="Color" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="100px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="As Of" data-datafield="StatusDate" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="250px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Warehouse / Deal" data-datafield="CurrentLocation" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="250px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="100px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Purchased" data-datafield="PurchaseDate" data-browsedatatype="date" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="100px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Received" data-datafield="ReceiveDate" data-browsedatatype="date" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="100px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Tracked By" data-datafield="TrackedBy" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" data-width="0" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-datafield="QcRequired"  data-caption="QC Req." data-browsedatatype="checkbox"></div>
           </div>
-          <div class="column flexcolumn" max-width="100px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="RFID" data-datafield="RfId" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Available For" data-datafield="AvailableForDisplay" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-datafield="Inactive" data-browsedatatype="text" data-visible="false"></div>
           </div>
-          <div class="column spacer" data-width="auto" data-visible="true"></div>
         </div>`;
     };
     //---------------------------------------------------------------------------------------------
@@ -515,6 +517,7 @@ class RwAsset {
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ifin" data-caption="RFID" data-datafield="RfId" data-maxlength="24" data-enabled="false" style="float:left;width:200px;"></div>
                           </div>
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailableForDisplay" data-enabled="false" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ownership" data-datafield="Ownership" data-enabled="false" style="float:left;width:250px;"></div>
                           </div>

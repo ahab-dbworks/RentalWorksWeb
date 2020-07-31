@@ -100,7 +100,10 @@ namespace WebApi.Modules.Inventory.Asset
         public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
-        public string AvailFor { get; set; }
+        public string AvailableFor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availfordisplay", modeltype: FwDataTypes.Text)]
+        public string AvailableForDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
@@ -533,6 +536,7 @@ namespace WebApi.Modules.Inventory.Asset
             addFilterToSelect("InventoryId", "masterid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("TrackedBy", "trackedby", select, request);
+            addFilterToSelect("AvailableFor", "availfor", select, request);
 
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("TrackedBy", "trackedby", select, request);
