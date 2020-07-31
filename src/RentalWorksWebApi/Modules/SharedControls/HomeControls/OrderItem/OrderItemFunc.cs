@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi;
 using FwStandard.SqlServer;
 using System.Text;
 using System.Data;
 using WebApi.Modules.HomeControls.DealOrderDetail;
+using WebApi.Modules.Agent.Order;
 
 namespace WebApi.Modules.HomeControls.OrderItem
 {
@@ -234,6 +234,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //-------------------------------------------------------------------------------------------------------    
         public static async Task<TSpStatusResponse> ReapplyManualSort(FwApplicationConfig appConfig, FwUserSession userSession, string id, FwSqlConnection conn = null)
         {
+            /*
             TSpStatusResponse response = new TSpStatusResponse();
 
             if (conn == null)
@@ -252,6 +253,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
             response.msg = qry.GetParameter("@msg").ToString();
 
             return response;
+            */
+
+            return await OrderFunc.ReapplyManualSort(appConfig, userSession, id, conn);
+
+
         }
         //-------------------------------------------------------------------------------------------------------    
         public static async Task<TSpStatusResponse> CancelManualSort(FwApplicationConfig appConfig, FwUserSession userSession, string id)

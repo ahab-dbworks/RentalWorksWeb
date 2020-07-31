@@ -766,6 +766,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                                     oiSubNew.InventoryId = substituteItem.InventoryId;
                                     oiSubNew.Description = substituteItem.Description;
                                     oiSubNew.QuantityOrdered = substituteItem.Quantity;
+                                    oiSubNew.Taxable = oiOrig.Taxable;
 
                                     if (response.success)
                                     {
