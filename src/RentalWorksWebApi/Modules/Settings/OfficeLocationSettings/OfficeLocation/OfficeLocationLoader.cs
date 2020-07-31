@@ -168,6 +168,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "invoicemessage", modeltype: FwDataTypes.Text)]
         public string InvoiceMessage { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
+        public bool? Taxable { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -179,6 +179,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "NGVDXcxGHbnEs")]
         public string InvoiceMessage { get; set; }
 
+        [FwLogicProperty(Id: "ogpbNChKrpTrI")]
+        public bool? Taxable { get { return location.Taxable; } set { location.Taxable = value; } }
+
         [FwLogicProperty(Id: "GDXu3A4umCh")]
         public bool? Inactive { get { return location.Inactive; } set { location.Inactive = value; } }
 
