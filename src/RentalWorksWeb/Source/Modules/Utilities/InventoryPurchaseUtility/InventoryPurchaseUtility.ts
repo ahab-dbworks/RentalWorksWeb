@@ -10,6 +10,13 @@ class InventoryPurchaseUtility {
     addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
+        FwMenu.addSubMenuItem(options.$groupOptions, 'View Inventory Purchase Sessions', 'S3zkxYNnBXzo', (e: JQuery.ClickEvent) => {
+            try {
+                this.viewSessions(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -234,6 +241,127 @@ class InventoryPurchaseUtility {
             }
         });
     }
+    //----------------------------------------------------------------------------------------------
+    saveBarCodeOnRow($form, $browse, evt) {
+        try {
+            const $this = jQuery(evt.currentTarget);
+            const $tr = $this.parents('tr');
+            const datafield = $this.attr('data-browsedatafield');
+            let $nextRow = FwBrowse.selectNextRow($browse);
+            const nextIndex = FwBrowse.getSelectedIndex($browse);
+
+            FwBrowse.saveRow($browse, $tr)
+                .then((value) => {
+                    if (nextIndex != -1) {
+                        $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
+                        FwBrowse.setRowEditMode($browse, $nextRow);
+                        $browse.data('selectedfield', datafield);
+                    }
+                });
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    viewSessions($form) {
+
+                const $browse = InventoryPurchaseSessionController.openBrowse();
+                const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Inventory Purchase Sessions');
+                FwPopup.showPopup($popup);
+                $browse.data('ondatabind', request => {
+                    request.uniqueids = {
+                       
+                    }
+                });
+                FwBrowse.search($browse);
+
+                $browse.on('dblclick', 'tr.viewmode', e => {
+
+                    FwPopup.destroyPopup($popup);
+                });
+    }
+    //----------------------------------------------------------------------------------------------
+    //async temporaryBarCodes($form, $browse, $tr, exception?) {
+
+    //    async function retreiveSessionIdOrBarcodes(data): Promise<any> {
+    //        return FwAjax.callWebApi<any, any>({
+    //            httpMethod: 'POST',
+    //            data: data,
+    //            url: `${applicationConfig.apiurl}api/v1/inventorypurchaseitem/browse/`,
+    //            $elementToBlock: jQuery('#application'),
+    //        })
+    //    }
+    //    const request: any = {
+    //        orderby: "BarCode",
+    //        uniqueids: {
+    //            BarCode: FwBrowse.getValueByDataField($browse, $tr, 'BarCode'),
+    //        }
+    //    };
+
+    //    await retreiveSessionIdOrBarcodes(request) // Based on the BarCode, retrieve the sessionId associated with its prior activity
+    //        .then(res => {
+    //            const sessionId = res.Rows[0][1];
+    //            const thisSessionId = $form.data('sessionid');
+
+    //            if (thisSessionId !== sessionId) { // Allow normal fw error handling if user is trying to use the same barcode multiple times within a session
+    //                const request: any = {
+    //                    orderby: "BarCode",
+    //                    uniqueids: {
+    //                        SessionId: sessionId,
+    //                    }
+    //                };
+    //                retreiveSessionIdOrBarcodes(request) // use SessionId gained from above to get a list of all BarCodes from the session
+    //                    .then(res => {
+    //                        const rows = res.Rows;
+    //                        const barCodes = [];
+    //                        const sessionIds = []
+    //                        for (let i = 0; i < rows.length; i++) {
+    //                            const barCode = rows[i][2];
+    //                            const sessionId = rows[i][0];
+    //                            if (barCode !== '') {
+    //                                barCodes.push(barCode);
+    //                                sessionIds.push(sessionId);
+    //                            } else {
+    //                                console.error(`BarCode with ${sessionId} is a blank value.`)
+    //                            }
+    //                        }
+    //                        const $confirmation = FwConfirmation.renderConfirmation(`Temporary Bar Codes`, '');
+    //                        $confirmation.find('.fwconfirmationbox').css('width', '490px');
+
+    //                        const html: Array<string> = [];
+    //                        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+    //                        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+    //                        html.push(`    <div>The Bar Code${barCodes.length > 1 ? 's' : ''} ${barCodes.join(', ')} exist${barCodes.length > 1 ? '' : 's'} with a previous session. Delete and free up for future use?</div>`);
+    //                        html.push('  </div>');
+    //                        html.push('</div>');
+
+    //                        FwConfirmation.addControls($confirmation, html.join(''));
+    //                        const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+    //                        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+    //                        $yes.focus();
+    //                        async function deleteBarCodes(sessionId): Promise<any> {
+    //                            return FwAjax.callWebApi<any, any>({
+    //                                httpMethod: 'DELETE',
+    //                                data: null,
+    //                                url: `${applicationConfig.apiurl}api/v1/inventorypurchaseitem/${sessionId}`,
+    //                                $elementToBlock: jQuery('#application'),
+    //                            });
+    //                        }
+    //                        $yes.on('click', async e => {
+    //                            FwConfirmation.destroyConfirmation($confirmation);
+    //                            for (let i = 0; i < sessionIds.length; i++) {
+    //                                if (sessionIds[i] !== '') {
+    //                                    await deleteBarCodes(sessionIds[i])
+    //                                        .then(res => {
+    //                                            FwNotification.renderNotification('INFO', `The Bar Code ${barCodes[i]} has been deleted and is free for use.`);
+    //                                        });
+    //                                }
+    //                            }
+    //                        });
+    //                    });
+    //            }
+    //        });
+    //}
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
