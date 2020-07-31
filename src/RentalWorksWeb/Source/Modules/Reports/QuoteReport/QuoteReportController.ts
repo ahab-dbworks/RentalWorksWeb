@@ -83,6 +83,13 @@ class QuoteReport extends FwWebApiReport {
             case 'QuoteId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatequote`);
                 break;
+            case 'tousers':
+            case 'ccusers':
+                const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField');
+                if (companyId != '') {
+                    request.uniqueids = { CompanyId: companyId };
+                }
+                break;
         }
     }
 };

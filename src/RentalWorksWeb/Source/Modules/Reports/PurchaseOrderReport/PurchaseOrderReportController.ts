@@ -82,6 +82,13 @@ class PurchaseOrderReport extends FwWebApiReport {
             case 'PurchaseOrderId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
                 break;
+            case 'tousers':
+            case 'ccusers':
+                const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField');
+                if (companyId != '') {
+                    request.uniqueids = { CompanyId: companyId };
+                }
+                break;
         }
     }
 };

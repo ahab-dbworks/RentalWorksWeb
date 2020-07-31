@@ -391,23 +391,61 @@ abstract class FwWebApiReport {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
                         const $confirmation = FwConfirmation.renderConfirmation(FwLanguages.translate('E-mail PDF'), '');
-                        FwConfirmation.addControls($confirmation, this.getEmailTemplate());
+                        FwConfirmation.addControls($confirmation, this.getEmailTemplate($form.attr('data-controller')));
                         const $btnSend = FwConfirmation.addButton($confirmation, 'Send', false);
                         FwConfirmation.addButton($confirmation, 'Cancel');
 
                         if ($form.find('.order-contact-field').length) {
                             this.populateEmailToField($form, $confirmation);
                         }
+                        FwFormField.setValueByDataField($confirmation, 'CompanyIdField', FwFormField.getValueByDataField($form, 'CompanyIdField'));
+                        //const $emailToBtn = this.addOpenEmailToListButton($confirmation, 'tousers');
+                        //$emailToBtn.on('click', e => {
+                        //    this.getContacts($form, $confirmation, 'tousers');
+                        //});
 
-                        const $emailToBtn = this.addOpenEmailToListButton($confirmation, 'tousers');
-                        $emailToBtn.on('click', e => {
-                            this.getContacts($form, $confirmation, 'tousers');
-                        });
+                        //const $emailCcBtn = this.addOpenEmailToListButton($confirmation, 'ccusers');
+                        //$emailCcBtn.on('click', e => {
+                        //    this.getContacts($form, $confirmation, 'ccusers');
+                        //});
 
-                        const $emailCcBtn = this.addOpenEmailToListButton($confirmation, 'ccusers');
-                        $emailCcBtn.on('click', e => {
-                            this.getContacts($form, $confirmation, 'ccusers');
-                        });
+                        const $emailToCC = $confirmation.find('.tousers, .ccusers');
+                        $emailToCC.off('keydown').on('keydown', e => {
+                            let $this;
+                            const code = e.keyCode || e.which;
+                            try {
+                                switch (code) {
+                                    case 9: //TAB key
+                                        if (jQuery(e.currentTarget).find('.addItem').text().length === 0) {
+                                            break;
+                                        }
+                                    case 13://Enter Key
+                                        e.preventDefault();
+                                        $this = jQuery(e.currentTarget);
+                                        const value = $this.find('.multiselectitems .addItem').text();
+                                        const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${value}">
+                                                <span>${value}</span>
+                                                <i class="material-icons">clear</i>
+                                            </div>`
+                                        jQuery($email).insertBefore($this.find('.multiselectitems .addItem'));
+                                        $this.find('.addItem').text('').focus();
+                                        break;
+                                    case 8:  //Backspace
+                                        $this = jQuery(e.currentTarget);
+                                        const inputLength = $this.find('span.addItem').text().length;
+                                        const $item = $this.find('div.multiitem:last');
+                                        if (inputLength === 0) {
+                                            e.preventDefault();
+                                            if ($item.length > 0) {
+                                                $item.find('i').click();
+                                            }
+                                        }
+                                        break;
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        })
 
                         const signature = sessionStorage.getItem('emailsignature');
                         if (typeof signature != 'undefined' && signature != '') {
@@ -690,8 +728,16 @@ abstract class FwWebApiReport {
                         const rows = successResponse.Rows;
                         const isOrderedByIndex = successResponse.ColumnIndex.IsOrderedBy;
                         const emailIndex = successResponse.ColumnIndex.Email;
-                        const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(', ');
-                        FwFormField.setValueByDataField($confirmation, 'tousers', emails);
+                        //const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(', ');
+                        const emails = rows.filter(item => item[isOrderedByIndex] == true);
+                        //FwFormField.setValueByDataField($confirmation, 'tousers', emails);
+                        for (let i = 0; i < emails.length; i++) {
+                            const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${emails[i][emailIndex]}">
+                                                <span>${emails[i][emailIndex]}</span>
+                                                <i class="material-icons">clear</i>
+                                            </div>`
+                            jQuery($email).insertBefore($confirmation.find('.tousers .multiselectitems .addItem'));
+                        } 
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -914,18 +960,19 @@ abstract class FwWebApiReport {
             </div>`;
     }
     //----------------------------------------------------------------------------------------------
-    getEmailTemplate() {
+    getEmailTemplate(controller: string) {
         return `
+        <div class="fwform" data-controller="${controller}">
               <div style="min-width:540px; max-width:40vw;">
                   <div class="formrow">
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
-                      </div>
+                      </div>    
                       <div class="flexrow">
-                        <div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>           
+                          <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="ReportCompanyContactValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
+                        <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="ReportCompanyContactValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
                       /div>
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
@@ -937,11 +984,12 @@ abstract class FwWebApiReport {
                           <div class="fwformfield-caption">Signature</div>
                           <div class="value"></div>
                       </div>
+                      <div data-datafield="CompanyIdField" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-allcaps="false" data-enabled="true" style="display:none;"></div>
                   </div>
-              </div>`;
-
-        //<div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
-        //<div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>
+              </div>
+            </div>`;
+        //<div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
+        //<div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>          
     }
     //----------------------------------------------------------------------------------------------
 }
