@@ -25,6 +25,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         public bool? UnstageItem { get; set; }
         public bool? AddItemToOrder { get; set; }
         public bool? AddCompleteToOrder { get; set; }
+        public bool? StageIncompleteContainer { get; set; }
     }
     public class StageItemResponse : TSpStatusResponse
     {
@@ -37,6 +38,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         public bool ShowAddItemToOrder { get; set; }
         public bool ShowAddCompleteToOrder { get; set; }
         public bool ShowUnstage { get; set; }
+        public bool ShowStageIncompleteContainer { get; set; }
     }
     //-------------------------------------------------------------------------------------------------------
     public class UnstageItemRequest
@@ -203,6 +205,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                 }
                 qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddItemToOrder.GetValueOrDefault(false) ? "T" : "F"));
                 qry.AddParameter("@addcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Input, (request.AddCompleteToOrder.GetValueOrDefault(false) ? "T" : "F"));
+                qry.AddParameter("@incompletecontainerok", SqlDbType.NVarChar, ParameterDirection.Input, (request.StageIncompleteContainer.GetValueOrDefault(false) ? "T" : "F"));
                 qry.AddParameter("@unstage", SqlDbType.NVarChar, ParameterDirection.Input, (request.UnstageItem.GetValueOrDefault(false) ? "T" : "F"));
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@userwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
@@ -221,7 +224,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                 qry.AddParameter("@showadditemtoorder", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@showaddcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@showunstage", SqlDbType.NVarChar, ParameterDirection.Output);
-
+                qry.AddParameter("@showstageincompletecontainer", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
@@ -241,6 +244,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                 response.ShowAddItemToOrder = qry.GetParameter("@showadditemtoorder").ToString().Equals("T");
                 response.ShowAddCompleteToOrder = qry.GetParameter("@showaddcompletetoorder").ToString().Equals("T");
                 response.ShowUnstage = qry.GetParameter("@showunstage").ToString().Equals("T");
+                response.ShowStageIncompleteContainer = qry.GetParameter("@showstageincompletecontainer").ToString().Equals("T");
 
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
