@@ -3604,7 +3604,7 @@ class FwBrowseClass {
         return fields;
     }
     //----------------------------------------------------------------------------------------------
-    saveRow($control: JQuery, $tr: JQuery): Promise<boolean> {
+    saveRow($control: JQuery, $tr: JQuery, onError?: (error: any) => void): Promise<boolean> {
         let me = this;
         let isNewMode = $tr.hasClass('newmode');
         return new Promise<boolean>((resolve, reject) => {
@@ -3743,7 +3743,7 @@ class FwBrowseClass {
                             FwFunc.showError(ex);
                             reject();
                         }
-                    });
+                    }, onError);
                 } else {
                     //reject();
                     resolve();  //justin 10/31/2019 RWW#1240 - prevent blank error pop-up when saving a row with missing required fields.
