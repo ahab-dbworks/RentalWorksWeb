@@ -2949,14 +2949,14 @@ class StagingControllerClass {
                     }
                 })
                 .on('click', '#staging-popupQty-btnSubItem', function() {
-                    var code = RwAppData.stripBarcode(screen.$view.find('#scanBarcodeView-txtBarcodeData').val().toUpperCase());
+                    var code = RwAppData.stripBarcode(jQuery('#staging-popupQty').data('code'));
                     screen.hidePopupQty();
                     RwServices.order.getorderitemstosub({}, function(response) {
                         screen.subsitutepopup('Item', response.itemstosub, code, 'F');
                     });
                 })
                 .on('click', '#staging-popupQty-btnSubComplete', function() {
-                    var code = RwAppData.stripBarcode(screen.$view.find('#scanBarcodeView-txtBarcodeData').val().toUpperCase());
+                    var code = RwAppData.stripBarcode(jQuery('#staging-popupQty').data('code'));
                     screen.hidePopupQty();
                     RwServices.order.getordercompletestosub({}, function(response) {
                         screen.subsitutepopup('Complete', response.completestosub, code, 'T');
