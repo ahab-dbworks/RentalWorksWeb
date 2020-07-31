@@ -577,11 +577,7 @@ namespace FwStandard.Data
                         {
                             conditionConjunction = "  and ";
                         }
-                        //string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_');
-                        //string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_').Replace("[", "").Replace("]", ""); // remove square brackets to work with custom fields
-                        //string parameterName = "@" + columns[request.searchfields[i]].Replace('.', '_').Replace("[", "").Replace("]", "") + i.ToString(); // remove square brackets to work with custom fields
-                        //string parameterName = "@" + request.searchfields[i].Replace('.', '_').Replace("[", "").Replace("]", "") + i.ToString(); // remove square brackets to work with custom fields
-                        string parameterName = "@" + request.searchfields[i].Replace('.', '_').Replace("[", "").Replace("]", "").Replace(" ", "_") + i.ToString(); // remove square brackets to work with custom fields
+                        string parameterName = "@searchfield_" + request.searchfields[i].Replace('.', '_').Replace("[", "").Replace("]", "").Replace(" ", "_") + i.ToString(); // remove square brackets to work with custom fields
 
                         bool doUpper = true;
                         string searchField = columns[request.searchfields[i]];
@@ -988,7 +984,7 @@ namespace FwStandard.Data
                         var sqlFieldName = filter.Value.FieldName;
                         var sqlDataFieldAttribute = propInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
                         sqlFieldName = sqlDataFieldAttribute.ColumnName;
-                        var parameterName = "@" + sqlFieldName + ShortId.Generate(true, false, 7);
+                        var parameterName = "@filterfield_" + sqlFieldName + ShortId.Generate(true, false, 7);
                         var fieldSqlValue = filter.Value.FieldValue;
                         switch (sqlDataFieldAttribute.ModelType)
                         {
@@ -1594,7 +1590,7 @@ namespace FwStandard.Data
                 {
                     if (string.IsNullOrEmpty(paramName))
                     {
-                        paramName = filterFieldName;
+                        paramName = "stringfilterfield_" + filterFieldName;
                     }
                     select.AddWhere(filterFieldName + " " + filterCondition + " @" + paramName);
                     select.AddParameter("@" + paramName, value);
@@ -1608,7 +1604,7 @@ namespace FwStandard.Data
             {
                 if (string.IsNullOrEmpty(paramName))
                 {
-                    paramName = filterFieldName;
+                    paramName = "datefilterfield_" + filterFieldName;
                 }
                 select.AddWhere(filterFieldName + " " + filterCondition + " @" + paramName);
                 select.AddParameter("@" + paramName, value);
@@ -1621,7 +1617,7 @@ namespace FwStandard.Data
             {
                 if (string.IsNullOrEmpty(paramName))
                 {
-                    paramName = filterFieldName;
+                    paramName = "booleanfilterfield_" + filterFieldName;
                 }
                 select.AddWhere(filterFieldName + " " + filterCondition + " @" + paramName);
                 select.AddParameter("@" + paramName, value.GetValueOrDefault(false) ? "T" : "F");
@@ -1636,18 +1632,19 @@ namespace FwStandard.Data
                 IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
                 if (uniqueIds.ContainsKey(filterFieldName))
                 {
+                    string parameterName = "@filterfield_" + databaseFieldName;
                     if (uniqueIds[filterFieldName] is bool)
                     {
                         bool filterValue = (bool)uniqueIds[filterFieldName];
                         if (filterValue)
                         {
-                            select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                            select.AddWhere(databaseFieldName + " = " + parameterName);
                         }
                         else
                         {
-                            select.AddWhere(databaseFieldName + " <> @" + databaseFieldName);
+                            select.AddWhere(databaseFieldName + " <> " + parameterName);
                         }
-                        select.AddParameter("@" + databaseFieldName, "T");
+                        select.AddParameter(parameterName, "T");
                     }
                     else
                     {
@@ -1658,8 +1655,8 @@ namespace FwStandard.Data
                         }
                         else
                         {
-                            select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                            select.AddParameter("@" + databaseFieldName, filterValue);
+                            select.AddWhere(databaseFieldName + " = " + parameterName);
+                            select.AddParameter(parameterName, filterValue);
                         }
                     }
                 }
@@ -1673,22 +1670,12 @@ namespace FwStandard.Data
                 Dictionary<string, string> filterfields = ((Dictionary<string, string>)request.filterfields);
                 if (filterfields.ContainsKey(filterFieldName))
                 {
+                    string parameterName = "@filterfield_" + databaseFieldName;
                     string value = filterfields[filterFieldName];
-                    //select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                    //if (filterfields[filterFieldName] == "true" || filterfields[filterFieldName] == "false")
-                    //{
-                    //    select.AddParameter("@" + databaseFieldName, (filterfields[filterFieldName] == "true" ? "T" : "F"));
-                    //}
-                    //else
-                    //{
-                    //    select.AddParameter("@" + databaseFieldName, filterfields[filterFieldName].ToString());
-                    //}
-
-                    //justin 02/24/2019 added support for multiple values separated by comma
                     if (value.ToLower().Equals("true") || value.ToLower().Equals("false"))
                     {
-                        select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                        select.AddParameter("@" + databaseFieldName, (value.ToLower().Equals("true") ? "T" : "F"));
+                        select.AddWhere(databaseFieldName + " = " + parameterName);
+                        select.AddParameter(parameterName, (value.ToLower().Equals("true") ? "T" : "F"));
                     }
                     else if (value.Contains(","))
                     {
@@ -1696,8 +1683,8 @@ namespace FwStandard.Data
                     }
                     else
                     {
-                        select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                        select.AddParameter("@" + databaseFieldName, value);
+                        select.AddWhere(databaseFieldName + " = " + parameterName);
+                        select.AddParameter(parameterName, value);
                     }
 
                 }
@@ -1716,7 +1703,8 @@ namespace FwStandard.Data
                         string value = values[0];
                         if (!value.ToUpper().Equals("ALL"))
                         {
-                            string parameterName = activeViewFieldName.ToLower();
+                            //string parameterName = activeViewFieldName.ToLower();
+                            string parameterName = "activeviewfield_" + activeViewFieldName.ToLower();
                             select.AddWhere("(" + databaseFieldName + " = @" + parameterName + ")");
                             select.AddParameter("@" + parameterName, value);
                         }
