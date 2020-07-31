@@ -38,7 +38,8 @@ export class FwSettingsModule extends FwModuleBase {
         openBrowseResponse.recordCount = 0;
         openBrowseResponse.errorMessage = "browse not opened";
 
-        let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
+        //let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
+        let settingsGearSelector = `i[title="Settings"]`;
         await page.waitForSelector(settingsGearSelector, { visible: true });
         await page.click(settingsGearSelector);
 

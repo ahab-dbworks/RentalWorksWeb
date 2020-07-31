@@ -61,6 +61,7 @@ export class FwDeleteResponse {
 //---------------------------------------------------------------------------------------
 export class FwModuleBase {
     moduleName: string;
+    moduleGroupName: string;
     moduleId: string;
     moduleCaption: string;
     browseOpenTimeout: number = 120000; // 120 seconds
@@ -130,12 +131,16 @@ export class FwModuleBase {
         //let mainMenuSelector = `.appmenu`;
         let mainMenuSelector = `.app-menu-button`;
         await page.waitForSelector(mainMenuSelector);
-
-        //await ModuleBase.wait(500); // wait for menu option to get its click event // #stresstest s/b 1000+
-
         await page.click(mainMenuSelector);
-        let menuButtonId = '#btnModule' + this.moduleId;
-        await expect(page).toClick(menuButtonId);
+
+        let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
+        await page.waitForSelector(menuGroupSelector);
+        await expect(page).toClick(menuGroupSelector);
+
+
+        let menuItemSelector = `div[data-securityid="${this.moduleId}"]`;
+        await page.waitForSelector(menuItemSelector);
+        await expect(page).toClick(menuItemSelector);
         //await ModuleBase.wait(300); // wait for the previously-open module to go away.  may need a way to go back to a blank/home screen before attempting to get to this browse
 
         // wait for the data to come in

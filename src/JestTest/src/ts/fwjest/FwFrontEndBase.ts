@@ -12,6 +12,7 @@ export class FwOpenModuleResponse {
 export class FwFrontEndBase {
     moduleName: string;
     moduleId: string;
+    moduleGroupName: string;
     moduleCaption: string;
     grids?: FwGridBase[];
     globalScopeRef = FwGlobalScope;
@@ -59,12 +60,26 @@ export class FwFrontEndBase {
         openModuleResponse.opened = false;
         openModuleResponse.errorMessage = "module not opened";
 
-        let mainMenuSelector = `.appmenu`;
-        await page.waitForSelector(mainMenuSelector);
+        //let mainMenuSelector = `.appmenu`;
+        //await page.waitForSelector(mainMenuSelector);
+        //
+        //await page.click(mainMenuSelector);
+        //let menuButtonId = '#btnModule' + this.moduleId;
+        //await expect(page).toClick(menuButtonId);
 
+
+        let mainMenuSelector = `.app-menu-button`;
+        await page.waitForSelector(mainMenuSelector);
         await page.click(mainMenuSelector);
-        let menuButtonId = '#btnModule' + this.moduleId;
-        await expect(page).toClick(menuButtonId);
+
+        let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
+        await page.waitForSelector(menuGroupSelector);
+        await expect(page).toClick(menuGroupSelector);
+
+
+        let menuItemSelector = `div[data-securityid="${this.moduleId}"]`;
+        await page.waitForSelector(menuItemSelector);
+        await expect(page).toClick(menuItemSelector);
 
         // wait for the module to open and load
         //await page.waitFor(() => document.querySelector('.pleasewait'));
