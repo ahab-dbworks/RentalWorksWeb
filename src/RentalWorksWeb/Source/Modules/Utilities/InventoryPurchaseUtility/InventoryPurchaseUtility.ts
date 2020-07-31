@@ -10,6 +10,13 @@ class InventoryPurchaseUtility {
     addFormMenuItems(options: IAddFormMenuOptions) {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
+        FwMenu.addSubMenuItem(options.$groupOptions, 'View Inventory Purchase Sessions', 'S3zkxYNnBXzo', (e: JQuery.ClickEvent) => {
+            try {
+                this.viewSessions(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -217,21 +224,47 @@ class InventoryPurchaseUtility {
                 $browse.on('keydown', '[data-browsedatafield="BarCode"], [data-browsedatafield="SerialNumber"]', e => {
                     const keycode = e.keyCode || e.which;
                     if (keycode === 13) {
-                        const $tr = jQuery(e.currentTarget).parents('tr');
-                        const datafield = jQuery(e.currentTarget).attr('data-browsedatafield');
-                        let $nextRow = FwBrowse.selectNextRow($browse);
-                        const nextIndex = FwBrowse.getSelectedIndex($browse);
-                        FwBrowse.saveRow($browse, $tr)
-                            .then((value) => {
-                                if (nextIndex != -1) {
-                                    $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
-                                    FwBrowse.setRowEditMode($browse, $nextRow);
-                                    $browse.data('selectedfield', datafield);
-                                }
-                            });
+                        this.saveBarCodeOnRow($form, $browse, e);
                     }
                 });
             }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    saveBarCodeOnRow($form, $browse, evt) {
+        try {
+            const $this = jQuery(evt.currentTarget);
+            const $tr = $this.parents('tr');
+            const datafield = $this.attr('data-browsedatafield');
+            let $nextRow = FwBrowse.selectNextRow($browse);
+            const nextIndex = FwBrowse.getSelectedIndex($browse);
+
+            FwBrowse.saveRow($browse, $tr)
+                .then((value) => {
+                    if (nextIndex != -1) {
+                        $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
+                        FwBrowse.setRowEditMode($browse, $nextRow);
+                        $browse.data('selectedfield', datafield);
+                    }
+                });
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    viewSessions($form) {
+        const $browse = InventoryPurchaseSessionController.openBrowse();
+        const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Inventory Purchase Sessions');
+        FwPopup.showPopup($popup);
+        $browse.data('ondatabind', request => {
+            request.uniqueids = {
+
+            }
+        });
+        FwBrowse.search($browse);
+
+        $browse.on('dblclick', 'tr.viewmode', e => {
+            $browse.find('[data-type="DeleteMenuBarButton"]').click();
         });
     }
     //----------------------------------------------------------------------------------------------
