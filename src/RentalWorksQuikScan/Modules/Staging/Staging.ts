@@ -1922,7 +1922,7 @@ class StagingControllerClass {
             jQuery('#staging-popupQty-btnSubItem')     .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.showsubstituteitem));
             jQuery('#staging-popupQty-btnSubComplete') .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.showsubstitutecomplete));
 
-            if (!(responseStageItem.webStageItem.showsubstituteitem || responseStageItem.webStageItem.showsubstitutecomplete) && (responseStageItem.webStageItem.status === 0)) {
+            if (!(responseStageItem.webStageItem.showsubstituteitem || responseStageItem.webStageItem.showsubstitutecomplete) && (responseStageItem.webStageItem.status === 0) && (responseStageItem.webStageItem.qtyRemaining !== 0)) {
                 screen.$popupQty.find('#staging-popupQty-pnlSubstituteKit').show();
                 screen.$popupQty.find('#staging-popupQty-btnSubstituteItem').on('click', function () {
                     $primarywindow.hide();
