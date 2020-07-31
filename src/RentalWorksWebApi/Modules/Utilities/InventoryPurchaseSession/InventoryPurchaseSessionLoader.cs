@@ -26,6 +26,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseSession
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
         }
