@@ -436,13 +436,13 @@ RwRFID.setTslRfidPowerLevel = function () {
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.tslSwitchDoublePress = function (duration) {
-    if (typeof window.TslReader === 'object' && typeof window.TslReader.switchDoublePress === 'function') {
-        this.isTslPerformingSoftwareDoublePress = true;
-        window.TslReader.switchDoublePress(duration);
+    if (typeof window.TslReader === 'object' && typeof window.TslReader.switchDoublePressPress === 'function') {
+        this.isTslPerformingSoftwareDoublePressPress = true;
+        window.TslReader.switchDoublePressPress(duration);
     }
-    else if (typeof window.TslReader === 'object' && typeof window.TslReader.switchSinglePress === 'function') {
+    else if (typeof window.TslReader === 'object' && typeof window.TslReader.switchSinglePressPress === 'function') {
         this.isTslPerformingSoftwareDoublePress = true;
-        window.TslReader.switchSinglePress(duration);
+        window.TslReader.switchSinglePressPress(duration);
     }
 };
 //----------------------------------------------------------------------------------------------
