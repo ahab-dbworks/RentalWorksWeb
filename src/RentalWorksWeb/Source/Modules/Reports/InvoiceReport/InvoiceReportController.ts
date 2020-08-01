@@ -83,6 +83,13 @@ class InvoiceReport extends FwWebApiReport {
             case 'InvoiceId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinvoice`);
                 break;
+            case 'tousers':
+            case 'ccusers':
+                const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField');
+                if (companyId != '') {
+                    request.uniqueids = { CompanyId: companyId };
+                }
+                break;
         }
     }
 };
