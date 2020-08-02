@@ -128,20 +128,33 @@ export class FwModuleBase {
         openBrowseResponse.recordCount = 0;
         openBrowseResponse.errorMessage = "browse not opened";
 
+        FwLogging.logInfo(`about to try to open browse for ${this.moduleName}`);
+
         //let mainMenuSelector = `.appmenu`;
         let mainMenuSelector = `.app-menu-button`;
-        await page.waitForSelector(mainMenuSelector);
+        FwLogging.logInfo(`about to wait for selector ${mainMenuSelector}`);
+        await page.waitForSelector(mainMenuSelector, {visible: true});
+        FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
         await page.click(mainMenuSelector);
+
+        await FwTestUtils.sleepAsync(500); // wait here for the main menu to expand
 
         //let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
         let menuGroupSelector = `div.menu-lv1object i[title="${this.moduleGroupName}"]`;
-        await page.waitForSelector(menuGroupSelector);
+        FwLogging.logInfo(`about to wait for selector ${menuGroupSelector}`);
+        await page.waitForSelector(menuGroupSelector, {visible: true});
+        FwLogging.logInfo(`about to click selector ${menuGroupSelector}`);
         await expect(page).toClick(menuGroupSelector);
+
+        await FwTestUtils.sleepAsync(500); // wait here for the group menu to expand
 
 
         let menuItemSelector = `div[data-securityid="${this.moduleId}"]`;
-        await page.waitForSelector(menuItemSelector);
+        FwLogging.logInfo(`about to wait for selector ${menuItemSelector}`);
+        await page.waitForSelector(menuItemSelector, {visible: true});
+        FwLogging.logInfo(`about to click selector ${menuItemSelector}`);
         await expect(page).toClick(menuItemSelector);
+
         //await ModuleBase.wait(300); // wait for the previously-open module to go away.  may need a way to go back to a blank/home screen before attempting to get to this browse
 
         // wait for the data to come in

@@ -162,7 +162,9 @@ export class FwTestUtils {
         //        reject(ex);
         //    }
         //});
+        FwLogging.logInfo(`sleeping for ${timeout}`);
         await page.waitFor(timeout);
+        FwLogging.logInfo(`done sleeping`);
     }
     //-----------------------------------------------------------------------------------------------------------------
     static getDateTimeToken(): string {
