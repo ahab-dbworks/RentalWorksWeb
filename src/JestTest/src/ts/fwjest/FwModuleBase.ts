@@ -133,7 +133,8 @@ export class FwModuleBase {
         await page.waitForSelector(mainMenuSelector);
         await page.click(mainMenuSelector);
 
-        let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
+        //let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
+        let menuGroupSelector = `div.menu-lv1object i[title="${this.moduleGroupName}"]`;
         await page.waitForSelector(menuGroupSelector);
         await expect(page).toClick(menuGroupSelector);
 

@@ -105,7 +105,8 @@ export class FwTestUtils {
                 } else if (errorMessage === '') {
                     FwLogging.logInfo(`Successful authentication for user ${login}`);
 
-                    await page.waitForSelector('.appmenu', { visible: true, timeout: 120000 }) // Upper left 'hamburger menu'
+                    //await page.waitForSelector('.appmenu', { visible: true, timeout: 120000 }) // Upper left 'hamburger menu'
+                    await page.waitForSelector(`.app-menu-button`, { visible: true, timeout: 120000 }) // Upper left 'hamburger menu'
                         .then(done => {
                             if (done) {
                                 FwLogging.logInfo(`Successful login process for user ${login}`);
@@ -133,11 +134,13 @@ export class FwTestUtils {
         let logoutResponse: FwLogoutResponse = new FwLogoutResponse();
         logoutResponse.success = false;
 
-        let selector = `.usermenu`;
+        //let selector = `.usermenu`;
+        let selector = `div.app-usermenu`;
         await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
 
-        selector = `#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)`;
+        //selector = `#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)`;
+        selector = `div.app-menu-tray > div:nth-child(2).link`;
         await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
 
