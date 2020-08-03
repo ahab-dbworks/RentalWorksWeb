@@ -145,6 +145,7 @@ class CheckOutPendingItemGrid {
 
                 $ok.on('click', e => {
                     const request: any = {
+                        Quantity: FwFormField.getValueByDataField($confirmation, 'QtyToSubstitute'),
                         SessionId: sessionId,
                     };
 

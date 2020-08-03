@@ -3205,6 +3205,7 @@ class StagingControllerClass {
                     state:       0,
                     buttonclick: function () {
                         var request = {
+                            //Quantity: 
                             SessionId: $substituteitemskit.data('sessionid')
                         }
 

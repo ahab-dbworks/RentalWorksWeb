@@ -645,6 +645,11 @@ namespace WebApi.Modules.Warehouse.CheckOut
             }
             else
             {
+                if (request.Quantity == null)
+                {
+                    request.Quantity = 1;
+                }
+
                 response.success = true;
                 FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
                 try
@@ -811,6 +816,11 @@ namespace WebApi.Modules.Warehouse.CheckOut
                                         substituteNote += ", ";
                                     }
 
+                                    if (!string.IsNullOrEmpty(substituteItem.BarCode))
+                                    {
+                                        substituteNote += "(" + FwConvert.ToInt32(substituteItem.Quantity).ToString() + ") ";
+                                    }
+
                                     substituteNote += substituteItem.Description;
                                     if (!string.IsNullOrEmpty(substituteItem.BarCode))
                                     {
@@ -832,7 +842,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
 
                     //  update line-item note on orig
                     //  "Replaced at Staging with Description 1 (Bar Code: ABC45648), Description 2 (Qty. 2), Description 3 (Bar Code: 60680680)"
-                    substituteNote = "Replaced at Staging with " + substituteNote;
+                    substituteNote = "Replaced (" + request.Quantity.ToString() + ") at Staging with " + substituteNote;
                     oiMod.Notes += substituteNote;
                     if (response.success)
                     {
