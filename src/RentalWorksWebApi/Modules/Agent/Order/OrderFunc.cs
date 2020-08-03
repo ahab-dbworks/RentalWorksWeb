@@ -1270,28 +1270,19 @@ namespace WebApi.Modules.Agent.Order
         {
             TSpStatusResponse response = new TSpStatusResponse();
 
-            bool isManualSort = await AppFunc.GetBooleanDataAsync(appConfig, "dealorderdetail", "orderid", orderId, "manualsort");
-
-            if (isManualSort)
+            if (conn == null)
             {
-                if (conn == null)
-                {
-                    conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
-                }
-                FwSqlCommand qry = new FwSqlCommand(conn, "reapplymanualsort", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync();
-                response.status = qry.GetParameter("@status").ToInt32();
-                response.success = (response.status == 0);
-                response.msg = qry.GetParameter("@msg").ToString();
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
-            else
-            {
-                response.success = true;
-            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "reapplymanualsort", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            response.status = qry.GetParameter("@status").ToInt32();
+            response.success = (response.status == 0);
+            response.msg = qry.GetParameter("@msg").ToString();
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
