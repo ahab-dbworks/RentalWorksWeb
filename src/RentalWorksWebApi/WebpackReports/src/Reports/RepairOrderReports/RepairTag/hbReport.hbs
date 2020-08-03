@@ -1,111 +1,18 @@
-﻿<!--A/R Aging Report-->
-<div data-section="header" class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">As of {{AsOfDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+﻿<!--Repair Tag-->
+{{#each this}}
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn tag-column">
+    <div><span style="margin: 0 178px 0 1px;font-family: 'Libre Barcode 39 Text';font-size: 25px;">*{{BarCode}}*</span>Damage: <span  style="margin:0 0 0 20px;">{{Damage}}</span></div>
+    <div>Repair No: <span style="margin:0 0 0 57px;">{{RepairNumber}}</span></div>
+    <div>Repair Date: <span style="margin:0 0 0 44px;">{{RepairDate}}</span></div>
+    <div class="bill-main">{{BillableMaintenance}}</div>
+    <div>Checked-In By: <span>{{InputBy}}</span></div>
+    <div class="divider"></div>
+    <div>Description: <span style="margin:0 0 0 49px;">{{Description}}</span></div>
+    <div>Bar Code: <span style="margin:0 95px 0 62px;">{{BarCode}}</span>Serial No: <span style="margin:0 0 0 20px;">{{SerialNumber}}</span></div>
+    <div>Quantity: <span style="margin:0 0 0 69px;">{{Quantity}}</span></div>
+    <div>Deal: <span style="margin:0 0 0 95px;">{{Deal}}</span></div>
+    <div>Order No: <span style="margin:0 0 0 63px;">{{OrderNumber}}</span></div>
   </div>
 </div>
-<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
-  <table>
-    <thead id="columnHeader">
-      <tr data-row="main-header">
-        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
-        <th data-linkedcolumn="InvoiceDate" data-valuefield="InvoiceDate">Invoice Date</th>
-        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
-        <th data-linkedcolumn="InvoiceDescription" data-valuefield="InvoiceDescription">Invoice Description</th>
-        <th data-linkedcolumn="Total" data-valuefield="Total" class="number">Total</th>
-        <th data-linkedcolumn="Total0030" data-valuefield="Total0030" class="number">Current</th>
-        <th data-linkedcolumn="Total3160" data-valuefield="Total3160" class="number">31-60</th>
-        <th data-linkedcolumn="Total6190" data-valuefield="Total6190" class="number">61-90</th>
-        <th data-linkedcolumn="Total91x" data-valuefield="Total91x" class="number">90</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this}}
-
-      {{#ifEquals RowType "OfficeLocationheader"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="12" class="header-row">Office Location: {{OfficeLocation}}</td>
-      </tr>
-      {{/ifEquals}}
-
-      {{#ifEquals RowType "Customerheader"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="12" class="lower header-row">Customer: {{Customer}}</td>
-      </tr>
-      {{/ifEquals}}
-
-      {{#ifEquals RowType "Dealheader"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="12" class="lower header-row">Deal: {{Deal}}</td>
-      </tr>
-      {{/ifEquals}}
-
-      {{#ifEquals RowType "detail"}}
-      <tr id="detailRow" data-row="detail" data-rowtype="{{RowType}}">
-        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
-        <td data-linkedcolumn="InvoiceDate" data-value="{{InvoiceDate}}"></td>
-        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
-        <td data-linkedcolumn="InvoiceDescription" data-value="{{InvoiceDescription}}"></td>
-        <td data-linkedcolumn="Total" class="number" data-value="{{Total}}"></td>
-        <td data-linkedcolumn="Total0030" class="number" data-value="{{Total0030}}"></td>
-        <td data-linkedcolumn="Total3160" class="number" data-value="{{Total3160}}"></td>
-        <td data-linkedcolumn="Total6190" class="number" data-value="{{Total6190}}"></td>
-        <td data-linkedcolumn="Total91x" class="number" data-value="{{Total91x}}"></td>
-      </tr>
-      {{/ifEquals}}
-
-      {{#ifEquals RowType "Dealfooter"}}
-      <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="4" class="total-name">{{Deal}}</td>
-        <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>
-        <td data-linkedcolumn="Total0030" class="total-val" data-value="{{Total0030}}"></td>
-        <td data-linkedcolumn="Total3160" class="total-val" data-value="{{Total3160}}"></td>
-        <td data-linkedcolumn="Total6190" class="total-val" data-value="{{Total6190}}"></td>
-        <td data-linkedcolumn="Total91x" class="total-val" data-value="{{Total91x}}"></td>
-      </tr>
-      {{/ifEquals}}
-
-      {{#ifEquals RowType "Customerfooter"}}
-      <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="4" class="total-name">{{Customer}}</td>
-        <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>
-        <td data-linkedcolumn="Total0030" class="total-val" data-value="{{Total0030}}"></td>
-        <td data-linkedcolumn="Total3160" class="total-val" data-value="{{Total3160}}"></td>
-        <td data-linkedcolumn="Total6190" class="total-val" data-value="{{Total6190}}"></td>
-        <td data-linkedcolumn="Total91x" class="total-val" data-value="{{Total91x}}"></td>
-      </tr>
-      {{/ifEquals}}
-
-      {{#ifEquals RowType "OfficeLocationfooter"}}
-      <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="4" class="total-name" data-valuefield="OfficeLocation">{{OfficeLocation}}</td>
-        <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>
-        <td data-linkedcolumn="Total0030" class="total-val" data-value="{{Total0030}}"></td>
-        <td data-linkedcolumn="Total3160" class="total-val" data-value="{{Total3160}}"></td>
-        <td data-linkedcolumn="Total6190" class="total-val" data-value="{{Total6190}}"></td>
-        <td data-linkedcolumn="Total91x" class="total-val" data-value="{{Total91x}}"></td>
-      </tr>
-      {{/ifEquals}}
-
-      {{#ifEquals RowType "grandtotal"}}
-      <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="4" data-valuefield="GrandTotal" class="total-name">Grand Total:&nbsp;</td>
-        <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>
-        <td data-linkedcolumn="Total0030" class="total-val" data-value="{{Total0030}}"></td>
-        <td data-linkedcolumn="Total3160" class="total-val" data-value="{{Total3160}}"></td>
-        <td data-linkedcolumn="Total6190" class="total-val" data-value="{{Total6190}}"></td>
-        <td data-linkedcolumn="Total91x" class="total-val" data-value="{{Total91x}}"></td>
-      </tr>
-      {{/ifEquals}}
-
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+{{/each}}
