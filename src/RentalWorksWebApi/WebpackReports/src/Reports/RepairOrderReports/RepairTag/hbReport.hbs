@@ -1,0 +1,18 @@
+﻿<!--Repair Tag-->
+{{#each this}}
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn tag-column">
+    <div><span style="margin: 0 178px 0 1px;font-family: 'Libre Barcode 39 Text';font-size: 25px;">*{{RepairNumber}}*</span>Damage: <span  style="margin:0 0 0 20px;">{{Damage}}</span></div>
+    <div>Repair No: <span style="margin:0 0 0 57px;">{{RepairNumber}}</span></div>
+    <div>Repair Date: <span style="margin:0 0 0 44px;">{{RepairDate}}</span></div>
+    <div class="bill-main">{{BillableMaintenance}}</div>
+    <div>Checked-In By: <span>{{InputBy}}</span></div>
+    <div class="divider"></div>
+    <div>Description: <span style="margin:0 0 0 49px;">{{Description}}</span></div>
+    <div>Bar Code: <span style="margin:0 95px 0 62px;">{{BarCode}}</span>Serial No: <span style="margin:0 0 0 20px;">{{SerialNumber}}</span></div>
+    <div>Quantity: <span style="margin:0 0 0 69px;">{{Quantity}}</span></div>
+    <div>Deal: <span style="margin:0 0 0 95px;">{{Deal}}</span></div>
+    <div>Order No: <span style="margin:0 0 0 63px;">{{OrderNumber}}</span></div>
+  </div>
+</div>
+{{/each}}

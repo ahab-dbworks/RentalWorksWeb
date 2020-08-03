@@ -567,12 +567,13 @@
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RateUpdateReport\RateUpdateReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispatchReport\WarehouseDispatchReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseInboundReport\WarehouseInboundReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutboundReport\WarehouseOutboundReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RepairTag\RepairTagController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InContractReport\InContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ExchangeContractReport\ExchangeContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\LostContractReport\LostContractReportController.ts" />
