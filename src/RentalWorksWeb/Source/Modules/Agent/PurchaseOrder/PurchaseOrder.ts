@@ -1338,10 +1338,15 @@ class PurchaseOrder implements IModule {
             for (let p = 0; p < purchaseOrderTypeData.hiddenSubMisc.length; p++) {
                 jQuery($subMiscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubMisc[p] + '"]')).parent().hide();
             }
+
             if (purchaseOrderTypeData.hiddenSubRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
                 $subRentalGrid.find('.3weekextended').parent().show();
             } else if (purchaseOrderTypeData.hiddenSubRentals.indexOf('WeeklyExtended') === -1 && rateType !== '3WEEK') {
                 $subRentalGrid.find('.weekextended').parent().show();
+            }
+
+            if (purchaseOrderTypeData.hiddenSubRentals.indexOf('DaysPerWeek') === -1 && rateType === 'DAILY') {
+                $subRentalGrid.find('.dw').parent().show();
             }
         }
     };
