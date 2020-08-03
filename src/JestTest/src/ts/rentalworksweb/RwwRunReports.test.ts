@@ -2,7 +2,8 @@ import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { User } from './modules/AllModules';
-import { FwTestUtils } from '../fwjest/FwTestUtils';
+import { TestUtils } from '../shared/TestUtils';
+
 
 export class RunReportsTest extends BaseTest {
     //---------------------------------------------------------------------------------------
@@ -22,11 +23,13 @@ export class RunReportsTest extends BaseTest {
             //await page.waitForSelector(reportIcon, { visible: true });
             //await page.click(reportIcon);  
 
-            let mainMenuSelector = `.app-menu-button`;
-            await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+            //await FwTestUtils.sleepAsync(2000);
 
-            let settingsGearSelector = `div.menu-lv1object i[title="Reports"]`;
-            await FwTestUtils.waitForAndClick(settingsGearSelector, 0, 2000);
+            let mainMenuSelector = `.app-menu-button`;
+            await TestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+
+            let reportsIconSelector = `div.menu-lv1object i[title="Reports"]`;
+            await TestUtils.waitForAndClick(reportsIconSelector, 0, 2000);
 
         }
         // ----------
