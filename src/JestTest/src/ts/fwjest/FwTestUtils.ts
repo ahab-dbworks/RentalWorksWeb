@@ -152,13 +152,18 @@ export class FwTestUtils {
         return logoutResponse;
     }
     //-----------------------------------------------------------------------------------------------------------------
-    static async waitForAndClick(selector: string, waitAfterClicking?: number): Promise<void> {
+    static async waitForAndClick(selector: string, waitBeforeClicking?: number, waitAfterClicking?: number): Promise<void> {
         FwLogging.logInfo(`about to wait for selector ${selector}`);
         await page.waitForSelector(selector, { visible: true });
+
+        if ((waitBeforeClicking != undefined) && (waitBeforeClicking != 0)) {
+            await FwTestUtils.sleepAsync(waitBeforeClicking); // wait here before clicking
+        }
+
         FwLogging.logInfo(`about to click selector ${selector}`);
         await page.click(selector);
 
-        if (waitAfterClicking != undefined) {
+        if ((waitAfterClicking != undefined) && (waitAfterClicking != 0)){
             await FwTestUtils.sleepAsync(waitAfterClicking); // wait here before proceeding
         }
     }

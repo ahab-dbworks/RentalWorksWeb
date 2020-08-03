@@ -79,6 +79,7 @@ export class FwModuleBase {
     waitForErrorAfterClickingTab: number = 300;
     waitAfterEachValidationFieldIsPopulated: number = 500;
     waitBeforeClickingSave: number = 0;
+    waitAfterClickingSave: number = 0;
 
     canNew: boolean = true;
     canView: boolean = true;
@@ -137,7 +138,7 @@ export class FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
         //await page.click(mainMenuSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
-        FwTestUtils.waitForAndClick(mainMenuSelector, 1000);
+        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 1000);
 
         //let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
         let menuGroupSelector = `div.menu-lv1object i[title="${this.moduleGroupName}"]`;
@@ -146,14 +147,14 @@ export class FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${menuGroupSelector}`);
         //await expect(page).toClick(menuGroupSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the group menu to expand
-        FwTestUtils.waitForAndClick(menuGroupSelector, 1000);
+        await FwTestUtils.waitForAndClick(menuGroupSelector, 0, 1000);
 
         let menuItemSelector = `div[data-securityid="${this.moduleId}"]`;
         //FwLogging.logInfo(`about to wait for selector ${menuItemSelector}`);
         //await page.waitForSelector(menuItemSelector, {visible: true});
         //FwLogging.logInfo(`about to click selector ${menuItemSelector}`);
         //await expect(page).toClick(menuItemSelector);
-        FwTestUtils.waitForAndClick(menuItemSelector);
+        await FwTestUtils.waitForAndClick(menuItemSelector);
 
         //await ModuleBase.wait(300); // wait for the previously-open module to go away.  may need a way to go back to a blank/home screen before attempting to get to this browse
 
@@ -1138,6 +1139,7 @@ export class FwModuleBase {
 
                 }
             })
+        await FwModuleBase.wait(this.waitAfterClickingSave);
         FwLogging.logInfo(`end of save record method`);
         return response;
     }

@@ -46,7 +46,7 @@ export class FwSettingsModule extends FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
         //await page.click(mainMenuSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
-        FwTestUtils.waitForAndClick(mainMenuSelector, 1000);
+        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 1000);
 
         //let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
         let settingsGearSelector = `div.menu-lv1object i[title="Settings"]`;
@@ -55,14 +55,14 @@ export class FwSettingsModule extends FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${settingsGearSelector}`);
         //await page.click(settingsGearSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
-        FwTestUtils.waitForAndClick(settingsGearSelector, 1000);
+        await FwTestUtils.waitForAndClick(settingsGearSelector, 0, 1000);
 
         let moduleHeadingSelector = `.panel-group[id="${this.moduleName}"]`;
         //FwLogging.logInfo(`about to wait for selector ${moduleHeadingSelector}`);
         //await page.waitForSelector(moduleHeadingSelector, { visible: true });
         //FwLogging.logInfo(`about to click selector ${moduleHeadingSelector}`);
         //await page.click(moduleHeadingSelector);
-        FwTestUtils.waitForAndClick(moduleHeadingSelector);
+        await FwTestUtils.waitForAndClick(moduleHeadingSelector);
 
         // wait for the module to try to open, then check for errors
         var popUp;
@@ -148,10 +148,16 @@ export class FwSettingsModule extends FwModuleBase {
     async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(this.getBrowseSelector(), { visible: true });
 
+        // mouse wheel up a little bit.  Need to get the "refresh" button into view
+        await page.evaluate(_ => {
+            window.scrollBy(0, -100);
+        });
+
         let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
-        await page.waitForSelector(refreshButtonSelector, { visible: true });
-        await page.click(refreshButtonSelector);
-        await FwModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
+        //await page.waitForSelector(refreshButtonSelector, { visible: true });
+        //await page.click(refreshButtonSelector);
+        //await FwModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
+        await FwTestUtils.waitForAndClick(refreshButtonSelector, 0, this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors);
 
         let searchFieldSelector = `.panel-group[id="${this.moduleName}"] .recordSearch`;
         await page.waitForSelector(searchFieldSelector, { visible: true });
