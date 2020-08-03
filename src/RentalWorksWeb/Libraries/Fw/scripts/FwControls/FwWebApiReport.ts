@@ -398,16 +398,8 @@ abstract class FwWebApiReport {
                         if ($form.find('.order-contact-field').length) {
                             this.populateEmailToField($form, $confirmation);
                         }
-                        FwFormField.setValueByDataField($confirmation, 'CompanyIdField', FwFormField.getValueByDataField($form, 'CompanyIdField'));
-                        //const $emailToBtn = this.addOpenEmailToListButton($confirmation, 'tousers');
-                        //$emailToBtn.on('click', e => {
-                        //    this.getContacts($form, $confirmation, 'tousers');
-                        //});
-
-                        //const $emailCcBtn = this.addOpenEmailToListButton($confirmation, 'ccusers');
-                        //$emailCcBtn.on('click', e => {
-                        //    this.getContacts($form, $confirmation, 'ccusers');
-                        //});
+                        const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField');
+                        FwFormField.setValueByDataField($confirmation, 'CompanyIdField', companyId);
 
                         const $emailToCC = $confirmation.find('.tousers, .ccusers');
                         $emailToCC.off('keydown').on('keydown', e => {
@@ -445,7 +437,11 @@ abstract class FwWebApiReport {
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             }
-                        })
+                        });
+
+                        if (companyId != '' && companyId != null) {
+                            this.addViewAllContacts($confirmation);
+                        }
 
                         const signature = sessionStorage.getItem('emailsignature');
                         if (typeof signature != 'undefined' && signature != '') {
@@ -737,7 +733,7 @@ abstract class FwWebApiReport {
                                                 <i class="material-icons">clear</i>
                                             </div>`
                             jQuery($email).insertBefore($confirmation.find('.tousers .multiselectitems .addItem'));
-                        } 
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -762,6 +758,41 @@ abstract class FwWebApiReport {
                 }
             },
             null, $confirmation.find('.fwconfirmationbox'));
+    }
+    //----------------------------------------------------------------------------------------------
+    addViewAllContacts($confirmation: JQuery) {
+        const $controls = $confirmation.find('.tousers, .ccusers');
+        const companyId = FwFormField.getValueByDataField($confirmation, 'CompanyIdField');
+        for (let i = 0; i < $controls.length; i++) {
+            const $browse = jQuery($controls[i]).data('browse');
+            const $viewAll = jQuery(`<div class="view-contacts ${companyId != '' ? '' : 'active'}">View ${companyId != '' ? 'All' : 'Company'} Contacts</div>`);
+
+            $viewAll.css({ 'font-size': '.9em', 'text-align': 'center', 'cursor': 'pointer', 'color': '#0D47A1', 'float': 'right', 'clear': 'right' });
+
+            $viewAll.on('click', e => {
+                const $this = jQuery(e.currentTarget);
+
+                if ($this.hasClass('active')) {
+                    $this.removeClass('active');
+                    if (companyId != '') {
+                        $browse.data('ondatabind', request => {
+                            request.uniqueids = { CompanyId: companyId };
+                        })
+                        FwBrowse.search($browse);
+                    }
+                    $this.text('View All Contacts')
+                } else {
+                    $this.addClass('active');
+                    $browse.data('ondatabind', request => {
+                        request.uniqueids = {};
+                    })
+                    FwBrowse.search($browse);
+                    $this.text('View Company Contacts')
+                }
+            });
+
+            $browse.find('.pager').append($viewAll);
+        }
     }
     //----------------------------------------------------------------------------------------------
     renderContactsList($form: JQuery, $confirmation: JQuery, response: any, companyId: string, datafield: string, $contactList?: JQuery) {
