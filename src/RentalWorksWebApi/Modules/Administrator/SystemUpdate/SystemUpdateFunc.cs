@@ -177,7 +177,19 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                                 version = version.Replace(".zip", "");
                                 version = version.Replace("_", ".");
 
-                                bool includeVersion = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
+                                //bool includeVersion = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
+                                bool includeVersion = true;
+
+                                if (request.OnlyIncludeNewerVersions)
+                                {
+                                    string[] thisVersionPieces = version.Split(".");
+
+                                    if (FwConvert.ToInt32(thisVersionPieces[3]) <= FwConvert.ToInt32(versionPieces[3]))
+                                    {
+                                        includeVersion = false;
+                                    }
+                                }
+
 
                                 if (includeVersion)
                                 {
