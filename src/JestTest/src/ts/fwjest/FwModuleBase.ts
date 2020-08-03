@@ -138,7 +138,7 @@ export class FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
         //await page.click(mainMenuSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
-        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 1000);
+        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
 
         //let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
         let menuGroupSelector = `div.menu-lv1object i[title="${this.moduleGroupName}"]`;
@@ -147,7 +147,7 @@ export class FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${menuGroupSelector}`);
         //await expect(page).toClick(menuGroupSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the group menu to expand
-        await FwTestUtils.waitForAndClick(menuGroupSelector, 0, 1000);
+        await FwTestUtils.waitForAndClick(menuGroupSelector, 0, 2000);
 
         let menuItemSelector = `div[data-securityid="${this.moduleId}"]`;
         //FwLogging.logInfo(`about to wait for selector ${menuItemSelector}`);

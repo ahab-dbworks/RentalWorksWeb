@@ -46,7 +46,7 @@ export class FwSettingsModule extends FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
         //await page.click(mainMenuSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
-        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 1000);
+        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
 
         //let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
         let settingsGearSelector = `div.menu-lv1object i[title="Settings"]`;
@@ -55,7 +55,7 @@ export class FwSettingsModule extends FwModuleBase {
         //FwLogging.logInfo(`about to click selector ${settingsGearSelector}`);
         //await page.click(settingsGearSelector);
         //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
-        await FwTestUtils.waitForAndClick(settingsGearSelector, 0, 1000);
+        await FwTestUtils.waitForAndClick(settingsGearSelector, 0, 2000);
 
         let moduleHeadingSelector = `.panel-group[id="${this.moduleName}"]`;
         //FwLogging.logInfo(`about to wait for selector ${moduleHeadingSelector}`);

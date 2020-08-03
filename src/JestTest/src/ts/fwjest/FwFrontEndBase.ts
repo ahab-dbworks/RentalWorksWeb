@@ -69,17 +69,19 @@ export class FwFrontEndBase {
 
 
         let mainMenuSelector = `.app-menu-button`;
-        await page.waitForSelector(mainMenuSelector);
-        await page.click(mainMenuSelector);
+        //await page.waitForSelector(mainMenuSelector);
+        //await page.click(mainMenuSelector);
+        FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
 
         let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
-        await page.waitForSelector(menuGroupSelector);
-        await expect(page).toClick(menuGroupSelector);
-
+        //await page.waitForSelector(menuGroupSelector);
+        //await expect(page).toClick(menuGroupSelector);
+        FwTestUtils.waitForAndClick(menuGroupSelector, 0, 2000);
 
         let menuItemSelector = `div[data-securityid="${this.moduleId}"]`;
-        await page.waitForSelector(menuItemSelector);
-        await expect(page).toClick(menuItemSelector);
+        //await page.waitForSelector(menuItemSelector);
+        //await expect(page).toClick(menuItemSelector);
+        FwTestUtils.waitForAndClick(menuItemSelector);
 
         // wait for the module to open and load
         //await page.waitFor(() => document.querySelector('.pleasewait'));
