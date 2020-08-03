@@ -14,7 +14,7 @@ export class FwSettingsModule extends FwModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 600;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 800;
     waitBeforeClickingToOpenRecord: number = 300;
-    waitBeforeClickingToCloseRecord: number = 600;
+    waitBeforeClickingToCloseRecord: number = 1000;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
     waitForNewButtonToGetEvents: number = 2000;     
     waitForCancelButtonToGetEvents: number = 2000;  
@@ -41,25 +41,28 @@ export class FwSettingsModule extends FwModuleBase {
         FwLogging.logInfo(`about to try to open browse for ${this.moduleName}`);
 
         let mainMenuSelector = `.app-menu-button`;
-        FwLogging.logInfo(`about to wait for selector ${mainMenuSelector}`);
-        await page.waitForSelector(mainMenuSelector, {visible: true});
-        FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
-        await page.click(mainMenuSelector);
-
-        await FwTestUtils.sleepAsync(500); // wait here for the main menu to expand
+        //FwLogging.logInfo(`about to wait for selector ${mainMenuSelector}`);
+        //await page.waitForSelector(mainMenuSelector, {visible: true});
+        //FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
+        //await page.click(mainMenuSelector);
+        //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
+        FwTestUtils.waitForAndClick(mainMenuSelector, 1000);
 
         //let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
         let settingsGearSelector = `div.menu-lv1object i[title="Settings"]`;
-        FwLogging.logInfo(`about to wait for selector ${settingsGearSelector}`);
-        await page.waitForSelector(settingsGearSelector, { visible: true });
-        FwLogging.logInfo(`about to click selector ${settingsGearSelector}`);
-        await page.click(settingsGearSelector);
+        //FwLogging.logInfo(`about to wait for selector ${settingsGearSelector}`);
+        //await page.waitForSelector(settingsGearSelector, { visible: true });
+        //FwLogging.logInfo(`about to click selector ${settingsGearSelector}`);
+        //await page.click(settingsGearSelector);
+        //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
+        FwTestUtils.waitForAndClick(settingsGearSelector, 1000);
 
         let moduleHeadingSelector = `.panel-group[id="${this.moduleName}"]`;
-        FwLogging.logInfo(`about to wait for selector ${moduleHeadingSelector}`);
-        await page.waitForSelector(moduleHeadingSelector, { visible: true });
-        FwLogging.logInfo(`about to click selector ${moduleHeadingSelector}`);
-        await page.click(moduleHeadingSelector);
+        //FwLogging.logInfo(`about to wait for selector ${moduleHeadingSelector}`);
+        //await page.waitForSelector(moduleHeadingSelector, { visible: true });
+        //FwLogging.logInfo(`about to click selector ${moduleHeadingSelector}`);
+        //await page.click(moduleHeadingSelector);
+        FwTestUtils.waitForAndClick(moduleHeadingSelector);
 
         // wait for the module to try to open, then check for errors
         var popUp;
@@ -167,6 +170,12 @@ export class FwSettingsModule extends FwModuleBase {
         FwLogging.logInfo(`About to add search for ${seekValue}`);
 
         let elementHandle = await page.$(searchFieldSelector);
+
+        // clear out any text before sending new text
+        await elementHandle.click({ clickCount: 3 });
+        await elementHandle.press('Backspace');
+
+
         await elementHandle.click();
         await page.keyboard.sendCharacter(seekValue);
         await page.keyboard.press('Enter');
