@@ -226,7 +226,7 @@ class RepairOrderStatusReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
-        FwFormField.loadItems($form.find('div[data-datafield="RepairOrderStatus"]'), [{ value: "NEW", text: "New", selected: "T" }, { value: "PENDING", text: "Pending", selected: "T" }, { value: "ESTIMATE", text: "Estimated", selected: "T" }, { value: "COMPLETE", text: "Complete", selected: "T" }, { value: "VOID", text: "Void", selected: "T" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="RepairOrderStatus"]'), [{ value: "NEW", text: "New", selected: "T" }, { value: "PENDING", text: "Pending", selected: "T" }, { value: "ESTIMATED", text: "Estimated", selected: "T" }, { value: "COMPLETE", text: "Complete", selected: "T" }, { value: "VOID", text: "Void", selected: "T" }]);
         FwFormField.loadItems($form.find('div[data-datafield="Priority"]'), [
             { value: "HIG", text: "High", selected: "T" },
             { value: "MED", text: "Medium", selected: "T" },
