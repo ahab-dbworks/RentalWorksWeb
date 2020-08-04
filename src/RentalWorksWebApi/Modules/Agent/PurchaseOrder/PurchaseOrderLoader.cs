@@ -846,40 +846,40 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------
 
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "drawingid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectdrawingid", modeltype: FwDataTypes.Text)]
         public string ProjectDrawingsId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "drawing", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectdrawing", modeltype: FwDataTypes.Text)]
         public string ProjectDrawings { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "itemorderedid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectitemorderedid", modeltype: FwDataTypes.Text)]
         public string ProjectItemsOrderedId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "itemordered", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectitemordered", modeltype: FwDataTypes.Text)]
         public string ProjectItemsOrdered { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "dropshipid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectdropshipid", modeltype: FwDataTypes.Text)]
         public string ProjectDropShipId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "dropship", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectdropship", modeltype: FwDataTypes.Text)]
         public string ProjectDropShip { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "asbuildid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectasbuildid", modeltype: FwDataTypes.Text)]
         public string ProjectAsBuildId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "asbuild", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectasbuild", modeltype: FwDataTypes.Text)]
         public string ProjectAsBuild { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "commissioningid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectcommissioningid", modeltype: FwDataTypes.Text)]
         public string ProjectCommissioningId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "commissioning", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectcommissioning", modeltype: FwDataTypes.Text)]
         public string ProjectCommissioning { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "depositid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectdepositid", modeltype: FwDataTypes.Text)]
         public string ProjectDepositId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "deposit", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "projectdeposit", modeltype: FwDataTypes.Text)]
         public string ProjectDeposit { get; set; }
         //------------------------------------------------------------------------------------
 
