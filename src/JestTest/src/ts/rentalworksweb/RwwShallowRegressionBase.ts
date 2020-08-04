@@ -1,5 +1,6 @@
 ﻿import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase } from '../shared/ModuleBase';
+import { User } from './modules/AllModules';
 
 export class ShallowRegressionBaseTest extends BaseTest {
     //---------------------------------------------------------------------------------------
@@ -51,6 +52,13 @@ export class ShallowRegressionBaseTest extends BaseTest {
                 //---------------------------------------------------------------------------------------
             });
         });
+    }
+    //---------------------------------------------------------------------------------------
+    async RelogAsCopyOfUser() {
+        this.LoadMyUserGlobal(new User());
+        this.CopyMyUserRegisterGlobal(new User());
+        this.DoLogoff();
+        this.DoLogin();
     }
     //---------------------------------------------------------------------------------------
 }

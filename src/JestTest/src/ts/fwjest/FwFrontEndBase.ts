@@ -68,10 +68,10 @@ export class FwFrontEndBase {
         //await expect(page).toClick(menuButtonId);
 
 
-        let mainMenuSelector = `.app-menu-button`;
-        //await page.waitForSelector(mainMenuSelector);
-        //await page.click(mainMenuSelector);
-        FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+        //let mainMenuSelector = `.app-menu-button`;
+        ////await page.waitForSelector(mainMenuSelector);
+        ////await page.click(mainMenuSelector);
+        //FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
 
         let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
         //await page.waitForSelector(menuGroupSelector);

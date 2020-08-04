@@ -40,13 +40,13 @@ export class FwSettingsModule extends FwModuleBase {
 
         FwLogging.logInfo(`about to try to open browse for ${this.moduleName}`);
 
-        let mainMenuSelector = `.app-menu-button`;
-        //FwLogging.logInfo(`about to wait for selector ${mainMenuSelector}`);
-        //await page.waitForSelector(mainMenuSelector, {visible: true});
-        //FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
-        //await page.click(mainMenuSelector);
-        //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
-        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+        //let mainMenuSelector = `.app-menu-button`;
+        ////FwLogging.logInfo(`about to wait for selector ${mainMenuSelector}`);
+        ////await page.waitForSelector(mainMenuSelector, {visible: true});
+        ////FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
+        ////await page.click(mainMenuSelector);
+        ////await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
+        //await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
 
         //let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
         let settingsGearSelector = `div.menu-lv1object i[title="Settings"]`;

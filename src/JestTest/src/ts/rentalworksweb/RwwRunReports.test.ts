@@ -25,8 +25,8 @@ export class RunReportsTest extends BaseTest {
 
             //await FwTestUtils.sleepAsync(2000);
 
-            let mainMenuSelector = `.app-menu-button`;
-            await TestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+            //let mainMenuSelector = `.app-menu-button`;
+            //await TestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
 
             let reportsIconSelector = `div.menu-lv1object i[title="Reports"]`;
             await TestUtils.waitForAndClick(reportsIconSelector, 0, 2000);
