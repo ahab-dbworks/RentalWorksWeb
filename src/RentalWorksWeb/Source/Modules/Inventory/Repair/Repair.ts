@@ -67,6 +67,13 @@ class Repair {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Repair Order', 'tqBQZCgmOUDcE', (e: JQuery.ClickEvent) => {
+            try {
+                this.printRepair(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
@@ -123,9 +130,6 @@ class Repair {
             FwBrowse.addLegend($browse, 'Pending Repair', out[0].Color);
             FwBrowse.addLegend($browse, 'Transferred', intransit[0].Color);
         }, null, $browse);
-
-
-
 
         return $browse;
     }
@@ -310,6 +314,8 @@ class Repair {
             $form.find(".frame .add-on").children().hide();
         }
         this.renderPrintRepairTagButton($form);
+        this.renderPrintRepairButton($form);
+
         this.events($form);
 
         return $form;
@@ -592,8 +598,33 @@ class Repair {
         });
     };
     //----------------------------------------------------------------------------------------------
+    renderPrintRepairButton($form: any) {
+        const $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print Repair');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', e => {
+            this.printRepair($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    printRepair($form: JQuery) {
+        try {
+            const module = this.Module;
+            const repairNumber = FwFormField.getValue($form, `div[data-datafield="RepairNumber"]`);
+            const repairId = FwFormField.getValue($form, `div[data-datafield="RepairId"]`);
+
+            const $report = RepairOrderReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="RepairId"]`, repairId, repairNumber);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print ${module}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     renderPrintRepairTagButton($form: any) {
-        const $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print Repair Tag');
+        const $print = FwMenu.addStandardBtn($form.find('.fwmenu:second'), 'Print Repair Tag');
         $print.prepend('<i class="material-icons">print</i>');
         $print.on('click', e => {
             this.printRepairTag($form);
