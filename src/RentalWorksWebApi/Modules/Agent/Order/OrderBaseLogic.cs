@@ -1237,6 +1237,42 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "ykFFP6Lq4wzcj")]
         public string Project { get; set; }
 
+        [FwLogicProperty(Id: "Ua0N3uBhSEsVV")]
+        public string ProjectDrawingsId { get { return dealOrderDetail.ProjectDrawingsId; } set { dealOrderDetail.ProjectDrawingsId = value; } }
+
+        [FwLogicProperty(Id: "0N2tI78UOF39A", IsReadOnly: true)]
+        public string ProjectDrawings { get; set; }
+
+        [FwLogicProperty(Id: "sYRVihjSokWw3")]
+        public string ProjectItemsOrderedId { get { return dealOrderDetail.ProjectItemsOrderedId; } set { dealOrderDetail.ProjectItemsOrderedId = value; } }
+
+        [FwLogicProperty(Id: "4fSxgmidQ5f66", IsReadOnly: true)]
+        public string ProjectItemsOrdered { get; set; }
+
+        [FwLogicProperty(Id: "TwH9ifnmKxvlR")]
+        public string ProjectDropShipId { get { return dealOrderDetail.ProjectDropShipId; } set { dealOrderDetail.ProjectDropShipId = value; } }
+
+        [FwLogicProperty(Id: "hNyBuaQlIAloL", IsReadOnly: true)]
+        public string ProjectDropShip { get; set; }
+
+        [FwLogicProperty(Id: "Yu0QMErfqkSRK")]
+        public string ProjectAsBuildId { get { return dealOrderDetail.ProjectAsBuildId; } set { dealOrderDetail.ProjectAsBuildId = value; } }
+
+        [FwLogicProperty(Id: "ENziptmN9mXsw", IsReadOnly: true)]
+        public string ProjectAsBuild { get; set; }
+
+        [FwLogicProperty(Id: "4Jziy8VzAF8fm")]
+        public string ProjectCommissioningId { get { return dealOrderDetail.ProjectCommissioningId; } set { dealOrderDetail.ProjectCommissioningId = value; } }
+
+        [FwLogicProperty(Id: "6GInSDeDi0B9z", IsReadOnly: true)]
+        public string ProjectCommissioning { get; set; }
+
+        [FwLogicProperty(Id: "QQ0JDxYDWrW2s")]
+        public string ProjectDepositId { get { return dealOrderDetail.ProjectDepositId; } set { dealOrderDetail.ProjectDepositId = value; } }
+
+        [FwLogicProperty(Id: "GAKP5IuXOyoBs", IsReadOnly: true)]
+        public string ProjectDeposit { get; set; }
+
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "wXMvGhGwlYbqi", DisableDirectAssign: true, DisableDirectModify: true)]
         public string InputByUserId { get { return dealOrder.InputByUserId; } set { dealOrder.InputByUserId = value; } }

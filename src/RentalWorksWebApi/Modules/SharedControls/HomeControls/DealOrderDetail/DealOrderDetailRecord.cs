@@ -127,6 +127,28 @@ namespace WebApi.Modules.HomeControls.DealOrderDetail
         //------------------------------------------------------------------------------------
 
 
+
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "drawingid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ProjectDrawingsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemorderedid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ProjectItemsOrderedId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dropshipid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ProjectDropShipId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "asbuildid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ProjectAsBuildId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "commissioningid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ProjectCommissioningId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depositid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ProjectDepositId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

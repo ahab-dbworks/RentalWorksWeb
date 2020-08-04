@@ -624,6 +624,42 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "fDewVmifAdGcP", IsReadOnly: true)]
         public string ProjectDescription { get; set; }
 
+        [FwLogicProperty(Id: "qifE9Fpol3kbD")]
+        public string ProjectDrawingsId { get { return purchaseOrderDetail.ProjectDrawingsId; } set { purchaseOrderDetail.ProjectDrawingsId = value; } }
+
+        [FwLogicProperty(Id: "lZ7XAv6I7SM2U", IsReadOnly: true)]
+        public string ProjectDrawings { get; set; }
+
+        [FwLogicProperty(Id: "qWbnL8tuLZKR3")]
+        public string ProjectItemsOrderedId { get { return purchaseOrderDetail.ProjectItemsOrderedId; } set { purchaseOrderDetail.ProjectItemsOrderedId = value; } }
+
+        [FwLogicProperty(Id: "OBKur8yDK9bUa", IsReadOnly: true)]
+        public string ProjectItemsOrdered { get; set; }
+
+        [FwLogicProperty(Id: "CplodohkNG3uC")]
+        public string ProjectDropShipId { get { return purchaseOrderDetail.ProjectDropShipId; } set { purchaseOrderDetail.ProjectDropShipId = value; } }
+
+        [FwLogicProperty(Id: "b4YHj5yb5ok1d", IsReadOnly: true)]
+        public string ProjectDropShip { get; set; }
+
+        [FwLogicProperty(Id: "BcsNgFIq8NBwT")]
+        public string ProjectAsBuildId { get { return purchaseOrderDetail.ProjectAsBuildId; } set { purchaseOrderDetail.ProjectAsBuildId = value; } }
+
+        [FwLogicProperty(Id: "sX2V4Ny8OmWLQ", IsReadOnly: true)]
+        public string ProjectAsBuild { get; set; }
+
+        [FwLogicProperty(Id: "X1hxMuiJPOUQA")]
+        public string ProjectCommissioningId { get { return purchaseOrderDetail.ProjectCommissioningId; } set { purchaseOrderDetail.ProjectCommissioningId = value; } }
+
+        [FwLogicProperty(Id: "O09JQOtkGmhv4", IsReadOnly: true)]
+        public string ProjectCommissioning { get; set; }
+
+        [FwLogicProperty(Id: "tjkMiXRRRIZ3T")]
+        public string ProjectDepositId { get { return purchaseOrderDetail.ProjectDepositId; } set { purchaseOrderDetail.ProjectDepositId = value; } }
+
+        [FwLogicProperty(Id: "6dyaSrL0NSBws", IsReadOnly: true)]
+        public string ProjectDeposit { get; set; }
+
         [FwLogicProperty(Id: "WYP8xqoGbI6M")]
         public string Location { get { return purchaseOrder.Location; } set { purchaseOrder.Location = value; } }
 
@@ -907,7 +943,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "4vB85neZs8r99")]
         public bool? SubLaborIsComplete { get { return purchaseOrderDetail.SubLaborIsComplete; } set { purchaseOrderDetail.SubLaborIsComplete = value; } }
         //------------------------------------------------------------------------------------
-
 
 
         [FwLogicProperty(Id: "EJHdP3FGL75fJ", IsReadOnly: true)]

@@ -845,6 +845,45 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public bool? SubLaborIsComplete { get; set; }
         //------------------------------------------------------------------------------------
 
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "drawingid", modeltype: FwDataTypes.Text)]
+        public string ProjectDrawingsId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "drawing", modeltype: FwDataTypes.Text)]
+        public string ProjectDrawings { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "itemorderedid", modeltype: FwDataTypes.Text)]
+        public string ProjectItemsOrderedId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "itemordered", modeltype: FwDataTypes.Text)]
+        public string ProjectItemsOrdered { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "dropshipid", modeltype: FwDataTypes.Text)]
+        public string ProjectDropShipId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "dropship", modeltype: FwDataTypes.Text)]
+        public string ProjectDropShip { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "asbuildid", modeltype: FwDataTypes.Text)]
+        public string ProjectAsBuildId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "asbuild", modeltype: FwDataTypes.Text)]
+        public string ProjectAsBuild { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "commissioningid", modeltype: FwDataTypes.Text)]
+        public string ProjectCommissioningId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "commissioning", modeltype: FwDataTypes.Text)]
+        public string ProjectCommissioning { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "depositid", modeltype: FwDataTypes.Text)]
+        public string ProjectDepositId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "deposit", modeltype: FwDataTypes.Text)]
+        public string ProjectDeposit { get; set; }
+        //------------------------------------------------------------------------------------
+
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
