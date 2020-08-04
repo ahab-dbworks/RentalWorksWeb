@@ -60,6 +60,13 @@ class Repair {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Repair Tag', 'TNvVB0kI42ngF', (e: JQuery.ClickEvent) => {
+            try {
+                this.printRepairTag(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
@@ -98,7 +105,7 @@ class Repair {
         //let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
-        
+
         $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;
         });
@@ -302,7 +309,7 @@ class Repair {
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
         }
-
+        this.renderPrintRepairTagButton($form);
         this.events($form);
 
         return $form;
@@ -361,8 +368,8 @@ class Repair {
                 request.uniqueids = {
                     RepairId: FwFormField.getValueByDataField($form, 'RepairId')
                 };
-            request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
-            }, 
+                request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
+            },
             beforeSave: (request: any) => {
                 request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             }
@@ -408,8 +415,8 @@ class Repair {
                 request.uniqueids = {
                     RepairId: FwFormField.getValueByDataField($form, 'RepairId')
                 };
-            request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
-            }, 
+                request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
+            },
             beforeSave: (request: any) => {
                 request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             }
@@ -448,7 +455,7 @@ class Repair {
                 request.uniqueids = {
                     RepairId: FwFormField.getValueByDataField($form, 'RepairId')
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             }
@@ -552,6 +559,443 @@ class Repair {
         });
         FwBrowse.search($form.find('[data-name="RepairDocumentGrid"]'));
     };
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        // Sales or Rent Order
+        $form.find('div[data-datafield="AvailFor"]').on('change', $tr => {
+            if (FwFormField.getValueByDataField($form, 'RepairType') === 'OWNED') {
+                if (FwFormField.getValueByDataField($form, 'AvailFor') === 'S') {
+                    $form.find('.icodesales').show();
+                    $form.find('.icoderental').hide();
+                }
+                else {
+                    $form.find('.icodesales').hide();
+                    $form.find('.icoderental').show();
+                }
+            }
+        });
+        // Auto QC on QC tab
+        $form.find('div[data-datafield="AutoCompleteQC"]').change(e => {
+            const autoCompleteQC = FwFormField.getValueByDataField($form, 'AutoCompleteQC');
+            if (autoCompleteQC === true) {
+                FwFormField.enable($form.find('.qc-related'));
+            } else {
+                FwFormField.disable($form.find('.qc-related'));
+            }
+        });
+        //
+        $form.find('[data-type="tab"][data-caption="QC"]').on('click', e => {
+            if ($form.attr('data-mode') === 'NEW') {
+                e.stopImmediatePropagation();
+                FwNotification.renderNotification('WARNING', 'Save Record first.');
+            }
+        });
+    };
+    //----------------------------------------------------------------------------------------------
+    renderPrintRepairTagButton($form: any) {
+        const $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print Repair Tag');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', e => {
+            this.printRepairTag($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    printRepairTag($form: JQuery) {
+        try {
+            const module = this.Module;
+            const repairNumber = FwFormField.getValue($form, `div[data-datafield="RepairNumber"]`);
+            const repairId = FwFormField.getValue($form, `div[data-datafield="RepairId"]`);
+
+            const $report = RepairTagController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="RepairId"]`, repairId, repairNumber);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print ${module}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    estimateOrder($form: JQuery): void {
+        let $yes, $no;
+        const $confirmation = FwConfirmation.renderConfirmation('Estimate', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        const html: Array<string> = [];
+
+        if ($form.data('hasCompleted') === true) {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>This Repair Order has already been completed and cannot be unestimated.</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            $no = FwConfirmation.addButton($confirmation, 'OK');
+        }
+
+        else if ($form.data('hasEstimated') === true) {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Cancel this estimate for this Repair Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+
+            $yes = FwConfirmation.addButton($confirmation, 'Cancel Estimate', false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            $yes.focus();
+            $yes.on('click', cancelEstimate);
+        } else {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Make an estimate for this Repair Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+
+            $yes = FwConfirmation.addButton($confirmation, 'Estimate', false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            $yes.focus();
+            $yes.on('click', makeEstimate);
+        }
+
+        // ----------
+        function makeEstimate() {
+            $form.data('hasEstimated', true);
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+
+            $yes.text('Estimating...');
+            $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+            const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                }
+                else {
+                    $yes.on('click', makeEstimate);
+                    $yes.text('Estimate');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
+            }, function onError(response) {
+                $yes.on('click', makeEstimate);
+                $yes.text('Estimate');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form);
+            }, blockConfirmation);
+        };
+        // ----------
+        function cancelEstimate() {
+            $form.data('hasEstimated', false)
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+
+            $yes.text('Canceling Estimate...');
+            $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+            const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                }
+                else {
+                    $yes.on('click', cancelEstimate);
+                    $yes.text('Cancel Estimate');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
+            }, function onError(response) {
+                $yes.on('click', cancelEstimate);
+                $yes.text('Cancel Estimate');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form);
+            }, blockConfirmation);
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+    completeOrder($form: JQuery): void {
+        let $yes, $no;
+        const $confirmation = FwConfirmation.renderConfirmation('Complete', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        const html: Array<string> = [];
+
+        if ($form.data('hasCompleted') === true) {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>This Repair Order has already been completed.</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            $no = FwConfirmation.addButton($confirmation, 'OK');
+        } else if ($form.data('hasEstimated') === true) {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Complete this Repair Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            $yes.focus();
+            $yes.on('click', makeComplete);
+        } else {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Not yet estimated. Make estimate and complete this Repair Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            $yes.focus();
+            $yes.on('click', makeComplete);
+        }
+        // ----------
+        function makeComplete() {
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Completing...');
+            $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+            const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/repair/complete/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                    $form.data('hasCompleted', true);
+                }
+                else {
+                    $yes.on('click', makeComplete);
+                    $yes.text('Complete');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
+            }, function onError(response) {
+                $yes.on('click', makeComplete);
+                $yes.text('Complete');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form);
+                $form.data('hasCompleted', true);
+            }, blockConfirmation);
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+    voidOrder($form: JQuery): void {
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        let $confirmation, $yes, $no;
+        if (status !== 'COMPLETE') {
+            $confirmation = FwConfirmation.renderConfirmation('Void', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Void this Repair Order?</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            $yes.focus();
+            $yes.on('click', makeVoid);
+        } else if (status === 'COMPLETE') {
+            FwNotification.renderNotification('WARNING', 'COMPLETE Repair Orders cannot be VOIDED.');
+        }
+        // ----------
+        function makeVoid() {
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Voiding...');
+            $yes.off('click');
+            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+            const repairId = FwFormField.getValueByDataField($form, 'RepairId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success) {
+                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                }
+                else {
+                    $yes.on('click', makeVoid);
+                    $yes.text('Void');
+                    FwFunc.showError(response.msg);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }
+            }, function onError(response) {
+                $yes.on('click', makeVoid);
+                $yes.text('Void');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+                FwModule.refreshForm($form);
+            }, blockConfirmation);
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+    releaseItems($form: JQuery): void {
+        const releasedQuantityForm = +FwFormField.getValueByDataField($form, 'ReleasedQuantity');
+        const quantityForm = +FwFormField.getValueByDataField($form, 'Quantity');
+        const totalQuantity = quantityForm - releasedQuantityForm;
+        const $confirmation = FwConfirmation.renderConfirmation('Release Items', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        const $yes = FwConfirmation.addButton($confirmation, 'Release', false);
+        let $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        const html: Array<string> = [];
+        if (quantityForm > releasedQuantityForm && quantityForm > 0) {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="width:90px;float:left;"></div>');
+            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="ItemDescription" style="width:340px; float:left;"></div>');
+            html.push('  </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:75px; float:left;"></div>');
+            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released" data-datafield="Released" style="width:75px;float:left;"></div>');
+            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity to Release" data-datafield="ReleasedQuantity" data-enabled="true" style="width:75px;float:left;"></div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+
+            const ICode = $form.find('[data-datafield="InventoryId"] input.fwformfield-text').val();
+            $confirmation.find('div[data-caption="I-Code"] input').val(ICode);
+
+            const ItemDescription = FwFormField.getValueByDataField($form, 'ItemDescription');
+            $confirmation.find('div[data-caption="Description"] input').val(ItemDescription);
+
+            const Quantity = +FwFormField.getValueByDataField($form, 'Quantity');
+            $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
+
+            const ReleasedQuantity = +FwFormField.getValueByDataField($form, 'ReleasedQuantity');
+            $confirmation.find('div[data-caption="Released"] input').val(ReleasedQuantity);
+
+            const QuantityToRelease = Quantity - ReleasedQuantity;
+            $confirmation.find('div[data-caption="Quantity to Release"] input').val(QuantityToRelease);
+
+            FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
+            FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
+            FwFormField.disable($confirmation.find('div[data-caption="Quantity"]'));
+            FwFormField.disable($confirmation.find('div[data-caption="Released"]'));
+
+            $yes.on('click', release);
+        } else {
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>There are either no items to release or number chosen is greater than items available.</div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+
+            $no = FwConfirmation.addButton($confirmation, 'OK');
+        }
+        $yes.focus();
+        // ----------
+        function release() {
+            const releasedQuantityConfirmation = +FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
+
+            if (releasedQuantityConfirmation <= totalQuantity) {
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Releasing...');
+                $yes.off('click');
+                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+                const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+                const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/repair/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form);
+                }, function onError(response) {
+                    $yes.on('click', release);
+                    $yes.text('Release');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                }, blockConfirmation);
+            } else {
+                FwFunc.showError("You are attempting to release more items than are available.");
+            }
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        const validationName = request.module;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
+        switch (datafield) {
+            case 'ItemId':
+                request.uniqueids = {
+                    WarehouseId: warehouse.warehouseid
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
+                break;
+            case 'InventoryId':
+                request.uniqueids = {
+                    Classification: 'I',
+                    TrackedBy: 'QUANTITY',
+                };
+                if (validationName === 'RentalInventoryValidation') {
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalinventory`);
+                } else if (validationName === 'SalesInventoryValidation') {
+                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesinventory`);
+                }
+                break;
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'DamageOrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedamageorder`);
+                break;
+            case 'RepairItemStatusId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterepairitemstatus`);
+                break;
+            case 'LocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouselocation`);
+                break;
+            case 'CurrencyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
+                break;
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
+                break;
+        };
+    }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
@@ -952,418 +1396,6 @@ class Repair {
             </div>
           </div>
         </div>`;
-    }
-    //----------------------------------------------------------------------------------------------
-    events($form: JQuery): void {
-        // Sales or Rent Order
-        $form.find('div[data-datafield="AvailFor"]').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RepairType') === 'OWNED') {
-                if (FwFormField.getValueByDataField($form, 'AvailFor') === 'S') {
-                    $form.find('.icodesales').show();
-                    $form.find('.icoderental').hide();
-                }
-                else {
-                    $form.find('.icodesales').hide();
-                    $form.find('.icoderental').show();
-                }
-            }
-        });
-        // Auto QC on QC tab
-        $form.find('div[data-datafield="AutoCompleteQC"]').change(e => {
-            const autoCompleteQC = FwFormField.getValueByDataField($form, 'AutoCompleteQC');
-            if (autoCompleteQC === true) {
-                FwFormField.enable($form.find('.qc-related'));
-            } else {
-                FwFormField.disable($form.find('.qc-related'));
-            }
-        });
-        //
-        $form.find('[data-type="tab"][data-caption="QC"]').on('click', e => {
-            if ($form.attr('data-mode') === 'NEW') {
-                e.stopImmediatePropagation();
-                FwNotification.renderNotification('WARNING', 'Save Record first.');
-            }
-        });
-    };
-    //----------------------------------------------------------------------------------------------
-    estimateOrder($form: JQuery): void {
-        let $yes, $no;
-        const $confirmation = FwConfirmation.renderConfirmation('Estimate', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        const html: Array<string> = [];
-
-        if ($form.data('hasCompleted') === true) {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>This Repair Order has already been completed and cannot be unestimated.</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            $no = FwConfirmation.addButton($confirmation, 'OK');
-        }
-
-        else if ($form.data('hasEstimated') === true) {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Cancel this estimate for this Repair Order?</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-
-            $yes = FwConfirmation.addButton($confirmation, 'Cancel Estimate', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
-            $yes.focus();
-            $yes.on('click', cancelEstimate);
-        } else {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Make an estimate for this Repair Order?</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-
-            $yes = FwConfirmation.addButton($confirmation, 'Estimate', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
-            $yes.focus();
-            $yes.on('click', makeEstimate);
-        }
-        
-        // ----------
-        function makeEstimate() {
-            $form.data('hasEstimated', true);
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-
-            $yes.text('Estimating...');
-            $yes.off('click');
-            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-
-            const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success) {
-                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                }
-                else {
-                    $yes.on('click', makeEstimate);
-                    $yes.text('Estimate');
-                    FwFunc.showError(response.msg);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                }
-            }, function onError(response) {
-                $yes.on('click', makeEstimate);
-                $yes.text('Estimate');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form);
-            }, blockConfirmation);
-        };
-        // ----------
-        function cancelEstimate() {
-            $form.data('hasEstimated', false)
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-
-            $yes.text('Canceling Estimate...');
-            $yes.off('click');
-            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-            const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/estimate/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success) {
-                    FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                }
-                else {
-                    $yes.on('click', cancelEstimate);
-                    $yes.text('Cancel Estimate');
-                    FwFunc.showError(response.msg);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                }
-            }, function onError(response) {
-                $yes.on('click', cancelEstimate);
-                $yes.text('Cancel Estimate');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form);
-            }, blockConfirmation);
-        };
-    };
-    //----------------------------------------------------------------------------------------------
-    completeOrder($form: JQuery): void {
-        let $yes, $no;
-        const $confirmation = FwConfirmation.renderConfirmation('Complete', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        const html: Array<string> = [];
-
-        if ($form.data('hasCompleted') === true) {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>This Repair Order has already been completed.</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            $no = FwConfirmation.addButton($confirmation, 'OK');
-        } else if ($form.data('hasEstimated') === true) {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Complete this Repair Order?</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
-            $yes.focus();
-            $yes.on('click', makeComplete);
-        } else {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Not yet estimated. Make estimate and complete this Repair Order?</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
-            $yes.focus();
-            $yes.on('click', makeComplete);
-        }
-        // ----------
-        function makeComplete() {
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Completing...');
-            $yes.off('click');
-            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-
-            const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/complete/${RepairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success) {
-                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                    $form.data('hasCompleted', true);
-                }
-                else {
-                    $yes.on('click', makeComplete);
-                    $yes.text('Complete');
-                    FwFunc.showError(response.msg);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                }
-            }, function onError(response) {
-                $yes.on('click', makeComplete);
-                $yes.text('Complete');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form);
-                $form.data('hasCompleted', true);
-            }, blockConfirmation);
-        };
-    };
-    //----------------------------------------------------------------------------------------------
-    voidOrder($form: JQuery): void {
-        const status = FwFormField.getValueByDataField($form, 'Status');
-        let $confirmation, $yes, $no;
-        if (status !== 'COMPLETE') {
-            $confirmation = FwConfirmation.renderConfirmation('Void', '');
-            $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            const html: Array<string> = [];
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Void this Repair Order?</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-            $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
-            $yes.focus();
-            $yes.on('click', makeVoid);
-        } else if (status === 'COMPLETE') {
-            FwNotification.renderNotification('WARNING', 'COMPLETE Repair Orders cannot be VOIDED.');
-        }
-        // ----------
-        function makeVoid() {
-
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Voiding...');
-            $yes.off('click');
-            const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-            const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-
-            const repairId = FwFormField.getValueByDataField($form, 'RepairId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/repair/void/${repairId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                if (response.success) {
-                    FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                }
-                else {
-                    $yes.on('click', makeVoid);
-                    $yes.text('Void');
-                    FwFunc.showError(response.msg);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                }
-            }, function onError(response) {
-                $yes.on('click', makeVoid);
-                $yes.text('Void');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form);
-            }, blockConfirmation);
-        };
-    };
-    //----------------------------------------------------------------------------------------------
-    releaseItems($form: JQuery): void {
-        const releasedQuantityForm = +FwFormField.getValueByDataField($form, 'ReleasedQuantity');
-        const quantityForm = +FwFormField.getValueByDataField($form, 'Quantity');
-        const totalQuantity = quantityForm - releasedQuantityForm;
-        const $confirmation = FwConfirmation.renderConfirmation('Release Items', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        const $yes = FwConfirmation.addButton($confirmation, 'Release', false);
-        let $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        const html: Array<string> = [];
-        if (quantityForm > releasedQuantityForm && quantityForm > 0) {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="width:90px;float:left;"></div>');
-            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="ItemDescription" style="width:340px; float:left;"></div>');
-            html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:75px; float:left;"></div>');
-            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released" data-datafield="Released" style="width:75px;float:left;"></div>');
-            html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity to Release" data-datafield="ReleasedQuantity" data-enabled="true" style="width:75px;float:left;"></div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-
-            const ICode = $form.find('[data-datafield="InventoryId"] input.fwformfield-text').val();
-            $confirmation.find('div[data-caption="I-Code"] input').val(ICode);
-
-            const ItemDescription = FwFormField.getValueByDataField($form, 'ItemDescription');
-            $confirmation.find('div[data-caption="Description"] input').val(ItemDescription);
-
-            const Quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-            $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
-
-            const ReleasedQuantity = +FwFormField.getValueByDataField($form, 'ReleasedQuantity');
-            $confirmation.find('div[data-caption="Released"] input').val(ReleasedQuantity);
-
-            const QuantityToRelease = Quantity - ReleasedQuantity;
-            $confirmation.find('div[data-caption="Quantity to Release"] input').val(QuantityToRelease);
-
-            FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
-            FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
-            FwFormField.disable($confirmation.find('div[data-caption="Quantity"]'));
-            FwFormField.disable($confirmation.find('div[data-caption="Released"]'));
-
-            $yes.on('click', release);
-        } else {
-            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>There are either no items to release or number chosen is greater than items available.</div>');
-            html.push('  </div>');
-            html.push('</div>');
-
-            FwConfirmation.addControls($confirmation, html.join(''));
-
-            $no = FwConfirmation.addButton($confirmation, 'OK');
-        }
-        $yes.focus();
-        // ----------
-        function release() {
-            const releasedQuantityConfirmation = +FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
-
-            if (releasedQuantityConfirmation <= totalQuantity) {
-                FwFormField.disable($confirmation.find('.fwformfield'));
-                FwFormField.disable($yes);
-                $yes.text('Releasing...');
-                $yes.off('click');
-                const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                const blockConfirmation = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-                const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-                FwAppData.apiMethod(true, 'POST', `api/v1/repair/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    FwModule.refreshForm($form);
-                }, function onError(response) {
-                    $yes.on('click', release);
-                    $yes.text('Release');
-                    FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
-                    FwFormField.enable($yes);
-                }, blockConfirmation);
-            } else {
-                FwFunc.showError("You are attempting to release more items than are available.");
-            }
-        };
-    };
-    //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const validationName = request.module;
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-        switch (datafield) {
-            case 'ItemId':
-                request.uniqueids = {
-                    WarehouseId: warehouse.warehouseid
-                };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateitem`);
-                break;
-            case 'InventoryId':
-                request.uniqueids = {
-                    Classification: 'I',
-                    TrackedBy: 'QUANTITY',
-                };
-                if (validationName === 'RentalInventoryValidation') {
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalinventory`);
-                } else if (validationName === 'SalesInventoryValidation') {
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesinventory`);
-                }
-                break;
-            case 'DepartmentId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
-                break;
-            case 'DamageOrderId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedamageorder`);
-                break;
-            case 'RepairItemStatusId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterepairitemstatus`);
-                break;
-            case 'LocationId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
-                break;
-            case 'WarehouseId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouselocation`);
-                break;
-            case 'CurrencyId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
-                break;
-            case 'TaxOptionId':
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
-                break;
-        };
     }
 };
 var RepairController = new Repair();
