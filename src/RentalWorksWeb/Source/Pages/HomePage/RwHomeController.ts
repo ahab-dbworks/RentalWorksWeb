@@ -79,7 +79,6 @@ class RwHome {
             FwAjax.callWebApi<any, any>({
                 httpMethod: 'POST',
                 url: `${applicationConfig.apiurl}api/v1/systemupdate/availableversions`,
-                $elementToBlock: jQuery('body'),
                 data: {
                     CurrentVersion: sessionStorage.getItem('serverVersion'),
                     OnlyIncludeNewerVersions: true
@@ -102,7 +101,6 @@ class RwHome {
                     $sysUpdateContainer.on('click', e => {
                         program.navigate('module/update');
                     });
-
                 }
             });
         }
