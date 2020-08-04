@@ -24,7 +24,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairTag
     public class RepairTagController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public RepairTagController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairTagLoader); }
+        public RepairTagController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RepairTagLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "RepairTag"; }
         //------------------------------------------------------------------------------------ 
