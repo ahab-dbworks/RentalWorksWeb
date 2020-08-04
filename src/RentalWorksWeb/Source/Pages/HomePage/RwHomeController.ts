@@ -100,6 +100,7 @@ class RwHome {
 
                     $sysUpdateContainer.on('click', e => {
                         program.navigate('module/update');
+                        $sysUpdateContainer.remove();
                     });
                 }
             });
