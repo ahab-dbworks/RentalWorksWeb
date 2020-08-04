@@ -564,6 +564,9 @@ class User {
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Administrator" data-datafield="WebAdministrator" style="float:left;width:150px;"></div>
                       </div>
                       <div class="flexrow">
+                        <div>Administrators are notified when System Updates are available for install.</div>
+                      </div>
+                      <div class="flexrow">
                         <div>Administrators have access to all Settings peek buttons.</div>
                       </div>
                     </div>

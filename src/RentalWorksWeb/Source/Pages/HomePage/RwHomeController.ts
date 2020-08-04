@@ -34,6 +34,7 @@ class RwHome {
 
                 window.firstLoadCompleted = true;
 
+                this.addSystemUpdateNotification(jQuery('#fw-app-header'));
                 this.addDuplicateCustomFormAlerts(jQuery('#fw-app-header'));
             }
 
@@ -71,6 +72,43 @@ class RwHome {
             sessionStorage.removeItem('duplicateforms');
         }
     }
+    //----------------------------------------------------------------------------------------------
+    addSystemUpdateNotification($control) {
+        const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+        if (isWebAdmin === 'true') {
+            FwAjax.callWebApi<any, any>({
+                httpMethod: 'POST',
+                url: `${applicationConfig.apiurl}api/v1/systemupdate/availableversions`,
+                $elementToBlock: jQuery('body'),
+                data: {
+                    CurrentVersion: sessionStorage.getItem('serverVersion'),
+                    OnlyIncludeNewerVersions: true
+                }
+            }).then((response) => {
+                if (response.Versions.length) {
+                    const $sysUpdateContainer = jQuery(`<div class="system-update-container">
+                                                            <div class="system-update-notification">
+                                                                <span>Version ${response.Versions[0].Version} is now available.  Access the System Update module to install.</span>        
+                                                                <i class="material-icons">clear</i>
+                                                            </div>
+                                                        </div>`)
+                    jQuery($control).append($sysUpdateContainer);
+
+                    $sysUpdateContainer.on('click', '.system-update-notification i', e => {
+                        e.stopPropagation();
+                        $sysUpdateContainer.remove();
+                    });
+
+                    $sysUpdateContainer.on('click', e => {
+                        program.navigate('module/update');
+                    });
+
+                }
+            });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+
 };
 
 var RwHomeController = new RwHome();
