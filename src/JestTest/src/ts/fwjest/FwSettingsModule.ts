@@ -148,11 +148,6 @@ export class FwSettingsModule extends FwModuleBase {
     async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(this.getBrowseSelector(), { visible: true });
 
-        // mouse wheel up a little bit.  Need to get the "refresh" button into view
-        await page.evaluate(_ => {
-            window.scrollBy(0, -100);
-        });
-
         let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
         //await page.waitForSelector(refreshButtonSelector, { visible: true });
         //await page.click(refreshButtonSelector);
