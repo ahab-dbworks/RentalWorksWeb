@@ -2,6 +2,8 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+
 namespace WebApi.Modules.Reports.RepairOrderReports.RepairTag
 {
     [FwSqlTable("repairtagview")]
@@ -16,6 +18,15 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairTag
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairno", modeltype: FwDataTypes.Text)]
         public string RepairNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string ScannableRepairNumber
+        {
+            get
+            {
+                return getScannableRepairNumber(RepairNumber);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairdate", modeltype: FwDataTypes.Date)]
         public string RepairDate { get; set; }
@@ -72,7 +83,7 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairTag
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddWhereIn("repairid", request.RepairId); 
+                    select.AddWhereIn("repairid", request.RepairId);
                     select.AddOrderBy("repairno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
@@ -84,7 +95,21 @@ namespace WebApi.Modules.Reports.RepairOrderReports.RepairTag
             //    dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
             //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             //}
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (List<object> row in dt.Rows)
+                {
+                    row[dt.GetColumnNo("ScannableRepairNumber")] = getScannableRepairNumber(row[dt.GetColumnNo("RepairNumber")].ToString());
+                }
+            }
+
             return dt;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getScannableRepairNumber(string repairNumber)
+        {
+            return "*" + repairNumber + "*";
         }
         //------------------------------------------------------------------------------------ 
     }
