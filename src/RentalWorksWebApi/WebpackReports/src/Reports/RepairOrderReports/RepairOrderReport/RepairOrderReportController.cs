@@ -24,7 +24,7 @@ namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
     public class RepairOrderReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public RepairOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loadertype = typeof(RepairOrderReportLoader); }
+        public RepairOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RepairOrderReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "RepairOrderReport"; }
         //------------------------------------------------------------------------------------ 
