@@ -105,7 +105,8 @@ export class FwTestUtils {
                 } else if (errorMessage === '') {
                     FwLogging.logInfo(`Successful authentication for user ${login}`);
 
-                    await page.waitForSelector('.appmenu', { visible: true, timeout: 120000 }) // Upper left 'hamburger menu'
+                    //await page.waitForSelector('.appmenu', { visible: true, timeout: 120000 }) // Upper left 'hamburger menu'
+                    await page.waitForSelector(`.app-menu-button`, { visible: true, timeout: 120000 }) // Upper left 'hamburger menu'
                         .then(done => {
                             if (done) {
                                 FwLogging.logInfo(`Successful login process for user ${login}`);
@@ -133,11 +134,13 @@ export class FwTestUtils {
         let logoutResponse: FwLogoutResponse = new FwLogoutResponse();
         logoutResponse.success = false;
 
-        let selector = `.usermenu`;
+        //let selector = `.usermenu`;
+        let selector = `div.app-usermenu`;
         await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
 
-        selector = `#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)`;
+        //selector = `#master-header > div > div.user-controls > div > div.user-dropdown > div.menuitems > div:nth-child(2)`;
+        selector = `div.app-menu-tray > div:nth-child(2).link`;
         await page.waitForSelector(selector, { visible: true });
         await page.click(selector);
 
@@ -147,6 +150,22 @@ export class FwTestUtils {
         logoutResponse.success = true;
 
         return logoutResponse;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    static async waitForAndClick(selector: string, waitBeforeClicking?: number, waitAfterClicking?: number): Promise<void> {
+        FwLogging.logInfo(`about to wait for selector ${selector}`);
+        await page.waitForSelector(selector, { visible: true });
+
+        if ((waitBeforeClicking != undefined) && (waitBeforeClicking != 0)) {
+            await FwTestUtils.sleepAsync(waitBeforeClicking); // wait here before clicking
+        }
+
+        FwLogging.logInfo(`about to click selector ${selector}`);
+        await page.click(selector);
+
+        if ((waitAfterClicking != undefined) && (waitAfterClicking != 0)){
+            await FwTestUtils.sleepAsync(waitAfterClicking); // wait here before proceeding
+        }
     }
     //-----------------------------------------------------------------------------------------------------------------
     static async sleepAsync(timeout: number): Promise<void> {
@@ -159,7 +178,9 @@ export class FwTestUtils {
         //        reject(ex);
         //    }
         //});
+        FwLogging.logInfo(`sleeping for ${timeout}`);
         await page.waitFor(timeout);
+        FwLogging.logInfo(`done sleeping`);
     }
     //-----------------------------------------------------------------------------------------------------------------
     static getDateTimeToken(): string {

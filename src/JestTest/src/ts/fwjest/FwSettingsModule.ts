@@ -14,7 +14,7 @@ export class FwSettingsModule extends FwModuleBase {
     waitAfterClickingToOpenBrowseBeforeCheckingForErrors: number = 600;
     waitAfterClickingToOpenRecordBeforeCheckingForErrors: number = 800;
     waitBeforeClickingToOpenRecord: number = 300;
-    waitBeforeClickingToCloseRecord: number = 600;
+    waitBeforeClickingToCloseRecord: number = 1000;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
     waitForNewButtonToGetEvents: number = 2000;     
     waitForCancelButtonToGetEvents: number = 2000;  
@@ -38,13 +38,31 @@ export class FwSettingsModule extends FwModuleBase {
         openBrowseResponse.recordCount = 0;
         openBrowseResponse.errorMessage = "browse not opened";
 
-        let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
-        await page.waitForSelector(settingsGearSelector, { visible: true });
-        await page.click(settingsGearSelector);
+        FwLogging.logInfo(`about to try to open browse for ${this.moduleName}`);
+
+        //let mainMenuSelector = `.app-menu-button`;
+        ////FwLogging.logInfo(`about to wait for selector ${mainMenuSelector}`);
+        ////await page.waitForSelector(mainMenuSelector, {visible: true});
+        ////FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
+        ////await page.click(mainMenuSelector);
+        ////await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
+        //await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+
+        //let settingsGearSelector = `i.material-icons.dashboard.systembarcontrol[title="Settings"]`;
+        let settingsGearSelector = `div.menu-lv1object i[title="Settings"]`;
+        //FwLogging.logInfo(`about to wait for selector ${settingsGearSelector}`);
+        //await page.waitForSelector(settingsGearSelector, { visible: true });
+        //FwLogging.logInfo(`about to click selector ${settingsGearSelector}`);
+        //await page.click(settingsGearSelector);
+        //await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
+        await FwTestUtils.waitForAndClick(settingsGearSelector, 0, 2000);
 
         let moduleHeadingSelector = `.panel-group[id="${this.moduleName}"]`;
-        await page.waitForSelector(moduleHeadingSelector, { visible: true });
-        await page.click(moduleHeadingSelector);
+        //FwLogging.logInfo(`about to wait for selector ${moduleHeadingSelector}`);
+        //await page.waitForSelector(moduleHeadingSelector, { visible: true });
+        //FwLogging.logInfo(`about to click selector ${moduleHeadingSelector}`);
+        //await page.click(moduleHeadingSelector);
+        await FwTestUtils.waitForAndClick(moduleHeadingSelector);
 
         // wait for the module to try to open, then check for errors
         var popUp;
@@ -130,10 +148,16 @@ export class FwSettingsModule extends FwModuleBase {
     async browseSeek(seekObject: any): Promise<number> {
         await page.waitForSelector(this.getBrowseSelector(), { visible: true });
 
+        // mouse wheel up a little bit.  Need to get the "refresh" button into view
+        await page.evaluate(_ => {
+            window.scrollBy(0, -100);
+        });
+
         let refreshButtonSelector = `.panel-group[id="${this.moduleName}"] .refresh`;
-        await page.waitForSelector(refreshButtonSelector, { visible: true });
-        await page.click(refreshButtonSelector);
-        await FwModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
+        //await page.waitForSelector(refreshButtonSelector, { visible: true });
+        //await page.click(refreshButtonSelector);
+        //await FwModuleBase.wait(this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors); // let the refresh occur, or at least start
+        await FwTestUtils.waitForAndClick(refreshButtonSelector, 0, this.waitAfterClickingToOpenBrowseBeforeCheckingForErrors);
 
         let searchFieldSelector = `.panel-group[id="${this.moduleName}"] .recordSearch`;
         await page.waitForSelector(searchFieldSelector, { visible: true });
@@ -152,6 +176,12 @@ export class FwSettingsModule extends FwModuleBase {
         FwLogging.logInfo(`About to add search for ${seekValue}`);
 
         let elementHandle = await page.$(searchFieldSelector);
+
+        // clear out any text before sending new text
+        await elementHandle.click({ clickCount: 3 });
+        await elementHandle.press('Backspace');
+
+
         await elementHandle.click();
         await page.keyboard.sendCharacter(seekValue);
         await page.keyboard.press('Enter');

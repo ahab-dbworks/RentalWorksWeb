@@ -2,6 +2,8 @@ import { BaseTest } from '../shared/BaseTest';
 import { ModuleBase } from '../shared/ModuleBase';
 import { Logging } from '../shared/Logging';
 import { User } from './modules/AllModules';
+import { TestUtils } from '../shared/TestUtils';
+
 
 export class RunReportsTest extends BaseTest {
     //---------------------------------------------------------------------------------------
@@ -17,9 +19,18 @@ export class RunReportsTest extends BaseTest {
         // ----------
         async function goToReportsPage() {
             Logging.logInfo(`About to click on report icon`);
-            const reportIcon = `div.systembar i[title="Reports"]`;
-            await page.waitForSelector(reportIcon, { visible: true });
-            await page.click(reportIcon);
+            //const reportIcon = `div.systembar i[title="Reports"]`;   //needs new selector
+            //await page.waitForSelector(reportIcon, { visible: true });
+            //await page.click(reportIcon);  
+
+            //await FwTestUtils.sleepAsync(2000);
+
+            //let mainMenuSelector = `.app-menu-button`;
+            //await TestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+
+            let reportsIconSelector = `div.menu-lv1object i[title="Reports"]`;
+            await TestUtils.waitForAndClick(reportsIconSelector, 0, 2000);
+
         }
         // ----------
 

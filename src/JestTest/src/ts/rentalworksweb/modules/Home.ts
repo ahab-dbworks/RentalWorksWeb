@@ -10,6 +10,7 @@ export class Quote extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Quote';
+        this.moduleGroupName = 'Agent';
         this.moduleId = 'jFkSBEur1dluU';
         this.moduleCaption = 'Quote';
         this.populateNewFormTimeout = 300000; // 300 seconds = 5 minutes
@@ -464,6 +465,7 @@ export class Order extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Order';
+        this.moduleGroupName = 'Agent';
         this.moduleId = 'U8Zlahz3ke9i';
         this.moduleCaption = 'Order';
         this.populateNewFormTimeout = 300000; // 300 seconds = 5 minutes
@@ -911,6 +913,7 @@ export class Customer extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Customer';
+        this.moduleGroupName = 'Agent';
         this.moduleId = 'InSfo1f2lbFV';
         this.moduleCaption = 'Customer';
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
@@ -1154,6 +1157,7 @@ export class Deal extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Deal';
+        this.moduleGroupName = 'Agent';
         this.moduleId = '8WdRib388fFF';
         this.moduleCaption = 'Deal';
         let contactGrid: GridBase = new GridBase("Contact Grid", "CompanyContactGrid");
@@ -1356,6 +1360,7 @@ export class Vendor extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Vendor';
+        this.moduleGroupName = 'Agent';
         this.moduleId = 'cwytGLEcUzJdn';
         this.moduleCaption = 'Vendor';
         let taxGrid: GridBase = new GridBase("Location Tax Grid", "CompanyTaxOptionGrid");
@@ -1504,6 +1509,7 @@ export class Contact extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Contact';
+        this.moduleGroupName = 'Agent';
         this.moduleId = '9ykTwUXTet46';
         this.moduleCaption = 'Contact';
         let companyGrid: GridBase = new GridBase("Company Grid", "ContactCompanyGrid");
@@ -1644,6 +1650,7 @@ export class PurchaseOrder extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'PurchaseOrder';
+        this.moduleGroupName = 'Agent';
         this.moduleId = '9a0xOMvBM7Uh9';
         this.moduleCaption = 'Purchase Order';
         this.canDelete = false;
@@ -1822,6 +1829,7 @@ export class Project extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Project';
+        this.moduleGroupName = 'Agent';
         this.moduleId = 'k7bYJRoHkf9Jr';
         this.moduleCaption = 'Project';
         this.canDelete = false;
@@ -1921,6 +1929,7 @@ export class RentalInventory extends InventoryModule {
     constructor() {
         super();
         this.moduleName = 'RentalInventory';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = '3ICuf6pSeBh6G';
         this.moduleCaption = 'Rental Inventory';
         let whInvGrid: GridBase = new GridBase("Warehouse Inventory Grid", "RentalInventoryWarehouseGrid");
@@ -2389,6 +2398,7 @@ export class SalesInventory extends InventoryModule {
     constructor() {
         super();
         this.moduleName = 'SalesInventory';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = 'ShjGAzM2Pq3kk';
         this.moduleCaption = 'Sales Inventory';
 
@@ -2767,6 +2777,7 @@ export class PartsInventory extends InventoryModule {
     constructor() {
         super();
         this.moduleName = 'PartsInventory';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = '2WDCohbQV6GU';
         this.moduleCaption = 'Parts Inventory';
 
@@ -3129,6 +3140,7 @@ export class Asset extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Asset';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = 'kSugPLvkuNsH';
         this.moduleCaption = 'Asset';
         this.canNew = false;
@@ -3191,6 +3203,7 @@ export class RepairOrder extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Repair';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = 't4gfyzLkSZhyc';
         this.moduleCaption = 'Repair Order';
         this.canDelete = false;
@@ -3203,6 +3216,7 @@ export class PhysicalInventory extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'PhysicalInventory';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = 'JIuxFUWTLDC6';
         this.moduleCaption = 'Physical Inventory';
         this.canDelete = false;
@@ -3243,6 +3257,7 @@ export class PickList extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'PickList';
+        this.moduleGroupName = 'Warehouse';
         this.moduleId = 'bggVQOivrIgi';
         this.moduleCaption = 'Pick List';
         this.canNew = false;
@@ -3283,6 +3298,7 @@ export class Contract extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Contract';
+        this.moduleGroupName = 'Warehouse';
         this.moduleId = 'Z8MlDQp7xOqu';
         this.moduleCaption = 'Contract';
         this.canNew = false;
@@ -3304,6 +3320,7 @@ export class Container extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Container';
+        this.moduleGroupName = 'Warehouse';
         this.moduleId = 'bSQsBVDvo86X1';
         this.moduleCaption = 'Container';
         this.canNew = false;
@@ -3317,6 +3334,7 @@ export class Manifest extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Manifest';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = 'tc2HgrtvGDJ5';
         this.moduleCaption = 'Transfer Manifest';
         this.canNew = false;
@@ -3339,6 +3357,7 @@ export class TransferOrder extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'TransferOrder';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = 'tWkLbjsVHH6N';
         this.moduleCaption = 'Transfer Order';
         this.canDelete = false;
@@ -3400,6 +3419,7 @@ export class TransferReceipt extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'TransferReceipt';
+        this.moduleGroupName = 'Inventory';
         this.moduleId = 'VSn3weoOHqLc';
         this.moduleCaption = 'Transfer Receipt';
         this.canNew = false;
@@ -3422,6 +3442,7 @@ export class Invoice extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Invoice';
+        this.moduleGroupName = 'Billing';
         this.moduleId = 'cZ9Z8aGEiDDw';
         this.moduleCaption = 'Invoice';
         this.canDelete = false;
@@ -3468,6 +3489,7 @@ export class Receipt extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'Receipt';
+        this.moduleGroupName = 'Billing';
         this.moduleId = 'q4PPGLusbFw';
         this.moduleCaption = 'Receipts';
     }
@@ -3479,6 +3501,7 @@ export class VendorInvoice extends HomeModule {
     constructor() {
         super();
         this.moduleName = 'VendorInvoice';
+        this.moduleGroupName = 'Billing';
         this.moduleId = 'Fq9aOe0yWfY';
         this.moduleCaption = 'Vendor Invoice';
     }

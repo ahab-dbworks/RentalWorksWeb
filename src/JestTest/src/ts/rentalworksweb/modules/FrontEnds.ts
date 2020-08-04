@@ -69,6 +69,7 @@ export class Staging extends StagingBase {
         super();
         this.moduleName = 'Staging';
         this.moduleId = 'H0sf3MFhL0VK';
+        this.moduleGroupName = 'Warehouse';
         this.moduleCaption = 'Staging / Check-Out';
     }
     //---------------------------------------------------------------------------------------
@@ -92,6 +93,7 @@ export class TransferOut extends StagingBase {
         super();
         this.moduleName = 'TransferOut';
         this.moduleId = 'uxIAX8VBtAwD';
+        this.moduleGroupName = 'Inventory';
         this.moduleCaption = 'Transfer Out';
     }
     //---------------------------------------------------------------------------------------
@@ -114,6 +116,7 @@ export class ReceiveFromVendor extends FrontEndModule {
         super();
         this.moduleName = 'ReceiveFromVendor';
         this.moduleId = 'MtgBxCKWVl7m';
+        this.moduleGroupName = 'Warehouse';
         this.moduleCaption = 'Receive From Vendor';
 
         let itemsGrid: GridBase = new GridBase("Receive Items Grid", "POReceiveItemGrid");
@@ -223,6 +226,7 @@ export class CheckIn extends CheckInBase {
         super();
         this.moduleName = 'CheckIn';
         this.moduleId = 'krnJWTUs4n5U';
+        this.moduleGroupName = 'Warehouse';
         this.moduleCaption = 'Check-In';
     }
     //---------------------------------------------------------------------------------------
@@ -242,6 +246,7 @@ export class TransferIn extends CheckInBase {
         super();
         this.moduleName = 'TransferIn';
         this.moduleId = 'aVOT6HR8knES';
+        this.moduleGroupName = 'Inventory';
         this.moduleCaption = 'Transfer In';
     }
     //---------------------------------------------------------------------------------------
@@ -263,6 +268,7 @@ export class AssignBarCodes extends FrontEndModule {
         super();
         this.moduleName = 'AssignBarCodes';
         this.moduleId = '7UU96BApz2Va';
+        this.moduleGroupName = 'Warehouse';
         this.moduleCaption = 'Assign Bar Codes';
 
         let itemsGrid: GridBase = new GridBase("Receive Bar Codes Grid", "POReceiveBarCodeGrid");
@@ -313,6 +319,7 @@ export class Exchange extends FrontEndModule {
         super();
         this.moduleName = 'Exchange';
         this.moduleId = 'IQS4rxzIVFl';
+        this.moduleGroupName = 'Warehouse';
         this.moduleCaption = 'Exchange';
     }
     //---------------------------------------------------------------------------------------

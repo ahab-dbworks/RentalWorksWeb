@@ -360,6 +360,7 @@
             if ((menuobject as MenuCategory).modules) {
                 var $category = jQuery('<div>')
                     .addClass('menu-lv1object')
+                    .attr('data-category', menuobject.title)
                     .appendTo($menutray)
                     .on('click', (e) => {
                         if (jQuery(e.currentTarget).hasClass('selected')) {
@@ -403,6 +404,7 @@
                 for (let module of (menuobject as MenuCategory).modules) {
                     var $module = jQuery('<div>')
                         .addClass('module')
+                        .attr('data-securityid', module.securityid)
                         .html(module.title)
                         .data('module', module)
                         .appendTo($moduletray)
@@ -419,6 +421,7 @@
             } else if ((menuobject as MenuModule).navigation) {
                 var $lv1module = jQuery('<div>')
                     .addClass('menu-lv1object')
+                    .attr('data-category', menuobject.title)
                     .data('module', menuobject)
                     .appendTo($menutray)
                     .on('click', (e) => {

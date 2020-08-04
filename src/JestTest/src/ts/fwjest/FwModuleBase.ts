@@ -61,6 +61,7 @@ export class FwDeleteResponse {
 //---------------------------------------------------------------------------------------
 export class FwModuleBase {
     moduleName: string;
+    moduleGroupName: string;
     moduleId: string;
     moduleCaption: string;
     browseOpenTimeout: number = 120000; // 120 seconds
@@ -78,6 +79,7 @@ export class FwModuleBase {
     waitForErrorAfterClickingTab: number = 300;
     waitAfterEachValidationFieldIsPopulated: number = 500;
     waitBeforeClickingSave: number = 0;
+    waitAfterClickingSave: number = 0;
 
     canNew: boolean = true;
     canView: boolean = true;
@@ -127,19 +129,39 @@ export class FwModuleBase {
         openBrowseResponse.recordCount = 0;
         openBrowseResponse.errorMessage = "browse not opened";
 
-        let mainMenuSelector = `.appmenu`;
-        await page.waitForSelector(mainMenuSelector);
+        FwLogging.logInfo(`about to try to open browse for ${this.moduleName}`);
 
-        //await ModuleBase.wait(500); // wait for menu option to get its click event // #stresstest s/b 1000+
+        ////let mainMenuSelector = `.appmenu`;
+        //let mainMenuSelector = `.app-menu-button`;
+        ////FwLogging.logInfo(`about to wait for selector ${mainMenuSelector}`);
+        ////await page.waitForSelector(mainMenuSelector, {visible: true});
+        ////FwLogging.logInfo(`about to click selector ${mainMenuSelector}`);
+        ////await page.click(mainMenuSelector);
+        ////await FwTestUtils.sleepAsync(1000); // wait here for the main menu to expand
+        //await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
 
-        await page.click(mainMenuSelector);
-        let menuButtonId = '#btnModule' + this.moduleId;
-        await expect(page).toClick(menuButtonId);
+        //let menuGroupSelector = `i[title="${this.moduleGroupName}"]`;
+        let menuGroupSelector = `div.menu-lv1object i[title="${this.moduleGroupName}"]`;
+        //FwLogging.logInfo(`about to wait for selector ${menuGroupSelector}`);
+        //await page.waitForSelector(menuGroupSelector, {visible: true});
+        //FwLogging.logInfo(`about to click selector ${menuGroupSelector}`);
+        //await expect(page).toClick(menuGroupSelector);
+        //await FwTestUtils.sleepAsync(1000); // wait here for the group menu to expand
+        await FwTestUtils.waitForAndClick(menuGroupSelector, 0, 2000);
+
+        let menuItemSelector = `div[data-securityid="${this.moduleId}"]`;
+        //FwLogging.logInfo(`about to wait for selector ${menuItemSelector}`);
+        //await page.waitForSelector(menuItemSelector, {visible: true});
+        //FwLogging.logInfo(`about to click selector ${menuItemSelector}`);
+        //await expect(page).toClick(menuItemSelector);
+        await FwTestUtils.waitForAndClick(menuItemSelector);
+
         //await ModuleBase.wait(300); // wait for the previously-open module to go away.  may need a way to go back to a blank/home screen before attempting to get to this browse
 
         // wait for the data to come in
-        await page.waitFor(() => document.querySelector('.pleasewait'));
-        await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseOpenTimeout });
+        //await page.waitFor(() => document.querySelector('.pleasewait'));
+        //await page.waitFor(() => !document.querySelector('.pleasewait'), { timeout: this.browseOpenTimeout });
+        await FwTestUtils.waitForPleaseWait();
 
         // find the browse tab
         let browseTabSelector = `div.tab.active[data-tabtype="BROWSE"]`;
@@ -1118,6 +1140,7 @@ export class FwModuleBase {
 
                 }
             })
+        await FwModuleBase.wait(this.waitAfterClickingSave);
         FwLogging.logInfo(`end of save record method`);
         return response;
     }

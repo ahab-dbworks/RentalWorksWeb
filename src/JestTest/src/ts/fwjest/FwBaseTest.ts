@@ -50,6 +50,35 @@ export abstract class FwBaseTest {
         });
     }
     //---------------------------------------------------------------------------------------
+    async PinTheMenu() {
+        // we need to pin the menu before any downstream operations run on this test.  With the menu unpinned, it takes too long for the menu to 
+        //        expand before accessing each module, and timing issues will result.  This is especially true when multiple test jobs are running
+        //        simultaneously
+
+        //open the menu
+        let mainMenuSelector = `.app-menu-button`;
+        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+
+        // check to see if the menu is pinned yet.  If not, then pin it
+        let appMenuSelector = `#fw-app-menu`;
+        try {
+            FwLogging.logInfo(`about to check for the pinned menu`);
+            await page.waitForSelector(`${appMenuSelector}[pinned]`, { timeout: 3000 });
+            FwLogging.logInfo(`found the pinned menu`);
+        } catch (error) {
+            FwLogging.logInfo(`could not find the pinned menu`);
+            //menu is not pinned, we need to pin it
+            let pinSelector = `i.pin-unpin-icon`;
+            FwLogging.logInfo(`about to click to pin the`);
+            await FwTestUtils.waitForAndClick(pinSelector, 0, 2000);
+            FwLogging.logInfo(`clicked the pin`);
+        }
+
+
+        //collapse the menu
+        await FwTestUtils.waitForAndClick(mainMenuSelector, 0, 2000);
+    }
+    //---------------------------------------------------------------------------------------
     async DoLogin() {
         let testName: string = "";
         const testCollectionName = `Login`;
@@ -62,6 +91,8 @@ export abstract class FwBaseTest {
                         expect(loginResponse.errorMessage).toBe("");
                         expect(loginResponse.success).toBeTruthy();
                     });
+                await this.PinTheMenu();
+                await this.DoAfterLogin();
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
         });
@@ -239,6 +270,9 @@ export abstract class FwBaseTest {
     // this method can be overridden to implement copying your User as a new login for to run this test
     async RelogAsCopyOfUser() { }
     //---------------------------------------------------------------------------------------
+    // this method can be overridden to implement behavior to perform after logging in
+    async DoAfterLogin() { }
+    //---------------------------------------------------------------------------------------
     // this method can be overridden in sub classes for each test collection we want to perform
     async ValidateEnvironment() { }
     //---------------------------------------------------------------------------------------
@@ -250,7 +284,7 @@ export abstract class FwBaseTest {
             this.DoBeforeAll();
             this.VerifyTestToken();
             this.CheckDependencies();
-            this.DoLogin()
+            this.DoLogin();
             this.RelogAsCopyOfUser();
             this.ValidateEnvironment();
             this.PerformTests();
