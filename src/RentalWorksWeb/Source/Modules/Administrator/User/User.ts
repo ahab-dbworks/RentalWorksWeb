@@ -545,7 +545,7 @@ class User {
               <!--SECURITY PAGE-->
               <div data-type="tabpage" id="securitytabpage" class="tabpage" data-tabid="securitytab">
                 <div class="flexrow">
-                  <div class="flexcolumn" style="flex:0 1 450px;">
+                  <div class="flexcolumn" style="flex:0 1 650px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Lock Login">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Login is locked out" data-datafield="AccountLocked" style="flex:1 1 125px;"></div>
