@@ -917,8 +917,6 @@ abstract class StagingCheckoutBase {
 
                 if (typeof $form.data('applytoallstaged') != 'undefined') {
                     request.AddItemToOrder = true;
-                } else {
-                    delete request.AddItemToOrder;
                 }
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
@@ -985,8 +983,6 @@ abstract class StagingCheckoutBase {
 
                     if (typeof $form.data('applytoallstaged') != 'undefined') {
                         request.AddItemToOrder = true;
-                    } else {
-                        delete request.AddItemToOrder;
                     }
                     
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
@@ -1322,8 +1318,6 @@ abstract class StagingCheckoutBase {
 
         if (typeof $form.data('applytoallstaged') != 'undefined') {
             request.AddItemToOrder = true;
-        } else {
-            delete request.AddItemToOrder;
         }
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
