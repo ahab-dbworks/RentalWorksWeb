@@ -20,8 +20,8 @@ html.theme-material .fwbrowse[data-type="Browse"] .pager .activeinactiveview {ma
 html.theme-material .fwbrowse[data-type="Grid"] .browsecaption {text-align:center;font-size:12px;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 html.theme-material .fwbrowse[data-type="Grid"][data-caption=""] .browsecaption {display:none;}
 html.theme-material .fwbrowse[data-type="Grid"] .gridmenu { background-color: #EFEFEF; position: sticky; top: 0; z-index: 1; height: 2em; box-shadow: 0px 1px 0px 0 #bdbdbd}
-html.theme-material .fwbrowse[data-type="Grid"] .gridmenu .grid-multi-save[data-type="button"] { height:26px; font-size:14px; padding:0 .7rem .3rem .7rem;}
-html.theme-material .fwbrowse[data-type="Grid"] .gridmenu .grid-multi-save[data-type="button"] i { position:relative; top:5px; line-height:10px;}
+html.theme-material .fwbrowse[data-type="Grid"] .gridmenu .grid-multi-save[data-type="button"] { height:26px; font-size:14px; padding:0 .7rem .3rem .7rem; line-height:31px;}
+html.theme-material .fwbrowse[data-type="Grid"] .gridmenu .grid-multi-save[data-type="button"] i { position:relative; top:6px; line-height:10px;}
 html.theme-material .fwbrowse[data-type="Grid"] tbody .browsecontextmenucell {background-color: #f5f5f5;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenu {cursor:pointer;width:24px;height:24px;padding:4px;border-left: 1px solid #e0e0e0;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell .fwcontextmenu {line-height:1;}
