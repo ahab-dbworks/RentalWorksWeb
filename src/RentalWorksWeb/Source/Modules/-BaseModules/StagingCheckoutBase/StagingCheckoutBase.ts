@@ -904,6 +904,7 @@ abstract class StagingCheckoutBase {
             if (e.which == 9 || e.which == 13) {
                 errorMsg.html('');
                 $form.find('div.AddItemToOrder').html('');
+                $form.find('[data-datafield="ApplyToAllStaged"]').hide();
                 this.showAddItemToOrder = false;
                 const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
@@ -913,6 +914,13 @@ abstract class StagingCheckoutBase {
                     Code: code,
                     WarehouseId: warehouse.warehouseid
                 }
+
+                if (typeof $form.data('applytoallstaged') != 'undefined') {
+                    request.AddItemToOrder = true;
+                } else {
+                    delete request.AddItemToOrder;
+                }
+
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                     if (response.success === true && response.status != 107) {
                         FwFunc.playSuccessSound();
@@ -932,15 +940,18 @@ abstract class StagingCheckoutBase {
                         this.addItemFieldValues($form, response);
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
+                        $form.find('[data-datafield="ApplyToAllStaged"]').show();
                     } if (response.ShowAddCompleteToOrder === true) {
                         this.addItemFieldValues($form, response);
-                        $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                        $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`);
+                        $form.find('[data-datafield="ApplyToAllStaged"]').show();
                     } if (response.ShowUnstage === true) {
                         FwFunc.playErrorSound();
                         this.showAddItemToOrder = true;
                         this.addItemFieldValues($form, response);
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.unstageItem(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Unstage Item</div>`)
+                        $form.find('[data-datafield="ApplyToAllStaged"]').show();
                     } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                         FwFunc.playErrorSound();
                         this.addItemFieldValues($form, response);
@@ -960,17 +971,24 @@ abstract class StagingCheckoutBase {
                     e.preventDefault();
                     errorMsg.html('');
                     $form.find('div.AddItemToOrder').html('');
-
+                    $form.find('[data-datafield="ApplyToAllStaged"]').hide();
                     const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                     const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                     const code = FwFormField.getValueByDataField($form, 'Code');
                     const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-                    const request = {
+                    const request: any = {
                         OrderId: orderId,
                         Code: code,
                         WarehouseId: warehouse.warehouseid,
                         Quantity: quantity
+                    };
+
+                    if (typeof $form.data('applytoallstaged') != 'undefined') {
+                        request.AddItemToOrder = true;
+                    } else {
+                        delete request.AddItemToOrder;
                     }
+                    
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                         if (response.success === true) {
                             FwFunc.playSuccessSound();
@@ -985,9 +1003,11 @@ abstract class StagingCheckoutBase {
                             this.showAddItemToOrder = true;
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
+                            $form.find('[data-datafield="ApplyToAllStaged"]').show();
                         } if (response.ShowAddCompleteToOrder === true) {
                             this.addItemFieldValues($form, response);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                            $form.find('[data-datafield="ApplyToAllStaged"]').show();
                         } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                             FwFunc.playErrorSound();
                             this.addItemFieldValues($form, response);
@@ -1162,6 +1182,12 @@ abstract class StagingCheckoutBase {
                 FwFunc.showError(response);
             }, $form);
         });
+
+        //Apply To All Items Staged in this Session checkbox
+        $form.find('[data-datafield="ApplyToAllStaged"]').on('change', e => {
+            const applyToAllStaged = FwFormField.getValueByDataField($form, 'ApplyToAllStaged');
+            applyToAllStaged ? $form.data('applytoallstaged', applyToAllStaged) : $form.removeData('applytoallstaged');
+        });
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -1245,13 +1271,17 @@ abstract class StagingCheckoutBase {
             }
         }
 
+        if (typeof $form.data('applytoallstaged') != 'undefined') {
+            request.AddItemToOrder = true;
+        }
+
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
                 const gridView = FwFormField.getValueByDataField($form, 'GridView');
                 const errorMsg = $form.find('.error-msg:not(.qty)');
                 errorMsg.html('');
                 $form.find('div.AddItemToOrder').html('');
-
+                $form.find('[data-datafield="ApplyToAllStaged"]').hide();
                 if (response.success) {
                     FwFunc.playSuccessSound();
                     if (gridView === 'STAGE') {
@@ -1290,12 +1320,19 @@ abstract class StagingCheckoutBase {
             UnstageItem: true
         }
 
+        if (typeof $form.data('applytoallstaged') != 'undefined') {
+            request.AddItemToOrder = true;
+        } else {
+            delete request.AddItemToOrder;
+        }
+
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
                 this.refreshGridForScanning($form);
                 this.addItemFieldValues($form, response);
                 $form.find('.error-msg:not(.qty)').html('');
                 $form.find('div.AddItemToOrder').html('');
+                $form.find('[data-datafield="ApplyToAllStaged"]').hide();
                 FwFunc.playSuccessSound();
             }
             catch (ex) {
@@ -1473,7 +1510,10 @@ abstract class StagingCheckoutBase {
                         </div>
                       </div>
                       <div class="flexrow error-msg"></div>
-                      <div class="formrow AddItemToOrder"></div>
+                      <div class="flexrow">
+                        <div class="formrow AddItemToOrder" style="max-width:fit-content;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Apply to all items Staged in this session" data-datafield="ApplyToAllStaged" style="display:none; margin-left:2rem;"></div>
+                      </div>
                       <div class="flexrow">
                         <div class="flexcolumn summaryview">
                           <div class="flexrow staged-item-grid">
