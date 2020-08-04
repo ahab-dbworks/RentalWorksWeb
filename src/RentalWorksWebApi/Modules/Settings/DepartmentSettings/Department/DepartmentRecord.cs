@@ -71,6 +71,9 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         [FwSqlDataField(column: "exportcode", modeltype: FwDataTypes.Text)]
         public string ExportCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackproject", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? EnableProjects { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

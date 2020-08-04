@@ -119,6 +119,15 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             set { }
         }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectid", modeltype: FwDataTypes.Text)]
+        public string ProjectId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectno", modeltype: FwDataTypes.Text)]
+        public string ProjectNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectdesc", modeltype: FwDataTypes.Text)]
+        public string Project{ get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -131,6 +140,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("VendorId", "VendorId", select, request);
+            addFilterToSelect("ProjectId", "projectid", select, request);
 
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
             if (!string.IsNullOrEmpty(orderId))

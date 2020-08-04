@@ -946,8 +946,6 @@ namespace WebApi.Modules.Agent.Order
         public bool? NonTaxable { get; set; }
         //------------------------------------------------------------------------------------ 
 
-
-
         [FwSqlDataField(column: "quoteordertitle", modeltype: FwDataTypes.Text)]
         public string QuoteOrderTitle { get; set; }
         //------------------------------------------------------------------------------------

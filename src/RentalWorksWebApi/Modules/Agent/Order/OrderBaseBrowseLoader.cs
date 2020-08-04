@@ -185,6 +185,15 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
         public string Location { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "projectid", modeltype: FwDataTypes.Text)]
+        public string ProjectId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "projectno", modeltype: FwDataTypes.Text)]
+        public string ProjectNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "projectdesc", modeltype: FwDataTypes.Text)]
+        public string Project { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {
@@ -244,6 +253,7 @@ namespace WebApi.Modules.Agent.Order
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
             addFilterToSelect("BillingCycleType", "billperiodtype", select, request);
+            addFilterToSelect("ProjectId", "projectid", select, request);
 
             if (GetMiscFieldAsBoolean("Staging", request).GetValueOrDefault(false))
             {

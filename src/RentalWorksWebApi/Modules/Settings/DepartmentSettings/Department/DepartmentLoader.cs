@@ -119,6 +119,11 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         [FwSqlDataField(column: "dw", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "trackproject", modeltype: FwDataTypes.Boolean)]
+        public bool? EnableProjects { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
