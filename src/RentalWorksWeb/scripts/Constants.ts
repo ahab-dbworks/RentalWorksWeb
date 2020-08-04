@@ -281,7 +281,8 @@ var Constants = {
                     caption: 'Repair Order Reports',
                     nodetype: 'Category',
                     children: {
-                        RentalEquipmentRepairHistoryReport: { id: 'bLX4YBftwJvw',  caption: 'Rental Equipment Repair History', nav: 'reports/rentalequipmentrepairhistoryreport', nodetype: 'Module', description: 'List all Rental Inventory that has been In Repair over a specified date range.' },
+                        RentalEquipmentRepairHistoryReport: { id: 'bLX4YBftwJvw', caption: 'Rental Equipment Repair History', nav: 'reports/rentalequipmentrepairhistoryreport', nodetype: 'Module', description: 'List all Rental Inventory that has been In Repair over a specified date range.' },
+                        RepairOrderReport: { id: 'tqBQZCgmOUDcE', caption: 'Repair Order', nav: 'reports/repairorderreport', nodetype: 'Module', description: 'List all Repair Orders.' },
                         RepairOrderStatusReport: { id: 'KFP6Nq17ZuDPO', caption: 'Repair Order Status', nav: 'reports/repairorderstatusreport', nodetype: 'Module', description: 'List all Repair Orders, including Damage Notes.  Filter by Status, Type, Priority, Days In Repair, and more.' },
                         RepairTag: { id: 'TNvVB0kI42ngF', caption: 'Repair Tag', nav: 'reports/repairtag', nodetype: 'Module', description: 'Print a Repair Tag for a Repair Order' },
                     }
