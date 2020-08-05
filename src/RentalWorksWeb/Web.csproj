@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -1113,6 +1113,13 @@
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
+    <Content Include="Source\Validations\ProjectNumberValidation\ProjectNumberValidationBrowse.htm" />
+    <Content Include="Source\Validations\ProjectCommissioningValidation\ProjectCommissioningValidationBrowse.htm" />
+    <Content Include="Source\Validations\ProjectDepositValidation\ProjectDepositValidationBrowse.htm" />
+    <Content Include="Source\Validations\ProjectDrawingsValidation\ProjectDrawingsValidationBrowse.htm" />
+    <Content Include="Source\Validations\ProjectDropShipItemsValidation\ProjectDropShipItemsValidationBrowse.htm" />
+    <Content Include="Source\Validations\ProjectItemsOrderedValidation\ProjectItemsOrderedValidationBrowse.htm" />
+    <Content Include="Source\Validations\ProjectAsBuildValidation\ProjectAsBuildValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportCompanyContactValidation\ReportCompanyContactValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactDealValidation\ContactDealValidationBrowse.htm" />
     <Content Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationBrowse.htm" />
