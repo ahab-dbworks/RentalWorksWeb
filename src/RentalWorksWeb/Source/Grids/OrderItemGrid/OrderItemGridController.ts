@@ -1075,7 +1075,6 @@ class OrderItemGrid {
                     $yes.on('click', () => {
                         FwConfirmation.destroyConfirmation($confirmation);
                         FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-                        $generatedtr.find('[data-browsedatafield="Price"]').attr('data-originalvalue', rate.toFixed(8));
                         calculateExtended(type, field);
                     });
 

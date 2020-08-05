@@ -22,11 +22,7 @@
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
         if ($field.attr('data-formreadonly') === 'true') {
-            if ((data.value.length > 0) && (!isNaN(parseFloat(data.value)))) {
-                $field.find('.fieldvalue').text('$' + parseFloat(data.value).toFixed(2));
-            } else {
-                $field.find('.fieldvalue').text('$0.00');
-            }
+            $field.find('.fieldvalue').text(data.value);
         } else {
             if ((data.value.length > 0) && (!isNaN(parseFloat(data.value)))) {
                 $field.find('input.value').val(parseFloat(data.value).toFixed(2));
