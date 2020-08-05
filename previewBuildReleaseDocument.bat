@@ -46,7 +46,7 @@ rem command-line gren make Build Release Document for all issues between the pre
 cd %DwRentalWorksWebPath%\build
 if exist vNext.md (del vNext.md)
 if exist vNext.pdf (del vNext.pdf)
-call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=vNext.md -t %tagprefix%/v%previousversionno%..%tagprefix%/vNext -c ..\config.grenrc
+call gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=vNext.md -t %tagprefix%/vNext..%tagprefix%/v%previousversionno% -c ..\config.grenrc
 
 rem produce a PDF of the MD file
 cd %DwRentalWorksWebPath%
