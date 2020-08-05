@@ -24,7 +24,7 @@ namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
     public class RepairOrderReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public RepairOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RepairOrderReportLoader); }
+        public RepairOrderReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RepairOrderReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "RepairOrderReport"; }
         //------------------------------------------------------------------------------------ 
@@ -47,7 +47,7 @@ namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
         // POST api/v1/repairorderreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "TqricDb6FkHxA")]
-        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody] FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
         // POST api/v1/repairorderreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "TS3A3aA0f92hQ")]
-        public async Task<ActionResult<RepairOrderReportLoader>> RunReportAsync([FromBody]RepairOrderReportRequest request)
+        public async Task<ActionResult<RepairOrderReportLoader>> RunReportAsync([FromBody] RepairOrderReportRequest request)
         {
             if (!ModelState.IsValid)
             {

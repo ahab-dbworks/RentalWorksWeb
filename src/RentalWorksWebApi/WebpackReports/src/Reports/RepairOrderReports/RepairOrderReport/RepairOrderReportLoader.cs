@@ -206,6 +206,15 @@ namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
         public string Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
+        public string DepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
+        public string Department { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "damage", modeltype: FwDataTypes.Text)]
         public string Damage { get; set; }
         //------------------------------------------------------------------------------------ 

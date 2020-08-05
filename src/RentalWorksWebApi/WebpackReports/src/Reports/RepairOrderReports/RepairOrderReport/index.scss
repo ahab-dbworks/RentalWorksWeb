@@ -1,0 +1,79 @@
+﻿/*Repair Report*/
+body {
+    font-size: 15px;
+    margin: 0 0 0 5px;
+}
+
+tbody {
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+        vertical-align: top;
+    }
+}
+
+tbody[data-rowtype="detail"]:nth-child(even) {
+    /*background-color: #DCDCDC;*/
+}
+
+.company-header {
+    align-self: flex-start;
+    font-size: 15px;
+}
+
+.rectype-header td {
+    border-bottom: 2px solid #000000;
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
+}
+
+.tax {
+    padding: 4px 3px 4px 0px;
+}
+
+/* Report Colors */
+.rptNumberSection {
+    background-color: #e3f2fd;
+    color: #027cc5;
+    border: 2px solid #212121;
+    padding: 5px 10px;
+    font-size: 26px;
+    text-align: center;
+}
+
+.sub {
+    border-top: 2px solid #027cc5;
+    border-bottom: 2px solid #027cc5;
+    background-color: #e3f2fd;
+}
+
+.sectionBorder {
+    border-top: 2px solid #027cc5;
+}
+
+.shaded-activity-total {
+    background-color: #e3f2fd;
+    font-weight: 600;
+    vertical-align: top;
+}
+
+.shaded-block {
+    width: 102px !important;
+}
+
+.grandTotalAllActivities {
+    background-color: #e8f5e9;
+    width: 110px;
+    text-align: right;
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding: 10px 0px 6px 0px;
+}
+
+.row-box {
+    padding: 5px;
+}
