@@ -1448,11 +1448,11 @@
   </table>
 </div>
 <!-- Misc Items -->
-<div class="rpt-flexrow section-start">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <tbody style="page-break-inside:avoid !important;" data-rowtype="{{RowType}}">
+    <tbody data-rowtype="{{RowType}}">
       <tr><td>&nbsp;</td></tr><!-- spacer row -->
       <tr>
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
