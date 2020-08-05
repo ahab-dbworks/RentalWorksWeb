@@ -1075,7 +1075,7 @@ class OrderItemGrid {
                     $yes.on('click', () => {
                         FwConfirmation.destroyConfirmation($confirmation);
                         FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-                        $generatedtr.find('[data-browsedatafield="Price"]').attr('data-newval', rate.toFixed(8));
+                        $generatedtr.find('[data-browsedatafield="Price"]').attr('data-originalvalue', rate.toFixed(8));
                         calculateExtended(type, field);
                     });
 
@@ -1100,13 +1100,7 @@ class OrderItemGrid {
             billingFromDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
             billingToDate = FwFormField.getValueByDataField($form, 'BillingEndDate');
             quantity = FwBrowse.getValueByDataField($control, $generatedtr, 'QuantityOrdered');
-            if (typeof $generatedtr.find('[data-browsedatafield="Price"]').attr('data-newval') != 'undefined') {
-                rate = $generatedtr.find('[data-browsedatafield="Price"]').attr('data-newval');
-                $generatedtr.find('[data-browsedatafield="Price"]').attr('data-originalvalue', rate);
-            } else {
-                rate = FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
-            }
-
+            rate = FwBrowse.getValueByDataField($control, $generatedtr, 'Price');
             rate2 = FwBrowse.getValueByDataField($control, $generatedtr, 'Price2');
             rate3 = FwBrowse.getValueByDataField($control, $generatedtr, 'Price3');
             rate4 = FwBrowse.getValueByDataField($control, $generatedtr, 'Price4');
