@@ -16,10 +16,13 @@ export abstract class BaseTest extends FwBaseTest {
 
         Logging.logInfo(`Attempting to change Office/Warehouse to ${toOffice} / ${toWarehouse}`);
 
-        let officeWarehouseSelector = `div.systembarcontrol[data-id="officelocation"]`;
-        await page.waitForSelector(officeWarehouseSelector);
-        //await TestUtils.sleepAsync(5000);  // arbitrary wait to allow this control to get its click event. only necessary when testing this method in rapid succession
-        await page.click(officeWarehouseSelector);
+        //let officeWarehouseSelector = `div.systembarcontrol[data-id="officelocation"]`;
+        //await page.waitForSelector(officeWarehouseSelector);
+        ////await TestUtils.sleepAsync(5000);  // arbitrary wait to allow this control to get its click event. only necessary when testing this method in rapid succession
+        //await page.click(officeWarehouseSelector);
+
+        let officeWarehouseSelector = `div.officelocation.usercontrol`;
+        TestUtils.waitForAndClick(officeWarehouseSelector);
 
         await page.waitForSelector('.advisory', { timeout: 5000 });
 
