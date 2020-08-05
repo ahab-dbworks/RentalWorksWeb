@@ -100,7 +100,7 @@ namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
             }
 
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] { "Extended", "ExtendedWithTax" };
+            string[] totalFields = new string[] { "Extended", "Tax1", "Tax2", "ExtendedWithTax" };
             dt.InsertSubTotalRows("ItemType", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
