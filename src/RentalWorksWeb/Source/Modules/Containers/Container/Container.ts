@@ -97,6 +97,8 @@ class Container {
 
         FwFormField.setValueByDataField($form, 'ItemId', uniqueid);
         FwModule.loadForm(this.Module, $form);
+        $form.find('.repairOrderSubModule').append(AssetController.openRepairOrderBrowse($form));
+        $form.find('.orderSubModule').append(AssetController.openOrderBrowse($form));
 
         return $form;
     }
