@@ -360,6 +360,23 @@ namespace WebApi.Modules.Reports.RepairReports.RepairOrderReport
         public string IssuedToFax { get; set; }
         //------------------------------------------------------------------------------------ 
 
+
+        [FwSqlDataField(column: "extended", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string Extended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax1", modeltype: FwDataTypes.DecimalString8Digits)]
+        public string Tax1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax2", modeltype: FwDataTypes.DecimalString8Digits)]
+        public string Tax2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.DecimalString8Digits)]
+        public string TaxTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendedwithtax", modeltype: FwDataTypes.DecimalString8Digits)]
+        public string ExtendedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         //------------------------------------------------------------------------------------ 
         public List<PartsRepairOrderItemReportLoader> PartsItems { get; set; } = new List<PartsRepairOrderItemReportLoader>(new PartsRepairOrderItemReportLoader[] { new PartsRepairOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
