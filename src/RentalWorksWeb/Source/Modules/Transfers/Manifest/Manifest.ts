@@ -86,7 +86,6 @@ class Manifest extends ContractBase {
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales" style="float:left;width:250px; display:none"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental" style="float:left;width:250px; display:none"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exchange" data-datafield="Exchange" style="float:left;width:250px; display:none"></div>
-                    <div class="print fwformcontrol" data-type="button" style="max-width:45px;margin:15px 0 0 10px;">Print</div>
                   </div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Summary">
