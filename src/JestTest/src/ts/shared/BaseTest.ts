@@ -50,7 +50,8 @@ export abstract class BaseTest extends FwBaseTest {
 
         await TestUtils.sleepAsync(8000);  // let the page start to reload
 
-        let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
+        //let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
+        let selector = `div.officelocation.usercontrol .value`;
         await page.waitForSelector(selector);
         const element = await page.$(selector);
         const officeLocation = await page.evaluate(element => element.textContent, element);
