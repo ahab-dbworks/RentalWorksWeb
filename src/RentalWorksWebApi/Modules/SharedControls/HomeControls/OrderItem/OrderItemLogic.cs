@@ -1147,6 +1147,28 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 }
             }
 
+
+            if (isValid)
+            {
+                string orderId = OrderId;
+                if (string.IsNullOrEmpty(orderId))
+                {
+                    if (!string.IsNullOrEmpty(OrderItemId))
+                    {
+                        orderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", OrderItemId, "orderid").Result;
+                    }
+                }
+
+                OrderIsEditableResponse orderIsEditableResponse = OrderFunc.OrderIsEditable(AppConfig, UserSession, orderId).Result;
+                if (!orderIsEditableResponse.IsEditable)
+                {
+                    isValid = false;
+                    validateMsg = orderIsEditableResponse.Reason;
+                }
+
+            }
+
+
             if (isValid)
             {
                 if (string.IsNullOrEmpty(inventoryId))

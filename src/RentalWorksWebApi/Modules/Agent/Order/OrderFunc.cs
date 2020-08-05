@@ -17,6 +17,7 @@ using WebApi.Modules.HomeControls.OrderNote;
 using WebApi.Modules.HomeControls.OrderContact;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using FwStandard.Grids.AppDocument;
+using System.Linq;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -266,6 +267,12 @@ namespace WebApi.Modules.Agent.Order
         public decimal? DiscountPercent { get; set; }
         public decimal? MarkupPercent { get; set; }
         public decimal? MarginPercent { get; set; }
+    }
+
+    public class OrderIsEditableResponse 
+    {
+        public bool IsEditable { get; set; } = false;
+        public string Reason { get; set; } = "";
     }
 
     public static class OrderFunc
@@ -1327,6 +1334,28 @@ namespace WebApi.Modules.Agent.Order
                 response = FwConvert.ToBoolean(hasRecurring);
             }
 
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<OrderIsEditableResponse> OrderIsEditable(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            OrderIsEditableResponse response = new OrderIsEditableResponse();
+            response.IsEditable = true;
+
+            if (!string.IsNullOrEmpty(orderId))
+            {
+                string[] orderData = await AppFunc.GetStringDataAsync(appConfig, "dealorder", new string[] { "orderid" }, new string[] { orderId }, new string[] { "ordertype", "status" });
+                string orderType = orderData[0];
+                string orderStatus = orderData[1];
+
+                string[] invalidStatuses = new string[] { RwConstants.ORDER_STATUS_CLOSED, RwConstants.QUOTE_STATUS_ORDERED, RwConstants.ORDER_STATUS_CANCELLED, RwConstants.ORDER_STATUS_SNAPSHOT };
+
+                if (invalidStatuses.Contains(orderStatus))
+                {
+                    response.IsEditable = false;
+                    response.Reason = "Cannot add items to a " + orderStatus + " " + AppFunc.GetOrderTypeDescription(orderType);
+                }
+            }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
