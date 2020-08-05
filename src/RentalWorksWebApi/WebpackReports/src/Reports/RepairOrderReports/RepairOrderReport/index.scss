@@ -1,8 +1,7 @@
-﻿/*Invoice Report*/
+﻿/*Repair Report*/
 body {
     font-size: 15px;
-    margin: 0;
-    padding: 10px;
+    margin: 0 0 0 5px;
 }
 
 tbody {
@@ -20,43 +19,6 @@ tbody[data-rowtype="detail"]:nth-child(even) {
     /*background-color: #DCDCDC;*/
 }
 
-.sub-header tr > td {
-    padding: 0;
-    width: 33.3%;
-}
-
-.att-text-align {
-    padding-left: 75px;
-}
-
-.sub-header-left {
-    align-self: flex-start;
-}
-
-.sub-header-center {
-    align-self: center;
-}
-
-.sub-header-right {
-    align-self: flex-end;
-}
-
-.header-center {
-    align-self: center;
-    font-size: 15px;
-    margin-top: 5px;
-}
-
-.header-right {
-    align-self: flex-end;
-    font-size: 15px;
-}
-
-.header-left {
-    align-self: flex-start;
-    font-size: 15px;
-}
-
 .company-header {
     align-self: flex-start;
     font-size: 15px;
@@ -67,23 +29,6 @@ tbody[data-rowtype="detail"]:nth-child(even) {
     font-weight: bold;
     padding: 5px;
     white-space: nowrap;
-}
-
-.headerRow {
-    background-color: #f1f8e9;
-}
-
-.textRow {
-    font-weight: normal;
-    font-style: italic;
-}
-
-.subTotalRow {
-    background-color: #c8e6c9;
-}
-
-.alignRight {
-    text-align: right;
 }
 
 .tax {
@@ -116,10 +61,6 @@ tbody[data-rowtype="detail"]:nth-child(even) {
     vertical-align: top;
 }
 
-.shaded-totals {
-    background-color: #ffffff;
-}
-
 .shaded-block {
     width: 102px !important;
 }
@@ -134,6 +75,5 @@ tbody[data-rowtype="detail"]:nth-child(even) {
 }
 
 .row-box {
-    border: 1px solid black;
-    border-radius: 2px;
+    padding: 5px;
 }

@@ -624,7 +624,7 @@ class Repair {
     }
     //----------------------------------------------------------------------------------------------
     renderPrintRepairTagButton($form: any) {
-        const $print = FwMenu.addStandardBtn($form.find('.fwmenu:second'), 'Print Repair Tag');
+        const $print = FwMenu.addStandardBtn($form.find('.fwmenu'), 'Print Repair Tag');
         $print.prepend('<i class="material-icons">print</i>');
         $print.on('click', e => {
             this.printRepairTag($form);
