@@ -368,7 +368,7 @@ class RwMaster extends WebMaster {
 
         userControls.controls = [
             { control: (usertype === 'USER') ? this.buildOfficeLocation() : this.buildDealPicker() },
-            { control: jQuery(`<div title="User Type: ${usertype}">${username}</div>`) }
+            { control: jQuery(`<div class="username" title="User Type: ${usertype}">${username}</div>`) }
         ]
 
         userControls.links = [

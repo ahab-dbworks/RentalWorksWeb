@@ -244,7 +244,8 @@ export abstract class FwBaseTest {
             //---------------------------------------------------------------------------------------
             testName = `Validate User Name`;
             test(testName, async () => {
-                let selector = `div.systembarcontrol[data-id="username"]`;
+                //let selector = `div.systembarcontrol[data-id="username"]`;
+                let selector = `div.usercontrol.username`;
                 await page.waitForSelector(selector);
                 const element = await page.$(selector);
                 const userName = await page.evaluate(element => element.textContent, element);
@@ -255,7 +256,8 @@ export abstract class FwBaseTest {
             //---------------------------------------------------------------------------------------
             testName = `Validate Office Location`;
             test(testName, async () => {
-                let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
+                //let selector = `div.systembarcontrol[data-id="officelocation"] .value`;
+                let selector = `div.officelocation.usercontrol .value`;
                 await page.waitForSelector(selector);
                 const element = await page.$(selector);
                 const officeLocation = await page.evaluate(element => element.textContent, element);
