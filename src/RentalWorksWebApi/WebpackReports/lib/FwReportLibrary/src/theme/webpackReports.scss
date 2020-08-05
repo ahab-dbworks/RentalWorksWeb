@@ -182,10 +182,27 @@ body {
 
 // Settings for print or pdf
 @media print {
+
     @page {
         margin: 20px 20px 40px 20px; // Adds margin on the pdf
         size: portrait;
     }
+    html, body {
+        width: 210mm;
+        height: 297mm;
+    }
+    tbody {
+        display: table-row-group;
+        border: none !important;
+        margin-bottom: 20px !important;
+    }
+
+    tbody::after {
+        content: '';
+        display: block;
+        page-break-inside: avoid;
+    }
+
 
     .avoid-page-break {
         page-break-inside: avoid;
@@ -198,6 +215,7 @@ body {
             -webkit-print-color-adjust: exact; // Allows background shading to render in pdf
         }
     }
+
 
     .rpt-footer {
         font-size: .9em;
