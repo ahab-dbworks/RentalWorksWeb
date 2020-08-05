@@ -642,7 +642,7 @@ class Repair {
 
             FwFormField.setValue($report, `div[data-datafield="RepairId"]`, repairId, repairNumber);
             const $tab = FwTabs.getTabByElement($report);
-            $tab.find('.caption').html(`Print ${module}`);
+            $tab.find('.caption').html(`Print ${module} Tag`);
         } catch (ex) {
             FwFunc.showError(ex);
         }

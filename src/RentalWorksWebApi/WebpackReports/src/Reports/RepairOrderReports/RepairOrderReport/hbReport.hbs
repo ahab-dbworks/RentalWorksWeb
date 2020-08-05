@@ -344,8 +344,6 @@
 
 <!-- Grand Total row -->
 <div class="rpt-flexrow" style="margin-top:25px;">
-  {{#each Items}}
-  {{#ifEquals RowType "grandtotal"}}
   <table class="grandTotalRow">
     {{#ifNotEquals Tax 0}}
     <tr>
@@ -356,15 +354,8 @@
     <tr>
       <td style="min-width:638px;"></td>
       <td class="tax" style="min-width:300px;text-align:right;padding-right:10px;padding-top:10px;font-weight:700;">{{../Tax1Name}}</td>
-      <td class="number tax" style="min-width:150px;padding-right:3px;padding-top:10px;font-weight:700;" data-value="{{Tax}}"></td>
+      <td class="number tax" style="min-width:150px;padding-right:3px;padding-top:10px;font-weight:700;" data-value="{{TaxTotal}}"></td>
     </tr>
-    {{#ifNotEquals ../Tax2Name ""}}
-    <tr>
-      <td style="min-width:638px;"></td>
-      <td class="tax" style="min-width:300px;text-align:right;padding-right:10px;padding-top:10px;font-weight:700;">{{../Tax2Name}}</td>
-      <td class="number tax" style="min-width:150px;padding-right:3px;padding-top:10px;font-weight:700;" data-value="{{Tax2}}"></td>
-    </tr>
-    {{/ifNotEquals}}
     {{/ifNotEquals}}
     <tr>
       <td style="min-width:638px;"></td>
@@ -372,6 +363,4 @@
       <td class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{ExtendedWithTax}}"></td>
     </tr>
   </table>
-  {{/ifEquals}}
-  {{/each}}
 </div>
