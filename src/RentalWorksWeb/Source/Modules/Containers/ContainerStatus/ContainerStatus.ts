@@ -8,6 +8,10 @@ class ContainerStatus extends OrderStatusBase {
     id:      string = Constants.Modules.Container.children.ContainerStatus.id;
     Type:    string = 'ContainerItem';
     //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasSave = false;
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'ContainerItemId':
