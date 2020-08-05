@@ -99,6 +99,9 @@ class Container {
         FwModule.loadForm(this.Module, $form);
         $form.find('.repairOrderSubModule').append(AssetController.openRepairOrderBrowse($form));
         $form.find('.orderSubModule').append(AssetController.openOrderBrowse($form));
+        $form.find('.transferSubModule').append(AssetController.openTransferBrowse($form));
+        $form.find('.invoiceSubModule').append(AssetController.openInvoiceBrowse($form));
+        $form.find('.retiredSubModule').append(AssetController.openRetiredBrowse($form));
 
         return $form;
     }
