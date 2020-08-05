@@ -188,7 +188,7 @@ body {
     }
 
     .avoid-page-break {
-        page-break-inside: avoid;
+        page-break-inside: avoid !important;
     }
 
     body {
@@ -209,6 +209,10 @@ body {
     background-color: #e3f2fd;
     font-weight: 600;
     vertical-align: top;
+}
+
+.section-start {
+    margin: 20px 0 0 0;
 }
 
 .section-header {
