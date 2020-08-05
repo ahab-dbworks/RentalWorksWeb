@@ -919,6 +919,10 @@ abstract class StagingCheckoutBase {
                     request.AddItemToOrder = true;
                 }
 
+                if (typeof $form.data('stageincompletecontainer') != 'undefined') {
+                    request.StageIncompleteContainer = true;
+                }
+
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                     if (response.success === true && response.status != 107) {
                         FwFunc.playSuccessSound();
@@ -926,36 +930,47 @@ abstract class StagingCheckoutBase {
                         debouncedRefreshGrid();
                         FwFormField.setValueByDataField($form, 'Code', '');
                         $form.find('[data-datafield="Code"] input').select();
-                    } if (response.status === 107) {
+                    }
+                    if (response.status === 107) {
                         FwFunc.playSuccessSound();
                         this.addItemFieldValues($form, response);
                         FwFormField.setValueByDataField($form, 'Quantity', 0);
                         //FwFormField.setValueByDataField($form, 'Code', '');
                         $form.find('div[data-datafield="Quantity"] input').select();
-                    } if (response.ShowAddItemToOrder === true) {
+                    }
+                    if (response.ShowAddItemToOrder === true) {
                         FwFunc.playErrorSound();
                         this.showAddItemToOrder = true;
                         this.addItemFieldValues($form, response);
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                         $form.find('[data-datafield="ApplyToAllStaged"]').show();
-                    } if (response.ShowAddCompleteToOrder === true) {
+                    }
+                    if (response.ShowAddCompleteToOrder === true) {
                         this.addItemFieldValues($form, response);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`);
                         $form.find('[data-datafield="ApplyToAllStaged"]').show();
-                    } if (response.ShowUnstage === true) {
+                    }
+                    if (response.ShowUnstage === true) {
                         FwFunc.playErrorSound();
                         this.showAddItemToOrder = true;
                         this.addItemFieldValues($form, response);
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.unstageItem(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Unstage Item</div>`)
                         $form.find('[data-datafield="ApplyToAllStaged"]').show();
-                    } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
+                    }
+                    if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                         FwFunc.playErrorSound();
                         this.addItemFieldValues($form, response);
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('[data-datafield="Code"] input').select();
                     }
+                    if (response.ShowStageIncompleteContainer === true) {
+                        $form.find('.stage-incomplete-container').data('triggeredevent', { datafield: 'Code' , keycode: e.which}).show();
+                    } else {
+                        $form.find('.stage-incomplete-container').hide();
+                    }
+                    $form.removeData('stageincompletecontainer');
                 }, response => {
                     FwFunc.showError(response);
                     $form.find('[data-datafield="Code"] input').select();
@@ -984,6 +999,10 @@ abstract class StagingCheckoutBase {
                     if (typeof $form.data('applytoallstaged') != 'undefined') {
                         request.AddItemToOrder = true;
                     }
+
+                    if (typeof $form.data('stageincompletecontainer') != 'undefined') {
+                        request.StageIncompleteContainer = true;
+                    }
                     
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                         if (response.success === true) {
@@ -993,23 +1012,32 @@ abstract class StagingCheckoutBase {
                             FwFormField.setValueByDataField($form, 'Quantity', 0);
                             FwFormField.setValueByDataField($form, 'Code', '');
                             $form.find('[data-datafield="Code"] input').select();
-                        } if (response.ShowAddItemToOrder === true) {
+                        }
+                        if (response.ShowAddItemToOrder === true) {
                             FwFunc.playErrorSound();
                             this.addItemFieldValues($form, response);
                             this.showAddItemToOrder = true;
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                             $form.find('[data-datafield="ApplyToAllStaged"]').show();
-                        } if (response.ShowAddCompleteToOrder === true) {
+                        }
+                        if (response.ShowAddCompleteToOrder === true) {
                             this.addItemFieldValues($form, response);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                             $form.find('[data-datafield="ApplyToAllStaged"]').show();
-                        } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
+                        }
+                        if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                             FwFunc.playErrorSound();
                             this.addItemFieldValues($form, response);
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('[data-datafield="Code"] input').select();
                         }
+                        if (response.ShowStageIncompleteContainer === true) {
+                            $form.find('.stage-incomplete-container').data('triggeredevent', { datafield: 'Quantity', keycode: e.which }).show();
+                        } else {
+                            $form.find('.stage-incomplete-container').hide();
+                        }
+                        $form.removeData('stageincompletecontainer');
                     }, response => {
                         FwFunc.showError(response);
                         $form.find('[data-datafield="Code"] input').select();
@@ -1017,6 +1045,16 @@ abstract class StagingCheckoutBase {
                 }
             }
         });
+
+        //Stage Incomplete Container
+        $form.find('.stage-incomplete-container').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            const triggeredEvent = $this.data('triggeredevent');
+            $form.data('stageincompletecontainer', true);
+            const evt = jQuery.Event('keydown', { which: triggeredEvent.keycode });
+            jQuery($form.find(`[data-datafield="${triggeredEvent.datafield}"] input`)).trigger(evt);
+        });
+
         // Order Status
         $form.find('.orderstatus').on('click', e => {
             try {
@@ -1506,6 +1544,7 @@ abstract class StagingCheckoutBase {
                       <div class="flexrow error-msg"></div>
                       <div class="flexrow">
                         <div class="formrow AddItemToOrder" style="max-width:fit-content;"></div>
+                        <div class="fwformcontrol stage-incomplete-container" data-type="button" style="float:left; margin:6px 0px 0px 8px; max-width:fit-content; display:none;">Stage Incomplete Container</div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Apply to all items Staged in this session" data-datafield="ApplyToAllStaged" style="display:none; margin-left:2rem;"></div>
                       </div>
                       <div class="flexrow">
