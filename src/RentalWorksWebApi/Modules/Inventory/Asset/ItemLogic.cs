@@ -65,7 +65,10 @@ namespace WebApi.Modules.Inventory.Asset
         public string TrackedBy { get; set; }
 
         [FwLogicProperty(Id: "6eov9pMfP7yi", IsReadOnly: true)]
-        public string AvailFor { get; set; }
+        public string AvailableFor { get; set; }
+
+        [FwLogicProperty(Id: "lm2QnywIkSIcc", IsReadOnly: true)]
+        public string AvailableForDisplay { get; set; }
 
         [FwLogicProperty(Id: "6oWC1s61KT9j", IsReadOnly: true)]
         public decimal? ReplacementCost { get; set; }
