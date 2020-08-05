@@ -21,9 +21,8 @@ const returnListTemplate = `
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="IncludeTrackedByBarcode" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include I-Codes tracked by Bar Code/Serial No." style="float:left;max-width:420px;"></div>
-                  <div data-datafield="PrintSerialNumbers" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Serial Numbers" style="float:left;max-width:420px;"></div>
-                  <div data-datafield="PrintBarCodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Bar Codes" style="float:left;max-width:420px;"></div>
-                  <div data-datafield="PrintContainersToRefillReport" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Containers to Refill Report" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="PrintBarcodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Bar Codes" style="float:left;max-width:420px;"></div>
+                  !--<div data-datafield="PrintContainersToRefillReport" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Containers to Refill Report" style="float:left;max-width:420px;"></div>--
                   <div data-datafield="PaginateByInventoryType" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Paginate By Inventory Type" style="float:left;max-width:420px;"></div>
                   <div data-datafield="AddBoxforMeterReading" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Add Box for Meter Reading" style="float:left;max-width:420px;"></div>
                   <div data-datafield="PrintICodeColumn" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print I-Code Column" style="float:left;max-width:420px;"></div>

@@ -24,21 +24,22 @@ namespace WebApi.Modules.Reports.ContractReports.ReturnListReport
         public string DealId { get; set; }
         public string DepartmentId { get; set; }
         public string SortBy { get; set; }
-        public string PrintBarcodeMode { get; set; }
+        //public string PrintBarcodeMode { get; set; }
         public string IncludeSales { get; set; }
         public string WarehouseId { get; set; }
         public string ContractId { get; set; }
         public string OrderIds { get; set; }
         public bool? IncludeTrackedByBarcode { get; set; }
-        public bool? PrintSerialNumbers { get; set; }
-        public bool? PrintBarCodes { get; set; }
-        public bool? PrintContainersToRefillReport { get; set; }
+        //public bool? PrintSerialNumbers { get; set; }
+        public bool? PrintBarcodes { get; set; }
+        //public bool? PrintContainersToRefillReport { get; set; }
         public bool? PaginateByInventoryType { get; set; }
         public bool? AddBoxforMeterReading { get; set; }
         public bool? PrintICodeColumn { get; set; }
         public bool? PrintAisleShelf { get; set; }
         public bool? PrintOut{ get; set; }
         public bool? PrintIn{ get; set; }
+        //public bool? ShowBarcodes{ get; set; }
     }
 
     [Route("api/v1/[controller]")]
