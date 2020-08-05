@@ -23,9 +23,10 @@ namespace WebApi.Modules.Reports.ContractReports.ReturnListReport
     {
         public string DealId { get; set; }
         public string DepartmentId { get; set; }
+        public string OrderId { get; set; }
         public string SortBy { get; set; }
         //public string PrintBarcodeMode { get; set; }
-        public string IncludeSales { get; set; }
+        public bool? IncludeSales { get; set; }
         public string WarehouseId { get; set; }
         public string ContractId { get; set; }
         public string OrderIds { get; set; }

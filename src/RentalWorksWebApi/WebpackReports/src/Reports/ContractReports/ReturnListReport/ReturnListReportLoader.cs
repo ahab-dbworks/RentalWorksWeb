@@ -8,7 +8,8 @@ using static WebApi.Modules.AccountServices.Account.AccountController;
 
 namespace WebApi.Modules.Reports.ContractReports.ReturnListReport
 {
-    [FwSqlTable("funcreturnlistweb(@dealid,@departmentid,@sortby,@printbarcodemode,@includesales,@warehouseid,@contractid,@orderids,@showbarcodes)")]
+    //[FwSqlTable("funcreturnlistweb(@dealid,@departmentid,@sortby,@printbarcodemode,@includesales,@warehouseid,@contractid,@orderids,@showbarcodes)")]
+    [FwSqlTable("funcreturnlist(@dealid,@departmentid,@sortby,@printbarcodemode,@includesales,@warehouseid,@contractid,@orderids)")]
     public class ReturnListReportItemsLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -30,8 +31,8 @@ namespace WebApi.Modules.Reports.ContractReports.ReturnListReport
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string Barcode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "barcodes", modeltype: FwDataTypes.Text)]
-        public string Barcodes { get; set; }
+        //[FwSqlDataField(column: "barcodes", modeltype: FwDataTypes.Text)]
+        //public string Barcodes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryDepartmentId { get; set; }
@@ -159,17 +160,20 @@ namespace WebApi.Modules.Reports.ContractReports.ReturnListReport
                     select.Parse();
                     select.AddParameter("@dealid", request.DealId ?? "");
                     select.AddParameter("@departmentid", request.DepartmentId ?? "");
-                    select.AddParameter("@sortby", request.SortBy ?? "");
+                    select.AddParameter("@sortby", "ORDERS");
                     select.AddParameter("@printbarcodemode", "SUMMARY");
-                    select.AddParameter("@includesales", request.IncludeSales ?? "");
+                    select.AddParameter("@includesales", request.IncludeSales ?? false);
                     select.AddParameter("@warehouseid", request.WarehouseId ?? "");
-                    select.AddParameter("@contractid", request.ContractId ?? "");
-                    select.AddParameter("@orderids", request.OrderIds ?? "");
-                    select.AddParameter("@showbarcodes", request.PrintBarcodes ?? false);
+                    //select.AddParameter("@contractid", request.ContractId ?? "");
+                    select.AddParameter("@contractid", "");
+                    //select.AddParameter("@orderids", request.OrderIds ?? "");
+                    select.AddParameter("@orderids", request.OrderId ?? "");
+                    //select.AddParameter("@showbarcodes", request.PrintBarcodes ?? false);
 
-                    if (request.IncludeTrackedByBarcode.GetValueOrDefault(false))
+                    //if (request.IncludeTrackedByBarcode.GetValueOrDefault(false))
+                    if (!request.IncludeTrackedByBarcode.Value)
                     {
-                        select.AddWhere("trackedby in ('QUANTITY)");
+                        select.AddWhere("trackedby in ('QUANTITY')");
                     }
 
                     if (request.PaginateByInventoryType.GetValueOrDefault(false))

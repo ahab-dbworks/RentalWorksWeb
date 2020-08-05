@@ -64,6 +64,7 @@ class CheckIn extends CheckInBase {
             const contractId   = FwFormField.getValueByDataField($form, 'ContractId');
             const dealId       = FwFormField.getValueByDataField($form, 'DealId');
             const departmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
+            const orderId      = FwFormField.getValueByDataField($form, 'OrderId');
             const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
 
             if (contractId == '') {
@@ -75,6 +76,7 @@ class CheckIn extends CheckInBase {
                 FwFormField.setValue($report, 'div[data-datafield="ContractId"]', contractId);
                 FwFormField.setValue($report, 'div[data-datafield="DealId"]', dealId);
                 FwFormField.setValue($report, 'div[data-datafield="DepartmentId"]', departmentId);
+                FwFormField.setValue($report, 'div[data-datafield="OrderId"]', orderId);
 
 
                 jQuery('.tab.submodule.active').find('.caption').html(`Print Return List`);

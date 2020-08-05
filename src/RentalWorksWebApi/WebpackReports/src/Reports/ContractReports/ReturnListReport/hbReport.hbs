@@ -31,7 +31,9 @@
     <thead>
       <tr style="height:44px;">
         <th>Barcode Of I-Code</th>
+        {{#ifEquals PrintICodeColumn true}}
         <th>I-Code</th>
+        {{/ifEquals}}
         <th>Description</th>
         {{#ifEquals PrintAisleShelf true}}
         <th class="centered">Aisle<br />Shelf</th>
@@ -54,7 +56,9 @@
       </tr>
       <tr>
         <td></td>
+        {{#ifEquals PrintICodeColumn true}}
         <th>I-Code</th>
+        {{/ifEquals}}
         <th>Description</th>
         <th class="number">Ordered</th>
         <th class="number">In</th>
@@ -66,7 +70,9 @@
       {{#ifEquals RowType "detail"}}
       <tr data-rowtype="{{RowType}}" class="description-row">
         <td class="nowrap"><span class="header-left" style="font-family:'Libre Barcode 39', serif; font-size:50px;">{{#ifEquals TrackedBy "QUANTITY"}}*{{ICode}}*{{/ifEquals}}</span></td>
+        {{#ifEquals PrintICodeColumn true}}
         <td class="nowrap">{{ICode}}</td>
+        {{/ifEquals}}
         <td>{{Description}}{{#if Vendor}}<br /><span style="font-size:12px;"><b>Vendor:</b>{{Vendor}}</span>{{/if}}</td>
         {{#ifEquals PrintAisleShelf true}}
         <td class="centered bordered">{{Aisle}}<br />{{Shelf}}</td>
