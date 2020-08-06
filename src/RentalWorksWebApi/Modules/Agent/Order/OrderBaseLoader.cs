@@ -925,7 +925,9 @@ namespace WebApi.Modules.Agent.Order
         public decimal? LossAndDamageExtendedTotal { get; set; }
 
 
-
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "departmenttrackproject", modeltype: FwDataTypes.Boolean)]
+        public bool? EnableProjects { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "projectdrawingid", modeltype: FwDataTypes.Text)]
         public string ProjectDrawingsId { get; set; }

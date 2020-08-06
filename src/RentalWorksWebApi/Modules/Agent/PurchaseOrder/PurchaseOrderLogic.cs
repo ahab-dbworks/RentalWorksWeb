@@ -615,6 +615,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "g1K0q6Vn89Oj9")]
         public string ReturnDeliveryDateStamp { get { return returnDelivery.DateStamp; } set { returnDelivery.DateStamp = value; } }
 
+        [FwLogicProperty(Id: "D1kNjKr1ss4M", IsReadOnly: true)]
+        public bool? EnableProjects { get; set; }
+
         [FwLogicProperty(Id: "TJnlyuYOArN3")]
         public string ProjectId { get { return purchaseOrder.ProjectId; } set { purchaseOrder.ProjectId = value; } }
 

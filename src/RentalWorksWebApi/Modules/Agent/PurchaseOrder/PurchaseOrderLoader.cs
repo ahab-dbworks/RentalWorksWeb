@@ -845,6 +845,10 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public bool? SubLaborIsComplete { get; set; }
         //------------------------------------------------------------------------------------
 
+
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "departmenttrackproject", modeltype: FwDataTypes.Boolean)]
+        public bool? EnableProjects { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "projectdrawingid", modeltype: FwDataTypes.Text)]
         public string ProjectDrawingsId { get; set; }

@@ -1228,6 +1228,9 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "DiohURrhZZm9F", IsReadOnly: true)]
         public bool? NonTaxable { get; set; }
 
+        [FwLogicProperty(Id: "yzIfMghdiHJm", IsReadOnly: true)]
+        public bool? EnableProjects { get; set; }
+
         [FwLogicProperty(Id: "FrWTnro7Ip239")]
         public string ProjectId { get { return dealOrder.ProjectId; } set { dealOrder.ProjectId = value; } }
         
