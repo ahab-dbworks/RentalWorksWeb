@@ -746,7 +746,10 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 PeriodExtended = Math.Round(PeriodExtended.Value, 2);
             }
-
+            if (DiscountPercent.HasValue)
+            {
+                DiscountPercent = Math.Round(DiscountPercent.Value, 10);
+            }
 
 
         }
