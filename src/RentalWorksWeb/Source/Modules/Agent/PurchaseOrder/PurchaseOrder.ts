@@ -2362,6 +2362,25 @@ class PurchaseOrder implements IModule {
             const enableProjects = FwBrowse.getValueByDataField($form, $tr, 'EnableProjects');
             enableProjects === 'true' ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
         });
+
+        //Project validations
+        $form.find('[data-datafield="ProjectId"]').data('onchange', $tr => {
+            const validationName = $tr.closest('.fwbrowse').attr('data-name');
+            const id = FwBrowse.getValueByDataField(null, $tr, 'ProjectId');
+            let data: any = {};
+            if (validationName === 'ProjectValidation') {
+                data = {
+                    field: 'ProjectNumber',
+                    value: FwBrowse.getValueByDataField(null, $tr, 'ProjectNumber')
+                };
+            } else if (validationName === 'ProjectNumberValidation') {
+                data = {
+                    field: 'Project',
+                    value: FwBrowse.getValueByDataField(null, $tr, 'Project')
+                };
+            }
+            FwFormField.setValue2($form.find(`[data-validationname="${data.field}Validation"]`), id, data.value);
+        });
     };
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {

@@ -625,7 +625,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public string ProjectNumber { get; set; }
 
         [FwLogicProperty(Id: "fDewVmifAdGcP", IsReadOnly: true)]
-        public string ProjectDescription { get; set; }
+        public string Project { get; set; }
 
         [FwLogicProperty(Id: "qifE9Fpol3kbD")]
         public string ProjectDrawingsId { get { return purchaseOrderDetail.ProjectDrawingsId; } set { purchaseOrderDetail.ProjectDrawingsId = value; } }
