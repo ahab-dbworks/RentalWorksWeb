@@ -243,13 +243,12 @@
   </div>
 </div>
 <!-- Rental Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each RentalItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -389,11 +388,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}        {{else}}
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}        {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
         {{else}}
@@ -482,13 +481,12 @@
   </table>
 </div>
 <!-- Sales Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table>
     {{#each SalesItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -611,11 +609,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -705,13 +703,12 @@
   </table>
 </div>
 <!-- Used Sale Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each UsedSaleItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -945,13 +942,12 @@
   </table>
 </div>
 <!-- Loss & Damage Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each LossAndDamageItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="9" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1116,11 +1112,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}        
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1210,13 +1206,12 @@
   </table>
 </div>
 <!-- Labor Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each LaborItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1225,18 +1220,18 @@
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
         {{#if HasRecurring}}
         {{#ifCond ../RateType '===' "DAILY"}}
-          <td style="min-width:75px;" class="number alignRight">Days</td>
+        <td style="min-width:75px;" class="number alignRight">Days</td>
         {{else}}
-          {{#ifCond ../RateType '===' "WEEKLY"}}
-            <td style="min-width:75px;" class="number alignRight">Weeks</td>
-          {{else}}
-            {{#ifCond ../RateType '===' "MONTHLY"}}
-              <td style="min-width:75px;" class="number alignRight">Months</td>
-            {{/ifCond}}
-          {{/ifCond}}
+        {{#ifCond ../RateType '===' "WEEKLY"}}
+        <td style="min-width:75px;" class="number alignRight">Weeks</td>
+        {{else}}
+        {{#ifCond ../RateType '===' "MONTHLY"}}
+        <td style="min-width:75px;" class="number alignRight">Months</td>
+        {{/ifCond}}
+        {{/ifCond}}
         {{/ifCond}}
         {{else}}
-          <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
         {{/if}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         {{#if HasDiscount}}
@@ -1321,11 +1316,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-        
+
         {{#if IsRecurring}}
-          <td class="alignRight">{{BillablePeriods}}</td>
+        <td class="alignRight">{{BillablePeriods}}</td>
         {{else}}
-          <td class="alignRight">&nbsp;</td>
+        <td class="alignRight">&nbsp;</td>
         {{/if}}
 
         {{else}}
@@ -1359,11 +1354,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}    
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1453,13 +1448,12 @@
   </table>
 </div>
 <!-- Misc Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1468,18 +1462,18 @@
         <td style="min-width:90px;" class="number alignRight">Quantity</td>
         {{#if HasRecurring}}
         {{#ifCond ../RateType '===' "DAILY"}}
-          <td style="min-width:75px;" class="number alignRight">Days</td>
+        <td style="min-width:75px;" class="number alignRight">Days</td>
         {{else}}
-          {{#ifCond ../RateType '===' "WEEKLY"}}
-            <td style="min-width:75px;" class="number alignRight">Weeks</td>
-          {{else}}
-            {{#ifCond ../RateType '===' "MONTHLY"}}
-              <td style="min-width:75px;" class="number alignRight">Months</td>
-            {{/ifCond}}
-          {{/ifCond}}
+        {{#ifCond ../RateType '===' "WEEKLY"}}
+        <td style="min-width:75px;" class="number alignRight">Weeks</td>
+        {{else}}
+        {{#ifCond ../RateType '===' "MONTHLY"}}
+        <td style="min-width:75px;" class="number alignRight">Months</td>
+        {{/ifCond}}
+        {{/ifCond}}
         {{/ifCond}}
         {{else}}
-          <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
         {{/if}}
 
         <td style="min-width:100px;" class="number alignRight">Price</td>
@@ -1567,9 +1561,9 @@
         {{#ifCond ICode '!=' ""}}
 
         {{#if IsRecurring}}
-          <td class="alignRight">{{BillablePeriods}}</td>
+        <td class="alignRight">{{BillablePeriods}}</td>
         {{else}}
-          <td class="alignRight">&nbsp;</td>
+        <td class="alignRight">&nbsp;</td>
         {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
@@ -1602,11 +1596,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1696,13 +1690,12 @@
   </table>
 </div>
 <!-- Facilities Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each FacilityItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1833,11 +1826,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}        {{else}}
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}        {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
         {{else}}

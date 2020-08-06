@@ -110,8 +110,9 @@ body {
     color: #000000;
 }
 
-
-
+.section-start {
+    margin: 25px 0 0 0;
+}
 
 // Special shading for Order, Invoice report footers
 .display-footer {
@@ -122,8 +123,6 @@ body {
     padding-top: 11px;
     border-top: 1.5px solid black;
 }
-
-
 
 // sub title for Order, Invoice report
 .sub-title {
@@ -187,10 +186,12 @@ body {
         margin: 20px 20px 40px 20px; // Adds margin on the pdf
         size: portrait;
     }
+
     html, body {
         width: 210mm;
         height: 297mm;
     }
+
     tbody {
         display: table-row-group;
         border: none !important;

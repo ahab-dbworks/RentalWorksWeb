@@ -1111,11 +1111,11 @@
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
-          {{#if HasDiscount}}
-            <td class="alignRight">{{DiscountPercent}}</td>
-          {{else}}
-            <td class="alignRight">&nbsp;</td>
-          {{/if}}
+        {{#if HasDiscount}}
+        <td class="alignRight">{{DiscountPercent}}</td>
+        {{else}}
+        <td class="alignRight">&nbsp;</td>
+        {{/if}}
         {{else}}
         {{#ifCond ItemClass '===' "T"}}
         <td class="textRow"></td>
@@ -1443,7 +1443,7 @@
   </table>
 </div>
 <!-- Misc Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
@@ -1466,7 +1466,7 @@
         <td style="min-width:75px;" class="number alignRight">Months</td>
         {{/ifCond}}
         {{else}}
-          <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
+        <td style="min-width:75px;" class="number alignRight">&nbsp;</td>
         {{/if}}
         <td style="min-width:100px;" class="number alignRight">Price</td>
         {{#if HasDiscount}}
