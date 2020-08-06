@@ -2322,6 +2322,10 @@ class OrderBase {
                 }
                 $form.find(`.fwformfield.activity input`).change();
             }
+
+            const enableProjects = FwBrowse.getValueByDataField($form, $tr, 'EnableProjects');
+            enableProjects === 'true' ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
+
         });
         // ----------
         $form.find('.addresscopy').on('click', e => {
@@ -2587,7 +2591,24 @@ class OrderBase {
             }
         });
 
-
+        //Project validations
+        $form.find('[data-datafield="ProjectId"]').data('onchange', $tr => {
+            const validationName = $tr.closest('.fwbrowse').attr('data-name');
+            const id = FwBrowse.getValueByDataField(null, $tr, 'ProjectId');
+            let data: any = {};
+            if (validationName === 'ProjectValidation') {
+                data = {
+                    field: 'ProjectNumber',
+                    value: FwBrowse.getValueByDataField(null, $tr, 'ProjectNumber')
+                };
+            } else if (validationName === 'ProjectNumberValidation') {
+                data = {
+                    field: 'Project',
+                    value: FwBrowse.getValueByDataField(null, $tr, 'Project')
+                };
+            }
+            FwFormField.setValue2($form.find(`[data-validationname="${data.field}Validation"]`), id, data.value);
+        });
     };
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
@@ -4088,8 +4109,9 @@ class OrderBase {
             FwFormField.enable($intrackShipmentBtn);
         }
 
-        this.billingPeriodEvents($form);
-        this.renderScheduleDateAndTimeSection($form, response);
+        //Project Tab
+        const enableProjects = FwFormField.getValueByDataField($form, 'EnableProjects');
+        enableProjects ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
 
         //justin hoffman 02/11/2020 - after all, I want this option available even if manual sort is not set. There are other conditions where the user may need to do this.
         ////hide "Restore System Sorting" menu option from grids
@@ -4099,6 +4121,9 @@ class OrderBase {
 
         const isManualSort = FwFormField.getValueByDataField($form, 'IsManualSort');
         $form.data('ismanualsort', isManualSort);
+
+        this.billingPeriodEvents($form);
+        this.renderScheduleDateAndTimeSection($form, response);
         this.showHideDeliveryLocationField($form);
         this.applyTaxOptions($form, response);
     }

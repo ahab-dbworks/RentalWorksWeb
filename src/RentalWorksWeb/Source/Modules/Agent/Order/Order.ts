@@ -817,6 +817,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
               <div data-type="tab" id="billingworksheettab" class="tab billingworksheettab" data-tabpageid="billingworksheettabpage" data-caption="Billing Worksheet" style="display:none;"></div>
               <div data-type="tab" id="billingscheduletab" class="tab billingscheduletab" data-tabpageid="billingscheduletabpage" data-caption="Billing Schedule"></div>
+              <div data-type="tab" id="projecttab" class="tab projecttab" data-tabpageid="projecttabpage" data-caption="Project"></div>  
               <div data-type="tab" id="summarytab" class="tab profitlosstab summarytab" data-tabpageid="profitlosstabpage" data-caption="Profit &amp; Loss"></div>
               <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="activitytab" class="tab activitytab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
@@ -875,6 +876,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Used Sale" data-datafield="DisableEditingUsedSaleRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Loss and Damage" data-datafield="DisableEditingLossAndDamageRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Is Manual Sort" data-datafield="IsManualSort"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-datafield="EnableProjects"></div>                        
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
@@ -1872,6 +1874,34 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="billingscheduletabpage" class="tabpage" data-tabid="billingscheduletab">
                 <div class="flexrow">
                   <div data-control="FwGrid" data-grid="OrderBillingScheduleGrid" data-securitycaption="Billing Schedule"></div>
+                </div>
+              </div>
+
+             <!-- PROJECT TAB -->
+              <div data-type="tabpage" id="projecttabpage" class="tabpage" data-tabid="projecttab">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Project">
+                    <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectValidation" class="fwcontrol fwformfield" data-displayfield="Project" data-caption="Project" data-datafield="ProjectId" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectNumberValidation" class="fwcontrol fwformfield" data-displayfield="ProjectNumber" data-caption="Project No." data-datafield="ProjectId" style="flex:0 1 250px;"></div>
+                    </div>
+                    <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectAsBuildValidation" class="fwcontrol fwformfield" data-caption="Project As Build" data-datafield="ProjectAsBuildId" data-displayfield="ProjectAsBuild" style="flex:0 1 250px;"></div>
+                    </div>
+                    <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectCommissioningValidation" class="fwcontrol fwformfield" data-caption="Project Commissioning" data-datafield="ProjectCommissioningId" data-displayfield="ProjectCommissioning" style="flex:0 1 250px;"></div>
+                     </div>
+                    <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDepositValidation" class="fwcontrol fwformfield" data-caption="Project Deposit" data-datafield="ProjectDepositId" data-displayfield="ProjectDeposit" style="flex:0 1 250px;"></div>
+                     </div>
+                    <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDrawingsValidation" class="fwcontrol fwformfield" data-caption="Project Drawings" data-datafield="ProjectDrawingsId" data-displayfield="ProjectDrawings" style="flex:0 1 250px;"></div>
+                     </div>
+                    <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDropShipItemsValidation" class="fwcontrol fwformfield" data-caption="Project Drop Ship Items" data-datafield="ProjectDropShipId" data-displayfield="ProjectDropShip" style="flex:0 1 250px;"></div>
+                    </div>
+                    <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectItemsOrderedValidation" class="fwcontrol fwformfield" data-caption="Project Items Ordered" data-datafield="ProjectItemsOrderedId" data-displayfield="ProjectItemsOrdered" style="flex:0 1 250px;"></div>
+                    </div>
                 </div>
               </div>
 

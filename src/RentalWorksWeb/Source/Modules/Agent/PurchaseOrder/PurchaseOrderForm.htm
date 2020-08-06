@@ -16,6 +16,7 @@
       <!--<div data-type="tab" id="alltab" class="tab alltab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>-->
       <!--<div data-type="tab" id="contracttab" class="tab submodule contracttab" data-tabpageid="contracttabpage" data-caption="Contract"></div>-->
       <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+      <div data-type="tab" id="projecttab" class="tab projecttab" data-tabpageid="projecttabpage" data-caption="Project"></div>
       <div data-type="tab" id="paymentscheduletab" class="tab paymentscheduletab" data-tabpageid="paymentscheduletabpage" data-caption="Payment Schedule"></div>
       <div data-type="tab" id="summarytab" class="tab profitlosstab summarytab" data-tabpageid="summarytabpage" data-caption="Summary"></div>
       <div data-type="tab" id="vendorinvoicetab" class="tab vendorinvoicetab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
@@ -105,32 +106,33 @@
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalItem" data-datafield="HasRentalItem" style="flex:1 1 100px;"></div>
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalSaleItem" data-datafield="HasRentalSaleItem" style="flex:1 1 100px;"></div>
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasSalesItem" data-datafield="HasSalesItem" style="flex:1 1 100px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-datafield="EnableProjects"></div>
                 </div>
               </div>
             </div>
             <!-- Schedule section -->
             <div class="flexcolumn" style="flex:1 1 300px;">
               <!--<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Schedule">
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PurchaseOrderDate" style="flex:1 1 225px;"></div>
-                </div>
-                <div class="flexrow activity-unchecked">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="From Date" data-datafield="EstimatedStartDate" style="flex:1 1 110px;"></div>
-                  <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="From Time" data-datafield="EstimatedStartTime" style="flex:1 1 110px;"></div>
-                </div>
-                <div class="flexrow activity-unchecked">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="To Date" data-datafield="EstimatedStopDate" style="flex:1 1 110px;"></div>
-                  <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="EstimatedStopTime" style="flex:1 1 110px;"></div>
-                </div>
-              </div>-->
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PurchaseOrderDate" style="flex:1 1 225px;"></div>
+            </div>
+            <div class="flexrow activity-unchecked">
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="From Date" data-datafield="EstimatedStartDate" style="flex:1 1 110px;"></div>
+              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="From Time" data-datafield="EstimatedStartTime" style="flex:1 1 110px;"></div>
+            </div>
+            <div class="flexrow activity-unchecked">
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick_date_validation" data-caption="To Date" data-datafield="EstimatedStopDate" style="flex:1 1 110px;"></div>
+              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="EstimatedStopTime" style="flex:1 1 110px;"></div>
+            </div>
+          </div>-->
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PurchaseOrderDate" style="display:none;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Schedule">
                 <!--<div class="flexrow schedule-date-fields">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="Pick Date" data-dateactivitytype="PICK" data-datafield="PickDate" style="flex:1 1 115px;"></div>
-                  <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="Pick Time" data-timeactivitytype="PICK" data-datafield="PickTime" style="flex:1 1 84px;"></div>
-                </div>-->
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="Pick Date" data-dateactivitytype="PICK" data-datafield="PickDate" style="flex:1 1 115px;"></div>
+              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="Pick Time" data-timeactivitytype="PICK" data-datafield="PickTime" style="flex:1 1 84px;"></div>
+            </div>-->
                 <div class="flexrow schedule-date-fields">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield pick-date-validation og-datetime" data-caption="Receive Date" data-dateactivitytype="RECEIVE" data-datafield="EstimatedStartDate" style="flex:1 1 115px;"></div>
                   <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield og-datetime" data-caption="Receive Time" data-timeactivitytype="RECEIVE" data-datafield="EstimatedStartTime" style="flex:1 1 84px;"></div>
@@ -650,41 +652,41 @@
 
       <!-- REPAIR TAB -->
       <!--
-      <div data-type="tabpage" id="repairtabpage" class="repairpartgrid notcombined tabpage" data-tabid="repairtab" data-render="false">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Repair Items">
-          <div class="flexrow" style="max-width:1800px;">
-            <div data-issubgrid="true" data-control="FwGrid" data-grid="RepairPartGrid" data-securitycaption="Repair Items"></div>
-          </div>
-          <div class="flexrow" style="max-width:1800px;">
-            <div class="flexcolumn" style="flex:1 1 125px;"></div>
-            <div class="flexcolumn repair-adjustments" style="flex:1 1 300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments">
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom-line-discount" data-caption="Disc. %" data-rectype="L" data-datafield="PartDiscountPercent" style="flex:1 1 50px;"></div>
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals part-order-item-total bottom-line-total-tax laborAdjustmentsPeriod" data-caption="Total" data-rectype="L" data-datafield="PeriodLaborTotal" style="flex:1 1 100px;"></div>
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield part-total-wtax bottom-line-total-tax laborAdjustmentsPeriod" data-caption="w/ Tax" data-rectype="L" data-datafield="PartIncludesTax" style="flex:1 1 75px;margin-top:10px;"></div>
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom-line-total-tax laborAdjustmentsWeekly" data-caption="Total" data-rectype="L" data-datafield="WeeklyLaborTotal" style="flex:1 1 100px; display:none;"></div>
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom-line-total-tax laborAdjustmentsWeekly" data-caption="w/ Tax" data-rectype="L" data-datafield="WeeklyLaborTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom-line-total-tax laborAdjustmentsMonthly" data-caption="Total" data-rectype="L" data-datafield="MonthlyLaborTotal" style="flex:1 1 100px; display:none;"></div>
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom-line-total-tax laborAdjustmentsMonthly" data-caption="w/ Tax" data-rectype="L" data-datafield="MonthlyLaborTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
-                </div>
-              </div>
+  <div data-type="tabpage" id="repairtabpage" class="repairpartgrid notcombined tabpage" data-tabid="repairtab" data-render="false">
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Repair Items">
+      <div class="flexrow" style="max-width:1800px;">
+        <div data-issubgrid="true" data-control="FwGrid" data-grid="RepairPartGrid" data-securitycaption="Repair Items"></div>
+      </div>
+      <div class="flexrow" style="max-width:1800px;">
+        <div class="flexcolumn" style="flex:1 1 125px;"></div>
+        <div class="flexcolumn repair-adjustments" style="flex:1 1 300px;">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Adjustments">
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom-line-discount" data-caption="Disc. %" data-rectype="L" data-datafield="PartDiscountPercent" style="flex:1 1 50px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals part-order-item-total bottom-line-total-tax laborAdjustmentsPeriod" data-caption="Total" data-rectype="L" data-datafield="PeriodLaborTotal" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield part-total-wtax bottom-line-total-tax laborAdjustmentsPeriod" data-caption="w/ Tax" data-rectype="L" data-datafield="PartIncludesTax" style="flex:1 1 75px;margin-top:10px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom-line-total-tax laborAdjustmentsWeekly" data-caption="Total" data-rectype="L" data-datafield="WeeklyLaborTotal" style="flex:1 1 100px; display:none;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom-line-total-tax laborAdjustmentsWeekly" data-caption="w/ Tax" data-rectype="L" data-datafield="WeeklyLaborTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom-line-total-tax laborAdjustmentsMonthly" data-caption="Total" data-rectype="L" data-datafield="MonthlyLaborTotal" style="flex:1 1 100px; display:none;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom-line-total-tax laborAdjustmentsMonthly" data-caption="w/ Tax" data-rectype="L" data-datafield="MonthlyLaborTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
             </div>
-            <div class="flexcolumn repair-totals" style="flex:1 1 550px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
-                <div class="flexrow">
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 100px;"></div>
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
-                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
-                </div>
-              </div>
+          </div>
+        </div>
+        <div class="flexcolumn repair-totals" style="flex:1 1 550px;">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
             </div>
           </div>
         </div>
       </div>
-      -->
+    </div>
+  </div>
+  -->
       <!-- BILLING TAB PAGE -->
       <div data-type="tabpage" id="billingtabpage" class="tabpage" data-tabid="billingtab">
         <div class="flexrow">
@@ -742,6 +744,34 @@
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="RemitToCountryId" data-displayfield="RemitToCountry" data-validationname="CountryValidation" style="flex:1 1 150px;"></div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT TAB -->
+      <div data-type="tabpage" id="projecttabpage" class="tabpage" data-tabid="projecttab">
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Project">
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectValidation" class="fwcontrol fwformfield" data-displayfield="Project" data-caption="Project" data-datafield="ProjectId" style="flex:0 1 250px;"></div>
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectNumberValidation" class="fwcontrol fwformfield" data-displayfield="ProjectNumber" data-caption="Project No." data-datafield="ProjectId" style="flex:0 1 250px;"></div>
+          </div>
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectAsBuildValidation" class="fwcontrol fwformfield" data-caption="Project As Build" data-datafield="ProjectAsBuildId" data-displayfield="ProjectAsBuild" style="flex:0 1 250px;"></div>
+          </div>
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectCommissioningValidation" class="fwcontrol fwformfield" data-caption="Project Commissioning" data-datafield="ProjectCommissioningId" data-displayfield="ProjectCommissioning" style="flex:0 1 250px;"></div>
+          </div>
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDepositValidation" class="fwcontrol fwformfield" data-caption="Project Deposit" data-datafield="ProjectDepositId" data-displayfield="ProjectDeposit" style="flex:0 1 250px;"></div>
+          </div>
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDrawingsValidation" class="fwcontrol fwformfield" data-caption="Project Drawings" data-datafield="ProjectDrawingsId" data-displayfield="ProjectDrawings" style="flex:0 1 250px;"></div>
+          </div>
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDropShipItemsValidation" class="fwcontrol fwformfield" data-caption="Project Drop Ship Items" data-datafield="ProjectDropShipId" data-displayfield="ProjectDropShip" style="flex:0 1 250px;"></div>
+          </div>
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="validation" data-validationname="ProjectItemsOrderedValidation" class="fwcontrol fwformfield" data-caption="Project Items Ordered" data-datafield="ProjectItemsOrderedId" data-displayfield="ProjectItemsOrdered" style="flex:0 1 250px;"></div>
           </div>
         </div>
       </div>
@@ -907,175 +937,175 @@
           </div>
         </div>
         <!--<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity Summary">
-          <div class="flexrow">
-            <div class="rwGrid" data-control="FwGrid" data-grid="OrderActivitySummaryGrid" data-securitycaption="Activity Summary"></div>
-          </div>
-        </div>-->
+      <div class="flexrow">
+        <div class="rwGrid" data-control="FwGrid" data-grid="OrderActivitySummaryGrid" data-securitycaption="Activity Summary"></div>
+      </div>
+    </div>-->
       </div>
 
       <!-- Billing Period -->
       <!--<div class="flexrow">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Period">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield billing_start_date" data-caption="Start" data-datafield="BillingStartDate" style="flex:1 1 150px;"></div>
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield billing_end_date" data-caption="Stop" data-datafield="BillingEndDate" style="flex:1 1 150px;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingWeeks week_or_month_field" data-caption="Weeks" data-datafield="BillingWeeks" style="flex:1 1 150px;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingMonths week_or_month_field" data-caption="Months" data-datafield="BillingMonths" style="flex:1 1 150px;"></div>
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Delay Billing Search Until" data-datafield="DelayBillingSearchUntil" style="flex:1 1 150px;"></div>
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock Billing Dates" data-datafield="LockBillingDates" style="flex:1 1 150px;padding-left:25px;margin-top:10px;"></div>
-          </div>
-        </div>
-      </div>-->
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Period">
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield billing_start_date" data-caption="Start" data-datafield="BillingStartDate" style="flex:1 1 150px;"></div>
+        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield billing_end_date" data-caption="Stop" data-datafield="BillingEndDate" style="flex:1 1 150px;"></div>
+        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingWeeks week_or_month_field" data-caption="Weeks" data-datafield="BillingWeeks" style="flex:1 1 150px;"></div>
+        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingMonths week_or_month_field" data-caption="Months" data-datafield="BillingMonths" style="flex:1 1 150px;"></div>
+        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Delay Billing Search Until" data-datafield="DelayBillingSearchUntil" style="flex:1 1 150px;"></div>
+        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock Billing Dates" data-datafield="LockBillingDates" style="flex:1 1 150px;padding-left:25px;margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>-->
       <!--<div data-control="FwFormField" data-type="validation" data-validationname="PaymentTermsValidation" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTermsId" data-displayfield="PaymentTerms" style="flex:1 1 250px;"></div>-->
       <!--<div data-control="FwFormField" data-type="validation" data-validationname="PaymentTypeValidation" class="fwcontrol fwformfield" data-caption="Pay Type" data-datafield="PaymentTypeId" data-displayfield="PaymentType" style="flex:1 1 250px;"></div>-->
       <!-- Bill Based On / Labor Fees / Contact Confirmation -->
       <!--<div class="flexrow">
-      <div class="flexcolumn" style="flex:1 1 300px;">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Determine Quantities to Bill Based on">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DetermineQuantitiesToBillBasedOn" style="flex:1 1 250px;">
-              <div data-value="CONTRACT" data-caption="Contract Activity"></div>
-              <div data-value="ORDER" data-caption="Order Quantity"></div>
-            </div>
-          </div>
+  <div class="flexcolumn" style="flex:1 1 300px;">
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Determine Quantities to Bill Based on">
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DetermineQuantitiesToBillBasedOn" style="flex:1 1 250px;">
+          <div data-value="CONTRACT" data-caption="Contract Activity"></div>
+          <div data-value="ORDER" data-caption="Order Quantity"></div>
         </div>
       </div>
-      <div class="flexcolumn" style="flex:1 1 25px;">
-        &#32;
-      </div>
-      <div class="flexcolumn" style="flex:1 1 300px;">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Prep Fees">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IncludePrepFeesInRentalRate" style="flex:1 1 400px;">
-              <div data-value="false" data-caption="Add Prep Fees as Labor Charges"></div>
-              <div data-value="true" data-caption="Add Prep Fees into the Rental Item Rate"></div>
-            </div>
-          </div>
+    </div>
+  </div>
+  <div class="flexcolumn" style="flex:1 1 25px;">
+    &#32;
+  </div>
+  <div class="flexcolumn" style="flex:1 1 300px;">
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Prep Fees">
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IncludePrepFeesInRentalRate" style="flex:1 1 400px;">
+          <div data-value="false" data-caption="Add Prep Fees as Labor Charges"></div>
+          <div data-value="true" data-caption="Add Prep Fees into the Rental Item Rate"></div>
         </div>
       </div>
-      <div class="flexcolumn" style="flex:1 1 25px;">
-        &#32;
-      </div>-->
+    </div>
+  </div>
+  <div class="flexcolumn" style="flex:1 1 25px;">
+    &#32;
+  </div>-->
       <!--<div class="flexcolumn" style="flex:1 1 300px;">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact Confirmation">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Require Contact Confirmation" data-datafield="RequireContactConfirmation" style="flex:1 1 125px;"></div>
-          </div>
-        </div>
-      </div>-->
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact Confirmation">
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Require Contact Confirmation" data-datafield="RequireContactConfirmation" style="flex:1 1 125px;"></div>
+      </div>
+    </div>
+  </div>-->
       <!--</div>-->
       <!-- Tax Rates / Order Group / Contact Confirmation -->
       <!--<div class="flexcolumn" style="flex:1 1 25px;">
-        &#32;
-      </div>-->
+    &#32;
+  </div>-->
       <!--<div class="flexcolumn" style="flex:1 1 300px;">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Hiatus Schedule">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="HiatusDiscountFrom" style="flex:1 1 200px;">
-              <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;"></div>
-              <div data-value="ORDER" data-caption="This Order" style="flex:1 1 100px;"></div>
-            </div>
-          </div>
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Hiatus Schedule">
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="HiatusDiscountFrom" style="flex:1 1 200px;">
+          <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;"></div>
+          <div data-value="ORDER" data-caption="This Order" style="flex:1 1 100px;"></div>
         </div>
-      </div>-->
+      </div>
+    </div>
+  </div>-->
       <!--<div class="flexcolumn" style="flex:1 1 25px;">
-        &#32;
-      </div>-->
+    &#32;
+  </div>-->
       <!--<div class="flexcolumn" style="flex:1 1 300px;">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Group">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="In Group?" data-datafield="InGroup" style="flex:1 1 100px;"></div>
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Group No" data-datafield="GroupNumber" style="flex:1 1 125px;"></div>
-          </div>
-        </div>
-      </div>-->
+    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Group">
+      <div class="flexrow">
+        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="In Group?" data-datafield="InGroup" style="flex:1 1 100px;"></div>
+        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Group No" data-datafield="GroupNumber" style="flex:1 1 125px;"></div>
+      </div>
+    </div>
+  </div>-->
       <!-- Issue To / Bill To Address -->
       <!--<div class="flexrow">
-        <div class="flexcolumn" style="flex:1 1 15%;">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Address">
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="PrintIssuedToAddressFrom" style="flex:1 1 150px;">
-                <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;"></div>
-                <div data-value="CUSTOMER" data-caption="Customer" style="flex:1 1 100px;"></div>
-                <div data-value="ORDER" data-caption="Order" style="flex:1 1 100px;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flexcolumn" style="flex:1 1 42.5%;">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Issue To">
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="IssuedToName" style="flex:1 1 250px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="IssuedToAttention" style="flex:1 1 250px;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="IssuedToAttention2" style="flex:1 1 250px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="IssuedToAddress1" style="flex:1 1 250px;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="IssuedToAddress2" style="flex:1 1 250px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="BillToCity" style="flex:1 1 250px;"></div>
-              <div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="IssuedToState" style="flex:1 1 100px;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="IssuedToZipCode" style="flex:1 1 100px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="validation" data-validationname="CountryValidation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="IssuedToCountryId" data-displayfield="IssuedToCountry" style="flex:1 1 250px;"></div>
-            </div>
-          </div>
-        </div>
-        <div class="flexcolumn" style="flex:1 1 42.5%;">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bill To">
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Different Than Issue To Address" data-datafield="BillToAddressDifferentFromIssuedToAddress" style="flex:1 1 250px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Name" data-datafield="BillToName" data-enabled="false" style="flex:1 1 250px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Attention" data-datafield="BillToAttention" data-enabled="false" style="flex:1 1 250px;"></div>
-              <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="" data-datafield="BillToAttention2" data-enabled="false" style="flex:1 1 250px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Address" data-datafield="BillToAddress1" data-enabled="false" style="flex:1 1 250px;"></div>
-              <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="" data-datafield="BillToAddress2" data-enabled="false" style="flex:1 1 250px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="City" data-datafield="BillToCity" data-enabled="false" style="flex:1 1 250px;"></div>
-              <div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="differentaddress fwcontrol fwformfield" data-caption="State/Province" data-datafield="BillToState" data-enabled="false" style="flex:1 1 100px;"></div>
-              <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="BillToZipCode" data-enabled="false" style="flex:1 1 100px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="validation" data-validationname="CountryValidation" class="differentaddress fwcontrol fwformfield" data-caption="Country" data-datafield="BillToCountryId" data-displayfield="BillToCountry" data-enabled="false" style="flex:1 1 250px;"></div>
-            </div>
-          </div>
-        </div>
-      </div>-->
-      <!-- Options -->
-      <!--<div class="flexrow">
-        <div class="flexcolumn" style="flex:1 1 400px;">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="No Charge">
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="No Charge" data-datafield="NoCharge" style="flex:1 1 75px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Reason" data-datafield="NoChargeReason" style="flex:1 1 350px;"></div>
-            </div>
-          </div>
-        </div>
-        <div class="flexcolumn" style="flex:1 1 675px;">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Rental Items to go Out again after being Checked-In without increasing the Order quantity" data-datafield="RoundTripRentals" style="flex:1 1 650px;"></div>
-            </div>
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Discount Reason" data-datafield="DiscountReasonId" data-displayfield="DiscountReason" data-validationname="DiscountReasonValidation" style="flex:1 1 250px; float:left;"></div>
-            </div>
+    <div class="flexcolumn" style="flex:1 1 15%;">
+      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Address">
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="PrintIssuedToAddressFrom" style="flex:1 1 150px;">
+            <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;"></div>
+            <div data-value="CUSTOMER" data-caption="Customer" style="flex:1 1 100px;"></div>
+            <div data-value="ORDER" data-caption="Order" style="flex:1 1 100px;"></div>
           </div>
         </div>
       </div>
-            -->
+    </div>
+    <div class="flexcolumn" style="flex:1 1 42.5%;">
+      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Issue To">
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="IssuedToName" style="flex:1 1 250px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="IssuedToAttention" style="flex:1 1 250px;"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="IssuedToAttention2" style="flex:1 1 250px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="IssuedToAddress1" style="flex:1 1 250px;"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="IssuedToAddress2" style="flex:1 1 250px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="BillToCity" style="flex:1 1 250px;"></div>
+          <div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="IssuedToState" style="flex:1 1 100px;"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="IssuedToZipCode" style="flex:1 1 100px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="validation" data-validationname="CountryValidation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="IssuedToCountryId" data-displayfield="IssuedToCountry" style="flex:1 1 250px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="flexcolumn" style="flex:1 1 42.5%;">
+      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bill To">
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Different Than Issue To Address" data-datafield="BillToAddressDifferentFromIssuedToAddress" style="flex:1 1 250px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Name" data-datafield="BillToName" data-enabled="false" style="flex:1 1 250px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Attention" data-datafield="BillToAttention" data-enabled="false" style="flex:1 1 250px;"></div>
+          <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="" data-datafield="BillToAttention2" data-enabled="false" style="flex:1 1 250px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Address" data-datafield="BillToAddress1" data-enabled="false" style="flex:1 1 250px;"></div>
+          <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="" data-datafield="BillToAddress2" data-enabled="false" style="flex:1 1 250px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="City" data-datafield="BillToCity" data-enabled="false" style="flex:1 1 250px;"></div>
+          <div data-control="FwFormField" data-type="validation" data-validationname="StateValidation" class="differentaddress fwcontrol fwformfield" data-caption="State/Province" data-datafield="BillToState" data-enabled="false" style="flex:1 1 100px;"></div>
+          <div data-control="FwFormField" data-type="text" class="differentaddress fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="BillToZipCode" data-enabled="false" style="flex:1 1 100px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="validation" data-validationname="CountryValidation" class="differentaddress fwcontrol fwformfield" data-caption="Country" data-datafield="BillToCountryId" data-displayfield="BillToCountry" data-enabled="false" style="flex:1 1 250px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+      <!-- Options -->
+      <!--<div class="flexrow">
+    <div class="flexcolumn" style="flex:1 1 400px;">
+      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="No Charge">
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="No Charge" data-datafield="NoCharge" style="flex:1 1 75px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Reason" data-datafield="NoChargeReason" style="flex:1 1 350px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="flexcolumn" style="flex:1 1 675px;">
+      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Rental Items to go Out again after being Checked-In without increasing the Order quantity" data-datafield="RoundTripRentals" style="flex:1 1 650px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Discount Reason" data-datafield="DiscountReasonId" data-displayfield="DiscountReason" data-validationname="DiscountReasonValidation" style="flex:1 1 250px; float:left;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+        -->
       <!-- DELIVER/SHIP TAB -->
       <div data-type="tabpage" id="delivershiptabpage" class="tabpage" data-tabid="delivershiptab">
         <div class="flexpage">

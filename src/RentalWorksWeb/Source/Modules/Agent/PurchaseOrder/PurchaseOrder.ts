@@ -1530,6 +1530,9 @@ class PurchaseOrder implements IModule {
             $form.find('.contractSubModule').empty().append(this.openContractBrowse($form));
         }
 
+        const enableProjects = FwFormField.getValueByDataField($form, 'EnableProjects');
+        enableProjects ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
+
         this.renderScheduleDateAndTimeSection($form, response);
         this.applyTaxOptions($form, response);
     };
@@ -2352,6 +2355,12 @@ class PurchaseOrder implements IModule {
                 e.stopImmediatePropagation();
                 FwNotification.renderNotification('WARNING', 'Save Record first.');
             }
+        });
+
+        //Toggle projects tab based on Department
+        $form.find('[data-datafield="DepartmentId"]').data('onchange', $tr => {
+            const enableProjects = FwBrowse.getValueByDataField($form, $tr, 'EnableProjects');
+            enableProjects === 'true' ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
         });
     };
     //----------------------------------------------------------------------------------------------

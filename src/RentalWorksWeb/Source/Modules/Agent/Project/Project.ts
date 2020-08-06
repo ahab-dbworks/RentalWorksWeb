@@ -128,11 +128,28 @@ class Project {
 
         FwModule.loadForm(this.Module, $form);
 
+        $form.find('.order-tabpage').append(this.addSubModuleBrowse($form, 'Order'));
+        $form.find('.quote-tabpage').append(this.addSubModuleBrowse($form, 'Quote'));
+        $form.find('.purchaseorder-tabpage').append(this.addSubModuleBrowse($form, 'PurchaseOrder'));
+
         return $form;
     }
     //-----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
+    }
+    //-----------------------------------------------------------------------------------------------
+    addSubModuleBrowse($form: JQuery, module: string) {
+        let $browse = null;
+        if (typeof window[`${module}Controller`] !== undefined && typeof window[`${module}Controller`].openBrowse === 'function') {
+            $browse = (<any>window)[`${module}Controller`].openBrowse();
+            $browse.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
+                };
+            });
+        }
+        return $browse;
     }
     //-----------------------------------------------------------------------------------------------
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
