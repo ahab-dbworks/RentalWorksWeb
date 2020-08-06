@@ -748,7 +748,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             }
             if (DiscountPercent.HasValue)
             {
-                DiscountPercent = Math.Round(DiscountPercent.Value, 2);
+                DiscountPercent = Math.Round(DiscountPercent.Value, 10);
             }
 
 
