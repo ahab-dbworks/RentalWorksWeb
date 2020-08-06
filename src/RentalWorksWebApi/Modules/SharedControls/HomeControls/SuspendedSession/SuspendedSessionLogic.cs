@@ -60,6 +60,8 @@ namespace WebApi.Modules.HomeControls.SuspendedSession
         public bool? IsForcedSuspend { get; set; }
         [FwLogicProperty(Id: "GfdsT0Y5OyCJe", IsReadOnly: true)]
         public string ContainerItemId { get; set; }
+        [FwLogicProperty(Id: "gA1nFledMjxxg", IsReadOnly: true)]
+        public string ContainerScannableItemId { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

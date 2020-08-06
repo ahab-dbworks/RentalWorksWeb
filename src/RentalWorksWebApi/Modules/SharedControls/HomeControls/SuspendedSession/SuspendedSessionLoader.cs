@@ -81,8 +81,11 @@ namespace WebApi.Modules.HomeControls.SuspendedSession
         [FwSqlDataField(column: "forcedsuspend", modeltype: FwDataTypes.Boolean)]
         public bool? IsForcedSuspend { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "containerrentalitemid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string ContainerItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerrentalitemid", modeltype: FwDataTypes.Text)]
+        public string ContainerScannableItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
