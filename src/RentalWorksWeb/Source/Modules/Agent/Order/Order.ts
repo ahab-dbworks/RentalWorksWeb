@@ -1881,26 +1881,26 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="projecttabpage" class="tabpage" data-tabid="projecttab">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Project">
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectValidation" class="fwcontrol fwformfield" data-displayfield="Project" data-caption="Project" data-datafield="ProjectId" style="flex:0 1 250px;"></div>
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectNumberValidation" class="fwcontrol fwformfield" data-displayfield="ProjectNumber" data-caption="Project No." data-datafield="ProjectId" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectValidation" class="fwcontrol fwformfield" data-displayfield="Project" data-caption="Project" data-datafield="ProjectId" style="flex:0 1 450px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectNumberValidation" class="fwcontrol fwformfield" data-displayfield="ProjectNumber" data-caption="Project No." data-datafield="ProjectId" style="flex:0 1 200px;"></div>
                     </div>
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectAsBuildValidation" class="fwcontrol fwformfield" data-caption="Project As Build" data-datafield="ProjectAsBuildId" data-displayfield="ProjectAsBuild" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectAsBuildValidation" class="fwcontrol fwformfield" data-caption="Project As Build" data-datafield="ProjectAsBuildId" data-displayfield="ProjectAsBuild" style="flex:0 1 450px;"></div>
                     </div>
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectCommissioningValidation" class="fwcontrol fwformfield" data-caption="Project Commissioning" data-datafield="ProjectCommissioningId" data-displayfield="ProjectCommissioning" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectCommissioningValidation" class="fwcontrol fwformfield" data-caption="Project Commissioning" data-datafield="ProjectCommissioningId" data-displayfield="ProjectCommissioning" style="flex:0 1 450px;"></div>
                      </div>
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDepositValidation" class="fwcontrol fwformfield" data-caption="Project Deposit" data-datafield="ProjectDepositId" data-displayfield="ProjectDeposit" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDepositValidation" class="fwcontrol fwformfield" data-caption="Project Deposit" data-datafield="ProjectDepositId" data-displayfield="ProjectDeposit" style="flex:0 1 450px;"></div>
                      </div>
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDrawingsValidation" class="fwcontrol fwformfield" data-caption="Project Drawings" data-datafield="ProjectDrawingsId" data-displayfield="ProjectDrawings" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDrawingsValidation" class="fwcontrol fwformfield" data-caption="Project Drawings" data-datafield="ProjectDrawingsId" data-displayfield="ProjectDrawings" style="flex:0 1 450px;"></div>
                      </div>
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDropShipItemsValidation" class="fwcontrol fwformfield" data-caption="Project Drop Ship Items" data-datafield="ProjectDropShipId" data-displayfield="ProjectDropShip" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectDropShipItemsValidation" class="fwcontrol fwformfield" data-caption="Project Drop Ship Items" data-datafield="ProjectDropShipId" data-displayfield="ProjectDropShip" style="flex:0 1 450px;"></div>
                     </div>
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectItemsOrderedValidation" class="fwcontrol fwformfield" data-caption="Project Items Ordered" data-datafield="ProjectItemsOrderedId" data-displayfield="ProjectItemsOrdered" style="flex:0 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="ProjectItemsOrderedValidation" class="fwcontrol fwformfield" data-caption="Project Items Ordered" data-datafield="ProjectItemsOrderedId" data-displayfield="ProjectItemsOrdered" style="flex:0 1 450px;"></div>
                     </div>
                 </div>
               </div>
