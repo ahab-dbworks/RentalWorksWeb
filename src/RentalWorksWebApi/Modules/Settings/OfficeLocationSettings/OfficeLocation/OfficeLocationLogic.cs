@@ -189,6 +189,32 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         public string DateStamp { get { return location.DateStamp; } set { location.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    if (string.IsNullOrEmpty(DefaultCurrencyId))
+                    {
+                        isValid = false;
+                        validateMsg = "Default Currency is required on new Office Locations.";
+                    }
+                }
+                else // updating
+                {
+                    if ((DefaultCurrencyId != null) && (DefaultCurrencyId.Equals(string.Empty)))
+                    {
+                        isValid = false;
+                        validateMsg = "Default Currency is required.";
+                    }
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             if (DefaultCurrencyId != null)
