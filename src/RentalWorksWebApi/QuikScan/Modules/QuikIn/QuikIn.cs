@@ -1,23 +1,30 @@
-﻿using Fw.Json.Services.Common;
-using Fw.Json.SqlServer;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using RentalWorksQuikScan.Source;
-using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
+using System.Threading.Tasks;
+using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class QuikIn
+    public class QuikIn : QuikScanModule
     {
+        RwAppData AppData;
+        //----------------------------------------------------------------------------------------------------
+        public QuikIn(FwApplicationConfig applicationConfig) : base(applicationConfig)
+        {
+            this.AppData = new RwAppData(applicationConfig);
+        }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public void QuikInSessionSearch(dynamic request, dynamic response, dynamic session)
+        public async Task QuikInSessionSearch(dynamic request, dynamic response, dynamic session)
         {
-            using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
-                    var userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
+                    var userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
                     FwSqlSelect select = new FwSqlSelect();
                     select.PageNo = request.pageno;
                     select.PageSize = request.pagesize;
@@ -27,21 +34,21 @@ namespace RentalWorksQuikScan.Modules
                     select.Add("  and warehouseid = @warehouseid");
                     select.Add("order by sessionno desc");
                     select.AddParameter("@warehouseid", userLocation.warehouseId);
-                    response.searchresults = qry.QueryToFwJsonTable(select, true);
+                    response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
                 }
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "sessionno")]
-        public void PdaSelectSession(dynamic request, dynamic response, dynamic session)
+        public async Task PdaSelectSession(dynamic request, dynamic response, dynamic session)
         {
-            using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.pdaselectsession"))
+                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.pdaselectsession", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     sp.AddParameter("@sessionno", request.sessionno);
                     sp.AddParameter("@moduletype", "Q");
-                    sp.AddParameter("@usersid", RwAppData.GetUsersId(session));
+                    sp.AddParameter("@usersid", this.AppData.GetUsersId(session));
                     sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output, 08);
                     sp.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Output, 08);
                     sp.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Output, 08);
@@ -57,7 +64,7 @@ namespace RentalWorksQuikScan.Modules
                     sp.AddParameter("@username", SqlDbType.NVarChar, ParameterDirection.Output, 255);
                     sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output, 64);
                     sp.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output, 255);
-                    sp.Execute();
+                    await sp.ExecuteAsync();
                     response.contractId = sp.GetParameter("@contractid").ToString();
                     response.orderId = sp.GetParameter("@orderid").ToString();
                     response.dealId = sp.GetParameter("@dealid").ToString();
@@ -76,14 +83,14 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "code,contractId")]
-        public void PdaQuikInItem(dynamic request, dynamic response, dynamic session)
+        public async Task PdaQuikInItem(dynamic request, dynamic response, dynamic session)
         {
-            using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.pdaquikinitem"))
+                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.pdaquikinitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     sp.AddParameter("@code", request.code);
-                    sp.AddParameter("@usersid", RwAppData.GetUsersId(session));
+                    sp.AddParameter("@usersid", this.AppData.GetUsersId(session));
                     sp.AddParameter("@incontractid", SqlDbType.Char, ParameterDirection.InputOutput, request.contractId);
                     sp.AddParameter("@orderno", SqlDbType.VarChar, ParameterDirection.Output, 255);
                     sp.AddParameter("@masterno", SqlDbType.VarChar, ParameterDirection.Output, 255);
@@ -98,7 +105,7 @@ namespace RentalWorksQuikScan.Modules
                     sp.AddParameter("@genericmsg", SqlDbType.VarChar, ParameterDirection.Output, 255);
                     sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output, 255);
-                    sp.Execute();
+                    await sp.ExecuteNonQueryAsync();
                     response.contractId = sp.GetParameter("@incontractid").ToString().Trim();
                     response.orderNo = sp.GetParameter("@orderno").ToString().Trim();
                     response.masterNo = sp.GetParameter("@masterno").ToString().Trim();
@@ -118,15 +125,15 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "code,contractId,qty")]
-        public void QuikInAddItem(dynamic request, dynamic response, dynamic session)
+        public async Task QuikInAddItem(dynamic request, dynamic response, dynamic session)
         {
             string inContractId = request.contractId;
             int qty = request.qty;
-            string usersid = RwAppData.GetUsersId(session);
+            string usersid = this.AppData.GetUsersId(session);
             const string ACTION_PROMPT_FOR_QTY = "ACTION_PROMPT_FOR_QTY";
             const string ACTION_DISPLAY_ERROR = "ACTION_DISPLAY_ERROR";
             const string ACTION_QUIKINADDITEM = "ACTION_QUIKINADDITEM";
-            using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
                 if (string.IsNullOrEmpty(inContractId))
                 {
@@ -135,11 +142,11 @@ namespace RentalWorksQuikScan.Modules
                     response.msg = "Invalid Session";
                     return;
                 }
-                using (FwSqlCommand qry = new FwSqlCommand(conn))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Add("select contractby = dbo.getcontractcancelledby(@incontractid)");
                     qry.AddParameter("@incontractid", inContractId);
-                    qry.Execute();
+                    await qry.ExecuteAsync();
                     string contractby = qry.GetField("contractby").ToString().TrimEnd();
                     if (!string.IsNullOrEmpty(contractby))
                     {
@@ -149,11 +156,11 @@ namespace RentalWorksQuikScan.Modules
                         return;
                     }
                 }
-                using (FwSqlCommand qry = new FwSqlCommand(conn))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Add("select contractby = dbo.getcontractcreatedby(@incontractid)");
                     qry.AddParameter("@incontractid", inContractId);
-                    qry.Execute();
+                    await qry.ExecuteAsync();
                     string contractby = qry.GetField("contractby").ToString().TrimEnd();
                     if (!string.IsNullOrEmpty(contractby))
                     {
@@ -163,7 +170,7 @@ namespace RentalWorksQuikScan.Modules
                         return;
                     }
                 }
-                dynamic itemInfo = RwAppData.WebGetItemStatus(conn: FwSqlConnection.RentalWorks,
+                dynamic itemInfo = await this.AppData.WebGetItemStatusAsync(conn: conn,
                                                               usersId: usersid,
                                                               barcode: request.code);
                 string trackedby = itemInfo.trackedby;
@@ -185,7 +192,7 @@ namespace RentalWorksQuikScan.Modules
                 else 
                 if (trackedby == "QUANTITY")
                 {
-                    //using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+                    //using (FwSqlCommand qry = new FwSqlCommand(conn))
                     //{
                     //    qry.Add("select top 1 *");
                     //    qry.Add("from dbo.funcqiquantity(@contractid, @dealid, @departmentid, @rectype, @groupitems @warehouseid)");
@@ -250,7 +257,7 @@ namespace RentalWorksQuikScan.Modules
                     code = string.Empty;
                     orderby = "999999";
                 }
-                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.quikinadditem"))
+                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.quikinadditem", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     sp.AddParameter("@code", code);
                     sp.AddParameter("@contractid", inContractId);
@@ -271,7 +278,7 @@ namespace RentalWorksQuikScan.Modules
                     sp.AddParameter("@trackedby", SqlDbType.VarChar, ParameterDirection.Output, 255);
                     sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output, 255);
-                    sp.Execute();
+                    await sp.ExecuteAsync();
                     response.action = ACTION_QUIKINADDITEM;
                     response.status = sp.GetParameter("@status").ToInt32();
                     response.msg = sp.GetParameter("@msg").ToString().TrimEnd();
@@ -327,32 +334,38 @@ namespace RentalWorksQuikScan.Modules
         }
         //----------------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "contractId")]
-        public static void SessionInSearch(dynamic request, dynamic response, dynamic session)
+        public async Task SessionInSearch(dynamic request, dynamic response, dynamic session)
         {
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlSelect select = new FwSqlSelect();
-                select.PageNo = request.pageno;
-                select.PageSize = request.pagesize;
-                select.Add("select *");
-                select.Add("from dbo.funcqiitem(@contractid)");
-                select.Add("order by scannedbydatetime desc");
-                select.AddParameter("@contractid", request.contractId);
-                response.searchresults = qry.QueryToFwJsonTable(select, true);
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                {
+                    FwSqlSelect select = new FwSqlSelect();
+                    select.PageNo = request.pageno;
+                    select.PageSize = request.pagesize;
+                    select.Add("select *");
+                    select.Add("from dbo.funcqiitem(@contractid)");
+                    select.Add("order by scannedbydatetime desc");
+                    select.AddParameter("@contractid", request.contractId);
+                    response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
+                } 
             }
         }
         //----------------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "internalchar,quikinitemid")]
-        public static void CancelItem(dynamic request, dynamic response, dynamic session)
+        public async Task CancelItem(dynamic request, dynamic response, dynamic session)
         {
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                qry.Add("delete");
-                qry.Add("from quikinitem");
-                qry.Add("where internalchar = @internalchar and quikinitemid = @quikinitemid");
-                qry.AddParameter("@internalchar", request.internalchar);
-                qry.AddParameter("@quikinitemid", request.quikinitemid);
-                qry.ExecuteNonQuery();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("delete");
+                    qry.Add("from quikinitem");
+                    qry.Add("where internalchar = @internalchar and quikinitemid = @quikinitemid");
+                    qry.AddParameter("@internalchar", request.internalchar);
+                    qry.AddParameter("@quikinitemid", request.quikinitemid);
+                    await qry.ExecuteNonQueryAsync();
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------

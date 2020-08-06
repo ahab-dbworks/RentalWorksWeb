@@ -1,18 +1,25 @@
-﻿using Fw.Json.Services.Common;
-using Fw.Json.SqlServer;
-using FwStandard.Models;
+﻿using FwStandard.Models;
 using FwStandard.Reporting;
+using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using RentalWorksQuikScan.Source;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
+using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class OutContractReport
+    class OutContractReport : QuikScanModule
     {
+        RwAppData AppData;
+        //----------------------------------------------------------------------------------------------------
+        public OutContractReport(FwApplicationConfig applicationConfig) : base(applicationConfig)
+        {
+            this.AppData = new RwAppData(applicationConfig);
+        }
         //---------------------------------------------------------------------------------------------
         public class JwtResponse
         {
@@ -27,13 +34,13 @@ namespace RentalWorksQuikScan.Modules
             public string pdfReportDownloadUrl { get; set; } = string.Empty;
         }
         //---------------------------------------------------------------------------------------------
-        public void EmailPdf(string usersid, string webusersid, string contractid, string from, string to, string cc, string subject, string body)
+        public async Task EmailPdfAsync(string usersid, string webusersid, string contractid, string from, string to, string cc, string subject, string body)
         {
             if (from.Length == 0)
             {
                 throw new ArgumentException("From email address is required.");
             }
-            string webApiBaseUrl = Fw.Json.ValueTypes.FwApplicationConfig.CurrentSite.WebApi.Url.TrimEnd(new char[] { '/' }) + "/"; // mv 2018-06-26 
+            string webApiBaseUrl = this.ApplicationConfig.PublicBaseUrl.TrimEnd(new char[] { '/' }) + "/"; // mv 2018-06-26 
             if (string.IsNullOrEmpty(webApiBaseUrl))
             {
                 throw new Exception("Unable to send email. WebApi url has not been configured.");
@@ -44,20 +51,19 @@ namespace RentalWorksQuikScan.Modules
 
             string username = string.Empty;
             string password = string.Empty;
-            using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, FwQueryTimeouts.Default))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Add("select top 1 username = userloginname, password = dbo.decrypt(userpassword)");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
                     qry.AddParameter("@webusersid", webusersid);
-                    qry.Execute();
+                    await qry.ExecuteAsync();
                     username = qry.GetField("username").ToString().TrimEnd();
                     password = qry.GetField("password").ToString().TrimEnd();
-                }
+                } 
             }
-
             HttpRequestMessage requestJwtToken = new HttpRequestMessage(HttpMethod.Post, "api/v1/jwt");
             requestJwtToken.Content = new StringContent("{ \"UserName\": \"" + username + "\", \"Password\": \"" + password + "\"}", 
                                     Encoding.UTF8, 

@@ -1,76 +1,87 @@
-﻿using Fw.Json.Services.Common;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.Utilities;
 using RentalWorksQuikScan.Source;
 using System;
 using System.Data;
 using System.Dynamic;
+using System.Threading.Tasks;
+using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class AssetDisposition
+    public class AssetDisposition : QuikScanModule
     {
-        //---------------------------------------------------------------------------------------------
-        [FwJsonServiceMethod]
-        public static void GetSearchResults(dynamic request, dynamic response, dynamic session)
-        {
-            string searchmode = request.searchmode;
-            var userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
-            {
-                qry.AddColumn("thumbnail", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.JpgDataUrl);
-                FwSqlSelect select = new FwSqlSelect();
-                select.PageNo   = request.pageno;
-                select.PageSize = request.pagesize;
-                select.Add("select distinct masterno, master, department, production, setcharacter, setno, thumbnail = cast(thumbnail as varbinary(max)), barcode, manufacturer, refnobox, refnopallet");
-                select.Add("from funcitemdispositionweb(@warehouseid)");
-                select.Parse();
-                switch (searchmode)
-                {
-                    case "code":
-                        select.AddWhere("(masterno = @searchvalue) or (barcode = @searchvalue)");
-                        select.AddOrderBy("masterno");
-                        select.AddParameter("@searchvalue", request.searchvalue);
-                        break;
-                    case "description":
-                        select.AddWhere("master like @searchvalue");
-                        select.AddOrderBy("master");
-                        select.AddOrderBy("masterno");
-                        select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
-                        break;
-                    case "department":
-                        select.AddWhere("department like @searchvalue");
-                        select.AddOrderBy("department");
-                        select.AddOrderBy("masterno");
-                        select.AddParameter("@searchvalue", request.searchvalue + "%");
-                        break;
-                    case "production":
-                        select.AddWhere("production like @searchvalue");
-                        select.AddOrderBy("production");
-                        select.AddOrderBy("masterno");
-                        select.AddParameter("@searchvalue", request.searchvalue + "%");
-                        break;
-                    case "setcharacter":
-                        select.AddWhere("setcharacter like @searchvalue");
-                        select.AddOrderBy("setcharacter");
-                        select.AddOrderBy("masterno");
-                        select.AddParameter("@searchvalue", request.searchvalue + "%");
-                        break;
-                    case "setno":
-                        select.AddWhere("setno like @searchvalue");
-                        select.AddOrderBy("setno");
-                        select.AddOrderBy("masterno");
-                        select.AddParameter("@searchvalue", request.searchvalue);
-                        break;
-                }
-                select.AddParameter("@warehouseid", userLocation.warehouseId);
-                response.searchresults = qry.QueryToFwJsonTable(select, true);
-            }
-            
+        RwAppData AppData;
+        //----------------------------------------------------------------------------------------------------
+        public AssetDisposition(FwApplicationConfig applicationConfig) : base(applicationConfig) 
+        { 
+            this.AppData = new RwAppData(applicationConfig); 
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void GetItemStatus(dynamic request, dynamic response, dynamic session)
+        public async Task GetSearchResults(dynamic request, dynamic response, dynamic session)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                string searchmode = request.searchmode;
+                var userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddColumn("thumbnail", false, FwDataTypes.JpgDataUrl);
+                    FwSqlSelect select = new FwSqlSelect();
+                    select.PageNo = request.pageno;
+                    select.PageSize = request.pagesize;
+                    select.Add("select distinct masterno, master, department, production, setcharacter, setno, thumbnail = cast(thumbnail as varbinary(max)), barcode, manufacturer, refnobox, refnopallet");
+                    select.Add("from funcitemdispositionweb(@warehouseid)");
+                    select.Parse();
+                    switch (searchmode)
+                    {
+                        case "code":
+                            select.AddWhere("(masterno = @searchvalue) or (barcode = @searchvalue)");
+                            select.AddOrderBy("masterno");
+                            select.AddParameter("@searchvalue", request.searchvalue);
+                            break;
+                        case "description":
+                            select.AddWhere("master like @searchvalue");
+                            select.AddOrderBy("master");
+                            select.AddOrderBy("masterno");
+                            select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
+                            break;
+                        case "department":
+                            select.AddWhere("department like @searchvalue");
+                            select.AddOrderBy("department");
+                            select.AddOrderBy("masterno");
+                            select.AddParameter("@searchvalue", request.searchvalue + "%");
+                            break;
+                        case "production":
+                            select.AddWhere("production like @searchvalue");
+                            select.AddOrderBy("production");
+                            select.AddOrderBy("masterno");
+                            select.AddParameter("@searchvalue", request.searchvalue + "%");
+                            break;
+                        case "setcharacter":
+                            select.AddWhere("setcharacter like @searchvalue");
+                            select.AddOrderBy("setcharacter");
+                            select.AddOrderBy("masterno");
+                            select.AddParameter("@searchvalue", request.searchvalue + "%");
+                            break;
+                        case "setno":
+                            select.AddWhere("setno like @searchvalue");
+                            select.AddOrderBy("setno");
+                            select.AddOrderBy("masterno");
+                            select.AddParameter("@searchvalue", request.searchvalue);
+                            break;
+                    }
+                    select.AddParameter("@warehouseid", userLocation.warehouseId);
+                    response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
+                } 
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public async Task GetItemStatus(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "GetItemStatus";
             string masterid = "";
@@ -78,9 +89,9 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "barcode");
             string rentalitemid = string.Empty;
 
-            using (FwSqlConnection conn = FwSqlConnection.RentalWorks)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.webgetitemstatus"))
+                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.webgetitemstatus", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     sp.AddParameter("@code",                 request.barcode);
                     sp.AddParameter("@usersid",              session.security.webUser.usersid);
@@ -132,7 +143,7 @@ namespace RentalWorksQuikScan.Modules
                     sp.AddParameter("@rfid",                 SqlDbType.VarChar,  ParameterDirection.Output);
                     sp.AddParameter("@status",               SqlDbType.Int,      ParameterDirection.Output);
                     sp.AddParameter("@msg",                  SqlDbType.NVarChar, ParameterDirection.Output);
-                    sp.Execute();
+                    await sp.ExecuteAsync();
                     dynamic result       = new ExpandoObject();
                     result.isICode       = sp.GetParameter("@isicode").ToBoolean();
                     result.warehouseId   = FwCryptography.AjaxEncrypt(sp.GetParameter("@warehouseid").ToString().TrimEnd());
@@ -176,90 +187,95 @@ namespace RentalWorksQuikScan.Modules
                     result.msg           = sp.GetParameter("@msg").ToString().TrimEnd();
                     response.webGetItemStatus = result;
                 }
-            }
 
-
-                //response.webGetItemStatus = RwAppData.WebGetItemStatus(conn: FwSqlConnection.RentalWorks,
+                //response.webGetItemStatus = RwAppData.WebGetItemStatus(conn: conn,
                 //                                                       usersId: session.security.webUser.usersid,
                 //                                                       barcode: request.barcode);
-            dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks,session.security.webUser.usersid);
-            response.funcMasterWh = RwAppData.FuncMasterWh(conn:              FwSqlConnection.RentalWorks,
-                                                           masterid:          masterid,
-                                                           userswarehouseid:  userLocation.warehouseId,
-                                                           filterwarehouseid: string.Empty,
-                                                           currencyid:        string.Empty);
+                dynamic userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
+                response.funcMasterWh = await this.AppData.FuncMasterWhAsync(conn: conn,
+                                                               masterid: masterid,
+                                                               userswarehouseid: userLocation.warehouseId,
+                                                               filterwarehouseid: string.Empty,
+                                                               currencyid: string.Empty);
 
-            if (response.webGetItemStatus.trackedby != "QUANTITY")
-            {
-                response.appImages = RwAppData.GetPrimaryAppImageThumbnail(conn:        FwSqlConnection.RentalWorks
-                                                                         , uniqueid1:   rentalitemid
-                                                                         , uniqueid2:   string.Empty
-                                                                         , uniqueid3:   string.Empty
-                                                                         , description: string.Empty
-                                                                         , rectype:     string.Empty);
-                
-            }
-            if ((response.webGetItemStatus.trackedby == "QUANTITY") || (response.appImages.Length == 0))
-            {
-                response.appImages = RwAppData.GetPrimaryAppImageThumbnail(conn:        FwSqlConnection.RentalWorks
-                                                                         , uniqueid1:   masterid
-                                                                         , uniqueid2:   string.Empty
-                                                                         , uniqueid3:   string.Empty
-                                                                         , description: string.Empty
-                                                                         , rectype:     string.Empty);
-            }
-        }
-        //---------------------------------------------------------------------------------------------
-        [FwJsonServiceMethod]
-        public static void GetMaxRetireQty(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "GetMaxRetireQty";
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "masterid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
-            dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks,session.security.webUser.usersid);
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
-            {
-                qry.Add("select top 1 qtyout");
-                qry.Add("from funcicodeoutonorders(@masterid)");
-                qry.Add("where orderid = @orderid");
-                qry.AddParameter("@masterid", FwCryptography.AjaxDecrypt(request.masterid));
-                qry.AddParameter("@orderid", FwCryptography.AjaxDecrypt(request.orderid));
-                qry.AddParameter("@warehouseid", userLocation.warehouseId);
-                qry.Execute();
-                response.maxretireqty = qry.GetField("qtyout").ToInt32();
+                if (response.webGetItemStatus.trackedby != "QUANTITY")
+                {
+                    response.appImages = await this.AppData.GetPrimaryAppImageThumbnailAsync(conn: conn
+                                                                             , uniqueid1: rentalitemid
+                                                                             , uniqueid2: string.Empty
+                                                                             , uniqueid3: string.Empty
+                                                                             , description: string.Empty
+                                                                             , rectype: string.Empty);
+
+                }
+                if ((response.webGetItemStatus.trackedby == "QUANTITY") || (response.appImages.Length == 0))
+                {
+                    response.appImages = await this.AppData.GetPrimaryAppImageThumbnailAsync(conn: conn
+                                                                             , uniqueid1: masterid
+                                                                             , uniqueid2: string.Empty
+                                                                             , uniqueid3: string.Empty
+                                                                             , description: string.Empty
+                                                                             , rectype: string.Empty);
+                }
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void RetireItem(dynamic request, dynamic response, dynamic session)
+        public async Task GetMaxRetireQty(dynamic request, dynamic response, dynamic session)
         {
-            const string METHOD_NAME = "RetireItem";
-        
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "isicode");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "barcode");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "masterno");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "qty");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "retiredreasonid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "lossamount");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "notes");
-            session.userLocation   = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
-            string orderid = FwCryptography.AjaxDecrypt(request.orderid);
-            response.assetDisposition = RwAppData.AssetDisposition(
-                conn:                FwSqlConnection.RentalWorks, 
-                isicode:             request.isicode, 
-                barcode:             request.barcode,
-                orderid:             orderid, 
-                masterno:            request.masterno, 
-                qty:                 FwConvert.ToDecimal(request.qty), 
-                retiredreasonid:     FwCryptography.AjaxDecrypt(request.retiredreasonid), 
-                lossamount:          FwConvert.ToDecimal(request.lossamount), 
-                notes:               request.notes, 
-                usersid:             session.security.webUser.usersid, 
-                warehouseid:         string.IsNullOrEmpty(orderid) ? session.userLocation.warehouseId : string.Empty);
-            if (response.assetDisposition.errno != 0)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                throw new Exception(response.assetDisposition.errmsg);
+                const string METHOD_NAME = "GetMaxRetireQty";
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "masterid");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
+                dynamic userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 qtyout");
+                    qry.Add("from funcicodeoutonorders(@masterid)");
+                    qry.Add("where orderid = @orderid");
+                    qry.AddParameter("@masterid", FwCryptography.AjaxDecrypt(request.masterid));
+                    qry.AddParameter("@orderid", FwCryptography.AjaxDecrypt(request.orderid));
+                    qry.AddParameter("@warehouseid", userLocation.warehouseId);
+                    await qry.ExecuteAsync();
+                    response.maxretireqty = qry.GetField("qtyout").ToInt32();
+                } 
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public async Task RetireItem(dynamic request, dynamic response, dynamic session)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                const string METHOD_NAME = "RetireItem";
+
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "isicode");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "barcode");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "masterno");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "qty");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "retiredreasonid");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "lossamount");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "notes");
+                session.userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
+                string orderid = FwCryptography.AjaxDecrypt(request.orderid);
+                response.assetDisposition = await this.AppData.AssetDispositionAsync(
+                    conn: conn,
+                    isicode: request.isicode,
+                    barcode: request.barcode,
+                    orderid: orderid,
+                    masterno: request.masterno,
+                    qty: FwConvert.ToDecimal(request.qty),
+                    retiredreasonid: FwCryptography.AjaxDecrypt(request.retiredreasonid),
+                    lossamount: FwConvert.ToDecimal(request.lossamount),
+                    notes: request.notes,
+                    usersid: session.security.webUser.usersid,
+                    warehouseid: string.IsNullOrEmpty(orderid) ? session.userLocation.warehouseId : string.Empty);
+                if (response.assetDisposition.errno != 0)
+                {
+                    throw new Exception(response.assetDisposition.errmsg);
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------

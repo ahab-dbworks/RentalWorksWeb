@@ -90,6 +90,10 @@
 /src/RentalWorksWebApi/wwwroot/Reports/
 /src/RentalWorksWebApi/WebpackReports/**/*.js
 /src/RentalWorksWebApi/WebpackReports/**/*.js.map
+/src/RentalWorksWebApi/QuikScan/Modules/**/*.js
+/src/RentalWorksWebApi/QuikScan/Modules/**/*.js.map
+/src/RentalWorksWebApi/QuikScan/Modules/**/*.js
+/src/RentalWorksWebApi/QuikScan/scripts/**/*.js.map
 
 /src/TrakitWorksWeb/App_Data/Temp/
 /src/TrakitWorksWeb/app_scripts.json

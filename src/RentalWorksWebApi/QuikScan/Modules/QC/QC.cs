@@ -1,103 +1,126 @@
-﻿using Fw.Json.Services.Common;
-using Fw.Json.SqlServer;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using RentalWorksQuikScan.Source;
 using System;
 using System.Data;
 using System.Dynamic;
+using System.Threading.Tasks;
+using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class QC
+    public class QC : QuikScanModule
     {
-        //---------------------------------------------------------------------------------------------
-        [FwJsonServiceMethod]
-        public void ItemScan(dynamic request, dynamic response, dynamic session)
-        {
-            response.qcitem     = WebCompleteQCItem(request.code, session.security.webUser.usersid);
-            response.itemstatus = RwAppData.WebGetItemStatus(FwSqlConnection.RentalWorks, session.security.webUser.usersid, request.code);
-            response.conditions = GetRentalConditions(response.itemstatus.masterId);
-        }
+        RwAppData AppData;
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebCompleteQCItem(string code, string usersid)
+        public QC(FwApplicationConfig applicationConfig) : base(applicationConfig)
         {
-            dynamic result;
-            FwSqlCommand sp;
-
-            sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.webcompleteqcitem");
-            sp.AddParameter("@code",           code);
-            sp.AddParameter("@usersid",        usersid);
-            sp.AddParameter("@masterno",       SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@rentalitemid",   SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@rentalitemqcid", SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@description",    SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@status",         SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@msg",            SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            result = new ExpandoObject();
-            result.masterNo       = sp.GetParameter("@masterno").ToString().Trim();
-            result.rentalitemid   = sp.GetParameter("@rentalitemid").ToString().Trim();
-            result.rentalitemqcid = sp.GetParameter("@rentalitemqcid").ToString().Trim();
-            result.description    = sp.GetParameter("@description").ToString().Trim();
-            result.status         = sp.GetParameter("@status").ToInt32();
-            result.msg            = sp.GetParameter("@msg").ToString().Trim();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        private static dynamic GetRentalConditions(string masterid)
-        {
-            dynamic result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.AddColumn("conditionid", false);
-            qry.AddColumn("condition", false);
-            qry.Add("select value = c.conditionid, text = c.condition");
-            qry.Add("from   condition c with (nolock)");
-            qry.Add("where  c.rental = 'T'");
-            qry.Add("  and  c.conditionid in (select conditionid from dbo.funcconditionfilter(@masterid))");
-            qry.AddParameter("@masterid", masterid);
-            qry.Execute();
-            result = qry.QueryToDynamicList2();
-
-            return result;
+            this.AppData = new RwAppData(applicationConfig);
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public void UpdateQCItem(dynamic request, dynamic response, dynamic session)
+        public async Task ItemScan(dynamic request, dynamic response, dynamic session)
         {
-            byte[] image;
-
-            if (!string.IsNullOrEmpty(request.conditionid) || !string.IsNullOrEmpty(request.note))
-            {
-                UpdateRentalItemQC(request.qcitem.rentalitemid, request.qcitem.rentalitemqcid, request.conditionid, request.note);
-            }
-
-            for (int i = 0; i < request.images.Length; i++)
-            {
-                image = Convert.FromBase64String(request.images[i]);
-                FwSqlData.InsertAppImage(FwSqlConnection.RentalWorks, request.qcitem.rentalitemqcid, string.Empty, string.Empty, string.Empty, string.Empty, "JPG", image);
+            using(FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+{
+                response.qcitem = await WebCompleteQCItemAsync(request.code, session.security.webUser.usersid);
+                response.itemstatus = await this.AppData.WebGetItemStatusAsync(conn, session.security.webUser.usersid, request.code);
+                response.conditions = await GetRentalConditionsAsync(response.itemstatus.masterId); 
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic UpdateRentalItemQC(string rentalitemid, string rentalitemqcid, string conditionid, string note)
+        public async Task<dynamic> WebCompleteQCItemAsync(string code, string usersid)
         {
-            dynamic result;
-            FwSqlCommand sp;
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                dynamic result;
+                FwSqlCommand sp;
 
-            sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.webupdaterentalitemqc");
-            sp.AddParameter("@rentalitemid",    rentalitemid);
-            sp.AddParameter("@rentalitemqcid",  rentalitemqcid);
-            sp.AddParameter("@conditionid",     conditionid);
-            sp.AddParameter("@note",            note);
-            sp.AddParameter("@errno",           SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            result        = new ExpandoObject();
-            result.errno  = sp.GetParameter("@errno").ToInt32();
-            result.errmsg = sp.GetParameter("@errmsg").ToString().Trim();
+                sp = new FwSqlCommand(conn, "dbo.webcompleteqcitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+                sp.AddParameter("@code", code);
+                sp.AddParameter("@usersid", usersid);
+                sp.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                sp.AddParameter("@rentalitemid", SqlDbType.Char, ParameterDirection.Output);
+                sp.AddParameter("@rentalitemqcid", SqlDbType.Char, ParameterDirection.Output);
+                sp.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                sp.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await sp.ExecuteAsync();
+                result = new ExpandoObject();
+                result.masterNo = sp.GetParameter("@masterno").ToString().Trim();
+                result.rentalitemid = sp.GetParameter("@rentalitemid").ToString().Trim();
+                result.rentalitemqcid = sp.GetParameter("@rentalitemqcid").ToString().Trim();
+                result.description = sp.GetParameter("@description").ToString().Trim();
+                result.status = sp.GetParameter("@status").ToInt32();
+                result.msg = sp.GetParameter("@msg").ToString().Trim();
 
-            return result;
+                return result; 
+            }
+        }
+        //----------------------------------------------------------------------------------------------------
+        private async Task<dynamic> GetRentalConditionsAsync(string masterid)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                dynamic result;
+                FwSqlCommand qry;
+
+                qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+                qry.AddColumn("conditionid", false);
+                qry.AddColumn("condition", false);
+                qry.Add("select value = c.conditionid, text = c.condition");
+                qry.Add("from   condition c with (nolock)");
+                qry.Add("where  c.rental = 'T'");
+                qry.Add("  and  c.conditionid in (select conditionid from dbo.funcconditionfilter(@masterid))");
+                qry.AddParameter("@masterid", masterid);
+                result = await qry.QueryToDynamicList2Async();
+
+                return result; 
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public async Task UpdateQCItemAsync(dynamic request, dynamic response, dynamic session)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                byte[] image;
+
+                if (!string.IsNullOrEmpty(request.conditionid) || !string.IsNullOrEmpty(request.note))
+                {
+                    await UpdateRentalItemQCAsync(request.qcitem.rentalitemid, request.qcitem.rentalitemqcid, request.conditionid, request.note);
+                }
+
+                for (int i = 0; i < request.images.Length; i++)
+                {
+                    image = Convert.FromBase64String(request.images[i]);
+                    await FwSqlData.InsertAppImageAsync(conn, this.ApplicationConfig.DatabaseSettings, request.qcitem.rentalitemqcid, string.Empty, string.Empty, string.Empty, string.Empty, "JPG", image);
+                } 
+            }
+        }
+        //----------------------------------------------------------------------------------------------------
+        public async Task<dynamic> UpdateRentalItemQCAsync(string rentalitemid, string rentalitemqcid, string conditionid, string note)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                dynamic result;
+                FwSqlCommand sp;
+
+                sp = new FwSqlCommand(conn, "dbo.webupdaterentalitemqc", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+                sp.AddParameter("@rentalitemid", rentalitemid);
+                sp.AddParameter("@rentalitemqcid", rentalitemqcid);
+                sp.AddParameter("@conditionid", conditionid);
+                sp.AddParameter("@note", note);
+                sp.AddParameter("@errno", SqlDbType.Int, ParameterDirection.Output);
+                sp.AddParameter("@errmsg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await sp.ExecuteNonQueryAsync();
+                result = new ExpandoObject();
+                result.errno = sp.GetParameter("@errno").ToInt32();
+                result.errmsg = sp.GetParameter("@errmsg").ToString().Trim();
+
+                return result; 
+            }
         }
         //---------------------------------------------------------------------------------------------
     }

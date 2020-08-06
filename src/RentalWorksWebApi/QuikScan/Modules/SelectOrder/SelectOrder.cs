@@ -1,23 +1,30 @@
-﻿using Fw.Json.Services;
-using Fw.Json.Services.Common;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.Utilities;
 using RentalWorksQuikScan.Source;
 using System;
+using System.Threading.Tasks;
+using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class SelectOrder
+    public class SelectOrder : QuikScanModule
     {
+        RwAppData AppData;
+        //----------------------------------------------------------------------------------------------------
+        public SelectOrder(FwApplicationConfig applicationConfig) : base(applicationConfig)
+        {
+            this.AppData = new RwAppData(applicationConfig);
+        }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void WebSelectOrder(dynamic request, dynamic response, dynamic session)
+        public async Task WebSelectOrder(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "SelectOrder.WebSelectOrder";
             RwAppData.ActivityType activityType;
             RwAppData.ModuleType moduleType;
             FwJsonDataTable dtSuspendedInContracts;
-            FwSqlConnection conn;
             string usersid, orderno, orderid, dealid, departmentid;
 
             
@@ -25,55 +32,57 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderNo");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "moduleType");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "activityType");
-            
-            conn                    = FwSqlConnection.RentalWorks;
-            usersid                 = session.security.webUser.usersid;
-            orderno                 = request.orderNo;
-            activityType            = (RwAppData.ActivityType)Enum.Parse(typeof(RwAppData.ActivityType), request.activityType);
-            moduleType              = (RwAppData.ModuleType)  Enum.Parse(typeof(RwAppData.ModuleType),   request.moduleType);
 
-            response.webSelectOrder = RwAppData.WebSelectOrder(conn, usersid, orderno, activityType, moduleType);
-            orderid                 = response.webSelectOrder.orderId;
-            dealid                  = response.webSelectOrder.dealId;
-            departmentid            = response.webSelectOrder.departmentId;
-            switch(activityType)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                case RwAppData.ActivityType.CheckIn:
-                    if (!string.IsNullOrEmpty(response.webSelectOrder.orderId))
-                    {
-                        switch(moduleType)
+                usersid = session.security.webUser.usersid;
+                orderno = request.orderNo;
+                activityType = (RwAppData.ActivityType)Enum.Parse(typeof(RwAppData.ActivityType), request.activityType);
+                moduleType = (RwAppData.ModuleType)Enum.Parse(typeof(RwAppData.ModuleType), request.moduleType);
+
+                response.webSelectOrder = await this.AppData.WebSelectOrderAsync(conn, usersid, orderno, activityType, moduleType);
+                orderid = response.webSelectOrder.orderId;
+                dealid = response.webSelectOrder.dealId;
+                departmentid = response.webSelectOrder.departmentId;
+                switch (activityType)
+                {
+                    case RwAppData.ActivityType.CheckIn:
+                        if (!string.IsNullOrEmpty(response.webSelectOrder.orderId))
                         {
-                            case RwAppData.ModuleType.Order:
-                            case RwAppData.ModuleType.Truck:
-                            case RwAppData.ModuleType.Transfer:
-                                dtSuspendedInContracts = RwAppData.GetSuspendedInContracts(FwSqlConnection.RentalWorks, moduleType, response.webSelectOrder.orderId, session.security.webUser.usersid);
-                                if (dtSuspendedInContracts.Rows.Count > 0)
-                                {
-                                    response.suspendedInContracts = dtSuspendedInContracts;
-                                }
-                                else
-                                {
-                                    response.contract = RwAppData.CreateNewInContractAndSuspend(conn, orderid, dealid, departmentid, usersid);
-                                }
-                                break;
-                            default:
-                                response.contract = RwAppData.CreateNewInContractAndSuspend(conn, orderid, dealid, departmentid, usersid);
-                                break;
+                            switch (moduleType)
+                            {
+                                case RwAppData.ModuleType.Order:
+                                case RwAppData.ModuleType.Truck:
+                                case RwAppData.ModuleType.Transfer:
+                                    dtSuspendedInContracts = await this.AppData.GetSuspendedInContractsAsync(conn, moduleType, response.webSelectOrder.orderId, session.security.webUser.usersid);
+                                    if (dtSuspendedInContracts.Rows.Count > 0)
+                                    {
+                                        response.suspendedInContracts = dtSuspendedInContracts;
+                                    }
+                                    else
+                                    {
+                                        response.contract = this.AppData.CreateNewInContractAndSuspendAsync(conn, orderid, dealid, departmentid, usersid);
+                                    }
+                                    break;
+                                default:
+                                    response.contract = this.AppData.CreateNewInContractAndSuspendAsync(conn, orderid, dealid, departmentid, usersid);
+                                    break;
+                            }
                         }
-                    }
-                    break;
-                case RwAppData.ActivityType.Staging:
-                    response.responsibleperson = RwAppData.GetResponsiblePerson(conn, orderid);
-                    if (response.responsibleperson.showresponsibleperson == "T")
-                    {
-                        response.responsibleperson.responsiblepersons = RwAppData.GetResponsiblePersons(conn: FwSqlConnection.RentalWorks);
-                    }
-                    break;
+                        break;
+                    case RwAppData.ActivityType.Staging:
+                        response.responsibleperson = await this.AppData.GetResponsiblePersonAsync(conn, orderid);
+                        if (response.responsibleperson.showresponsibleperson == "T")
+                        {
+                            response.responsibleperson.responsiblepersons = await this.AppData.GetResponsiblePersonsAsync(conn: conn);
+                        }
+                        break;
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void GetOrders(dynamic request, dynamic response, dynamic session)
+        public async Task GetOrders(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "GetOrders";
             string masterno = string.Empty;
@@ -84,51 +93,54 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "activitytype");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "pageno");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "pagesize");
-            session.userLocation   = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
-            if (FwValidate.IsPropertyDefined(request, "masterno"))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                masterno = request.masterno;
+                session.userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
+                if (FwValidate.IsPropertyDefined(request, "masterno"))
+                {
+                    masterno = request.masterno;
+                }
+                if (FwValidate.IsPropertyDefined(request, "orderno"))
+                {
+                    orderno = request.orderno;
+                }
+                if (FwValidate.IsPropertyDefined(request, "searchstring"))
+                {
+                    searchstring = request.searchstring;
+                }
+                response.GetOrders = await GetOrdersQueryAsync(conn: conn,
+                                                    moduletype: request.moduletype,
+                                                    activitytype: request.activitytype,
+                                                    pageno: request.pageno,
+                                                    pagesize: request.pagesize,
+                                                    warehouseid: session.userLocation.warehouseId,
+                                                    locationid: session.userLocation.locationId,
+                                                    masterno: masterno,
+                                                    orderno: orderno,
+                                                    searchstring: searchstring,
+                                                    usersid: session.security.webUser.usersid); 
             }
-            if (FwValidate.IsPropertyDefined(request, "orderno"))
-            {
-                orderno = request.orderno;
-            }
-            if (FwValidate.IsPropertyDefined(request, "searchstring"))
-            {
-                searchstring = request.searchstring;
-            }
-            response.GetOrders = GetOrdersQuery(conn:         FwSqlConnection.RentalWorks,
-                                                moduletype:   request.moduletype,
-                                                activitytype: request.activitytype,
-                                                pageno:       request.pageno,
-                                                pagesize:     request.pagesize,
-                                                warehouseid:  session.userLocation.warehouseId,
-                                                locationid:   session.userLocation.locationId,
-                                                masterno:     masterno,
-                                                orderno:      orderno,
-                                                searchstring: searchstring,
-                                                usersid:      session.security.webUser.usersid);
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable GetOrdersQuery(FwSqlConnection conn, string moduletype, string activitytype, int pageno, int pagesize, string warehouseid, string locationid, string masterno, string orderno, string searchstring, string usersid)
+        public async Task<FwJsonDataTable> GetOrdersQueryAsync(FwSqlConnection conn, string moduletype, string activitytype, int pageno, int pagesize, string warehouseid, string locationid, string masterno, string orderno, string searchstring, string usersid)
         {
             FwSqlCommand qry;
             FwJsonDataTable result;
 
             result = null;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             if (activitytype == RwConstants.ActivityTypes.Staging)
             {
                 if (moduletype == RwConstants.ModuleTypes.Order)
                 {
-                    qry.AddColumn("Desc",        "orderdesc",   FwJsonDataTableColumn.DataTypes.Text, false);
-                    qry.AddColumn("Status",      "status",      FwJsonDataTableColumn.DataTypes.Text, false);
-                    qry.AddColumn("Order No",    "orderno",     FwJsonDataTableColumn.DataTypes.Text, false);
-                    qry.AddColumn("Date",        "orderdate",   FwJsonDataTableColumn.DataTypes.Date, false);
-                    qry.AddColumn("Deal",        "deal",        FwJsonDataTableColumn.DataTypes.Text, false);
-                    qry.AddColumn("Est",         "estrentfrom", FwJsonDataTableColumn.DataTypes.Date, false);
-                    qry.AddColumn("",            "estrentto",   FwJsonDataTableColumn.DataTypes.Date, false);
-                    qry.AddColumn("As Of",       "statusdate",  FwJsonDataTableColumn.DataTypes.Date, false);
+                    qry.AddColumn("Desc",        "orderdesc",   FwDataTypes.Text, false);
+                    qry.AddColumn("Status",      "status",      FwDataTypes.Text, false);
+                    qry.AddColumn("Order No",    "orderno",     FwDataTypes.Text, false);
+                    qry.AddColumn("Date",        "orderdate",   FwDataTypes.Date, false);
+                    qry.AddColumn("Deal",        "deal",        FwDataTypes.Text, false);
+                    qry.AddColumn("Est",         "estrentfrom", FwDataTypes.Date, false);
+                    qry.AddColumn("",            "estrentto",   FwDataTypes.Date, false);
+                    qry.AddColumn("As Of",       "statusdate",  FwDataTypes.Date, false);
                     qry.Add("select orderdesc, status, orderno, orderdate, deal, estrentfrom, estrentto, statusdate");
                     qry.Add("from  dbo.funcorder('O' ,'F') o");
                     qry.Add("where o.ordertype = 'O'");
@@ -137,7 +149,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.Add("  and o.orderid not in (select distinct dod.purchaseinternalorderid from dealorderdetail dod with (nolock))");
                     //qry.Add("  and o.orderid not in (select os.sessionid");
                     //qry.Add("                        from  ordersession os with (nolock))");
-                    DepartmentFilter.SetDepartmentFilter(usersid, qry);
+                    await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, usersid, qry);
                     if (!string.IsNullOrEmpty(searchstring))
                     {
                         qry.Add("  and ((orderno = @searchstring) or (orderdesc like @searchstring2) or (deal like @searchstring2))");
@@ -149,11 +161,11 @@ namespace RentalWorksQuikScan.Modules
                 }
                 else if (moduletype == RwConstants.ModuleTypes.Truck)
                 {
-                    qry.AddColumn("orderno",    false, FwJsonDataTableColumn.DataTypes.Text);
-                    qry.AddColumn("orderdesc",  false, FwJsonDataTableColumn.DataTypes.Text);
-                    qry.AddColumn("department", false, FwJsonDataTableColumn.DataTypes.Text);
-                    qry.AddColumn("asof",       false, FwJsonDataTableColumn.DataTypes.Date);
-                    qry.AddColumn("status",     false, FwJsonDataTableColumn.DataTypes.Text);
+                    qry.AddColumn("orderno",    false, FwDataTypes.Text);
+                    qry.AddColumn("orderdesc",  false, FwDataTypes.Text);
+                    qry.AddColumn("department", false, FwDataTypes.Text);
+                    qry.AddColumn("asof",       false, FwDataTypes.Date);
+                    qry.AddColumn("status",     false, FwDataTypes.Text);
                     qry.Add("select orderno, orderdesc, department, asof, status");
                     qry.Add("from dbo.functruck() o");
                     qry.Add("where o.locationid = @locationid");
@@ -164,11 +176,11 @@ namespace RentalWorksQuikScan.Modules
                         qry.AddParameter("@searchstring", searchstring);
                         qry.AddParameter("@searchstring2", "%" + searchstring + "%");
                     }
-                    DepartmentFilter.SetDepartmentFilter(usersid, qry);
+                    await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, usersid, qry);
                     qry.Add("order by orderno");
                     qry.AddParameter("@locationid", locationid);
                 }
-                result = qry.QueryToFwJsonTable(pageno, pagesize);
+                result = await qry.QueryToFwJsonTableAsync(pageNo:pageno, pageSize:pagesize);
             }
             else if (activitytype == RwConstants.ActivityTypes.CheckIn)
             {
@@ -177,11 +189,11 @@ namespace RentalWorksQuikScan.Modules
                     qry.AddColumn("orderdesc", false);
                     qry.AddColumn("status", false);
                     qry.AddColumn("orderno", false);
-                    qry.AddColumn("orderdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                    qry.AddColumn("orderdate", false, FwDataTypes.Date);
                     qry.AddColumn("deal", false);
-                    qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
-                    qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
-                    qry.AddColumn("As Of",       "statusdate",  FwJsonDataTableColumn.DataTypes.Date, false);
+                    qry.AddColumn("estrentfrom", false, FwDataTypes.Date);
+                    qry.AddColumn("estrentto", false, FwDataTypes.Date);
+                    qry.AddColumn("As Of",       "statusdate",  FwDataTypes.Date, false);
                     qry.Add("select orderdesc, status, orderno, orderdate, deal, estrentfrom, estrentto, statusdate");
                     qry.Add("from  dbo.funcorder('O','F') o");
                     qry.Add("where o.ordertype = 'O'");
@@ -198,17 +210,17 @@ namespace RentalWorksQuikScan.Modules
                         qry.AddParameter("@searchstring", searchstring);
                         qry.AddParameter("@searchstring2", "%" + searchstring + "%");
                     }
-                    DepartmentFilter.SetDepartmentFilter(usersid, qry);
+                    await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, usersid, qry);
                     qry.Add("order by orderdate desc, orderno desc");
                     qry.AddParameter("@locationid", locationid);
                 }
                 else if (moduletype == RwConstants.ModuleTypes.Truck)
                 {
-                    qry.AddColumn("orderno",    false, FwJsonDataTableColumn.DataTypes.Text);
-                    qry.AddColumn("orderdesc",  false, FwJsonDataTableColumn.DataTypes.Text);
-                    qry.AddColumn("department", false, FwJsonDataTableColumn.DataTypes.Text);
-                    qry.AddColumn("asof",       false, FwJsonDataTableColumn.DataTypes.Date);
-                    qry.AddColumn("status",     false, FwJsonDataTableColumn.DataTypes.Text);
+                    qry.AddColumn("orderno",    false, FwDataTypes.Text);
+                    qry.AddColumn("orderdesc",  false, FwDataTypes.Text);
+                    qry.AddColumn("department", false, FwDataTypes.Text);
+                    qry.AddColumn("asof",       false, FwDataTypes.Date);
+                    qry.AddColumn("status",     false, FwDataTypes.Text);
                     qry.Add("select orderno, orderdesc, department, asof, status");
                     qry.Add("from dbo.functruck() o");
                     qry.Add("where o.locationid = @locationid");
@@ -220,22 +232,22 @@ namespace RentalWorksQuikScan.Modules
                         qry.AddParameter("@searchstring", searchstring);
                         qry.AddParameter("@searchstring2", "%" + searchstring + "%");
                     }
-                    DepartmentFilter.SetDepartmentFilter(usersid, qry);
+                    await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, usersid, qry);
                     qry.Add("order by orderno");
                     qry.AddParameter("@locationid", locationid);
                     qry.AddParameter("@warehouseid", warehouseid);
                 }
-                result = qry.QueryToFwJsonTable(pageno, pagesize);
+                result = await qry.QueryToFwJsonTableAsync(pageNo:pageno, pageSize:pagesize);
             }
             else if (activitytype == RwConstants.ActivityTypes.AssetDisposition)
             {
                 qry.AddColumn("orderid", false);    
                 qry.AddColumn("orderdesc", false);
                 qry.AddColumn("orderno", false);
-                qry.AddColumn("orderdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                qry.AddColumn("orderdate", false, FwDataTypes.Date);
                 qry.AddColumn("deal", false);
-                qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
-                qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
+                qry.AddColumn("estrentfrom", false, FwDataTypes.Date);
+                qry.AddColumn("estrentto", false, FwDataTypes.Date);
                 qry.Add("select o.orderid, o.orderdesc, o.orderno, o.orderdate, d.deal, o.estrentfrom, o.estrentto");
                 qry.Add("from dealorder o with (nolock) join deal d on (o.dealid = d.dealid)");
                 qry.Add("where o.ordertype = 'O'");
@@ -251,11 +263,11 @@ namespace RentalWorksQuikScan.Modules
                     qry.Add("  and o.orderno = @orderno");
                     qry.AddParameter("@orderno", orderno);
                 }
-                DepartmentFilter.SetDepartmentFilter(usersid, qry);
+                await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, usersid, qry);
                 qry.Add("order by o.orderdate desc, o.orderno desc");
                 qry.AddParameter("@warehouseid", warehouseid);
                 qry.AddParameter("@masterno", masterno);
-                result = qry.QueryToFwJsonTable();
+                result = await qry.QueryToFwJsonTableAsync();
             }
 
             return result;

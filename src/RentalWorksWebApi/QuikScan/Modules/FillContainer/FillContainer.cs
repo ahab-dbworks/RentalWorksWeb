@@ -1,84 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
-using Fw.Json.Services;
-using System.Dynamic;
-using Fw.Json.Services.Common;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.Utilities;
 using RentalWorksQuikScan.Source;
+using System;
+using System.Threading.Tasks;
+using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class FillContainer
+    public class FillContainer : QuikScanModule
     {
+        RwAppData AppData;
+        //----------------------------------------------------------------------------------------------------
+        public FillContainer(FwApplicationConfig applicationConfig) : base(applicationConfig)
+        {
+            this.AppData = new RwAppData(applicationConfig);
+        }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void CreateContainer(dynamic request, dynamic response, dynamic session)
+        public async Task CreateContainerAsync(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.CreateContainer";
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-            RwAppData.FillContainer_CreateContainer(conn:             FwSqlConnection.RentalWorks, 
-                                                    containeritemid:  request.containeritemid,
-                                                    loggedin_usersid: session.security.webUser.usersid);
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                await this.AppData.FillContainer_CreateContainerAsync(conn: conn,
+                                                                containeritemid: request.containeritemid,
+                                                                loggedin_usersid: session.security.webUser.usersid); 
+            }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void GetContainerItems(dynamic request, dynamic response, dynamic session)
+        public async Task GetContainerItemsAsync(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.GetContainerItems";
-            switch((string)request.mode)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                case "fillcontainer":
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-                    response.containeritems = RwAppData.GetContainerItemsFillContainer(conn:            FwSqlConnection.RentalWorks, 
-                                                                                       containeritemid: request.containeritemid);
-                    break;
-                case "checkin":
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-                    response.containeritems = RwAppData.GetContainerItemsCheckIn(conn:            FwSqlConnection.RentalWorks, 
-                                                                                 contractid:      request.contractid,
-                                                                                 containeritemid: request.containeritemid);
-                    break;
+                switch ((string)request.mode)
+                {
+                    case "fillcontainer":
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
+                        response.containeritems = await this.AppData.GetContainerItemsFillContainerAsync(conn: conn,
+                                                                                           containeritemid: request.containeritemid);
+                        break;
+                    case "checkin":
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
+                        response.containeritems = await this.AppData.GetContainerItemsCheckInAsync(conn: conn,
+                                                                                     contractid: request.contractid,
+                                                                                     containeritemid: request.containeritemid);
+                        break;
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void GetContainerPendingItems(dynamic request, dynamic response, dynamic session)
+        public async Task GetContainerPendingItems(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.GetContainerPendingItems";
-            session.user = RwAppData.GetUser(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
-            switch((string)request.mode)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                case "fillcontainer":
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-                    response.pendingitems = RwAppData.FillContainer_GetContainerPendingItemsFillContainer(conn:            FwSqlConnection.RentalWorks,
-                                                                                                          containeritemid: request.containeritemid);
-                    break;
-                case "checkin":
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "dealid");
-                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "departmentid");
-                    response.pendingitems = RwAppData.FillContainer_GetContainerPendingItemsCheckIn(conn: FwSqlConnection.RentalWorks,
-                                                                                                    contractid: request.contractid,
-                                                                                                    containeritemid: request.containeritemid,
-                                                                                                    dealid: request.dealid,
-                                                                                                    departmentid: request.departmentid,
-                                                                                                    orderid: request.orderid,
-                                                                                                    ordertype: "O",
-                                                                                                    tab: "SINGLE_ORDER",
-                                                                                                    calculatecounted: "F",
-                                                                                                    groupitems: "F",
-                                                                                                    warehouseid: "");
-                    break;
+                session.user = await this.AppData.GetUserAsync(conn, session.security.webUser.usersid);
+                switch ((string)request.mode)
+                {
+                    case "fillcontainer":
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
+                        response.pendingitems = await this.AppData.FillContainer_GetContainerPendingItemsFillContainerAsync(conn: conn,
+                                                                                                              containeritemid: request.containeritemid);
+                        break;
+                    case "checkin":
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "dealid");
+                        FwValidate.TestPropertyDefined(METHOD_NAME, request, "departmentid");
+                        response.pendingitems = await this.AppData.FillContainer_GetContainerPendingItemsCheckInAsync(conn: conn,
+                                                                                                        contractid: request.contractid,
+                                                                                                        containeritemid: request.containeritemid,
+                                                                                                        dealid: request.dealid,
+                                                                                                        departmentid: request.departmentid,
+                                                                                                        orderid: request.orderid,
+                                                                                                        ordertype: "O",
+                                                                                                        tab: "SINGLE_ORDER",
+                                                                                                        calculatecounted: "F",
+                                                                                                        groupitems: "F",
+                                                                                                        warehouseid: "");
+                        break;
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void SelectContainer(dynamic request, dynamic response, dynamic session)
+        public async Task SelectContainer(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.SelectContainer";
             string mode, warehouseid, barcode, usersid;
@@ -86,82 +99,85 @@ namespace RentalWorksQuikScan.Modules
 
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "mode");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "barcode");
-            response.serviceerrormessage = string.Empty;
-            usersid      = session.security.webUser.usersid;
-            session.user = RwAppData.GetUser(FwSqlConnection.RentalWorks, usersid);
-            mode         = request.mode;
-            warehouseid  = session.user.warehouseid;
-            barcode      = (request.barcode as string).ToUpper();
-            if (mode == "fillcontainer")
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                response.selectcontainer = RwAppData.FillContainer_SelectContainerForFillContainer(FwSqlConnection.RentalWorks, usersid, warehouseid, barcode, true, string.Empty, null, string.Empty);
-            }
-            else if (mode == "checkin")
-            {
-                FwValidate.TestPropertyDefined(METHOD_NAME, request, "checkin");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "moduleType");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "checkInMode");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "code");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "neworderaction");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "aisle");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "shelf");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "vendorid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "contractid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "orderid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "dealid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "departmentid");
-                // check if barcode is scannable item on container
-                if (!RwAppData.FillContainer_IsScannableItemOfAContainer(FwSqlConnection.RentalWorks, request.checkin.code))
+                response.serviceerrormessage = string.Empty;
+                usersid = session.security.webUser.usersid;
+                session.user = await this.AppData.GetUserAsync(conn, usersid);
+                mode = request.mode;
+                warehouseid = session.user.warehouseid;
+                barcode = (request.barcode as string).ToUpper();
+                if (mode == "fillcontainer")
                 {
-                    response.serviceerrormessage = "Bar Code: " + request.checkin.code + " is not the scannable item of a container.";
+                    response.selectcontainer = await this.AppData.FillContainer_SelectContainerForFillContainerAsync(conn, usersid, warehouseid, barcode, true, string.Empty, null, string.Empty);
                 }
-                if (string.IsNullOrEmpty(response.serviceerrormessage))
+                else if (mode == "checkin")
                 {
-                    container = RwAppData.FillContainer_FuncGetContainer(conn:        FwSqlConnection.RentalWorks,
-                                                           barcode:     request.checkin.code,
-                                                           warehouseid: warehouseid);
-                    if (container == null)
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "checkin");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "moduleType");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "checkInMode");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "code");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "neworderaction");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "aisle");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "shelf");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "vendorid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "contractid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "orderid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "dealid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request.checkin, "departmentid");
+                    // check if barcode is scannable item on container
+                    if (!await this.AppData.FillContainer_IsScannableItemOfAContainerAsync(conn, request.checkin.code))
                     {
-                        response.serviceerrormessage = "Container not found.";
+                        response.serviceerrormessage = "Bar Code: " + request.checkin.code + " is not the scannable item of a container.";
                     }
-                }
-                if (string.IsNullOrEmpty(response.serviceerrormessage))
-                {
-                    checkingetiteminfo = RwAppData.CheckInGetItemInfo(conn:            FwSqlConnection.RentalWorks,
-                                                                      barcode:         request.checkin.code,
-                                                                      incontractid:    request.checkin.contractid,
-                                                                      usersid:         usersid,
-                                                                      bctype:          "O",
-                                                                      containeritemid: container.containeritemid,
-                                                                      orderid:         request.checkin.orderid,
-                                                                      dealid:          request.checkin.dealid,
-                                                                      departmentid:    request.checkin.departmentid,
-                                                                      masteritemid:    "",
-                                                                      rentalitemid:    "");
-                    if ((checkingetiteminfo.status == 0)
-                        || (checkingetiteminfo.status == 1002) // Already in this Session
-                        || (checkingetiteminfo.status == 1011) // primary item is already in the container
-                       )
+                    if (string.IsNullOrEmpty(response.serviceerrormessage))
                     {
-                        string containerid = string.Empty;
-                        string containerdesc = string.Empty;
-                        if (FwValidate.IsPropertyDefined(request.checkin, "containerdesc"))
+                        container = await this.AppData.FillContainer_FuncGetContainerAsync(conn: conn,
+                                                               barcode: request.checkin.code,
+                                                               warehouseid: warehouseid);
+                        if (container == null)
                         {
-                            containerid   = FwCryptography.AjaxDecrypt(request.checkin.containerid);
-                            containerdesc = request.checkin.containerdesc;
+                            response.serviceerrormessage = "Container not found.";
                         }
-                        response.selectcontainer = RwAppData.FillContainer_SelectContainerForCheckIn(FwSqlConnection.RentalWorks, usersid, warehouseid, barcode, true, request.checkin.contractid, checkingetiteminfo, containerid, containerdesc, request.checkin.orderid, request.checkin.dealid, request.checkin.departmentid);
                     }
-                    else
+                    if (string.IsNullOrEmpty(response.serviceerrormessage))
                     {
-                        response.serviceerrormessage = checkingetiteminfo.msg;
+                        checkingetiteminfo = await this.AppData.CheckInGetItemInfoAsync(conn: conn,
+                                                                          barcode: request.checkin.code,
+                                                                          incontractid: request.checkin.contractid,
+                                                                          usersid: usersid,
+                                                                          bctype: "O",
+                                                                          containeritemid: container.containeritemid,
+                                                                          orderid: request.checkin.orderid,
+                                                                          dealid: request.checkin.dealid,
+                                                                          departmentid: request.checkin.departmentid,
+                                                                          masteritemid: "",
+                                                                          rentalitemid: "");
+                        if ((checkingetiteminfo.status == 0)
+                            || (checkingetiteminfo.status == 1002) // Already in this Session
+                            || (checkingetiteminfo.status == 1011) // primary item is already in the container
+                           )
+                        {
+                            string containerid = string.Empty;
+                            string containerdesc = string.Empty;
+                            if (FwValidate.IsPropertyDefined(request.checkin, "containerdesc"))
+                            {
+                                containerid = FwCryptography.AjaxDecrypt(request.checkin.containerid);
+                                containerdesc = request.checkin.containerdesc;
+                            }
+                            response.selectcontainer = await this.AppData.FillContainer_SelectContainerForCheckInAsync(conn, usersid, warehouseid, barcode, true, request.checkin.contractid, checkingetiteminfo, containerid, containerdesc, request.checkin.orderid, request.checkin.dealid, request.checkin.departmentid);
+                        }
+                        else
+                        {
+                            response.serviceerrormessage = checkingetiteminfo.msg;
+                        }
                     }
-                }
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void InstantiateContainer(dynamic request, dynamic response, dynamic session)
+        public async Task InstantiateContainerAsync(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.InstantiateContainer";
             string mode, barcode, containerid, rentalitemid, usersid, warehouseid;
@@ -171,187 +187,196 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "barcode");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "containerid");
 
-            mode         = request.mode;
-            barcode      = request.barcode;
-            containerid  = FwCryptography.AjaxDecrypt(request.containerid);
-            rentalitemid = FwSqlCommand.GetData(FwSqlConnection.RentalWorks, "rentalitem", "barcode", barcode, "rentalitemid").ToString().TrimEnd();
-            autostageacc = true;
-            usersid      = session.security.webUser.usersid;
-            session.user = RwAppData.GetUser(FwSqlConnection.RentalWorks, usersid);
-            warehouseid  = session.user.warehouseid;
-            fromcheckin  = (request.mode == "checkin");
-            response.serviceerrormessage = string.Empty;
-            response.instantiatecontainer = RwAppData.InstantiateContainer(FwSqlConnection.RentalWorks, containerid, rentalitemid, autostageacc, usersid, fromcheckin);
-            if (request.mode == "fillcontainer")
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                response.selectcontainer      = RwAppData.FillContainer_SelectContainerForFillContainer(FwSqlConnection.RentalWorks, usersid, warehouseid, barcode, true, string.Empty, null, string.Empty);
-            }
-            else if (request.mode == "checkin")
-            {
-                response.selectcontainer      = RwAppData.FillContainer_SelectContainerForCheckIn(FwSqlConnection.RentalWorks, usersid, warehouseid, barcode, false, string.Empty, null, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+                mode = request.mode;
+                barcode = request.barcode;
+                containerid = FwCryptography.AjaxDecrypt(request.containerid);
+                rentalitemid = (await FwSqlCommand.GetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "rentalitem", "barcode", barcode, "rentalitemid")).ToString().TrimEnd();
+                autostageacc = true;
+                usersid = session.security.webUser.usersid;
+                session.user = await this.AppData.GetUserAsync(conn, usersid);
+                warehouseid = session.user.warehouseid;
+                fromcheckin = (request.mode == "checkin");
+                response.serviceerrormessage = string.Empty;
+                response.instantiatecontainer = await this.AppData.InstantiateContainerAsync(conn, containerid, rentalitemid, autostageacc, usersid, fromcheckin);
+                if (request.mode == "fillcontainer")
+                {
+                    response.selectcontainer = await this.AppData.FillContainer_SelectContainerForFillContainerAsync(conn, usersid, warehouseid, barcode, true, string.Empty, null, string.Empty);
+                }
+                else if (request.mode == "checkin")
+                {
+                    response.selectcontainer = await this.AppData.FillContainer_SelectContainerForCheckInAsync(conn, usersid, warehouseid, barcode, false, string.Empty, null, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void AddAllQtyItemsToContainer(dynamic request, dynamic response, dynamic session)
+        public async Task AddAllQtyItemsToContainerAsync(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.AddAllQtyItemsToContainer";
-            FwJsonDataTable dtPendingList;
-            string masterno, masteritemid, masterid, trackedby, contractid, warehouseid, usersid, parentid;
-            decimal missingqty;
-            dynamic userLocation;
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                FwJsonDataTable dtPendingList;
+                string masterno, masteritemid, masterid, trackedby, contractid, warehouseid, usersid, parentid;
+                decimal missingqty;
+                dynamic userLocation;
 
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "mode");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
-            if (request.mode == "fillcontainer")
-            {
-                FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-            }
-            else if (request.mode == "checkin")
-            {
-                FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeroutcontractid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request, "dealid");
-                FwValidate.TestPropertyDefined(METHOD_NAME, request, "departmentid");
-            }
-            session.user = RwAppData.GetUser(conn:    FwSqlConnection.RentalWorks
-                                            , usersId: session.security.webUser.usersid);
-            if (session.user.qsallowapplyallqtyitems != "T")
-            {
-                throw new Exception("You do not have permission to Add All Quantity Items");
-            }
-            //orderid       = request.orderid;
-            contractid    = request.contractid;
-            usersid       = session.security.webUser.usersid;
-            userLocation  = RwAppData.GetUserLocation(conn:    FwSqlConnection.RentalWorks
-                                                    , usersId: usersid);
-            warehouseid   = userLocation.warehouseId;
-            switch((string)request.mode)
-            {
-                case "fillcontainer":
-                    dtPendingList = RwAppData.FillContainer_GetContainerPendingItemsFillContainer(conn:            FwSqlConnection.RentalWorks,
-                                                                                                  containeritemid: request.containeritemid);
-                    break;
-                case "checkin":
-                    dtPendingList = RwAppData.FillContainer_GetContainerPendingItemsCheckIn(conn:             FwSqlConnection.RentalWorks,
-                                                                                            contractid:       contractid,
-                                                                                            containeritemid:  request.containeritemid,
-                                                                                            dealid:           request.dealid,
-                                                                                            departmentid:     request.departmentid,
-                                                                                            orderid:          "", //orderid,
-                                                                                            ordertype:        "O",
-                                                                                            tab:              "SINGLE_ORDER",
-                                                                                            calculatecounted: "F",
-                                                                                            groupitems:       "F",
-                                                                                            warehouseid:      ""); //warehouseid);
-                    break;
-                default: throw new Exception("mode is invalid");
-            }
-            for(int rowno = 0; rowno < dtPendingList.Rows.Count; rowno++)
-            {
-                trackedby    = dtPendingList.GetValue(rowno, "trackedby").ToString();
-                if (trackedby.Equals("QUANTITY"))
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "mode");
+                FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
+                if (request.mode == "fillcontainer")
                 {
-                    if (request.mode == "fillcontainer")
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
+                }
+                else if (request.mode == "checkin")
+                {
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeroutcontractid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "dealid");
+                    FwValidate.TestPropertyDefined(METHOD_NAME, request, "departmentid");
+                }
+                session.user = await this.AppData.GetUserAsync(conn: conn
+                                                , usersId: session.security.webUser.usersid);
+                if (session.user.qsallowapplyallqtyitems != "T")
+                {
+                    throw new Exception("You do not have permission to Add All Quantity Items");
+                }
+                //orderid       = request.orderid;
+                contractid = request.contractid;
+                usersid = session.security.webUser.usersid;
+                userLocation = await this.AppData.GetUserLocationAsync(conn: conn
+                                                        , usersId: usersid);
+                warehouseid = userLocation.warehouseId;
+                switch ((string)request.mode)
+                {
+                    case "fillcontainer":
+                        dtPendingList = await this.AppData.FillContainer_GetContainerPendingItemsFillContainerAsync(conn: conn,
+                                                                                                      containeritemid: request.containeritemid);
+                        break;
+                    case "checkin":
+                        dtPendingList = await this.AppData.FillContainer_GetContainerPendingItemsCheckInAsync(conn: conn,
+                                                                                                contractid: contractid,
+                                                                                                containeritemid: request.containeritemid,
+                                                                                                dealid: request.dealid,
+                                                                                                departmentid: request.departmentid,
+                                                                                                orderid: "", //orderid,
+                                                                                                ordertype: "O",
+                                                                                                tab: "SINGLE_ORDER",
+                                                                                                calculatecounted: "F",
+                                                                                                groupitems: "F",
+                                                                                                warehouseid: ""); //warehouseid);
+                        break;
+                    default: throw new Exception("mode is invalid");
+                }
+                for (int rowno = 0; rowno < dtPendingList.Rows.Count; rowno++)
+                {
+                    trackedby = dtPendingList.GetValue(rowno, "trackedby").ToString();
+                    if (trackedby.Equals("QUANTITY"))
                     {
-                        masterno     = dtPendingList.GetValue(rowno, "masterno").ToString();
-                        masteritemid = dtPendingList.GetValue(rowno, "masteritemid").ToString();
-                        missingqty   = dtPendingList.GetValue(rowno, "missingqty").ToDecimal();
-                        dynamic pdastageitem = RwAppData.PdaStageItem(conn:                 FwSqlConnection.RentalWorks,
-                                                                      orderid:              request.containeritemid,
-                                                                      code:                 masterno,
-                                                                      masteritemid:         masteritemid,
-                                                                      usersid:              usersid,
-                                                                      qty:                  missingqty,
-                                                                      additemtoorder:       false,
-                                                                      addcompletetoorder:   false,
-                                                                      releasefromrepair:    false,
-                                                                      unstage:              false,
-                                                                      vendorid:             string.Empty, 
-                                                                      meter:                0, 
-                                                                      location:             string.Empty, 
-                                                                      spaceid:              string.Empty, 
-                                                                      addcontainertoorder:  false, 
-                                                                      overridereservation:  false, 
-                                                                      stageconsigned:       false, 
-                                                                      transferrepair:       false, 
-                                                                      removefromcontainer:  false, 
-                                                                      contractid:           request.containeroutcontractid, 
-                                                                      ignoresuspendedin:    false, 
-                                                                      consignorid:          string.Empty, 
-                                                                      consignoragreementid: string.Empty,
-                                                                      spacetypeid:          string.Empty,
-                                                                      facilitiestypeid:     string.Empty);
-                    }
-                    else if (request.mode == "checkin")
-                    {
-                        masterno     = dtPendingList.GetValue(rowno, "masterno").ToString();
-                        masteritemid = dtPendingList.GetValue(rowno, "masteritemid").ToString();
-                        masterid     = dtPendingList.GetValue(rowno, "masterid").ToString();
-                        missingqty   = dtPendingList.GetValue(rowno, "missingqty").ToDecimal();
-                        parentid     = dtPendingList.GetValue(rowno, "parentid").ToString();
-                        dynamic webcheckinitem = RwAppData.WebCheckInItem(conn:                   FwSqlConnection.RentalWorks,
-                                                                          usersId:                usersid,
-                                                                          moduleType:             RwAppData.ModuleType.Order,
-                                                                          checkInMode:            RwAppData.CheckInMode.SingleOrder,
-                                                                          code:                   masterno,
-                                                                          masterItemId:           masteritemid,
-                                                                          qty:                    missingqty,
-                                                                          newOrderAction:         "",
-                                                                          containeritemid:        request.containeritemid,
-                                                                          containeroutcontractid: request.containeroutcontractid,
-                                                                          aisle:                  string.Empty,
-                                                                          shelf:                  string.Empty,
-                                                                          parentid:               parentid,
-                                                                          vendorId:               string.Empty,
-                                                                          disablemultiorder:      false,
-                                                                          contractId:             contractid,
-                                                                          orderId:                dtPendingList.GetValue(rowno, "orderid").ToString(),
-                                                                          dealId:                 request.dealid,
-                                                                          departmentId:           request.departmentid,
-                                                                          trackedby:              "",
-                                                                          spaceid:                "",
-                                                                          spacetypeid:            "",
-                                                                          facilitiestypeid:       "");
+                        if (request.mode == "fillcontainer")
+                        {
+                            masterno = dtPendingList.GetValue(rowno, "masterno").ToString();
+                            masteritemid = dtPendingList.GetValue(rowno, "masteritemid").ToString();
+                            missingqty = dtPendingList.GetValue(rowno, "missingqty").ToDecimal();
+                            dynamic pdastageitem = await this.AppData.PdaStageItemAsync(conn: conn,
+                                                                          orderid: request.containeritemid,
+                                                                          code: masterno,
+                                                                          masteritemid: masteritemid,
+                                                                          usersid: usersid,
+                                                                          qty: missingqty,
+                                                                          additemtoorder: false,
+                                                                          addcompletetoorder: false,
+                                                                          releasefromrepair: false,
+                                                                          unstage: false,
+                                                                          vendorid: string.Empty,
+                                                                          meter: 0,
+                                                                          location: string.Empty,
+                                                                          spaceid: string.Empty,
+                                                                          addcontainertoorder: false,
+                                                                          overridereservation: false,
+                                                                          stageconsigned: false,
+                                                                          transferrepair: false,
+                                                                          removefromcontainer: false,
+                                                                          contractid: request.containeroutcontractid,
+                                                                          ignoresuspendedin: false,
+                                                                          consignorid: string.Empty,
+                                                                          consignoragreementid: string.Empty,
+                                                                          spacetypeid: string.Empty,
+                                                                          facilitiestypeid: string.Empty);
+                        }
+                        else if (request.mode == "checkin")
+                        {
+                            masterno = dtPendingList.GetValue(rowno, "masterno").ToString();
+                            masteritemid = dtPendingList.GetValue(rowno, "masteritemid").ToString();
+                            masterid = dtPendingList.GetValue(rowno, "masterid").ToString();
+                            missingqty = dtPendingList.GetValue(rowno, "missingqty").ToDecimal();
+                            parentid = dtPendingList.GetValue(rowno, "parentid").ToString();
+                            dynamic webcheckinitem = await this.AppData.WebCheckInItemAsync(conn: conn,
+                                                                              usersId: usersid,
+                                                                              moduleType: RwAppData.ModuleType.Order,
+                                                                              checkInMode: RwAppData.CheckInMode.SingleOrder,
+                                                                              code: masterno,
+                                                                              masterItemId: masteritemid,
+                                                                              qty: missingqty,
+                                                                              newOrderAction: "",
+                                                                              containeritemid: request.containeritemid,
+                                                                              containeroutcontractid: request.containeroutcontractid,
+                                                                              aisle: string.Empty,
+                                                                              shelf: string.Empty,
+                                                                              parentid: parentid,
+                                                                              vendorId: string.Empty,
+                                                                              disablemultiorder: false,
+                                                                              contractId: contractid,
+                                                                              orderId: dtPendingList.GetValue(rowno, "orderid").ToString(),
+                                                                              dealId: request.dealid,
+                                                                              departmentId: request.departmentid,
+                                                                              trackedby: "",
+                                                                              spaceid: "",
+                                                                              spacetypeid: "",
+                                                                              facilitiestypeid: "");
+                        }
                     }
                 }
-            }
-            switch((string)request.mode)
-            {
-                case "fillcontainer":
-                    response.pendingitems = RwAppData.FillContainer_GetContainerPendingItemsFillContainer(conn:            FwSqlConnection.RentalWorks,
-                                                                                                          containeritemid: request.containeritemid);
-                    break;
-                case "checkin":
-                    response.pendingitems = RwAppData.FillContainer_GetContainerPendingItemsCheckIn(conn:             FwSqlConnection.RentalWorks,
-                                                                                                    contractid:       contractid,
-                                                                                                    containeritemid:  request.containeritemid,
-                                                                                                    dealid:           request.dealid,
-                                                                                                    departmentid:     request.departmentid,
-                                                                                                    orderid:          "", //request.orderid,
-                                                                                                    ordertype:        "O",
-                                                                                                    tab:              "SINGLE_ORDER",
-                                                                                                    calculatecounted: "F",
-                                                                                                    groupitems:       "F",
-                                                                                                    warehouseid:      ""); //session.user.warehouseid);
-                    break;
+                switch ((string)request.mode)
+                {
+                    case "fillcontainer":
+                        response.pendingitems = await this.AppData.FillContainer_GetContainerPendingItemsFillContainerAsync(conn: conn,
+                                                                                                              containeritemid: request.containeritemid);
+                        break;
+                    case "checkin":
+                        response.pendingitems = await this.AppData.FillContainer_GetContainerPendingItemsCheckInAsync(conn: conn,
+                                                                                                        contractid: contractid,
+                                                                                                        containeritemid: request.containeritemid,
+                                                                                                        dealid: request.dealid,
+                                                                                                        departmentid: request.departmentid,
+                                                                                                        orderid: "", //request.orderid,
+                                                                                                        ordertype: "O",
+                                                                                                        tab: "SINGLE_ORDER",
+                                                                                                        calculatecounted: "F",
+                                                                                                        groupitems: "F",
+                                                                                                        warehouseid: ""); //session.user.warehouseid);
+                        break;
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void SetContainerNo(dynamic request, dynamic response, dynamic session)
+        public async Task SetContainerNo(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.SetContainerNo";
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "rentalitemid");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "containerno");
-            response.containerno = RwAppData.FillContainer_SetContainerNo(conn:         FwSqlConnection.RentalWorks,
-                                                            rentalitemid: request.rentalitemid,
-                                                            containerno:  request.containerno);
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                response.containerno = await this.AppData.FillContainer_SetContainerNoAsync(conn: conn,
+                                                                        rentalitemid: request.rentalitemid,
+                                                                        containerno: request.containerno); 
+            }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void RemoveItemFromContainer(dynamic request, dynamic response, dynamic session)
+        public async Task RemoveItemFromContainer(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.RemoveItemFromContainer";
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
@@ -359,81 +384,93 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "masteritemid");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "qty");
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "containeritemid");
-            response.advancedmovemasteritemid = RwAppData.AdvancedMoveMasterItemId(conn:         FwSqlConnection.RentalWorks,
-                                                                                   contractid:   request.contractid,
-                                                                                   vendorid:     request.vendorid,
-                                                                                   masteritemid: request.masteritemid,
-                                                                                   qty:          request.qty,
-                                                                                   usersid:      session.security.webUser.usersid,
-                                                                                   movemode:     4);
-            switch((string)request.mode)
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                case "fillcontainer":
-                    response.pendingitems = RwAppData.FillContainer_GetContainerPendingItemsFillContainer(conn:            FwSqlConnection.RentalWorks,
-                                                                                                          containeritemid: request.containeritemid);
-                    break;
-                case "checkin":
-                    response.pendingitems = RwAppData.FillContainer_GetContainerPendingItemsCheckIn(conn:             FwSqlConnection.RentalWorks,
-                                                                                                    contractid:       request.contractid,
-                                                                                                    containeritemid:  request.containeritemid,
-                                                                                                    dealid:           request.dealid,
-                                                                                                    departmentid:     request.departmentid,
-                                                                                                    orderid:          "", //request.orderid,
-                                                                                                    ordertype:        "O",
-                                                                                                    tab:              "SINGLE_ORDER",
-                                                                                                    calculatecounted: "F",
-                                                                                                    groupitems:       "F",
-                                                                                                    warehouseid:      ""); //session.user.warehouseid);
-                    break;
+                response.advancedmovemasteritemid = await this.AppData.AdvancedMoveMasterItemIdAsync(conn: conn,
+                                                                                               contractid: request.contractid,
+                                                                                               vendorid: request.vendorid,
+                                                                                               masteritemid: request.masteritemid,
+                                                                                               qty: request.qty,
+                                                                                               usersid: session.security.webUser.usersid,
+                                                                                               movemode: 4);
+                switch ((string)request.mode)
+                {
+                    case "fillcontainer":
+                        response.pendingitems = await this.AppData.FillContainer_GetContainerPendingItemsFillContainerAsync(conn: conn,
+                                                                                                              containeritemid: request.containeritemid);
+                        break;
+                    case "checkin":
+                        response.pendingitems = await this.AppData.FillContainer_GetContainerPendingItemsCheckInAsync(conn: conn,
+                                                                                                        contractid: request.contractid,
+                                                                                                        containeritemid: request.containeritemid,
+                                                                                                        dealid: request.dealid,
+                                                                                                        departmentid: request.departmentid,
+                                                                                                        orderid: "", //request.orderid,
+                                                                                                        ordertype: "O",
+                                                                                                        tab: "SINGLE_ORDER",
+                                                                                                        calculatecounted: "F",
+                                                                                                        groupitems: "F",
+                                                                                                        warehouseid: ""); //session.user.warehouseid);
+                        break;
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void CloseContainer(dynamic request, dynamic response, dynamic session)
+        public async Task CloseContainerAsync(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.CloseContainer";
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
-            if (RwAppData.ContractIsEmpty(conn:       FwSqlConnection.RentalWorks,
-                                          contractid: request.contractid))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                RwAppData.CancelContract(conn:       FwSqlConnection.RentalWorks,
-                                         contractid: request.contractid,
-                                         usersid:    session.security.webUser.usersid,
-                                         failSilentlyOnOwnershipErrors: false);
-            }
-            else
-            {
-                using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "checkinassignsuspendedcontainers"))
+                if (await this.AppData.ContractIsEmptyAsync(conn: conn,
+                                                      contractid: request.contractid))
                 {
-                    sp.AddParameter("@contractid", request.contractid);
-                    sp.AddParameter("@usersid", session.security.webUser.usersid);
-                    sp.ExecuteNonQuery();
+                    await this.AppData.CancelContractAsync(conn: conn,
+                                             contractid: request.contractid,
+                                             usersid: session.security.webUser.usersid,
+                                             failSilentlyOnOwnershipErrors: false);
                 }
+                else
+                {
+                    using (FwSqlCommand sp = new FwSqlCommand(conn, "checkinassignsuspendedcontainers", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        sp.AddParameter("@contractid", request.contractid);
+                        sp.AddParameter("@usersid", session.security.webUser.usersid);
+                        await sp.ExecuteNonQueryAsync();
+                    }
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void HasCheckinFillContainerButton(dynamic request, dynamic response, dynamic session)
+        public async Task HasCheckinFillContainerButton(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.HasCheckinFillContainerButton";
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
-            response.hasCheckinFillContainerButton = RwAppData.HasCheckinFillContainerButton(conn:       FwSqlConnection.RentalWorks,
-                                                                                             contractid: request.contractid);
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                response.hasCheckinFillContainerButton = await this.AppData.HasCheckinFillContainerButtonAsync(conn: conn,
+                                                                                                         contractid: request.contractid); 
+            }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void GetDefaultContainerDescCheckIn(dynamic request, dynamic response, dynamic session)
+        public async Task GetDefaultContainerDescCheckIn(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "FillContainer.GetDefaultContainerDescCheckIn";
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "barcode");
-            string usersid       = session.security.webUser.usersid;
-            dynamic userLocation  = RwAppData.GetUserLocation(conn:    FwSqlConnection.RentalWorks
-                                                    , usersId: usersid);
-            string warehouseid   = userLocation.warehouseId;;
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                string usersid = session.security.webUser.usersid;
+                dynamic userLocation = await this.AppData.GetUserLocationAsync(conn: conn
+                                                        , usersId: usersid);
+                string warehouseid = userLocation.warehouseId; ;
 
-            response.defaultcontainerdesc = RwAppData.FillContainer_GetDefaultContainerDescCheckIn(conn:        FwSqlConnection.RentalWorks,
-                                                                                                   barcode:     request.barcode,
-                                                                                                   warehouseid: warehouseid);
+                response.defaultcontainerdesc = await this.AppData.FillContainer_GetDefaultContainerDescCheckInAsync(conn: conn,
+                                                                                                       barcode: request.barcode,
+                                                                                                       warehouseid: warehouseid); 
+            }
         }
         //---------------------------------------------------------------------------------------------
     }

@@ -1,16 +1,23 @@
-﻿using Fw.Json.Services;
-using Fw.Json.SqlServer;
+﻿using FwStandard.Models;
+using FwStandard.SqlServer;
 using RentalWorksQuikScan.Modules.ExchangeModels;
+using System.Threading.Tasks;
 
 namespace RentalWorksQuikScan.Modules
 {
     public class ExchangeValidDlg
     {
+        FwApplicationConfig ApplicationConfig;
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable InNonBC(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
+        public ExchangeValidDlg(FwApplicationConfig applicationConfig)
+        {
+            this.ApplicationConfig = applicationConfig;
+        }
+        //---------------------------------------------------------------------------------------------
+        public async Task<FwJsonDataTable> InNonBCAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
         {
             FwJsonDataTable searchresults = null;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -45,15 +52,15 @@ namespace RentalWorksQuikScan.Modules
                     select.AddParameter("@masterid", exchange.validDlg.masterid);
                 }
                 select.AddOrderBy("description");
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable InSerial(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
+        public async Task<FwJsonDataTable> InSerialAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
         {
             FwJsonDataTable searchresults = null;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -82,15 +89,15 @@ namespace RentalWorksQuikScan.Modules
                     select.AddParameter("@serialno", exchange.validDlg.serialno);
                 }
                 select.AddOrderBy("description");
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable OutNonBc(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
+        public async Task<FwJsonDataTable> OutNonBcAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
         {
             FwJsonDataTable searchresults = null;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -134,15 +141,15 @@ namespace RentalWorksQuikScan.Modules
                 }
                 //select.AddWhere(getInventoryDepartmentFilter("inventorydepartmentid", getUsersPrimaryDepartmentid, hasWhere)); //jh 12/09/09 CAS-6696-YZVS
                 select.AddOrderBy("description");
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable PendingInBC(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
+        public async Task<FwJsonDataTable> PendingInBCAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
         {
             FwJsonDataTable searchresults = null;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -172,15 +179,15 @@ namespace RentalWorksQuikScan.Modules
                 }
                 //select.AddWhere(getInventoryDepartmentFilter("inventorydepartmentid", getUsersPrimaryDepartmentid, hasWhere)); //jh 12/09/09 CAS-6696-YZVS
                 select.AddOrderBy("description");
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable PendingInNonBc(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
+        public async Task<FwJsonDataTable> PendingInNonBcAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
         {
             FwJsonDataTable searchresults = null;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -210,15 +217,15 @@ namespace RentalWorksQuikScan.Modules
                 }
                 //select.AddWhere(getInventoryDepartmentFilter("inventorydepartmentid", getUsersPrimaryDepartmentid, hasWhere)); //jh 12/09/09 CAS-6696-YZVS
                 select.AddOrderBy("description");
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable PendingOutNonBc(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
+        public async Task<FwJsonDataTable> PendingOutNonBcAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
         {
             FwJsonDataTable searchresults = null;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -248,15 +255,15 @@ namespace RentalWorksQuikScan.Modules
                 }
                 //select.AddWhere(getInventoryDepartmentFilter("inventorydepartmentid", getUsersPrimaryDepartmentid, hasWhere)); //jh 12/09/09 CAS-6696-YZVS
                 select.AddOrderBy("description");
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable PendingOutSerial(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
+        public async Task<FwJsonDataTable> PendingOutSerialAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, ExchangeModel exchange, UserContext user)
         {
             FwJsonDataTable searchresults = null;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -286,7 +293,7 @@ namespace RentalWorksQuikScan.Modules
                 }
                 //select.AddWhere(getInventoryDepartmentFilter("inventorydepartmentid", getUsersPrimaryDepartmentid, hasWhere)); //jh 12/09/09 CAS-6696-YZVS
                 select.AddOrderBy("description");
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
             return searchresults;
         }

@@ -1,20 +1,14 @@
-﻿using Fw.Json.Services;
-using Fw.Json.Services.Common;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
-using Fw.Json.ValueTypes;
+﻿using FwStandard.Mobile;
 using RentalWorksQuikScan.Modules;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Security;
 
 namespace RentalWorksQuikScan.Source
 {
-    public class RwServiceRouting : Fw.Json.Services.FwJsonService
+    public class RwServiceRouting : FwCore.Mobile.FwJsonServiceController
     {
         //---------------------------------------------------------------------------------------------
         protected string GetRegexString(string path, string applicationPath)

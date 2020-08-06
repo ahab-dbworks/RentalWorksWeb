@@ -1,14 +1,23 @@
-﻿using Fw.Json.Services;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.Utilities;
 using RentalWorksQuikScan.Modules;
+using System;
+using System.Threading.Tasks;
 
 namespace RentalWorksQuikScan.Source
 {
     public class AccountService : FwAccountService
     {
         public static AccountService Current;
-        public override void LoadApplicationAuthenticationInformation(FwSqlConnection conn, dynamic request, dynamic response, dynamic session, dynamic tokenData, dynamic webUserData)
+
+        public AccountService(FwApplicationConfig applicationConfig, FwUserSession userSession) : base(applicationConfig, userSession)
+        {
+
+        }
+        //----------------------------------------------------------------------------------------------------
+        public override async Task LoadApplicationAuthenticationInformationAsync(FwSqlConnection conn, dynamic request, dynamic response, dynamic session, dynamic tokenData, dynamic webUserData)
         {
             response.webUser.iscrew      = (FwValidate.IsPropertyDefined(webUserData, "iscrew"))     ? webUserData.iscrew     : string.Empty;
             tokenData.webUser.locationid = (FwValidate.IsPropertyDefined(webUserData, "locationid")) ? webUserData.locationid : string.Empty;
@@ -23,14 +32,20 @@ namespace RentalWorksQuikScan.Source
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "production"))    response.applicationOptions.production    = session.applicationOptions.production;
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "quikin"))        response.applicationOptions.quikin        = session.applicationOptions.quikin;
 
-            response.stagingSuspendedSessionsEnabled = Staging.IsSuspendedSessionsEnabled();
+            Staging staging = new Staging(this.ApplicationConfig);
+            response.stagingSuspendedSessionsEnabled = staging.IsSuspendedSessionsEnabled();
 
-            DepartmentFilter.LoadUserDepartmentFilter(session.security.webUser.usersid, session);
+            await DepartmentFilter.LoadUserDepartmentFilterAsync(this.ApplicationConfig, session.security.webUser.usersid, session);
         }
         //----------------------------------------------------------------------------------------------------
         public override dynamic GetGroupsTree(string groupsid, bool removeHiddenNodes)
         {
             return null;
+        }
+
+        internal dynamic GetAuthTokenData(object userData)
+        {
+            throw new NotImplementedException();
         }
         //----------------------------------------------------------------------------------------------------
     }

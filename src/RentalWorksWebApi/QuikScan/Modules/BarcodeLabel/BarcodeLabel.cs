@@ -1,120 +1,131 @@
-﻿using Fw.Json.Services;
-using Fw.Json.Services.Common;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using RentalWorksQuikScan.Source;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Web;
+using System.Threading.Tasks;
+using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class BarcodeLabel
+    public class BarcodeLabel : QuikScanModule
     {
+        //----------------------------------------------------------------------------------------------------
+        RwAppData AppData;
+        //----------------------------------------------------------------------------------------------------
+        public BarcodeLabel(FwApplicationConfig applicationConfig) : base(applicationConfig)
+        {
+            this.AppData = new RwAppData(applicationConfig);
+        }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters="searchvalue")]
-        public void BarcodedItemSearch(dynamic request, dynamic response, dynamic session)
+        public async Task BarcodedItemSearch(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlSelect select = new FwSqlSelect();
-            dynamic userLocation = RwAppData.GetUserLocation(session);
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
-                qry.AddColumn("color", false, FwJsonDataTableColumn.DataTypes.OleToHtmlColor);
-                select.PageNo   = request.pageno;
-                select.PageSize = request.pagesize;
-                select.Add("select masterno, master, barcode, statustype, statusdate, color, icode=masterno, description=master, mfgserial");
-                select.Add("from dbo.funcrentalitem(@locationid,'')");
-                select.Add("where trackedby in ('BARCODE')");
-                select.Add("  and statustype <> 'RETIRED'");
-                select.Add("  and barcode > ''");
-                select.Add("  and warehouseid = @warehouseid");
-                switch ((string)request.searchmode)
+                FwSqlSelect select = new FwSqlSelect();
+                dynamic userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
-                    case "ICODE":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and masterno like @masterno");
-                            select.AddParameter("@masterno", request.searchvalue + "%");
-                        }
-                        select.Add("order by masterno");
-                        break;
-                    case "DESCRIPTION":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and master like @master");
-                            select.AddParameter("@master", "%" + request.searchvalue + "%");
-                        }
-                        select.Add("order by master");
-                        break;
-                }
-                select.AddParameter("@warehouseid", RwAppData.GetWarehouseId(session));
-                select.AddParameter("@locationid", RwAppData.GetLocationId(session));
-                response.searchresults = qry.QueryToFwJsonTable(select, true);
+                    qry.AddColumn("statusdate", false, FwDataTypes.Date);
+                    qry.AddColumn("color", false, FwDataTypes.OleToHtmlColor);
+                    select.PageNo = request.pageno;
+                    select.PageSize = request.pagesize;
+                    select.Add("select masterno, master, barcode, statustype, statusdate, color, icode=masterno, description=master, mfgserial");
+                    select.Add("from dbo.funcrentalitem(@locationid,'')");
+                    select.Add("where trackedby in ('BARCODE')");
+                    select.Add("  and statustype <> 'RETIRED'");
+                    select.Add("  and barcode > ''");
+                    select.Add("  and warehouseid = @warehouseid");
+                    switch ((string)request.searchmode)
+                    {
+                        case "ICODE":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and masterno like @masterno");
+                                select.AddParameter("@masterno", request.searchvalue + "%");
+                            }
+                            select.Add("order by masterno");
+                            break;
+                        case "DESCRIPTION":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and master like @master");
+                                select.AddParameter("@master", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by master");
+                            break;
+                    }
+                    select.AddParameter("@warehouseid", await this.AppData.GetWarehouseIdAsync(session));
+                    select.AddParameter("@locationid", await this.AppData.GetLocationIdAsync(session));
+                    response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters="searchvalue")]
-        public void ICodeSearch(dynamic request, dynamic response, dynamic session)
+        public async Task ICodeSearch(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlSelect select = new FwSqlSelect();
-            dynamic userLocation = RwAppData.GetUserLocation(session);
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                select.PageNo   = request.pageno;
-                select.PageSize = request.pagesize;
-                select.Add("select masterid, masterno, master, inventorydepartment, department=inventorydepartment, category, subcategory=isnull(subcategory, ''), trackedby, qty, icode=masterno, description=master");
-                select.Add("from masterview m with (nolock)");
-                select.Add("where warehouseid  = @warehouseid");
-                select.Add("  and m.availfor in ('R')");
-                select.Add("  and m.availfrom in ('W')");
-                switch ((string)request.searchmode)
+                FwSqlSelect select = new FwSqlSelect();
+                dynamic userLocation = await this.AppData.GetUserLocationAsync(session);
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
-                    case "ICODE":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and masterno like @searchvalue");
-                            select.AddParameter("@searchvalue", request.searchvalue + "%");
-                        }
-                        select.Add("order by masterno");
-                        break;
-                    case "DESCRIPTION":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and master like @searchvalue");
-                            select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
-                        }
-                        select.Add("order by master");
-                        break;
-                    case "DEPARTMENT":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and inventorydepartment like @searchvalue");
-                            select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
-                        }
-                        select.Add("order by master");
-                        break;
-                    case "CATEGORY":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and category like @searchvalue");
-                            select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
-                        }
-                        select.Add("order by master");
-                        break;
-                    case "SUBCATEGORY":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and subcategory like @searchvalue");
-                            select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
-                        }
-                        select.Add("order by master");
-                        break;
-                }
-                select.AddParameter("@warehouseid", RwAppData.GetWarehouseId(session));
-                response.searchresults = qry.QueryToFwJsonTable(select, true);
+                    select.PageNo = request.pageno;
+                    select.PageSize = request.pagesize;
+                    select.Add("select masterid, masterno, master, inventorydepartment, department=inventorydepartment, category, subcategory=isnull(subcategory, ''), trackedby, qty, icode=masterno, description=master");
+                    select.Add("from masterview m with (nolock)");
+                    select.Add("where warehouseid  = @warehouseid");
+                    select.Add("  and m.availfor in ('R')");
+                    select.Add("  and m.availfrom in ('W')");
+                    switch ((string)request.searchmode)
+                    {
+                        case "ICODE":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and masterno like @searchvalue");
+                                select.AddParameter("@searchvalue", request.searchvalue + "%");
+                            }
+                            select.Add("order by masterno");
+                            break;
+                        case "DESCRIPTION":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and master like @searchvalue");
+                                select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by master");
+                            break;
+                        case "DEPARTMENT":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and inventorydepartment like @searchvalue");
+                                select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by master");
+                            break;
+                        case "CATEGORY":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and category like @searchvalue");
+                                select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by master");
+                            break;
+                        case "SUBCATEGORY":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and subcategory like @searchvalue");
+                                select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by master");
+                            break;
+                    }
+                    select.AddParameter("@warehouseid", await this.AppData.GetWarehouseIdAsync(session));
+                    response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
@@ -125,109 +136,121 @@ namespace RentalWorksQuikScan.Modules
         }
 
         [FwJsonServiceMethod]
-        public void GetBarcodeLabels(dynamic request, dynamic response, dynamic session)
+        public async Task GetBarcodeLabels(dynamic request, dynamic response, dynamic session)
         {
             response.labels = new List<dynamic>();
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                qry.Add("select barcodelabelid, category, description, barcodelabel, datestamp");
-                qry.Add("from appbarcodelabel with (nolock)");
-                qry.Add("where warehouseid = @warehouseid");
-                qry.AddParameter("@warehouseid", RwAppData.GetWarehouseId(session));
-                FwJsonDataTable dt = qry.QueryToFwJsonTable(true);
-                response.labels = qry.QueryToDynamicList2();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select barcodelabelid, category, description, barcodelabel, datestamp");
+                    qry.Add("from appbarcodelabel with (nolock)");
+                    qry.Add("where warehouseid = @warehouseid");
+                    qry.AddParameter("@warehouseid", await this.AppData.GetWarehouseIdAsync(session));
+                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync(true);
+                    response.labels = await qry.QueryToDynamicList2Async();
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters="searchvalue")]
-        public void BarcodeLabelSearch(dynamic request, dynamic response, dynamic session)
+        public async Task BarcodeLabelSearch(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlSelect select = new FwSqlSelect();
-            dynamic userLocation = RwAppData.GetUserLocation(session);
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                qry.AddColumn("datestamp", false, FwJsonDataTableColumn.DataTypes.UTCDateTime);
-                select.PageNo   = request.pageno;
-                select.PageSize = request.pagesize;
-                select.Add("select barcodelabelid, warehouseid, category, description, barcodelabel, datestamp");
-                select.Add("from appbarcodelabel with (nolock)");
-                select.Add("where warehouseid = @warehouseid");
-                switch ((string)request.searchmode)
+                FwSqlSelect select = new FwSqlSelect();
+                dynamic userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
-                    case "DESCRIPTION":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and description like @description");
-                            select.AddParameter("@description", "%" + request.searchvalue + "%");
-                        }
-                        select.Add("order by category, description");
-                        break;
-                    case "CATEGORY":
-                        if (!string.IsNullOrEmpty(request.searchvalue))
-                        {
-                            select.Add("and category like @category");
-                            select.AddParameter("@category", "%" + request.searchvalue + "%");
-                        }
-                        select.Add("order by category, description");
-                        break;
-                }
-                select.AddParameter("@warehouseid", RwAppData.GetWarehouseId(session));
-                response.searchresults = qry.QueryToFwJsonTable(select, true);
+                    qry.AddColumn("datestamp", false, FwDataTypes.UTCDateTime);
+                    select.PageNo = request.pageno;
+                    select.PageSize = request.pagesize;
+                    select.Add("select barcodelabelid, warehouseid, category, description, barcodelabel, datestamp");
+                    select.Add("from appbarcodelabel with (nolock)");
+                    select.Add("where warehouseid = @warehouseid");
+                    switch ((string)request.searchmode)
+                    {
+                        case "DESCRIPTION":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and description like @description");
+                                select.AddParameter("@description", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by category, description");
+                            break;
+                        case "CATEGORY":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and category like @category");
+                                select.AddParameter("@category", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by category, description");
+                            break;
+                    }
+                    select.AddParameter("@warehouseid", await this.AppData.GetWarehouseIdAsync(session));
+                    response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters="mode,category,description,barcodelabel")]
-        public static void SaveBarcodeLabel(dynamic request, dynamic response, dynamic session)
+        public async Task SaveBarcodeLabel(dynamic request, dynamic response, dynamic session)
         {
-            string mode = request.mode;
-            string barcodelabel = request.barcodelabel;
-            if (mode == "NEW")
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+                string mode = request.mode;
+                string barcodelabel = request.barcodelabel;
+                if (mode == "NEW")
                 {
-                    qry.Add("insert into appbarcodelabel(barcodelabelid, warehouseid, category, description, barcodelabel, datestamp)");
-                    qry.Add("values(@barcodelabelid, @warehouseid, @category, @description, @barcodelabel, @datestamp)");
-                    qry.AddParameter("@barcodelabelid", FwSqlData.GetNextId(FwSqlConnection.RentalWorks));
-                    qry.AddParameter("@warehouseid", RwAppData.GetWarehouseId(session));
-                    qry.AddParameter("@category", request.category);
-                    qry.AddParameter("@description", request.description);
-                    qry.AddParameter("@barcodelabel", request.barcodelabel);
-                    qry.AddParameter("@datestamp", DateTime.UtcNow);
-                    response.rowsaffected = qry.ExecuteNonQuery();
-                }
-            }
-            else if (mode == "EDIT")
-            {
-                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
-                {
-                    qry.Add("update appbarcodelabel");
-                    qry.Add("set category = @category");
-                    qry.Add("  , description = @description");
-                    if (barcodelabel.Length > 0)
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                     {
-                        qry.Add("  , barcodelabel = @barcodelabel");
+                        qry.Add("insert into appbarcodelabel(barcodelabelid, warehouseid, category, description, barcodelabel, datestamp)");
+                        qry.Add("values(@barcodelabelid, @warehouseid, @category, @description, @barcodelabel, @datestamp)");
+                        qry.AddParameter("@barcodelabelid", await FwSqlData.GetNextIdAsync(conn, this.ApplicationConfig.DatabaseSettings));
+                        qry.AddParameter("@warehouseid", await this.AppData.GetWarehouseIdAsync(session));
+                        qry.AddParameter("@category", request.category);
+                        qry.AddParameter("@description", request.description);
                         qry.AddParameter("@barcodelabel", request.barcodelabel);
+                        qry.AddParameter("@datestamp", DateTime.UtcNow);
+                        response.rowsaffected = await qry.ExecuteNonQueryAsync();
                     }
-                    
-                    qry.Add("where barcodelabelid = @barcodelabelid");
-                    qry.AddParameter("@barcodelabelid", request.barcodelabelid);
-                    qry.AddParameter("@category", request.category);
-                    qry.AddParameter("@description", request.description);
-                    qry.AddParameter("@datestamp", DateTime.UtcNow);
-                    response.rowsaffected = qry.ExecuteNonQuery();
                 }
+                else if (mode == "EDIT")
+                {
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.Add("update appbarcodelabel");
+                        qry.Add("set category = @category");
+                        qry.Add("  , description = @description");
+                        if (barcodelabel.Length > 0)
+                        {
+                            qry.Add("  , barcodelabel = @barcodelabel");
+                            qry.AddParameter("@barcodelabel", request.barcodelabel);
+                        }
+
+                        qry.Add("where barcodelabelid = @barcodelabelid");
+                        qry.AddParameter("@barcodelabelid", request.barcodelabelid);
+                        qry.AddParameter("@category", request.category);
+                        qry.AddParameter("@description", request.description);
+                        qry.AddParameter("@datestamp", DateTime.UtcNow);
+                        response.rowsaffected = await qry.ExecuteNonQueryAsync();
+                    }
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters="barcodelabelid")]
-        public static void DeleteBarcodeLabel(dynamic request, dynamic response, dynamic session)
+        public async Task DeleteBarcodeLabel(dynamic request, dynamic response, dynamic session)
         {
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                qry.Add("delete appbarcodelabel");
-                qry.Add("where barcodelabelid = @barcodelabelid");
-                qry.AddParameter("@barcodelabelid", request.barcodelabelid);
-                response.rowsaffected = qry.ExecuteNonQuery();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("delete appbarcodelabel");
+                    qry.Add("where barcodelabelid = @barcodelabelid");
+                    qry.AddParameter("@barcodelabelid", request.barcodelabelid);
+                    response.rowsaffected = await qry.ExecuteNonQueryAsync();
+                } 
             }
         }
         //---------------------------------------------------------------------------------------------

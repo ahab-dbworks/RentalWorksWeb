@@ -1,30 +1,36 @@
-﻿using Fw.Json.Services;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
-using Fw.Json.ValueTypes;
+﻿using FwStandard.Models;
+using FwStandard.SqlServer;
 using RentalWorksQuikScan.Modules.ExchangeModels;
 using RentalWorksQuikScan.Source;
 using System;
 using System.Data;
 using System.Dynamic;
+using System.Threading.Tasks;
 
 namespace RentalWorksQuikScan.Modules
 {
     class ExchangeDm
     {
+        FwApplicationConfig ApplicationConfig;
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable OrderSearch(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, string usersid, string locationid)
+        public ExchangeDm(FwApplicationConfig applicationConfig)
+        {
+            this.ApplicationConfig = applicationConfig;
+        }
+        //---------------------------------------------------------------------------------------------
+        public async Task<FwJsonDataTable> OrderSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, string usersid, string locationid)
         {
             string orderid = string.Empty;
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
-                qry.AddColumn("orderdate", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
-                qry.AddColumn("statusdate", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+                qry.AddColumn("orderdate", false, FwDataTypes.Date);
+                qry.AddColumn("statusdate", false, FwDataTypes.Date);
                 if (searchmode == "barcode")
                 {
-                    dynamic itemstatus = RwAppData.WebGetItemStatus(FwSqlConnection.RentalWorks, usersid, searchvalue);
+                    RwAppData appData = new RwAppData(this.ApplicationConfig);
+                    dynamic itemstatus = await appData.WebGetItemStatusAsync(conn, usersid, searchvalue);
                     orderid = itemstatus.orderid;
                 }
 
@@ -36,7 +42,7 @@ namespace RentalWorksQuikScan.Modules
                 select.Add("where o.locationid = @locationid");
                 select.Add("  and o.status not in ('CANCELLED','CLOSED','NEW','CANCELLED','CLOSED','ORDERED')");
                 select.Add("  and o.status in ('ACTIVE')");
-                DepartmentFilter.SetDepartmentFilter(usersid, select);
+                await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, usersid, select);
                 select.Parse();
                 switch (searchmode)
                 {
@@ -66,17 +72,17 @@ namespace RentalWorksQuikScan.Modules
                         break;
                 }
                 select.AddParameter("@locationid", locationid);
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable DealSearch(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, string locationid)
+        public async Task<FwJsonDataTable> DealSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, string locationid)
         {
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -104,17 +110,17 @@ namespace RentalWorksQuikScan.Modules
                         break;
                 }
                 select.AddParameter("@locationid", locationid);
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable CompanyDepartmentSearch(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue)
+        public async Task<FwJsonDataTable> CompanyDepartmentSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue)
         {
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -136,19 +142,19 @@ namespace RentalWorksQuikScan.Modules
                         select.AddParameter("@searchvalue", searchvalue);
                         break;
                 }
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable PendingExchangeSearch(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, string locationid)
+        public async Task<FwJsonDataTable> PendingExchangeSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string searchmode, string searchvalue, string locationid)
         {
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
-                qry.AddColumn("contractdate", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+                qry.AddColumn("contractdate", false, FwDataTypes.Date);
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
                 select.PageSize = pagesize;
@@ -188,17 +194,17 @@ namespace RentalWorksQuikScan.Modules
                         break;
                 }
                 select.AddParameter("@locationid", locationid);
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable SuspendedSessionSearch(FwSqlConnection conn, int pageno, int pagesize, string orderid, string dealid, string departmentid, string locationid)
+        public async Task<FwJsonDataTable> SuspendedSessionSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string orderid, string dealid, string departmentid, string locationid)
         {
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -216,7 +222,7 @@ namespace RentalWorksQuikScan.Modules
                 select.Add("  and sv.ordertype    = 'O'");
                 if (!string.IsNullOrEmpty(orderid))
                 {
-                    string orderno = FwSqlCommand.GetStringData(FwSqlConnection.RentalWorks, "dealorder", "orderid", orderid, "orderno");
+                    string orderno = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", orderid, "orderno");
                     select.Add("  and sv.orderno = @orderno");
                     select.AddParameter("@orderno", orderno);
                 }
@@ -235,17 +241,17 @@ namespace RentalWorksQuikScan.Modules
                 select.Parse();
                 select.AddOrderBy("statusdate desc");
                 select.AddParameter("@locationid", locationid);
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable ExchangeSessionSearch(FwSqlConnection conn, int pageno, int pagesize, string exchangecontractid, bool pendingonly)
+        public async Task<FwJsonDataTable> ExchangeSessionSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string exchangecontractid, bool pendingonly)
         {
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -256,17 +262,17 @@ namespace RentalWorksQuikScan.Modules
                 select.AddOrderBy("orderby");
                 select.AddParameter("@exchangecontractid", exchangecontractid);
                 select.AddParameter("@pendingonly", FwConvert.LogicalToCharacter(pendingonly));
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable ExchangeRepairSearch(FwSqlConnection conn, int pageno, int pagesize, string exchangecontractid)
+        public async Task<FwJsonDataTable> ExchangeRepairSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string exchangecontractid)
         {
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -297,17 +303,17 @@ namespace RentalWorksQuikScan.Modules
                 select.Parse();
                 select.AddOrderBy("barcode");
                 select.AddParameter("@exchangecontractid", exchangecontractid);
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static FwJsonDataTable ExchangeTransferSearch(FwSqlConnection conn, int pageno, int pagesize, string exchangecontractid)
+        public async Task<FwJsonDataTable> ExchangeTransferSearchAsync(FwSqlConnection conn, int pageno, int pagesize, string exchangecontractid)
         {
             FwJsonDataTable searchresults = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo   = pageno;
@@ -318,15 +324,15 @@ namespace RentalWorksQuikScan.Modules
                 select.AddOrderBy("fromwhcode");
                 select.AddParameter("@masterid", string.Empty);
                 select.AddParameter("@contractid", exchangecontractid);
-                searchresults = qry.QueryToFwJsonTable(select, true);
+                searchresults = await qry.QueryToFwJsonTableAsync(select, true);
             }
 
             return searchresults;
         }
         //---------------------------------------------------------------------------------------------
-        public static dynamic createexchangecontract(FwSqlConnection conn, string orderid, string dealid, string departmentid, string locationid, string warehouseid, string usersid, string notes)
+        public async Task<dynamic> createexchangecontractAsync(FwSqlConnection conn, string orderid, string dealid, string departmentid, string locationid, string warehouseid, string usersid, string notes)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "createexchangecontract");
+            FwSqlCommand sp = new FwSqlCommand(conn, "createexchangecontract", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@dealid", dealid);
             sp.AddParameter("@departmentid", departmentid);
@@ -337,7 +343,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@exchangecontractid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@outcontractid",      SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@incontractid",       SqlDbType.Char, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             dynamic result = new ExpandoObject();
             result.exchangecontractid = sp.GetParameter("@exchangecontractid").ToString().TrimEnd();
             result.outcontractid      = sp.GetParameter("@outcontractid").ToString().TrimEnd();
@@ -351,16 +357,16 @@ namespace RentalWorksQuikScan.Modules
             public string masterid { get;set; } = string.Empty;
             public string description { get;set; } = string.Empty;
         }
-        public static IsRentalICodeResponse isrentalicode(FwSqlConnection conn, string masterno, string availfrom, bool quantityonly)
+        public async Task<IsRentalICodeResponse> isrentalicodeAsync(FwSqlConnection conn, string masterno, string availfrom, bool quantityonly)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "isrentalicode");
+            FwSqlCommand sp = new FwSqlCommand(conn, "isrentalicode", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@masterno", masterno);
             sp.AddParameter("@availfrom", availfrom);
             sp.AddParameter("@quantityonly", FwConvert.LogicalToCharacter(quantityonly));
             sp.AddParameter("@description", SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@masterid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@found", SqlDbType.Char, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             IsRentalICodeResponse result = new IsRentalICodeResponse();
             result.description = sp.GetParameter("@description").ToString().TrimEnd();
             result.masterid    = sp.GetParameter("@masterid").ToString().TrimEnd();
@@ -377,9 +383,9 @@ namespace RentalWorksQuikScan.Modules
             public string description { get;set; } = string.Empty;
             public int matches { get;set; } = 0;
         }
-        public static IsSerialNoResponse isserialno(FwSqlConnection conn, string serialno, string availfrom)
+        public async Task<IsSerialNoResponse> isserialnoAsync(FwSqlConnection conn, string serialno, string availfrom)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "isserialno");
+            FwSqlCommand sp = new FwSqlCommand(conn, "isserialno", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@serialno", serialno);
             sp.AddParameter("@availfrom", availfrom);
             sp.AddParameter("@found", SqlDbType.Char, ParameterDirection.Output);
@@ -388,7 +394,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@masterno", SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@description", SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@matches", SqlDbType.Int, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             IsSerialNoResponse result = new IsSerialNoResponse();
             result.found        = sp.GetParameter("@found").ToBoolean();
             result.rentalitemid = sp.GetParameter("@rentalitemid").ToString().TrimEnd();
@@ -407,16 +413,16 @@ namespace RentalWorksQuikScan.Modules
             public string masterno { get;set; } = string.Empty;
             public string description { get;set; } = string.Empty;
         }
-        public static IsBarcodeResponse isbarcode(FwSqlConnection conn, string barcode)
+        public async Task<IsBarcodeResponse> isbarcodeAsync(FwSqlConnection conn, string barcode)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "isbarcode");
+            FwSqlCommand sp = new FwSqlCommand(conn, "isbarcode", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@barcode", barcode);
             sp.AddParameter("@masterid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@rentalitemid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@masterno", SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@description", SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@found", SqlDbType.Char, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             IsBarcodeResponse result = new IsBarcodeResponse();
             result.masterid     = sp.GetParameter("@masterid").ToString().TrimEnd();
             result.rentalitemid = sp.GetParameter("@rentalitemid").ToString().TrimEnd();
@@ -434,16 +440,16 @@ namespace RentalWorksQuikScan.Modules
             public string masterno { get;set; } = string.Empty;
             public string description { get;set; } = string.Empty;
         }
-        public static IsRfidResponse isrfid(FwSqlConnection conn, string rfid)
+        public async Task<IsRfidResponse> isrfidAsync(FwSqlConnection conn, string rfid)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "isrfid");
+            FwSqlCommand sp = new FwSqlCommand(conn, "isrfid", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@rfid", rfid);
             sp.AddParameter("@masterid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@rentalitemid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@masterno", SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@description", SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@found", SqlDbType.Char, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             IsRfidResponse result = new IsRfidResponse();
             result.masterid     = sp.GetParameter("@masterid").ToString().TrimEnd();
             result.rentalitemid = sp.GetParameter("@rentalitemid").ToString().TrimEnd();
@@ -453,9 +459,9 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static dynamic getinbarcodeexchangeiteminfo(FwSqlConnection conn, string barcode, string orderid, string dealid, string departmentid, string warehouseid, string ordertype)
+        public async Task<dynamic> getinbarcodeexchangeiteminfoAsync(FwSqlConnection conn, string barcode, string orderid, string dealid, string departmentid, string warehouseid, string ordertype)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "getinbarcodeexchangeiteminfo");
+            FwSqlCommand sp = new FwSqlCommand(conn, "getinbarcodeexchangeiteminfo", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@barcode", barcode);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@dealid", dealid);
@@ -481,22 +487,22 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@returnitemavailtodatetime", SqlDbType.DateTime, ParameterDirection.Output);
             sp.AddParameter("@returnitempendingrepairid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@returnmsg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             dynamic result = new ExpandoObject();
             result.returnitemorderid             = sp.GetParameter("@returnitemorderid").ToString().TrimEnd();
-            result.returnitemorderdesc           = FwSqlCommand.GetStringData(conn, "dealorder", "orderid", result.returnitemorderid, "orderdesc");
+            result.returnitemorderdesc           = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", result.returnitemorderid, "orderdesc");
             result.returnitemdealid              = sp.GetParameter("@returnitemdealid").ToString().TrimEnd();
             result.returnitemdepartmentid        = sp.GetParameter("@returnitemdepartmentid").ToString().TrimEnd();
             result.returnitemmasterid            = sp.GetParameter("@returnitemmasterid").ToString().TrimEnd();
-            result.returnitemmasterno            = FwSqlCommand.GetStringData(conn, "master", "masterid", result.returnitemmasterid, "masterno");
+            result.returnitemmasterno            = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "master", "masterid", result.returnitemmasterid, "masterno");
             result.returnitemtrackedby           = sp.GetParameter("@returnitemtrackedby").ToString().TrimEnd();
             result.returnitemrentalitemid        = sp.GetParameter("@returnitemrentalitemid").ToString().TrimEnd();
             result.returnitemvendorid            = sp.GetParameter("@returnitemvendorid").ToString().TrimEnd();
-            result.returnitemvendor              = FwSqlCommand.GetStringData(conn, "vendor", "vendorid", result.returnitemvendorid, "vendor");
+            result.returnitemvendor              = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "vendor", "vendorid", result.returnitemvendorid, "vendor");
             result.returnitempoid                = sp.GetParameter("@returnitempoid").ToString().TrimEnd();
-            result.returnitempono                = FwSqlCommand.GetStringData(conn, "dealorder", "orderid", result.returnitempoid, "orderno");
+            result.returnitempono                = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", result.returnitempoid, "orderno");
             result.returnitemwarehouseid         = sp.GetParameter("@returnitemwarehouseid").ToString().TrimEnd();
-            result.returnitemwarehouse           = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", result.returnitemwarehouseid, "warehouse");
+            result.returnitemwarehouse           = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", result.returnitemwarehouseid, "warehouse");
             result.returnitemreturntowarehouseid = sp.GetParameter("@returnitemreturntowarehouseid").ToString().TrimEnd();
             result.returnitemordertranid         = sp.GetParameter("@returnitemordertranid").ToInt32();
             result.returniteminternalchar        = sp.GetParameter("@returniteminternalchar").ToString().TrimEnd();
@@ -510,9 +516,9 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static DataTable exchangenonbcview(FwSqlConnection conn, string masterid, string dealid, string orderid, int qty, string vendorid)
+        public async Task<FwJsonDataTable> exchangenonbcviewAsync(FwSqlConnection conn, string masterid, string dealid, string orderid, int qty, string vendorid)
         {
-            FwSqlCommand qry = new FwSqlCommand(conn);
+            FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from exchangenonbcview with (nolock)");
             qry.Add("where masterid = @masterid");
@@ -520,13 +526,13 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("  and orderid  = @orderid");
             qry.Add("  and qtyout   > @qtyout");
             qry.Add("  and vendorid > @vendorid");
-            DataTable dt = qry.QueryToTable();
+            FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
             return dt;
         }
         //---------------------------------------------------------------------------------------------
-        public static TBCItem getoutbarcodeexchangeiteminfo(FwSqlConnection conn, string barcode, string masterid, string warehouseid, string ordertype, string usersid, bool removefromcontainer, FwDateTime availthrough)
+        public async Task<TBCItem> getoutbarcodeexchangeiteminfoAsync(FwSqlConnection conn, string barcode, string masterid, string warehouseid, string ordertype, string usersid, bool removefromcontainer, FwDateTime availthrough)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "getoutbarcodeexchangeiteminfo");
+            FwSqlCommand sp = new FwSqlCommand(conn, "getoutbarcodeexchangeiteminfo", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@barcode", barcode);
             sp.AddParameter("@masterid", masterid);
             sp.AddParameter("@warehouseid", warehouseid);
@@ -546,7 +552,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@returnitemqcrequired", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@returnitemincontainer", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@returnmsg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             TBCItem item = new TBCItem();
             item.barcode         = barcode;
             item.trackedby       = RwConstants.TrackedBy.BARCODE;
@@ -554,11 +560,11 @@ namespace RentalWorksQuikScan.Modules
             item.trackedby       = sp.GetParameter("@returnitemtrackedby").ToString().TrimEnd();
             item.rentalitemid    = sp.GetParameter("@returnitemrentalitemid").ToString().TrimEnd();
             item.vendorid        = sp.GetParameter("@returnitemvendorid").ToString().TrimEnd();
-            item.vendor          = FwSqlCommand.GetStringData(conn, "vendor", "vendorid", item.vendorid, "vendor");
+            item.vendor          = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "vendor", "vendorid", item.vendorid, "vendor");
             item.poid            = sp.GetParameter("@returnitempoid").ToString().TrimEnd();
-            item.pono            = FwSqlCommand.GetStringData(conn, "dealorder", "orderid", item.poid, "orderno");
+            item.pono            = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", item.poid, "orderno");
             item.warehouseid     = sp.GetParameter("@returnitemwarehouseid").ToString().TrimEnd();
-            item.whcode          = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", item.warehouseid, "whcode");
+            item.whcode          = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", item.warehouseid, "whcode");
             item.description     = sp.GetParameter("@returnitemdescription").ToString().TrimEnd();
             item.qcrequired      = sp.GetParameter("@returnitemqcrequired").ToBoolean();
             item.itemincontainer = sp.GetParameter("@returnitemincontainer").ToBoolean();
@@ -570,25 +576,25 @@ namespace RentalWorksQuikScan.Modules
             return item;
         }
         //---------------------------------------------------------------------------------------------
-        public static TBCItem getoutserialexchangeiteminfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
+        public async Task<TBCItem> getoutserialexchangeiteminfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
         {
             TBCItem item;
-            item = getoutbarcodeexchangeiteminfo(conn: conn,
-                                                 barcode: serialno, 
-                                                 masterid: isSerialNoResponse.masterid, 
-                                                 warehouseid: user.primarywarehouseid, 
-                                                 ordertype: ConvertOrderModeToOrderType(exchange.ordermode),
-                                                 usersid: user.usersid, 
-                                                 removefromcontainer: exchange.removingFromContainer, 
-                                                 availthrough: exchange.frmInExchangeItem.item.availtodatetime);
+            item = await getoutbarcodeexchangeiteminfoAsync(conn: conn,
+                                                            barcode: serialno, 
+                                                            masterid: isSerialNoResponse.masterid, 
+                                                            warehouseid: user.primarywarehouseid, 
+                                                            ordertype: ConvertOrderModeToOrderType(exchange.ordermode),
+                                                            usersid: user.usersid, 
+                                                            removefromcontainer: exchange.removingFromContainer, 
+                                                            availthrough: exchange.frmInExchangeItem.item.availtodatetime);
             item.serialno  = serialno;
             item.trackedby = RwConstants.TrackedBy.SERIALNO;
             return item;
         }
         //---------------------------------------------------------------------------------------------
-        public static TBCItem getpendingoutbarcodeexchangeiteminfo(FwSqlConnection conn, string barcode, string usersid, string dealid, string warehouseid, string ordertype, bool removefromcontainer)
+        public async Task<TBCItem> getpendingoutbarcodeexchangeiteminfoAsync(FwSqlConnection conn, string barcode, string usersid, string dealid, string warehouseid, string ordertype, bool removefromcontainer)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "getpendingoutbarcodeexchangeiteminfo");
+            FwSqlCommand sp = new FwSqlCommand(conn, "getpendingoutbarcodeexchangeiteminfo", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@barcode", barcode);
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@dealid", dealid);
@@ -605,7 +611,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@returnitemqcrequired", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@returnitemincontainer", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@returnmsg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             TBCItem item = new TBCItem();
             item.barcode         = barcode;
             item.trackedby       = RwConstants.TrackedBy.BARCODE;
@@ -613,7 +619,7 @@ namespace RentalWorksQuikScan.Modules
             item.trackedby       = sp.GetParameter("@returnitemtrackedby").ToString().TrimEnd();
             item.rentalitemid    = sp.GetParameter("@returnitemrentalitemid").ToString().TrimEnd();
             item.warehouseid     = sp.GetParameter("@returnitemwarehouseid").ToString().TrimEnd();
-            item.whcode          = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", item.warehouseid, "whcode");
+            item.whcode          = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", item.warehouseid, "whcode");
             item.description     = sp.GetParameter("@returnitemdescription").ToString().TrimEnd();
             item.qcrequired      = sp.GetParameter("@returnitemqcrequired").ToBoolean();
             item.itemincontainer = sp.GetParameter("@returnitemincontainer").ToBoolean();
@@ -626,9 +632,9 @@ namespace RentalWorksQuikScan.Modules
             return item;
         }
         //---------------------------------------------------------------------------------------------
-        public static StatusMsgResponse exchangebc(FwSqlConnection conn, string exchangecontractid, string inbarcode, string outbarcode, string pendingorderid, string pendingmasteritemid, bool allowcrossicode, /*string torepair,*/ string usersid)
+        public async Task<StatusMsgResponse> exchangebcAsync(FwSqlConnection conn, string exchangecontractid, string inbarcode, string outbarcode, string pendingorderid, string pendingmasteritemid, bool allowcrossicode, /*string torepair,*/ string usersid)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "exchangebc");
+            FwSqlCommand sp = new FwSqlCommand(conn, "exchangebc", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@exchangecontractid", exchangecontractid);
             sp.AddParameter("@inbarcode", inbarcode);
             sp.AddParameter("@outbarcode", outbarcode);
@@ -639,16 +645,16 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
             sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             StatusMsgResponse result = new StatusMsgResponse();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString().TrimEnd();
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static StatusMsgResponse exchangenonbc(FwSqlConnection conn, string exchangecontractid, string outmasterid, string inorderid, string inmasteritemid, string inbarcode, /*string inrentalitemid,*/ string outorderid, string outmasteritemid, string outbarcode, string outserialno, /*string outrentalitemid,*/ int qty, bool allowcrossicode, /*string torepair, */string usersid)
+        public async Task<StatusMsgResponse> exchangenonbcAsync(FwSqlConnection conn, string exchangecontractid, string outmasterid, string inorderid, string inmasteritemid, string inbarcode, /*string inrentalitemid,*/ string outorderid, string outmasteritemid, string outbarcode, string outserialno, /*string outrentalitemid,*/ int qty, bool allowcrossicode, /*string torepair, */string usersid)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "exchangenonbc");
+            FwSqlCommand sp = new FwSqlCommand(conn, "exchangenonbc", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@exchangecontractid", exchangecontractid);
             sp.AddParameter("@outmasterid", outmasterid);
             sp.AddParameter("@inorderid", inorderid);
@@ -666,16 +672,16 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
             sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             StatusMsgResponse result = new StatusMsgResponse();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString().TrimEnd();
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static StatusMsgResponse exchangeserial(FwSqlConnection conn, string exchangecontractid, /*string masterid,*/ string inserialno, string outserialno, string pendingorderid, string pendingmasteritemid, bool allowcrossicode, /*string torepair,*/ string usersid)
+        public async Task<StatusMsgResponse> exchangeserialAsync(FwSqlConnection conn, string exchangecontractid, /*string masterid,*/ string inserialno, string outserialno, string pendingorderid, string pendingmasteritemid, bool allowcrossicode, /*string torepair,*/ string usersid)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "exchangeserial");
+            FwSqlCommand sp = new FwSqlCommand(conn, "exchangeserial", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@exchangecontractid", exchangecontractid);
             //sp.AddParameter("@masterid", masterid);
             sp.AddParameter("@inserialno", inserialno);
@@ -687,29 +693,29 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
             sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             StatusMsgResponse result = new StatusMsgResponse();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString().TrimEnd();
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static string splitmasteritem(FwSqlConnection conn, string orderid, string masteritemid, int splitqty, int splitsubqty)
+        public async Task<string> splitmasteritemAsync(FwSqlConnection conn, string orderid, string masteritemid, int splitqty, int splitsubqty)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "splitmasteritem");
+            FwSqlCommand sp = new FwSqlCommand(conn, "splitmasteritem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@masteritemid", masteritemid);
             sp.AddParameter("@splitqty", splitqty);
             sp.AddParameter("@splitsubqty", splitsubqty);
             sp.AddParameter("@newmasteritemid", SqlDbType.Char, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             string newmasteritemid = sp.GetParameter("@newmasteritemid").ToString();
             return newmasteritemid;
         }
         //---------------------------------------------------------------------------------------------
-        public static string insertmasteritem(FwSqlConnection conn, String orderid, String masterid, String warehouseid, int qty)
+        public async Task<string> insertmasteritemAsync(FwSqlConnection conn, String orderid, String masterid, String warehouseid, int qty)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "insertmasteritem");
+            FwSqlCommand sp = new FwSqlCommand(conn, "insertmasteritem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@masterid", masterid);
             sp.AddParameter("@warehouseid", warehouseid);
@@ -727,7 +733,7 @@ namespace RentalWorksQuikScan.Modules
             //sp.AddParameter("@note", note);
             //sp.AddParameter("@forcenewrecord", forcenewrecord);
             sp.AddParameter("@masteritemid", SqlDbType.Char, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             string masteritemid = sp.GetParameter("@masteritemid").ToString();
             return masteritemid;
         }
@@ -737,9 +743,9 @@ namespace RentalWorksQuikScan.Modules
             public int status { get;set; } = 0;
             public string msg { get;set; } = string.Empty;
         }
-        public static dynamic insertcheckoutaudit(FwSqlConnection conn, String orderid, String masteritemid, String usersid, int priorqty, int newqty)
+        public async Task<dynamic> insertcheckoutauditAsync(FwSqlConnection conn, String orderid, String masteritemid, String usersid, int priorqty, int newqty)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "insertcheckoutaudit");
+            FwSqlCommand sp = new FwSqlCommand(conn, "insertcheckoutaudit", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@masteritemid", masteritemid);
             sp.AddParameter("@usersid", usersid);
@@ -747,14 +753,14 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@newqty", newqty);
             sp.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             StatusMsgResponse result = new StatusMsgResponse();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString();
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static TBCItem CopyBCItem(TBCItem sourceBcItem)
+        public TBCItem CopyBCItem(TBCItem sourceBcItem)
         {
             TBCItem destBcItem = new TBCItem();
             destBcItem.barcode      = sourceBcItem.barcode;
@@ -794,25 +800,25 @@ namespace RentalWorksQuikScan.Modules
             return destBcItem;
         }
         //---------------------------------------------------------------------------------------------
-        public static bool ShouldConfirmAllowCrossIcode(FwSqlConnection conn, int status, string usersid)
+        public async Task<bool> ShouldConfirmAllowCrossIcodeAsync(FwSqlConnection conn, int status, string usersid)
         {
             bool result = (
                 (
                     ((status == RwConstants.Exchange.EXCHANGE_STATUS_ITEM_DIFFERENT_ICODE_BARCODE) || (status == RwConstants.Exchange.EXCHANGE_STATUS_ITEM_DIFFERENT_ICODE_QUANTITY))
                     &&
-                    FwSqlCommand.GetData(conn, "appsusersview", "usersid", usersid, "allowcrossicodeexchange").ToBoolean()
+                    (await FwSqlCommand.GetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "appsusersview", "usersid", usersid, "allowcrossicodeexchange")).ToBoolean()
                 )
                     ||
                 (
                     (status == RwConstants.Exchange.EXCHANGE_STATUS_ITEM_DIFFERENT_ICODE_PENDING)
                     &&
-                    FwSqlCommand.GetData(conn, "appsusersview", "usersid", usersid, "allowcrossicodependingexchange").ToBoolean()
+                    (await FwSqlCommand.GetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "appsusersview", "usersid", usersid, "allowcrossicodependingexchange")).ToBoolean()
                 )
             );
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public static void ExchangeQuantity(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
+        public async Task ExchangeQuantityAsync(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
         {
             //ExchangeItemResponse response = new ExchangeItemResponse();
             //response.success = true;
@@ -827,22 +833,22 @@ namespace RentalWorksQuikScan.Modules
                   )
                )
             {
-                StatusMsgResponse r = exchangenonbc(conn: conn,
-                                                    exchangecontractid: exchange.exchangecontractid,
-                                                    outmasterid: exchange.completingpending ? exchange.frmInExchangeItem.item.masterid : exchange.frmOutExchangeItem.item.masterid,
-                                                    inorderid:  exchange.frmInExchangeItem.item.orderid,
-                                                    inmasteritemid:  exchange.frmInExchangeItem.item.masteritemid,
-                                                    inbarcode:  exchange.frmInExchangeItem.item.barcode,
-                                                    //inrentalitemid:  exchange.frmInExchangeItem.item.rentalitemid,
-                                                    outorderid: exchange.frmOutExchangeItem.item.orderid,
-                                                    outmasteritemid: exchange.frmOutExchangeItem.item.masteritemid,
-                                                    outbarcode: exchange.frmOutExchangeItem.item.barcode,
-                                                    outserialno: exchange.frmOutExchangeItem.item.serialno,
-                                                    //outrentalitemid: exchange.frmOutExchangeItem.item.rentalitemid,
-                                                    qty: exchange.qty,
-                                                    allowcrossicode: exchange.allowcrossicode,
-                                                    //torepair: torepair,
-                                                    usersid: user.usersid);
+                StatusMsgResponse r = await exchangenonbcAsync(conn: conn,
+                                                               exchangecontractid: exchange.exchangecontractid,
+                                                               outmasterid: exchange.completingpending ? exchange.frmInExchangeItem.item.masterid : exchange.frmOutExchangeItem.item.masterid,
+                                                               inorderid:  exchange.frmInExchangeItem.item.orderid,
+                                                               inmasteritemid:  exchange.frmInExchangeItem.item.masteritemid,
+                                                               inbarcode:  exchange.frmInExchangeItem.item.barcode,
+                                                               //inrentalitemid:  exchange.frmInExchangeItem.item.rentalitemid,
+                                                               outorderid: exchange.frmOutExchangeItem.item.orderid,
+                                                               outmasteritemid: exchange.frmOutExchangeItem.item.masteritemid,
+                                                               outbarcode: exchange.frmOutExchangeItem.item.barcode,
+                                                               outserialno: exchange.frmOutExchangeItem.item.serialno,
+                                                               //outrentalitemid: exchange.frmOutExchangeItem.item.rentalitemid,
+                                                               qty: exchange.qty,
+                                                               allowcrossicode: exchange.allowcrossicode,
+                                                               //torepair: torepair,
+                                                               usersid: user.usersid);
                 if (r.status == 0)
                 {
                     //response.hideerror = true;
@@ -862,9 +868,9 @@ namespace RentalWorksQuikScan.Modules
                     //{
                     //    frmOutExchangeItem.edtBarCode.setFocus;
                     //}
-                    exchange.response.confirmallowcrossicode = ShouldConfirmAllowCrossIcode(conn: conn, 
-                                                                                            status: r.status, 
-                                                                                            usersid: user.usersid);
+                    exchange.response.confirmallowcrossicode = await ShouldConfirmAllowCrossIcodeAsync(conn: conn, 
+                                                                                                       status: r.status, 
+                                                                                                       usersid: user.usersid);
                     //enableCrossICodeExchangeButton(status);
                 }
             }
@@ -874,21 +880,21 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void ExchangeBarcode(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
+        public async Task ExchangeBarcodeAsync(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
         {
             //ExchangeItemResponse response = new ExchangeItemResponse();
             //response.success = true;
             //response.msg = string.Empty;
             //response.resetall = false;
-            StatusMsgResponse r = exchangebc(conn: conn,
-                                   exchangecontractid: exchange.exchangecontractid,
-                                   inbarcode: exchange.frmInExchangeItem.item.barcode,
-                                   outbarcode: exchange.frmOutExchangeItem.item.barcode,
-                                   pendingorderid: exchange.completingpending ? exchange.frmInExchangeItem.item.orderid : string.Empty,
-                                   pendingmasteritemid: exchange.completingpending ? exchange.frmInExchangeItem.item.masteritemid : string.Empty,
-                                   allowcrossicode: exchange.allowcrossicode,
-                                   //torepair: torepair,
-                                   usersid: user.usersid);
+            StatusMsgResponse r = await exchangebcAsync(conn: conn,
+                                                        exchangecontractid: exchange.exchangecontractid,
+                                                        inbarcode: exchange.frmInExchangeItem.item.barcode,
+                                                        outbarcode: exchange.frmOutExchangeItem.item.barcode,
+                                                        pendingorderid: exchange.completingpending ? exchange.frmInExchangeItem.item.orderid : string.Empty,
+                                                        pendingmasteritemid: exchange.completingpending ? exchange.frmInExchangeItem.item.masteritemid : string.Empty,
+                                                        allowcrossicode: exchange.allowcrossicode,
+                                                        //torepair: torepair,
+                                                        usersid: user.usersid);
             if (r.status == 0)
             {
                 exchange.response.success = true;
@@ -897,9 +903,9 @@ namespace RentalWorksQuikScan.Modules
             {
                 exchange.response.success = false;
                 exchange.response.msg = r.msg;
-                exchange.response.confirmallowcrossicode = ShouldConfirmAllowCrossIcode(conn: conn, 
-                                                                                        status: r.status, 
-                                                                                        usersid: user.usersid);
+                exchange.response.confirmallowcrossicode = await ShouldConfirmAllowCrossIcodeAsync(conn: conn, 
+                                                                                                   status: r.status, 
+                                                                                                   usersid: user.usersid);
             }
             if (exchange.response.success)
             {
@@ -907,21 +913,21 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void ExchangeRfid(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
+        public async Task ExchangeRfidAsync(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
         {
             //ExchangeItemResponse response = new ExchangeItemResponse();
             //response.success = true;
             //response.msg = string.Empty;
             //response.resetall = false;
-            StatusMsgResponse r = exchangebc(conn: conn,
-                                             exchangecontractid: exchange.exchangecontractid,
-                                             inbarcode: exchange.frmInExchangeItem.barcode,
-                                             outbarcode: exchange.frmOutExchangeItem.barcode,
-                                             pendingorderid: exchange.completingpending ? exchange.frmInExchangeItem.item.orderid : string.Empty,
-                                             pendingmasteritemid: exchange.completingpending ? exchange.frmInExchangeItem.item.masteritemid : string.Empty,
-                                             allowcrossicode: exchange.allowcrossicode,
-                                             //torepair: torepair,
-                                             usersid: user.usersid);
+            StatusMsgResponse r = await exchangebcAsync(conn: conn,
+                                                        exchangecontractid: exchange.exchangecontractid,
+                                                        inbarcode: exchange.frmInExchangeItem.barcode,
+                                                        outbarcode: exchange.frmOutExchangeItem.barcode,
+                                                        pendingorderid: exchange.completingpending ? exchange.frmInExchangeItem.item.orderid : string.Empty,
+                                                        pendingmasteritemid: exchange.completingpending ? exchange.frmInExchangeItem.item.masteritemid : string.Empty,
+                                                        allowcrossicode: exchange.allowcrossicode,
+                                                        //torepair: torepair,
+                                                        usersid: user.usersid);
             if (r.status == 0)
             {
                 exchange.response.success = true;
@@ -930,9 +936,9 @@ namespace RentalWorksQuikScan.Modules
             {
                 exchange.response.success = false;
                 exchange.response.msg = r.msg;
-                exchange.response.confirmallowcrossicode = ShouldConfirmAllowCrossIcode(conn: conn,
-                                                                                        status: r.status, 
-                                                                                        usersid: user.usersid);
+                exchange.response.confirmallowcrossicode = await ShouldConfirmAllowCrossIcodeAsync(conn: conn,
+                                                                                                   status: r.status, 
+                                                                                                   usersid: user.usersid);
             }
             if (exchange.response.success)
             {
@@ -940,22 +946,22 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void ExchangeSerial(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
+        public async Task ExchangeSerialAsync(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
         {
             //dynamic response = new ExpandoObject();
             //response.success = true;
             //response.msg = string.Empty;
             //response.resetall = false;
-            StatusMsgResponse r = exchangeserial(conn: conn,
-                                                 exchangecontractid: exchange.exchangecontractid,
-                                                 //masterid: response.exchange.frmInExchangeItem.item.masterid,
-                                                 inserialno: exchange.frmInExchangeItem.item.serialno,
-                                                 outserialno: exchange.frmOutExchangeItem.item.serialno,
-                                                 pendingorderid: exchange.completingpending ? exchange.frmOutExchangeItem.item.orderid : string.Empty,
-                                                 pendingmasteritemid: exchange.completingpending ? exchange.frmOutExchangeItem.item.masteritemid : string.Empty,
-                                                 allowcrossicode: exchange.allowcrossicode,
-                                                 //torepair: torepair,
-                                                 usersid: user.usersid);
+            StatusMsgResponse r = await exchangeserialAsync(conn: conn,
+                                                            exchangecontractid: exchange.exchangecontractid,
+                                                            //masterid: response.exchange.frmInExchangeItem.item.masterid,
+                                                            inserialno: exchange.frmInExchangeItem.item.serialno,
+                                                            outserialno: exchange.frmOutExchangeItem.item.serialno,
+                                                            pendingorderid: exchange.completingpending ? exchange.frmOutExchangeItem.item.orderid : string.Empty,
+                                                            pendingmasteritemid: exchange.completingpending ? exchange.frmOutExchangeItem.item.masteritemid : string.Empty,
+                                                            allowcrossicode: exchange.allowcrossicode,
+                                                            //torepair: torepair,
+                                                            usersid: user.usersid);
             if (r.status == 0)
             {
                 exchange.response.success = true;
@@ -964,9 +970,9 @@ namespace RentalWorksQuikScan.Modules
             {
                 exchange.response.success = false;
                 exchange.response.msg = r.msg;
-                exchange.response.confirmallowcrossicode = ShouldConfirmAllowCrossIcode(conn: conn,
-                                                                                        status: r.status, 
-                                                                                        usersid: user.usersid);
+                exchange.response.confirmallowcrossicode = await ShouldConfirmAllowCrossIcodeAsync(conn: conn,
+                                                                                                   status: r.status, 
+                                                                                                   usersid: user.usersid);
             }
             if (exchange.response.success)
             {
@@ -974,16 +980,16 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void ExchangeItem(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
+        public async Task ExchangeItemAsync(FwSqlConnection conn, ExchangeModel exchange, UserContext user)
         {
             bool proceed = true;
             ExchangeResponse response = new ExchangeResponse();
             if (proceed)
             {
-                GetItemInfo(conn: conn,
-                            itemstatus: RwConstants.ItemStatus.IN,
-                            exchange: exchange,
-                            user: user);
+                await GetItemInfoAsync(conn: conn,
+                                       itemstatus: RwConstants.ItemStatus.IN,
+                                       exchange: exchange,
+                                       user: user);
                 if (exchange.frmInExchangeItem.item.status == TBCItem.StatusTypes.Error)
                 {
                     proceed = false;
@@ -991,7 +997,7 @@ namespace RentalWorksQuikScan.Modules
             }
             if (proceed)
             {
-                GetItemInfo(conn: conn,
+                await GetItemInfoAsync(conn: conn,
                             itemstatus: RwConstants.ItemStatus.OUT,
                             exchange: exchange,
                             user: user);
@@ -1009,27 +1015,27 @@ namespace RentalWorksQuikScan.Modules
 
             if (proceed && exchange.frmOutExchangeItem.item.trackedby == RwConstants.TrackedBy.BARCODE)
             {
-                ExchangeBarcode(conn: conn,
-                                exchange: exchange,
-                                user: user);
+                await ExchangeBarcodeAsync(conn: conn,
+                                           exchange: exchange,
+                                           user: user);
             }
             else if (proceed && exchange.frmOutExchangeItem.item.trackedby == RwConstants.TrackedBy.SERIALNO)
             {
-                ExchangeSerial(conn: conn,
-                               exchange: exchange,
-                               user: user);
+                await ExchangeSerialAsync(conn: conn,
+                                          exchange: exchange,
+                                          user: user);
             }
             else if (proceed && exchange.frmOutExchangeItem.item.trackedby == RwConstants.TrackedBy.RFID)
             {
-                ExchangeRfid(conn: conn,
-                             exchange: exchange,
-                             user: user);
+                await ExchangeRfidAsync(conn: conn,
+                                        exchange: exchange,
+                                        user: user);
             }
             else if (proceed && exchange.frmOutExchangeItem.item.trackedby == RwConstants.TrackedBy.QUANTITY)
             {
-                ExchangeQuantity(conn: conn,
-                                 exchange: exchange,
-                                 user: user);
+                await ExchangeQuantityAsync(conn: conn,
+                                            exchange: exchange,
+                                            user: user);
             }
             //if (proceed)
             //{
@@ -1043,7 +1049,7 @@ namespace RentalWorksQuikScan.Modules
             //}
         } 
         //---------------------------------------------------------------------------------------------
-        public static void GetItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user)
+        public async Task GetItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user)
         {
             string possibleserialno, barcode;
             possibleserialno = "";
@@ -1059,35 +1065,35 @@ namespace RentalWorksQuikScan.Modules
             {
                 possibleserialno = barcode.Split('|')[0];
             }
-            IsSerialNoResponse isSerialNoResponse = isserialno(conn: conn,
-                                                               serialno: barcode, 
-                                                               availfrom: RwConstants.AvailFrom.WAREHOUSE);
+            IsSerialNoResponse isSerialNoResponse = await isserialnoAsync(conn: conn,
+                                                                          serialno: barcode, 
+                                                                          availfrom: RwConstants.AvailFrom.WAREHOUSE);
             if (isSerialNoResponse.found)
             {
-                GetSerialItemInfo(conn: conn,
+                await GetSerialItemInfoAsync(conn: conn,
                                   itemstatus: itemstatus,
                                   exchange: exchange,
                                   user: user,
                                   serialno: barcode,
                                   isSerialNoResponse: isSerialNoResponse);
             }
-            IsRentalICodeResponse isRentalICodeResponse = isrentalicode(conn: conn, 
-                                                                        masterno: barcode, 
-                                                                        availfrom: RwConstants.AvailFrom.WAREHOUSE, 
-                                                                        quantityonly: false);
+            IsRentalICodeResponse isRentalICodeResponse = await isrentalicodeAsync(conn: conn, 
+                                                                                   masterno: barcode, 
+                                                                                   availfrom: RwConstants.AvailFrom.WAREHOUSE, 
+                                                                                   quantityonly: false);
             if (isRentalICodeResponse.found)
             {
-               GetQuantityItemInfo(conn: conn,
+               await GetQuantityItemInfoAsync(conn: conn,
                                    itemstatus: itemstatus,
                                    exchange: exchange,
                                    user: user,
                                    isRentalICodeResponse: isRentalICodeResponse);
             }
 
-            IsBarcodeResponse isBarcodeResponse = isbarcode(conn: conn, barcode: barcode);
+            IsBarcodeResponse isBarcodeResponse = await isbarcodeAsync(conn: conn, barcode: barcode);
             if (isBarcodeResponse.found)
             {
-                GetBarcodeItemInfo(conn: conn,
+                await GetBarcodeItemInfoAsync(conn: conn,
                                    itemstatus: itemstatus,
                                    exchange: exchange,
                                    user: user,
@@ -1096,35 +1102,35 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        private static void GetQuantityItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
+        private async Task GetQuantityItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
         {
             if (itemstatus == RwConstants.ItemStatus.OUT && string.IsNullOrEmpty(exchange.frmInExchangeItem.barcode))
             {
-               GetPendingOutQuantityItemInfo(conn: conn, 
-                                             itemstatus: itemstatus,
-                                             exchange: exchange,
-                                             user: user,
-                                             isRentalICodeResponse: isRentalICodeResponse);
+               await GetPendingOutQuantityItemInfoAsync(conn: conn, 
+                                                        itemstatus: itemstatus,
+                                                        exchange: exchange,
+                                                        user: user,
+                                                        isRentalICodeResponse: isRentalICodeResponse);
             }
             else if (itemstatus == RwConstants.ItemStatus.IN && exchange.completingpending)
             {
-               GetPendingInQuantityItemInfo(conn: conn, 
-                                            itemstatus: itemstatus,
-                                            exchange: exchange,
-                                            user: user,
-                                            isRentalICodeResponse: isRentalICodeResponse);
+               await GetPendingInQuantityItemInfoAsync(conn: conn, 
+                                                       itemstatus: itemstatus,
+                                                       exchange: exchange,
+                                                       user: user,
+                                                       isRentalICodeResponse: isRentalICodeResponse);
             }
             else if (itemstatus == RwConstants.ItemStatus.IN || itemstatus == RwConstants.ItemStatus.OUT)
             {
-               GetInOutQuantityItemInfo(conn: conn,
-                                        itemstatus: itemstatus,
-                                        exchange: exchange,
-                                        user: user,
-                                        isRentalICodeResponse: isRentalICodeResponse);
+               await GetInOutQuantityItemInfoAsync(conn: conn,
+                                                   itemstatus: itemstatus,
+                                                   exchange: exchange,
+                                                   user: user,
+                                                   isRentalICodeResponse: isRentalICodeResponse);
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetPendingOutQuantityItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
+        public async Task GetPendingOutQuantityItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1135,10 +1141,10 @@ namespace RentalWorksQuikScan.Modules
             {
                 frmExchangeItem = exchange.frmOutExchangeItem;
             }
-            string masterno = FwSqlCommand.GetStringData(conn, "master", "masterid", isRentalICodeResponse.masterid, "masterno");
-            string master   = FwSqlCommand.GetStringData(conn, "master", "masterid", isRentalICodeResponse.masterid, "master");
+            string masterno = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "master", "masterid", isRentalICodeResponse.masterid, "masterno");
+            string master   = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "master", "masterid", isRentalICodeResponse.masterid, "master");
             frmExchangeItem.item.status  = TBCItem.StatusTypes.Error;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select *");
                 qry.Add("from  exchangependingoutnonbcview with (nolock)");
@@ -1150,7 +1156,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddParameter("@locationid", user.primarylocationid);
                 qry.AddParameter("@dealid", exchange.dealid);
                 qry.AddParameter("@inventorydepartmentid", user.rentalinventorydepartmentid); 
-                qry.Execute();
+                await qry.ExecuteAsync();
                 switch(qry.RowCount)
                 {
                    case 0:
@@ -1167,7 +1173,7 @@ namespace RentalWorksQuikScan.Modules
                         frmExchangeItem.item.dealid       = qry.GetField("dealid").ToString().TrimEnd();
                         frmExchangeItem.item.deptid       = qry.GetField("departmentid").ToString().TrimEnd();
                         frmExchangeItem.item.warehouseid  = qry.GetField("warehouseid").ToString().TrimEnd();
-                        frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                        frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                         frmExchangeItem.item.ordertranid  = 0;
                         frmExchangeItem.item.internalchar = string.Empty;
                         frmExchangeItem.item.masteritemid = string.Empty;
@@ -1207,7 +1213,7 @@ namespace RentalWorksQuikScan.Modules
                             frmExchangeItem.item.dealid       = exchange.validDlgResult.dealid;
                             frmExchangeItem.item.deptid       = exchange.validDlgResult.departmentid;
                             frmExchangeItem.item.warehouseid  = exchange.validDlgResult.warehouseid;
-                            frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                            frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                             frmExchangeItem.item.ordertranid  = 0;
                             frmExchangeItem.item.internalchar = "";
                             frmExchangeItem.item.masteritemid = "";
@@ -1228,7 +1234,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetPendingInQuantityItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
+        public async Task GetPendingInQuantityItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1239,10 +1245,10 @@ namespace RentalWorksQuikScan.Modules
             {
                 frmExchangeItem = exchange.frmOutExchangeItem;
             }
-            string masterno = FwSqlCommand.GetStringData(conn, "master", "masterid", isRentalICodeResponse.masterid, "masterno");
-            string master   = FwSqlCommand.GetStringData(conn, "master", "masterid", isRentalICodeResponse.masterid, "master");
+            string masterno = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "master", "masterid", isRentalICodeResponse.masterid, "masterno");
+            string master   = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "master", "masterid", isRentalICodeResponse.masterid, "master");
             frmExchangeItem.item.status  = TBCItem.StatusTypes.Error;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select *");
                 qry.Add("from exchangependinginnonbcview with(nolock)");
@@ -1257,7 +1263,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddParameter("@masterid", isRentalICodeResponse.masterid);
                 qry.AddParameter("@dealid", exchange.dealid);
                 qry.AddParameter("@usersprimaryinventorydepartmentid", user.rentalinventorydepartmentid);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 switch(qry.RowCount)
                 {
                     case 0:
@@ -1274,7 +1280,7 @@ namespace RentalWorksQuikScan.Modules
                         frmExchangeItem.item.dealid       = qry.GetField("dealid").ToString().TrimEnd();
                         frmExchangeItem.item.deptid       = qry.GetField("departmentid").ToString().TrimEnd();
                         frmExchangeItem.item.warehouseid  = qry.GetField("warehouseid").ToString().TrimEnd();
-                        frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                        frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                         frmExchangeItem.item.ordertranid  = 0;
                         frmExchangeItem.item.internalchar = "";
                         frmExchangeItem.item.masteritemid = qry.GetField("masteritemid").ToString().TrimEnd();
@@ -1317,7 +1323,7 @@ namespace RentalWorksQuikScan.Modules
                             frmExchangeItem.item.dealid       = exchange.validDlgResult.dealid;
                             frmExchangeItem.item.deptid       = exchange.validDlgResult.departmentid;
                             frmExchangeItem.item.warehouseid  = exchange.validDlgResult.warehouseid;
-                            frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                            frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                             frmExchangeItem.item.ordertranid  = 0;
                             frmExchangeItem.item.internalchar = "";
                             frmExchangeItem.item.masteritemid = exchange.validDlgResult.masteritemid;
@@ -1338,7 +1344,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetInOutQuantityItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
+        public async Task GetInOutQuantityItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, IsRentalICodeResponse isRentalICodeResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1351,19 +1357,19 @@ namespace RentalWorksQuikScan.Modules
             }
             int count;
             string masterno, master, trackedby, newmasteritemid;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select masterno, master, trackedby");
                 qry.Add("from master with (nolock)");
                 qry.Add("where masterid = @masterid");
                 qry.AddParameter("@masterid", isRentalICodeResponse.masterid);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 masterno  = qry.GetField("masterno").ToString().TrimEnd();
                 master    = qry.GetField("master").ToString().TrimEnd();
                 trackedby = qry.GetField("trackedby").ToString().TrimEnd();
             }
             frmExchangeItem.item.status = TBCItem.StatusTypes.Error;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select *");
                 qry.Add("from  exchangenonbcview with(nolock)");
@@ -1398,7 +1404,7 @@ namespace RentalWorksQuikScan.Modules
                 }
                 qry.Add("  and inventorydepartmentid = @usersprimaryinventorydepartmentid"); //jh 12/09/09 CAS-6696-YZVS
                 qry.AddParameter("@usersprimaryinventorydepartmentid", user.rentalinventorydepartmentid);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 count = qry.RowCount;
                 if (count == 1 && (trackedby == RwConstants.TrackedBy.BARCODE || trackedby == RwConstants.TrackedBy.SERIALNO || trackedby == RwConstants.TrackedBy.RFID))
                 {
@@ -1430,14 +1436,14 @@ namespace RentalWorksQuikScan.Modules
                                 else  //Perform cross-Warehouse Exchange
                                 {
                                     frmExchangeItem.item.status  = TBCItem.StatusTypes.Found;
-                                    newmasteritemid = splitmasteritem(conn: conn,
-                                                                      orderid: exchange.frmInExchangeItem.item.orderid,
-                                                                      masteritemid: exchange.frmInExchangeItem.item.masteritemid,
-                                                                      splitqty: 0, 
-                                                                      splitsubqty: 0);
+                                    newmasteritemid = await splitmasteritemAsync(conn: conn,
+                                                                                 orderid: exchange.frmInExchangeItem.item.orderid,
+                                                                                 masteritemid: exchange.frmInExchangeItem.item.masteritemid,
+                                                                                 splitqty: 0, 
+                                                                                 splitsubqty: 0);
                                     frmExchangeItem.item = CopyBCItem(exchange.frmInExchangeItem.item);
                                     frmExchangeItem.item.masteritemid = newmasteritemid;
-                                    using (FwSqlCommand cmd = new FwSqlCommand(conn))
+                                    using (FwSqlCommand cmd = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                                     {
                                         cmd.Add("update mi");
                                         cmd.Add("set warehouseid = @defuserwhid");
@@ -1447,10 +1453,10 @@ namespace RentalWorksQuikScan.Modules
                                         cmd.AddParameter("@defuserwhid", user.primarywarehouseid);
                                         cmd.AddParameter("@initemorderid", exchange.frmInExchangeItem.item.orderid);
                                         cmd.AddParameter("@initemmasteritemid", exchange.frmInExchangeItem.item.masteritemid);
-                                        cmd.ExecuteNonQuery();
+                                        await cmd.ExecuteNonQueryAsync();
                                     }
                                     frmExchangeItem.item.warehouseid  = user.primarywarehouseid;
-                                    frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                                    frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                                     frmExchangeItem.item.ordertranid  = 0;
                                     frmExchangeItem.item.internalchar = "";
                                     frmExchangeItem.item.qty          = 0;
@@ -1470,18 +1476,18 @@ namespace RentalWorksQuikScan.Modules
                                 else
                                 {
                                     frmExchangeItem.item.status       = TBCItem.StatusTypes.Found;
-                                    newmasteritemid      = insertmasteritem(conn: conn,
-                                                                            orderid: exchange.frmInExchangeItem.item.orderid, 
-                                                                            masterid: isRentalICodeResponse.masterid, 
-                                                                            warehouseid: user.primarywarehouseid, 
-                                                                            qty: 0);
-                                    insertcheckoutaudit(conn: conn,
-                                                        orderid: exchange.frmInExchangeItem.item.orderid, 
-                                                        masteritemid: newmasteritemid,
-                                                        usersid: user.usersid, 
-                                                        priorqty: 0, 
-                                                        newqty: 0);
-                                    using (FwSqlCommand qry2 = new FwSqlCommand(conn))
+                                    newmasteritemid      = await insertmasteritemAsync(conn: conn,
+                                                                                       orderid: exchange.frmInExchangeItem.item.orderid, 
+                                                                                       masterid: isRentalICodeResponse.masterid, 
+                                                                                       warehouseid: user.primarywarehouseid, 
+                                                                                       qty: 0);
+                                    await insertcheckoutauditAsync(conn: conn,
+                                                                   orderid: exchange.frmInExchangeItem.item.orderid, 
+                                                                   masteritemid: newmasteritemid,
+                                                                   usersid: user.usersid, 
+                                                                   priorqty: 0, 
+                                                                   newqty: 0);
+                                    using (FwSqlCommand qry2 = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                                     {
                                         qry2.Add("update mi");
                                         qry2.Add(" set   price       = mi2.price,");
@@ -1498,13 +1504,13 @@ namespace RentalWorksQuikScan.Modules
                                         qry2.Add("  and mi.masteritemid  = @newmasteritemid");
                                         qry2.Add("  and mi2.orderid      = @initemorderid");
                                         qry2.Add("  and mi2.masteritemid = @initemmasteritemid");
-                                        qry2.ExecuteNonQuery();
+                                        await qry2.ExecuteNonQueryAsync();
                                     }
                                     frmExchangeItem.item              = CopyBCItem(exchange.frmInExchangeItem.item);
                                     frmExchangeItem.item.masteritemid = newmasteritemid;
                                     frmExchangeItem.item.masterid     = isRentalICodeResponse.masterid;
                                     frmExchangeItem.item.warehouseid  = user.primarywarehouseid;
-                                    frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                                    frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                                     frmExchangeItem.item.ordertranid  = 0;
                                     frmExchangeItem.item.internalchar = "";
                                     frmExchangeItem.item.qty          = 0;
@@ -1529,7 +1535,7 @@ namespace RentalWorksQuikScan.Modules
                         frmExchangeItem.item.dealid       = qry.GetField("dealid").ToString().TrimEnd();
                         frmExchangeItem.item.deptid       = qry.GetField("departmentid").ToString().TrimEnd();
                         frmExchangeItem.item.warehouseid  = qry.GetField("warehouseid").ToString().TrimEnd();
-                        frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                        frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                         frmExchangeItem.item.ordertranid  = 0;
                         frmExchangeItem.item.internalchar = "";
                         frmExchangeItem.item.masteritemid = qry.GetField("masteritemid").ToString().TrimEnd();
@@ -1596,7 +1602,7 @@ namespace RentalWorksQuikScan.Modules
                             frmExchangeItem.item.dealid       = exchange.validDlgResult.dealid;
                             frmExchangeItem.item.deptid       = exchange.validDlgResult.departmentid;
                             frmExchangeItem.item.warehouseid  = exchange.validDlgResult.warehouseid;
-                            frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                            frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                             frmExchangeItem.item.ordertranid  = 0;
                             frmExchangeItem.item.internalchar = "";
                             frmExchangeItem.item.masteritemid = exchange.validDlgResult.masteritemid;
@@ -1617,38 +1623,38 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetSerialItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
+        public async Task GetSerialItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
         {
             if (itemstatus == RwConstants.ItemStatus.OUT && string.IsNullOrEmpty(exchange.frmInExchangeItem.barcode))
             {
-               GetPendingOutSerialItemInfo(conn: conn,
-                                           itemstatus: itemstatus,
-                                           exchange: exchange,
-                                           user: user,
-                                           serialno: serialno,
-                                           isSerialNoResponse: isSerialNoResponse);
+               await GetPendingOutSerialItemInfoAsync(conn: conn,
+                                                      itemstatus: itemstatus,
+                                                      exchange: exchange,
+                                                      user: user,
+                                                      serialno: serialno,
+                                                      isSerialNoResponse: isSerialNoResponse);
             }
             else if (itemstatus == RwConstants.ItemStatus.IN)
             {
-               GetInSerialItemInfo(conn: conn,
-                                   itemstatus: itemstatus,
-                                   exchange: exchange,
-                                   user: user,
-                                   serialno: serialno,
-                                   isSerialNoResponse: isSerialNoResponse);
+               await GetInSerialItemInfoAsync(conn: conn,
+                                              itemstatus: itemstatus,
+                                              exchange: exchange,
+                                              user: user,
+                                              serialno: serialno,
+                                              isSerialNoResponse: isSerialNoResponse);
             }
             else if (itemstatus == RwConstants.ItemStatus.OUT)
             {
-               GetOutSerialItemInfo(conn,
-                                    itemstatus: itemstatus,
-                                    exchange: exchange,
-                                    user: user,
-                                    serialno: serialno,
-                                    isSerialNoResponse: isSerialNoResponse);
+               await GetOutSerialItemInfoAsync(conn,
+                                               itemstatus: itemstatus,
+                                               exchange: exchange,
+                                               user: user,
+                                               serialno: serialno,
+                                               isSerialNoResponse: isSerialNoResponse);
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetPendingOutSerialItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
+        public async Task GetPendingOutSerialItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1661,7 +1667,7 @@ namespace RentalWorksQuikScan.Modules
             }
             //validDlg: TfsExchangePendingOutSerial;
             frmExchangeItem.item.status = TBCItem.StatusTypes.Error;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select *");
                 qry.Add("from  exchangependingoutserialview with(nolock)");
@@ -1669,7 +1675,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.Add("  and locationid = @defuserlocid");
                 qry.Add("  and dealid     = @dealid");
                 qry.Add("  and inventorydepartmentid = @usersprimaryinventorydepartmentid"); //jh 12/09/09 CAS-6696-YZVS
-                qry.Execute();
+                await qry.ExecuteAsync();
                 switch(qry.RowCount)
                 {
                     case 0:
@@ -1687,7 +1693,7 @@ namespace RentalWorksQuikScan.Modules
                         frmExchangeItem.item.dealid       = "";
                         frmExchangeItem.item.deptid       = "";
                         frmExchangeItem.item.warehouseid  = qry.GetField("warehouseid").ToString().TrimEnd();
-                        frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                        frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                         frmExchangeItem.item.ordertranid  = 0;
                         frmExchangeItem.item.internalchar = "";
                         frmExchangeItem.item.masteritemid = "";
@@ -1728,7 +1734,7 @@ namespace RentalWorksQuikScan.Modules
                             frmExchangeItem.item.dealid       = "";
                             frmExchangeItem.item.deptid       = "";
                             frmExchangeItem.item.warehouseid  = exchange.validDlgResult.warehouseid;
-                            frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                            frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                             frmExchangeItem.item.ordertranid  = 0;
                             frmExchangeItem.item.internalchar = "";
                             frmExchangeItem.item.masteritemid = "";
@@ -1750,7 +1756,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetInSerialItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
+        public async Task GetInSerialItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1763,7 +1769,7 @@ namespace RentalWorksQuikScan.Modules
             }
             //validDlg: TfsExchangeInSerial;
             frmExchangeItem.item.status = TBCItem.StatusTypes.Error;
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select *");
                 qry.Add("from exchangeserialview with (nolock)");
@@ -1786,7 +1792,7 @@ namespace RentalWorksQuikScan.Modules
                 }
                 qry.Add("inventorydepartmentid = @usersprimarydepartmentid"); //jh 12/09/09 CAS-6696-YZVS
                 qry.AddParameter("@usersprimarydepartmentid", user.rentalinventorydepartmentid);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 switch(qry.RowCount)
                 {
                     case 0:
@@ -1811,7 +1817,7 @@ namespace RentalWorksQuikScan.Modules
                         frmExchangeItem.item.dealid       = qry.GetField("dealid").ToString().TrimEnd();
                         frmExchangeItem.item.deptid       = qry.GetField("departmentid").ToString().TrimEnd();
                         frmExchangeItem.item.warehouseid  = qry.GetField("warehouseid").ToString().TrimEnd();
-                        frmExchangeItem.item.whcode       = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                        frmExchangeItem.item.whcode       = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                         frmExchangeItem.item.ordertranid  = qry.GetField("ordertranid").ToInt32();
                         frmExchangeItem.item.internalchar = qry.GetField("internalchar").ToString().TrimEnd();
                         frmExchangeItem.item.masteritemid = qry.GetField("masteritemid").ToString().TrimEnd();
@@ -1859,7 +1865,7 @@ namespace RentalWorksQuikScan.Modules
                             frmExchangeItem.item.dealid            = exchange.validDlgResult.dealid;
                             frmExchangeItem.item.deptid            = exchange.validDlgResult.departmentid;
                             frmExchangeItem.item.warehouseid       = exchange.validDlgResult.warehouseid;
-                            frmExchangeItem.item.whcode            = FwSqlCommand.GetStringData(conn, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
+                            frmExchangeItem.item.whcode            = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "warehouse", "warehouseid", frmExchangeItem.item.warehouseid, "whcode");
                             frmExchangeItem.item.ordertranid       = exchange.validDlgResult.ordertranid;
                             frmExchangeItem.item.internalchar      = exchange.validDlgResult.internalchar;
                             frmExchangeItem.item.masteritemid      = exchange.validDlgResult.masteritemid;
@@ -1884,7 +1890,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetOutSerialItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
+        public async Task GetOutSerialItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string serialno, IsSerialNoResponse isSerialNoResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1897,47 +1903,47 @@ namespace RentalWorksQuikScan.Modules
             }
             frmExchangeItem.item.serialno = serialno;
             frmExchangeItem.item.status   = TBCItem.StatusTypes.Error;
-            frmExchangeItem.item          = getoutserialexchangeiteminfo(conn: conn,
-                                                                         itemstatus: itemstatus,
-                                                                         exchange: exchange,
-                                                                         user: user,
-                                                                         serialno: serialno,
-                                                                         isSerialNoResponse: isSerialNoResponse);
+            frmExchangeItem.item          = await getoutserialexchangeiteminfoAsync(conn: conn,
+                                                                                    itemstatus: itemstatus,
+                                                                                    exchange: exchange,
+                                                                                    user: user,
+                                                                                    serialno: serialno,
+                                                                                    isSerialNoResponse: isSerialNoResponse);
             frmExchangeItem.showbtnremovefromcontainer = frmExchangeItem.item.itemincontainer;
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetBarcodeItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
+        public async Task GetBarcodeItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
         {
             if (itemstatus == RwConstants.ItemStatus.OUT && string.IsNullOrEmpty(exchange.frmInExchangeItem.barcode))
             {
-               GetPendingOutBarCodeItemInfo(conn: conn,
-                                            itemstatus: itemstatus,
-                                            exchange: exchange,
-                                            user: user,
-                                            barcode: barcode,
-                                            isBarcodeResponse: isBarcodeResponse);
+               await GetPendingOutBarCodeItemInfoAsync(conn: conn,
+                                                       itemstatus: itemstatus,
+                                                       exchange: exchange,
+                                                       user: user,
+                                                       barcode: barcode,
+                                                       isBarcodeResponse: isBarcodeResponse);
             }
             else if (itemstatus == RwConstants.ItemStatus.IN)
             {
-               GetInBarCodeItemInfo(conn: conn,
-                                    itemstatus: itemstatus,
-                                    exchange: exchange,
-                                    user: user,
-                                    barcode: barcode,
-                                    isBarcodeResponse: isBarcodeResponse);
+               await GetInBarCodeItemInfoAsync(conn: conn,
+                                               itemstatus: itemstatus,
+                                               exchange: exchange,
+                                               user: user,
+                                               barcode: barcode,
+                                               isBarcodeResponse: isBarcodeResponse);
             }
             else if (itemstatus == RwConstants.ItemStatus.OUT)
             {
-               GetOutBarCodeItemInfo(conn: conn,
-                                     itemstatus: itemstatus,
-                                     exchange: exchange,
-                                     user: user,
-                                     barcode: barcode,
-                                     isBarcodeResponse: isBarcodeResponse);
+               await GetOutBarCodeItemInfoAsync(conn: conn,
+                                                itemstatus: itemstatus,
+                                                exchange: exchange,
+                                                user: user,
+                                                barcode: barcode,
+                                                isBarcodeResponse: isBarcodeResponse);
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static string ConvertOrderModeToOrderType(string ordermode)
+        public string ConvertOrderModeToOrderType(string ordermode)
         {
             RwConstants.OrderModes mode = (RwConstants.OrderModes)Enum.Parse(typeof(RwConstants.OrderModes), ordermode);
             string ordertype = string.Empty;
@@ -1960,7 +1966,7 @@ namespace RentalWorksQuikScan.Modules
             return ordertype;
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetPendingOutBarCodeItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
+        public async Task GetPendingOutBarCodeItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1973,17 +1979,17 @@ namespace RentalWorksQuikScan.Modules
             }
             frmExchangeItem.item.barcode = barcode;
             frmExchangeItem.item.status  = TBCItem.StatusTypes.Error;
-            frmExchangeItem.item         = getpendingoutbarcodeexchangeiteminfo(conn: conn,
-                                                                   barcode: barcode,
-                                                                   usersid: user.usersid,
-                                                                   dealid: exchange.dealid,
-                                                                   warehouseid: user.primarywarehouseid,
-                                                                   ordertype: ConvertOrderModeToOrderType(exchange.ordermode),
-                                                                   removefromcontainer: exchange.removingFromContainer);
+            frmExchangeItem.item         = await getpendingoutbarcodeexchangeiteminfoAsync(conn: conn,
+                                                                                           barcode: barcode,
+                                                                                           usersid: user.usersid,
+                                                                                           dealid: exchange.dealid,
+                                                                                           warehouseid: user.primarywarehouseid,
+                                                                                           ordertype: ConvertOrderModeToOrderType(exchange.ordermode),
+                                                                                           removefromcontainer: exchange.removingFromContainer);
             frmExchangeItem.showbtnremovefromcontainer = frmExchangeItem.item.itemincontainer;
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetInBarCodeItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
+        public async Task GetInBarCodeItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -1995,13 +2001,13 @@ namespace RentalWorksQuikScan.Modules
                 frmExchangeItem = exchange.frmOutExchangeItem;
             }
             frmExchangeItem.item.status    = TBCItem.StatusTypes.Error;
-            frmExchangeItem.item           = getinbarcodeexchangeiteminfo(conn: conn,
-                                                                          barcode: barcode,
-                                                                          orderid: exchange.orderid,
-                                                                          dealid: exchange.dealid,
-                                                                          departmentid: exchange.departmentid,
-                                                                          warehouseid: "", //jh 01/14/09 (to allow cross-warehouse exchange)
-                                                                          ordertype: ConvertOrderModeToOrderType(exchange.ordermode));
+            frmExchangeItem.item           = await getinbarcodeexchangeiteminfoAsync(conn: conn,
+                                                                                     barcode: barcode,
+                                                                                     orderid: exchange.orderid,
+                                                                                     dealid: exchange.dealid,
+                                                                                     departmentid: exchange.departmentid,
+                                                                                     warehouseid: "", //jh 01/14/09 (to allow cross-warehouse exchange)
+                                                                                     ordertype: ConvertOrderModeToOrderType(exchange.ordermode));
             if (exchange.completingpending && 
                 frmExchangeItem.item.status == TBCItem.StatusTypes.Error && 
                 frmExchangeItem.item.msg == "Item is Out Pending, select an Order to associate Out/In transaction with.")
@@ -2035,7 +2041,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetOutBarCodeItemInfo(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
+        public async Task GetOutBarCodeItemInfoAsync(FwSqlConnection conn, string itemstatus, ExchangeModel exchange, UserContext user, string barcode, IsBarcodeResponse isBarcodeResponse)
         {
             ExchangeItem frmExchangeItem;
             if (itemstatus == RwConstants.ItemStatus.IN)
@@ -2048,18 +2054,18 @@ namespace RentalWorksQuikScan.Modules
             }
             frmExchangeItem.item.barcode = barcode;
             frmExchangeItem.item.status  = TBCItem.StatusTypes.Error;
-            frmExchangeItem.item         = getoutbarcodeexchangeiteminfo(conn: conn,
-                                                                         barcode: barcode,
-                                                                         masterid: isBarcodeResponse.masterid,
-                                                                         warehouseid: user.primarywarehouseid,
-                                                                         ordertype: ConvertOrderModeToOrderType(exchange.ordermode),
-                                                                         usersid: user.usersid,
-                                                                         removefromcontainer: exchange.removingFromContainer,
-                                                                         availthrough: exchange.frmInExchangeItem.item.availtodatetime);
+            frmExchangeItem.item         = await getoutbarcodeexchangeiteminfoAsync(conn: conn,
+                                                                                    barcode: barcode,
+                                                                                    masterid: isBarcodeResponse.masterid,
+                                                                                    warehouseid: user.primarywarehouseid,
+                                                                                    ordertype: ConvertOrderModeToOrderType(exchange.ordermode),
+                                                                                    usersid: user.usersid,
+                                                                                    removefromcontainer: exchange.removingFromContainer,
+                                                                                    availthrough: exchange.frmInExchangeItem.item.availtodatetime);
             frmExchangeItem.showbtnremovefromcontainer = frmExchangeItem.item.itemincontainer;
         }
         //---------------------------------------------------------------------------------------------
-        public static void resetall(ExchangeModel exchange)
+        public void resetall(ExchangeModel exchange)
         {
             exchange.allowcrossicode = false;
             exchange.allowcrosswarehouse = false;
@@ -2067,13 +2073,13 @@ namespace RentalWorksQuikScan.Modules
             clearoutitem(exchange);
         }
         //---------------------------------------------------------------------------------------------
-        public static void clearinitem(ExchangeModel exchange)
+        public void clearinitem(ExchangeModel exchange)
         {
             exchange.frmInExchangeItem = new ExchangeModels.ExchangeItem();
             exchange.frmInExchangeItem.clearitem = true;
         }
         //---------------------------------------------------------------------------------------------
-        public static void clearoutitem(ExchangeModel exchange)
+        public void clearoutitem(ExchangeModel exchange)
         {
             exchange.frmOutExchangeItem = new ExchangeModels.ExchangeItem();
             exchange.frmOutExchangeItem.clearitem = true;

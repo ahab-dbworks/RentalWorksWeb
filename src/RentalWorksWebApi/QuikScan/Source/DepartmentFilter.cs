@@ -1,7 +1,8 @@
-﻿using Fw.Json.SqlServer;
+﻿using FwStandard.Models;
+using FwStandard.SqlServer;
 using System.Collections.Generic;
-using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RentalWorksQuikScan.Source
 {
@@ -13,13 +14,13 @@ namespace RentalWorksQuikScan.Source
         //----------------------------------------------------------------------------------------------------
         private static Dictionary<string, string> usersDepartmentFilter { get; set; } = new Dictionary<string, string>();
         //----------------------------------------------------------------------------------------------------
-        public static void LoadUserDepartmentFilter(string usersid, dynamic session)
+        public static async Task LoadUserDepartmentFilterAsync(FwApplicationConfig applicationConfig, string usersid, dynamic session)
         {
             dynamic applicationOptions;
             StringBuilder deptfilter = new StringBuilder();
             if (session == null)
             {
-                applicationOptions = FwSqlData.GetApplicationOptions(FwSqlConnection.RentalWorks);
+                applicationOptions = await FwSqlData.GetApplicationOptionsAsync(applicationConfig.DatabaseSettings);
             }
             else
             {
@@ -27,33 +28,36 @@ namespace RentalWorksQuikScan.Source
             }
             if (applicationOptions.departmentfilter.enabled)
             {
-                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+                using (FwSqlConnection conn = new FwSqlConnection(applicationConfig.DatabaseSettings.ConnectionString))
                 {
-                    qry.Add("select d.departmentid");
-                    qry.Add("from  department d join departmentaccess da on (d.departmentid = da.departmentaccessid)");
-                    qry.Add("where da.departmentid = dbo.getusersprimarydepartmentid(@usersid)");
-                    qry.Add("  and d.inactive <> 'T'");
-                    qry.Add("  and orderaccess = 'T'");
-                    qry.AddParameter("@usersid", usersid);
-                    DataTable dt = qry.QueryToTable();
-                    deptfilter.Append("departmentid in (''");
-                    for (int i = 0; i < dt.Rows.Count; i++)
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, applicationConfig.DatabaseSettings.QueryTimeout))
                     {
-                        deptfilter.Append(",'");
-                        deptfilter.Append(dt.Rows[i]["departmentid"].ToString());
-                        deptfilter.Append("'");
-                    }
-                    deptfilter.Append(")");
+                        qry.Add("select d.departmentid");
+                        qry.Add("from  department d join departmentaccess da on (d.departmentid = da.departmentaccessid)");
+                        qry.Add("where da.departmentid = dbo.getusersprimarydepartmentid(@usersid)");
+                        qry.Add("  and d.inactive <> 'T'");
+                        qry.Add("  and orderaccess = 'T'");
+                        qry.AddParameter("@usersid", usersid);
+                        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+                        deptfilter.Append("departmentid in (''");
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            deptfilter.Append(",'");
+                            deptfilter.Append(dt.GetValue(i, "departmentid").ToString());
+                            deptfilter.Append("'");
+                        }
+                        deptfilter.Append(")");
+                    } 
                 }
             }
             usersDepartmentFilter[usersid] = deptfilter.ToString();
         }
         //----------------------------------------------------------------------------------------------------
-        public static void SetDepartmentFilter(string usersid, FwSqlCommand qry)
+        public static async Task SetDepartmentFilterAsync(FwApplicationConfig applicationConfig, string usersid, FwSqlCommand qry)
         {
             if (!usersDepartmentFilter.ContainsKey(usersid))
             {
-                LoadUserDepartmentFilter(usersid, null);
+                await LoadUserDepartmentFilterAsync(applicationConfig, usersid, null);
             }
             if (!string.IsNullOrEmpty(usersDepartmentFilter[usersid]))
             {
@@ -61,11 +65,11 @@ namespace RentalWorksQuikScan.Source
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static void SetDepartmentFilter(string usersid, FwSqlSelect select)
+        public static async Task SetDepartmentFilterAsync(FwApplicationConfig applicationConfig, string usersid, FwSqlSelect select)
         {
             if (!usersDepartmentFilter.ContainsKey(usersid))
             {
-                LoadUserDepartmentFilter(usersid, null);
+                await LoadUserDepartmentFilterAsync(applicationConfig, usersid, null);
             }
             if (!string.IsNullOrEmpty(usersDepartmentFilter[usersid]))
             {

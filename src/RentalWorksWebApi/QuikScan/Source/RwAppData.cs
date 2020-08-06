@@ -1,17 +1,17 @@
-﻿using Fw.Json.Services;
-using Fw.Json.SqlServer;
-using Fw.Json.Utilities;
-using Fw.Json.ValueTypes;
+﻿using FwStandard.Mobile;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Dynamic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RentalWorksQuikScan.Source
 {
-    public static class RwAppData
+    public class RwAppData
     {
         public enum ItemType     { BarCoded, NonBarCoded, None };
         public enum ModuleType   { Order, PhyInv, Transfer, Truck, Repair, Exchange, SubReceive, SubReturn, MoveToLocation, QC, None };
@@ -21,45 +21,51 @@ namespace RentalWorksQuikScan.Source
         //----------------------------------------------------------------------------------------------------
         public const string CONTRACT_TYPE_OUT = "OUT";
         public const string CONTRACT_TYPE_IN  = "IN";
+        FwApplicationConfig ApplicationConfig;
         //----------------------------------------------------------------------------------------------------
-        public static string GetUsersId(dynamic session)
+        public RwAppData(FwApplicationConfig applicationConfig) 
+        {
+            this.ApplicationConfig = applicationConfig;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public string GetUsersId(dynamic session)
         {
             return session.security.webUser.usersid;
         }
         //----------------------------------------------------------------------------------------------------
-        public static string GetLocationId(dynamic session)
+        public async Task<string> GetLocationIdAsync(dynamic session)
         {
-            var userLocation = RwAppData.GetUserLocation(conn: FwSqlConnection.RentalWorks, 
-                                                         usersId: RwAppData.GetUsersId(session));
-            return userLocation.locationId;
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                var userLocation = await this.GetUserLocationAsync(conn, this.GetUsersId(session));
+                return userLocation.locationId; 
+            }
         }
         //----------------------------------------------------------------------------------------------------
-        public static string GetWarehouseId(dynamic session)
+        public async Task<string> GetWarehouseIdAsync(dynamic session)
         {
-            var userLocation = RwAppData.GetUserLocation(conn: FwSqlConnection.RentalWorks, 
-                                                         usersId: RwAppData.GetUsersId(session));
-            return userLocation.warehouseId;
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                var userLocation = await this.GetUserLocationAsync(conn, this.GetUsersId(session));
+                return userLocation.warehouseId; 
+            }
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetDepartmentLocation(FwSqlConnection conn, string departmentId, string locationId)
+        public async Task<dynamic> GetDepartmentLocationAsync(FwSqlConnection conn, string departmentId, string locationId)
         {
-            dynamic result;
-            IDictionary<String, object> departmentLocation;
-            FwSqlCommand qry;
-
-            result = new ExpandoObject();
-            departmentLocation = result as IDictionary<string, object>;
-            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.Add("select useresponsibleperson");
-            qry.Add("from deptloc with (nolock)");
-            qry.Add("where locationid   = @locationid");
-            qry.Add("  and departmentid = @departmentid");
-            qry.AddParameter("@locationid",   locationId);
-            qry.AddParameter("@departmentid", departmentId);
-            qry.Execute();
-            result.useresponsibleperson = qry.GetField("useresponsibleperson").ToBoolean();
-
-            return result;
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+            {
+                qry.Add("select useresponsibleperson");
+                qry.Add("from deptloc with (nolock)");
+                qry.Add("where locationid   = @locationid");
+                qry.Add("  and departmentid = @departmentid");
+                qry.AddParameter("@locationid", locationId);
+                qry.AddParameter("@departmentid", departmentId);
+                await qry.ExecuteAsync();
+                dynamic result = new ExpandoObject();
+                result.useresponsibleperson = qry.GetField("useresponsibleperson").ToBoolean();
+                return result;
+            }
         }
         //----------------------------------------------------------------------------------------------------
         public static string GetSqlModuleType(ModuleType moduleType)
@@ -105,35 +111,36 @@ namespace RentalWorksQuikScan.Source
             return sqlCheckInMode;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void CheckInQty(FwSqlConnection conn, string contractId, string orderId, string usersId, string vendorId, string consignorId, string masterItemId, string masterId, 
+        public async Task CheckInQtyAsync(FwSqlConnection conn, string contractId, string orderId, string usersId, string vendorId, string consignorId, string masterItemId, string masterId, 
             string parentId, string description, int orderTranId, string internalChar, string aisle, string shelf, decimal qty, string containeritemid, string containeroutcontractid)
         {
-            FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.checkinqty");
-            sp.AddParameter("@contractid",   contractId);
-            sp.AddParameter("@orderid",      orderId);
-            sp.AddParameter("@usersid",      usersId);
-            sp.AddParameter("@vendorid",     vendorId);
-            sp.AddParameter("@consignorid",  consignorId);
-            sp.AddParameter("@masteritemid", masterItemId);
-            sp.AddParameter("@masterid",     masterId);
-            sp.AddParameter("@parentid",     parentId);
-            sp.AddParameter("@description",  description);
-            sp.AddParameter("@ordertranid",  orderTranId);
-            sp.AddParameter("@internalchar", internalChar);
-            sp.AddParameter("@aisle",        aisle);
-            sp.AddParameter("@shelf",        shelf);
-            sp.AddParameter("@qty",          qty);
-            sp.AddParameter("@containeritemid", containeritemid);
-            sp.AddParameter("@containeroutcontractid", containeroutcontractid);
-            sp.Execute();
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.checkinqty", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+            {
+                sp.AddParameter("@contractid", contractId);
+                sp.AddParameter("@orderid", orderId);
+                sp.AddParameter("@usersid", usersId);
+                sp.AddParameter("@vendorid", vendorId);
+                sp.AddParameter("@consignorid", consignorId);
+                sp.AddParameter("@masteritemid", masterItemId);
+                sp.AddParameter("@masterid", masterId);
+                sp.AddParameter("@parentid", parentId);
+                sp.AddParameter("@description", description);
+                sp.AddParameter("@ordertranid", orderTranId);
+                sp.AddParameter("@internalchar", internalChar);
+                sp.AddParameter("@aisle", aisle);
+                sp.AddParameter("@shelf", shelf);
+                sp.AddParameter("@qty", qty);
+                sp.AddParameter("@containeritemid", containeritemid);
+                sp.AddParameter("@containeroutcontractid", containeroutcontractid);
+                await sp.ExecuteNonQueryAsync();
+            }
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CheckInGetCounts(FwSqlConnection conn, string inContractId, string orderId, string masterId, string masterItemId, string warehouseId)
+        public async Task<dynamic> CheckInGetCounts(FwSqlConnection conn, string inContractId, string orderId, string masterId, string masterItemId, string warehouseId)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.checkingetcounts");
+            sp = new FwSqlCommand(conn, "dbo.checkingetcounts", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@incontractid", inContractId);
             sp.AddParameter("@orderid",      orderId);
             sp.AddParameter("@masterid",     masterId);
@@ -144,7 +151,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@stillout",     SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@totalin",      SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@sessionin",    SqlDbType.Decimal, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.qtyOrdered = sp.GetParameter("@qtyordered").ToInt32();
             result.subQty     = sp.GetParameter("@subqty").ToInt32();
@@ -154,11 +161,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic PdaCheckInGetNonBcInfo(FwSqlConnection conn, string code, string inContractId, string usersId, string orderId, string dealId, string departmentId)
+        public async Task<dynamic> PdaCheckInGetNonBcInfoAsync(FwSqlConnection conn, string code, string inContractId, string usersId, string orderId, string dealId, string departmentId)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.pdacheckingetnonbcinfo");
+            sp = new FwSqlCommand(conn, "dbo.pdacheckingetnonbcinfo", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@code",         code);
             sp.AddParameter("@incontractid", inContractId);
             sp.AddParameter("@usersid",      usersId);
@@ -173,7 +180,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@issales",      SqlDbType.Char,    ParameterDirection.Output);
             sp.AddParameter("@status",       SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.masterId     = sp.GetParameter("@masterid").ToString().TrimEnd();
             result.masterItemId = sp.GetParameter("@masteritemid").ToString().TrimEnd();
@@ -186,11 +193,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebCheckInItem(FwSqlConnection conn, string usersId, ModuleType moduleType, CheckInMode checkInMode, string code, string masterItemId, decimal qty, string newOrderAction, string containeritemid, string containeroutcontractid, string aisle, string shelf, string parentid, string vendorId, bool disablemultiorder, string contractId, string orderId, string dealId, string departmentId, string trackedby, string spaceid, string spacetypeid, string facilitiestypeid)
+        public async Task<dynamic> WebCheckInItemAsync(FwSqlConnection conn, string usersId, ModuleType moduleType, CheckInMode checkInMode, string code, string masterItemId, decimal qty, string newOrderAction, string containeritemid, string containeroutcontractid, string aisle, string shelf, string parentid, string vendorId, bool disablemultiorder, string contractId, string orderId, string dealId, string departmentId, string trackedby, string spaceid, string spacetypeid, string facilitiestypeid)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.pdacheckinitem");
+            sp = new FwSqlCommand(conn, "dbo.pdacheckinitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@code",                     code);
             sp.AddParameter("@usersid",                  usersId);
             sp.AddParameter("@qty",                      qty);
@@ -233,7 +240,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@genericmsg",               SqlDbType.NVarChar,   ParameterDirection.Output);
             sp.AddParameter("@status",                   SqlDbType.Decimal,    ParameterDirection.Output);
             sp.AddParameter("@msg",                      SqlDbType.NVarChar,   ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.contractId   = sp.GetParameter("@incontractid").ToString().TrimEnd();
             result.dealId       = sp.GetParameter("@dealid").ToString().TrimEnd();
@@ -262,16 +269,16 @@ namespace RentalWorksQuikScan.Source
             result.msg          = sp.GetParameter("@msg").ToString().TrimEnd();
             result.found        = !result.masterItemId.Equals("");
             result.showNewOrder = (result.status == 1005);
-            result.sessionNo    = RwAppData.GetSessionNo(conn, result.contractId);
+            result.sessionNo    = await this.GetSessionNoAsync(conn, result.contractId);
             result.parentid     = parentid;
             if (!string.IsNullOrEmpty(containeritemid))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Add("select outqty = dbo.calmasteritemqtyout(@orderid, @masteritemid)");
                     qry.AddParameter("@orderid", orderId);
                     qry.AddParameter("@masteritemid", result.masterItemId);
-                    qry.Execute();
+                    await qry.ExecuteNonQueryAsync();
                     result.outqty = qry.GetField("outqty").ToDecimal();
                 }
             }
@@ -279,13 +286,13 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebMoveBCLocation(FwSqlConnection conn, string usersId, string barcode, string aisle, string shelf)
+        public async Task<dynamic> WebMoveBCLocationAsync(FwSqlConnection conn, string usersId, string barcode, string aisle, string shelf)
         {
             dynamic result;
             bool isLocation;
             FwSqlCommand sp;
             isLocation = false;
-            sp = new FwSqlCommand(conn, "dbo.webmovebclocation");
+            sp = new FwSqlCommand(conn, "dbo.webmovebclocation", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@value",        barcode);
             sp.AddParameter("@usersid",      usersId);
             sp.AddParameter("@rentalitemid", "");
@@ -295,7 +302,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@isbarcode",    SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status",       SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.isLocation = sp.GetParameter("@islocation").ToBoolean();
             result.isBarcode = sp.GetParameter("@isbarcode").ToBoolean();
@@ -309,11 +316,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebGetItemStatus(FwSqlConnection conn, string usersId, string barcode)
+        public async Task<dynamic> WebGetItemStatusAsync(FwSqlConnection conn, string usersId, string barcode)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webgetitemstatus");
+            sp = new FwSqlCommand(conn, "dbo.webgetitemstatus", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@code",            barcode);
             sp.AddParameter("@usersid",         usersId);
             sp.AddParameter("@masterno",        SqlDbType.Char,     ParameterDirection.Output);
@@ -364,7 +371,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@conditionid",     SqlDbType.Char,     ParameterDirection.Output);
             sp.AddParameter("@status",          SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",             SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result              = new ExpandoObject();
             result.code         = barcode;
             result.isICode      = sp.GetParameter("@isicode").ToBoolean();
@@ -412,12 +419,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebSelectOrder(FwSqlConnection conn, string usersId, string orderNo, ActivityType activityType, ModuleType moduleType)
+        public async Task<dynamic> WebSelectOrderAsync(FwSqlConnection conn, string usersId, string orderNo, ActivityType activityType, ModuleType moduleType)
         {
             dynamic result;
             FwSqlCommand sp;
             
-            sp = new FwSqlCommand(conn, "dbo.webselectorder");
+            sp = new FwSqlCommand(conn, "dbo.webselectorder", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderno",         orderNo);
             sp.AddParameter("@activitytype",    GetSqlActivityType(activityType));
             sp.AddParameter("@ordertype",       GetSqlModuleType(moduleType));
@@ -435,7 +442,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@agent",           SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status",          SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",             SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.orderNo       = orderNo;
             result.orderId       = sp.GetParameter("@orderid").ToString().TrimEnd();
@@ -453,11 +460,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebSelectPO(FwSqlConnection conn, string usersId, string poNo, ModuleType moduleType)
+        public async Task<dynamic> WebSelectPOAsync(FwSqlConnection conn, string usersId, string poNo, ModuleType moduleType)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webselectpo");
+            sp = new FwSqlCommand(conn, "dbo.webselectpo", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@pono",         poNo);
             sp.AddParameter("@potype",       GetSqlModuleType(moduleType));
             sp.AddParameter("@usersid",      usersId);
@@ -476,7 +483,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@warehouse",    SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status",       SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.poId               = sp.GetParameter("@poid").ToString().TrimEnd();
             result.poNo               = poNo;
@@ -497,11 +504,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebSelectDeal(FwSqlConnection conn, string usersId, string dealNo)
+        public async Task<dynamic> WebSelectDealAsync(FwSqlConnection conn, string usersId, string dealNo)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webselectdeal");
+            sp = new FwSqlCommand(conn, "dbo.webselectdeal", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@dealno",       dealNo);
             sp.AddParameter("@usersid",      usersId);
             sp.AddParameter("@dealid",       SqlDbType.NVarChar, ParameterDirection.Output);
@@ -510,7 +517,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@department",   SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status",       SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.dealId       = sp.GetParameter("@dealid").ToString().TrimEnd();
             result.departmentId = sp.GetParameter("@departmentid").ToString().TrimEnd();
@@ -522,11 +529,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebSelectSession(FwSqlConnection conn, string usersId, string sessionNo, ModuleType moduleType)
+        public async Task<dynamic> WebSelectSessionAsync(FwSqlConnection conn, string usersId, string sessionNo, ModuleType moduleType)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webselectsession");
+            sp = new FwSqlCommand(conn, "dbo.webselectsession", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@sessionno",     sessionNo);
             sp.AddParameter("@moduletype",    GetSqlModuleType(moduleType));
             sp.AddParameter("@usersid",       usersId);
@@ -545,7 +552,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@username",      SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status",        SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",           SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.sessionno     = sessionNo;
             result.contractid    = sp.GetParameter("@contractid").ToString().TrimEnd();
@@ -564,7 +571,7 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        //public static dynamic WebStageItem(FwSqlConnection conn, string orderId, string code, string masterItemId, string usersId, decimal qty, bool addItemToOrder, bool addCompleteToOrder, bool releaseFromRepair, bool unstageMode)
+        //public dynamic WebStageItem(FwSqlConnection conn, string orderId, string code, string masterItemId, string usersId, decimal qty, bool addItemToOrder, bool addCompleteToOrder, bool releaseFromRepair, bool unstageMode)
         //{
         //    dynamic result;
         //    FwSqlCommand sp;
@@ -619,14 +626,14 @@ namespace RentalWorksQuikScan.Source
         //    result.found                  = (!result.masterItemId.Equals(""));
         //    return result;
         //}
-        public static dynamic PdaStageItem(FwSqlConnection conn, string orderid, string code, string masteritemid, string usersid, decimal qty, bool additemtoorder, 
+        public async Task<dynamic> PdaStageItemAsync(FwSqlConnection conn, string orderid, string code, string masteritemid, string usersid, decimal qty, bool additemtoorder, 
             bool addcompletetoorder, bool releasefromrepair, bool unstage, string vendorid, decimal meter, string location, string spaceid, bool addcontainertoorder, 
             bool overridereservation, bool stageconsigned, bool transferrepair, bool removefromcontainer, string contractid, bool ignoresuspendedin, string consignorid, 
             string consignoragreementid, string spacetypeid, string facilitiestypeid)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.pdastageitem");
+            sp = new FwSqlCommand(conn, "dbo.pdastageitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",                 orderid);
             sp.AddParameter("@code",                    code);
             sp.AddParameter("@usersid",                 usersid);
@@ -675,7 +682,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@genericmsg",              SqlDbType.Char,     ParameterDirection.Output);
             sp.AddParameter("@status",                  SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",                     SqlDbType.VarChar,  ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.isICode                 = sp.GetParameter("@isicode").ToBoolean();
             result.masterId                = sp.GetParameter("@masterid").ToString().TrimEnd();
@@ -709,11 +716,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebSubReceiveReturnItem(FwSqlConnection conn, string poId, string code, string barcode, string usersId, decimal qty, string moduleType, bool assignBC, string contractId)
+        public async Task<dynamic> WebSubReceiveReturnItemAsync(FwSqlConnection conn, string poId, string code, string barcode, string usersId, decimal qty, string moduleType, bool assignBC, string contractId)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.websubreceivereturnitem");
+            sp = new FwSqlCommand(conn, "dbo.websubreceivereturnitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@poid",    poId);
             sp.AddParameter("@code",    code);
             sp.AddParameter("@barcode", barcode);
@@ -741,7 +748,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@genericmsg",   SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status",       SqlDbType.Decimal,  ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.poItemId     = sp.GetParameter("@poitemid").ToString().TrimEnd();
             result.contractId   = sp.GetParameter("@contractid").ToString().TrimEnd();
@@ -758,12 +765,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable GetPOSubReceiveReturnPendingList(FwSqlConnection conn, string moduleType, string poId, string warehouseId, string contractId, bool showAll)
+        public async Task<FwJsonDataTable> GetPOSubReceiveReturnPendingListAsync(FwSqlConnection conn, string moduleType, string poId, string warehouseId, string contractId, bool showAll)
         {
             string qtyremaining = string.Empty;
             FwJsonDataTable result = null;
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select  ");
                 qry.Add("  masteritemid  = p.masteritemid");
@@ -821,16 +828,16 @@ namespace RentalWorksQuikScan.Source
                     qry.AddParameter("@contractid", contractId);
                 }
                
-                result = qry.QueryToFwJsonTable(true);
+                result = await qry.QueryToFwJsonTableAsync(true);
             }
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetPoItem(FwSqlConnection conn, string poId, string masterItemId, string contractId)
+        public async Task<dynamic> GetPoItemAsync(FwSqlConnection conn, string poId, string masterItemId, string contractId)
         {
             dynamic result = null;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("masteritemid",  false);
             qry.AddColumn("masterno",      false);
             qry.AddColumn("description",   false);
@@ -838,10 +845,10 @@ namespace RentalWorksQuikScan.Source
             qry.AddColumn("poorderno",     false);
             qry.AddColumn("trackedby",     false);
             qry.AddColumn("netqtyordered", false);
-            qry.AddColumn("qtyreceived",   false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtyreturned",   false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtyremaining",  false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysession",    false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtyreceived",   false, FwDataTypes.Decimal);
+            qry.AddColumn("qtyreturned",   false, FwDataTypes.Decimal);
+            qry.AddColumn("qtyremaining",  false, FwDataTypes.Decimal);
+            qry.AddColumn("qtysession",    false, FwDataTypes.Decimal);
             qry.AddColumn("whcode",        false);
             qry.AddColumn("warehouse",     false);
             qry.Add("select top 1");
@@ -865,7 +872,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@poid",         poId);
             qry.AddParameter("@masteritemid", masterItemId);
             qry.AddParameter("@contractid",   contractId);
-            qry.Execute();
+            await qry.ExecuteAsync();
             if (qry.RowCount > 0)
             {
                 result = new ExpandoObject();
@@ -886,11 +893,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebGetPhyItemInfo(FwSqlConnection conn, string usersId, string physicalId, string code)
+        public async Task<dynamic> WebGetPhyItemInfoAsync(FwSqlConnection conn, string usersId, string physicalId, string code)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webgetphyiteminfo");
+            sp = new FwSqlCommand(conn, "dbo.webgetphyiteminfo", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@usersid",        usersId);
             sp.AddParameter("@physicalid",     physicalId);
             sp.AddParameter("@code",           code);
@@ -905,7 +912,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@genericmsg",     SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status",         SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",            SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.isICode      = sp.GetParameter("@isicode").ToBoolean();
             result.showAddRep   = sp.GetParameter("@showaddrep").ToBoolean();
@@ -929,11 +936,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebPhyCountItem(FwSqlConnection conn, string physicalId, int physicalItemId, string rentalItemId, string masterId, bool isICode, string usersId, string addReplace, decimal qty)
+        public async Task<dynamic> WebPhyCountItemAsync(FwSqlConnection conn, string physicalId, int physicalItemId, string rentalItemId, string masterId, bool isICode, string usersId, string addReplace, decimal qty)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webphycountitem");
+            sp = new FwSqlCommand(conn, "dbo.webphycountitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@physicalid",     physicalId);
             sp.AddParameter("@physicalitemid", physicalItemId);
             sp.AddParameter("@rentalitemid",   rentalItemId);
@@ -946,7 +953,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@genericmsg",     SqlDbType.NVarChar, ParameterDirection.Output,      40);
             sp.AddParameter("@status",         SqlDbType.Int,      ParameterDirection.Output,      64);
             sp.AddParameter("@msg",            SqlDbType.NVarChar, ParameterDirection.Output,      255);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.qty        = sp.GetParameter("@qty").ToDecimal();
             result.status     = sp.GetParameter("@status").ToInt32();
@@ -955,16 +962,16 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static string GetRepairId(FwSqlConnection conn, string repairno)
+        public async Task<string> GetRepairIdAsync(FwSqlConnection conn, string repairno)
         {
             string repairid = string.Empty;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 repairid");
             qry.Add("from repair with (nolock)");
             qry.Add("where repairno = @repairno");
             qry.AddParameter("@repairno", repairno);
-            qry.Execute();
+            await qry.ExecuteNonQueryAsync();
             if (qry.RowCount > 0)
             {
                 repairid = qry.GetField("repairid").ToString().TrimEnd();
@@ -972,11 +979,11 @@ namespace RentalWorksQuikScan.Source
             return repairid;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebRepairItem(FwSqlConnection conn, string code, RepairMode repairMode, string usersId, decimal qty) 
+        public async Task<dynamic> WebRepairItemAsync(FwSqlConnection conn, string code, RepairMode repairMode, string usersId, decimal qty) 
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webrepairitem");
+            sp = new FwSqlCommand(conn, "dbo.webrepairitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@code"        , code);
             sp.AddParameter("@repairmode"  , ((repairMode == RepairMode.Complete) ? "C" : (repairMode == RepairMode.Release) ? "R" : ""));
             sp.AddParameter("@usersid"     , usersId);
@@ -995,10 +1002,10 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@genericmsg"  , SqlDbType.NVarChar, ParameterDirection.Output);
             sp.AddParameter("@status"      , SqlDbType.Int     , ParameterDirection.Output);
             sp.AddParameter("@msg"         , SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result = new ExpandoObject();
             result.repairNo     = sp.GetParameter("@repairno").ToString().TrimEnd();
-            result.repairId     = RwAppData.GetRepairId(conn, result.repairNo);
+            result.repairId     = await this.GetRepairIdAsync(conn, result.repairNo);
             result.masterNo     = sp.GetParameter("@masterno").ToString().TrimEnd();
             result.master       = sp.GetParameter("@master").ToString().TrimEnd();
             result.barcode      = sp.GetParameter("@barcode").ToString().TrimEnd();
@@ -1037,45 +1044,45 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic UpdateResponsiblePerson(FwSqlConnection conn, string responsiblePersonId, string orderId)
+        public async Task<dynamic> UpdateResponsiblePersonAsync(FwSqlConnection conn, string responsiblePersonId, string orderId)
         {
             dynamic result;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("update dealorder");
             qry.Add("set responsiblepersonid = @responsiblepersonid");
             qry.Add("where orderid = @orderid");
             qry.AddParameter("@responsiblepersonid", responsiblePersonId);
             qry.AddParameter("@orderid", orderId);
             result = new ExpandoObject();
-            result.rowsAffected = qry.ExecuteNonQuery();
+            result.rowsAffected = await qry.ExecuteNonQueryAsync();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static List<dynamic> GetResponsiblePersons(FwSqlConnection conn)
+        public async Task<List<dynamic>> GetResponsiblePersonsAsync(FwSqlConnection conn)
         {
             List<dynamic> rows;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("person", false);
             qry.AddColumn("contactid", false);
             qry.Add("select text=person, value=contactid");
             qry.Add("from inventorycontactview");
             qry.Add("where responsibleperson = 'T'");
             qry.Add("order by person");
-            rows = qry.QueryToDynamicList2();
+            rows = await qry.QueryToDynamicList2Async();
             return rows;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetUserLocation(FwSqlConnection conn, string usersId)
+        public async Task<dynamic> GetUserLocationAsync(FwSqlConnection conn, string usersId)
         {
             dynamic result;
-            FwSqlCommand qry = new FwSqlCommand(conn);
+            FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 u.warehouseid, u.locationid, l.location");
             qry.Add("from users u with (nolock) join location l with (nolock) on (u.locationid = l.locationid)");
             qry.Add("where u.usersid = @usersid");
             qry.AddParameter("@usersid", usersId);
-            qry.Execute();
+            await qry.ExecuteAsync();
             result = new ExpandoObject();
             result.warehouseId = qry.GetField("warehouseid").ToString().TrimEnd();
             result.locationId  = qry.GetField("locationid").ToString().TrimEnd();
@@ -1083,30 +1090,33 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetUserLocation(dynamic session)
+        public async Task<dynamic> GetUserLocationAsync(dynamic session)
         {
-            return RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                return await this.GetUserLocationAsync(conn, session.security.webUser.usersid); 
+            }
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetStagingPendingItems(FwSqlConnection conn, string orderId, string warehouseId, string contractId, string searchMode, string searchValue, int pageNo, int pageSize)
+        public async Task<dynamic> GetStagingPendingItemsAsync(FwSqlConnection conn, string orderId, string warehouseId, string contractId, string searchMode, string searchValue, int pageNo, int pageSize)
         {
             dynamic result;
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.PageNo = pageNo;
                 select.PageSize = pageSize;
-                qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
-                qry.AddColumn("someout",            false, FwJsonDataTableColumn.DataTypes.Boolean);
-                qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("qtysub",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("qtysubstagedandout", false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("qtysubout",          false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("missingflg",         false, FwJsonDataTableColumn.DataTypes.Boolean);
-                qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
+                qry.AddColumn("exceptionflg",       false, FwDataTypes.Boolean);
+                qry.AddColumn("someout",            false, FwDataTypes.Boolean);
+                qry.AddColumn("qtyordered",         false, FwDataTypes.Decimal);
+                qry.AddColumn("qtystagedandout",    false, FwDataTypes.Decimal);
+                qry.AddColumn("qtyout",             false, FwDataTypes.Decimal);
+                qry.AddColumn("qtysub",             false, FwDataTypes.Decimal);
+                qry.AddColumn("qtysubstagedandout", false, FwDataTypes.Decimal);
+                qry.AddColumn("qtysubout",          false, FwDataTypes.Decimal);
+                qry.AddColumn("missingflg",         false, FwDataTypes.Boolean);
+                qry.AddColumn("missingqty",         false, FwDataTypes.Decimal);
                 select.Add("select *");
                 select.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
                 select.Parse();
@@ -1127,35 +1137,35 @@ namespace RentalWorksQuikScan.Source
                 select.AddParameter("@warehouseid", warehouseId);
                 select.AddParameter("@contractid", contractId);
                 result = new ExpandoObject();
-                result = qry.QueryToFwJsonTable(select, true);
+                result = await qry.QueryToFwJsonTableAsync(select, true);
                 return result;
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FuncCheckoutException(FwSqlConnection conn, string orderId, string warehouseId, string contractId, string masterItemId)
+        public async Task<dynamic> FuncCheckoutExceptionAsync(FwSqlConnection conn, string orderId, string warehouseId, string contractId, string masterItemId)
         {
             dynamic result;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("orderid",            false);
             qry.AddColumn("masterid",           false);
             qry.AddColumn("parentid",           false);
             qry.AddColumn("masteritemid",       false);
-            qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("someout",            false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("exceptionflg",       false, FwDataTypes.Boolean);
+            qry.AddColumn("someout",            false, FwDataTypes.Boolean);
             qry.AddColumn("masterno",           false);
             qry.AddColumn("description",        false);
             qry.AddColumn("vendor",             false);
             //qry.AddColumn("vendorid",           false);
-            qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtyin",              false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysub",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysubstagedandout", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysubout",          false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("missingflg",         false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtyordered",         false, FwDataTypes.Decimal);
+            qry.AddColumn("qtystagedandout",    false, FwDataTypes.Decimal);
+            qry.AddColumn("qtyout",             false, FwDataTypes.Decimal);
+            qry.AddColumn("qtyin",              false, FwDataTypes.Decimal);
+            qry.AddColumn("qtysub",             false, FwDataTypes.Decimal);
+            qry.AddColumn("qtysubstagedandout", false, FwDataTypes.Decimal);
+            qry.AddColumn("qtysubout",          false, FwDataTypes.Decimal);
+            qry.AddColumn("missingflg",         false, FwDataTypes.Boolean);
+            qry.AddColumn("missingqty",         false, FwDataTypes.Decimal);
             qry.AddColumn("trackedby",          false);
             qry.AddColumn("rectype",            false);
             qry.AddColumn("itemclass",          false);
@@ -1173,7 +1183,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@contractid", contractId);
             qry.AddParameter("@masteritemid", masterItemId);
             result = new ExpandoObject();
-            qry.Execute();
+            await qry.ExecuteAsync();
             result.orderId            = qry.GetField("orderid").ToString().TrimEnd();
             result.masterId           = qry.GetField("masterid").ToString().TrimEnd();
             result.parentId           = qry.GetField("parentid").ToString().TrimEnd();
@@ -1206,20 +1216,20 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable GetContainerItemsFillContainer(FwSqlConnection conn, string containeritemid)
+        public async Task<FwJsonDataTable> GetContainerItemsFillContainerAsync(FwSqlConnection conn, string containeritemid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("rentalitemid", false);
             qry.AddColumn("masteritemid", false);
             qry.AddColumn("masterid", false);
             qry.AddColumn("description", false);
             qry.AddColumn("masterno", false);
             qry.AddColumn("barcode", false);
-            qry.AddColumn("qtyordered", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("outqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtyordered", false, FwDataTypes.Decimal);
+            qry.AddColumn("outqty", false, FwDataTypes.Decimal);
             qry.AddColumn("vendorid", false);
             qry.AddColumn("vendor", false);
             qry.AddColumn("itemclass", false);
@@ -1245,22 +1255,22 @@ namespace RentalWorksQuikScan.Source
             qry.Add("       ((os.qtyordered > 0) and (os.outqty > 0)))");
             qry.Add("order by v.orderby, v.outdatetime, v.indatetime");
             qry.AddParameter("@orderid", containeritemid);
-            result = qry.QueryToFwJsonTable();
+            result = await qry.QueryToFwJsonTableAsync();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable GetContainerItemsCheckIn(FwSqlConnection conn, string contractid, string containeritemid)
+        public async Task<FwJsonDataTable> GetContainerItemsCheckInAsync(FwSqlConnection conn, string contractid, string containeritemid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("description", false);
             qry.AddColumn("masterno", false);
             qry.AddColumn("barcode", false);
-            qry.AddColumn("qtyordered", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("sessionin", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtyordered", false, FwDataTypes.Decimal);
+            qry.AddColumn("sessionin", false, FwDataTypes.Decimal);
             qry.AddColumn("vendor", false);
             qry.AddColumn("itemclass", false);
             qry.AddColumn("trackedby", false);
@@ -1278,12 +1288,12 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by orderby");
             qry.AddParameter("@contractid", contractid);
             qry.AddParameter("@containeritemid", containeritemid);
-            result = qry.QueryToFwJsonTable();
+            result = await qry.QueryToFwJsonTableAsync();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        //public static dynamic GetStagingStagedItem(FwSqlConnection conn, string orderId, string warehouseId, bool summary, string masterItemId)
+        //public dynamic GetStagingStagedItem(FwSqlConnection conn, string orderId, string warehouseId, bool summary, string masterItemId)
         //{
         //    dynamic result;
         //    FwSqlCommand qry;
@@ -1323,12 +1333,12 @@ namespace RentalWorksQuikScan.Source
         //    return result;
         //}
         //----------------------------------------------------------------------------------------------------
-        public static bool HasCheckinFillContainerButton(FwSqlConnection conn, string contractid)
+        public async Task<bool> HasCheckinFillContainerButtonAsync(FwSqlConnection conn, string contractid)
         {
             bool showButton;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select containercount = count(*)");
             qry.Add("from dbo.funccheckinexception(@contractid, @rectype, @containeritemid, @showall)");
             qry.Add("where itemclass='N'");
@@ -1336,17 +1346,17 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@rectype", "R");
             qry.AddParameter("@containeritemid", "");
             qry.AddParameter("@showall",         "F");
-            qry.Execute();
+            await qry.ExecuteAsync();
             showButton = (qry.GetField("containercount").ToInt32() > 0);
 
             return showButton;
         }
         //----------------------------------------------------------------------------------------------------
-        public static bool OrdertranExists(FwSqlConnection conn, string contractId, RwAppData.ActivityType activityType)
+        public async Task<bool> OrdertranExistsAsync(FwSqlConnection conn, string contractId, RwAppData.ActivityType activityType)
         {
             bool result;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select ordertranexists = (case");
             switch(activityType)
             {
@@ -1364,98 +1374,95 @@ namespace RentalWorksQuikScan.Source
             qry.Add("  else 'F'");
             qry.Add("end)");
             qry.AddParameter("@contractid", contractId);
-            qry.Execute();
+            await qry.ExecuteAsync();
             result = qry.GetField("ordertranexists").ToBoolean();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CreateOutContract(FwSqlConnection conn, string usersid, string orderid, string notes)
+        public async Task<dynamic> CreateOutContractAsync(FwSqlConnection conn, string usersid, string orderid, string notes)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.createoutcontract");
+            sp = new FwSqlCommand(conn, "dbo.createoutcontract", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@notes",   notes);
             sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result            = new ExpandoObject();
             result.contractId = sp.GetParameter("@contractid").ToString().Trim();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CreateInContract(FwSqlConnection conn, string orderid, string dealid, string departmentid, string usersid)
+        public async Task<dynamic> CreateInContractAsync(FwSqlConnection conn, string orderid, string dealid, string departmentid, string usersid)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.createincontract");
+            sp = new FwSqlCommand(conn, "dbo.createincontract", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",      orderid);
             sp.AddParameter("@dealid",       dealid);
             sp.AddParameter("@departmentid", departmentid);
             sp.AddParameter("@usersid",      usersid);
             sp.AddParameter("@contractid",   SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result            = new ExpandoObject();
             result.contractId = sp.GetParameter("@contractid").ToString().Trim();
-            result.sessionNo  = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks,
-                                                       contractId: result.contractId);
+            result.sessionNo  = this.GetSessionNoAsync(conn, result.contractId);
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CreateReceiveContract(FwSqlConnection conn, string poid, string usersid)
+        public async Task<dynamic> CreateReceiveContractAsync(FwSqlConnection conn, string poid, string usersid)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.createreceivecontract");
+            sp = new FwSqlCommand(conn, "dbo.createreceivecontract", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@poid",       poid);
             sp.AddParameter("@usersid",    usersid);
             sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result            = new ExpandoObject();
             result.contractId = sp.GetParameter("@contractid").ToString().Trim();
-            result.sessionNo  = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks,
-                                                       contractId: result.contractId);
+            result.sessionNo  = await this.GetSessionNoAsync(conn, result.contractId);
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CreateReturnContract(FwSqlConnection conn, string poid, string usersid)
+        public async Task<dynamic> CreateReturnContractAsync(FwSqlConnection conn, string poid, string usersid)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.createreturncontract");
+            sp = new FwSqlCommand(conn, "dbo.createreturncontract", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@poid", poid);
             sp.AddParameter("@usersid",   usersid);
             sp.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result            = new ExpandoObject();
             result.contractId = sp.GetParameter("@contractid").ToString().Trim();
-            result.sessionNo  = RwAppData.GetSessionNo(conn:       FwSqlConnection.RentalWorks,
-                                                       contractId: result.contractId);
+            result.sessionNo  = await this.GetSessionNoAsync(conn, result.contractId);
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void SuspendContract(FwSqlConnection conn, string contractid)
+        public async Task SuspendContractAsync(FwSqlConnection conn, string contractid)
         {
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("update contract");
             qry.Add("set forcedsuspend = 'G'"); //created from guns
             qry.Add("where  contractid = @contractid");
             qry.AddParameter("@contractid", contractid);
-            qry.Execute();
+            await qry.ExecuteAsync();
         }
         //----------------------------------------------------------------------------------------------------
-        public static void CancelContract(FwSqlConnection conn, string contractid, string usersid, bool failSilentlyOnOwnershipErrors)
+        public async Task CancelContractAsync(FwSqlConnection conn, string contractid, string usersid, bool failSilentlyOnOwnershipErrors)
         {
             FwSqlCommand sp, qry;
             string inputbyusersid, namefml;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select c.inputbyusersid, u.namefml");
             qry.Add("from contract c join usersview u on (c.inputbyusersid = u.usersid)");
             qry.Add("where contractid = @contractid");
             qry.AddParameter("@contractid", contractid);
-            qry.Execute();
+            await qry.ExecuteAsync();
             inputbyusersid = qry.GetField("inputbyusersid").ToString().TrimEnd();
             namefml        = qry.GetField("namefml").ToString().TrimEnd();
             if (usersid != inputbyusersid)
@@ -1467,36 +1474,36 @@ namespace RentalWorksQuikScan.Source
             } 
             else 
             {
-                sp = new FwSqlCommand(conn, "dbo.cancelcontract");
+                sp = new FwSqlCommand(conn, "dbo.cancelcontract", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
                 sp.AddParameter("@contractid", contractid);
                 sp.AddParameter("@usersid", usersid);
-                sp.Execute();
+                await sp.ExecuteAsync();
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static string GetSessionNo(FwSqlConnection conn, string contractId)
+        public async Task<string> GetSessionNoAsync(FwSqlConnection conn, string contractId)
         {
             string sessionNo = string.Empty;
             FwSqlCommand qry;
             if (!string.IsNullOrEmpty(contractId))
             {
-                qry = new FwSqlCommand(conn);
+                qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select top 1 sessionno");
                 qry.Add("from contract with (nolock)");
                 qry.Add("where contractid = @contractid");
                 qry.AddParameter("@contractid", contractId);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 sessionNo = qry.GetField("sessionno").ToString().TrimEnd();
             }
             return sessionNo;
         } 
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FuncMasterWh(FwSqlConnection conn, string masterid, string userswarehouseid, string filterwarehouseid, string currencyid)
+        public async Task<dynamic> FuncMasterWhAsync(FwSqlConnection conn, string masterid, string userswarehouseid, string filterwarehouseid, string currencyid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from funcmasterwh2(@masterid, @userswarehouseid, @filterwareouseid, @currencyid, 'T', 'T')");
             qry.Add("order by orderby");
@@ -1504,12 +1511,12 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@userswarehouseid", userswarehouseid);
             qry.AddParameter("@filterwareouseid", filterwarehouseid);  // you can pass null if you want all warehouses
             qry.AddParameter("@currencyid",       currencyid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
             
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        //public static string GetMasterIdFromICode(string masterNo)
+        //public string GetMasterIdFromICode(string masterNo)
         //{
         //    string masterId = string.Empty;
         //    FwSqlCommand qry;
@@ -1523,11 +1530,11 @@ namespace RentalWorksQuikScan.Source
         //    return masterId;
         //}
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ReceiveItem(FwSqlConnection conn, string contractId, string orderId, string masterItemId, string usersId, string barcode, decimal qty)
+        public async Task<dynamic> ReceiveItemAsync(FwSqlConnection conn, string contractId, string orderId, string masterItemId, string usersId, string barcode, decimal qty)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.receiveitem");
+            sp = new FwSqlCommand(conn, "dbo.receiveitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@contractid",   contractId);
             sp.AddParameter("@orderid",      orderId);
             sp.AddParameter("@masteritemid", masterItemId);
@@ -1536,18 +1543,18 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@qty",          qty);
             sp.AddParameter("@status", SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",    SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ReturnItem(FwSqlConnection conn, string contractId, string orderId, string masterItemId, string usersId, string barcode, decimal qty)
+        public async Task<dynamic> ReturnItemAsync(FwSqlConnection conn, string contractId, string orderId, string masterItemId, string usersId, string barcode, decimal qty)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.returnitem");
+            sp = new FwSqlCommand(conn, "dbo.returnitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@contractid",   contractId);
             sp.AddParameter("@orderid",      orderId);
             sp.AddParameter("@masteritemid", masterItemId);
@@ -1557,29 +1564,29 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@outmasteritemid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@status", SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",    SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable GetDealOrderByOrderNo(FwSqlConnection conn, string orderNo)
+        public async Task<FwJsonDataTable> GetDealOrderByOrderNoAsync(FwSqlConnection conn, string orderNo)
         {
             FwJsonDataTable result;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("orderid",  false);
             qry.Add("select top 1");
             qry.Add("  orderid       = do.orderid");
             qry.Add("from dealorder do");
             qry.Add("where do.orderno = @orderno");
             qry.AddParameter("@orderno", orderNo);
-            result = qry.QueryToFwJsonTable();
+            result = await qry.QueryToFwJsonTableAsync();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        //public static FwJsonDataTable GetPoItemTotals(string poId, string poItemId, string masterItemId, string contractId)
+        //public FwJsonDataTable GetPoItemTotals(string poId, string poItemId, string masterItemId, string contractId)
         //{
         //    FwJsonDataTable result;
         //    FwSqlCommand qry;
@@ -1613,13 +1620,13 @@ namespace RentalWorksQuikScan.Source
         //    return result;
         //}
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetPrimaryAppImageThumbnail(FwSqlConnection conn, string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype)
+        public async Task<dynamic> GetPrimaryAppImageThumbnailAsync(FwSqlConnection conn, string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype)
         {
             dynamic result;
             FwSqlCommand qry;
-            DataTable dt;
+            FwJsonDataTable dt;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 appimageid, thumbnail");
             qry.Add("from appimage");
             qry.Add("where uniqueid1   = @uniqueid1");
@@ -1633,30 +1640,30 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@uniqueid3",   uniqueid3);
             qry.AddParameter("@description", description);
             qry.AddParameter("@rectype",     rectype);
-            dt = qry.QueryToTable();
+            dt = await qry.QueryToFwJsonTableAsync();
             result = new ExpandoObject[dt.Rows.Count];
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 result[i] = new ExpandoObject();
-                result[i].appimageid = FwCryptography.AjaxEncrypt(new FwDatabaseField(dt.Rows[i]["appimageid"]).ToString().TrimEnd());
-                result[i].thumbnail  = new FwDatabaseField(dt.Rows[i]["thumbnail"]).ToBase64String();
+                result[i].appimageid = FwCryptography.AjaxEncrypt(dt.GetValue(i, "appimageid").ToString().TrimEnd());
+                result[i].thumbnail = dt.GetValue(i, "thumbnail").ToBase64String();
             }
             
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetUser(FwSqlConnection conn, string usersId)
+        public async Task<dynamic> GetUserAsync(FwSqlConnection conn, string usersId)
         {
             FwSqlCommand qry;
             List<dynamic> dataSet;
             dynamic result;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 *");
             qry.Add("from users with(nolock)");
             qry.Add("where usersid = @usersid");
             qry.AddParameter("@usersid", usersId);
-            dataSet = qry.QueryToDynamicList2();
+            dataSet = await qry.QueryToDynamicList2Async();
             if (dataSet.Count == 0)
             {
                 throw new Exception("Can't find user.");
@@ -1666,18 +1673,18 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetContact(FwSqlConnection conn, string contactId)
+        public async Task<dynamic> GetContactAsync(FwSqlConnection conn, string contactId)
         {
             FwSqlCommand qry;
             List<dynamic> rows;
             dynamic result;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 *");
             qry.Add("from contact with(nolock)");
             qry.Add("where contactid = @contactid");
             qry.AddParameter("@contactid", contactId);
-            rows = qry.QueryToDynamicList2();
+            rows = await qry.QueryToDynamicList2Async();
             if (rows.Count == 0)
             {
                 throw new Exception("Can't find contact.");
@@ -1687,11 +1694,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic AdvancedMoveNonBC(FwSqlConnection conn, string orderid, string masteritemid, string vendorid, string contractid, string usersid, decimal qty, decimal movemode)
+        public async Task<dynamic> AdvancedMoveNonBCAsync(FwSqlConnection conn, string orderid, string masteritemid, string vendorid, string contractid, string usersid, decimal qty, decimal movemode)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.advancedmovenonbc");
+            sp = new FwSqlCommand(conn, "dbo.advancedmovenonbc", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",      orderid);
             sp.AddParameter("@masteritemid", masteritemid);
             sp.AddParameter("@vendorid",     vendorid);
@@ -1701,7 +1708,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@movemode",     movemode);
             sp.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@msg",    SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToDecimal();
             result.msg    = sp.GetParameter("@msg").ToString();
@@ -1711,11 +1718,11 @@ namespace RentalWorksQuikScan.Source
         /// <summary>
         /// //@movemode  0: to contract, 1: to staged, 2: staged to inventory, 3: contract to inventory, 4: either to inventory
         /// </summary>
-        public static dynamic AdvancedMoveBarcode(FwSqlConnection conn, string orderid, string barcode, string contractid, string usersid, decimal movemode)
+        public async Task<dynamic> AdvancedMoveBarcodeAsync(FwSqlConnection conn, string orderid, string barcode, string contractid, string usersid, decimal movemode)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.advancedmovebarcode");
+            sp = new FwSqlCommand(conn, "dbo.advancedmovebarcode", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",    orderid);
             sp.AddParameter("@barcode",    barcode);
             sp.AddParameter("@contractid", contractid);
@@ -1723,18 +1730,18 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@movemode",   movemode);
             sp.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@msg",    SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToDecimal();
             result.msg    = sp.GetParameter("@msg").ToString();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic AdvancedMoveSerialItem(FwSqlConnection conn, string orderid, string serialno, string contractid, string usersid, decimal movemode)
+        public async Task<dynamic> AdvancedMoveSerialItemAsync(FwSqlConnection conn, string orderid, string serialno, string contractid, string usersid, decimal movemode)
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.advancedmoveserialitem");
+            sp = new FwSqlCommand(conn, "dbo.advancedmoveserialitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",    orderid);
             sp.AddParameter("@serialno",   serialno);
             sp.AddParameter("@contractid", contractid);
@@ -1742,7 +1749,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@movemode",   movemode);
             sp.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@msg",    SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToDecimal();
             result.msg    = sp.GetParameter("@msg").ToString();
@@ -1750,12 +1757,12 @@ namespace RentalWorksQuikScan.Source
         }
         //----------------------------------------------------------------------------------------------------
         // movemode: 0: to contract, 1: to staged, 2: staged to inventory, 3: contract to inventory, 4: either to inventory
-        public static dynamic AdvancedMoveMasterItemId(FwSqlConnection conn, string contractid, string vendorid, string masteritemid, decimal qty, string usersid, decimal movemode)
+        public async Task<dynamic> AdvancedMoveMasterItemIdAsync(FwSqlConnection conn, string contractid, string vendorid, string masteritemid, decimal qty, string usersid, decimal movemode)
         {
             dynamic result, masteritem;
             string trackedby, orderid, barcode, mfgserial;
 
-            masteritem = GetMasterItemViewByMasterItemId(conn, masteritemid);
+            masteritem = await this.GetMasterItemViewByMasterItemIdAsync(conn, masteritemid);
             trackedby  = masteritem.trackedby;
             orderid    = masteritem.orderid;
             barcode    = masteritem.barcode;
@@ -1765,13 +1772,13 @@ namespace RentalWorksQuikScan.Source
                 switch(trackedby)
                 {
                     case "BARCODE":
-                        result = RwAppData.AdvancedMoveBarcode(conn, orderid, barcode, contractid, usersid, movemode);
+                        result = await this.AdvancedMoveBarcodeAsync(conn, orderid, barcode, contractid, usersid, movemode);
                         break;
                     case "QUANTITY":
-                        result = RwAppData.AdvancedMoveNonBC(conn, orderid, masteritemid, vendorid, contractid, usersid, qty, movemode);
+                        result = await this.AdvancedMoveNonBCAsync(conn, orderid, masteritemid, vendorid, contractid, usersid, qty, movemode);
                         break;
                     case "SERIALNO":
-                        result = RwAppData.AdvancedMoveSerialItem(conn, orderid, mfgserial, contractid, usersid, movemode);
+                        result = await this.AdvancedMoveSerialItemAsync(conn, orderid, mfgserial, contractid, usersid, movemode);
                         break;
                     default:
                         throw new Exception("AdvancedMove doesn't support items that are tracked by '" + trackedby + "'.");
@@ -1779,24 +1786,24 @@ namespace RentalWorksQuikScan.Source
             }
             else
             {
-                result = RwAppData.AdvancedMoveNonBC(conn, orderid, masteritemid, vendorid, contractid, usersid, qty, movemode);
+                result = await this.AdvancedMoveNonBCAsync(conn, orderid, masteritemid, vendorid, contractid, usersid, qty, movemode);
             }
             
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetMasterItemViewByMasterItemId(FwSqlConnection conn, string masteritemid)
+        public async Task<dynamic> GetMasterItemViewByMasterItemIdAsync(FwSqlConnection conn, string masteritemid)
         {
             dynamic result;
             List<dynamic> list;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 *");
             qry.Add("from masteritemview with(nolock)");
             qry.Add("where masteritemid = @masteritemid");
             qry.AddParameter("@masteritemid", masteritemid);
-            list = qry.QueryToDynamicList2();
+            list = await qry.QueryToDynamicList2Async();
             if (list.Count.Equals(0))
             {
                 throw new Exception("GetMasterItemViewByMasterItemId: masteritem '" + masteritemid + "' not found.");
@@ -1808,31 +1815,32 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic IsQuantity(FwSqlConnection conn, string masterno)
+        public async Task<dynamic> IsQuantityAsync(FwSqlConnection conn, string masterno)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select isquantity = dbo.qsisquantity(@masterno)");
             qry.AddParameter("@masterno", masterno);
+            await qry.ExecuteAsync();
             result = new ExpandoObject();
             result.isquantity = qry.GetParameter("@isquantity").ToString();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetItem(FwSqlConnection conn, string masterno, string warehouseid)
+        public async Task<dynamic> GetItemAsync(FwSqlConnection conn, string masterno, string warehouseid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from   qsmaster(@masterno, @warehouseid)");
             qry.AddParameter("@masterno", masterno);
             qry.AddParameter("@warehouseid", warehouseid);
-            result = qry.QueryToDynamicObject2();
+            result = await qry.QueryToDynamicObject2Async();
             if (Object.ReferenceEquals(null, result))
             {
                 throw new Exception("GetItem: masterno " + masterno + " was not found!");
@@ -1841,12 +1849,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetBarcodeSkipPrefixes(FwSqlConnection conn, string warehouseid)
+        public async Task<dynamic> GetBarcodeSkipPrefixesAsync(FwSqlConnection conn, string warehouseid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("barcodeskip", false);
             qry.Add("select barcodeskip");
             qry.Add("from  barcodeskip");
@@ -1854,28 +1862,28 @@ namespace RentalWorksQuikScan.Source
             // probably a non-issue if only USLG does this, but just in case I wanted to fix this, I confirmed this with Emil before making the change
             //qry.Add("where warehouseid = @warehouseid");
             //qry.AddParameter("@warehouseid", warehouseid);
-            result = qry.QueryToFwJsonTable();
+            result = await qry.QueryToFwJsonTableAsync();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable GetSuspendedInContracts(FwSqlConnection conn, RwAppData.ModuleType moduleType, string orderid, string usersid)
+        public async Task<FwJsonDataTable> GetSuspendedInContractsAsync(FwSqlConnection conn, RwAppData.ModuleType moduleType, string orderid, string usersid)
         {
             FwSqlCommand qry;
             dynamic location;
             string locationid;
             FwJsonDataTable result;
 
-            location   = GetUserLocation(conn, usersid);
+            location   = await GetUserLocationAsync(conn, usersid);
             locationid = location.locationId;
-            qry = new FwSqlCommand(conn);
-            qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
-            qry.AddColumn("sessionno",  false, FwJsonDataTableColumn.DataTypes.Text);
-            qry.AddColumn("orderno",    false, FwJsonDataTableColumn.DataTypes.Text);
-            qry.AddColumn("orderdesc",  false, FwJsonDataTableColumn.DataTypes.Text);
-            qry.AddColumn("deal",       false, FwJsonDataTableColumn.DataTypes.Text);
-            qry.AddColumn("username",   false, FwJsonDataTableColumn.DataTypes.Text);
-            qry.AddColumn("status",     false, FwJsonDataTableColumn.DataTypes.Text);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+            qry.AddColumn("statusdate", false, FwDataTypes.Date);
+            qry.AddColumn("sessionno",  false, FwDataTypes.Text);
+            qry.AddColumn("orderno",    false, FwDataTypes.Text);
+            qry.AddColumn("orderdesc",  false, FwDataTypes.Text);
+            qry.AddColumn("deal",       false, FwDataTypes.Text);
+            qry.AddColumn("username",   false, FwDataTypes.Text);
+            qry.AddColumn("status",     false, FwDataTypes.Text);
             qry.Add("select *");
             qry.Add("from suspendview v with (nolock)");
             switch(moduleType) 
@@ -1906,166 +1914,166 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by sessionno desc");
             qry.AddParameter("@locationid", locationid);
             qry.AddParameter("@orderid", orderid);
-            result = qry.QueryToFwJsonTable(true);
+            result = await qry.QueryToFwJsonTableAsync(true);
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CreateNewInContractAndSuspend(FwSqlConnection conn, string orderid, string dealid, string departmentid, string usersid)
+        public async Task<dynamic> CreateNewInContractAndSuspendAsync(FwSqlConnection conn, string orderid, string dealid, string departmentid, string usersid)
         {
             dynamic contract;
             
             contract = new ExpandoObject();
-            contract = RwAppData.CreateInContract(conn, orderid, dealid, departmentid, usersid);
-            RwAppData.SuspendContract(conn, contract.contractId);
-            contract.sessionNo = RwAppData.GetSessionNo(conn, contract.contractId);
+            contract = await this.CreateInContractAsync(conn, orderid, dealid, departmentid, usersid);
+            await this.SuspendContractAsync(conn, contract.contractId);
+            contract.sessionNo = await this.GetSessionNoAsync(conn, contract.contractId);
             
             return contract;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetResponsiblePerson(FwSqlConnection conn, string orderid)
+        public async Task<dynamic> GetResponsiblePersonAsync(FwSqlConnection conn, string orderid)
         {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.getresponsibleperson");
+            sp = new FwSqlCommand(conn, "dbo.getresponsibleperson", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@showresponsibleperson", SqlDbType.Char,    ParameterDirection.Output);
             sp.AddParameter("@responsibleperson",     SqlDbType.VarChar, ParameterDirection.Output);
             sp.AddParameter("@responsiblepersonid",   SqlDbType.Char,    ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result                       = new ExpandoObject();
             result.showresponsibleperson = sp.GetParameter("@showresponsibleperson").ToString().Trim();
             result.responsibleperson     = sp.GetParameter("@responsibleperson").ToString().Trim();
             result.responsiblepersonid   = sp.GetParameter("@responsiblepersonid").ToString().Trim();
-            result.responsiblepersons    = GetResponsiblePersons(conn);
+            result.responsiblepersons    = await GetResponsiblePersonsAsync(conn);
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CheckoutExceptionRFID(FwSqlConnection conn, string orderid, string warehouseid)
+        public async Task<dynamic> CheckoutExceptionRFIDAsync(FwSqlConnection conn, string orderid, string warehouseid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from   dbo.funccheckoutexceptionrfid2(@orderid, @warehouseid)");
             qry.AddParameter("@orderid", orderid);
             qry.AddParameter("@warehouseid", warehouseid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //------------------------------------------------------------------------------
-        public static string LogRFIDTags(FwSqlConnection conn, string portal, string sessionid, string tags, string usersid, string rfidmode)
+        public async Task<string> LogRFIDTagsAsync(FwSqlConnection conn, string portal, string sessionid, string tags, string usersid, string rfidmode)
         {
             FwSqlCommand sp;
             string batchid;
 
-            sp = new FwSqlCommand(conn, "dbo.logrfidtags");
+            sp = new FwSqlCommand(conn, "dbo.logrfidtags", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@sessionid", sessionid);
             sp.AddParameter("@portal",    portal);
             sp.AddParameter("@tags",      tags);
             sp.AddParameter("@rfidmode",  rfidmode);
             sp.AddParameter("@usersid",   usersid);
             sp.AddParameter("@batchid",   System.Data.SqlDbType.VarChar, System.Data.ParameterDirection.Output, 30);
-            sp.ExecuteNonQuery();
+            await sp.ExecuteNonQueryAsync();
             batchid = sp.GetParameter("@batchid").ToString().TrimEnd();
             return batchid;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void ProcessScannedTags(FwSqlConnection conn, string portal, string sessionid, string batchid, string usersid, string rfidmode)
+        public async Task ProcessScannedTagsAsync(FwSqlConnection conn, string portal, string sessionid, string batchid, string usersid, string rfidmode)
         {
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.processscannedtags");
+            sp = new FwSqlCommand(conn, "dbo.processscannedtags", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@sessionid", sessionid);
             sp.AddParameter("@portal",    portal);
             sp.AddParameter("@batchid",   batchid);
             sp.AddParameter("@usersid",   usersid);
             sp.AddParameter("@rfidmode",  rfidmode);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetRFIDExceptions(FwSqlConnection conn, string sessionid, string portal, string usersid)
+        public async Task<dynamic> GetRFIDExceptionsAsync(FwSqlConnection conn, string sessionid, string portal, string usersid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from   dbo.funcscannedtagexception(@sessionid, @usersid, @portal)");
             qry.AddParameter("@sessionid", sessionid);
             qry.AddParameter("@usersid",   usersid);
             qry.AddParameter("@portal",    portal);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void ClearRFIDException(FwSqlConnection conn, string sessionid, string tag)
+        public async Task ClearRFIDExceptionAsync(FwSqlConnection conn, string sessionid, string tag)
         {
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.scannedtagclearexception");
+            sp = new FwSqlCommand(conn, "dbo.scannedtagclearexception", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@sessionid", sessionid);
             sp.AddParameter("@tag",       tag);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CheckInExceptionRFID(FwSqlConnection conn, string sessionid)
+        public async Task<dynamic> CheckInExceptionRFIDAsync(FwSqlConnection conn, string sessionid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from   dbo.funccheckinexception(@sessionid, 'R')");
             qry.Add("where  exceptionflg = 'T'");
             qry.Add("order by orderno, itemorder, masterno");
             qry.AddParameter("@sessionid", sessionid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ItemStatusRFID(FwSqlConnection conn, string tags)
+        public async Task<dynamic> ItemStatusRFIDAsync(FwSqlConnection conn, string tags)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from   dbo.funcitemstatusrfid(@tags)");
             qry.AddParameter("@tags", tags);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void RFIDClearSession(FwSqlConnection conn, string sessionid, string usersid)
+        public async Task RFIDClearSessionAsync(FwSqlConnection conn, string sessionid, string usersid)
         {
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.scannedtagclearsession");
+            sp = new FwSqlCommand(conn, "dbo.scannedtagclearsession", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@sessionid", sessionid);
             sp.AddParameter("@usersid",   usersid);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ProcessAddItemToOrder(FwSqlConnection conn, string orderid, string tag, string usersid)
+        public async Task<dynamic> ProcessAddItemToOrderAsync(FwSqlConnection conn, string orderid, string tag, string usersid)
         {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.processadditemtoorder");
+            sp = new FwSqlCommand(conn, "dbo.processadditemtoorder", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@tag",     tag);
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@status",  SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result        = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString();
@@ -2073,19 +2081,19 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ProcessAddCompleteToOrder(FwSqlConnection conn, string orderid, string tag, string usersid, string autostageacc)
+        public async Task<dynamic> ProcessAddCompleteToOrderAsync(FwSqlConnection conn, string orderid, string tag, string usersid, string autostageacc)
         {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.processaddcompletetoorder");
+            sp = new FwSqlCommand(conn, "dbo.processaddcompletetoorder", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",      orderid);
             sp.AddParameter("@tag",          tag);
             sp.AddParameter("@usersid",      usersid);
             sp.AddParameter("@autostageacc", autostageacc);
             sp.AddParameter("@status",       SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result        = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString();
@@ -2093,18 +2101,18 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ProcessOverrideAvailabilityConflict(FwSqlConnection conn, string orderid, string tag, string usersid)
+        public async Task<dynamic> ProcessOverrideAvailabilityConflictAsync(FwSqlConnection conn, string orderid, string tag, string usersid)
         {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.processoverrideavailabilityconflict");
+            sp = new FwSqlCommand(conn, "dbo.processoverrideavailabilityconflict", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@tag",     tag);
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@status",  SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result        = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString();
@@ -2112,18 +2120,18 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ProcessTransferItemInRepair(FwSqlConnection conn, string orderid, string tag, string usersid)
+        public async Task<dynamic> ProcessTransferItemInRepairAsync(FwSqlConnection conn, string orderid, string tag, string usersid)
         {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.processtransferiteminrepair");
+            sp = new FwSqlCommand(conn, "dbo.processtransferiteminrepair", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@tag",     tag);
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@status",  SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result        = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString();
@@ -2131,12 +2139,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CheckInBC(FwSqlConnection conn, string contractid, string orderid, string masteritemid, int ordertranid, string internalchar, string vendorid, 
+        public async Task<dynamic> CheckInBCAsync(FwSqlConnection conn, string contractid, string orderid, string masteritemid, int ordertranid, string internalchar, string vendorid, 
             string usersid, bool exchange, string location, string spaceid, string spacetypeid, string facilitiestypeid, string containeritemid, string containeroutcontractid, string aisle, string shelf) {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.checkinbc");
+            sp = new FwSqlCommand(conn, "dbo.checkinbc", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@contractid", contractid);
             sp.AddParameter("@orderid", orderid);
             sp.AddParameter("@masteritemid", masteritemid);
@@ -2153,7 +2161,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@containeroutcontractid", containeroutcontractid);
             sp.AddParameter("@aisle", aisle);
             sp.AddParameter("@shelf", shelf);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
 
             return result;
@@ -2274,37 +2282,37 @@ namespace RentalWorksQuikScan.Source
         //    return result;
         //}
         //----------------------------------------------------------------------------------------------------
-        public static dynamic RepairStatusRFID(FwSqlConnection conn, string tags)
+        public async Task<dynamic> RepairStatusRFIDAsync(FwSqlConnection conn, string tags)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from   dbo.repairstatusrfid(@tags)");
             qry.Add("order by inrepair desc");
             qry.AddParameter("@tags", tags);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic QCStatusRFID(FwSqlConnection conn, string tags)
+        public async Task<dynamic> QCStatusRFIDAsync(FwSqlConnection conn, string tags)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select fis.*, ri.conditionid");
             qry.Add("from   dbo.funcitemstatusrfid(@tags) fis join rentalitem ri with (nolock) on (fis.rentalitemid = ri.rentalitemid)");
             qry.Add("order by qcrequired desc");
             qry.AddParameter("@tags", tags);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_SelectContainerForFillContainer(FwSqlConnection conn, string usersid, string user_warehouseid, string barcode, bool createcontract, string incontractid, dynamic checkingetiteminfo, string containerdesc)
+        public async Task<dynamic> FillContainer_SelectContainerForFillContainerAsync(FwSqlConnection conn, string usersid, string user_warehouseid, string barcode, bool createcontract, string incontractid, dynamic checkingetiteminfo, string containerdesc)
         {
             dynamic result, createoutcontractresult, container;
             string notes, containeritem_warehouseid;
@@ -2313,7 +2321,7 @@ namespace RentalWorksQuikScan.Source
             result = new ExpandoObject();
             result.errormessage = string.Empty;
             // check if container instance (dealorder) exists for this barcode
-            container = RwAppData.FillContainer_FuncGetContainer(FwSqlConnection.RentalWorks, barcode, user_warehouseid);
+            container = await this.FillContainer_FuncGetContainerAsync(conn, barcode, user_warehouseid);
             
             hascontainerdefinition   = (container != null);
             hascontaineritem =  hascontainerdefinition && (!string.IsNullOrEmpty(container.containeritemid));
@@ -2326,12 +2334,12 @@ namespace RentalWorksQuikScan.Source
                     ((container.statustype == RwConstants.RentalStatusType.IN)))
                 {
                     //mv adaptation from jh 09/26/2012 CAS-10114-2YFM (item was transferred to this warehouse, but setup as a container in a different warehouse)
-                    containeritem_warehouseid = FwSqlCommand.GetStringData(conn, "dealorder", "orderid", container.containeritemid, "warehouseid");
+                    containeritem_warehouseid = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", container.containeritemid, "warehouseid");
                     if (containeritem_warehouseid != user_warehouseid)
                     {
-                        FwSqlCommand.SetData(conn, "dealorder",  "orderid", container.containeritemid, "warehouseid", user_warehouseid);
-                        FwSqlCommand.SetData(conn, "masteritem", "orderid", container.containeritemid, "warehouseid", user_warehouseid);
-                        FwSqlCommand.SetData(conn, "masteritem", "orderid", container.containeritemid, "returntowarehouseid", user_warehouseid);
+                        await FwSqlCommand.SetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder",  "orderid", container.containeritemid, "warehouseid", user_warehouseid);
+                        await FwSqlCommand.SetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "masteritem", "orderid", container.containeritemid, "warehouseid", user_warehouseid);
+                        await FwSqlCommand.SetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "masteritem", "orderid", container.containeritemid, "returntowarehouseid", user_warehouseid);
                     }
                     notes = string.Empty;
                     result.container = new ExpandoObject();
@@ -2347,8 +2355,8 @@ namespace RentalWorksQuikScan.Source
                     if (createcontract)
                     {
                         // look for an existing suspended session first
-                        DataTable dt = null;
-                        using (FwSqlCommand qry = new FwSqlCommand(conn))
+                        FwJsonDataTable dt = null;
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                         {
                             qry.Add("select v.contractid");
                             qry.Add("from suspendview v with (nolock) join ordercontract oc on (v.contractid = oc.contractid)");
@@ -2360,7 +2368,7 @@ namespace RentalWorksQuikScan.Source
                             qry.Add("  and oc.orderid = @orderid");
                             qry.Add("order by contractdate desc, contracttime desc");
                             qry.AddParameter("@orderid", container.containeritemid);
-                            dt = qry.QueryToTable();
+                            dt = await qry.QueryToFwJsonTableAsync();
                             if (dt.Rows.Count > 0)
                             {
                                 result.container.outcontractid = dt.Rows[0][0].ToString().TrimEnd();
@@ -2369,34 +2377,34 @@ namespace RentalWorksQuikScan.Source
                         // if no suspended sessions than create an out contract
                         if ((dt == null || dt.Rows.Count == 0))
                         {
-                            createoutcontractresult = RwAppData.CreateOutContract(conn, usersid, container.containeritemid, notes);
+                            createoutcontractresult = await this.CreateOutContractAsync(conn, usersid, container.containeritemid, notes);
                             result.container.outcontractid = createoutcontractresult.contractId;
                         }
-                        RwAppData.PdaStageItem(conn: conn,
-                                               orderid: result.container.containeritemid,
-                                               code: result.container.barcode,
-                                               masteritemid: string.Empty,
-                                               usersid: usersid,
-                                               qty: 1,
-                                               additemtoorder: false,
-                                               addcompletetoorder: false,
-                                               releasefromrepair: false,
-                                               unstage: false,
-                                               vendorid: string.Empty,
-                                               meter: 0,
-                                               location: string.Empty,
-                                               spaceid: string.Empty,
-                                               addcontainertoorder: false,
-                                               overridereservation: false,
-                                               stageconsigned: false,
-                                               transferrepair: false,
-                                               removefromcontainer: false,
-                                               contractid: result.container.outcontractid,
-                                               ignoresuspendedin: false,
-                                               consignorid: string.Empty,
-                                               consignoragreementid: string.Empty,
-                                               spacetypeid: string.Empty,
-                                               facilitiestypeid: string.Empty);
+                        await this.PdaStageItemAsync(conn: conn,
+                                                          orderid: result.container.containeritemid,
+                                                          code: result.container.barcode,
+                                                          masteritemid: string.Empty,
+                                                          usersid: usersid,
+                                                          qty: 1,
+                                                          additemtoorder: false,
+                                                          addcompletetoorder: false,
+                                                          releasefromrepair: false,
+                                                          unstage: false,
+                                                          vendorid: string.Empty,
+                                                          meter: 0,
+                                                          location: string.Empty,
+                                                          spaceid: string.Empty,
+                                                          addcontainertoorder: false,
+                                                          overridereservation: false,
+                                                          stageconsigned: false,
+                                                          transferrepair: false,
+                                                          removefromcontainer: false,
+                                                          contractid: result.container.outcontractid,
+                                                          ignoresuspendedin: false,
+                                                          consignorid: string.Empty,
+                                                          consignoragreementid: string.Empty,
+                                                          spacetypeid: string.Empty,
+                                                          facilitiestypeid: string.Empty);
                     }
                 }
                 else
@@ -2409,7 +2417,7 @@ namespace RentalWorksQuikScan.Source
             else
             {
                 // search for container definitions (master) for this barcode
-                using (FwSqlCommand qrycontainerdefinitions = new FwSqlCommand(conn))
+                using (FwSqlCommand qrycontainerdefinitions = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     qrycontainerdefinitions.Add("select ri.rentalitemid,");
                     qrycontainerdefinitions.Add("       ri.barcode,");
@@ -2428,7 +2436,7 @@ namespace RentalWorksQuikScan.Source
                     qrycontainerdefinitions.Add("order by description");
                     qrycontainerdefinitions.AddParameter("@warehouseid", user_warehouseid);
                     qrycontainerdefinitions.AddParameter("@barcode", barcode);
-                    result.selectcontainers = qrycontainerdefinitions.QueryToDynamicList2();
+                    result.selectcontainers = await qrycontainerdefinitions.QueryToDynamicList2Async();
                     for(int i = 0; i < result.selectcontainers.Count; i++)
                     {
                         result.selectcontainers[0].containerid = FwCryptography.AjaxEncrypt(result.selectcontainers[0].containerid);
@@ -2457,20 +2465,20 @@ namespace RentalWorksQuikScan.Source
                 else if ((result.selectcontainers as List<dynamic>).Count > 1)
                 {
                     // response returns with a list of containers for the user to select
-                    result.scannablemasterid = FwSqlCommand.GetData(conn, "rentalitem", "barcode", barcode, "masterid").ToString().TrimEnd();
+                    result.scannablemasterid = (await FwSqlCommand.GetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "rentalitem", "barcode", barcode, "masterid")).ToString().TrimEnd();
                 }
             }
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_GetDefaultContainerDescCheckIn(FwSqlConnection conn, string barcode, string warehouseid)
+        public async Task<dynamic> FillContainer_GetDefaultContainerDescCheckInAsync(FwSqlConnection conn, string barcode, string warehouseid)
         {
-            var container = RwAppData.FillContainer_FuncGetContainer(FwSqlConnection.RentalWorks, barcode, warehouseid);
+            var container = await this.FillContainer_FuncGetContainerAsync(conn, barcode, warehouseid);
             List<dynamic> containerdescs;
             dynamic result;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select m.masterid, m.master");
                 qry.Add("from  masterview m with (nolock)");
@@ -2483,7 +2491,7 @@ namespace RentalWorksQuikScan.Source
                 qry.Add("order by master");
                 qry.AddParameter("@warehouseid", warehouseid);
                 qry.AddParameter("@scannablemasteritem", container.scannablemasterid);
-                containerdescs = qry.QueryToDynamicList2();
+                containerdescs = await qry.QueryToDynamicList2Async();
             }
             result = new ExpandoObject();
             result.scannablemasterid = container.scannablemasterid;
@@ -2505,7 +2513,7 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_SelectContainerForCheckIn(FwSqlConnection conn, string usersid, string user_warehouseid, string barcode, bool createcontract, string incontractid, dynamic checkingetiteminfo, string selected_containerid, string selected_containerdesc, string orderid, string dealid, string departmentid)
+        public async Task<dynamic> FillContainer_SelectContainerForCheckInAsync(FwSqlConnection conn, string usersid, string user_warehouseid, string barcode, bool createcontract, string incontractid, dynamic checkingetiteminfo, string selected_containerid, string selected_containerdesc, string orderid, string dealid, string departmentid)
         {
             dynamic result, createoutcontractresult, container,  emptycontainerresult, instantiatecontainerresult=null;
             string notes, containeritem_warehouseid;
@@ -2517,9 +2525,9 @@ namespace RentalWorksQuikScan.Source
             createoutcontractresult = null;
 
             // check if container instance (dealorder) exists for this barcode
-            container = RwAppData.FillContainer_FuncGetContainer(FwSqlConnection.RentalWorks, barcode, user_warehouseid);
+            container = await this.FillContainer_FuncGetContainerAsync(conn, barcode, user_warehouseid);
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select m.containerid, m.master");
                 qry.Add("from  masterview m with (nolock)");
@@ -2532,7 +2540,7 @@ namespace RentalWorksQuikScan.Source
                 qry.Add("order by master");
                 qry.AddParameter("@warehouseid", user_warehouseid);
                 qry.AddParameter("@scannablemasteritem", container.scannablemasterid);
-                containerdescs = qry.QueryToDynamicList2();
+                containerdescs = await qry.QueryToDynamicList2Async();
             }
             hascontainerdesc    = !string.IsNullOrEmpty(selected_containerdesc);
             changecontainertype = (hascontainerdesc && (container.description != selected_containerdesc));
@@ -2546,12 +2554,12 @@ namespace RentalWorksQuikScan.Source
                 
                 if (changecontainertype)
                 {
-                    using(FwSqlConnection conn2 = new FwSqlConnection(FwSqlConnection.AppDatabase))
+                    using(FwSqlConnection conn2 = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
                     {
-                        conn2.Open();
+                        await conn2.OpenAsync();
                         using (SqlTransaction transaction = conn2.GetConnection().BeginTransaction())
                         {
-                            using (FwSqlCommand sp = new FwSqlCommand(conn2, "emptycontainer"))
+                            using (FwSqlCommand sp = new FwSqlCommand(conn2, "emptycontainer", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                             {
                                 sp.Transaction = transaction;
                                 sp.AddParameter("@containerrentalitemid", container.rentalitemid);
@@ -2560,7 +2568,7 @@ namespace RentalWorksQuikScan.Source
                                 sp.AddParameter("@incontractid", SqlDbType.Char, ParameterDirection.Output);
                                 sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                                 sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
-                                sp.Execute(false);
+                                await sp.ExecuteNonQueryAsync();
                                 emptycontainerresult = new ExpandoObject();
                                 emptycontainerresult.incontractid = sp.GetParameter("@incontractid").ToString();
                                 emptycontainerresult.status       = sp.GetParameter("@status").ToInt32();
@@ -2573,7 +2581,7 @@ namespace RentalWorksQuikScan.Source
                             }
                             else
                             {
-                                using (FwSqlCommand qry = new FwSqlCommand(conn2, "dbo.instantiatecontainer"))
+                                using (FwSqlCommand qry = new FwSqlCommand(conn2, "dbo.instantiatecontainer", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                                 {
                                     qry.Transaction = transaction;
                                     qry.AddParameter("@containerid", selected_containerid);
@@ -2583,7 +2591,7 @@ namespace RentalWorksQuikScan.Source
                                     qry.AddParameter("@fromcheckin",  "T");
                                     qry.AddParameter("@containeritemid", SqlDbType.VarChar, ParameterDirection.Output);
                                     qry.AddParameter("@contractid",      SqlDbType.VarChar, ParameterDirection.Output);
-                                    qry.Execute(false);
+                                    await qry.ExecuteNonQueryAsync();
                                     instantiatecontainerresult = new ExpandoObject();
                                     instantiatecontainerresult.containeritemid = qry.GetParameter("@containeritemid").ToString().TrimEnd();
                                     instantiatecontainerresult.outcontractid   = qry.GetParameter("@contractid").ToString().TrimEnd();
@@ -2594,18 +2602,18 @@ namespace RentalWorksQuikScan.Source
                     }
                     if (string.IsNullOrEmpty(result.errormessage))
                     {
-                        container = RwAppData.FillContainer_FuncGetContainer(FwSqlConnection.RentalWorks, barcode, user_warehouseid);
-                        checkingetiteminfo = RwAppData.CheckInGetItemInfo(conn:            FwSqlConnection.RentalWorks,
-                                                                          barcode:         barcode,
-                                                                          incontractid:    incontractid,
-                                                                          usersid:         usersid,
-                                                                          bctype:          "O",
-                                                                          containeritemid: container.containeritemid,
-                                                                          orderid:         orderid,
-                                                                          dealid:          dealid,
-                                                                          departmentid:    departmentid,
-                                                                          masteritemid:    "",
-                                                                          rentalitemid:    "");
+                        container = await this.FillContainer_FuncGetContainerAsync(conn, barcode, user_warehouseid);
+                        checkingetiteminfo = await this.CheckInGetItemInfoAsync(conn:            conn,
+                                                                                     barcode:         barcode,
+                                                                                     incontractid:    incontractid,
+                                                                                     usersid:         usersid,
+                                                                                     bctype:          "O",
+                                                                                     containeritemid: container.containeritemid,
+                                                                                     orderid:         orderid,
+                                                                                     dealid:          dealid,
+                                                                                     departmentid:    departmentid,
+                                                                                     masteritemid:    "",
+                                                                                     rentalitemid:    "");
                     }
                 }
 
@@ -2614,12 +2622,12 @@ namespace RentalWorksQuikScan.Source
                     (container.statustype == RwConstants.RentalStatusType.INCONTAINER)))
                 {
                     //mv adaptation from jh 09/26/2012 CAS-10114-2YFM (item was transferred to this warehouse, but setup as a container in a different warehouse)
-                    containeritem_warehouseid = FwSqlCommand.GetStringData(conn, "dealorder", "orderid", container.containeritemid, "warehouseid");
+                    containeritem_warehouseid = await FwSqlCommand.GetStringDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", container.containeritemid, "warehouseid");
                     if (containeritem_warehouseid != user_warehouseid)
                     {
-                        FwSqlCommand.SetData(conn, "dealorder",  "orderid", container.containeritemid, "warehouseid", user_warehouseid);
-                        FwSqlCommand.SetData(conn, "masteritem", "orderid", container.containeritemid, "warehouseid", user_warehouseid);
-                        FwSqlCommand.SetData(conn, "masteritem", "orderid", container.containeritemid, "returntowarehouseid", user_warehouseid);
+                        await FwSqlCommand.SetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "dealorder",  "orderid", container.containeritemid, "warehouseid", user_warehouseid);
+                        await FwSqlCommand.SetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "masteritem", "orderid", container.containeritemid, "warehouseid", user_warehouseid);
+                        await FwSqlCommand.SetDataAsync(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout, "masteritem", "orderid", container.containeritemid, "returntowarehouseid", user_warehouseid);
                     }
                     notes = string.Empty;
                     result.container = new ExpandoObject();
@@ -2635,38 +2643,39 @@ namespace RentalWorksQuikScan.Source
                     if (createcontract)
                     {
                         // create out contract
-                        createoutcontractresult = RwAppData.CreateOutContract(conn, usersid, container.containeritemid, notes);
+                        createoutcontractresult = this.CreateOutContractAsync(conn, usersid, container.containeritemid, notes);
                         result.container.outcontractid = createoutcontractresult.contractId;
                         if (changecontainertype)
                         {
-                            using (FwSqlCommand sp = new FwSqlCommand(conn, "insertcheckincontainersession"))
+                            using (FwSqlCommand sp = new FwSqlCommand(conn, "insertcheckincontainersession", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                             {
                                 sp.AddParameter("@contractid", incontractid);
                                 sp.AddParameter("@containeritemid", container.containeritemid);
                                 sp.AddParameter("@rentalitemid", container.rentalitemid);
                                 sp.AddParameter("@containeroutcontractid", createoutcontractresult.contractId);
+                                await sp.ExecuteNonQueryAsync();
                             }
                         }
                         if ((checkingetiteminfo.status != 1002) && // Already in this Session
                             (checkingetiteminfo.status != 1011)) // primary item is already in the container
                         {
-                            RwAppData.CheckInBC(conn:                   conn,
-                                                contractid:             incontractid,
-                                                orderid:                checkingetiteminfo.orderid,
-                                                masteritemid:           checkingetiteminfo.masteritemid,
-                                                ordertranid:            checkingetiteminfo.ordertranid,
-                                                internalchar:           checkingetiteminfo.internalchar,
-                                                vendorid:               checkingetiteminfo.vendorid,
-                                                usersid:                usersid,
-                                                exchange:               false,
-                                                location:               "",
-                                                spaceid:                "",
-                                                spacetypeid:            "",
-                                                facilitiestypeid:       "",
-                                                containeritemid:        result.container.containeritemid,
-                                                containeroutcontractid: result.container.outcontractid,
-                                                aisle:                  "",
-                                                shelf:                  "");
+                            await this.CheckInBCAsync(conn:                   conn,
+                                                           contractid:             incontractid,
+                                                           orderid:                checkingetiteminfo.orderid,
+                                                           masteritemid:           checkingetiteminfo.masteritemid,
+                                                           ordertranid:            checkingetiteminfo.ordertranid,
+                                                           internalchar:           checkingetiteminfo.internalchar,
+                                                           vendorid:               checkingetiteminfo.vendorid,
+                                                           usersid:                usersid,
+                                                           exchange:               false,
+                                                           location:               "",
+                                                           spaceid:                "",
+                                                           spacetypeid:            "",
+                                                           facilitiestypeid:       "",
+                                                           containeritemid:        result.container.containeritemid,
+                                                           containeroutcontractid: result.container.outcontractid,
+                                                           aisle:                  "",
+                                                           shelf:                  "");
                         }
                     }
                 }
@@ -2696,14 +2705,14 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void MoveAllStagedItemsToContract(FwSqlConnection conn, string orderid, string warehouseid, string contractid, string usersid)
+        public async Task MoveAllStagedItemsToContractAsync(FwSqlConnection conn, string orderid, string warehouseid, string contractid, string usersid)
         {
             FwSqlCommand qry;
             FwJsonDataTable dt;
             FwSqlSelect select;
 
             // get all the staged items on the order
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             select = new FwSqlSelect();
             select.Add("select *");
             select.Add("from  dbo.funcstaged(@orderid,'F')");
@@ -2711,7 +2720,7 @@ namespace RentalWorksQuikScan.Source
             select.Add("order by orderby");
             select.AddParameter("@orderid", orderid);
             select.AddParameter("@warehouseid", warehouseid);
-            dt = qry.QueryToFwJsonTable(select, true);
+            dt = await qry.QueryToFwJsonTableAsync(select, true);
             // Move any staged items to the contract (this was developed for fill container since you should never have staged items)
             for (int rowno = 0; rowno < dt.Rows.Count; rowno++)
             {
@@ -2721,17 +2730,17 @@ namespace RentalWorksQuikScan.Source
                 vendorid     = dt.GetValue(rowno, "vendorid").ToString().TrimEnd();
                 masteritemid = dt.GetValue(rowno, "masteritemid").ToString().TrimEnd();
                 qty          = dt.GetValue(rowno, "quantity").ToDecimal();
-                AdvancedMoveMasterItemId(conn, contractid, vendorid, masteritemid, qty, usersid, 0);
+                await AdvancedMoveMasterItemIdAsync(conn, contractid, vendorid, masteritemid, qty, usersid, 0);
             }
 
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic InstantiateContainer(FwSqlConnection conn, string containerid, string rentalitemid, bool autostageacc, string usersid, bool fromcheckin)
+        public async Task<dynamic> InstantiateContainerAsync(FwSqlConnection conn, string containerid, string rentalitemid, bool autostageacc, string usersid, bool fromcheckin)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn, "dbo.instantiatecontainer");
+            qry = new FwSqlCommand(conn, "dbo.instantiatecontainer", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddParameter("@containerid",  containerid);
             qry.AddParameter("@rentalitemid", rentalitemid);
             qry.AddParameter("@autostageacc", FwConvert.LogicalToCharacter(autostageacc));
@@ -2739,7 +2748,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@fromcheckin",  FwConvert.LogicalToCharacter(fromcheckin));
             qry.AddParameter("@containeritemid", SqlDbType.VarChar, ParameterDirection.Output);
             qry.AddParameter("@contractid",      SqlDbType.VarChar, ParameterDirection.Output);
-            qry.Execute();
+            await qry.ExecuteAsync();
             result = new ExpandoObject();
             result.containeritemid = qry.GetParameter("@containeritemid").ToString().TrimEnd();
             result.outcontractid   = qry.GetParameter("@contractid").ToString().TrimEnd();
@@ -2747,14 +2756,14 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic StageItem(FwSqlConnection conn, string orderid, string masteritemid, string code, string vendorid, decimal qty, decimal meter, string location,
+        public async Task<dynamic> StageItemAsync(FwSqlConnection conn, string orderid, string masteritemid, string code, string vendorid, decimal qty, decimal meter, string location,
             string spaceid, bool additemtoorder, bool addcompletetoorder, bool addcontainertoorder, bool overridereservation, bool stageconsigned, bool transferrepair,
             bool removefromcontainer, bool releasefromrepair, bool autostageacc, string usersid, string contractid, bool ignoresuspendedin)
         {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.stageitem");
+            sp = new FwSqlCommand(conn, "dbo.stageitem", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",              orderid);
             sp.AddParameter("@masteritemid",         SqlDbType.Char, ParameterDirection.InputOutput, masteritemid);
             sp.AddParameter("@code",                 code);
@@ -2783,7 +2792,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@exceptionbatchid",     SqlDbType.Char,    ParameterDirection.Output);
             sp.AddParameter("@status",               SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@msg",                  SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.masteritemid         = sp.GetParameter("@masteritemid").ToString().TrimEnd();
             result.masterid             = sp.GetParameter("@masterid").ToString().TrimEnd();
@@ -2798,12 +2807,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic StagingGetMasterInfo(FwSqlConnection conn, string orderid, string masterid, string usersid)
+        public async Task<dynamic> StagingGetMasterInfoAsync(FwSqlConnection conn, string orderid, string masterid, string usersid)
         {
             dynamic result;
             FwSqlCommand sp;
 
-            sp = new FwSqlCommand(conn, "dbo.staginggetmasterinfo");
+            sp = new FwSqlCommand(conn, "dbo.staginggetmasterinfo", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@orderid",      orderid);
             sp.AddParameter("@masterid",     masterid);
             sp.AddParameter("@usersid",      usersid);
@@ -2815,7 +2824,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@qtyout",       SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@qtyin",        SqlDbType.Decimal, ParameterDirection.Output);
             sp.AddParameter("@qtyremaining", SqlDbType.Decimal, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.masterno     = sp.GetParameter("@masteritemid").ToString().TrimEnd();
             result.description  = sp.GetParameter("@masterid").ToString().TrimEnd();
@@ -2829,12 +2838,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_GetContainerPendingItemsFillContainer(FwSqlConnection conn, string containeritemid)
+        public async Task<dynamic> FillContainer_GetContainerPendingItemsFillContainerAsync(FwSqlConnection conn, string containeritemid)
         {
             dynamic result;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("orderid", false);
             qry.AddColumn("masteritemid", false);
             qry.AddColumn("masterid", false);
@@ -2842,10 +2851,10 @@ namespace RentalWorksQuikScan.Source
             qry.AddColumn("masterno", false);
             qry.AddColumn("itemclass", false);
             qry.AddColumn("trackedby", false);
-            qry.AddColumn("requiredqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("incontainerqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("missingqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("ispackage", false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("requiredqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("incontainerqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("missingqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("ispackage", false, FwDataTypes.Boolean);
             qry.Add("select");
             qry.Add("  orderid        = os.orderid,");
             qry.Add("  masteritemid   = os.masteritemid,");
@@ -2862,29 +2871,29 @@ namespace RentalWorksQuikScan.Source
             qry.Add("  and ((os.qtyordered - os.outqty) > 0)");
             qry.Add("order by os.rectype, os.itemorder, os.masterno");
             qry.AddParameter("@orderid", containeritemid);
-            result = qry.QueryToFwJsonTable();
+            result = await qry.QueryToFwJsonTableAsync();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_GetContainerPendingItemsCheckIn(FwSqlConnection conn, string contractid, string containeritemid, string dealid, 
+        public async Task<dynamic> FillContainer_GetContainerPendingItemsCheckInAsync(FwSqlConnection conn, string contractid, string containeritemid, string dealid, 
             string departmentid, string orderid, string ordertype, string tab, string calculatecounted, string groupitems, string warehouseid)
         {
             dynamic result = null;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("orderid", false);
             qry.AddColumn("masteritemid", false);
             qry.AddColumn("masterid", false);
             qry.AddColumn("description", false);
             qry.AddColumn("masterno", false);
             qry.AddColumn("trackedby", false);
-            qry.AddColumn("requiredqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("incontainerqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("missingqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("requiredqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("incontainerqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("missingqty", false, FwDataTypes.Decimal);
             qry.AddColumn("itemclass", false);
-            qry.AddColumn("ispackage", false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("ispackage", false, FwDataTypes.Boolean);
             qry.AddColumn("parentid", false);
             qry.Add("select");
             qry.Add("  orderid,");
@@ -2907,27 +2916,27 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by itemorder");
             qry.AddParameter("@contractid", contractid);
             qry.AddParameter("@containeritemid", containeritemid);
-            result = qry.QueryToFwJsonTable();
+            result = await qry.QueryToFwJsonTableAsync();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_GetContainerCheckInBCData(FwSqlConnection conn, string contractid, string containeritemid, string dealid, 
+        public async Task<dynamic> FillContainer_GetContainerCheckInBCDataAsync(FwSqlConnection conn, string contractid, string containeritemid, string dealid, 
             string departmentid, string orderid, string ordertype, string tab, string calculatecounted, string groupitems, string warehouseid, string masteritemid)
         {
             dynamic result = null;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("orderid", false);
             qry.AddColumn("masteritemid", false);
             qry.AddColumn("masterid", false);
             qry.AddColumn("description", false);
             qry.AddColumn("masterno", false);
             qry.AddColumn("trackedby", false);
-            qry.AddColumn("requiredqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("incontainerqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("missingqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("requiredqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("incontainerqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("missingqty", false, FwDataTypes.Decimal);
             qry.AddColumn("itemclass", false);
             qry.Add("select fbc.orderid, fbc.masteritemid, fbc.masterid, fbc.description, fbc.masterno, trackedby = 'BARCODE', requiredqty = fos.qtyordered, incontainerqty = fos.outqty, missingqty = fos.qtyordered - fos.outqty, fbc.itemclass, orderby = '0'");
             qry.Add("from  dbo.funccheckinbcdata(@contractid) fbc join dbo.funcorderstatus(@containeritemid) fos on (fbc.masterid = fos.masterid)");
@@ -2944,27 +2953,27 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@groupitems", groupitems);
             qry.AddParameter("@warehouseid", warehouseid);
             qry.AddParameter("@masteritemid", masteritemid);
-            result = qry.QueryToDynamicObject2();
+            result = await qry.QueryToDynamicObject2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_GetContainerCheckInQuantity2(FwSqlConnection conn, string contractid, string containeritemid, string dealid, 
+        public async Task<dynamic> FillContainer_GetContainerCheckInQuantity2Async(FwSqlConnection conn, string contractid, string containeritemid, string dealid, 
             string departmentid, string orderid, string ordertype, string tab, string calculatecounted, string groupitems, string warehouseid, string masteritemid)
         {
             dynamic result = null;
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.AddColumn("orderid", false);
             qry.AddColumn("masteritemid", false);
             qry.AddColumn("masterid", false);
             qry.AddColumn("description", false);
             qry.AddColumn("masterno", false);
             qry.AddColumn("trackedby", false);
-            qry.AddColumn("requiredqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("incontainerqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("missingqty", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("requiredqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("incontainerqty", false, FwDataTypes.Decimal);
+            qry.AddColumn("missingqty", false, FwDataTypes.Decimal);
             qry.AddColumn("itemclass", false);
             qry.Add("select top 1");
             qry.Add("  fqty.orderid,");
@@ -2991,29 +3000,29 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@groupitems", groupitems);
             qry.AddParameter("@warehouseid", warehouseid);
             qry.AddParameter("@masteritemid", masteritemid);
-            result = qry.QueryToDynamicObject2();
+            result = await qry.QueryToDynamicObject2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static string FillContainer_SetContainerNo(FwSqlConnection conn, string rentalitemid, string containerno)
+        public async Task<string> FillContainer_SetContainerNoAsync(FwSqlConnection conn, string rentalitemid, string containerno)
         {
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("update rentalitem");
             qry.Add("set containerno = @containerno");
             qry.Add("where rentalitemid = @rentalitemid");
             qry.AddParameter("@rentalitemid", rentalitemid);
             qry.AddParameter("@containerno",  containerno);
-            qry.Execute();
+            await qry.ExecuteAsync();
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select containerno");
             qry.Add("from rentalitem");
             qry.Add("where rentalitemid = @rentalitemid");
             qry.AddParameter("@rentalitemid", rentalitemid);
-            qry.Execute();
+            await qry.ExecuteAsync();
             containerno = qry.GetField("containerno").ToString().TrimEnd();
 
             return containerno;
@@ -3070,28 +3079,28 @@ namespace RentalWorksQuikScan.Source
         //    return result;
         // }
         //----------------------------------------------------------------------------------------------------
-        public static bool FillContainer_IsScannableItemOfAContainer(FwSqlConnection conn, string code)
+        public async Task<bool> FillContainer_IsScannableItemOfAContainerAsync(FwSqlConnection conn, string code)
         {
             bool result = false;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select top 1 ri.rentalitemid");
                 qry.Add("from rentalitem ri with (nolock) join container c with (nolock) on (ri.rentalitemid = c.rentalitemid)");
                 qry.Add("where barcode = @code");
                 qry.AddParameter("@code", code);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 result = (qry.RowCount > 0);
             }
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static bool FillContainer_IsScannableItemOfAContainerPendingOnOrder(FwSqlConnection conn, string orderid, string code)
+        public async Task<bool> FillContainer_IsScannableItemOfAContainerPendingOnOrderAsync(FwSqlConnection conn, string orderid, string code)
         {
             bool result = false;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select top 1 1");
                 qry.Add("from funcgetorderstatusdetail(@orderid, 'ORDER')");
@@ -3099,17 +3108,17 @@ namespace RentalWorksQuikScan.Source
                 qry.Add("                      from rentalitem ri with (nolock)");
                 qry.Add("                      where ri.barcode = @code");
                 qry.AddParameter("@code", code);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 result = (qry.RowCount > 0);
             }
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void CheckInItemUnassign(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string masterid, string description,
+        public async Task CheckInItemUnassignAsync(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string masterid, string description,
             string vendorid, string consignorid, string usersid, string aisle, string shelf, decimal qty)
         {
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.chkinitemunassign"))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.chkinitemunassign", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.AddParameter("@contractid",   contractid);
                 qry.AddParameter("@orderid",      orderid);
@@ -3122,14 +3131,14 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@aisle",        aisle);
                 qry.AddParameter("@shelf",        shelf);
                 qry.AddParameter("@qty",          qty);
-                qry.Execute();
+                await qry.ExecuteAsync();
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static void CheckInItemCancel(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string masterid, string vendorid, string consignorid,
+        public async Task CheckInItemCancelAsync(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string masterid, string vendorid, string consignorid,
             string usersid, string description, int ordertranid, string internalchar, decimal qty)
         {
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.chkinitemcancel"))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.chkinitemcancel", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.AddParameter("@contractid",   contractid);
                 qry.AddParameter("@orderid",      orderid);
@@ -3142,15 +3151,15 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@ordertranid",  ordertranid);
                 qry.AddParameter("@internalchar", internalchar);
                 qry.AddParameter("@qty",          qty);
-                qry.Execute();
+                await qry.ExecuteNonQueryAsync();
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static string CreateRepair(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string rentalitemid, decimal qty, string usersid)
+        public async Task<string> CreateRepairAsync(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string rentalitemid, decimal qty, string usersid)
         {
             string repairid = string.Empty;
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.createrepair"))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.createrepair", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.AddParameter("@contractid",   contractid);
                 qry.AddParameter("@orderid",      orderid);
@@ -3159,7 +3168,7 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@qty",          qty);
                 qry.AddParameter("usersid",       usersid);
                 qry.AddParameter("@repairid",     SqlDbType.Char, ParameterDirection.Output);
-                qry.Execute();
+                await qry.ExecuteNonQueryAsync();
                 repairid = qry.GetParameter("@repairid").ToString(); 
             }
 
@@ -3167,12 +3176,12 @@ namespace RentalWorksQuikScan.Source
         }
         //----------------------------------------------------------------------------------------------------
         // doesn't seem like this can be used until after a container has been filled and contract finalized
-        public static dynamic FillContainer_RemoveItemFromContainer(FwSqlConnection conn, string rentalitemid, string containeritemid, string masterid, decimal qty, string usersid,
+        public async Task<dynamic> FillContainer_RemoveItemFromContainerAsync(FwSqlConnection conn, string rentalitemid, string containeritemid, string masterid, decimal qty, string usersid,
             bool finalizecontract, string contractid) 
         {
             dynamic result = new ExpandoObject();
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.removeitemfromcontainer")) {
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.removeitemfromcontainer", this.ApplicationConfig.DatabaseSettings.QueryTimeout)) {
                 qry.AddParameter("@rentalitemid", rentalitemid);
                 qry.AddParameter("@containeritemid", containeritemid);
                 qry.AddParameter("@masterid", masterid);
@@ -3182,7 +3191,7 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@contractid", "");
                 qry.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.Execute();
+                await qry.ExecuteNonQueryAsync();
                 result.status = qry.GetParameter("@status").ToDecimal();
                 result.msg = qry.GetParameter("@msg").ToString().TrimEnd();
                 if (result.status != 0) {
@@ -3193,53 +3202,50 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void AssignContract(FwSqlConnection conn, string contractid) 
+        public async Task AssignContractAsync(FwSqlConnection conn, string contractid) 
         {
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.assigncontract")) 
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.assigncontract", this.ApplicationConfig.DatabaseSettings.QueryTimeout)) 
             {
                 qry.AddParameter("@contractid", contractid);
-                qry.Execute();
+                await qry.ExecuteAsync();
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static bool ContractIsEmpty(FwSqlConnection conn, string contractid) 
+        public async Task<bool> ContractIsEmptyAsync(FwSqlConnection conn, string contractid) 
         {
             bool result;
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.contractisempty")) 
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.contractisempty", this.ApplicationConfig.DatabaseSettings.QueryTimeout)) 
             {
                 qry.AddParameter("@contractid", contractid);
                 qry.AddParameter("@isempty", SqlDbType.Char, ParameterDirection.Output);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 result = qry.GetParameter("@isempty").ToBoolean();
             }
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetRetiredReason(FwSqlConnection conn)
+        public async Task<dynamic> GetRetiredReasonAsync(FwSqlConnection conn)
         {
             FwSqlCommand qry;
             dynamic results;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select retiredreason, reasontype, retiredreasonid, inactive");
             qry.Add("from retiredreason with (nolock)");
             qry.Add("where inactive <> 'T'");
             qry.Add("order by retiredreason");
-            results = qry.QueryToDynamicList2();
+            results = await qry.QueryToDynamicList2Async();
 
             return results;
         }
         //----------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Proposal 64733 for Marvel Studios.  Ability to retire an item (create an L&D order) from QuikScan.
+        /// Proposal 64733 for Marvel Studios.  Ability to retire an item (create an L&amp;D order) from QuikScan.
         /// </summary>
         /// <param name="conn"></param>
-        /// <param name="isrentalitemin">Is a barcode or other 'rentalitem' in the Warehouse?</param>
         /// <param name="isicode">Is the item a qty item rather than a 'rentalitem'.</param>
-        /// <param name="isretireonorder">If true, you need to pass an orderid and it will retire the item on that orderid.</param>
-        /// <param name="isretireinwarehouse">If true, it will retire the item from the warehouseid.</param>
         /// <param name="barcode">If the items is a rentalitem, need to pass the barcode field.</param>
         /// <param name="orderid">Pass if doing isretireonorder, otherwise blank.</param>
         /// <param name="masterno">Pass if retiring a qty item.</param>
@@ -3247,14 +3253,15 @@ namespace RentalWorksQuikScan.Source
         /// <param name="retiredreasonid">The retirereason.</param>
         /// <param name="lossamount">The loss amount.</param>
         /// <param name="notes">Notes about retiring the item.</param>
+        /// <param name="usersid"></param>
         /// <param name="warehouseid">The user's warehouse id.</param>
-        public static dynamic AssetDisposition(FwSqlConnection conn, bool isicode, string barcode, string orderid, string masterno, decimal qty, string retiredreasonid, 
-                                               decimal lossamount, string notes, string usersid, string warehouseid)
+        public async Task<dynamic> AssetDispositionAsync(FwSqlConnection conn, bool isicode, string barcode, string orderid, string masterno, decimal qty, string retiredreasonid, 
+                                                                decimal lossamount, string notes, string usersid, string warehouseid)
         {
             FwSqlCommand sp;
             dynamic result;
 
-            sp = new FwSqlCommand(conn, "dbo.assetdisposition");
+            sp = new FwSqlCommand(conn, "dbo.assetdisposition", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@isicode",             FwConvert.LogicalToCharacter(isicode));
             sp.AddParameter("@barcode",             barcode);
             sp.AddParameter("@orderid",             orderid);
@@ -3269,7 +3276,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@warehouseid",         warehouseid);
             sp.AddParameter("@errno",  SqlDbType.Int, ParameterDirection.Output);
             sp.AddParameter("@errmsg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.errno  = sp.GetParameter("@errno").ToInt32();
             result.errmsg = sp.GetParameter("@errmsg").ToString().TrimEnd();
@@ -3277,13 +3284,13 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic TimeLogSearchOrders(FwSqlConnection conn, string webusersid, string dealid, string orderno)
+        public async Task<dynamic> TimeLogSearchOrdersAsync(FwSqlConnection conn, string webusersid, string dealid, string orderno)
         {
             FwSqlCommand qry;
             dynamic result;
 
             result = null;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from  dbo.funccrewdealorder(@webusersid, @dealid)");
             if (!string.IsNullOrEmpty(orderno))
@@ -3294,18 +3301,18 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by orderdate desc, orderno desc");
             qry.AddParameter("@webusersid", webusersid);
             qry.AddParameter("@dealid", dealid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic TimeLogSearchDeals(FwSqlConnection conn, string webusersid, string dealno)
+        public async Task<dynamic> TimeLogSearchDealsAsync(FwSqlConnection conn, string webusersid, string dealno)
         {
             FwSqlCommand qry;
             dynamic result;
 
             result = null;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from  dbo.funccrewdeal(@webusersid)");
             if (!string.IsNullOrEmpty(dealno))
@@ -3315,18 +3322,18 @@ namespace RentalWorksQuikScan.Source
             }
             qry.Add("order by deal asc");
             qry.AddParameter("@webusersid", webusersid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic TimeLogSearchEvents(FwSqlConnection conn, string webusersid, string eventno)
+        public async Task<dynamic> TimeLogSearchEventsAsync(FwSqlConnection conn, string webusersid, string eventno)
         {
             FwSqlCommand qry;
             dynamic result;
 
             result = null;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 *");
             qry.Add("from  dbo.funccrewevent(@webusersid)");
             if (!string.IsNullOrEmpty(eventno))
@@ -3336,18 +3343,18 @@ namespace RentalWorksQuikScan.Source
             }
             qry.Add("order by eventno desc");
             qry.AddParameter("@webusersid", webusersid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic TimeLogSearchProjects(FwSqlConnection conn, string orderno)
+        public async Task<dynamic> TimeLogSearchProjectsAsync(FwSqlConnection conn, string orderno)
         {
             FwSqlCommand qry;
             dynamic result;
 
             result = null;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select orderid, ordertypeid, orderno, orderdesc, dealid, dealno, deal, status, warehouseid, locationid, orderdate, estrentfrom, estrentto");
             qry.Add("from  orderview");
             qry.Add("where status in ('ACTIVE', 'COMPLETE')");
@@ -3358,18 +3365,18 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@orderno", orderno);
             }
             qry.Add("order by orderdate");
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetCrewTimeEntries(FwSqlConnection conn, string webusersid, string orderid, string dealid, string eventid)
+        public async Task<dynamic> GetCrewTimeEntriesAsync(FwSqlConnection conn, string webusersid, string orderid, string dealid, string eventid)
         {
             FwSqlCommand qry;
             dynamic result;
 
             result = null;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from  dbo.funcmasteritemcrewtime2(@orderid, @dealid, @eventid, @webusersid)");
             qry.Add("order by thedate, rowtypeorderby");
@@ -3377,18 +3384,18 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@orderid",    orderid);
             qry.AddParameter("@dealid",     dealid);
             qry.AddParameter("@eventid",    eventid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetUserTimeEntries(FwSqlConnection conn, string usersid, string orderid)
+        public async Task<dynamic> GetUserTimeEntriesAsync(FwSqlConnection conn, string usersid, string orderid)
         {
             FwSqlCommand qry;
             dynamic result;
 
             result = null;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select *");
             qry.Add("from  usertimeview");
             qry.Add("where usersid = @usersid");
@@ -3396,17 +3403,17 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by usertimeid");
             qry.AddParameter("@usersid", usersid);
             qry.AddParameter("@orderid", orderid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic InsertUserTime(FwSqlConnection conn, string usersid, FwDateTime workdate, string orderid, string description, string workhours)
+        public async Task<dynamic> InsertUserTimeAsync(FwSqlConnection conn, string usersid, FwDateTime workdate, string orderid, string description, string workhours)
         {
             FwSqlCommand sp;
             dynamic result;
 
-            sp = new FwSqlCommand(conn, "dbo.insertusertime");
+            sp = new FwSqlCommand(conn, "dbo.insertusertime", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@usersid",     usersid);
             sp.AddParameter("@workdate",    workdate.GetSqlValue());
             sp.AddParameter("@orderid",     orderid);
@@ -3414,7 +3421,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@workhours",   workhours);
             sp.AddParameter("@status",      SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",         SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result        = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString().TrimEnd();
@@ -3422,12 +3429,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic UpdateUserTime(FwSqlConnection conn, int usertimeid, string internalchar, string usersid, FwDateTime workdate, string orderid, string description, string workhours)
+        public async Task<dynamic> UpdateUserTimeAsync(FwSqlConnection conn, int usertimeid, string internalchar, string usersid, FwDateTime workdate, string orderid, string description, string workhours)
         {
             FwSqlCommand sp;
             dynamic result;
 
-            sp = new FwSqlCommand(conn, "dbo.updateusertime");
+            sp = new FwSqlCommand(conn, "dbo.updateusertime", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@usertimeid",   usertimeid.ToString());
             sp.AddParameter("@internalchar", internalchar);
             sp.AddParameter("@usersid",      usersid);
@@ -3437,7 +3444,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@workhours",    workhours);
             sp.AddParameter("@status",       SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteNonQueryAsync();
             result        = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString().TrimEnd();
@@ -3445,12 +3452,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic TimeLogSubmit(FwSqlConnection conn, string webusersid, FwDateTime thedate, string orderid, string masteritemid, string starttime, string stoptime, string break1starttime, string break1stoptime, string break2starttime, string break2stoptime, string break3starttime, string break3stoptime, string notes, string inputbywebusersid)
+        public async Task<dynamic> TimeLogSubmitAsync(FwSqlConnection conn, string webusersid, FwDateTime thedate, string orderid, string masteritemid, string starttime, string stoptime, string break1starttime, string break1stoptime, string break2starttime, string break2stoptime, string break3starttime, string break3stoptime, string notes, string inputbywebusersid)
         {
             FwSqlCommand sp;
             dynamic result;
 
-            sp = new FwSqlCommand(conn, "dbo.applymasteritemcrewtime");
+            sp = new FwSqlCommand(conn, "dbo.applymasteritemcrewtime", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@webusersid",          webusersid);
             sp.AddParameter("@thedate",             thedate.GetSqlValue());
             sp.AddParameter("@orderid",             orderid);
@@ -3467,7 +3474,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@inputbywebusersid",   inputbywebusersid);
             sp.AddParameter("@status",              SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",                 SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             result = new ExpandoObject();
             result.status = sp.GetParameter("@status").ToInt32();
             result.msg    = sp.GetParameter("@msg").ToString().TrimEnd();
@@ -3475,12 +3482,12 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void FillContainer_CreateContainer(FwSqlConnection conn, string containeritemid, string loggedin_usersid)
+        public async Task FillContainer_CreateContainerAsync(FwSqlConnection conn, string containeritemid, string loggedin_usersid)
         {
             FwSqlSelect select;
             FwJsonDataTable dt;
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 select = new FwSqlSelect();
                 select.Add("select contractid, status, usersid");
@@ -3489,7 +3496,7 @@ namespace RentalWorksQuikScan.Source
                 select.Add("                     from  ordercontract oc with (nolock)");
                 select.Add("                     where oc.orderid = @containeritemid)");
                 select.AddParameter("@containeritemid", containeritemid);
-                dt = qry.QueryToFwJsonTable(select, true);
+                dt = await qry.QueryToFwJsonTableAsync(select, true);
             }
             for (int rowno = 0; rowno < dt.Rows.Count; rowno++)
             {
@@ -3499,43 +3506,43 @@ namespace RentalWorksQuikScan.Source
                 switch(status)
                 {
                     case "NEW":
-                        CancelContract(conn, contractid, usersid, true);
+                        await CancelContractAsync(conn, contractid, usersid, true);
                         break;
                     case "ACTIVE":
-                        AssignContract(conn, contractid);
+                        await AssignContractAsync(conn, contractid);
                         break;
                 }
             }
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.updatecontainerstatus"))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.updatecontainerstatus", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.AddParameter("@containerid", containeritemid);
                 qry.AddParameter("@usersid", loggedin_usersid);
-                qry.ExecuteNonQuery();
+                await qry.ExecuteNonQueryAsync();
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_FuncGetContainer(FwSqlConnection conn, string barcode, string warehouseid)
+        public async Task<dynamic> FillContainer_FuncGetContainerAsync(FwSqlConnection conn, string barcode, string warehouseid)
         {
             dynamic result;
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.Add("select top 1 *");
                 qry.Add("from dbo.funcgetcontainer(@barcode, @warehouseid)");
                 qry.AddParameter("@barcode", barcode);
                 qry.AddParameter("@warehouseid", warehouseid);
-                result = qry.QueryToDynamicObject2();
+                result = await qry.QueryToDynamicObject2Async();
             }
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic CheckInGetItemInfo(FwSqlConnection conn, string barcode, string incontractid, string usersid, string bctype, string containeritemid, string orderid, string dealid,
+        public async Task<dynamic> CheckInGetItemInfoAsync(FwSqlConnection conn, string barcode, string incontractid, string usersid, string bctype, string containeritemid, string orderid, string dealid,
             string departmentid, string masteritemid, string rentalitemid)
         {
             dynamic result = new ExpandoObject();
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.checkingetiteminfo"))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.checkingetiteminfo", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.AddParameter("@barcode",            barcode);       // can be barcode, rfid, serial number, or rentalitemid
                 qry.AddParameter("@incontractid",       incontractid);
@@ -3574,7 +3581,7 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@retiredid",          SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@msg",                SqlDbType.VarChar, ParameterDirection.Output);
                 qry.AddParameter("@status",             SqlDbType.Decimal, ParameterDirection.Output);
-                qry.Execute();
+                await qry.ExecuteNonQueryAsync();
                 result.orderid            = qry.GetParameter("@outputorderid").ToString().TrimEnd();
                 result.dealid             = qry.GetParameter("@outputdealid").ToString().TrimEnd();
                 result.departmentid       = qry.GetParameter("@outputdepartmentid").ToString().TrimEnd();
@@ -3602,16 +3609,16 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FillContainer_EmptyContainer(FwSqlConnection conn, String containerrentalitemid, String deleteall, String usersid)
+        public async Task<dynamic> FillContainer_EmptyContainerAsync(FwSqlConnection conn, String containerrentalitemid, String deleteall, String usersid)
         {
-            FwSqlCommand sp = new FwSqlCommand(conn, "emptycontainer");
+            FwSqlCommand sp = new FwSqlCommand(conn, "emptycontainer", this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             sp.AddParameter("@containerrentalitemid", containerrentalitemid);
             sp.AddParameter("@deleteall", deleteall);
             sp.AddParameter("@usersid", usersid);
             sp.AddParameter("@incontractid", SqlDbType.Char, ParameterDirection.Output);
             sp.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
             sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             dynamic result = new ExpandoObject();
             result.incontractid = sp.GetParameter("@incontractid").ToString();
             result.status       = sp.GetParameter("@status").ToInt32();
@@ -3619,37 +3626,37 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetOrderItemsToSub(FwSqlConnection conn, string usersid)
+        public async Task<dynamic> GetOrderItemsToSubAsync(FwSqlConnection conn, string usersid)
         {
             dynamic result = new ExpandoObject();
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select * from dbo.funcstagingsubstituteitem(@usersid)");
             qry.AddParameter("@usersid", usersid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetOrderCompletesToSub(FwSqlConnection conn, string usersid)
+        public async Task<dynamic> GetOrderCompletesToSubAsync(FwSqlConnection conn, string usersid)
         {
             dynamic result = new ExpandoObject();
             FwSqlCommand qry;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select * from dbo.funcstagingsubstitutecomplete(@usersid)");
             qry.AddParameter("@usersid", usersid);
-            result = qry.QueryToDynamicList2();
+            result = await qry.QueryToDynamicList2Async();
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic SubstituteAtStaging(FwSqlConnection conn, string orderid, string reducemasteritemid, string replacewithmasterid, string usersid, string qtytosubstitute, string substitutecomplete)
+        public async Task<dynamic> SubstituteAtStagingAsync(FwSqlConnection conn, string orderid, string reducemasteritemid, string replacewithmasterid, string usersid, string qtytosubstitute, string substitutecomplete)
         {
             dynamic result = new ExpandoObject();
 
-            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.substituteatstaging"))
+            using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.substituteatstaging", this.ApplicationConfig.DatabaseSettings.QueryTimeout))
             {
                 qry.AddParameter("@orderid",                orderid);
                 qry.AddParameter("@reducemasteritemid",     reducemasteritemid);
@@ -3660,7 +3667,7 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@substitutemasteritemid", SqlDbType.Char,    ParameterDirection.Output);
                 qry.AddParameter("@status",                 SqlDbType.Int,     ParameterDirection.Output);
                 qry.AddParameter("@msg",                    SqlDbType.VarChar, ParameterDirection.Output);
-                qry.Execute();
+                await qry.ExecuteAsync();
                 result.substitutemasteritemid = qry.GetParameter("@substitutemasteritemid").ToString();
                 result.status                 = qry.GetParameter("@status").ToString();
                 result.msg                    = qry.GetParameter("@msg").ToString();
@@ -3669,13 +3676,13 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static string GetDepartmentFilterWhereClause(string usersid)
+        public async Task<string> GetDepartmentFilterWhereClauseAsync(FwSqlConnection conn, string usersid)
         {
             StringBuilder deptfilter = new StringBuilder();
-            dynamic applicationOptions = FwSqlData.GetApplicationOptions(FwSqlConnection.RentalWorks);
+            dynamic applicationOptions = await FwSqlData.GetApplicationOptionsAsync(this.ApplicationConfig.DatabaseSettings);
             if (applicationOptions.departmentfilter.enabled)
             {
-                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Add("select d.departmentid");
                     qry.Add("from  department d join departmentaccess da on (d.departmentid = da.departmentaccessid)");
@@ -3683,12 +3690,12 @@ namespace RentalWorksQuikScan.Source
                     qry.Add("  and d.inactive <> 'T'");
                     qry.Add("  and orderaccess = 'T'");
                     qry.AddParameter("@usersid", usersid);
-                    DataTable dt = qry.QueryToTable();
+                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
                     deptfilter.Append("departmentid in (''");
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         deptfilter.Append(",'");
-                        deptfilter.Append(dt.Rows[i]["departmentid"].ToString());
+                        deptfilter.Append(dt.GetValue(i, "departmentid").ToString());
                         deptfilter.Append("'");
                     }
                     deptfilter.Append(")");
@@ -3697,26 +3704,26 @@ namespace RentalWorksQuikScan.Source
             return deptfilter.ToString();
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetLastSetImageId(FwSqlConnection conn, string masterid)
+        public async Task<dynamic> GetLastSetImageIdAsync(FwSqlConnection conn, string masterid)
         {
             string appdocumentid;
             FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select dbo.getlastsetimageid(@masterid) as appdocumentid");
             qry.AddParameter("@masterid", masterid);
-            qry.Execute();
+            await qry.ExecuteAsync();
             appdocumentid = qry.GetField("appdocumentid").ToString().TrimEnd();
             return appdocumentid;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic GetBarcodeFromRfid(FwSqlConnection conn, string rfid)
+        public async Task<dynamic> GetBarcodeFromRfidAsync(FwSqlConnection conn, string rfid)
         {
-            FwSqlCommand qry = new FwSqlCommand(conn);
+            FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
             qry.Add("select top 1 barcode");
             qry.Add("from rentalitem with (nolock)");
             qry.Add("where rfid = @rfid");
             qry.AddParameter("@rfid", rfid);
-            qry.Execute();
+            await qry.ExecuteAsync();
             string barcode = qry.GetField("barcode").ToString().TrimEnd();
             if (string.IsNullOrEmpty(barcode))
             {
