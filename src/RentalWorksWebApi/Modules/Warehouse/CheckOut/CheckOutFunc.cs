@@ -844,6 +844,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     //  "Replaced at Staging with Description 1 (Bar Code: ABC45648), Description 2 (Qty. 2), Description 3 (Bar Code: 60680680)"
                     substituteNote = "Replaced (" + request.Quantity.ToString() + ") at Staging with " + substituteNote;
                     oiMod.Notes += substituteNote;
+                    oiMod.PrintNoteOnOrder = true;
                     if (response.success)
                     {
                         int recordsAffected = await oiMod.SaveAsync(original: oiOrig, conn: conn);
