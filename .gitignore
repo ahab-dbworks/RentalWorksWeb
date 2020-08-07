@@ -91,6 +91,12 @@
 /src/RentalWorksWebApi/wwwroot/Reports/
 /src/RentalWorksWebApi/WebpackReports/**/*.js
 /src/RentalWorksWebApi/WebpackReports/**/*.js.map
+/src/RentalWorksWebApi/QuikScan/app_body.htm
+/src/RentalWorksWebApi/QuikScan/app_head.htm
+/src/RentalWorksWebApi/QuikScan/app_scripts.json
+/src/RentalWorksWebApi/QuikScan/app_startupscript.js
+/src/RentalWorksWebApi/QuikScan/Application.config
+/src/RentalWorksWebApi/QuikScan/ApplicationConfig.js
 /src/RentalWorksWebApi/QuikScan/Modules/**/*.js
 /src/RentalWorksWebApi/QuikScan/Modules/**/*.js.map
 /src/RentalWorksWebApi/QuikScan/Modules/**/*.js
