@@ -1358,6 +1358,8 @@ class PurchaseOrder implements IModule {
         if (status === 'VOID' || status === 'CLOSED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
+
+            OrderBaseController.disableOrderItemGridMenus($form);
         }
 
         const $toggleCloseOption = $form.find('.submenu-btn .caption:contains(Toggle Close)');

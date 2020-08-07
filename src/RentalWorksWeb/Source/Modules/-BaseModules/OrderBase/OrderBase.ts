@@ -2802,7 +2802,7 @@ class OrderBase {
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
-            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId); 
+            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
             const $tab = FwTabs.getTabByElement($report);
             $tab.find('.caption').html(`Print ${module}`);
         } catch (ex) {
@@ -4090,6 +4090,8 @@ class OrderBase {
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
+
+            this.disableOrderItemGridMenus($form);
         }
 
         //Disable 'Track Shipment' button
@@ -4126,6 +4128,24 @@ class OrderBase {
         this.renderScheduleDateAndTimeSection($form, response);
         this.showHideDeliveryLocationField($form);
         this.applyTaxOptions($form, response);
+    }
+    //----------------------------------------------------------------------------------------------
+    disableOrderItemGridMenus($form: JQuery) {
+        // Disable the 'Options' and 'Headers / Text / Sub-Totals' column in OrderItemGrid menu
+        const $menus = $form.find('[data-name="OrderItemGrid"] .submenu');
+        if ($menus) {
+            $menus.each((i, e) => {
+                const second = jQuery(e.children[1]);
+                if (second) {
+                    second.css({
+                        'pointer-events': 'none',
+                        'color': '#dcdcdc',
+                    });
+                } else {
+                    console.error(`second child undefined`);
+                }
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     applyTaxOptions($form: JQuery, response: any) {
