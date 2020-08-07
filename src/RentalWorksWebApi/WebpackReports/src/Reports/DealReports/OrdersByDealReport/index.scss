@@ -1,6 +1,9 @@
 ﻿/*OrdersByDealReport*/
-tbody[data-rowtype="detail"]:nth-of-type(odd) td:not(.no-border) {
-    background-color: #DCDCDC;
+/*tbody[data-rowtype="detail"]:nth-of-type(odd) td:not(.no-border) {*/
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
+        background-color: #DCDCDC;
+    }
 }
 
 thead {

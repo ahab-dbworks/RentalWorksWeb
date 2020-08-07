@@ -59,33 +59,34 @@
       <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="9" class="header-row">Deal: {{Deal}}</td>
       </tr>
-      <tr data-row="detail" data-rowtype={{RowType}}>
-        <th data-linkedcolumn="EmptyTd-1" data-valuefield="">Deal No.</th>
-        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Payment Terms</th>
-        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Start Date</th>
-        <th data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate">Close Date</th>
-        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Deal Type</th>
-        <th data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">Credit Status</th>
-        <th data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus">Ins. Status</th>
-        <th data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate">Phone</th>
-        <th data-linkedcolumn="OrderTotal" data-valuefield="OrderTotal"></th>
+      <tr data-row="sub-header" data-sort="true" data-rowtype="{{RowType}}">
+        <th data-linkedcolumn="DealNumber" data-valuefield="DealNumber">Deal No.</th>
+        <th data-linkedcolumn="DealPaymentTerms" data-valuefield="DealPaymentTerms">Payment Terms</th>
+        <th data-linkedcolumn="EstimatedStartDate-2" data-valuefield="EstimatedStartDate">Start Date</th>
+        <th data-linkedcolumn="EstimatedStopDate" data-valuefield="EstimatedStopDate">Close Date</th>
+        <th data-linkedcolumn="DealType" data-valuefield="DealType">Deal Type</th>
+        <th data-linkedcolumn="CreditStatus" data-valuefield="CreditStatus">Credit Status</th>
+        <th data-linkedcolumn="InsuranceStatus" data-valuefield="InsuranceStatus">Ins. Status</th>
+        <th data-linkedcolumn="Phone" data-valuefield="Phone">Phone</th>
+        <th data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
       </tr>
-      <tr data-row="detail" data-rowtype="{{RowType}}">
+      <tr data-row="sub-detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="EmptyTd-1" data-value="{{DealNumber}}"></td>
-        <td data-linkedcolumn="OrderNumber" data-value="{{DealPaymentTerms}}"></td>
-        <td data-linkedcolumn="OrderDate" data-value="{{EstimatedStartDate}}"></td>
-        <td data-linkedcolumn="EstimatedStartDate" data-value="{{EstimatedStopDate}}"></td>
-        <td data-linkedcolumn="OrderDescription" data-value="{{DealType}}"></td>
-        <td data-linkedcolumn="PurchaseOrderNumber" data-value="{{CreditStatus}}"></td>
-        <td data-linkedcolumn="OrderStatus" data-value="{{InsuranceStatus}}"></td>
-        <td data-linkedcolumn="OrderStatusDate" colspan="2" data-value="{{Phone}}"></td>
+        <td data-linkedcolumn="DealPaymentTerms" data-value="{{DealPaymentTerms}}"></td>
+        <td data-linkedcolumn="EstimatedStartDate-2" data-value="{{EstimatedStartDate}}"></td>
+        <td data-linkedcolumn="EstimatedStopDate" data-value="{{EstimatedStopDate}}"></td>
+        <td data-linkedcolumn="DealType" data-value="{{DealType}}"></td>
+        <td data-linkedcolumn="CreditStatus" data-value="{{CreditStatus}}"></td>
+        <td data-linkedcolumn="InsuranceStatus" data-value="{{InsuranceStatus}}"></td>
+        <td data-linkedcolumn="Phone" data-value="{{Phone}}"></td>
+        <td data-linkedcolumn="EmptyTd-2"></td>
       </tr>
-      <tr>
-        <td data-linkedcolumn="EmptyTd-1" data-value=""></td>
+      <tr data-row="sub-detail" data-sort="true">
+        <td data-linkedcolumn="EmptyTd-3" data-value=""></td>
         <td colspan="4"><div><span style="font-weight:700;">Address: </span>{{Address1}}&nbsp;{{Address2}}&nbsp;{{City}},&nbsp;{{State}}&nbsp;{{Zip}}&nbsp;{{Country}}</div></td>
         <td colspan="4"><div><span style="font-weight:700;">Primary Contact: </span>{{DealPrimaryContactName}}&nbsp;{{DealPrimaryContactPhone}}&nbsp;{{DealPrimaryContactExt}}</div></td>
       </tr>
-      <tr data-row="detail" data-rowtype="{{RowType}}">
+      <tr data-row="sub-detail" data-sort="true" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="EmptyTd-1" data-valuefield=""></td>
         <td data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</td>
         <td data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Create Date</td>
