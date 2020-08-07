@@ -4149,7 +4149,7 @@ class OrderBase {
             // Delete option
             const $deleteOptions = $menus.find('.deleteoption');
             if ($deleteOptions) {
-                $deleteOptions.css({
+                $deleteOptions.parent().css({
                     'pointer-events': 'none',
                     'color': '#dcdcdc',
                 });
