@@ -1,4 +1,5 @@
 ﻿using FwStandard.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -216,6 +217,64 @@ namespace FwStandard.SqlServer
             if (paramValue is bool)
             {
                 paramValue = (bool)paramValue ? "T" : "F";
+            }
+            if (paramValue is JValue)
+            {
+                JValue val = ((JValue)paramValue);
+                switch (val.Type)
+                {
+                    case JTokenType.Null:
+                        paramValue = null;
+                        break;
+                    case JTokenType.Undefined:
+                        paramValue = null;
+                        break;
+                    case JTokenType.Date:
+                        paramValue = val.Value<DateTime>();
+                        break;
+                    case JTokenType.Raw:
+                        paramValue = null;
+                        break;
+                    case JTokenType.Bytes:
+                        paramValue = val.Value<byte[]>();
+                        break;
+                    case JTokenType.Guid:
+                        paramValue = val.Value<Guid>();
+                        break;
+                    case JTokenType.Uri:
+                        paramValue = val.Value<string>();
+                        break;
+                    case JTokenType.TimeSpan:
+                        paramValue = val.Value<string>();
+                        break;
+                    case JTokenType.Object:
+                        paramValue = val.Value<object>();
+                        break;
+                    case JTokenType.Array:
+                        paramValue = val.Value<DateTime>();
+                        break;
+                    case JTokenType.Constructor:
+                        paramValue = null;
+                        break;
+                    case JTokenType.Property:
+                        paramValue = null;
+                        break;
+                    case JTokenType.Comment:
+                        paramValue = null;
+                        break;
+                    case JTokenType.Integer:
+                        paramValue = val.Value<Int32>();
+                        break;
+                    case JTokenType.Float:
+                        paramValue = val.Value<Decimal>();
+                        break;
+                    case JTokenType.String:
+                        paramValue = val.Value<String>();
+                        break;
+                    case JTokenType.Boolean:
+                        paramValue = val.Value<Boolean>();
+                        break;
+                }
             }
 
             param.Value = paramValue;

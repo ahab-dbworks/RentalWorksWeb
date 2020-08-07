@@ -9,12 +9,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
+using OfficeOpenXml.ConditionalFormatting;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -214,6 +217,17 @@ namespace FwCore.Api
         //------------------------------------------------------------------------------------
         protected abstract void AddSwaggerDocs(SwaggerGenOptions options);
         //------------------------------------------------------------------------------------
+        protected virtual void ConfigureStaticFileHosting(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            var wwwrootFileServerOptions = new FileServerOptions();
+            wwwrootFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+            {
+                context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                context.Context.Response.Headers.Add("Expires", "-1");
+            };
+            app.UseFileServer(wwwrootFileServerOptions);
+        }
+        //------------------------------------------------------------------------------------
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -243,18 +257,7 @@ namespace FwCore.Api
                .AllowCredentials()
                .SetPreflightMaxAge(TimeSpan.FromDays(7))); // this line keeps the browser from pre-flighting every request
 
-            //app.UseDefaultFiles(); // Call first before app.UseStaticFiles()
-            //app.UseStaticFiles(); // For the wwwroot folder
-
-            // For the wwwroot folder
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                OnPrepareResponse = context =>
-                {
-                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                    context.Context.Response.Headers.Add("Expires", "-1");
-                }
-            });
+            this.ConfigureStaticFileHosting(app, env, loggerFactory);
 
             app.UseAuthentication();
             app.UseMvc();

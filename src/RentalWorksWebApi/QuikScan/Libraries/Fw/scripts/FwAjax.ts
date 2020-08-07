@@ -16,6 +16,13 @@ class FwAjaxRequest<T> {
     requestId?: string = FwAjax.generateUID();
     xmlHttpRequest?: XMLHttpRequest = new XMLHttpRequest();
     cancelable?: boolean = false;
+    setWebApiUrl(relativeUrl: string) {
+        let baseUrl = <string>applicationConfig.apiurl;
+        while (baseUrl.lastIndexOf('/') === baseUrl.length -1) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+        }
+        this.url = baseUrl + relativeUrl;
+    }
 }
 
 interface IRequest {

@@ -239,17 +239,17 @@ class FwServicesClass {
                 FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $validationbrowse);
             }
             else {
-                FwAppData.jsonPost(true, 'services.ashx?path=/validation/' + module + '/' + method, request, FwServices.defaultTimeout, onSuccess, onError, $validationbrowse);
+                FwAppData.jsonPost(true, 'api/v1/quikscan?path=/validation/' + module + '/' + method, request, FwServices.defaultTimeout, onSuccess, onError, $validationbrowse);
             }
         }
     };
 
     getholidayevents(request: any, $elementToBlock: JQuery, onSuccess: () => void, onError?: () => void): void {
-        FwAppData.jsonPost(true, 'services.ashx?path=/fwscheduler/getholidayevents', request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+        FwAppData.jsonPost(true, 'api/v1/quikscan?path=/fwscheduler/getholidayevents', request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
     }
     //----------------------------------------------------------------------------------------------
     callMethod(servicename: string, methodname: string, request: string, timeout: number, $elementToBlock: JQuery, onSuccess: () => void, onError: () => void): void {
-        FwAppData.jsonPost(true,  'services.ashx?path=/services/' + servicename + '/' + methodname, request, timeout, onSuccess, onError, $elementToBlock);
+        FwAppData.jsonPost(true,  'api/v1/quikscan?path=/services/' + servicename + '/' + methodname, request, timeout, onSuccess, onError, $elementToBlock);
     }
 }
 //----------------------------------------------------------------------------------------------

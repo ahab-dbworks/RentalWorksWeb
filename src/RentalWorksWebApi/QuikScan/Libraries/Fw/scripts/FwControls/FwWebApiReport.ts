@@ -90,16 +90,12 @@ abstract class FwWebApiReport {
                         request.parameters.action = 'Preview';
 
                         if (request.parameters.CustomReportLayoutId != "" && request.parameters.CustomReportLayoutId != undefined) {
-                            const customReportLayout = FwAjax.callWebApi<any, any>({
-                                httpMethod: 'GET',
-                                url: `${applicationConfig.apiurl}api/v1/customreportlayout/${request.parameters.CustomReportLayoutId}`,
-                                $elementToBlock: $form
-                            });
-
-                            await customReportLayout
-                                .then((values: any) => {
-                                    request.parameters.ReportTemplate = values.Html;
-                                });
+                            const customReportLayoutRequest = new FwAjaxRequest<any>();
+                            customReportLayoutRequest.httpMethod = 'GET';
+                            customReportLayoutRequest.url = `${applicationConfig.apiurl}api/v1/customreportlayout/${request.parameters.CustomReportLayoutId}`;
+                            customReportLayoutRequest.$elementToBlock = $form;
+                            const customReportLayout = await FwAjax.callWebApi<any, any>(customReportLayoutRequest);
+                            request.parameters.ReportTemplate = customReportLayout.Html;
                         }
 
                         const reportPageMessage = new ReportPageMessage();

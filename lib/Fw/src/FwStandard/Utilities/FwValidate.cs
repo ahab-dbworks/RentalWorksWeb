@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 
@@ -18,6 +19,21 @@ namespace FwStandard.Utilities
             if (isPropertyDefined)
             {
                 isPropertyDefined = (((IDictionary<String, object>)obj).ContainsKey(key));
+            }
+            return isPropertyDefined;
+        }
+        //----------------------------------------------------------------------------------
+        public static bool IsPropertyDefined(JObject obj, string key)
+        {
+            bool isPropertyDefined;
+            isPropertyDefined = true;
+            if (isPropertyDefined)
+            {
+                isPropertyDefined = (obj != null);
+            }
+            if (isPropertyDefined)
+            {
+                isPropertyDefined = obj.ContainsKey(key);
             }
             return isPropertyDefined;
         }

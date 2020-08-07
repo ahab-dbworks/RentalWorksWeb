@@ -1116,6 +1116,7 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(FwSqlSelect select, bool includeAllColumns)
         {
+            select.EnablePaging = (select.PageNo != 0) && (select.PageSize != 0);
             if (!select.Parsed)
             {
                 select.Parse();
@@ -1183,40 +1184,25 @@ namespace FwStandard.SqlServer
                         {
                             bool found = false;
                             bool pagingEnabled = (pageNo != 0 || pageSize != 0);
-                            if (pagingEnabled && (fieldno == 0 || fieldno == reader.FieldCount - 1))
+                            string colname = reader.GetName(fieldno);
+                            for (int colno = 0; colno < columns.Count; colno++)
                             {
-                                dt.Columns.Add(columns[0]);
-                                found = true;
+                                if (colname == columns[colno].DataField)
+                                {
+                                    found = true;
+                                    dt.Columns.Add(columns[colno]);
+                                    break;
+                                }
                             }
                             if (!found)
                             {
-                                //string colname = string.Empty;
-                                string colname = reader.GetName(fieldno);  //jason and justin 01/31/2019 
-                                for (int colno = 0; colno < columns.Count; colno++)
-                                {
-                                    //colname = reader.GetName(fieldno);
-                                    if (colname == columns[colno].DataField)
-                                    {
-                                        found = true;
-                                        dt.Columns.Add(columns[colno]);
-                                        break;
-                                    }
-                                }
-                                if (!found)
-                                {
-                                    dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
-                                }
+                                dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
                             }
-
                         }
                         columns = dt.Columns;
                     }
                     readerColumns = null;
                     dt.Rows = new List<List<object>>();
-                    //for (int i = 0; i < columns.Count; i++)
-                    //{
-                    //    dt.ColumnIndex[columns[i].DataField] = i;
-                    //}
                     dt.ResetColumnIndexes();
 
                     // default all requested totals to zero
