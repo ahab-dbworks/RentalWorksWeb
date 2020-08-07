@@ -108,7 +108,8 @@ class OrdersByDealReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('OrdersByDealReport', 'api/v1/ordersbydealreport', ordersByDealTemplate);
-        this.reportOptions.HasDownloadExcel = true;
+        //this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

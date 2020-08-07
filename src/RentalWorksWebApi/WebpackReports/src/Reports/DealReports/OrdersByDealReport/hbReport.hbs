@@ -1,5 +1,5 @@
 ﻿<!--OrdersByDealReport-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -22,114 +22,127 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
-  <table style="border-top:2px solid black;">
-    {{#each this}}
-    {{#ifEquals RowType "OfficeLocationheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="header-row no-border" colspan="10">Office Location: {{OfficeLocation}}</th>
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber"></th>
+        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate"></th>
+        <th data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate"></th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription"></th>
+        <th data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber"></th>
+        <th data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus"></th>
+        <th data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate"></th>
+        <th data-linkedcolumn="OrderTotal" data-valuefield="OrderTotal"></th>
       </tr>
     </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Departmentheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="lower header-row no-border" colspan="10">Department: {{Department}}</th>
+    <tbody>
+      {{#each this}}
+
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="header-row">Office Location: {{OfficeLocation}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Customerheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="lower header-row no-border" colspan="10">Customer: {{Customer}}</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="header-row">Department: {{Department}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Dealheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th>Deal No.</th>
-        <th>Deal Type</th>
-        <th>Payment Terms</th>
-        <th>Start Date</th>
-        <th>Close Date</th>
-        <th>Credit Status</th>
-        <th>Ins. Status</th>
-        <th colspan="2">Phone</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="header-row">Customer: {{Customer}}</td>
       </tr>
-    </thead>
-    <tr>
-      <td data-value="{{DealNumber}}"></td>
-      <td data-value="{{DealType}}"></td>
-      <td data-value="{{DealPaymentTerms}}"></td>
-      <td data-value="{{EstimatedStartDate}}"></td>
-      <td data-value="{{EstimatedStopDate}}"></td>
-      <td data-value="{{CreditStatus}}"></td>
-      <td data-value="{{InsuranceStatus}}"></td>
-      <td colspan="2" data-value="{{Phone}}"></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td colspan="4"><div><span style="font-weight:700;">Address: </span>{{Address1}}&nbsp;{{Address2}}&nbsp;{{City}},&nbsp;{{State}}&nbsp;{{Zip}}&nbsp;{{Country}}</div></td>
-      <td colspan="4"><div><span style="font-weight:700;">Primary Contact: </span>{{DealPrimaryContactName}}&nbsp;{{DealPrimaryContactPhone}}&nbsp;{{DealPrimaryContactExt}}</div></td>
-    </tr>
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="no-border"></th>
-        <th>Order No.</th>
-        <th>Create Date</th>
-        <th>Est. Start Date</th>
-        <th>Description</th>
-        <th>PO No.</th>
-        <th class="number">Amount</th>
-        <th>Status</th>
-        <th>As Of</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="header-row">Deal: {{Deal}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "detail"}}
-    <tbody data-rowtype="{{RowType}}">
+      <tr data-row="detail" data-rowtype={{RowType}}>
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield="">Deal No.</th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Payment Terms</th>
+        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Start Date</th>
+        <th data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate">Close Date</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Deal Type</th>
+        <th data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">Credit Status</th>
+        <th data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus">Ins. Status</th>
+        <th data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate">Phone</th>
+        <th data-linkedcolumn="OrderTotal" data-valuefield="OrderTotal"></th>
+      </tr>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="EmptyTd-1" data-value="{{DealNumber}}"></td>
+        <td data-linkedcolumn="OrderNumber" data-value="{{DealPaymentTerms}}"></td>
+        <td data-linkedcolumn="OrderDate" data-value="{{EstimatedStartDate}}"></td>
+        <td data-linkedcolumn="EstimatedStartDate" data-value="{{EstimatedStopDate}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{DealType}}"></td>
+        <td data-linkedcolumn="PurchaseOrderNumber" data-value="{{CreditStatus}}"></td>
+        <td data-linkedcolumn="OrderStatus" data-value="{{InsuranceStatus}}"></td>
+        <td data-linkedcolumn="OrderStatusDate" colspan="2" data-value="{{Phone}}"></td>
+      </tr>
       <tr>
-        <td style="border:none;background-color:white;"></td>
-        <td class="nowrap" data-value="{{OrderNumber}}"></td>
-        <td data-value="{{OrderDate}}"></td>
-        <td data-value="{{EstimatedStartDate}}"></td>
-        <td data-value="{{OrderDescription}}"></td>
-        <td data-value="{{PurchaseOrderNumber}}"></td>
-        <td class="number" data-value="{{OrderTotal}}"></td>
-        <td data-value="{{OrderStatus}}"></td>
-        <td data-value="{{OrderStatusDate}}"></td>
+        <td data-linkedcolumn="EmptyTd-1" data-value=""></td>
+        <td colspan="4"><div><span style="font-weight:700;">Address: </span>{{Address1}}&nbsp;{{Address2}}&nbsp;{{City}},&nbsp;{{State}}&nbsp;{{Zip}}&nbsp;{{Country}}</div></td>
+        <td colspan="4"><div><span style="font-weight:700;">Primary Contact: </span>{{DealPrimaryContactName}}&nbsp;{{DealPrimaryContactPhone}}&nbsp;{{DealPrimaryContactExt}}</div></td>
       </tr>
-    </tbody>
-    {{/ifEquals}}
-    {{#ifEquals RowType "OfficeLocationfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">{{OfficeLocation}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OrderTotal}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Departmentfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">{{Department}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OrderTotal}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Dealfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">{{Deal}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OrderTotal}}"></td>
-    </tr>
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "grandtotal"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
-      <td class="total-val" data-value="{{OrderTotal}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{/each}}
-  </table>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="EmptyTd-1" data-valuefield=""></td>
+        <td data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</td>
+        <td data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Create Date</td>
+        <td data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate">Est. Start Date</td>
+        <td data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</td>
+        <td data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">PO No.</td>
+        <td data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus">Status</td>
+        <td data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate">As Of</td>
+        <td data-linkedcolumn="OrderTotal" class="number" data-valuefield="OrderTotal">Amount</td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "detail"}}
+      <tr id="detailRow" data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="EmptyTd-1" data-value=""></td>
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="OrderDate" data-value="{{OrderDate}}"></td>
+        <td data-linkedcolumn="EstimatedStartDate" data-value="{{EstimatedStartDate}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="PurchaseOrderNumber" data-value="{{PurchaseOrderNumber}}"></td>
+        <td data-linkedcolumn="OrderStatus" data-value="{{OrderStatus}}"></td>
+        <td data-linkedcolumn="OrderStatusDate" data-value="{{OrderStatusDate}}"></td>
+        <td data-linkedcolumn="OrderTotal" class="number" data-value="{{OrderTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+
+
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{Deal}}:&nbsp;</td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{Customer}}:&nbsp;</td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{Department}}:&nbsp;</td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">{{OfficeLocation}}:&nbsp;</td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="8" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+</table>
 </div>
