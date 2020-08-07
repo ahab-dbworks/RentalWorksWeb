@@ -875,20 +875,31 @@ namespace WebApi.Modules.Warehouse.CheckOut
                             response.msg = "Could not delete substitute session.";
                         }
                     }
+
+                    conn.CommitTransaction();
+                }
+                //finally
+                //{
+                //    if (response.success)
+                //    {
+                //        conn.CommitTransaction();
+                //    }
+                //    else
+                //    {
+                //        conn.RollbackTransaction();
+                //    }
+                //    conn.Close();
+                //}
+                catch (Exception ex)
+                {
+                    response.success = false;
+                    response.msg = ex.Message;
+                    conn.RollbackTransaction();
                 }
                 finally
                 {
-                    if (response.success)
-                    {
-                        conn.CommitTransaction();
-                    }
-                    else
-                    {
-                        conn.RollbackTransaction();
-                    }
                     conn.Close();
                 }
-
             }
 
             return response;
