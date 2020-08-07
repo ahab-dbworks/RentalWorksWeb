@@ -49,7 +49,7 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "useprefix", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? UseNumberPrefix { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "prefix", modeltype: FwDataTypes.Text, maxlength: 2)]
+        [FwSqlDataField(column: "prefix", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
         public string NumberPrefix { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "usereq", modeltype: FwDataTypes.Boolean, sqltype: "char")]
