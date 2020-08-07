@@ -410,8 +410,10 @@ class CustomReportLayout {
                     oldIndex: e.oldIndex,
                     newIndex: e.newIndex,
                     fromRowIndex: e.from.rowIndex,
-                    toRowIndex: $column.parent().index(),
-                    rowType: $tr.attr('data-row')
+                    //toRowIndex: $column.parent().index(),
+                    toRowIndex: e.item.parentElement.rowIndex,
+                    rowType: $tr.attr('data-row'),
+                    theadIndex: $tr.parent('thead').index() //jasonh - 08/07/20 experimental support for multiple theads (so that first thead can be used as a label to separate columns into sections)
                 });
                 $form.data('updatetype', 'tableheader');
                 this.updateHTML($form, $table, $tr, $column);
@@ -1112,7 +1114,7 @@ class CustomReportLayout {
                     if (rowType == 'detail') {
                         if (!skipDetailRows) {
                             if (oldRowIndex === newRowIndex) {
-                                if (detailRowIndex === newRowIndex) {
+                                if (detailRowIndex === newRowIndex || sortIndex.theadIndex) {
                                     $detailRowTds = $designerTds;
                                     const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                     if ($movedTd.length) {
@@ -1154,7 +1156,7 @@ class CustomReportLayout {
                     } else if (rowType === 'sub-detail') {
                         subDetailRowIndex++;
                     } else if (rowType == 'footer') {
-                        if (newRowIndex === 0) {
+                        if (newRowIndex === 0 || sortIndex.theadIndex) {
                             const totalNameColSpan = parseInt($designerTds.filter('.total-name').attr('colspan')) || 1;
                             const totalNameIndex = $designerTds.filter('.total-name').index();
                             const endTotalNameColumnIndex = totalNameIndex + (totalNameColSpan - 1);
