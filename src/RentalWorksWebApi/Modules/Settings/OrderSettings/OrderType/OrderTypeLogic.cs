@@ -2208,6 +2208,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (RentalSaleShowPeriodDiscountAmount == true) { showFields.Add("PeriodDiscountAmount"); }
                 if (RentalSaleShowPeriodExtended == true) { showFields.Add("PeriodExtended"); }
                 if (RentalSaleShowPeriodCostExtended == true) { showFields.Add("PeriodCostExtended"); }
+                showFields.Add("RetiredReason");
                 if (RentalSaleShowTaxable == true) { showFields.Add("Taxable"); }
                 if (RentalSaleShowWarehouse == true) { showFields.Add("Warehouse"); }
                 if (RentalSaleShowNotes == true) { showFields.Add("Notes"); }
