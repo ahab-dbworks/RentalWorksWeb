@@ -323,7 +323,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
                             screen.$view.find('.fieldTrackLossAmount').toggle(isRentalItemOut || isICode);
                             screen.$view.find('.pnlImages').empty();
                             for(i = 0; i < response.appImages.length; i++) {
-                                img = jQuery('<img>')
+                                var img = jQuery('<img>')
                                         .attr('src', 'data:image/jpeg;base64,' + response.appImages[i].thumbnail)
                                         .attr('data-appimageid', response.appImages[i].appimageid)
                                 ;
@@ -508,7 +508,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
             ],
             cacheItemTemplate: false,
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 //html.push('  <div class="row1"><span class="masterno">{{masterno}}</span> - <span class="master">{{master}}</span></div>');
                 html.push('  <div class="row2">');

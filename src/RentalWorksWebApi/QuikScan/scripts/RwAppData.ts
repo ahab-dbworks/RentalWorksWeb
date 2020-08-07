@@ -1,4 +1,4 @@
-﻿var RwAppData = {
+﻿var RwAppData: any = {
     services: {
         account: {}
       , inventory: {}

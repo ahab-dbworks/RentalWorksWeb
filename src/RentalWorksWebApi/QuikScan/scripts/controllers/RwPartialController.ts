@@ -1,4 +1,4 @@
-﻿var RwPartialController = {};
+﻿var RwPartialController: any = {};
 //----------------------------------------------------------------------------------------------
 RwPartialController.getScanBarcodeHtml = function(viewModel, caption) {
     var defaultViewModel, $view, html;

@@ -57,7 +57,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
         ],
         cacheItemTemplate: false,
         itemTemplate: function(model) {
-            var html = [];
+            var html: string | string[] = [];
             html.push('<div class="item">');
             html.push('  <div class="row1"><span class="orderdesc">{{orderdesc}}</span></div>');
             html.push('  <div class="row2">');
@@ -297,7 +297,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
             return request;
         },
         itemTemplate: function(model) {
-            var html = [];
+            var html: string | string[] = [];
             html.push('<div class="item">');
             html.push('  <div class="row1"><span class="orderdesc">{{orderdesc}}</span></div>');
             html.push('  <div class="row2">');

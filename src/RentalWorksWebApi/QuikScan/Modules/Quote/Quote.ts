@@ -1,4 +1,4 @@
-﻿var RwQuote = {};
+﻿var RwQuote: any = {};
 //----------------------------------------------------------------------------------------------
 RwQuote.getQuoteScreen = function(viewModel, properties) {
     var locationdata = null, moduleproperties = null;
@@ -13,7 +13,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
     }, viewModel);
 
     combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-quote').html(), combinedViewModel, {});
-    var screen = {};
+    var screen: any = {};
     screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
 
     if (sessionStorage.getItem('userType') == 'USER') {
@@ -197,7 +197,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         },
         cacheItemTemplate: false,
         itemTemplate: function(model) {
-            var html = [], masterclass;
+            var html: string | string[] = [], masterclass;
             masterclass = 'item link itemclass-' + model.itemclass;
             html.push('<div class="' + masterclass + '">');
             html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
@@ -266,7 +266,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         .on('change', '#scanBarcodeView-txtBarcodeData', function() {
             try {
                 var $txtBarcodeData = jQuery(this);
-                var value           = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
+                var value           = RwAppData.stripBarcode($txtBarcodeData.val().toString().toUpperCase());
                 if (value !== '') {
                     var request = {
                         orderid:      properties.orderid,

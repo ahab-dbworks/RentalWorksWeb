@@ -1,4 +1,4 @@
-﻿var ReceiveOnSet = {};
+﻿var ReceiveOnSet: any = {};
 //----------------------------------------------------------------------------------------------
 ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
     var combinedViewModel, screen, $fwcontrols, $canvas, canvas, $findpo, $findset, $newset, $scan, $signature, $itemupdate;
@@ -53,7 +53,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             { value: 'DESCRIPTION', caption: 'Description' }
         ],
         itemTemplate: function() {
-            var html = [];
+            var html: string | string[] = [];
 
             html.push('<div class="record">');
             html.push('  <div class="row">');
@@ -131,7 +131,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             { value: 'STATUS',       caption: 'Status' }
         ],
         itemTemplate: function() {
-            var html = [];
+            var html: string | string[] = [];
 
             html.push('<div class="record">');
             html.push('  <div class="row">');
@@ -249,7 +249,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         }
     });
     $newset.showscreen = function() {
-        $newset.empty().html(Mustache.render(jQuery('#tmpl-receiveonsetnewsettemplate').html())).show();
+        $newset.empty().html(Mustache.render(jQuery('#tmpl-receiveonsetnewsettemplate').html(), {})).show();
         FwControl.renderRuntimeControls($newset.find('.fwcontrol'));
         $newset.$back.show();
         $newset.$save.show();
@@ -358,7 +358,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             receivecontractid: ((typeof screen.properties.receivecontractid !== 'undefined') ? screen.properties.receivecontractid : '')
         };
         RwServices.callMethod("ReceiveOnSet", "LoadItems", request, function(response) {
-            var html = [], $item;
+            var html: string | string[] = [], $item;
 
             html.push('<div class="record">');
             html.push('  <div class="row">');
@@ -420,15 +420,15 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
 
         $takepicture.on('click', function() {
             try {
-                if (typeof navigator.camera === 'undefined' || !program.hasCamera) {
+                if (typeof (<any>navigator).camera === 'undefined' || !program.hasCamera) {
                     throw 'Camera is not supported in the current environment.';
                 }
-                navigator.camera.getPicture(
+                (<any>navigator).camera.getPicture(
                     function(imageData) { //success
                         var request;
                         try {
-                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                window.screen.lockOrientation('portrait-primary');
+                            if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                (<any>window).screen.lockOrientation('portrait-primary');
                             }
                             if ((recorddata.trackedby === 'BARCODE') && (barcode !== '') && ($confirmation.find('.tab[data-tab="ASSET"]').hasClass('active'))) {
                                 request = {
@@ -465,19 +465,19 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
                     },
                     function(message) { //error
                         try {
-                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                window.screen.lockOrientation('portrait-primary');
+                            if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                (<any>window).screen.lockOrientation('portrait-primary');
                             }
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
                     },
                     {
-                        destinationType:    Camera.DestinationType.DATA_URL,
-                        sourceType:         Camera.PictureSourceType.CAMERA,
+                        destinationType:    (<any>window).Camera.DestinationType.DATA_URL,
+                        sourceType:         (<any>window).Camera.PictureSourceType.CAMERA,
                         allowEdit :         false,
                         correctOrientation: true,
-                        encodingType:       Camera.EncodingType.JPEG,
+                        encodingType:       (<any>window).Camera.EncodingType.JPEG,
                         quality:            applicationConfig.photoQuality,
                         targetWidth:        applicationConfig.photoWidth,
                         targetHeight:       applicationConfig.photoHeight 
@@ -580,7 +580,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         $scan.showscreen();
     });
     $itemupdate.$submit = FwMobileMasterController.addFormControl(screen, 'Submit', 'right', '&#xE161;', false, function() { //save
-        var request = {};
+        var request: any = {};
         if ($itemupdate.validate()) {
             request.recorddata        = $itemupdate.data('recorddata');
             request.orderid           = screen.properties.selectedpo.orderid;
@@ -671,8 +671,8 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         window.setTimeout(function() {
             screen.onWindowResize();
         }, 500);
-        if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-            window.screen.lockOrientation('landscape-primary');
+        if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+            (<any>window).screen.lockOrientation('landscape-primary');
             window.setTimeout(function() {
                 $signature.show();
                 screen.onWindowResize();
@@ -689,8 +689,8 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         $signature.$back.hide();
         $signature.$createcontract.hide();
         $scan.showscreen();
-        if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-            window.screen.lockOrientation('portrait-primary');
+        if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+            (<any>window).screen.lockOrientation('portrait-primary');
         }
         window.removeEventListener('resize', screen.onWindowResize, false);
     });
@@ -707,8 +707,8 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             $confirmation = FwConfirmation.renderConfirmation('Message', 'RECEIVE Contract created (' + response.contract.receivecontractno + ')<br />OUT Contract created (' + response.contract.outcontractno + ')');
             $ok           = FwConfirmation.addButton($confirmation, 'Ok', true);
 
-            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                window.screen.lockOrientation('portrait-primary');
+            if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                (<any>window).screen.lockOrientation('portrait-primary');
             }
             window.removeEventListener('resize', screen.onWindowResize, false);
 

@@ -1,5 +1,5 @@
-﻿var RwRoutes = [];
-RwConstants = {};
+﻿var RwRoutes: any = [];
+var RwConstants: any = {};
 RwConstants.itemTypes = {
     BarCoded:    'BarCoded',
     NonBarCoded: 'NonBarCoded',

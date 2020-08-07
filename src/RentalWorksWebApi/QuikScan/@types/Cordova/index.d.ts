@@ -6,3 +6,4 @@ declare var NativeAudio: any;
 declare var ZebraEmdk: any;
 declare var device: any;
 declare var ZebraRFIDAPI3: any;
+declare var ZebraLinkOS: any;

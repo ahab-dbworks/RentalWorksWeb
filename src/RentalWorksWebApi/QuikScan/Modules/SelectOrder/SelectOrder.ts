@@ -1,4 +1,4 @@
-﻿var RwSelectOrder = {};
+﻿var RwSelectOrder: any = {};
 //----------------------------------------------------------------------------------------------
 RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use strict';
     var combinedViewModel, screen, captionBarcodeICode, searchPlaceholder;

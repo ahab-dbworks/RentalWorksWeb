@@ -1,4 +1,4 @@
-﻿var AssetSetLocation = {};
+﻿var AssetSetLocation: any = {};
 //----------------------------------------------------------------------------------------------
 AssetSetLocation.getModuleScreen = function(viewModel, properties) {
     var combinedViewModel, screen, $search, $scan, $searchbtn;
@@ -11,7 +11,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
     screen.$view      = FwMobileMasterController.getMasterView(combinedViewModel);
     screen.properties = properties;
 
-    $fwcontrols = screen.$view.find('.fwcontrol');
+    var $fwcontrols = screen.$view.find('.fwcontrol');
     FwControl.init($fwcontrols);
     FwControl.renderRuntimeHtml($fwcontrols);
 
@@ -185,7 +185,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
         }
     };
     $scan.loadbarcode = function(recorddata) {
-        $scan.find('.itemdetails').html(Mustache.render(jQuery('#tmpl-assetsetlocationbarcodetemplate').html())).show();
+        $scan.find('.itemdetails').html(Mustache.render(jQuery('#tmpl-assetsetlocationbarcodetemplate').html(), recorddata)).show();
         FwControl.renderRuntimeControls($scan.find('.itemdetails .fwcontrol'));
         $scan.find('#scancontrol').fwmobilemodulecontrol('changeState', 1);
         $scan.find('.itemdetails').data('recorddata', recorddata);
@@ -196,7 +196,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
         $scan.loadshareddata(recorddata);
     };
     $scan.loadquantity = function(recorddata) {
-        $scan.find('.itemdetails').html(Mustache.render(jQuery('#tmpl-assetsetlocationquantitytemplate').html())).show();
+        $scan.find('.itemdetails').html(Mustache.render(jQuery('#tmpl-assetsetlocationquantitytemplate').html(), recorddata)).show();
         FwControl.renderRuntimeControls($scan.find('.itemdetails .fwcontrol'));
         $scan.find('.itemdetails-title').html(recorddata[0].master);
         $scan.addassetsetlocation();
@@ -327,7 +327,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
         ],
         cacheItemTemplate: false,
         itemTemplate: function(model) {
-            var html = [];
+            var html: string | string[] = [];
 
             html.push('<div class="record">');
             html.push('  <div class="column" style="flex: 0 0 108px;">');

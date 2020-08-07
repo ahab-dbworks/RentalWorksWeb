@@ -83,7 +83,7 @@ namespace RentalWorksQuikScan.Modules
                             qry.AddParameter("@locationid", userLocation.locationId);
                             break;
                     }
-                    response.datatable = await qry.QueryToFwJsonTableAsync(request.pageno, request.pagesize);
+                    response.datatable = await qry.QueryToFwJsonTableAsync(true, request.pageno, request.pagesize);
                 } 
             }
         }

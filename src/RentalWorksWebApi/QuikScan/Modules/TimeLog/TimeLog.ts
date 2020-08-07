@@ -1,7 +1,7 @@
-﻿var TimeLog = {};
+﻿var TimeLog: any = {};
 //----------------------------------------------------------------------------------------------
 TimeLog.getModuleScreen = function() {
-    var viewModel = {
+    var viewModel: any = {
         captionPageTitle:   RwLanguages.translate('Time Log'),
         captionOrderNo:     RwLanguages.translate('Order No'),
         captionDealNo:      RwLanguages.translate('Deal No'),
@@ -12,7 +12,7 @@ TimeLog.getModuleScreen = function() {
     };
     viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-timeLog').html(), viewModel);
 
-    var screen                    = {};
+    var screen: any                    = {};
     screen.$view                  = FwMobileMasterController.getMasterView(viewModel);
     screen.properties             = {};
     screen.properties.timelogdata = {};
@@ -363,14 +363,14 @@ TimeLog.getModuleScreen = function() {
             breaks    = $editentry.data('breaks');
 
             if ((starttime !== '') && (stoptime !== '')) {
-                hours = ( new Date("1970-01-01T" + FwFunc.convert12to24(stoptime)) - new Date("1970-01-01T" + FwFunc.convert12to24(starttime)) ) / 1000 / 60 / 60;
+                hours = (new Date("1970-01-01T" + FwFunc.convert12to24(stoptime)).valueOf() - new Date("1970-01-01T" + FwFunc.convert12to24(starttime)).valueOf() ) / 1000 / 60 / 60;
 
                 for (var i = 1; i < breaks+1; i++) {
                     var breakstarttime, breakstoptime;
                     breakstarttime = FwFormField.getValue($editentry, '.break' + i + 'start');
                     breakstoptime  = FwFormField.getValue($editentry, '.break' + i + 'stop');
                     if ((breakstarttime !== '') && (breakstoptime !== '')) {
-                        hours = hours - (( new Date("1970-01-01T" + FwFunc.convert12to24(breakstoptime)) - new Date("1970-01-01T" + FwFunc.convert12to24(breakstarttime)) ) / 1000 / 60 / 60);
+                        hours = hours - ((new Date("1970-01-01T" + FwFunc.convert12to24(breakstoptime)).valueOf() - new Date("1970-01-01T" + FwFunc.convert12to24(breakstarttime)).valueOf() ) / 1000 / 60 / 60);
                     }
                 }
             }

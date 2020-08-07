@@ -1,11 +1,11 @@
 ﻿//----------------------------------------------------------------------------------------------
 RwAccountController.getPreferencesScreen = function() {
-    var viewModel = {
+    var viewModel: any = {
         captionPageTitle: RwLanguages.translate('Settings'),
         captionScanMode:  RwLanguages.translate('Scan Mode')
     };
     viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-account-preferences').html(), viewModel);
-    var screen       = {};
+    var screen: any       = {};
     screen.viewModel = viewModel;
     screen.$view = FwMobileMasterController.getMasterView(viewModel);
 
@@ -24,7 +24,7 @@ RwAccountController.getPreferencesScreen = function() {
     screen.$view
         .on('change', '#preferencesView-scanMode .fwformfield-value', function() {
             try {
-                localStorage.setItem('barcodeScanMode', jQuery(this).val());
+                localStorage.setItem('barcodeScanMode', jQuery(this).val().toString());
                 if (typeof window.DTDevices === 'object') {
                     window.DTDevices.barcodeSetScanMode(jQuery(this).val());
                 }
@@ -61,8 +61,8 @@ RwAccountController.getPreferencesScreen = function() {
                         },
                         tooltips: [wNumb({ decimals: 0 })]
                     });
-                    rfidPowerLevelSlider.noUiSlider.on('change', function () {
-                        var rfidPowerLevel = parseFloat(rfidPowerLevelSlider.noUiSlider.get());
+                    (<any>rfidPowerLevelSlider).noUiSlider.on('change', function () {
+                        var rfidPowerLevel = parseFloat((<any>rfidPowerLevelSlider).noUiSlider.get());
                         if (typeof window.TslReader === 'object') {
                             window.TslReader.setPowerLevel(rfidPowerLevel);
                         }

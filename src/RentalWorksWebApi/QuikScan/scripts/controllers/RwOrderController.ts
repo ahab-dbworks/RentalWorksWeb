@@ -1,4 +1,4 @@
-﻿var RwOrderController = {};
+﻿var RwOrderController: any = {};
 //----------------------------------------------------------------------------------------------
 RwOrderController.getPageTitle = function(properties) {
     var captionPageTitle;

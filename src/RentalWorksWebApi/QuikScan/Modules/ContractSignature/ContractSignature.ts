@@ -182,8 +182,8 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
         $printimagecapture.find('#pic-signaturecapture-clear').click();
     };
     $printimagecapture.signaturecapturedone = function () {
-        if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-            window.screen.lockOrientation('portrait-primary');
+        if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+            (<any>window).screen.lockOrientation('portrait-primary');
         }
         window.removeEventListener('resize', $printimagecapture.onWindowResize, false);
         $printimagecapture.find('#printimagecaptureecontroller').fwmobilemodulecontrol('changeState', 0);
@@ -193,8 +193,8 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
     $printimagecapture
         .on('click', '.signaturecapture', function () {
             window.addEventListener('resize', $printimagecapture.onWindowResize, false);
-            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                window.screen.lockOrientation('landscape-primary');
+            if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                (<any>window).screen.lockOrientation('landscape-primary');
                 window.setTimeout(function() {
                     $printimagecapture.onWindowResize();
                 }, 500);
@@ -208,13 +208,13 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
         .on('click', '.contract-photo[data-status="empty"]', function () {
             var $this = jQuery(this);
             try {
-                if (typeof navigator.camera !== 'undefined' && program.hasCamera) {
-                    navigator.camera.getPicture(
+                if (typeof (<any>navigator).camera !== 'undefined' && program.hasCamera) {
+                    (<any>navigator).camera.getPicture(
                         //success
                         function (imageData) {
                             try {
-                                if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                    window.screen.lockOrientation('portrait-primary');
+                                if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                    (<any>window).screen.lockOrientation('portrait-primary');
                                 }
                                 var $image = jQuery('<img>')
                                     .attr('src', 'data:image/jpeg;base64,' + imageData)
@@ -229,8 +229,8 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                         //error
                         function (message) {
                             try {
-                                if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                    window.screen.lockOrientation('portrait-primary');
+                                if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                    (<any>window).screen.lockOrientation('portrait-primary');
                                 }
                                 FwNotification.renderNotification('ERROR', message);
                             } catch (ex) {
@@ -238,11 +238,11 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
                             }
                         },
                         {
-                            destinationType:    Camera.DestinationType.DATA_URL,
-                            sourceType:         Camera.PictureSourceType.CAMERA,
+                            destinationType:    (<any>window).Camera.DestinationType.DATA_URL,
+                            sourceType:         (<any>window).Camera.PictureSourceType.CAMERA,
                             allowEdit:          false,
                             correctOrientation: true,
-                            encodingType:       Camera.EncodingType.JPEG,
+                            encodingType:       (<any>window).Camera.EncodingType.JPEG,
                             quality:            applicationConfig.photoQuality,
                             targetWidth:        applicationConfig.photoWidth,
                             targetHeight:       applicationConfig.photoHeight
@@ -360,8 +360,8 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
         $signaturecapture.find('#signaturecapture-canvasSignature')[0].onselectstart = function () { return false; }
         $signaturecapture.signaturePad();
         window.addEventListener('resize', $signaturecapture.onWindowResize, false);
-        if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-            window.screen.lockOrientation('landscape-primary');
+        if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+            (<any>window).screen.lockOrientation('landscape-primary');
             window.setTimeout(function() {
                 $signaturecapture.onWindowResize();
             }, 500);
@@ -380,8 +380,8 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
         $signaturecapture.find('#signaturecapture-clear').click();
     };
     $signaturecapture.leavescreen = function () {
-        if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-            window.screen.lockOrientation('portrait-primary');
+        if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+            (<any>window).screen.lockOrientation('portrait-primary');
         }
         window.removeEventListener('resize', $signaturecapture.onWindowResize, false);
     };
@@ -405,7 +405,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
 
 
 RwOrderController.debugContactSignatureScreen = function (contracttype) {
-    var properties = {};
+    var properties: any = {};
     properties.contract = {contractType: contracttype};
     program.pushScreen(RwOrderController.getContactSignatureScreen({}, properties))
 };

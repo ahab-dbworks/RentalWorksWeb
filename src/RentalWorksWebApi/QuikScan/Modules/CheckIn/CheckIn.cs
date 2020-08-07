@@ -21,9 +21,9 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public void LoadModuleProperties(dynamic request, dynamic response, dynamic session)
+        public async Task LoadModuleProperties(dynamic request, dynamic response, dynamic session)
         {
-            response.syscontrol = LoadSysControlValuesAsync();
+            response.syscontrol = await LoadSysControlValuesAsync();
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -540,7 +540,7 @@ namespace RentalWorksQuikScan.Modules
                 select.AddParameter("@groupby", "DETAIL");
 
                 response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
-                response.extraitems = await GetExtraSessionedInItemsAsync(request.contractid, "").Count; 
+                response.extraitems = (await GetExtraSessionedInItemsAsync(request.contractid, "")).Count; 
             }
         }
         //---------------------------------------------------------------------------------------------

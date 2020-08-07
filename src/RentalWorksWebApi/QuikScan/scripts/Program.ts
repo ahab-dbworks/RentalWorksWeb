@@ -11,7 +11,7 @@ class Program extends FwApplication {
     onLpNearfieldData:      (uid: string, uidType?: string) => void;
     onScanLpNearfield:      (uid: string, uidType?: string) => void;
     localstorageprefix: string;
-    localstorageitems:  object;
+    localstorageitems:  any;
     runningInCordova: boolean = false;
     browserVersionString: string = '';
     browserVersionMajor: number = 0;

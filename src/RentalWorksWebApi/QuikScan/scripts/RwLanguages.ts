@@ -1,4 +1,4 @@
-﻿var RwLanguages = {};
+﻿var RwLanguages: any = {};
 RwLanguages.cultures = {};
 
 RwLanguages.currentCulture = localStorage.getItem('currentCulture');
@@ -480,4 +480,4 @@ if ((!localStorage.getItem('currentCulture')) || (!RwLanguages.cultures.hasOwnPr
 }
 
 //Eventually RwLanguages need to be replaced with AppLanguages
-AppLanguages = RwLanguages;
+(<any>window).AppLanguages = RwLanguages;

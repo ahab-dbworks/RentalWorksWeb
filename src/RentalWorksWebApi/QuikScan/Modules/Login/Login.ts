@@ -41,7 +41,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
         screen.$view.find('#loginView-btnHome').hide();
     }
     screen.$view
-        .on('click', '#mobilelogin-btnLogin', function() {
+        .on('click', '#mobilelogin-btnLogin', async function() {
             var request, $email, $password, exception;
             try {
                 $email    = jQuery('.mobilelogin-email-value');
@@ -53,40 +53,59 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                 } else {
                     localStorage.setItem('email', $email.val());
                     sessionStorage.clear();
-
-                    request = {
-                        email:    $email.val(),
-                        password: $password.val()
+                    //-------------------------
+                    var getJwtTokenRequest = new FwAjaxRequest();
+                    getJwtTokenRequest.$elementToBlock = screen.$view;
+                    getJwtTokenRequest.addAuthorizationHeader = false;
+                    getJwtTokenRequest.httpMethod = "POST";
+                    getJwtTokenRequest.setWebApiUrl('/api/v1/jwt');
+                    getJwtTokenRequest.data = {
+                        UserName: $email.val(),
+                        Password: $password.val()
                     };
-                    RwServices.account.getAuthToken(request, function(response) {
-                        try {
-                            if (response.errNo !== 0) {
-                                throw new Error(response.errMsg);
+                    var getJwtTokenResponse = await FwAjax.callWebApi<any, any>(getJwtTokenRequest);
+                    if ((getJwtTokenResponse.statuscode == 0) && (typeof getJwtTokenResponse.access_token !== 'undefined')) {
+                        sessionStorage.setItem('apiToken', getJwtTokenResponse.access_token);
+                        localStorage.setItem('email', $email.val()); // mv 5/10/19 - this is the email or login and cannot be used to display the email address
+                        if (typeof getJwtTokenResponse.exception !== 'undefined') {
+                            if (applicationConfig.debugMode) {
+                                throw new Error(getJwtTokenResponse.exception + getJwtTokenResponse.stacktrace);
+                            } else {
+                                throw new Error(getJwtTokenResponse.exception);
                             }
-                            if (typeof response.exception !== 'undefined') {
+                        } else {
+                            //-------------------------
+                            var getAuthTokenRequest = new FwAjaxRequest();
+                            getAuthTokenRequest.$elementToBlock = screen.$view;
+                            getAuthTokenRequest.httpMethod = "POST";
+                            getAuthTokenRequest.setWebApiUrl('/api/v1/quikscan?path=/account/getauthtoken');
+                            getAuthTokenRequest.data = {
+                                email: $email.val(),
+                                password: $password.val()
+                            };
+                            var getAuthTokenResponse = await FwAjax.callWebApi<any, any>(getAuthTokenRequest);
+                            if (getAuthTokenResponse.errNo !== 0) {
+                                throw new Error(getAuthTokenResponse.errMsg);
+                            }
+                            if (typeof getAuthTokenResponse.exception !== 'undefined') {
                                 if (applicationConfig.debugMode) {
-                                    throw new Error(response.exception + response.stacktrace);
+                                    throw new Error(getAuthTokenResponse.exception + getAuthTokenResponse.stacktrace);
                                 } else {
-                                    throw new Error(response.exception);
+                                    throw new Error(getAuthTokenResponse.exception);
                                 }
                             }
-                            if (typeof response.authToken === 'undefined') {
-                                throw new Error('RwServices.account.getAuthToken: response.authToken is undefined.');
-                            }
-                            //localStorage.setItem('email', request.email);
-                            sessionStorage.setItem('authToken', response.authToken);
-                            sessionStorage.setItem('fullname', response.webUser.fullname);
+                            sessionStorage.setItem('fullname', getAuthTokenResponse.webUser.fullname);
                             sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
-                            sessionStorage.setItem('serverVersion', response.serverVersion);
-                            sessionStorage.setItem('clientcode', response.clientcode);
-                            sessionStorage.setItem('iscrew', response.webUser.iscrew);
-                            sessionStorage.setItem('applicationOptions', JSON.stringify(response.applicationOptions));
-                            sessionStorage.setItem('stagingSuspendedSessionsEnabled', response.stagingSuspendedSessionsEnabled);
-                            sessionStorage.setItem('applicationtree', JSON.stringify(response.applicationtree));
+                            sessionStorage.setItem('serverVersion', getAuthTokenResponse.serverVersion);
+                            sessionStorage.setItem('clientcode', getAuthTokenResponse.clientcode);
+                            sessionStorage.setItem('iscrew', getAuthTokenResponse.webUser.iscrew);
+                            sessionStorage.setItem('applicationOptions', JSON.stringify(getAuthTokenResponse.applicationOptions));
+                            sessionStorage.setItem('stagingSuspendedSessionsEnabled', getAuthTokenResponse.stagingSuspendedSessionsEnabled);
+                            sessionStorage.setItem('applicationtree', JSON.stringify(getAuthTokenResponse.applicationtree));
                             var barcodeskipprefixes = '';
-                            if (typeof response.barcodeskipprefixes === 'object') {
-                                for (var i = 0; i < response.barcodeskipprefixes.Rows.length; i++) {
-                                    var prefix = response.barcodeskipprefixes.Rows[i][0];
+                            if (typeof getAuthTokenResponse.barcodeskipprefixes === 'object') {
+                                for (var i = 0; i < getAuthTokenResponse.barcodeskipprefixes.Rows.length; i++) {
+                                    var prefix = getAuthTokenResponse.barcodeskipprefixes.Rows[i][0];
                                     if (barcodeskipprefixes.length > 0) {
                                         barcodeskipprefixes += ',';
                                     }
@@ -94,111 +113,50 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                                 }
                                 sessionStorage.setItem('skipBarcodePrefixes', barcodeskipprefixes);
                             }
-                            sessionStorage.setItem('userType', response.webUser.usertype);
-                            if (response.webUser.usertype === 'USER') {
-                                sessionStorage.setItem('users_enablecreatecontract', (response.user.enablecreatecontract === 'T') ? 'T' : 'F');
-                                sessionStorage.setItem('users_qsallowapplyallqtyitems', (response.user.qsallowapplyallqtyitems === 'T') ? 'T' : 'F');
+                            sessionStorage.setItem('userType', getAuthTokenResponse.webUser.usertype);
+                            if (getAuthTokenResponse.webUser.usertype === 'USER') {
+                                sessionStorage.setItem('users_enablecreatecontract', (getAuthTokenResponse.user.enablecreatecontract === 'T') ? 'T' : 'F');
+                                sessionStorage.setItem('users_qsallowapplyallqtyitems', (getAuthTokenResponse.user.qsallowapplyallqtyitems === 'T') ? 'T' : 'F');
                             }
-                            //else if (response.webUser.usertype === 'CONTACT') {}
-                            if (response.clientcode === 'MARVEL') {
+                            if (getAuthTokenResponse.clientcode === 'MARVEL') {
                                 localStorage.setItem('currentCulture', 'marvel');
                                 RwLanguages.currentCulture = localStorage.getItem('currentCulture');
                             } else {
                                 localStorage.setItem('currentCulture', 'enUs');
                             }
-                            sessionStorage.setItem('siteName', response.site.name);
+                            //sessionStorage.setItem('siteName', getAuthTokenResponse.site.name);
+                            //-------------------------
 
-                             // Ajax for a jwt token
-                            //const responseJwt = await FwAjax.callWebApi({
-                            //    httpMethod: 'POST',
-                            //    url: `${applicationConfig.apiurl}api/v1/jwt`,
-                            //    $elementToBlock: screen.$view,
-                            //    data: {
-                            //        UserName: $email.val(),
-                            //        Password: $password.val()
-                            //    }
-                            //});
-                            var jwtRequest = {
-                                UserName: $email.val(),
-                                Password: $password.val()
-                            };
-                            FwAppData.apiMethod(false, 'POST', 'api/v1/jwt', jwtRequest,  null,
-                                function(responseJwt) {
-                                    try {
-                                        if ((responseJwt.statuscode == 0) && (typeof responseJwt.access_token !== 'undefined')) {
-                                            sessionStorage.setItem('apiToken', responseJwt.access_token);
-                                            localStorage.setItem('email', $email.val()); // mv 5/10/19 - this is the email or login and cannot be used to display the email address
-                                            if (typeof responseJwt.exception !== 'undefined') {
-                                                if (applicationConfig.debugMode) {
-                                                    throw new Error(responseJwt.exception + responseJwt.stacktrace);
-                                                } else {
-                                                    throw new Error(responseJwt.exception);
-                                                }
-                                            } else {
-                                                // get session info
-                                                FwAppData.apiMethod(true, 'GET', 'api/v1/account/session?applicationid={' + FwApplicationTree.currentApplicationId +'}', null,  null,
-                                                    function(responseSessionInfo) {
-                                                        try {
-                                                            sessionStorage.setItem('email', responseSessionInfo.webUser.email);
-                                                            sessionStorage.setItem('fullname', responseSessionInfo.webUser.fullname);
-                                                            sessionStorage.setItem('name', responseSessionInfo.webUser.name);  //justin 05/06/2018
-                                                            sessionStorage.setItem('usersid', responseSessionInfo.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-                                                            sessionStorage.setItem('browsedefaultrows', responseSessionInfo.webUser.browsedefaultrows);
-                                                            sessionStorage.setItem('applicationtheme', responseSessionInfo.webUser.applicationtheme);
-                                                            sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
-                                                            sessionStorage.setItem('serverVersion', responseSessionInfo.serverVersion);
-                                                            sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
-                                                            sessionStorage.setItem('userType', responseSessionInfo.webUser.usertype);
-                                                            sessionStorage.setItem('applicationtree', JSON.stringify(responseSessionInfo.applicationtree));
-                                                            sessionStorage.setItem('clientCode', responseSessionInfo.clientcode);
-                                                            sessionStorage.setItem('location', JSON.stringify(responseSessionInfo.location));
-                                                            sessionStorage.setItem('defaultlocation', JSON.stringify(responseSessionInfo.location));
-                                                            sessionStorage.setItem('warehouse', JSON.stringify(responseSessionInfo.warehouse));
-                                                            sessionStorage.setItem('department', JSON.stringify(responseSessionInfo.department));
-                                                            sessionStorage.setItem('webusersid', responseSessionInfo.webUser.webusersid);
-                                                            sessionStorage.setItem('userid', JSON.stringify(responseSessionInfo.webUser));
-                                                            if (responseSessionInfo.webUser.usertype == 'CONTACT') {
-                                                                sessionStorage.setItem('deal', JSON.stringify(responseSessionInfo.deal));
-                                                            }
-                                                            program.navigate('home/home');
-                                                        } catch (ex) {
-                                                            FwFunc.showError(ex);
-                                                        }
-                                                    }, 
-                                                    function (errorThrown) {
-                                                        try {
-                                                            sessionStorage.clear();
-                                                            FwFunc.showError(errorThrown);
-                                                        } catch (ex) {
-                                                            FwFunc.showError(ex);
-                                                        }
-                                                    }
-                                                    , screen.$view);
-                                                //const responseSessionInfo = await FwAjax.callWebApi({
-                                                //    httpMethod: 'GET',
-                                                //    url: `${applicationConfig.apiurl}api/v1/account/session?applicationid=${FwApplicationTree.currentApplicationId}`,
-                                                //    $elementToBlock: screen.$view
-                                                //});
-                                    
-                                            }
-                                        }
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                }, 
-                                function (errorThrown) {
-                                    try {
-                                        sessionStorage.clear();
-                                        FwFunc.showError(errorThrown);
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                }
-                            , screen.$view);
-                        } catch(ex) {
-                            FwFunc.showError(ex);
+                            // get session info
+                            var getSessionRequest = new FwAjaxRequest();
+                            getSessionRequest.$elementToBlock = screen.$view;
+                            getSessionRequest.httpMethod = "GET";
+                            getSessionRequest.setWebApiUrl('/api/v1/account/session?applicationid={' + FwApplicationTree.currentApplicationId + '}');
+                            var getSessionResponse = await FwAjax.callWebApi<any, any>(getSessionRequest);
+                            sessionStorage.setItem('email', getSessionResponse.webUser.email);
+                            sessionStorage.setItem('fullname', getSessionResponse.webUser.fullname);
+                            sessionStorage.setItem('name', getSessionResponse.webUser.name);  //justin 05/06/2018
+                            sessionStorage.setItem('usersid', getSessionResponse.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+                            sessionStorage.setItem('browsedefaultrows', getSessionResponse.webUser.browsedefaultrows);
+                            sessionStorage.setItem('applicationtheme', getSessionResponse.webUser.applicationtheme);
+                            sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
+                            sessionStorage.setItem('serverVersion', getSessionResponse.serverVersion);
+                            sessionStorage.setItem('applicationOptions', JSON.stringify(getSessionResponse.applicationOptions));
+                            sessionStorage.setItem('userType', getSessionResponse.webUser.usertype);
+                            sessionStorage.setItem('applicationtree', JSON.stringify(getSessionResponse.applicationtree));
+                            sessionStorage.setItem('clientCode', getSessionResponse.clientcode);
+                            sessionStorage.setItem('location', JSON.stringify(getSessionResponse.location));
+                            sessionStorage.setItem('defaultlocation', JSON.stringify(getSessionResponse.location));
+                            sessionStorage.setItem('warehouse', JSON.stringify(getSessionResponse.warehouse));
+                            sessionStorage.setItem('department', JSON.stringify(getSessionResponse.department));
+                            sessionStorage.setItem('webusersid', getSessionResponse.webUser.webusersid);
+                            sessionStorage.setItem('userid', JSON.stringify(getSessionResponse.webUser));
+                            if (getSessionResponse.webUser.usertype == 'CONTACT') {
+                                sessionStorage.setItem('deal', JSON.stringify(getSessionResponse.deal));
+                            }
+                            program.navigate('home/home');
                         }
-                    });
+                    }
                 }
             } catch(ex) {
                 FwFunc.showError(ex);
@@ -211,7 +169,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
             }
         })
         .on('click', '#loginView-btnHome', function() {
-            window.history.back(1);
+            window.history.back();
         })
         .on('click', '#loginView-btnSupport', function() {
             program.navigate('account/support');
@@ -229,7 +187,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
     
     screen.load = function() {
         var $txtEmail, $txtPassword;
-        if (!Modernizr.touch)
+        if (!(<any>window).Modernizr.touch)
         {
             $txtEmail    = jQuery('.mobilelogin-email-value');
             $txtPassword = jQuery('.mobilelogin-password-value');

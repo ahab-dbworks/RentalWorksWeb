@@ -288,7 +288,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.Add("where rv.status not in ('COMPLETE','VOID')  and (rv.warehouseid = @warehouseid or rv.transferredfromwarehouseid = @warehouseid)");
                     qry.Add("order by repairdate desc");
                     qry.AddParameter("@warehouseid", session.userLocation.warehouseId);
-                    response.repairorders = await qry.QueryToFwJsonTableAsync(request.pageno, request.pagesize);
+                    response.repairorders = await qry.QueryToFwJsonTableAsync(true, request.pageno, request.pagesize);
                 } 
             }
         }

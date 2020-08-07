@@ -1,15 +1,15 @@
-﻿QuikPick = {};
+﻿var QuikPick: any = {};
 //----------------------------------------------------------------------------------------------
 QuikPick.getQuikPickScreen = function() {
-    var viewModel = {
+    var viewModel: any = {
         captionPageTitle:        RwLanguages.translate('QuikPick')
         //captionPageSubTitle:     RwLanguages.translate('')
     };
     viewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-QuikPick').html(), viewModel);
-    var screen = {};
+    var screen: any = {};
     screen.$view = FwMobileMasterController.getMasterView(viewModel);
 
-    $fwcontrols = screen.$view.find('.fwcontrol');
+    var $fwcontrols = screen.$view.find('.fwcontrol');
     FwControl.renderRuntimeControls($fwcontrols);
 
     var $search   = screen.$view.find('.qp-search');
@@ -38,7 +38,7 @@ QuikPick.getQuikPickScreen = function() {
         ],
         cacheItemTemplate: false,
         itemTemplate: function(model) {
-            var html = [];
+            var html: string | string[] = [];
             html.push('<div class="record order">');
             html.push('  <div class="row">');
             html.push('    <div class="caption fixed">Desc:</div>');

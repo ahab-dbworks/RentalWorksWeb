@@ -23,7 +23,7 @@ RwInventoryController.getPhyInvItemScreen = function(viewModel, properties) {
             try {
                 $this = jQuery(this);
                 requestPhyCountItem = {
-                    code:        RwAppData.stripBarcode(jQuery(this).val().toUpperCase())
+                    code:        RwAppData.stripBarcode(jQuery(this).val().toString().toUpperCase())
                   , physicalId:  properties.physicalId
                 };
                 RwServices.order.phyCountItem(requestPhyCountItem, function(response) {

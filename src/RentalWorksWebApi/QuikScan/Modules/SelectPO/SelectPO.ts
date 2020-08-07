@@ -1,4 +1,4 @@
-﻿var RwSelectPO = {};
+﻿var RwSelectPO: any = {};
 //----------------------------------------------------------------------------------------------
 RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
     var combinedViewModel, screen, pageTitle;
@@ -176,11 +176,11 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
     };
 
     screen.selectPOStep2 = function(response, skipconfirmation) {
-        switch (response.webSelectPO.activityType) {
-            case ("R"):  { activityType = RwLanguages.translate('Sub-Rental') + " "; break; }
-            case ("S"):  { activityType = RwLanguages.translate('Sub-Sale') + " "; break; }
-            case ("RS"): { activityType = RwLanguages.translate('Sub-Rental/Sale') + " "; break; }
-        }
+        //switch (response.webSelectPO.activityType) {
+        //    case ("R"):  { activityType = RwLanguages.translate('Sub-Rental') + " "; break; }
+        //    case ("S"):  { activityType = RwLanguages.translate('Sub-Sale') + " "; break; }
+        //    case ("RS"): { activityType = RwLanguages.translate('Sub-Rental/Sale') + " "; break; }
+        //}
         screen.$view.find('#selectPOView-msg').html(response.webSelectPO.msg);
         screen.$view.find('#selectPOView-messages').toggle(response.webSelectPO.status !== 0);
         screen.$view.find('#selectPOView-confirm').toggle(response.webSelectPO.status === 0);

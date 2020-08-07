@@ -26,7 +26,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     $ordersearch   = screen.$view.find('#cim-ordersearch');
     $sessionsearch = screen.$view.find('#cim-sessionsearch');
     $dealsearch    = screen.$view.find('#cim-dealsearch');
-    $quikin        = screen.$view.find('#cim-quikin');
+    var $quikin        = screen.$view.find('#cim-quikin');
 
     var applicationOptions = program.getApplicationOptions();
     $quikin.toggle(typeof applicationOptions.quikin !== 'undefined' && applicationOptions.quikin.enabled === true);
@@ -116,7 +116,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         },
         cacheItemTemplate: false,
         itemTemplate: function(model) {
-            var html = [];
+            var html: string | string[] = [];
             html.push('<div class="item">');
             html.push('  <div class="row1"><span class="orderdesc">{{orderdesc}}</span></div>');
             html.push('  <div class="row2">');
@@ -400,7 +400,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             return request;
         },
         itemTemplate: function(model) {
-            var html = [];
+            var html: string | string[] = [];
             html.push('<div class="item">');
             html.push('  <div class="row1"><span class="orderdesc">{{orderdesc}}</span></div>');
             html.push('  <div class="row2">');
@@ -572,7 +572,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             return request;
         },
         itemTemplate: function() {
-            var html = [];
+            var html: string | string[] = [];
 
             html.push('<div class="record">');
             html.push('  <div class="row">');

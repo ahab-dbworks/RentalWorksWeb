@@ -1,4 +1,4 @@
-﻿var RwFillContainer = {};
+﻿var RwFillContainer: any = {};
 //----------------------------------------------------------------------------------------------
 RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     var combinedViewModel, screen, useResponsiblePerson, applicationOptions, pageTitle, pageSubTitle;
@@ -62,8 +62,8 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Close', 'left', '&#xE5CB;', false, function() { //back
         try {
             if (screen.$view.find('.fillcontainerheader .containeritem').is(':visible')) {
-                $confirmation = FwConfirmation.renderConfirmation(RwLanguages.translate('Confirm'), RwLanguages.translate('Are you finished filling this Container?'));
-                $btnok = FwConfirmation.addButton($confirmation, 'OK', true);
+                var $confirmation = FwConfirmation.renderConfirmation(RwLanguages.translate('Confirm'), RwLanguages.translate('Are you finished filling this Container?'));
+                var $btnok = FwConfirmation.addButton($confirmation, 'OK', true);
                 FwConfirmation.addButton($confirmation, 'Cancel', true);
                 $btnok.on('click', function() {
                     screen.closeFillContainer();
@@ -264,7 +264,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         if (RwRFID.isConnected) {
             screen.$view.find('#fillcontainer-btnrfid').css('display', 'inline-block');
             screen.$view.find('#fillcontainer-btnrfid').click();
-            var requestRFIDClear = {};
+            var requestRFIDClear: any = {};
             requestRFIDClear.sessionid = screen.getContainerItemId();     // this looks wrong mv 2016-05-01 doesn't seem to be used
             RwServices.order.rfidClearSession(requestRFIDClear, function(response) {});
         } else {
@@ -511,7 +511,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     };
 
     screen.getPendingItemsCallback = function(response) {
-        var dt, ul, li, isAlternate, colIndex, isHeaderRow, lineitemcount=0, totalitems=0;
+        var dt, ul, li, isAlternate, colIndex, isHeaderRow, lineitemcount = 0, totalitems = 0, cssClass='';
         try {
             isAlternate = false;
             dt = response.pendingitems;
@@ -599,7 +599,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     };
 
     screen.getContainerItemsCallback = function(response) {
-        var dt, ul, li, isAlternate, isHeaderRow, lineitemcount=0, totalitems=0;
+        var dt, ul, li, isAlternate, isHeaderRow, lineitemcount=0, totalitems=0, cssClass='';
         
         try {
             isAlternate = false;
@@ -723,7 +723,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                             screen.pdastageitemCallback(responseStageItem);
                         });
                     } else if (properties.mode === 'checkin') {
-                        var orderid, masteritemid, masterid, code, qty, vendorid, description, qtyordered, qtyin, missingqty;
+                        var orderid, masteritemid, masterid, code, qty, vendorid, description, qtyordered, qtyin, missingqty, parentid;
                         orderid      = $this.attr('data-orderid');  // mv 2016-03-16 the pending list is an orderstatus on the container so orderid is containerid
                         masteritemid = $this.attr('data-masteritemid');
                         masterid     = $this.attr('data-masterid');
@@ -1224,7 +1224,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     screen.$view.on('change', '.containeritem .fwformfield-value', function() {
         var requestStageItem, code;
         try {
-            code = RwAppData.stripBarcode(jQuery(this).val().toUpperCase());
+            code = RwAppData.stripBarcode(jQuery(this).val().toString().toUpperCase());
             if (code.length > 0) {
                 if (properties.mode === 'fillcontainer') {
                     requestStageItem = {
@@ -1257,7 +1257,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                     });
                 }
                 else if (properties.mode === 'checkin') {
-                    var orderid, masteritemid, masterid, qty, vendorid;
+                    var orderid, masteritemid, masterid, qty, vendorid, parentid;
                     orderid                = properties.orderid;
                     masteritemid           = '';
                     masterid               = '';
@@ -1605,7 +1605,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             .on('click', '#fillcontainer-popupqty-qty-btnaddtocontainer', function() {
                 var qty, requestStageItem, requestCheckinItem;
                 try {
-                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val());
+                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val().toString());
                     if (isNaN(qty)) {
                         FwFunc.showError('Qty is required.');
                     } else {
@@ -1659,7 +1659,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             .on('click', '#fillcontainer-popupqty-qty-btnunstageqtyitem', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val());
+                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val().toString());
                     if (isNaN(qty)) {
                         FwFunc.showError('Qty is required.');
                     } else {
@@ -1703,7 +1703,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             .on('click', '#fillcontainer-popupqty-btnaddcomplete', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val());
+                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val().toString());
                     if (isNaN(qty)) {
                         qty = 0;
                     }
@@ -1730,7 +1730,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             .on('click', '#fillcontainer-popupqty-btnadditem', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val());
+                    qty = parseFloat(jQuery('#fillcontainer-popupqty-qty-txtqty').val().toString());
                     if (isNaN(qty)) {
                         qty = 0;
                     }

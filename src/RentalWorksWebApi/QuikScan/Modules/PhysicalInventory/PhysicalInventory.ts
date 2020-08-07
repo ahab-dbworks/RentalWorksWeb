@@ -1,6 +1,6 @@
-﻿var PhysicalInventory = {};
+﻿var PhysicalInventory:any = {};
 //----------------------------------------------------------------------------------------------
-PhysicalInventory.gePhysicalInventoryScreen = function(viewModel, properties) {
+PhysicalInventory.getPhysicalInventoryScreen = function(viewModel, properties) {
     var combinedViewModel, screen;
     combinedViewModel = jQuery.extend({
         captionPageTitle:     RwLanguages.translate('Physical Inventory'),
@@ -59,7 +59,7 @@ PhysicalInventory.gePhysicalInventoryScreen = function(viewModel, properties) {
                 var $this = jQuery(this);
                 if ($this.val() !== '') {
                     var request = {
-                        phyNo: $this.val().toUpperCase()
+                        phyNo: $this.val().toString().toUpperCase()
                     };
                     RwServices.callMethod("PhysicalInventory", "GetInventoryItem", request, function(response) {
                         $this.val('');

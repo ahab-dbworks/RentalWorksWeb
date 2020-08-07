@@ -177,7 +177,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
                             FwFormField.setValue(screen.$view, '.damage', response.repair.damage);
                         }
                         if (typeof response.appdocuments === 'object') {
-                            var adhtml = [];
+                            var adhtml: string | string[] = [];
                             for (var i = 0; i < response.appdocuments.length; i++) {
                                 var appdocument = response.appdocuments[i];
                                 adhtml.push('<div class="appdocument dbappdocument" data-appdocumentid="' + appdocument.appdocumentid + '">');
@@ -222,17 +222,17 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
         .on('click', '.btntakepicture', function() {
             var $appdocument;
             try {
-                if (typeof navigator.camera === 'undefined' || !program.hasCamera) {
+                if (typeof (<any>navigator).camera === 'undefined' || !program.hasCamera) {
                     throw 'Camera is not supported in the current environment.';
                 }
                 $appdocument = jQuery(this).closest('.appdocument');
-                navigator.camera.getPicture(
+                (<any>navigator).camera.getPicture(
                     //success
                     function(imageData) {
-                        var $appimage, aihtml = [];
+                        var $appimage, aihtml: string | string[] = [];
                         try {
-                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                window.screen.lockOrientation('portrait-primary');
+                            if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                (<any>window).screen.lockOrientation('portrait-primary');
                             }
                             aihtml.push('<div class="appimage newappimage">');
                             aihtml.push('  <div class="imagecontent"><img /></div>');
@@ -252,8 +252,8 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
                     //error
                     , function(message) {
                         try {
-                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                window.screen.lockOrientation('portrait-primary');
+                            if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                (<any>window).screen.lockOrientation('portrait-primary');
                             }
                             FwFunc.showError('Failed because: ' + message);
                         } catch(ex) {
@@ -261,11 +261,11 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
                         }
                     }
                     , { 
-                        destinationType:    Camera.DestinationType.DATA_URL
-                      , sourceType:         Camera.PictureSourceType.CAMERA
+                        destinationType:    (<any>window).Camera.DestinationType.DATA_URL
+                      , sourceType:         (<any>window).Camera.PictureSourceType.CAMERA
                       , allowEdit :         false
                       , correctOrientation: true
-                      , encodingType:       Camera.EncodingType.JPEG
+                      , encodingType:       (<any>window).Camera.EncodingType.JPEG
                       , quality:            applicationConfig.photoQuality
                       , targetWidth:        applicationConfig.photoWidth
                       , targetHeight:       applicationConfig.photoHeight 
@@ -276,7 +276,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             }
         })
         .on('click', '.btnaddappdocument', function() {
-            var adhtml = [];
+            var adhtml: string | string[] = [];
             adhtml.push('<div class="appdocument newappdocument">');
             adhtml.push('  <div class="descriptionrow flexrow flexalignitemscenter"><div class="descriptioncaption">Document:</div><div class="descriptionvalue"><input type="textbox" placeholder="Document Description" /></div></div>');
             adhtml.push('  <div class="imagerow"></div>');
@@ -303,7 +303,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
                         if ($appimage.hasClass('newappimage')) {
                             // uncommited photos can just be removed locally
                             $appimage.remove();
-                        } else if ($appdocument.hasClass('dbappimage')) {
+                        } else if ($appimage.hasClass('dbappimage')) {
                             // flag the image to be deleted on Save
                             $appimage.addClass('deleteimage');
                         }

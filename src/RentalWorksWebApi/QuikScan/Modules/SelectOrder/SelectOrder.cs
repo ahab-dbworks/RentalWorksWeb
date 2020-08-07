@@ -180,7 +180,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.Add("order by orderno");
                     qry.AddParameter("@locationid", locationid);
                 }
-                result = await qry.QueryToFwJsonTableAsync(pageNo:pageno, pageSize:pagesize);
+                result = await qry.QueryToFwJsonTableAsync(true, pageNo:pageno, pageSize:pagesize);
             }
             else if (activitytype == RwConstants.ActivityTypes.CheckIn)
             {
@@ -237,7 +237,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.AddParameter("@locationid", locationid);
                     qry.AddParameter("@warehouseid", warehouseid);
                 }
-                result = await qry.QueryToFwJsonTableAsync(pageNo:pageno, pageSize:pagesize);
+                result = await qry.QueryToFwJsonTableAsync(true, pageNo:pageno, pageSize:pagesize);
             }
             else if (activitytype == RwConstants.ActivityTypes.AssetDisposition)
             {

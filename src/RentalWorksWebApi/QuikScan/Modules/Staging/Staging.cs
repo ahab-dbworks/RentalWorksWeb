@@ -254,7 +254,8 @@ namespace RentalWorksQuikScan.Modules
                             }
                             break;
                     }
-                    response.searchresults = JToken.FromObject(await qry.QueryToFwJsonTableAsync(select, true));
+                    response.searchresults = await qry.QueryToFwJsonTableAsync(select, true);
+                    //response.searchresults = JToken.FromObject(await qry.QueryToFwJsonTableAsync(select, true));
                 } 
             }
         }
@@ -289,7 +290,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        public async Task<bool> IsSuspendedSessionsEnabled()
+        public async Task<bool> IsSuspendedSessionsEnabledAsync()
         {
             bool isenabled = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))

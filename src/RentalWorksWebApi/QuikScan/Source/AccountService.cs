@@ -17,10 +17,9 @@ namespace RentalWorksQuikScan.Source
 
         }
         //----------------------------------------------------------------------------------------------------
-        public override async Task LoadApplicationAuthenticationInformationAsync(FwSqlConnection conn, dynamic request, dynamic response, dynamic session, dynamic tokenData, dynamic webUserData)
+        public override async Task LoadApplicationAuthenticationInformationAsync(FwSqlConnection conn, dynamic request, dynamic response, dynamic session, dynamic webUserData)
         {
             response.webUser.iscrew      = (FwValidate.IsPropertyDefined(webUserData, "iscrew"))     ? webUserData.iscrew     : string.Empty;
-            tokenData.webUser.locationid = (FwValidate.IsPropertyDefined(webUserData, "locationid")) ? webUserData.locationid : string.Empty;
 
             //Exposes application options to rthe front end
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "packagetruck"))  response.applicationOptions.packagetruck  = session.applicationOptions.packagetruck;
@@ -33,7 +32,7 @@ namespace RentalWorksQuikScan.Source
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "quikin"))        response.applicationOptions.quikin        = session.applicationOptions.quikin;
 
             Staging staging = new Staging(this.ApplicationConfig);
-            response.stagingSuspendedSessionsEnabled = staging.IsSuspendedSessionsEnabled();
+            response.stagingSuspendedSessionsEnabled = await staging.IsSuspendedSessionsEnabledAsync();
 
             await DepartmentFilter.LoadUserDepartmentFilterAsync(this.ApplicationConfig, session.security.webUser.usersid, session);
         }

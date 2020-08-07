@@ -11,7 +11,10 @@ using RentalWorksQuikScan.Source;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -28,16 +31,14 @@ namespace WebApi.Modules.Mobile.QuikScan
         public QuikScanController(IOptions<FwApplicationConfig> appConfig) : base(appConfig)
         {
             fillContainer = new RentalWorksQuikScan.Modules.FillContainer(appConfig.Value);
-            rwService = new RwService(this.AppConfig);
+            rwService = new RwService(this.AppConfig, this.UserSession);
         }
         //---------------------------------------------------------------------------------------------
         [HttpPost]
         [FwControllerMethod("x78Eg9qFDfUA", FwControllerActionTypes.ApiMethod, AllowAnonymous:false, ValidateSecurityGroup:false)]
-        public async Task<ActionResult<JObject>> ProcessRequestAsync([FromQuery]string path, [FromBody]JObject jsonRequest)
+        public async Task<ActionResult<ExpandoObject>> ProcessRequestAsync([FromQuery] string path)
         {
-            await Task.CompletedTask;
-            //return Ok(jsonRequest);
-            return await base.ProcessRequestAsync(this.ControllerContext, path, jsonRequest);
+            return await ProcessRequestAsync(this.ControllerContext, path);
         }
         //---------------------------------------------------------------------------------------------
         protected string GetRegexString(string path)
@@ -362,45 +363,6 @@ namespace WebApi.Modules.Mobile.QuikScan
                 }
             }
 
-            //hasAuthToken = (FwValidate.IsPropertyDefined(request, "authToken"));
-            //if (hasAuthToken)
-            //{
-            //    //token = AccountService.Current.GetAuthToken(request.authToken);
-            //    //authTokenData = AccountService.Current.GetAuthTokenData(token.UserData);
-
-            //    if (authTokenData != null)
-            //    {
-            //        if (authTokenData.siteName != FwApplicationConfig.CurrentSite.Name)
-            //        {
-            //            throw new Exception("Auth token is not valid at this site.");
-            //        }
-            //        session.security.webUser = authTokenData.webUser;
-            //        if (session.security.webUser != null)
-            //        {
-            //            switch ((string)session.security.webUser.usertype)
-            //            {
-            //                case "USER":
-            //                    session.security.userRoles.Add(RwUserRoles.RentalWorksUser);
-            //                    if (session.security.webUser.webadministrator == "T")
-            //                    {
-            //                        session.security.userRoles.Add(RwUserRoles.RentalWorksUserAdministrator);
-            //                    }
-            //                    break;
-            //                case "CONTACT":
-            //                    session.security.userRoles.Add(RwUserRoles.RentalWorksDealContact);
-            //                    if (session.security.webUser.webadministrator == "T")
-            //                    {
-            //                        session.security.userRoles.Add(RwUserRoles.RentalWorksDealContactAdministrator);
-            //                    }
-            //                    break;
-            //                case "CREW":
-            //                    session.security.userRoles.Add(RwUserRoles.RentalWorksCrew);
-            //                    break;
-            //            }
-            //        }
-
-            //    }
-            //}
             return session;
         }
         //---------------------------------------------------------------------------------------------
@@ -435,8 +397,12 @@ namespace WebApi.Modules.Mobile.QuikScan
                         {
                             FwValidate.TestPropertyDefined(name + "." + method, request, requiredparameters[i]);
                         }
-                        Task result = (Task)methodInfo.Invoke(service, new object[] { request, response, session });
-                        await result;
+                        var result = methodInfo.Invoke(service, new object[] { request, response, session });
+                        if (result is Task task)
+                        {
+                            // this line will throw.
+                            await task;
+                        }
                     }
                     else
                     {

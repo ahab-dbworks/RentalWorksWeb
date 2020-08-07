@@ -1,4 +1,4 @@
-﻿var applicationConfig: any = {
+var applicationConfig = {
     appbaseurl: '',
     fwvirtualdirectory: '',
     appvirtualdirectory: '',
@@ -24,3 +24,5 @@
     },
     allowDisableBarcodeFieldInStaging: true
 };
+//# sourceMappingURL=DefaultApplicationConfig.js.map
+applicationConfig.version='2019.1.2.112';

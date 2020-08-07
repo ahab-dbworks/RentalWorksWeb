@@ -1,4 +1,4 @@
-﻿var RwRFID = {
+﻿var RwRFID: any = {
     isConnected: false,
     isTslPerformingSoftwareDoublePress: false,
     zebraTriggerMode: 'BARCODE',
@@ -7,8 +7,7 @@
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.init = function() {
-    var applicationOptions;
-    applicationOptions = program.getApplicationOptions();
+    var applicationOptions = program.getApplicationOptions();
     if ((typeof window.TslReader === 'object') && (typeof applicationOptions.rfid !== 'undefined') && (applicationOptions.rfid.enabled)) {
         window.TslReader.isConnected(function isConnectedSuccess(result) {
             RwRFID.isTsl = true;
@@ -108,7 +107,7 @@ RwRFID.registerRFIDEvents = function (callbackfunction) {
                         try {
                             me.tslAbort();
                         } catch (ex) {
-                            FwFunc.show(ex);
+                            FwFunc.showError(ex);
                         }
                     });
                 }
@@ -248,7 +247,7 @@ RwRFID.registerRFIDEvents = function (callbackfunction) {
                         try {
                             me.tslAbort();
                         } catch (ex) {
-                            FwFunc.show(ex);
+                            FwFunc.showError(ex);
                         }
                     });
                 }
@@ -301,7 +300,7 @@ RwRFID.startTagFinder = function (tag) {
             'justify-content': 'center',
             'z-index': FwFunc.getMaxZ('*')
         });
-    let html = [];
+    let html: string | string[] = [];
     html.push('<div style="text-align:center">');
     html.push(`  <div>Tag Finder</div>`);
     html.push(`  <div class="tag" style="font-size:9px;">${tag}</div>`);

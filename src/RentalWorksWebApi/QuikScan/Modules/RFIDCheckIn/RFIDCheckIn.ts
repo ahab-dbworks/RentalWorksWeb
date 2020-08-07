@@ -1,4 +1,4 @@
-﻿var RFIDCheckIn = {};
+﻿var RFIDCheckIn: any = {};
 RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
     var combinedViewModel, screen, pageTitle, $fwcontrols;
     combinedViewModel = jQuery.extend({
@@ -15,13 +15,13 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
         shouldstopscanagaintimer: false
     };
     if ( (typeof localStorage.getItem(program.localstorageitems.rfidcheckin_batchtimeout) === 'string') && 
-         (!isNaN(localStorage.getItem(program.localstorageitems.rfidcheckin_batchtimeout))) ) {
+         (!isNaN(parseInt(localStorage.getItem(program.localstorageitems.rfidcheckin_batchtimeout)))) ) {
         screen.batchtimeout = parseInt(localStorage.getItem(program.localstorageitems.rfidcheckin_batchtimeout));
     } else {
         localStorage.setItem(program.localstorageitems.rfidcheckin_batchtimeout, screen.batchtimeout);
     }
     if ( (typeof localStorage.getItem(program.localstorageitems.rfidcheckin_scanagain) === 'string') && 
-         (!isNaN(localStorage.getItem(program.localstorageitems.rfidcheckin_scanagain))) ) {
+         (!isNaN(parseInt(localStorage.getItem(program.localstorageitems.rfidcheckin_scanagain)))) ) {
         screen.scanagain = parseInt(localStorage.getItem(program.localstorageitems.rfidcheckin_scanagain));
     } else {
         localStorage.setItem(program.localstorageitems.rfidcheckin_scanagain, screen.scanagain);
@@ -76,7 +76,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
         .on('click', '.exceptionheader .contextmenu', function() {
             var $item, $contextmenu;
             $item        = jQuery(this).closest('.item');
-            $contextmenu = FwContextMenu.render('Options');
+            $contextmenu = FwContextMenu.render('Options', 'center');
             FwContextMenu.addMenuItem($contextmenu, 'Clear All Exceptions', function() {
                 try {
                     screen.clearAllExceptions();
@@ -89,7 +89,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             var $item, $contextmenu;
             try {
                 $item        = jQuery(this).closest('.item');
-                $contextmenu = FwContextMenu.render('Options');
+                $contextmenu = FwContextMenu.render('Options', 'center');
                 FwContextMenu.addMenuItem($contextmenu, 'Clear Exception', function() {
                     try {
                         screen.clearException($item);
@@ -150,7 +150,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             var $item, $contextmenu;
             try {
                 $item        = jQuery(this).closest('.item');
-                $contextmenu = FwContextMenu.render('Options');
+                $contextmenu = FwContextMenu.render('Options', 'center');
                 FwContextMenu.addMenuItem($contextmenu, 'Unstage Item', function() {
                     try {
                         screen.unstageItem($item);
@@ -173,12 +173,11 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             $txt.val('');
         })
         .on('blur', '.txtbatchtimeout', function() {
-            var $txt, oldvalue;
-            $txt = jQuery(this);
-            if ($txt.val().length === 0 || isNaN($txt.val())) {
-                oldvalue = $txt.attr('data-oldvalue');
+            var $txt = jQuery(this);
+            if ($txt.val().toString().length === 0 || isNaN(parseInt($txt.val().toString()))) {
+                var oldvalue = $txt.attr('data-oldvalue');
                 if (typeof oldvalue === 'string') {
-                    if (!isNaN(oldvalue)) {
+                    if (!isNaN(parseInt(oldvalue))) {
                         $txt.val(oldvalue);
                     } else {
                         $txt.val(screen.batchtimeout);
@@ -188,7 +187,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
                 }
             }
             $txt.removeAttr('data-oldvalue');
-            localStorage.setItem('rwqs_rfidcheckin_batchtimeout', $txt.val());
+            localStorage.setItem('rwqs_rfidcheckin_batchtimeout', $txt.val().toString());
         })
         .on('focus', '.txtscanagain', function() {
             var $txt, oldvalue;
@@ -201,12 +200,11 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             $txt.val('');
         })
         .on('blur', '.txtscanagain', function() {
-            var $txt, oldvalue;
-            $txt = jQuery(this);
-            if ($txt.val().length === 0 || isNaN($txt.val())) {
-                oldvalue = $txt.attr('data-oldvalue');
+            var $txt = jQuery(this);
+            if ($txt.val().toString().length === 0 || isNaN(parseInt($txt.val().toString()))) {
+                var oldvalue = $txt.attr('data-oldvalue');
                 if (typeof oldvalue === 'string') {
-                    if (!isNaN(oldvalue)) {
+                    if (!isNaN(parseInt(oldvalue))) {
                         $txt.val(oldvalue);
                     } else {
                         $txt.val(screen.scanagain);
@@ -216,7 +214,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
                 }
             }
             $txt.removeAttr('data-oldvalue');
-            localStorage.setItem('rwqs_rfidcheckin_scanagain', $txt.val());
+            localStorage.setItem('rwqs_rfidcheckin_scanagain', $txt.val().toString());
         })
     ;
 
@@ -241,7 +239,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
                     break;
                 case 1: //connection is established and communication is possible
                     if (sendCloseCommand) {
-                        var request = {
+                        var request: any = {
                             command: 'stoplistening'
                         };
                         request = JSON.stringify(request);
@@ -339,7 +337,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
         screen.websocket.onopen = function (event) {
            setTimeout(function() {
                try {
-                  var request = {
+                  var request: any = {
                     command: 'startlistening',
                     portal: 'Portal 1',
                     batchtimeout: parseInt(screen.$view.find('.txtbatchtimeout').val())
@@ -402,7 +400,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
                             setTimeout(function() {
                                 FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
                                 screen.stopScanning(false);
-                                var tags = [];
+                                var tags: string | string[] = [];
                                 for (var epcno = 0; epcno < message.epcs.length; epcno++) {
                                     var edecsmessage = message.epcs[epcno];
                                     tags.push(edecsmessage.epc);
@@ -615,7 +613,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
     };
 
     screen.loadProcessed = function(dt) {
-        var html = [];
+        var html: string | string[] = [];
         var stagedcount = 0, alreadystagedcount = 0;
         for (var rowno = 0; rowno < dt.Rows.length; rowno++) {
             var row = dt.Rows[rowno];
@@ -663,7 +661,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             var colindex_master        = dt.ColumnIndex.master;
             var colindex_message       = dt.ColumnIndex.message;
             var colindex_exceptiontype = dt.ColumnIndex.exceptiontype;
-            var html = [];
+            var html: string | string[] = [];
             for (var rowno = 0; rowno < dt.Rows.length; rowno++) {
                 var row = dt.Rows[rowno];
                 var hasadditemtoorder       = ' data-hasadditemtoorder="false"';
@@ -736,7 +734,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
         RwServices.callMethod("RfidCheckIn", "GetPendingItems", request, function(response) {
             try {
                 var dt = response.funccheckoutexception;
-                var html = [];
+                var html: string | string[] = [];
                 var pendingcount = 0;
                 for (var rowno = 0; rowno < dt.Rows.length; rowno++) {
                     var row = dt.Rows[rowno];
@@ -779,7 +777,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
         RwServices.callMethod("RfidCheckIn", "GetSessionItems", request, function (response) {
             try {
                 var dt = response.funcstageditemsweb;
-                var html = [];
+                var html: string | string[] = [];
                 for (var rowno = 0; rowno < dt.Rows.length; rowno++) {
                     var row = dt.Rows[rowno];
                     html.push('<div class="flexrow item" data-barcode="' + row[dt.ColumnIndex.barcode] + '">');

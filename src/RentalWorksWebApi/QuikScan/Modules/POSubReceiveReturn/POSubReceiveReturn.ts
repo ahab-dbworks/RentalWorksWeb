@@ -1,4 +1,4 @@
-﻿var POSubReceiveReturn = {};
+﻿var POSubReceiveReturn: any = {};
 //----------------------------------------------------------------------------------------------
 POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
     var combinedViewModel, screen, pageTitle, contractType, captionBarcodeICode, captionOK, captionReceiveBy;
@@ -117,7 +117,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
             }
         })
         .on('click', '#poSubReceiveReturn-items-ul > li.link', function() {
-            var $this, status, genericMsg, msg, masteritemid, masterno, description, trackedby, isbarcode, qtyordered, qtyreceived, qtyremaining, qtyreturned, qtysession, setReceiveReturnByVendorBarCode;
+            var $this, status, genericMsg, msg, masteritemid, masterno, description, trackedby, isbarcode, netqtyordered, qtyordered, qtyreceived, qtyremaining, qtyreturned, qtysession, setReceiveReturnByVendorBarCode;
             try {
                 $this = jQuery(this);
                 status        = 0;
@@ -214,9 +214,8 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
         FwPopup.showPopup(screen.$popupQty);
         screen.$popupQty
             .on('click', '#poSubReceiveReturn-ulReceiveBy > li > input[type="radio"]', function() {
-                var receieveByBarcode;
                 try {
-                    receiveByBarcode = (jQuery(this).val() === 'T');
+                    var receiveByBarcode = (jQuery(this).val() === 'T');
                     jQuery('#poSubReceiveReturn-fieldQty').toggle(!receiveByBarcode);
                     jQuery('#poSubReceiveReturn-barcodes').toggle(receiveByBarcode);
                     jQuery('#poSubReceiveReturn-btnOK').toggle(!receiveByBarcode);
@@ -403,6 +402,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
                     ((properties.moduleType === RwConstants.moduleTypes.SubReturn)  && (qtyreturned > 0))){
                    showCreateContract = true;
                 }
+                var cssClass = '';
                 if (qtyremaining > 0) {
                     cssClass = 'link';
                 } else {

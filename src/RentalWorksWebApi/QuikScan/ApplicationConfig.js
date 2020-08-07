@@ -1,0 +1,9 @@
+﻿applicationConfig.debugMode = true;
+applicationConfig.designMode = false;
+applicationConfig.demoMode = false;
+applicationConfig.fwvirtualdirectory = 'dev/quikscan/libraries/fw/';
+applicationConfig.appvirtualdirectory = 'dev/quikscan/';
+//applicationConfig.apiurl = 'http://localhost:57949/';
+//applicationConfig.apiurl = 'http://24.24.24.58:57949/';
+applicationConfig.apiurl = 'http://172.29.1.34:57949/';
+//applicationConfig.apiurl = 'https://webapi2018demo.rentalworks.net/';

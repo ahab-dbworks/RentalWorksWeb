@@ -2342,7 +2342,7 @@ class StagingControllerClass {
                         playStatus: true
                     };
 
-                    FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
+                    FwAppData.jsonPost(true, 'api/v1/quikscan?path=/order/pdastageitem', requestStageItem, null,
                         function success(responseStageItem) {
                             properties.responseStageItem = responseStageItem;
                             screen.pdastageitemCallback(responseStageItem);

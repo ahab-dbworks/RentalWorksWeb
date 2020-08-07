@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------------------
 RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, $aisleshelfinfo, $movebclocationstatus, screendata = {};
+    var combinedViewModel, screen, $aisleshelfinfo, $movebclocationstatus, screendata: any = {};
     combinedViewModel = jQuery.extend({
         captionPageTitle:   RwLanguages.translate('Move To Aisle/Shelf')
     }, viewModel);

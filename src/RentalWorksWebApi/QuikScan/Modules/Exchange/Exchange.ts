@@ -1,4 +1,4 @@
-﻿var Exchange = {};
+﻿var Exchange: any = {};
 //----------------------------------------------------------------------------------------------
 Exchange.getModuleScreen = function(viewModel, properties) {
     var combinedViewModel, screen, pageTitle, $fwcontrols;
@@ -32,13 +32,13 @@ Exchange.getModuleScreen = function(viewModel, properties) {
         barcode = RwAppData.stripBarcode(barcode);
         return barcode;
     };
-    screen.setinbarcode = function(barcode) { FwFormField.setValue(scren.$view, '.checkin', barcode); };
+    screen.setinbarcode = function(barcode) { FwFormField.setValue(screen.$view, '.checkin', barcode); };
     screen.getoutbarcode = function() { 
         var barcode = FwFormField.getValue(screen.$view, '.checkout');
         barcode = RwAppData.stripBarcode(barcode);
         return barcode;
     };
-    screen.setoutbarcode = function(barcode) { FwFormField.setValue(scren.$view, '.checkout', barcode); };
+    screen.setoutbarcode = function(barcode) { FwFormField.setValue(screen.$view, '.checkout', barcode); };
     screen.getqty = function() { 
         var qty = FwFormField.getValue(screen.$view, '.exchangeqty');
         qty = parseInt(qty);
@@ -666,20 +666,20 @@ Exchange.getModuleScreen = function(viewModel, properties) {
         if (exchange.response.resetall) {
             screen.resetall();
         }
-        else if (excehange.fromInExchangeItem.clearitem) {
+        else if (exchange.fromInExchangeItem.clearitem) {
             //FwFunc.showError('Clear In Item: Not Implemented!');
             screen.clearInItem();
         }
-        else if (excehange.fromOutExchangeItem.clearitem) {
+        else if (exchange.fromOutExchangeItem.clearitem) {
             //FwFunc.showError('Clear Out Item: Not Implemented!');
             screen.clearOutItem();
         }
         else {
             // show buttons
-            if (excehange.fromInExchangeItem.showbtnremovefromcontainer) {
+            if (exchange.fromInExchangeItem.showbtnremovefromcontainer) {
                 FwFunc.showError('Show btnremovefrom container: Not Implemented!');
             }
-            if (excehange.fromOutExchangeItem.showbtnremovefromcontainer) {
+            if (exchange.fromOutExchangeItem.showbtnremovefromcontainer) {
                 FwFunc.showError('Show btnremovefrom container: Not Implemented!');
             }
             
@@ -776,7 +776,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             ],
             cacheItemTemplate: true,
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 html.push('  <div class="col1">');
                 html.push('    <div class="flexrow">');
@@ -870,7 +870,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             ],
             cacheItemTemplate: true,
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 html.push('  <div class="col1">');
                 html.push('    <div class="flexrow">');
@@ -957,7 +957,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             ],
             cacheItemTemplate: true,
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 html.push('  <div class="col1">');
                 html.push('    <div class="flexrow">');
@@ -1041,7 +1041,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             ],
             cacheItemTemplate: true,
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 html.push('  <div class="col1">');
                 html.push('    <div class="flexrow">');
@@ -1107,7 +1107,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
     screen.setupSuspendedSessionSearch = function() {
         var $search = screen.$view.find('.suspendedsessionsearch').fwmobilesearch({
             getRequest: function() {
-                var request = {};
+                var request: any = {};
                 if (screen.getExchangeMode() === screen.modes.order) {
                     request.orderid = screen.getorderid();
                 }
@@ -1128,7 +1128,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             searchModes:  [],
             cacheItemTemplate: false,
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item" data-status="{{status}}">');
                 html.push('  <div class="col1">');
                 //html.push('    <div class="flexrow">');
@@ -1220,7 +1220,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             searchModes:  [],
             cacheItemTemplate: false,
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 var completedpendingexchange = screen.getcompletingpending() && (model.itemstatus === 'O' || model.itemstatus === 'I') ? 'T' : 'F';
                 html.push('<div class="item" data-itemstatus="{{itemstatus}}" data-completedpendingexchange="' + completedpendingexchange + '" data-torepair="{{torepair}}" data-multiwarehouse="{{multiwarehouse}}">');
                 html.push('  <div class="col1">');
@@ -1270,7 +1270,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             },
             recordClick: function(model) {
                 try {
-                    var $contextmenu = FwContextMenu.render('');
+                    var $contextmenu = FwContextMenu.render('', 'center');
                     FwContextMenu.addMenuItem($contextmenu, 'Send to Repair', function() {
                         FwFunc.showMessage('Not implemented!');
                         //alert(JSON.stringify(model));
@@ -1301,7 +1301,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 html.push('  <div class="col1">');
                 html.push('    <div class="flexrow">');
@@ -1360,7 +1360,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 html.push('  <div class="col1">');
                 html.push('    <div class="flexrow">');
@@ -1432,7 +1432,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push('<div class="item">');
                 html.push('  <div class="flexrow">');
                 html.push('    <div class="caption">' + RwLanguages.translate('Item Desc') + ':</div>');
@@ -1504,7 +1504,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push(JSON.stringify(model));
                 html = html.join('\n');
                 return html;
@@ -1543,7 +1543,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push(JSON.stringify(model));
                 html = html.join('\n');
                 return html;
@@ -1582,7 +1582,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push(JSON.stringify(model));
                 html = html.join('\n');
                 return html;
@@ -1621,7 +1621,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push(JSON.stringify(model));
                 html = html.join('\n');
                 return html;
@@ -1660,7 +1660,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push(JSON.stringify(model));
                 html = html.join('\n');
                 return html;
@@ -1699,7 +1699,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 return request;
             },
             itemTemplate: function(model) {
-                var html = [];
+                var html: string | string[] = [];
                 html.push(JSON.stringify(model));
                 html = html.join('\n');
                 return html;

@@ -10,6 +10,9 @@ using WebApi;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.StaticFiles;
+using System.IO;
 
 namespace WebApi
 {
@@ -61,6 +64,42 @@ namespace WebApi
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/utilities-v1/swagger.json", SystemName + " Utilities API v1");
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/administrator-v1/swagger.json", SystemName + " Administrator API v1");
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/mobile-v1/swagger.json", SystemName + " Mobile API v1");
+        }
+        //------------------------------------------------------------------------------------
+        protected override void ConfigureStaticFileHosting(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            base.ConfigureStaticFileHosting(app, env, loggerFactory);
+
+            if (env.IsDevelopment())
+            {
+                var mobileFileServerOptions = new FileServerOptions();
+                mobileFileServerOptions.RequestPath = "/dev/quikscan";
+                mobileFileServerOptions.EnableDefaultFiles = true;
+                mobileFileServerOptions.FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "quikscan"));
+                var mobilefileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+                mobilefileExtensionContentTypeProvider.Mappings[".json"] = "text/json";
+                mobileFileServerOptions.StaticFileOptions.ContentTypeProvider = mobilefileExtensionContentTypeProvider;
+                //quikscanFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                //{
+                //    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                //    context.Context.Response.Headers.Add("Expires", "-1");
+                //};
+                app.UseFileServer(mobileFileServerOptions);
+
+                //var webFileServerOptions = new FileServerOptions();
+                //webFileServerOptions.RequestPath = "/dev/web";
+                //webFileServerOptions.EnableDefaultFiles = true;
+                //webFileServerOptions.FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Web"));
+                //var webFileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+                //webFileExtensionContentTypeProvider.Mappings[".json"] = "text/json";
+                //webFileServerOptions.StaticFileOptions.ContentTypeProvider = webFileExtensionContentTypeProvider;
+                ////quikscanFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                ////{
+                ////    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                ////    context.Context.Response.Headers.Add("Expires", "-1");
+                ////};
+                //app.UseFileServer(webFileServerOptions);
+            }
         }
         //------------------------------------------------------------------------------------
     }

@@ -1,4 +1,4 @@
-var RwBarcodeLabel = {};
+var RwBarcodeLabel: any = {};
 RwRoutes.push({
     url: 'barcodelabel',
     action: function () {
@@ -12,7 +12,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     }, viewModel);
     combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-barcodelabel').html(), combinedViewModel);
 
-    var screen            = {};
+    var screen: any            = {};
     screen.$view      = FwMobileMasterController.getMasterView(combinedViewModel);
     screen.properties = properties;
 
@@ -97,7 +97,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     screen.pagehistory = [];
     screen.pages = {
         reset: function () {
-            for (key in screen.pages) {
+            for (var key in screen.pages) {
                 var page = screen.pages[key];
                 if (typeof page.getElement === 'function') {
                     page.getElement().hide();
@@ -176,7 +176,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                     ],
                     cacheItemTemplate: false,
                     itemTemplate: function (model) {
-                        var html = [];
+                        var html: string | string[] = [];
                         html.push('<div class="record" style="border-left:10px solid ' + model.color + '">');
                         html.push('  <div class="row">');
                         html.push('    <div class="value desc">{{master}}</div>');
@@ -245,7 +245,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                     ],
                     cacheItemTemplate: false,
                     itemTemplate: function (model) {
-                        var html = [];
+                        var html: string | string[] = [];
                         html.push('<div class="record" style="border-left:10px solid ' + model.color + '">');
                         html.push('  <div class="row">');
                         html.push('    <div class="value desc">{{master}}</div>');
@@ -317,7 +317,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                     ],
                     cacheItemTemplate: false,
                     itemTemplate: function (model) {
-                        var html = [];
+                        var html: string | string[] = [];
                         html.push('<div class="record">');
                         html.push('  <div class="row">');
                         html.push('    <div class="value desc">{{description}}</div>');
@@ -334,7 +334,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                     },
                     recordClick: function (model) {
                         try {
-                            var $contextmenu = FwContextMenu.render("options");
+                            var $contextmenu = FwContextMenu.render("options", 'center');
                             FwContextMenu.addMenuItem($contextmenu, 'Edit', function () {
                                 try {
                                     screen.pages.uploadbarcodelabel.forward('EDIT', model);
@@ -432,7 +432,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                             reader.readAsText(file);
                             reader.onload = function () {
                                 //console.log(reader.result);
-                                var request = {
+                                var request: any = {
                                     mode: mode,
                                     category: screen.$view.find('.page-uploadbarcodelabel .category').val(),
                                     description: screen.$view.find('.page-uploadbarcodelabel .description').val(),
@@ -447,7 +447,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                                             screen.getCurrentPage().back();
                                         });
                                     } catch (ex) {
-                                        FwFwunc.showError(ex);
+                                        FwFunc.showError(ex);
                                     }
                                 });
                             };
@@ -459,7 +459,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                             if (mode === 'NEW') {
                                 FwFunc.showMessage('Select a file to upload!');
                             } else if (mode === 'EDIT') {
-                                var request = {
+                                var request: any = {
                                     mode: mode,
                                     category: screen.$view.find('.page-uploadbarcodelabel .category').val(),
                                     description: screen.$view.find('.page-uploadbarcodelabel .description').val(),
@@ -474,7 +474,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                                             screen.getCurrentPage().back();
                                         });
                                     } catch (ex) {
-                                        FwFwunc.showError(ex);
+                                        FwFunc.showError(ex);
                                     }
                                 });
                             }
@@ -543,7 +543,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     };
 
     screen.showBarcodePrintingDialog = function (models, category) {
-        var html = [];
+        var html: string | string[] = [];
         html.push('<div class="barcodelabel-printdialog">');
 
         html.push('  <div class="printerpluginfield">');
@@ -620,7 +620,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 var port           = parseInt($win.find('.port').val());
                 var barcodelabelid = $win.find('.barcodelabelid').val();
                 var qty            = parseInt($win.find('.qty').val());
-                for (modelno = 0; modelno < models.length; modelno++) {
+                for (var modelno = 0; modelno < models.length; modelno++) {
                     var model = models[modelno];
                     var labeltemplate = '';
                     for (var labelno = 0; labelno < screen.labels.length; labelno++) {
@@ -802,7 +802,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 case 'cordovaNet':
                 case 'electronNet':
                     localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_host', host);
-                    localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_port', port);
+                    localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_port', port.toString());
                     break;
             }
         };
@@ -862,7 +862,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     };
 
     screen.load = function () {
-        for (key in screen.pages) {
+        for (var key in screen.pages) {
             var page = screen.pages[key];
             if (typeof page.init === 'function') {
                 page.init();

@@ -11,11 +11,13 @@ namespace RentalWorksQuikScan.Source
     public class RwService
     {
         FwApplicationConfig ApplicationConfig;
+        FwUserSession UserSession;
         RwAppData AppData;
         //---------------------------------------------------------------------------------------------
-        public RwService(FwApplicationConfig applicationConfig)
+        public RwService(FwApplicationConfig applicationConfig, FwUserSession userSession)
         {
             this.ApplicationConfig = applicationConfig;
+            this.UserSession = userSession;
             this.AppData = new RwAppData(applicationConfig);
         }
         //---------------------------------------------------------------------------------------------
@@ -25,7 +27,8 @@ namespace RentalWorksQuikScan.Source
             {
                 const string METHOD_NAME = "GetAuthToken";
                 bool hasWebUser;
-                await AccountService.Current.GetAuthTokenAsync(conn, request, response, session);
+                AccountService accountService = new AccountService(this.ApplicationConfig, this.UserSession);
+                await accountService.GetAuthTokenAsync(conn, request, response, session);
                 FwValidate.TestPropertyDefined(METHOD_NAME, request, "email");
                 FwValidate.TestPropertyDefined(METHOD_NAME, request, "password");
 

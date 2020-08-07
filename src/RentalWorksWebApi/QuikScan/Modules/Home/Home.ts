@@ -1,4 +1,4 @@
-var RwHome = {};
+var RwHome: any = {};
 //----------------------------------------------------------------------------------------------
 RwHome.getHomeScreen = function(viewModel, properties) {
     var combinedViewModel, screen, $menuObject, nodeModule;
@@ -41,7 +41,7 @@ RwHome.getHomeScreen = function(viewModel, properties) {
                         for (var optionNo = 0; optionNo < moduleApplicationOptions.length; optionNo++) {
                             var option = moduleApplicationOptions[optionNo];
                             if (applicationOptions.hasOwnProperty(option)) {
-                                hasApplicationOptions &= option.enabled;
+                                hasApplicationOptions = hasApplicationOptions && <boolean>option.enabled;
                             }
                         }
                     }
