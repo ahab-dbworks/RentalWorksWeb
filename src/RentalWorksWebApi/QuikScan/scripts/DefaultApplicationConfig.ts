@@ -1,6 +1,6 @@
 ﻿var applicationConfig: any = {
     appbaseurl: '',
-    fwvirtualdirectory: '',
+    fwvirtualdirectory: 'libraries/fw/',
     appvirtualdirectory: '',
     debugMode: false,
     designMode: false,

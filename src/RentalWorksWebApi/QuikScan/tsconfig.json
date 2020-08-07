@@ -1,5 +1,5 @@
 ﻿{
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
     "noImplicitAny": false,
     "noEmitOnError": true,
