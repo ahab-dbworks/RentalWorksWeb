@@ -8,15 +8,13 @@ using PuppeteerSharp;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Data;
+using WebApi.Modules.Reports.ContractReports.ContractReport;
 using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Reports.ContractReports.TransferManifestReport
 {
-    public class TransferManifestReportRequest : AppReportRequest
-    {
-        public string ContractId { get; set; }
-    }
+    public class TransferManifestReportRequest : ContractReportRequest { }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "wf68uZe0JPXDt")]
@@ -26,7 +24,7 @@ namespace WebApi.Modules.Reports.ContractReports.TransferManifestReport
         public TransferManifestReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(TransferManifestReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "TransferManifestReport"; }
-        protected override string GetReportFriendlyName() { return "Lost Contract Report"; }
+        protected override string GetReportFriendlyName() { return "Transfer Manifest Report"; }
         protected override PdfOptions GetPdfOptions()
         {
             // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS.

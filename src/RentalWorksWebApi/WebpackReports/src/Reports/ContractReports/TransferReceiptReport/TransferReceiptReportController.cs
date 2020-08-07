@@ -8,15 +8,12 @@ using PuppeteerSharp;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Data;
+using WebApi.Modules.Reports.ContractReports.ContractReport;
 using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Reports.ContractReports.TransferReceiptReport
 {
-    public class TransferReceiptReportRequest : AppReportRequest
-    {
-        public string ContractId { get; set; }
-    }
+    public class TransferReceiptReportRequest : ContractReportRequest { }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "F6XtBsrOH4cjm")]
@@ -26,7 +23,7 @@ namespace WebApi.Modules.Reports.ContractReports.TransferReceiptReport
         public TransferReceiptReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(TransferReceiptReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "TransferReceiptReport"; }
-        protected override string GetReportFriendlyName() { return "Lost Contract Report"; }
+        protected override string GetReportFriendlyName() { return "Transfer Receipt Report"; }
         protected override PdfOptions GetPdfOptions()
         {
             // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS.

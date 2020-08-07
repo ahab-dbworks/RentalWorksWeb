@@ -26,63 +26,20 @@
 </div>
 <div class="rpt-flexrow" style="padding-left:3px;">
   <div class="rpt-flexcolumn">
-    <div class="meta-header"><span>Issued To:</span></div>
-    <div class="meta-address">
-      <span class="header-left">{{OrderIssuedToCompany}}</span>
-      {{#if OrderIssuedToAttentionTo1}}
-      <span class="header-left">c/o {{OrderIssuedToAttentionTo1}}</span>
-      {{/if}}
-      <span class="header-left">{{OrderIssuedToAddress1}}</span>
-      <span class="header-left">{{OrderIssuedToAddress2}}</span>
-      <span class="header-left">{{OrderIssuedToCity}}, {{OrderIssuedToState}} {{OrderIssuedToZipCode}}</span>
-      <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OrderIssuedToPhone}}</span>
-      {{#gt DealFax.length 0}}
-      <span class="header-left"><span style="font-weight:600;">Fax: </span>{{OrderIssuedToFax}}</span>
-      {{/gt}}
-    </div>
-  </div>
-  <div style="max-width:50px;" class="rpt-flexcolumn middle">
-    <span style="padding:10px;"></span>
-  </div>
-  <div class="rpt-flexcolumn">
-
-    <div class="meta-header"><span>Order Details:</span></div>
     <table style="border-top:none;" class="meta-section">
       <tr>
-        <td style="width:84px;" class="shaded-block">Order No: </td>
-        <td class="meta-content" style="vertical-align:top;">{{OrderNumber}}</td>
+        <td style="height:20px;">&nbsp;</td>
       </tr>
+    </table>
+    <div class="meta-header"><span>Transfer Order Details:</span></div>
+    <table style="border-top:none;" class="meta-section">
       <tr>
-        <td style="width:84px;" class="shaded-block">Deal: </td>
-        <td class="meta-content" style="vertical-align:top;">{{Deal}}</td>
+        <td style="width:84px;" class="shaded-block">Transfer No: </td>
+        <td class="meta-content" style="vertical-align:top;">{{OrderNumber}}</td>
       </tr>
       <tr>
         <td style="width:84px;" class="shaded-block">Description: </td>
         <td class="meta-content" style="vertical-align:top;">{{OrderDescription}}</td>
-      </tr>
-    </table>
-    <table class="meta-section">
-      <tr>
-        <td style="width:84px;" class="shaded-block">PO No: </td>
-        <td class="meta-content">{{OrderPoNumber}}</td>
-      </tr>
-      <tr>
-        <td style="width:84px;" class="shaded-block">Terms: </td>
-        <td class="meta-content">{{PaymentTerms}}</td>
-      </tr>
-      <tr>
-        <td style="width:84px;" class="shaded-block">Billing Cycle: </td>
-        <td class="meta-content">{{BillingCycle}}</td>
-      </tr>
-    </table>
-    <table class="meta-section">
-      <tr>
-        <td style="width:84px;" class="shaded-block">Usage Dates: </td>
-        <td class="meta-content">{{UsageDates}}</td>
-      </tr>
-      <tr>
-        <td style="width:84px;" class="shaded-block">Billing Start: </td>
-        <td class="meta-content">{{BillingDate}}</td>
       </tr>
     </table>
     <table class="meta-section">
@@ -110,8 +67,8 @@
         <td>I-Code</td>
         <td>Description</td>
         <td class="number">Ordered</td>
-        <td class="number">Out</td>
-        <td class="number">Total Out</td>
+        <td class="number">Transferred In</td>
+        <td class="number">Total In</td>
       </tr>
     </tbody>
     <tbody>
@@ -122,8 +79,8 @@
         <td class="nowrap">{{ICode}}</td>
         <td>{{Description}}</td>
         <td class="number">{{QuantityOrdered}}</td>
-        <td class="number">{{QuantityOut}}</td>
-        <td class="number">{{TotalOut}}</td>
+        <td class="number">{{Quantity}}</td>
+        <td class="number">{{TotalQuantity}}</td>
       </tr>
       <tr data-rowtype="{{RowType}}" class="barcode-row">
         <td></td>
