@@ -4145,6 +4145,15 @@ class OrderBase {
                     console.error(`second child undefined`);
                 }
             });
+
+            // Delete option
+            const $deleteOptions = $menus.find('.deleteoption');
+            if ($deleteOptions) {
+                $deleteOptions.css({
+                    'pointer-events': 'none',
+                    'color': '#dcdcdc',
+                });
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
