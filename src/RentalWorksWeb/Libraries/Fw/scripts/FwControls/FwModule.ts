@@ -472,6 +472,8 @@ class FwModule {
             }
         }
 
+        this.focusOnFirstField($form);
+
         $form
             .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {
                 var fields, $tab, $tabpage;
@@ -1478,6 +1480,16 @@ class FwModule {
         const $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
         $save.addClass('disabled');
         $save.off('click');
+    }
+    //----------------------------------------------------------------------------------------------
+    static focusOnFirstField($form: JQuery) {
+        // Focus cursor in first non-uniqueid enabled formfield on form open
+        setTimeout(() => {
+            const $fields = $form.find('div[data-control="FwFormField"][data-enabled="true"][data-isuniqueid="false"]:visible');
+            if ($fields.length > 1) {
+                $fields.eq(0).find('input').focus();
+            }
+        }, 1000);
     }
     //----------------------------------------------------------------------------------------------
     static loadFormFromTemplate(modulename: string) {
