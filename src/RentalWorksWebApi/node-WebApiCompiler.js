@@ -145,21 +145,8 @@ class WebApiCompiler {
         const jsAppBuilderConfigFile = path.resolve(appSolutionDir, 'src/RentalWorksWebApi/QuikScan/JSAppBuilder.config');
         const versionFilePath = path.resolve(appSolutionDir, 'src/RentalWorksWebApi/version.txt');
         const version = (await fs.readFile(versionFilePath, 'utf8')).trim();
-
-        //sync quikscan to wwwroot/QuikScan to just get it working quickly
         const srcDir = './QuikScan';
         const destDir = './wwwroot/QuikScan';
-
-        //await fs.copy(srcDir, destDir, {
-        //    filter: async (src, dest) => {
-        //        //return true;
-        //        console.log(src);
-        //        // src will be all the files and directories including the srcDir, so we need to check what type it is
-        //        const stats = await fs.stat(src);
-        //        return (stats.isDirectory() && (src === srcDir || srcDir === `${srcDir}/Modules`)) ||
-        //            (stats.isFile() && /^.*\.(html|htm|css|js|jpg|gif)$/.test(src));
-        //    }
-        //});
         let publish = false;
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
             publish = false;
@@ -259,8 +246,7 @@ class WebApiCompiler {
                         await this.clean_api();
                         await this.rmfr_reports();
                         await this.build_webpack_reports();
-                        //await this.rmfr_quikscan();
-                        //await this.build_quikscan();
+                        await this.build_quikscan();
                         await this.dotnet_build();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.npm_i();
@@ -268,8 +254,7 @@ class WebApiCompiler {
                         await this.clean_api();
                         await this.rmfr_reports();
                         await this.build_webpack_reports();
-                        //await this.rmfr_quikscan();
-                        //await this.build_quikscan();
+                        await this.build_quikscan();
                         await this.dotnet_run();
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
@@ -281,8 +266,7 @@ class WebApiCompiler {
                     await this.rmfr_publishfolder();
                     await this.npm_i();
                     await this.build_webpack_reports();
-                    //await this.rmfr_quikscan();
-                    //await this.build_quikscan();
+                    await this.build_quikscan();
                     await this.dotnet_publish();
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
@@ -321,14 +305,14 @@ class WebApiCompiler {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                         await this.npm_i();
+                        await this.rmfr_quikscan();
                     }
-                    await this.rmfr_quikscan();
                     await this.build_quikscan();
                 } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                         await this.npm_i();
+                        await this.rmfr_quikscan();
                     }
-                    await this.rmfr_quikscan();
                     await this.watch_quikscan();
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;

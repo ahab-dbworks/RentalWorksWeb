@@ -469,8 +469,9 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <Target Name="MyPreCompileTarget" BeforeTargets="Build">
+  <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
     <!--<Exec Command="npm install" />-->
+	<Exec Command="npm run build-quikscan-dev" />
   </Target>
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">
