@@ -1353,7 +1353,7 @@ namespace WebApi.Modules.Agent.Order
                 if (invalidStatuses.Contains(orderStatus))
                 {
                     response.IsEditable = false;
-                    response.Reason = "Cannot add items to a " + orderStatus + " " + AppFunc.GetOrderTypeDescription(orderType);
+                    response.Reason = orderStatus + " " + AppFunc.GetOrderTypeDescription(orderType) + " cannot be modified.";
                 }
             }
             return response;

@@ -37,6 +37,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+            BeforeDelete += OnBeforeDelete;
 
             orderItem.AfterSave += OnAfterSaveMasterItem;
             orderItemDetail.AssignPrimaryKeys += OrderItemDetailAssignPrimaryKeys;
@@ -1596,6 +1597,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
                 }
 
 
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(OrderId))
+            {
+                OrderIsEditableResponse orderIsEditableResponse = OrderFunc.OrderIsEditable(AppConfig, UserSession, OrderId).Result;
+                if (!orderIsEditableResponse.IsEditable)
+                {
+                    e.PerformDelete = false;
+                    e.ErrorMessage = orderIsEditableResponse.Reason;
+                }
             }
         }
         //------------------------------------------------------------------------------------ 
