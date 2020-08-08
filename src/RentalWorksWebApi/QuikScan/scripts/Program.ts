@@ -537,7 +537,7 @@ class Program extends FwApplication {
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 sessionStorage.setItem('sessionLock', 'false');
                 me.navigate('logoff');
-            } else if (sessionStorage.getItem('authToken')) {
+            } else if (sessionStorage.getItem('apiToken')) {
                 me.navigate('home/home');
             } else {
                 me.navigate('login');
