@@ -1627,6 +1627,7 @@ namespace RentalWorksQuikScan.Source
             FwJsonDataTable dt;
 
             qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+            qry.AddColumn("thumbnail", false, FwDataTypes.JpgDataUrl);
             qry.Add("select top 1 appimageid, thumbnail");
             qry.Add("from appimage");
             qry.Add("where uniqueid1   = @uniqueid1");
@@ -1646,7 +1647,7 @@ namespace RentalWorksQuikScan.Source
             {
                 result[i] = new ExpandoObject();
                 result[i].appimageid = FwCryptography.AjaxEncrypt(dt.GetValue(i, "appimageid").ToString().TrimEnd());
-                result[i].thumbnail = dt.GetValue(i, "thumbnail").ToBase64String();
+                result[i].thumbnail = dt.GetValue(i, "thumbnail").ToString();
             }
             
             return result;

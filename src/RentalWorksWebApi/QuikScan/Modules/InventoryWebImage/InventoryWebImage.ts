@@ -19,7 +19,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
     properties.item = null;
     properties.mode = 'icode';
 
-    if (typeof navigator.camera !== 'undefined' && program.hasCamera) {
+    if (typeof (<any>navigator).camera !== 'undefined' && program.hasCamera) {
         screen.$view.find('#scancontrol').fwmobilemodulecontrol({
             buttons: [
                 { 
@@ -30,13 +30,13 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                     buttonclick: function () {
                         if (properties.item != null) {
                             try {
-                                navigator.camera.getPicture(
+                                (<any>navigator).camera.getPicture(
                                     //success
                                     function(imageData) {
                                         var img, request, $images, i;
                                         try {
-                                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                                window.screen.lockOrientation('portrait-primary');
+                                            if ((typeof window.screen === 'object') && (typeof (<any>window.screen).lockOrientation === 'function')) {
+                                                (<any>window.screen).lockOrientation('portrait-primary');
                                             };
                                             request = {
                                                 item:      properties.item,
@@ -59,8 +59,8 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                                     //error
                                     , function(message) {
                                         try {
-                                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                                window.screen.lockOrientation('portrait-primary');
+                                            if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                                                (<any>window).screen.lockOrientation('portrait-primary');
                                             }
                                             //FwFunc.showError('Failed because: ' + message);
                                         } catch(ex) {
@@ -68,11 +68,11 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                                         }
                                     }
                                     , { 
-                                        destinationType:    Camera.DestinationType.DATA_URL
-                                      , sourceType:         Camera.PictureSourceType.CAMERA
+                                        destinationType:    (<any>window).Camera.DestinationType.DATA_URL
+                                      , sourceType:         (<any>window).Camera.PictureSourceType.CAMERA
                                       , allowEdit :         false
                                       , correctOrientation: true
-                                      , encodingType:       Camera.EncodingType.JPEG
+                                      , encodingType:       (<any>window).Camera.EncodingType.JPEG
                                       , quality:            applicationConfig.photoQuality
                                       , targetWidth:        applicationConfig.photoWidth
                                       , targetHeight:       applicationConfig.photoHeight 
@@ -97,7 +97,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                 $this = jQuery(this);
                 if ($this.val() !== '') {
                     screen.reset();
-                    request = {
+                    var request = {
                         code:  RwAppData.stripBarcode($this.val().toUpperCase())
                     };
                     RwServices.callMethod("InventoryWebImage", "GetInventoryItem", request, function(response) {
@@ -173,7 +173,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
         imagestoload = (properties.mode == 'icode') ? images.icode : images.barcode;
         if (imagestoload.length > 0) {
             for(i = 0; i < imagestoload.length; i++) {
-                $item.find('.iwi-item-images').append(jQuery('<img>').attr('src', 'data:image/jpeg;base64,' + imagestoload[i].thumbnail).attr('data-appimageid', imagestoload[i].appimageid));
+                $item.find('.iwi-item-images').append(jQuery('<img>').attr('src', imagestoload[i].thumbnail).attr('data-appimageid', imagestoload[i].appimageid));
             }
         } else {
             $item.find('.iwi-item-images').append(jQuery('<div class="nopicturesfound">0 pictures found.</div>'));
@@ -184,11 +184,11 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
             var $img, request, $contextmenu;
             try {
                 $img = jQuery(this);
-                $contextmenu = FwContextMenu.render('');
+                $contextmenu = FwContextMenu.render('', 'center');
                 FwContextMenu.addMenuItem($contextmenu, 'View Image', function () {
                     try {
-                        var html = [];
-                        html.push('<img style="max-width:100%;" src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + $img.attr('data-appimageid') + '&thumbnail=false' + '\" >');
+                        var html: string | string[] = [];
+                        html.push('<img style="max-width:100%;" src="' + applicationConfig.apiurl + 'api/v1/appimage/getimage?appimageid=' + $img.attr('data-appimageid') + '&thumbnail=false' + '\" >');
                         html = html.join('\n');
                         var $confirmation = FwConfirmation.renderConfirmation('Image Viewer', html);
                         var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);

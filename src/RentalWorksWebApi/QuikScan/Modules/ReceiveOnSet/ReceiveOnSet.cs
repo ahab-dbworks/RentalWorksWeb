@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.Utilities;
 using RentalWorksQuikScan.Source;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.Threading.Tasks;
@@ -305,17 +306,17 @@ namespace RentalWorksQuikScan.Modules
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                string[] images;
+                List<object> images;
                 byte[] image;
                 bool hasImages;
 
                 hasImages = FwValidate.IsPropertyDefined(request, "images");
                 if (hasImages && (request.images.Length > 0))
                 {
-                    images = (string[])request.images;
-                    for (int i = 0; i < images.Length; i++)
+                    images = (List<object>)request.images;
+                    for (int i = 0; i < images.Count; i++)
                     {
-                        image = Convert.FromBase64String(images[i]);
+                        image = Convert.FromBase64String(images[i].ToString());
                         await ReceiveOnSetPOReceiveImageAsync(conn: conn,
                                                    poid: request.poid,
                                                    masteritemid: request.masteritemid,

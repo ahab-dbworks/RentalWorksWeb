@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.Utilities;
 using RentalWorksQuikScan.Source;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.Threading.Tasks;
@@ -21,10 +22,10 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public async Task AddInventoryWebImageAsync(dynamic request, dynamic response, dynamic session)
+        public async Task AddInventoryWebImage(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "AddInventoryWebImage";
-            string[] images;
+            List<object> images;
             byte[] image;
             bool hasImages;
             string appimageid, uniqueid1, imagedescription = string.Empty;
@@ -34,12 +35,12 @@ namespace RentalWorksQuikScan.Modules
             {
                 hasImages = FwValidate.IsPropertyDefined(request, "images");
 
-                if (hasImages && (request.images.Length > 0))
+                if (hasImages && (request.images.Count > 0))
                 {
-                    images = (string[])request.images;
-                    for (int i = 0; i < images.Length; i++)
+                    images = (List<object>)request.images;
+                    for (int i = 0; i < images.Count; i++)
                     {
-                        image = Convert.FromBase64String(images[i]);
+                        image = Convert.FromBase64String(images[i].ToString());
                         if (request.mode == "icode")
                         {
                             uniqueid1 = request.item.masterId;
@@ -68,7 +69,7 @@ namespace RentalWorksQuikScan.Modules
                                                      description: imagedescription,
                                                      rectype: string.Empty,
                                                      extension: "JPG",
-                                                     image: Convert.FromBase64String(images[0]));
+                                                     image: Convert.FromBase64String(images[0].ToString()));
                         }
                     }
                 }
@@ -203,6 +204,7 @@ namespace RentalWorksQuikScan.Modules
                 FwJsonDataTable dt;
 
                 qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+                qry.AddColumn("thumbnail", false, FwDataTypes.JpgDataUrl);
                 qry.Add("select appimageid, thumbnail");
                 qry.Add("from appimage with (nolock)");
                 qry.Add("where uniqueid1   = @uniqueid1");
@@ -222,7 +224,7 @@ namespace RentalWorksQuikScan.Modules
                 {
                     result[i] = new ExpandoObject();
                     result[i].appimageid = FwCryptography.AjaxEncrypt(dt.GetValue(i, "appimageid").ToString().TrimEnd());
-                    result[i].thumbnail = dt.GetValue(i, "thumbnail").ToBase64String();
+                    result[i].thumbnail = dt.GetValue(i, "thumbnail").ToString();
                 }
 
                 return result; 

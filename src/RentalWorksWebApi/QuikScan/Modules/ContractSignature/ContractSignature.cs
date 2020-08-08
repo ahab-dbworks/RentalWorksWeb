@@ -59,9 +59,9 @@ namespace RentalWorksQuikScan.Modules
                 if ((FwValidate.IsPropertyDefined(request, "images")) && (request.images.Length > 0))
                 {
                     byte[] image;
-                    for (int i = 0; i < request.images.Length; i++)
+                    for (int i = 0; i < request.images.Count; i++)
                     {
-                        image = Convert.FromBase64String(request.images[i]);
+                        image = Convert.FromBase64String(request.images[i].ToString());
                         //FwSqlData.InsertAppImage(conn, contractid, string.Empty, string.Empty, "CONTRACT_IMAGE", string.Empty, "JPG", image);
                         await FwSqlData.WebInsertAppDocumentAsync(conn, this.ApplicationConfig.DatabaseSettings, contractid, string.Empty, "CONTRACT IMAGE", "", usersid, image, "JPG");
                     }

@@ -93,16 +93,16 @@ namespace RentalWorksQuikScan.Modules
         {
             const string METHOD_NAME = "UpdateRepairOrder";
             string documenttypeid, documentdescription;
-            string[] images, imagedescriptions, deleteimages;
+            List<object> images, imagedescriptions, deleteimages;
             //Fw.Json.SqlServer.FwSqlData.WebInsertAppDocumentResponse webInsertAppDocumentResponse = null;
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "repairId");
-            if ((request.images.Length > 0) && (request.imagedescriptions.Length > 0))
+            if ((request.images.Count > 0) && (request.imagedescriptions.Count > 0))
             {
-                images              = (string[])request.images;
+                images              = (List<object>)request.images;
                 documentdescription = request.documentdescription;
-                imagedescriptions   = (string[])request.imagedescriptions;
+                imagedescriptions   = (List<object>)request.imagedescriptions;
                 using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
                 {
                     documenttypeid = await FwSqlData.GetDocumentTypeIdAsync(conn, this.ApplicationConfig.DatabaseSettings, "IMAGE");
@@ -155,11 +155,11 @@ namespace RentalWorksQuikScan.Modules
                         cmd.AddParameter("@description", documentdescription);
                         await cmd.ExecuteNonQueryAsync();
                     }
-                    for (int i = 0; i < images.Length; i++)
+                    for (int i = 0; i < images.Count; i++)
                     {
                         string appimageid = await FwSqlData.GetNextIdAsync(conn, this.ApplicationConfig.DatabaseSettings);
                         int width = 0, height = 0;
-                        byte[] image = Convert.FromBase64String(images[i]);
+                        byte[] image = Convert.FromBase64String(images[i].ToString());
                         using (FwSqlCommand cmd = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                         {
                             cmd.Add("insert into appimage(appimageid,");
@@ -221,11 +221,11 @@ namespace RentalWorksQuikScan.Modules
                     await qry.ExecuteNonQueryAsync();
                 } 
             }
-            if (request.deleteimages.Length > 0) {
-                deleteimages = (string[])request.deleteimages;
-                for (int i = 0; i < deleteimages.Length; i++)
+            if (request.deleteimages != null && request.deleteimages.Count > 0) {
+                deleteimages = (List<object>)request.deleteimages;
+                for (int i = 0; i < deleteimages.Count; i++)
                 {
-                    string appdocumentid = deleteimages[i];
+                    string appdocumentid = deleteimages[i].ToString();
                     using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
                     {
                         await conn.OpenAsync();

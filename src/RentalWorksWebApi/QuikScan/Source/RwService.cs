@@ -3,6 +3,7 @@ using FwStandard.SqlServer;
 using FwStandard.Utilities;
 using RentalWorksQuikScan.Modules;
 using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
@@ -487,7 +488,7 @@ namespace RentalWorksQuikScan.Source
         public async Task AddInventoryWebImageAsync(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "AddInventoryWebImage";
-            string[] images;
+            List<object> images;
             byte[] image;
             bool hasImages;
             string appimageid;
@@ -499,11 +500,11 @@ namespace RentalWorksQuikScan.Source
                 hasImages = FwValidate.IsPropertyDefined(request, "images");
                 if (hasImages && (request.images.Length > 0))
                 {
-                    images = (string[])request.images;
-                    response.appimageids = new string[images.Length];
-                    for (int i = 0; i < images.Length; i++)
+                    images = (List<object>)request.images;
+                    response.appimageids = new string[images.Count];
+                    for (int i = 0; i < images.Count; i++)
                     {
-                        image = Convert.FromBase64String(images[i]);
+                        image = Convert.FromBase64String(images[i].ToString());
                         appimageid = await FwSqlData.InsertAppImageAsync(conn: conn
                             , dbConfig: this.ApplicationConfig.DatabaseSettings
                                                             , uniqueid1: request.uniqueid1
