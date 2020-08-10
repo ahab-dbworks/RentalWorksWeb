@@ -452,6 +452,7 @@ namespace Fw.Json.HttpHandlers
                 case "dir": return "application/x-director";
                 case "dl": return "video/x-dl";
                 case "doc": return "application/msword";
+                case "docx": return "application/msword";
                 case "dot": return "application/msword";
                 case "dp": return "application/commonground";
                 case "drw": return "application/drafting";
