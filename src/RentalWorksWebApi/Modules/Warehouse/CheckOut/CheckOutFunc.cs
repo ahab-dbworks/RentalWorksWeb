@@ -845,6 +845,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     substituteNote = "Replaced (" + request.Quantity.ToString() + ") at Staging with " + substituteNote;
                     oiMod.Notes += substituteNote;
                     oiMod.PrintNoteOnOrder = true;
+                    oiMod.PrintNoteOnInvoice = true;
                     if (response.success)
                     {
                         int recordsAffected = await oiMod.SaveAsync(original: oiOrig, conn: conn);
