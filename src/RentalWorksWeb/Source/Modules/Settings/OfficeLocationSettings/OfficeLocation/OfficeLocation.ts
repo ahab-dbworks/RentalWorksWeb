@@ -81,13 +81,18 @@
         const $systemNumberGrid = $form.find('[data-name="SystemNumberGrid"]');
         FwBrowse.search($systemNumberGrid);
 
+        this.useNumberPrefix($form);
         this.creditCheckboxes($form);
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
         $form.find('.credit-insurance').on('change', e => {
             this.creditCheckboxes($form);
-        })
+        });
+        // UseNumberPrefix
+        $form.find('div[data-datafield="UseNumberPrefix"] input').on('change', e => {
+            this.useNumberPrefix($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -112,6 +117,15 @@
             FwFormField.disable($form.find('div[data-datafield="DisableInsuranceThroughDateMessages"]'));
         } else {
             FwFormField.enable($form.find('div[data-datafield="DisableInsuranceThroughDateMessages"]'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    useNumberPrefix($form) {
+        const usePrefix = FwFormField.getValueByDataField($form, 'UseNumberPrefix');
+        if (usePrefix) {
+            FwFormField.enable($form.find('div[data-datafield="NumberPrefix"]'));
+        } else {
+            FwFormField.disable($form.find('div[data-datafield="NumberPrefix"]'));
         }
     }
     //----------------------------------------------------------------------------------------------

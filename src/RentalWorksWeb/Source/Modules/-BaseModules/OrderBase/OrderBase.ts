@@ -4142,7 +4142,7 @@ class OrderBase {
                         'color': '#dcdcdc',
                     });
                 } else {
-                    console.error(`second child undefined`);
+                    console.error(`disableOrderItemGridMenus method menu option undefined`);
                 }
             });
 

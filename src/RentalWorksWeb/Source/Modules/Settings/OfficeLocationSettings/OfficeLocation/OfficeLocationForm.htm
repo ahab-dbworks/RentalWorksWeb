@@ -75,7 +75,18 @@
           <div class="flexrow">
             <div class="rwGrid" data-control="FwGrid" data-grid="SystemNumberGrid" data-securitycaption="System Numbers"></div>
           </div>
-          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use the same number for Quotes and Orders (ORDER Module Number will not be used)" data-datafield="UseSameNumberForQuoteAndOrder" style="float:left;width:100px;"></div>
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use the same number for Quotes and Orders (ORDER Module Number will not be used)" data-datafield="UseSameNumberForQuoteAndOrder" style="float:left;width:100px;padding: 0 0 0 10px;"></div>
+          </div>
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Prefix">
+              <div class="fwcontrol fwcontainer flexrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="UseNumberPrefix" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield use-prefix" data-caption="Use Prefix" style="flex:0 1 94px;padding:8px 0 0 0;"></div>
+                <div data-datafield="NumberPrefix" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-enabled="false" style="flex:0 1 53px;"></div>
+                <!--<div data-datafield="" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-caption" data-caption="days or less than original Contract Billing Date." style="flex:0 1 290px;"></div>-->
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
