@@ -195,6 +195,21 @@
             FwFormField.setValueByDataField($form, 'HomeMenuPath', dataNav);
         });
 
+        //change password
+        $form.find('.change-password').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            const isActive = $this.hasClass('active');
+            if (isActive) {
+                $this.removeClass('active');
+                $form.find('.password-fields').hide();
+                $this.text('Change Password');
+            } else {
+                $this.addClass('active');
+                $form.find('.password-fields').show();
+                $this.text('Cancel Change Password');
+            };
+        });
+
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {

@@ -182,7 +182,7 @@ namespace WebApi.Modules.Settings.UserProfile
                 if (passwordChanged)
                 {
                     UserProfileLogic orig = (UserProfileLogic)original;
-                    string tryUserId = AppFunc.GetStringDataAsync(AppConfig, "users", new string[] { "usersid", "dbo.encrypt(password)" }, new string[] { orig.UserId, oldPassword }, new string[] { "usersid" }).Result[0];
+                    string tryUserId = AppFunc.GetStringDataAsync(AppConfig, "users", new string[] { "usersid", "dbo.decrypt(password)" }, new string[] { orig.UserId, oldPassword }, new string[] { "usersid" }).Result[0];
                     if (!tryUserId.Equals(orig.UserId))
                     {
                         isValid = false;
