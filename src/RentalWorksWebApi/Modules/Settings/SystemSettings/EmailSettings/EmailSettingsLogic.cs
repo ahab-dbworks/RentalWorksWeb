@@ -24,7 +24,7 @@ namespace WebApi.Modules.Settings.SystemSettings.EmailSettings
         public string Host { get { return emailSettings.Host; } set { emailSettings.Host = value; } }
         [FwLogicProperty(Id: "4QNpHAik4FDZ")]
         public int? Port { get { return emailSettings.Port; } set { emailSettings.Port = value; } }
-        [FwLogicProperty(Id: "btbzFofqg1IW")]
+        [FwLogicProperty(Id: "btbzFofqg1IW", IsNotAudited: true)]
         public string AccountPassword { get { return emailSettings.AccountPassword; } set { emailSettings.AccountPassword = value; } }
         [FwLogicProperty(Id: "ThwG5S5XA5iL")]
         public string AccountUsername { get { return emailSettings.AccountUsername; } set { emailSettings.AccountUsername = value; } }
