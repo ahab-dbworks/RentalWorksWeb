@@ -315,24 +315,30 @@ class TransferOrder {
     openManifestBrowse($form) {
         const $browse = ManifestController.openBrowse();
         $browse.data('ondatabind', request => {
-            request.activeviewfields = ManifestController.ActiveViewFields;
+            request.activeviewfields = { LocationId: ["ALL"] };
             request.uniqueids = {
                 ContractType: "MANIFEST"
                 , TransferId: FwFormField.getValueByDataField($form, 'TransferId')
             };
         });
+        // activeviewfields has been hardcoded to 'ALL' so filter is hidden for this submodule
+        $browse.find('.buttonbar .ddviewbtn.Location').hide();
+
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     openReceiptBrowse($form) {
         const $browse = TransferReceiptController.openBrowse();
         $browse.data('ondatabind', request => {
-            request.activeviewfields = TransferReceiptController.ActiveViewFields;
+            request.activeviewfields = { LocationId: ["ALL"] };
             request.uniqueids = {
                 ContractType: "RECEIPT"
                 , TransferId: FwFormField.getValueByDataField($form, 'TransferId')
             };
         });
+        // activeviewfields has been hardcoded to 'ALL' so filter is hidden for this submodule
+        $browse.find('.buttonbar .ddviewbtn.Location').hide();
+
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
@@ -522,8 +528,8 @@ class TransferOrder {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         $form.find('.submodule').show();
-        const status = FwFormField.getValueByDataField($form, 'Status');
 
+        const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'CONFIRMED') {
             $form.find('.submenu .submenu-btn[data-securityid="VHP1qrNmwB4"] .caption').text('Un-confirm');
         } else if (status !== 'NEW') {

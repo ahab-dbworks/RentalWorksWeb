@@ -200,7 +200,7 @@ class FwMenuClass {
         id = program.uniqueId(8);
         btnId = 'btn' + id;
         btnHtml = [];
-        btnHtml.push(`<div id="${btnId}" class="ddviewbtn" data-visible="true">`);
+        btnHtml.push(`<div id="${btnId}" class="ddviewbtn ${caption ? caption : ''}" data-visible="true">`);
         btnHtml.push(`  <div class="ddviewbtn-caption">${caption}:</div>`);
         btnHtml.push(`  <div class="ddviewbtn-select ${allowMultiple ? ' multifilter' : ''}" tabindex="0">`);
         btnHtml.push('    <div class="ddviewbtn-select-value"></div>');
