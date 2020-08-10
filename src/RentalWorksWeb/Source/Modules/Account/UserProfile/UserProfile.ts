@@ -203,6 +203,8 @@
                 $this.removeClass('active');
                 $form.find('.password-fields').hide();
                 $this.text('Change Password');
+                FwFormField.setValueByDataField($form, 'OldPassword', '');
+                FwFormField.setValueByDataField($form, 'NewPassword', '');
             } else {
                 $this.addClass('active');
                 $form.find('.password-fields').show();
@@ -269,6 +271,10 @@
         if ($form.find(`[data-datafield="ApplicationTheme"] option[value="${theme}"]`).length === 0) FwFormField.setValueByDataField($form, 'ApplicationTheme', $form.find('[data-datafield="ApplicationTheme"] option').eq(0).val());
 
         SoundController.soundsToUrl($form);
+
+        FwFormField.setValueByDataField($form, 'OldPassword', '');
+        FwFormField.setValueByDataField($form, 'NewPassword', '');
+
     }
     //----------------------------------------------------------------------------------------------
 }

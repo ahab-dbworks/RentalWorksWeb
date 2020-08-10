@@ -154,7 +154,7 @@ namespace WebApi.Modules.Settings.UserProfile
             get { return "?????????"; }
             set
             {
-                if (value != null)
+                if (!string.IsNullOrEmpty(value))
                 {
                     passwordChanged = true;
                 }
