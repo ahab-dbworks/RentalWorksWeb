@@ -43,6 +43,17 @@ namespace WebApi.Modules.HomeControls.OrderDates
                 if (!string.IsNullOrEmpty(s))
                 {
                     s = FwConvert.ToTitleCase(s.ToLower());
+                    // justin hoffman 08/10/2020 #2849
+                    s = s.Replace("Po ", "PO ");
+                    if (s.EndsWith("Po"))
+                    {
+                        s = s.Substring(0, s.Length - 2) + "PO";
+                    }
+                    s = s.Replace("Wh ", "WH ");
+                    if (s.EndsWith("Wh"))
+                    {
+                        s = s.Substring(0, s.Length - 2) + "WH";
+                    }
                 }
                 return s;
             }
