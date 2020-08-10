@@ -296,19 +296,19 @@ class OrderItemGrid {
             if ($tr.find('.itemclass').text() === 'GH') {
                 $tr.css('font-weight', "bold");
                 $tr.css('background-color', "#ffffcc");
-                $tr.find('.field:not(.groupheaderline) ').text('');
+                $tr.find('.field:not(.groupheaderline):not([data-browsedatafield="Notes"])').text('');
             }
 
             // Text Row
             if ($tr.find('.itemclass').text() === 'T') {
-                $tr.find('.field:not(.textline) ').text('');
+                $tr.find('.field:not(.textline):not([data-browsedatafield="Notes"])').text('');
             }
 
             // Sub-Total Row
             if ($tr.find('.itemclass').text() === 'ST') {
                 $tr.css('font-weight', "bold");
                 $tr.css('background-color', "#ffff80");
-                $tr.find('.field:not(.subtotalline) ').text('');
+                $tr.find('.field:not(.subtotalline):not([data-browsedatafield="Notes"])').text('');
             }
 
             //Option to open up Complete/Kit grid to add items
