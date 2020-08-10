@@ -476,14 +476,14 @@ class QuikActivityCalendar {
     }
     //----------------------------------------------------------------------------------------------
     updateDefaultSetting($form: JQuery, $calendar: any, id: string) {
-        const userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        const webUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
         const req: any = {
-            UserId: userId,
+            WebUserId: webUserId,
             QuikActivitySetting: id
         };
         let prevData = JSON.parse(sessionStorage.getItem('userid'));
         if (prevData.defaultquikactivitysetting != id) {
-            FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${userId}`, req, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${webUserId}`, req, FwServices.defaultTimeout, response => {
                 let value = { defaultquikactivitysetting: id };
                 Object.keys(value).forEach(function (val, key) {
                     prevData[val] = value[val];

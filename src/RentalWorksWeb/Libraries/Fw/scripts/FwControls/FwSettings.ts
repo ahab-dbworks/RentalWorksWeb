@@ -231,7 +231,7 @@ class FwSettingsClass {
 
             const webusersid = sessionStorage.getItem('webusersid');
             if (webusersid) {
-                request.UserId = webusersid;
+                request.WebUserId = webusersid;
                 FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${webusersid}`, request, FwServices.defaultTimeout,
                     response => { },
                     ex => {
