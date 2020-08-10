@@ -251,13 +251,13 @@
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Complete Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{ICode}}</td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Kit Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{ICode}}</td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Container Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{ICode}}</td><!-- Container Accessory -->
         {{else}}
         <td data-itemclass="{{ItemClass}}">{{ICode}}</td><!-- Items -->
         {{/ifCond}}
@@ -280,13 +280,13 @@
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Complete Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Kit Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{Description}}</td><!-- Container Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Container Accessory -->
         {{else}}
         <td data-itemclass="{{ItemClass}}">{{Description}}</td><!-- Item -->
         {{/ifCond}}
