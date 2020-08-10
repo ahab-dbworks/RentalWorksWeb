@@ -54,7 +54,7 @@ namespace WebApi.Modules.Settings.UserProfile
         public string SuccessSound { get; set; }
 
         private string _successBase64Sound = "";
-        [FwLogicProperty(Id: "un2900EpcFpd")]
+        [FwLogicProperty(Id: "un2900EpcFpd", IsNotAudited: true)]
         public string SuccessBase64Sound
         {
             get
@@ -79,7 +79,7 @@ namespace WebApi.Modules.Settings.UserProfile
         public string ErrorSound { get; set; }
 
         private string _errorBase64Sound = "";
-        [FwLogicProperty(Id: "at37zWVEk7OM")]
+        [FwLogicProperty(Id: "at37zWVEk7OM", IsNotAudited: true)]
         public string ErrorBase64Sound
         {
             get
@@ -104,7 +104,7 @@ namespace WebApi.Modules.Settings.UserProfile
         public string NotificationSound { get; set; }
 
         private string _notificationBase64Sound = "";
-        [FwLogicProperty(Id: "RiJwTjmPSP4u")]
+        [FwLogicProperty(Id: "RiJwTjmPSP4u", IsNotAudited: true)]
         public string NotificationBase64Sound
         {
             get
