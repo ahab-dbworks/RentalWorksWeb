@@ -783,7 +783,7 @@ class Order extends OrderBase {
             <div class="field" data-caption="PO No." data-datafield="PoNumber" data-cellcolor="PoNumberColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
-            <div class="field" data-caption="Total" data-datafield="Total" data-cellcolor="CurrencyColor" data-browsedatatype="money" data-digits="2" data-formatnumeric="true" data-sort="off"></div>
+            <div class="field" data-caption="Total" data-datafield="Total" data-cellcolor="CurrencyColor" data-browsedatatype="money" data-digits="2" data-currencysymbol="CurrencySymbol" data-formatnumeric="true" data-sort="off"></div>
           </div>
           <div class="column" data-width="180px" data-visible="true">
             <div class="field" data-caption="Agent" data-datafield="Agent" data-multiwordseparator="|" data-browsedatatype="text" data-sort="off"></div>
