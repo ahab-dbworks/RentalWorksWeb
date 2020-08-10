@@ -14,7 +14,7 @@ namespace WebApi.Modules.Settings.UserProfile
     {
         public UserProfileController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(UserProfileLogic); }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/usersettings/A0000001 
+        // GET api/v1/userprofile/A0000001 
         [HttpGet("{id}")]
         [FwControllerMethod(Id:"P6007QSDfm4z", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<UserProfileLogic>> GetOneAsync([FromRoute]string id)  //id = webusersid
@@ -22,7 +22,7 @@ namespace WebApi.Modules.Settings.UserProfile
             return await DoGetAsync<UserProfileLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/usersettings 
+        // POST api/v1/userprofile 
         [HttpPost]
         [FwControllerMethod(Id:"QnhjYTbz5QIs", ActionType: FwControllerActionTypes.New)]
         public async Task<ActionResult<UserProfileLogic>> NewAsync([FromBody]UserProfileLogic l)
@@ -30,7 +30,7 @@ namespace WebApi.Modules.Settings.UserProfile
             return await DoNewAsync<UserProfileLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // PUT api/v1/usersettings/A0000001
+        // PUT api/v1/userprofile/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "etTWNoBZMgtXZ", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<UserProfileLogic>> EditAsync([FromRoute] string id, [FromBody]UserProfileLogic l)

@@ -1,5 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
+using System;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Administrator.User
@@ -67,6 +69,7 @@ namespace WebApi.Modules.Administrator.User
                     passwordChanged = true;
                 }
                 user.Password = value;
+                user.PasswordUpdatedDateTime = FwConvert.ToUSShortDate(DateTime.Today);
             }
         }
         [FwLogicProperty(Id: "FXQ5AbMN8T")]

@@ -11,10 +11,16 @@ namespace WebApi.Modules.Settings.UserProfile
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string UserId { get; set; } = "";
+        public string WebUserId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text)]
+        public string UserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loginname", modeltype: FwDataTypes.Text)]
+        public string LoginName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "browsedefaultrows", modeltype: FwDataTypes.Integer)]
         public int? BrowseDefaultRows { get; set; }

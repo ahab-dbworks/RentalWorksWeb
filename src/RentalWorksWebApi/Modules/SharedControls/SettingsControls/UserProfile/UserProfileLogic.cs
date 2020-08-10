@@ -12,21 +12,28 @@ namespace WebApi.Modules.Settings.UserProfile
         //------------------------------------------------------------------------------------ 
         WebUserRecord webUser = new WebUserRecord();
         UserProfileLoader userSettingsLoader = new UserProfileLoader();
+        private bool passwordChanged = false;
+        private string newPassword;
 
         public UserProfileLogic()
         {
             dataRecords.Add(webUser);
             dataLoader = userSettingsLoader;
-
             AfterSave += OnAfterSave;
-
+            ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "ZX86VoX5ZVvar", IsPrimaryKey: true)]
-        public string UserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
+        public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
 
         [FwLogicProperty(Id: "XgeLiOeKHugRB", IsRecordTitle: true, IsReadOnly: true)]
         public string UserName { get; set; }
+
+        [FwLogicProperty(Id: "hTLdEyUTAlinh", IsReadOnly: true)]
+        public string UserId { get; set; }
+
+        [FwLogicProperty(Id: "WWDywk13J8z2C", IsReadOnly: true)]
+        public string LoginName { get; set; }
 
         [FwLogicProperty(Id: "dmn86kqK6Esn")]
         public int? BrowseDefaultRows { get { return webUser.BrowseDefaultRows; } set { webUser.BrowseDefaultRows = value; } }
@@ -135,9 +142,25 @@ namespace WebApi.Modules.Settings.UserProfile
 
         [FwLogicProperty(Id: "fR3t20LsLMMU0")]
         public string QuikActivitySetting { get { return webUser.QuikActivitySetting; } set { webUser.QuikActivitySetting = value; } }
-        
+
         [FwLogicProperty(Id: "robWDF2GvQMc")]
         public string EmailSignature { get; set; }
+
+
+        [FwLogicProperty(Id: "BVEDQFlLuiwJb")]
+        public string Password
+
+        {
+            get { return "?????????"; }
+            set
+            {
+                if (value != null)
+                {
+                    passwordChanged = true;
+                }
+                newPassword = value;
+            }
+        }
 
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
@@ -145,6 +168,14 @@ namespace WebApi.Modules.Settings.UserProfile
         {
             bool doSaveFavoritesJson = false;
             bool doSaveEmailSignature = false;
+
+            UserProfileLogic orig = null;
+            if (e.Original != null)
+            {
+                orig = (UserProfileLogic)e.Original;
+            }
+
+
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 doSaveFavoritesJson = true;
@@ -152,7 +183,7 @@ namespace WebApi.Modules.Settings.UserProfile
             }
             else if (e.Original != null)
             {
-                UserProfileLogic orig = (UserProfileLogic)e.Original;
+                //UserProfileLogic orig = (UserProfileLogic)e.Original;
                 doSaveEmailSignature = (!orig.EmailSignature.Equals(EmailSignature));
                 doSaveFavoritesJson = (!orig.FavoritesJson.Equals(FavoritesJson));
             }
@@ -170,6 +201,23 @@ namespace WebApi.Modules.Settings.UserProfile
             {
                 bool saved = AppFunc.SaveNoteAsync(AppConfig, UserSession, UserSession.UsersId, RwConstants.WEBUSER_NOTE_TYPE_EMAIL_SIGNATURE, "", EmailSignature).Result;
                 if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
+
+            if (passwordChanged)
+            {
+                UserLogic origUser = new UserLogic();
+                origUser.SetDependencies(AppConfig, UserSession);
+                origUser.UserId = orig.UserId;
+                bool userLoaded = origUser.LoadAsync<UserLogic>(e.SqlConnection).Result;
+
+                UserLogic newUser = origUser.MakeCopy<UserLogic>();
+                newUser.SetDependencies(AppConfig, UserSession);
+                newUser.Password = newPassword;
+                int i = newUser.SaveAsync(original: origUser, conn: e.SqlConnection).Result;
+                if (i > 0)
                 {
                     e.RecordsAffected++;
                 }

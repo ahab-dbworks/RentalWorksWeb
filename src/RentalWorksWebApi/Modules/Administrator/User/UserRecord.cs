@@ -131,7 +131,7 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? PasswordExpireDays { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string PasswordUpdatedDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]

@@ -320,7 +320,7 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer)]
         public int? PasswordExpireDays { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.Date)]
         public string PasswordUpdatedDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean)]

@@ -152,7 +152,7 @@
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="UserId"] input').val(uniqueids.webusersid);
+        $form.find('div.fwformfield[data-datafield="WebUserId"] input').val(uniqueids.webusersid);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
