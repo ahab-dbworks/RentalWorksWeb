@@ -218,7 +218,7 @@ namespace WebApi.Modules.Settings.WarehouseSettings.Warehouse
         [FwSqlDataField(column: "enableaisleshelfcheckin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? CheckInEnableScanningToAisleShelf { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalbarcoderangeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
