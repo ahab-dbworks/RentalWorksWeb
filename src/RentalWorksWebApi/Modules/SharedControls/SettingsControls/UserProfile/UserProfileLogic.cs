@@ -14,6 +14,7 @@ namespace WebApi.Modules.Settings.UserProfile
         UserProfileLoader userSettingsLoader = new UserProfileLoader();
         private bool passwordChanged = false;
         private string newPassword;
+        private string oldPassword;
 
         public UserProfileLogic()
         {
@@ -146,9 +147,8 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwLogicProperty(Id: "robWDF2GvQMc")]
         public string EmailSignature { get; set; }
 
-
         [FwLogicProperty(Id: "BVEDQFlLuiwJb")]
-        public string Password
+        public string NewPassword
 
         {
             get { return "?????????"; }
@@ -162,8 +162,37 @@ namespace WebApi.Modules.Settings.UserProfile
             }
         }
 
+        [FwLogicProperty(Id: "UPtDDo4bgJ9ul")]
+        public string OldPassword
+        {
+            get { return "?????????"; }
+            set
+            {
+                oldPassword = value;
+            }
+        }
+
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                if (passwordChanged)
+                {
+                    UserProfileLogic orig = (UserProfileLogic)original;
+                    string tryUserId = AppFunc.GetStringDataAsync(AppConfig, "users", new string[] { "usersid", "dbo.encrypt(password)" }, new string[] { orig.UserId, oldPassword }, new string[] { "usersid" }).Result[0];
+                    if (!tryUserId.Equals(orig.UserId))
+                    {
+                        isValid = false;
+                        validateMsg = "Invalid Old Password.";
+                    }
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             bool doSaveFavoritesJson = false;
