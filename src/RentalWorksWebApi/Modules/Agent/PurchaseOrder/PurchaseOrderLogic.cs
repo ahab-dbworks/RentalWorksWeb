@@ -1081,7 +1081,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            string newEstimatedStartDate = "", newEstimatedStopDate = "";//, newEstimatedStartTime = "", newEstimatedStopTime = "";
+            string newEstimatedStartDate = "", newEstimatedStopDate = "", newBillingStartDate = "", newBillingEndDate = "";//, newEstimatedStartTime = "", newEstimatedStopTime = "";
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 // this is a newPO.  ReceiveDeliveryId, ReturnDeliveryId, and TaxId were not known at time of insert.  Need to re-update the data with the known ID's
@@ -1098,6 +1098,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 //newEstimatedStartTime = EstimatedStartTime ?? orig.EstimatedStartTime;
                 newEstimatedStopDate = EstimatedStopDate ?? orig.EstimatedStopDate;
                 //newEstimatedStopTime = EstimatedStopTime ?? orig.EstimatedStopTime;
+                newBillingStartDate = BillingStartDate ?? orig.BillingStartDate;
+                newBillingEndDate = BillingEndDate ?? orig.BillingEndDate;
             }
 
             if (ActivityDatesAndTimes.Count > 0)
@@ -1166,6 +1168,26 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
                 }
 
+            }
+
+            //if dates are changed, update line-item extendeds
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                bool datesChanged = false;
+
+                if (e.Original != null)
+                {
+                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
+                    datesChanged = ((newEstimatedStartDate != orig.EstimatedStartDate) ||
+                                    (newEstimatedStopDate != orig.EstimatedStopDate) ||
+                                    (newBillingStartDate != orig.BillingStartDate) ||
+                                    (newBillingEndDate != orig.BillingEndDate));
+                }
+
+                if (datesChanged)
+                {
+                    bool b = OrderFunc.UpdateOrderItemExtendedAllASync(this.AppConfig, this.UserSession, GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+                }
             }
 
 
