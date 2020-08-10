@@ -31,7 +31,8 @@ namespace WebApi.Modules.Reports.DealReports.DealOutstandingItemsReport
     {
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
-        public string DateType { get; set; }  //B-Billing Stop Date E-Estimated Rental Stop Date
+        public string DateType { get; set; }  //B-Billing Stop Date, E-Estimated Rental Stop Date
+        public string IncludeValueCost { get; set; }  //R-Replacement Cost, U-Unit Value, P-PurchaseAmount, NONE-None
         public bool? FilterDates { get; set; }
         public bool? IncludeFullImages { get; set; }
         public bool? IncludeThumbnailImages { get; set; }
