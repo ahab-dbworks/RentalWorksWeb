@@ -4,7 +4,7 @@
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="pricingtab" class="tab" data-tabpageid="pricingtabpage" data-caption="Pricing"></div>
-      <div data-type="tab" id="salesretiretab" class="tab" data-tabpageid="salesretiretabpage" data-caption="Sales Retire/Unretire"></div>
+      <div data-type="tab" id="retireunretiretab" class="tab" data-tabpageid="retireunretiretabpage" data-caption="Retire / Unretire"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -40,22 +40,38 @@
           </div>
         </div>
       </div>
-      <div data-type="tabpage" id="salesretiretabpage" class="tabpage" data-tabid="salesretiretab">
+      <div data-type="tabpage" id="retireunretiretabpage" class="tabpage" data-tabid="retireunretiretab">
         <div class="formpage">
           <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Inventory Retired at Check-Out, Unretired at Check-In">
               <div class="flexrow">
                 <div class="flexcolumn" style="flex:1 1 100px;">
                   <div class="flexrow">
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales Check-Out Retired Reason" data-datafield="SalesCheckOutRetiredReasonId" data-displayfield="SalesCheckOutRetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="float:left;width:100px;"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales Check-Out Retired Reason" data-datafield="SalesCheckOutRetiredReasonId" data-displayfield="SalesCheckOutRetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="float:left;max-width:400px;"></div>
                   </div>
                 </div>
               </div>
               <div class="flexrow">
                 <div class="flexcolumn" style="flex:1 1 100px;">
                   <div class="flexrow">
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales Check-In Unretired Reason" data-datafield="SalesCheckInUnretiredReasonId" data-displayfield="SalesCheckInUnretiredReason" data-validationname="UnretiredReasonValidation" data-required="true" style="float:left;width:100px;"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales Check-In Unretired Reason" data-datafield="SalesCheckInUnretiredReasonId" data-displayfield="SalesCheckInUnretiredReason" data-validationname="UnretiredReasonValidation" data-required="true" style="float:left;max-width:400px;"></div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Sale and Loss and Damage Retired Reason">
+            <div class="flexrow">
+              <div class="flexcolumn" style="flex:1 1 100px;">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rental Sale Retired Reason" data-datafield="DefaultRentalSaleRetiredReasonId" data-displayfield="DefaultRentalSaleRetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="float:left;max-width:400px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexrow">
+              <div class="flexcolumn" style="flex:1 1 100px;">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Loss and Damage Retired Reason" data-datafield="DefaultLossAndDamageRetiredReasonId" data-displayfield="DefaultLossAndDamageRetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="float:left;max-width:400px;"></div>
                 </div>
               </div>
             </div>

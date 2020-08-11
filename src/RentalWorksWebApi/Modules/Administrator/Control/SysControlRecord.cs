@@ -551,6 +551,12 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "enablereceipts", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? EnableReceipts { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultrentalsaleretiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string DefaultRentalSaleRetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultlossdamageretiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string DefaultLossAndDamageRetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

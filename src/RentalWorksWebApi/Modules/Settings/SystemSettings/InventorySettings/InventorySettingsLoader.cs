@@ -43,6 +43,18 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwSqlDataField(column: "salescheckinunretiredreason", modeltype: FwDataTypes.Text)]
         public string SalesCheckInUnretiredReason { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultrentalsaleretiredreasonid", modeltype: FwDataTypes.Text)]
+        public string DefaultRentalSaleRetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultrentalsaleretiredreason", modeltype: FwDataTypes.Text)]
+        public string DefaultRentalSaleRetiredReason { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultlossdamageretiredreasonid", modeltype: FwDataTypes.Text)]
+        public string DefaultLossAndDamageRetiredReasonId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultlossdamageretiredreason", modeltype: FwDataTypes.Text)]
+        public string DefaultLossAndDamageRetiredReason { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

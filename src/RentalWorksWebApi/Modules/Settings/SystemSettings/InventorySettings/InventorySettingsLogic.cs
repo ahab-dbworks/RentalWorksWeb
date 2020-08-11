@@ -52,6 +52,18 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "2Q3BFsIa7kqz4", IsReadOnly: true)]
         public string SalesCheckInUnretiredReason { get; set; }
 
+        [FwLogicProperty(Id: "XtEwwCdWQQ76s")]
+        public string DefaultRentalSaleRetiredReasonId { get { return sysControl.DefaultRentalSaleRetiredReasonId; } set { sysControl.DefaultRentalSaleRetiredReasonId = value; } }
+
+        [FwLogicProperty(Id: "RRl022PnhCz5j", IsReadOnly: true)]
+        public string DefaultRentalSaleRetiredReason { get; set; }
+
+        [FwLogicProperty(Id: "EDJa0L7okJrCj")]
+        public string DefaultLossAndDamageRetiredReasonId { get { return sysControl.DefaultLossAndDamageRetiredReasonId; } set { sysControl.DefaultLossAndDamageRetiredReasonId = value; } }
+
+        [FwLogicProperty(Id: "g2a8lhg3PRpoS", IsReadOnly: true)]
+        public string DefaultLossAndDamageRetiredReason { get; set; }
+
         [FwLogicProperty(Id: "E0PTF3DZXRoNX")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
