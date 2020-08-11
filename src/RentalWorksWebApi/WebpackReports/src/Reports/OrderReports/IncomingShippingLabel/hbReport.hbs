@@ -3,16 +3,16 @@
 <div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn label-col">
     {{#if ../Logosrc}}
-    <div class="logo-container"><img class="logo" src="{{../Logosrc}}" alt="logo" /></div>
+    <div class="logo-container"><span><img class="logo" src="{{../Logosrc}}" alt="logo" /></span></div>
     {{/if}}
-    <div class="order-no">{{OrderNumber}}</div>
-    <div class="location">{{Location}}</div>
+    <div><span class="order-no">{{OrderNumber}}</span></div>
+    <div><span class="location">{{Location}}</span></div>
     <div>Attn: <span>{{Attention}}</span></div>
-    <div>{{Address1}}</div>
+    <div><span>{{Address1}}</span></div>
     {{#if Address2}}
-    <div>{{Address2}}</div>
+    <div><span>{{Address2}}</span></div>
     {{/if}}
-    <div>{{CityStateZipCode}}</div>
+    <div><span>{{CityStateZipCode}}</span></div>
   </div>
 </div>
 {{/each}}
