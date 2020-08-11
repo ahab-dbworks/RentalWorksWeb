@@ -563,6 +563,8 @@
     <TypeScriptCompile Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustment.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OutgoingShippingLabel\OutgoingShippingLabelController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\IncomingShippingLabel\IncomingShippingLabelController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ManifestReport\ManifestReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />

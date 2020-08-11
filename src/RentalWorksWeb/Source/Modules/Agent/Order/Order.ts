@@ -1939,6 +1939,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="OutDeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="OutDeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 200px;"></div>
                           <div class="fwformcontrol track-shipment-out" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
+                          <div class="fwformcontrol prnt-label-out" data-type="button" style="flex:0 1 100px;margin:16px 10px 0px 5px;text-align:center;">Print Label</div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Outgoing Address">
@@ -2006,6 +2007,7 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="InDeliveryFreightTrackingUrl" data-allcaps="false" style="display:none;flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="InDeliveryFreightTrackingNumber" data-allcaps="false" style="flex:1 1 200px;"></div>
                           <div class="fwformcontrol track-shipment-in" data-type="button" data-enabled="false" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center;">Track Shipment</div>
+                          <div class="fwformcontrol prnt-label-in" data-type="button" style="flex:0 1 100px;margin:16px 10px 0px 5px;text-align:center;">Print Label</div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Incoming Address">

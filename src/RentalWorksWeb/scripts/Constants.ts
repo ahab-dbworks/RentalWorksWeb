@@ -27,7 +27,7 @@ var Constants = {
                 Reports:            { id: 'Reports',       caption: 'Reports',              nav: 'module/reports',              nodetype: 'Module' },
                 Settings:           { id: 'Settings',      caption: 'Settings',             nav: 'module/settings',             nodetype: 'Module' },
                 SystemUpdate:       { id: 'QBpkw2MKnb4yp', caption: 'System Update',        nav: 'module/update',               nodetype: 'Module' },
-                User:               { id: 'r1fKvn1KaFd0u', caption: 'User',                 nav: 'module/user',                 nodetype: 'Module' }
+                User:               { id: 'r1fKvn1KaFd0u', caption: 'User',                 nav: 'module/user',                 nodetype: 'Module' },
             }
         },
         Agent: {
@@ -42,7 +42,7 @@ var Constants = {
                 Project:       { id: 'k7bYJRoHkf9Jr', caption: 'Project',        nav: 'module/project',       nodetype: 'Module' },
                 PurchaseOrder: { id: '9a0xOMvBM7Uh9', caption: 'Purchase Order', nav: 'module/purchaseorder', nodetype: 'Module' },
                 Quote:         { id: 'jFkSBEur1dluU', caption: 'Quote',          nav: 'module/quote',         nodetype: 'Module' },
-                Vendor:        { id: 'cwytGLEcUzJdn', caption: 'Vendor',         nav: 'module/vendor',        nodetype: 'Module' }
+                Vendor:        { id: 'cwytGLEcUzJdn', caption: 'Vendor',         nav: 'module/vendor',        nodetype: 'Module' },
             }
         },
         Billing: {
@@ -67,7 +67,7 @@ var Constants = {
                 ContainerStatus:        { id: 'AQCjfAUtfHy5',  caption: 'Container Status',         nav: 'module/containerstatus',     nodetype: 'Module' },
                 FillContainer:          { id: '4D6pES9WoHVJ',  caption: 'Fill Container',           nav: 'module/fillcontainer',       nodetype: 'Module' },
                 EmptyContainer:         { id: 'tfzkGtEIPTFr',  caption: 'Empty Container',          nav: 'module/emptycontainer',      nodetype: 'Module' },
-                RemoveFromContainer:    { id: 'J9BTE3hOYuEd',  caption: 'Remove From Container',    nav: 'module/removefromcontainer', nodetype: 'Module' }
+                RemoveFromContainer:    { id: 'J9BTE3hOYuEd',  caption: 'Remove From Container',    nav: 'module/removefromcontainer', nodetype: 'Module' },
             }
         },
         Exports: {
@@ -77,7 +77,7 @@ var Constants = {
             children: {
                 InvoiceBatchExport:         { id: 'GI2FxKtrjja1', caption: 'Invoice Batch Export',        nodetype: 'Module' },
                 ReceiptBatchExport:         { id: 'di8ahTdcwt0H', caption: 'Receipt Batch Export',        nodetype: 'Module' },
-                VendorInvoiceBatchExport:   { id: 'kEKk799BSXVF', caption: 'Vendor Invoice Batch Export', nodetype: 'Module' }
+                VendorInvoiceBatchExport:   { id: 'kEKk799BSXVF', caption: 'Vendor Invoice Batch Export', nodetype: 'Module' },
             }
         },
         Home: {
@@ -116,7 +116,7 @@ var Constants = {
                 RentalInventory:          { id: '3ICuf6pSeBh6G', caption: 'Rental Inventory',       nav: 'module/rentalinventory',       nodetype: 'Module' },
                 Repair:                   { id: 't4gfyzLkSZhyc', caption: 'Repair Order',           nav: 'module/repair',                nodetype: 'Module' },
                 RetiredHistory:           { id: 'I9OA43GGHPNFf', caption: 'Retired History',        nav: 'module/retired',               nodetype: 'Module' },
-                SalesInventory:           { id: 'ShjGAzM2Pq3kk', caption: 'Sales Inventory',        nav: 'module/salesinventory',        nodetype: 'Module' }
+                SalesInventory:           { id: 'ShjGAzM2Pq3kk', caption: 'Sales Inventory',        nav: 'module/salesinventory',        nodetype: 'Module' },
             }
         },
         Reports: {
@@ -131,7 +131,7 @@ var Constants = {
                     children: {
                         ArAgingReport:        { id: 'KHw5yX5TubQ',  caption: 'A/R Aging',        nav: 'reports/aragingreport',        nodetype: 'Module', description: 'List unpaid Invoices, and their corresponding aging totals.  Report is subtotalled by Deal and Customer.' },
                         DailyReceiptsReport:  { id: 'OLyFIS7rBvr8', caption: 'Daily Receipts',   nav: 'reports/dailyreceiptsreport',  nodetype: 'Module', description: 'List Daily Receipts.  Report is subtotalled by Deal and Customer.' },
-                        GlDistributionReport: { id: 'ClMQ5QkZq4PY', caption: 'G/L Distribution', nav: 'reports/gldistributionreport', nodetype: 'Module', description: 'Summarize transaction totals by Account over a date range.' }
+                        GlDistributionReport: { id: 'ClMQ5QkZq4PY', caption: 'G/L Distribution', nav: 'reports/gldistributionreport', nodetype: 'Module', description: 'Summarize transaction totals by Account over a date range.' },
                     }
                 },
                 BillingReports: {
@@ -152,7 +152,7 @@ var Constants = {
                         SalesQuoteBillingReport:          { id: 'L8WwjlirkzC55', caption: 'Sales Quote Billing Analysis', nav: 'reports/salesquotebillingreport',          nodetype: 'Module', description: 'List Profitability of Sales Quotes.' },
                         SalesRepresentativeBillingReport: { id: 'SgF8AMJVjKARN', caption: 'Sales Representative Billing', nav: 'reports/salesrepresentativebillingreport', nodetype: 'Module', description: 'Shows Invoice Activity Totals, subtotalled by Sales Representative.' },
                         SalesTaxCanadaReport:             { id: 'UX8GjEXNteJz',  caption: 'Sales Tax - Canada',           nav: 'reports/salestaxcanadareport',             nodetype: 'Module', description: 'List all Invoices for a specific date range, grouped and totaled by Tax Option' },
-                        SalesTaxUSAReport:                { id: 'TaaSgS14rWsCL', caption: 'Sales Tax - USA',              nav: 'reports/salestaxusareport',                nodetype: 'Module', description: 'List all Invoices for a specific date range, grouped and totaled by Tax Option' }
+                        SalesTaxUSAReport:                { id: 'TaaSgS14rWsCL', caption: 'Sales Tax - USA',              nav: 'reports/salestaxusareport',                nodetype: 'Module', description: 'List all Invoices for a specific date range, grouped and totaled by Tax Option' },
                     }
                 },
                 ChangeAuditReports: {
@@ -160,7 +160,7 @@ var Constants = {
                     caption: 'Change Audit Reports',
                     nodetype: 'Category',
                     children: {
-                        ChangeAuditReport: { id: 'hfM1GHEQCWBJ', caption: 'Change Audit', nav: 'reports/changeauditreport', nodetype: 'Module', description: 'List all data changes made to any module by any user over a specific date range.' }
+                        ChangeAuditReport: { id: 'hfM1GHEQCWBJ', caption: 'Change Audit', nav: 'reports/changeauditreport', nodetype: 'Module', description: 'List all data changes made to any module by any user over a specific date range.' },
                     }
                 },
                 ChargeProcessingReports: {
@@ -170,7 +170,7 @@ var Constants = {
                     children: {
                         DealInvoiceBatchReport:   { id: 't3byQWNa3hZ4H', caption: 'Deal Invoice Batch',   nav: 'reports/dealinvoicebatchreport',   nodetype: 'Module', description: 'List all Invoices processed in a selected Batch.' },
                         ReceiptBatchReport:       { id: 'jB7p9OvmCibhx', caption: 'Receipt Batch',        nav: 'reports/receiptbatchreport',       nodetype: 'Module', description: 'List all Receipts processed in a selected Batch.' },
-                        VendorInvoiceBatchReport: { id: '6gc3QbSGD5BX',  caption: 'Vendor Invoice Batch', nav: 'reports/vendorinvoicebatchreport', nodetype: 'Module', description: 'List all Vendor Invoices processed in a selected Batch.' }
+                        VendorInvoiceBatchReport: { id: '6gc3QbSGD5BX',  caption: 'Vendor Invoice Batch', nav: 'reports/vendorinvoicebatchreport', nodetype: 'Module', description: 'List all Vendor Invoices processed in a selected Batch.' },
                     }
                 },
                 ContractReports: {
@@ -187,7 +187,7 @@ var Constants = {
                         ReturnContractReport:   { id: 'gkK2yG12BU8kk', caption: 'Return Contract',            nav: 'reports/returncontractreport',    nodetype: 'Module', description: 'Return Contract document.' },
                         ReturnListReport:       { id: 'cYzbGgLOUMRz',  caption: 'Return List',                nav: 'reports/returnlistreport',        nodetype: 'Module', description: 'Return List document.' },
                         TransferManifestReport: { id: 'wf68uZe0JPXDt', caption: 'Transfer Manifest ',         nav: 'reports/transfermanifesttreport', nodetype: 'Module', description: 'Transfer Manifest document.' },
-                        TransferReceiptReport:  { id: 'F6XtBsrOH4cjm', caption: 'Transfer Receipt',           nav: 'reports/transferreceiptreport',   nodetype: 'Module', description: 'Transfer Receipt document.' }
+                        TransferReceiptReport:  { id: 'F6XtBsrOH4cjm', caption: 'Transfer Receipt',           nav: 'reports/transferreceiptreport',   nodetype: 'Module', description: 'Transfer Receipt document.' },
                     }
                 },
                 CrewReports: {
@@ -195,7 +195,7 @@ var Constants = {
                     caption: 'Crew Reports',
                     nodetype: 'Category',
                     children: {
-                        CrewSignInReport: { id: 'kvDH1delOiUT', caption: 'Crew Sign-In', nav: 'reports/crewsigninreport', nodetype: 'Module', description: 'Lists the Sign In and Out activity for Crew members over a specific date range.' }
+                        CrewSignInReport: { id: 'kvDH1delOiUT', caption: 'Crew Sign-In', nav: 'reports/crewsigninreport', nodetype: 'Module', description: 'Lists the Sign In and Out activity for Crew members over a specific date range.' },
                     }
                 },
                 DealReports: {
@@ -209,7 +209,7 @@ var Constants = {
                         DealInvoiceDetailReport:      { id: 'u5mTLIfmUKWfH', caption: 'Deal Invoice Detail',       nav: 'reports/dealinvoicedetailreport',      nodetype: 'Module', description: 'List each Invoice for a specific date range, grouped by Deal and Order.  Review revenue broken down by Activity Type (ie. Rental, Sales, etc).  Analyze profits net of Sub Vendor Costs.' },
                         DealOutstandingItemsReport:   { id: 'i5RTw0gXIWhU',  caption: 'Deal Outstanding Items',    nav: 'reports/dealoutstandingitemsreport',   nodetype: 'Module', description: 'List all items still Checked-Out to a specific Deal.' },
                         OrdersByDealReport:           { id: 'ltXuVM54H5dYe', caption: 'Orders By Deal',            nav: 'reports/ordersbydealreport',           nodetype: 'Module', description: 'List all Orders for specific date ranges, grouped by Deal.' },
-                        ReturnReceiptReport:          { id: 'N9wTkNBeCgJQz', caption: 'Return Receipt',            nav: 'reports/returnreceiptreport',          nodetype: 'Module', description: 'List all inventory checked-in without an Order (ie. Return Receipt) including all reconciliations.' }
+                        ReturnReceiptReport:          { id: 'N9wTkNBeCgJQz', caption: 'Return Receipt',            nav: 'reports/returnreceiptreport',          nodetype: 'Module', description: 'List all inventory checked-in without an Order (ie. Return Receipt) including all reconciliations.' },
                     }
                 },
                 MultiLocationReports: {
@@ -217,7 +217,7 @@ var Constants = {
                     caption: 'Multi Location Reports',
                     nodetype: 'Category',
                     children: {
-                        TransferReport: { id: 'XerdM2ZaD51uw', caption: 'Transfer Report', nav: 'reports/transferreport', nodetype: 'Module', description: 'List all Transfer Orders as well as transferred Inventory over a specific date range.' }
+                        TransferReport: { id: 'XerdM2ZaD51uw', caption: 'Transfer Report', nav: 'reports/transferreport', nodetype: 'Module', description: 'List all Transfer Orders as well as transferred Inventory over a specific date range.' },
                     }
                 },
                 OrderReports: {
@@ -225,18 +225,20 @@ var Constants = {
                     caption: 'Order Reports',
                     nodetype: 'Category',
                     children: {
+                        IncomingShippingLabel:      { id: 'U2RQ1fjYwkIZ6', caption: 'Incoming Shipping Label',     nav: 'reports/incomingshippinglabel',      nodetype: 'Module', description: 'Print Incoming Shipping Label' },
                         LateReturnsReport:          { id: 'gOtEnqxlXIOt',  caption: 'Late Return / Due Back',      nav: 'reports/latereturnsreport',          nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
+                        ManifestReport:             { id: '8lSfSBPXlYh5',  caption: 'Order Item Value Sheet',      nav: 'reports/manifestreport',             nodetype: 'Module', description: 'Gets item manifest information' },
                         OrderConflictReport:        { id: 'kXV9ZCJogLiwe', caption: 'Availability Item Conflict',  nav: 'reports/orderconflictreport',        nodetype: 'Module', description: 'List all Negative and Positive Availability Conflicts over a specified date range.' },
                         OrderReport:                { id: 'Q89Ni6FvVL92',  caption: 'Print Order',                 nav: 'reports/orderreport',                nodetype: 'Module', description: 'Order document.' },
+                        OrderStatusDetailReport:    { id: 'EY9uBXnssjv1',  caption: 'Order Status Detail',         nav: 'reports/orderstatusdetailreport',    nodetype: 'Module', description: 'Gets status detail for specified order.' },
+                        OrderStatusSummaryReport:   { id: '44jjIwel6TP0d', caption: 'Order Status Summary',        nav: 'reports/orderstatussummaryreport',   nodetype: 'Module', description: 'Gets status summary for specified order.' },
+                        OutgoingShippingLabel:      { id: 'tzTGi6kzrelFp', caption: 'Outgoing Shipping Label',     nav: 'reports/outgoingshippinglabel',      nodetype: 'Module', description: 'Print Outgoing Shipping Label' },
                         OutstandingSubRentalReport: { id: 'NCFNATdQRx5E',  caption: 'Outstanding Sub-Rental',      nav: 'reports/outstandingsubrentalreport', nodetype: 'Module', description: 'List all Sub-Rental items currently Staged, Out, or in Holding.' },
                         PickListReport:             { id: 'Rk38wHmvgXTg',  caption: 'Pick List',                   nav: 'reports/picklistreport',             nodetype: 'Module', description: 'Pick List document.' },
                         QuikActivityReport:         { id: '4hamhMOWKXD9',  caption: 'QuikActivity',                nav: 'reports/quikactivityreport',         nodetype: 'Module', description: 'List all Quote, Order, Transfer, Purchase, and Repair activities over a specific date range.' },
                         QuoteReport:                { id: 'SZ80uvR5NjI7',  caption: 'Print Quote',                 nav: 'reports/quotereport',                nodetype: 'Module', description: 'Quote document.' },
                         QuoteOrderMasterReport:     { id: 'yx1quQL9wJ9mg', caption: 'Quote / Order Master Report', nav: 'reports/quoteordermasterreport',     nodetype: 'Module', description: 'List all Quotes and Orders, filtered by date range, and grouped by Deal.' },
                         SubSalesStagedItemsReport:  { id: '2GIJvJlbIFQN',  caption: 'Sub-Sales Staged Items',      nav: 'reports/subsalesstageditemsreport',  nodetype: 'Module', description: 'List all Sub Sale Inventory currently Staged on Orders.' },
-                        OrderStatusSummaryReport:   { id: '44jjIwel6TP0d', caption: 'Order Status Summary',        nav: 'reports/orderstatussummaryreport',   nodetype: 'Module', description: 'Gets status summary for specified order.' },
-                        OrderStatusDetailReport:    { id: 'EY9uBXnssjv1',  caption: 'Order Status Detail',         nav: 'reports/orderstatusdetailreport',    nodetype: 'Module', description: 'Gets status detail for specified order.' },
-                        ManifestReport:             { id: '8lSfSBPXlYh5',  caption: 'Order Item Value Sheet',      nav: 'reports/manifestreport',             nodetype: 'Module', description: 'Gets item manifest information' }
                     }
                 },
                 PartsInventoryReports: {
@@ -248,7 +250,7 @@ var Constants = {
                         PartsInventoryCatalogReport:         { id: '5KHdCAEfEbEVo', caption: 'Parts Inventory Catalog',          nav: 'reports/partsinventorycatalogreport',         nodetype: 'Module', description: 'List all Parts Inventory, current Rates, and Quantity on Hand.' },
                         PartsInventoryPurchaseHistoryReport: { id: 's3JHeEZYfEu',   caption: 'Parts Inventory Purchase History', nav: 'reports/partsinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Parts Inventory Purchase History.' },
                         PartsInventoryReorderReport:         { id: '2KtGO1TfYVe',   caption: 'Parts Inventory Reorder',          nav: 'reports/partsinventoryreorderreport',         nodetype: 'Module', description: 'List all Parts Inventory to reorder. Filter items with quantity levels at or below their Reorder Point.' },
-                        PartsInventoryTransactionReport:     { id: 'p4MdfH1e38wLE', caption: 'Parts Inventory Transactions',     nav: 'reports/partsinventorytransactionreport',     nodetype: 'Module', description: 'List all Parts Inventory Transactions, including Cost and Price, over a specific date range.' }
+                        PartsInventoryTransactionReport:     { id: 'p4MdfH1e38wLE', caption: 'Parts Inventory Transactions',     nav: 'reports/partsinventorytransactionreport',     nodetype: 'Module', description: 'List all Parts Inventory Transactions, including Cost and Price, over a specific date range.' },
                     }
                 },
                 RentalInventoryReports: {
@@ -300,7 +302,7 @@ var Constants = {
                         SalesInventoryMasterReport:          { id: 'iZlMgIbbp6iK2', caption: 'Sales Inventory Master',           nav: 'reports/salesinventorymasterreport',          nodetype: 'Module', description: 'List all Sales Inventory with their Quantities, Costs, and Revenue Totals.' },
                         SalesInventoryPurchaseHistoryReport: { id: 'mSjHvRjNvI0',   caption: 'Sales Inventory Purchase History', nav: 'reports/salesinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Sales Inventory Purchase History.' },
                         SalesInventoryReorderReport:         { id: 'h1ag1lcZCgd',   caption: 'Sales Inventory Reorder',          nav: 'reports/salesinventoryreorderreport',         nodetype: 'Module', description: 'List all Sales Inventory to reorder. Filter items with quantity levels at or below their Reorder Point.' },
-                        SalesInventoryTransactionReport:     { id: 'uUxuUabbhO7ah', caption: 'Sales Inventory Transactions',     nav: 'reports/salesinventorytransactionreport',     nodetype: 'Module', description: 'List all Sales Inventory Transactions, including Cost and Price, over a specific date range.' }
+                        SalesInventoryTransactionReport:     { id: 'uUxuUabbhO7ah', caption: 'Sales Inventory Transactions',     nav: 'reports/salesinventorytransactionreport',     nodetype: 'Module', description: 'List all Sales Inventory Transactions, including Cost and Price, over a specific date range.' },
                     }
                 },
                 VendorReports: {
@@ -313,7 +315,7 @@ var Constants = {
                         PurchaseOrderReport:            { id: 'ZcNjp0seMeWi',  caption: 'Purchase Order',              nav: 'reports/purchaseorderreport',            nodetype: 'Module', description: 'Purchase Order Document.' },
                         SubItemStatusReport:            { id: 'fL9dlJfzzJf8U', caption: 'Sub Item Status',             nav: 'reports/subitemstatusreport',            nodetype: 'Module', description: 'List all Sub-Rentals, Sub-Sales, Sub-Misc, and Sub-Labor over a specified date range. Evaluate profitability of each.' },
                         SubRentalBillingAnalysisReport: { id: 'KIE1O1i2tvtsu', caption: 'Sub-Rental Billing Analysis', nav: 'reports/subrentalbillinganalysisreport', nodetype: 'Module', description: 'List all Sub-Rental Billing activity and compare Deal billing amounts with Vendor billing amounts.' },
-                        VendorInvoiceSummaryReport:     { id: 'J2Lczm4sL14Ze', caption: 'Vendor Invoice Summary',      nav: 'reports/vendorinvoicesummaryreport',     nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Purchase Order and Deal.' }
+                        VendorInvoiceSummaryReport:     { id: 'J2Lczm4sL14Ze', caption: 'Vendor Invoice Summary',      nav: 'reports/vendorinvoicesummaryreport',     nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Purchase Order and Deal.' },
                     }
                 },
                 WarehouseReports: {
@@ -341,7 +343,7 @@ var Constants = {
                     children: {
                         AccountingSettings: { id: 'Xxp77cNVPq29d', caption: 'Accounting Settings', nav: 'settings/accountingsettings/accountingsettings', nodetype: 'Module', description: '' },
                         GlAccount:          { id: '1bUgvfRlo7v4',  caption: 'Chart Of Accounts',   nav: 'settings/accountingsettings/chartofaccounts',    nodetype: 'Module', description: 'Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.' },
-                        GlDistribution:     { id: '71QUDQyIbibs',  caption: 'G/L Distribution',    nav: 'settings/accountingsettings/gldistribution',     nodetype: 'Module', description: 'Accounts to use for Accounts Receivable, Receipts, Payables, etc.' }
+                        GlDistribution:     { id: '71QUDQyIbibs',  caption: 'G/L Distribution',    nav: 'settings/accountingsettings/gldistribution',     nodetype: 'Module', description: 'Accounts to use for Accounts Receivable, Receipts, Payables, etc.' },
                     }
                 },
                 AddressSettings: {
@@ -350,7 +352,7 @@ var Constants = {
                     nodetype: 'Category',
                     children: {
                         Country: { id: 'FV8c2ibthqUF',  caption: 'Country',          nav: 'settings/addresssettings/country', nodetype: 'Module', description: 'List Countries to relate to your Customers, Deals, and Vendors' },
-                        State:   { id: 'JW3yCGldGTAqC', caption: 'State / Province', nav: 'settings/addresssettings/state',   nodetype: 'Module', description: 'List States to relate to your Customers, Deals, and Vendors' }
+                        State:   { id: 'JW3yCGldGTAqC', caption: 'State / Province', nav: 'settings/addresssettings/state',   nodetype: 'Module', description: 'List States to relate to your Customers, Deals, and Vendors' },
                     }
                 },
                 BillingCycleSettings: {
@@ -358,7 +360,7 @@ var Constants = {
                     id: 'Settings.BillingCycleSettings',
                     nodetype: 'Category',
                     children: {
-                        BillingCycle: { id: 'FQfXEIcN9q3', caption: 'Billing Cycle', nav: 'settings/billingcyclesettings/billingcycle', nodetype: 'Module', description: 'Define and configure Billing Cycles for your Quotes and Orders' }
+                        BillingCycle: { id: 'FQfXEIcN9q3', caption: 'Billing Cycle', nav: 'settings/billingcyclesettings/billingcycle', nodetype: 'Module', description: 'Define and configure Billing Cycles for your Quotes and Orders' },
                     }
                 },
                 CalendarSettings: {
@@ -367,7 +369,7 @@ var Constants = {
                     nodetype: 'Category',
                     children: {
                         Holiday:        { id: 'nZBYaMILxWSm', caption: 'Holiday',         nav: 'settings/calendarsettings/holiday',        nodetype: 'Module', description: '' },
-                        BlackoutStatus: { id: '1B2gGaIJglY',  caption: 'Blackout Status', nav: 'settings/calendarsettings/blackoutstatus', nodetype: 'Module', description: '' }
+                        BlackoutStatus: { id: '1B2gGaIJglY',  caption: 'Blackout Status', nav: 'settings/calendarsettings/blackoutstatus', nodetype: 'Module', description: '' },
                     }
                 },
                 ContactSettings: {
@@ -377,7 +379,7 @@ var Constants = {
                     children: {
                         ContactEvent: { id: 'KdvGpc1dQINo', caption: 'Contact Event', nav: 'settings/contactsettings/contactevent', nodetype: 'Module', description: '' },
                         ContactTitle: { id: 'PClZ3w0VUnPt', caption: 'Contact Title', nav: 'settings/contactsettings/contacttitle', nodetype: 'Module', description: '' },
-                        MailList:     { id: 'vUT6JZ1Owu5n', caption: 'Mail List',     nav: 'settings/contactsettings/maillist',     nodetype: 'Module', description: '' }
+                        MailList:     { id: 'vUT6JZ1Owu5n', caption: 'Mail List',     nav: 'settings/contactsettings/maillist',     nodetype: 'Module', description: '' },
                     }
                 },
                 CurrencySettings: {
@@ -396,7 +398,7 @@ var Constants = {
                         CreditStatus:     { id: 'A4P8o1quoutj', caption: 'Credit Status',     nav: 'settings/currencysettings/creditstatus',     nodetype: 'Module', description: '' },
                         CustomerCategory: { id: 'HC4q49WUI1NW', caption: 'Customer Category', nav: 'settings/currencysettings/customercategory', nodetype: 'Module', description: '' },
                         CustomerStatus:   { id: 'ZbZ8bywECnnE', caption: 'Customer Status',   nav: 'settings/currencysettings/customerstatus',   nodetype: 'Module', description: '' },
-                        CustomerType:     { id: 'gk8NipmJErWZ', caption: 'Customer Type',     nav: 'settings/currencysettings/customertype',     nodetype: 'Module', description: '' }
+                        CustomerType:     { id: 'gk8NipmJErWZ', caption: 'Customer Type',     nav: 'settings/currencysettings/customertype',     nodetype: 'Module', description: '' },
                     }
                 },
                 DealSettings: {
@@ -408,7 +410,7 @@ var Constants = {
                         DealStatus:         { id: 'CHOTGdFVlnFK',  caption: 'Deal Status',         nav: 'settings/currencysettings/dealstatus',         nodetype: 'Module', description: '' },
                         DealType:           { id: 'jZCS1X5BzeyS',  caption: 'DealType',            nav: 'settings/currencysettings/dealtype',           nodetype: 'Module', description: '' },
                         ProductionType:     { id: '3UvqzQ0Svxay6', caption: 'Production Type',     nav: 'settings/currencysettings/productiontype',     nodetype: 'Module', description: '' },
-                        ScheduleType:       { id: 'rUWFdPEkKkDAM', caption: 'Schedule Type',       nav: 'settings/currencysettings/scheduletype',       nodetype: 'Module', description: '' }
+                        ScheduleType:       { id: 'rUWFdPEkKkDAM', caption: 'Schedule Type',       nav: 'settings/currencysettings/scheduletype',       nodetype: 'Module', description: '' },
                     }
                 },
                 DepartmentSettings: {
@@ -416,7 +418,7 @@ var Constants = {
                     id: 'Settings.CompanyDepartmentSettings',
                     nodetype: 'Category',
                     children: {
-                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' }
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' },
                     }
                 },
                 DiscountTemplateSettings: {
@@ -424,7 +426,7 @@ var Constants = {
                     id: 'Settings.DiscountTemplateSettings',
                     nodetype: 'Category',
                     children: {
-                        DiscountTemplate: { id: '1uoU0MeI7hIu', caption: 'Discount Template', nav: 'settings/discounttemplatesettings/discounttemplate', nodetype: 'Module', description: '' }
+                        DiscountTemplate: { id: '1uoU0MeI7hIu', caption: 'Discount Template', nav: 'settings/discounttemplatesettings/discounttemplate', nodetype: 'Module', description: '' },
                     }
                 },
                 DocumentSettings: {
@@ -434,7 +436,7 @@ var Constants = {
                     children: {
                         DocumentType:    { id: 'qus92U5z7R9Z',  caption: 'Document Type',      nav: 'settings/documentsettings/documenttype',       nodetype: 'Module', description: '' },
                         CoverLetter:     { id: 'ejyCz527IQCS',  caption: 'Cover Letter',       nav: 'settings/documentsettings/coverletter',        nodetype: 'Module', description: '' },
-                        TermsConditions: { id: 'lYqC40ZjalGUy', caption: 'Terms & Conditions', nav: 'settings/documentsettings/termsandconditions', nodetype: 'Module', description: '' }
+                        TermsConditions: { id: 'lYqC40ZjalGUy', caption: 'Terms & Conditions', nav: 'settings/documentsettings/termsandconditions', nodetype: 'Module', description: '' },
                     }
                 },
                 EventSettings: {
@@ -445,7 +447,7 @@ var Constants = {
                         EventCategory:   { id: '0Zcc827UeucP', caption: 'Event Category',   nav: 'settings/eventsettings/eventcategory',   nodetype: 'Module', description: '' },
                         EventType:       { id: 'HXotrQfoaQCq', caption: 'Event Type',       nav: 'settings/eventsettings/eventtype',       nodetype: 'Module', description: '' },
                         PersonnelType:   { id: 'Dd4V9E1c9Kz8', caption: 'Personnel Type',   nav: 'settings/eventsettings/personneltype',   nodetype: 'Module', description: '' },
-                        PhotographyType: { id: 'bFH6YcKYCqye', caption: 'Photography Type', nav: 'settings/eventsettings/photographytype', nodetype: 'Module', description: '' }
+                        PhotographyType: { id: 'bFH6YcKYCqye', caption: 'Photography Type', nav: 'settings/eventsettings/photographytype', nodetype: 'Module', description: '' },
                     }
                 },
                 ExportSettings: {
@@ -476,7 +478,7 @@ var Constants = {
                     id: 'Settings.FiscalYearSettings',
                     nodetype: 'Category',
                     children: {
-                        FiscalYear: { id: 'n8p9E78kGRM6', caption: 'Fiscal Year', nav: 'settings/fiscalyearsettings/fiscalyear', nodetype: 'Module', description: '' }
+                        FiscalYear: { id: 'n8p9E78kGRM6', caption: 'Fiscal Year', nav: 'settings/fiscalyearsettings/fiscalyear', nodetype: 'Module', description: '' },
                     }
                 },
                 GeneratorSettings: {
@@ -488,7 +490,7 @@ var Constants = {
                         GeneratorMake:     { id: 'fHix04T2Hsc6', caption: 'Generator Make',      nav: 'settings/generatorsettings/make',     nodetype: 'Module', description: '' },
                         GeneratorRating:   { id: 'B0hMFj9s7XGT', caption: 'Generator Rating',    nav: 'settings/generatorsettings/rating',   nodetype: 'Module', description: '' },
                         GeneratorWatts:    { id: 'D2Z3jlFgx8Es', caption: 'Generator Watts',     nav: 'settings/generatorsettings/watts',    nodetype: 'Module', description: '' },
-                        GeneratorType:     { id: 'mUQp7GqmQlaR', caption: 'Generator Type',      nav: 'settings/generatorsettings/type',     nodetype: 'Module', description: '' }
+                        GeneratorType:     { id: 'mUQp7GqmQlaR', caption: 'Generator Type',      nav: 'settings/generatorsettings/type',     nodetype: 'Module', description: '' },
                     }
                 },
                 InventorySettings: {
@@ -510,7 +512,7 @@ var Constants = {
                         SalesCategory:             { id: 'XS6vdtV5jQTyF', caption: 'Sales Category',              nav: 'module/inventorysettings/salescategory',             nodetype: 'Module', description: '' },
                         Unit:                      { id: 'K87j9eupQwohK', caption: 'Unit of Measure',             nav: 'module/inventorysettings/unit',                      nodetype: 'Module', description: '' },
                         UnretiredReason:           { id: '0SWJ0HNGoioxe', caption: 'Unretired Reason',            nav: 'module/inventorysettings/unretiredreason',           nodetype: 'Module', description: '' },
-                        WarehouseCatalog:          { id: 'wMXhVrm9w33xO', caption: 'Warehouse Catalog',           nav: 'module/inventorysettings/warehousecatalog',          nodetype: 'Module', description: '' }
+                        WarehouseCatalog:          { id: 'wMXhVrm9w33xO', caption: 'Warehouse Catalog',           nav: 'module/inventorysettings/warehousecatalog',          nodetype: 'Module', description: '' },
                     }
                 },
                 LaborSettings: {
@@ -524,7 +526,7 @@ var Constants = {
                         LaborCategory:      { id: 'nJIiZsDNxc83', caption: 'Labor Category',       nav: 'settings/laborsettings/laborcategory',      nodetype: 'Module', description: '' },
                         LaborPosition:      { id: 'ZKb7ET3WoPs2', caption: 'Crew Position',        nav: 'settings/laborsettings/laborposition',      nodetype: 'Module', description: '' },
                         LaborRate:          { id: 'GRs9mNWBxRw4', caption: 'Labor Rate',           nav: 'settings/laborsettings/laborrate',          nodetype: 'Module', description: '' },
-                        LaborType:          { id: 'FGjikpXt4iRf', caption: 'Labor Type',           nav: 'settings/laborsettings/labortype',          nodetype: 'Module', description: '' }
+                        LaborType:          { id: 'FGjikpXt4iRf', caption: 'Labor Type',           nav: 'settings/laborsettings/labortype',          nodetype: 'Module', description: '' },
                     }
                 },
                 MiscSettings: {
@@ -534,7 +536,7 @@ var Constants = {
                     children: {
                         MiscCategory:   { id: 'BRtP4O9fieRK', caption: 'Miscellaneous Category', nav: 'settings/miscsettings/misccategory', nodetype: 'Module', description: '' },
                         MiscRate:       { id: 'tINVceJ8JoN7', caption: 'Miscellaneous Rate',     nav: 'settings/miscsettings/miscrate',     nodetype: 'Module', description: '' },
-                        MiscType:       { id: 'FjAFN8CLolYu', caption: 'Miscellaneous Type',     nav: 'settings/miscsettings/misctype',     nodetype: 'Module', description: '' }
+                        MiscType:       { id: 'FjAFN8CLolYu', caption: 'Miscellaneous Type',     nav: 'settings/miscsettings/misctype',     nodetype: 'Module', description: '' },
                     }
                 },
                 OfficeLocationSettings: {
@@ -542,7 +544,7 @@ var Constants = {
                     id: 'Settings.OfficeLocationSettings',
                     nodetype: 'Category',
                     children: {
-                        OfficeLocation: { id: 'yZhqRrXdTEvN', caption: 'Office Location', nav: 'settings/officeloactionsettings/officelocation', nodetype: 'Module', description: '' }
+                        OfficeLocation: { id: 'yZhqRrXdTEvN', caption: 'Office Location', nav: 'settings/officeloactionsettings/officelocation', nodetype: 'Module', description: '' },
                     }
                 },
                 OrderSettings: {
@@ -556,7 +558,7 @@ var Constants = {
                         MarketSegment:  { id: 'NPu4Lci1ndrl',  caption: 'Market Segment',  nav: 'settings/ordersettings/marketsegment',  nodetype: 'Module', description: '' },
                         MarketType:     { id: 'sEgqHq5tov4n',  caption: 'Market Type',     nav: 'settings/ordersettings/markettype',     nodetype: 'Module', description: '' },
                         OrderSetNo:     { id: 'OoepsrkqPYRP',  caption: 'Order Set No.',   nav: 'settings/ordersettings/ordersetno',     nodetype: 'Module', description: '' },
-                        OrderLocation:  { id: 'ezKyPjJBJKjQ',  caption: 'Order Location',  nav: 'settings/laborsettings/laborrate',      nodetype: 'Module', description: '' }
+                        OrderLocation:  { id: 'ezKyPjJBJKjQ',  caption: 'Order Location',  nav: 'settings/laborsettings/laborrate',      nodetype: 'Module', description: '' },
                     }
                 },
                 PaymentSettings: {
@@ -565,7 +567,7 @@ var Constants = {
                     nodetype: 'Category',
                     children: {
                         PaymentTerms:   { id: 'p5RqSdENdPMa', caption: 'Payment Terms', nav: 'settings/paymentsettings/paymentterms', nodetype: 'Module', description: '' },
-                        PaymentType:    { id: 'd8RdKxFfho4z', caption: 'Payment Type',  nav: 'settings/paymentsettings/paymenttype',  nodetype: 'Module', description: '' }
+                        PaymentType:    { id: 'd8RdKxFfho4z', caption: 'Payment Type',  nav: 'settings/paymentsettings/paymenttype',  nodetype: 'Module', description: '' },
                     }
                 },
                 POSettings: {
@@ -580,7 +582,7 @@ var Constants = {
                         POImportance:          { id: 'gLt2YTtB2afl',  caption: 'PO Importance',           nav: 'settings/posettings/poimportance',          nodetype: 'Module', description: '' },
                         PORejectReason:        { id: 'xwTGYRx4Gg21',  caption: 'PO Reject Reason',        nav: 'settings/posettings/porejectreason',        nodetype: 'Module', description: '' },
                         POType:                { id: 'Gyx3ZcMtuH1fi', caption: 'PO Type',                 nav: 'settings/posettings/potype',                nodetype: 'Module', description: '' },
-                        VendorInvoiceApprover: { id: '3Hhg9Bl5Rm1mT', caption: 'Vendor Invoice Approver', nav: 'settings/posettings/vendorinvoiceapprover', nodetype: 'Module', description: '' }
+                        VendorInvoiceApprover: { id: '3Hhg9Bl5Rm1mT', caption: 'Vendor Invoice Approver', nav: 'settings/posettings/vendorinvoiceapprover', nodetype: 'Module', description: '' },
                     }
                 },
                 PresentationSettings: {
@@ -589,7 +591,7 @@ var Constants = {
                     nodetype: 'Category',
                     children: {
                         FormDesign:        { id: 'er64NLGnsWN7',  caption: 'Form Design',        nav: 'settings/presentationsettings/formdesign',        nodetype: 'Module', description: '' },
-                        PresentationLayer: { id: '0v54dFE9Zhun8', caption: 'Presentation Layer', nav: 'settings/presentationsettings/presentationlayer', nodetype: 'Module', description: '' }
+                        PresentationLayer: { id: '0v54dFE9Zhun8', caption: 'Presentation Layer', nav: 'settings/presentationsettings/presentationlayer', nodetype: 'Module', description: '' },
                     }
                 },
                 ProjectSettings: {
@@ -602,7 +604,7 @@ var Constants = {
                         ProjectDeposit:       { id: 'z9uSXy8A4AdoO', caption: 'Project Deposit',         nav: 'settings/projectsettings/projectdeposit',       nodetype: 'Module', description: '' },
                         ProjectDrawings:      { id: 'e0Ylzlhkp2wY0', caption: 'Project Drawings',        nav: 'settings/projectsettings/projectdrawings',      nodetype: 'Module', description: '' },
                         ProjectDropShipItems: { id: 'XzUwxCWh64FDw', caption: 'Project Drop Ship Items', nav: 'settings/projectsettings/projectdropshipitems', nodetype: 'Module', description: '' },
-                        ProjectItemsOrdered:  { id: 'oB5CeVYRCU1EG', caption: 'Project Items Ordered',   nav: 'settings/projectsettings/projectitemsordered',  nodetype: 'Module', description: '' }
+                        ProjectItemsOrdered:  { id: 'oB5CeVYRCU1EG', caption: 'Project Items Ordered',   nav: 'settings/projectsettings/projectitemsordered',  nodetype: 'Module', description: '' },
                     }
                 },
                 PropsSettings: {
@@ -610,7 +612,7 @@ var Constants = {
                     id:      'Settings.PropsSettings',
                     nodetype: 'Category',
                     children: {
-                        PropsCondition: { id: 'E793OHd1PFRk4', caption: 'Props Condition', nav: 'settings/propssettings/propscondition', nodetype: 'Module', description: '' }
+                        PropsCondition: { id: 'E793OHd1PFRk4', caption: 'Props Condition', nav: 'settings/propssettings/propscondition', nodetype: 'Module', description: '' },
                     }
                 },
                 RegionSettings: {
@@ -618,7 +620,7 @@ var Constants = {
                     id:      'Settings.RegionSettings',
                     nodetype: 'Category',
                     children: {
-                        Region: { id: 'pqSlzQGRVmxiE', caption: 'Region', nav: 'settings/regionsettings/region', nodetype: 'Module', description: '' }
+                        Region: { id: 'pqSlzQGRVmxiE', caption: 'Region', nav: 'settings/regionsettings/region', nodetype: 'Module', description: '' },
                     }
                 },
                 RepairSettings: {
@@ -626,7 +628,7 @@ var Constants = {
                     id:      'Settings.RepairSettings',
                     nodetype: 'Category',
                     children: {
-                        RepairItemStatus: { id: 'iuo4dnWX5KCP8', caption: 'Repair Item Status', nav: 'settings/repairsettings/repairitemstatus', nodetype: 'Module', description: '' }
+                        RepairItemStatus: { id: 'iuo4dnWX5KCP8', caption: 'Repair Item Status', nav: 'settings/repairsettings/repairitemstatus', nodetype: 'Module', description: '' },
                     }
                 },
                 SetSettings: {
@@ -638,7 +640,7 @@ var Constants = {
                         SetOpening:      { id: 'gwzYE66lX9myO', caption: 'Set Opening',       nav: 'settings/setsettings/setopening',      nodetype: 'Module', description: '' },
                         SetSurface:      { id: 'Fg5VqZXTcgja2', caption: 'Set Surface',       nav: 'settings/setsettings/setsurface',      nodetype: 'Module', description: '' },
                         WallDescription: { id: '0uJgpWp1Mj9Jd', caption: 'Wall Descriptions', nav: 'settings/setsettings/walldescription', nodetype: 'Module', description: '' },
-                        WallType:        { id: 'V45pfjoiW04Ix', caption: 'Wall Type',         nav: 'settings/setsettings/walltype',        nodetype: 'Module', description: '' }
+                        WallType:        { id: 'V45pfjoiW04Ix', caption: 'Wall Type',         nav: 'settings/setsettings/walltype',        nodetype: 'Module', description: '' },
                     }
                 },
                 ShipViaSettings: {
@@ -646,7 +648,7 @@ var Constants = {
                     id: 'Settings.ShipViaSettings',
                     nodetype: 'Category',
                     children: {
-                        ShipVia: { id: 'D1wheIde10lAO', caption: 'Ship Via', nav: 'settings/shipviasettings/shipvia', nodetype: 'Module', description: '' }
+                        ShipVia: { id: 'D1wheIde10lAO', caption: 'Ship Via', nav: 'settings/shipviasettings/shipvia', nodetype: 'Module', description: '' },
                     }
                 },
                 SourceSettings: {

@@ -1,0 +1,18 @@
+﻿<!--IncomingShippingLabel-->
+{{#each this}}
+<div data-section="header" class="rpt-flexrow">
+  <div class="rpt-flexcolumn label-col">
+    {{#if ../Logosrc}}
+    <div class="logo-container"><img class="logo" src="{{../Logosrc}}" alt="logo" /></div>
+    {{/if}}
+    <div class="order-no">{{OrderNumber}}</div>
+    <div class="location">{{Location}}</div>
+    <div>Attn: <span>{{Attention}}</span></div>
+    <div>{{Address1}}</div>
+    {{#if Address2}}
+    <div>{{Address2}}</div>
+    {{/if}}
+    <div>{{CityStateZipCode}}</div>
+  </div>
+</div>
+{{/each}}

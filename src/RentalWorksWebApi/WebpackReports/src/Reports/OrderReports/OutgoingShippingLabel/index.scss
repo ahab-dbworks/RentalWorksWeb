@@ -1,0 +1,30 @@
+﻿div.label-col {
+    font-size: 4em;
+    align-items: center;
+}
+
+div.label-col div {
+    margin: 30px 0 0 0;
+}
+
+div.logo-container {
+    height: 400px;
+}
+
+img.logo {
+    height: 100%;
+}
+
+div.location {
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+div.order-no {
+    font-weight: 700;
+    font-size: 1.4em;
+}
+
+@page { // removes footer from pdf
+    margin: 0;
+}

@@ -2563,6 +2563,23 @@ class OrderBase {
             }
         });
 
+        //Print Incoming Shipping Label
+        $form.find('.prnt-label-in').on('click', e => {
+            try {
+                this.printShippingLabel($form, 'Incoming');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        //Print Outgoing Shipping Label
+        $form.find('.prnt-label-out').on('click', e => {
+            try {
+                this.printShippingLabel($form, 'Outgoing');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
         //profit & loss toggle buttons
         $form.find('.profit-loss-total input').off('change').on('change', e => {
             //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
@@ -2805,6 +2822,25 @@ class OrderBase {
             FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
             const $tab = FwTabs.getTabByElement($report);
             $tab.find('.caption').html(`Print ${module}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    printShippingLabel($form: any, tag: string) {
+        try {
+            const module = this.Module;
+            const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
+            const orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
+            const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
+
+            const $report = (tag === 'Incoming') ? IncomingShippingLabelController.openForm() : OutgoingShippingLabelController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
+            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print ${module} ${tag} Label `);
         } catch (ex) {
             FwFunc.showError(ex);
         }

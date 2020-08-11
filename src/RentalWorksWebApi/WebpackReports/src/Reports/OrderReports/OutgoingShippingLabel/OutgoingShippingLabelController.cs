@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
+using WebApi.Modules.Agent.Order;
+
 namespace WebApi.Modules.Reports.OutgoingShippingLabel
 {
     public class OutgoingShippingLabelRequest : AppReportRequest
@@ -85,6 +87,14 @@ namespace WebApi.Modules.Reports.OutgoingShippingLabel
             {
                 return GetApiExceptionResult(ex);
             }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/outgoingshippinglabel/validateorder/browse 
+        [HttpPost("validateorder/browse")]
+        [FwControllerMethod(Id: "L5V8ydaMST3Iv", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<OrderLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }
