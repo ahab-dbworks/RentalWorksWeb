@@ -135,19 +135,56 @@ class FwFormField_comboboxClass implements IFwFormField {
         });
 
         // overrides the databind method in FwBrowse
-        $validationbrowse.data('calldatabind', function (request) {
-            //if (typeof $control.attr('data-pagesize') === 'string') {
-            //    request.pagesize = parseInt($control.attr('data-pagesize'));
-            //}
-            FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
-                try {
-                    if (typeof window[$validationbrowse.attr('data-name') + 'Controller'].apiurl !== 'undefined') {
-                        FwFormField_combobox.databindcallback($control, $validationbrowse, response, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
-                    } else {
-                        FwFormField_combobox.databindcallback($control, $validationbrowse, response.browse, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+        $validationbrowse.data('calldatabind', async (request): Promise<any> => {
+            return new Promise<any>(async (resolve, reject) => {
+                //console.log(request);
+                //if (typeof $control.attr('data-pagesize') === 'string') {
+                //    request.pagesize = parseInt($control.attr('data-pagesize'));
+                //}
+                let validationmode = $control.data('validationmode');
+                if (validationmode !== undefined && validationmode === 2) {
+                    try {
+                        let getManyRequest = FwBrowse.getManyRequest($control);
+                        getManyRequest.pageno = (!isNaN(parseInt($control.attr('data-pageno')))) ? parseInt($control.attr('data-pageno')) : getManyRequest.pageno;
+                        getManyRequest.pagesize = (!isNaN(parseInt($control.attr('data-pagesize')))) ? parseInt($control.attr('data-pagesize')) : getManyRequest.pagesize;
+
+                        let url = Array<string>();
+                        url.push(`${applicationConfig.apiurl}${$control.attr('data-apiurl')}?`);
+                        url.push(`&pageno=${getManyRequest.pageno}`);
+                        url.push(`&pagesize=${getManyRequest.pagesize}`);
+                        if (getManyRequest.sort.length > 0) {
+                            url.push(`&sort=${getManyRequest.sort}`);
+                        }
+                        for (let filterno = 0; filterno < getManyRequest.filters.length; filterno++) {
+                            let filter = getManyRequest.filters[filterno];
+                            url.push(`&${filter.fieldName}=${filter.comparisonOperator}:${filter.fieldValue}`);
+                        }
+                        let request = new FwAjaxRequest();
+                        request.httpMethod = 'GET';
+                        request.url = encodeURI(url.join(''));
+                        request.timeout = 15000;
+                        request.$elementToBlock = $control.data('$control');
+                        request.addAuthorizationHeader = true;
+                        let getManyResponse = await FwAjax.callWebApi<any, GetManyModel<any>>(request);
+                        let dt = DataTable.objectListToDataTable(getManyResponse);
+                        FwFormField_combobox.databindcallback($control, $validationbrowse, dt, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                        resolve();
+                    } catch (ex) {
+                        reject(ex);
                     }
-                } catch (ex) {
-                    FwFunc.showError(ex);
+                }
+                else {
+                    FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
+                        try {
+                            if (typeof window[$validationbrowse.attr('data-name') + 'Controller'].apiurl !== 'undefined') {
+                                FwFormField_combobox.databindcallback($control, $validationbrowse, response, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                            } else {
+                                FwFormField_combobox.databindcallback($control, $validationbrowse, response.browse, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                            }
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
                 }
             });
         });
@@ -289,12 +326,14 @@ class FwFormField_comboboxClass implements IFwFormField {
             ;
     }
     //---------------------------------------------------------------------------------
-    databindcallback($control, $browse, dt, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller) {
+    databindcallback($control: JQuery, $browse: JQuery, dt: DataTable, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $validationbrowse: JQuery, controller: string) {
         var html = [], $dropdown, controlOffset, originalcolor;
         var pageSize = parseInt($validationbrowse.attr('data-pagesize'));
         var htmlPager = [];
         var rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
         var rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
+        let validationmode: number = 1;
+        validationmode = ($control.attr('data-validationmode') !== undefined && !isNaN(parseInt($control.attr('data-validationmode')))) ? parseInt($control.attr('data-validationmode')) : validationmode;
 
         // only focus the searchfield on desktop browsers so the user can use keydown handler on the field to arrow up and down through the dropdown
         if (typeof (<any>window).cordova === 'undefined') {
@@ -304,11 +343,22 @@ class FwFormField_comboboxClass implements IFwFormField {
         if (dt.Rows.length > 0) {
             var uniqueid, displayfield;
             for (var i = 0; i < dt.Columns.length; i++) {
-                if (dt.Columns[i].IsUniqueId) {
-                    uniqueid = dt.Columns[i].DataField;
-                    break;
+                if (validationmode === 2) {
+                    var $col = $validationbrowse.find(`[data-browsedatafield="${dt.Columns[i].DataField}"]`);
+                    if ($col.length > 0) {
+                        const isUniqueId = $col.attr('data-isuniqueid');
+                        if (isUniqueId !== undefined && isUniqueId.toLowerCase() === 'true') {
+                            uniqueid = dt.Columns[i].DataField;
+                            break;
+                        }
+                    }
+                } else { // validationmode === 1
+                    if (dt.Columns[i].IsUniqueId) {
+                        uniqueid = dt.Columns[i].DataField;
+                        break;
+                    }                
                 }
-            }
+            }       
             displayfield = $validationbrowse.find('table > thead > tr > td > .field[data-validationdisplayfield="true"]').eq(0).attr('data-browsedatafield');
             if (typeof uniqueid !== 'string') throw 'data-browsedatafield is not setup on the validation template.';
             if (typeof displayfield !== 'string') throw 'data-browsedatafield is not setup on the validation template.';

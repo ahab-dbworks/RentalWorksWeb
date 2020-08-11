@@ -194,8 +194,10 @@ class FwAjaxClass {
                 }
             }
         } else if (ismobile) {
-            if (options.$elementToBlock.data('ajaxloadingTimeout')) {
-                clearTimeout(options.$elementToBlock.data('ajaxloadingTimeout'));
+            if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
+                if (options.$elementToBlock.data('ajaxloadingTimeout')) {
+                    clearTimeout(options.$elementToBlock.data('ajaxloadingTimeout'));
+                }
             }
             jQuery('#index-loadingInner').stop().fadeOut(50, function () {
                 jQuery('#index-loading').css('z-index', 0).hide();

@@ -2059,8 +2059,10 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     getManyRequest($control: JQuery): GetManyRequest {
         let request = new GetManyRequest();
-        request.pageno = parseInt($control.attr('data-pageno'));
-        request.pagesize = parseInt($control.attr('data-pagesize'));
+        request.pageno = (!isNaN(parseInt($control.attr('data-pageno')))) ? parseInt($control.attr('data-pageno')) : request.pageno;
+        request.pageno = (request.pageno === 0) ? 1 : request.pageno;
+        request.pagesize = (!isNaN(parseInt($control.attr('data-pagesize')))) ? parseInt($control.attr('data-pagesize')) : request.pagesize;
+        request.pagesize = (request.pagesize === 0) ? 1000 : request.pagesize;
         //request.options = this.getOptions($control);
         let orderby: any = [];
         let module = '';
@@ -2163,7 +2165,7 @@ class FwBrowseClass {
                 if ($control.length > 0) {
                     let request = this.getRequest($control);
                     if (typeof $control.data('calldatabind') === 'function') {
-                        $control.data('calldatabind')(request, function (response) {
+                        await $control.data('calldatabind')(request, function (response) {
                             resolve();
                         });
                     } else {
@@ -4264,6 +4266,8 @@ class DataTable {
                 column.Name = key;
                 column.DataField = key;
                 dt.Columns.push(column);
+
+                colno++;
             }
         }
         for (let recno = 0; recno < getManyModel.Items.length; recno++) {
@@ -4310,8 +4314,8 @@ class BrowseRequest {
 }
 
 class GetManyRequest {
-    pageno: number = 0;
-    pagesize: number = 0;
+    pageno: number = 1;
+    pagesize: number = 1000;
     sort: string = '';
     //options: this.getOptions($control);
     filters: Array<GetManyFilter> = [];
