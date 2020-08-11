@@ -751,6 +751,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
         public string OrderedByPhoneAndExtension { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderedbytitle", modeltype: FwDataTypes.Text)]
+        public string OrderedByTitle { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
         public string ProjectManager { get; set; }
         //------------------------------------------------------------------------------------ 
