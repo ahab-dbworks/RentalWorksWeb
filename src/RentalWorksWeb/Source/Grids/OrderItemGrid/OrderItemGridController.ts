@@ -44,6 +44,12 @@ class OrderItemGrid {
         } else if ($grid.hasClass('RS')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'RS' });
             inventoryType = 'RentalSales';
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            if (controlDefaults) {
+                FwBrowse.setFieldValue($grid, $tr, 'RetiredReasonId', { value: controlDefaults.defaultrentalsaleretiredreasonid, text: controlDefaults.defaultrentalsaleretiredreason });
+            } else {
+                console.error(`controldefaults not found in SS`);
+            }
         } else if ($grid.hasClass('A')) {
             FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'A' });
             inventoryType = 'Combined';
