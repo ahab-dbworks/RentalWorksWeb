@@ -2412,7 +2412,7 @@ class FwBrowseClass {
             //Add column sum totals
             if (typeof dt.Totals === 'object') {
                 for (var key in dt.Totals) {
-                    const $field = $control.find(`.runtime .tablewrapper table thead [data-browsedatafield="${key}"]`);
+                    const $field = $control.find(`.runtime .tablewrapper table thead [data-browsedatafield="${key}"][data-sum="on"]`);
                     if ($field.length && dt.Totals[key] != null) {
                         $field.find('.sum').text(dt.Totals[key].toLocaleString());
                     }
