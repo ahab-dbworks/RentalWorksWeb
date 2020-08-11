@@ -27,7 +27,7 @@ namespace WebApi.Modules.Reports.RateUpdateReport
     public class RateUpdateReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public RateUpdateReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(RateUpdateReportLoader); }
+        public RateUpdateReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RateUpdateReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "RateUpdateReport"; }
         //------------------------------------------------------------------------------------ 
