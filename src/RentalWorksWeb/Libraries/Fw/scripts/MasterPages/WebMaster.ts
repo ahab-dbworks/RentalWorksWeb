@@ -38,6 +38,13 @@
 
                 this.events($appmaster);
             }
+
+            var $menu = $appmaster.data('menu');
+            if ($menu.find('.menu-lv1object.selected').length) {
+                this._positionModuleTray($appmaster, $menu.find('.menu-lv1object.selected'));
+            } else if ($menu.find('.menu-lv1object.hovered').length) {
+                this._positionModuleTray($appmaster, $menu.find('.menu-lv1object.hovered'));
+            }
         });
 
         return $appmaster;
@@ -368,12 +375,16 @@
                         } else if (!$appmenu.hasClass('active')) {
                             jQuery(e.currentTarget).siblings().removeClass('selected');
                             jQuery(e.currentTarget).addClass('selected');
+
+                            this._positionModuleTray($appmaster, jQuery(e.currentTarget));
                         }
                     })
                     .on('mouseenter', (e) => {
                         if ($appmenu.hasClass('active')) {
                             jQuery(e.currentTarget).siblings().removeClass('hovered');
                             jQuery(e.currentTarget).addClass('hovered');
+
+                            this._positionModuleTray($appmaster, jQuery(e.currentTarget));
                         }
                     });
 
@@ -551,6 +562,23 @@
         $menu.removeClass('active');
 
         $menu.find('.menu-lv1object').removeClass('hovered selected');
+    }
+    //----------------------------------------------------------------------------------------------
+    private _positionModuleTray($appmaster: JQuery, $category: JQuery) {
+        var $moduletray       = $category.find('.module-tray');
+        var totalBoarderWidth = 2;
+        var trayOffset        = jQuery(window).height() - $category.offset().top - $moduletray.height();
+
+        $moduletray.css({ 'height': '', 'overflow-y': '' });
+        if (trayOffset < 0) {
+            if ($category.offsetParent().height() < $moduletray.height()) {
+                $moduletray.css({ 'top': -$category[0].offsetTop, 'height': $category.offsetParent().height() - totalBoarderWidth, 'overflow-y': 'scroll' });
+            } else {
+                $moduletray.css({ 'top': trayOffset - totalBoarderWidth });
+            }
+        } else {
+            $moduletray.css({ 'top': '' });
+        }
     }
     //----------------------------------------------------------------------------------------------
     buildMainMenu(): (MenuCategory | MenuModule)[] {
