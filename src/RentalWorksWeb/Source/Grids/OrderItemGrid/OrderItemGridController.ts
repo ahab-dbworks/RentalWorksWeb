@@ -231,6 +231,7 @@ class OrderItemGrid {
                         InventoryId: inventoryId
                     }
                 }
+                request.uniqueids.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcode`);
                 break;
             case 'Description':
@@ -589,6 +590,8 @@ class OrderItemGrid {
             $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+            $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val($tr.find('.field[data-browsedatafield="WarehouseId"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val($tr.find('.field[data-browsedatafield="WarehouseCode"]').attr('data-originalvalue'));
         });
 
         $generatedtr.find('div[data-browsedatafield="Description"]').data('onchange', $tr => {
