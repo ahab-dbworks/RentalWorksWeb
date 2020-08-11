@@ -361,6 +361,11 @@ html.theme-material .fwbrowse[data-type="Validation"] .pager div.count {float:ri
 html.theme-material .fwbrowse[data-type="Validation"] .pager div.show-all {float:right;height:16px;line-height:16px;margin:0 2px;clear:right;font-size:.9em;color:#0D47A1;cursor:pointer;}
 html.theme-material .fwbrowse[data-type="Validation"] .pager .activeinactiveview {margin:1px 5px 0 0;}
 
+html.theme-material .fwbrowse table thead tr .field[data-browsedatatype="money"] .fieldcaption { flex-wrap:wrap;}
+html.theme-material .fwbrowse table thead tr .field[data-browsedatatype="money"] .sum {margin-top:-.5rem; text-align:end;font-size: .7em;font-weight: bold;flex: 1 1 100%;color: #546E7A;}
+html.theme-material .fwbrowse table thead tr .field[data-browsedatatype="number"] .fieldcaption { flex-wrap:wrap;}
+html.theme-material .fwbrowse table thead tr .field[data-browsedatatype="number"] .sum {margin-top:-.5rem; text-align:end;font-size: .7em;font-weight: bold;flex: 1 1 100%;color: #546E7A;}
+
 html.theme-material .fwbrowse table thead tr td:nth-child(2) .field .fieldcaption {border-left:0;}
 html.theme-material .fwbrowse table thead tr td:last-of-type:not([style="display: none"]) .field .fieldcaption {border-right:0;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption.active {background-color:#E0E0E0;}

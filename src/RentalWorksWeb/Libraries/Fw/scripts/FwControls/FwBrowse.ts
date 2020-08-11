@@ -1305,6 +1305,11 @@ class FwBrowseClass {
                             html.push('<div class="sort"><i class="material-icons"></i></div>');
                         }
                         html.push('<div class="columnoptions"></div>');
+
+                        if ($theadfield.attr('data-browsedatatype') === 'money' || $theadfield.attr('data-browsedatatype') === 'number') {
+                            html.push('<div class="sum"></div>');
+                        }
+
                         html.push('</div>');
                         html.push('<div class="search"');
                         if ($control.attr('data-showsearch') === 'false') {
@@ -1629,6 +1634,38 @@ class FwBrowseClass {
                         });
                         $columnoptions.append($sortoffbtn);
                     }
+
+                    if ($theadfield.attr('data-browsedatatype') === 'money' || $theadfield.attr('data-browsedatatype') === 'number') {
+                        const $sumvaluesbtn = getcolumnoptionbutton('Sum All Values', '&#xe24a;');
+                        $sumvaluesbtn.on('click', function () {
+                            try {
+                                const $this = jQuery(this);
+                                const $field = $this.closest('.field');
+                                const datafield = $field.attr('data-browsedatafield');
+                                const onDataBind = $control.data('ondatabind');
+                                if (typeof onDataBind === 'function') {
+                                    $control.data('ondatabind', request => {
+                                        onDataBind(request);
+                                        if (typeof request.totalfields === 'undefined') {
+                                            request.totalfields = [];
+                                            request.totalfields.push(datafield);
+                                        } else {
+                                            if (!request.totalfields.includes(datafield)) {
+                                               //
+                                            }
+                                        }
+                                          
+                                    });
+                                }
+                                me.databind($control);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        });
+                        $columnoptions.append('<div class="columnoptionshr"></div>');
+                        $columnoptions.append($sumvaluesbtn);
+                    }
+
                     if ((showsearch) && (($control.attr('data-type') !== 'Grid') && (showsearch))) {
                         $columnoptions.append('<div class="columnoptionshr"></div>');
                     }
@@ -2372,6 +2409,16 @@ class FwBrowseClass {
                 nodeSave = FwApplicationTree.getNodeByFuncRecursive(nodeActions, {}, function (node, args) {
                     return ((node.nodetype === 'ModuleAction' && node.properties.action === 'Save') || (node.nodetype === 'ControlAction' && node.properties.action === 'ControlSave'));
                 });
+            }
+
+            //Add column sum totals
+            if (typeof dt.Totals === 'object') {
+                for (var key in dt.Totals) {
+                    const $field = $control.find(`.runtime .tablewrapper table thead [data-browsedatafield="${key}"]`);
+                    if ($field.length) {
+                        $field.find('.sum').text(dt.Totals[key]);
+                    }
+                }
             }
 
             let onrowdblclick = $control.data('onrowdblclick');
