@@ -1641,21 +1641,15 @@ class FwBrowseClass {
                             try {
                                 const $this = jQuery(this);
                                 const $field = $this.closest('.field');
-                                const datafield = $field.attr('data-browsedatafield');
-                                const onDataBind = $control.data('ondatabind');
-                                if (typeof onDataBind === 'function') {
-                                    $control.data('ondatabind', request => {
-                                        onDataBind(request);
-                                        if (typeof request.totalfields === 'undefined') {
-                                            request.totalfields = [];
-                                            request.totalfields.push(datafield);
-                                        } else {
-                                            if (!request.totalfields.includes(datafield)) {
-                                               //
-                                            }
-                                        }
-                                          
-                                    });
+                                if (typeof $field.attr('data-sum') != 'undefined') {
+                                    if ($field.attr('data-sum') === 'on') {
+                                        $field.attr('data-sum', 'off');
+                                        $field.find('.sum').text('');
+                                    } else {
+                                        $field.attr('data-sum', 'on');
+                                    }
+                                } else {
+                                    $field.attr('data-sum', 'on');
                                 }
                                 me.databind($control);
                             } catch (ex) {
@@ -2035,12 +2029,12 @@ class FwBrowseClass {
         request.searchfieldvalues = [];
         request.searchcondition = [];
         request.searchconjunctions = [];
+        request.totalfields = [];
         request.miscfields = !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform'));
         request.orderby = '';
         request.pageno = parseInt($control.attr('data-pageno'));
         request.pagesize = parseInt($control.attr('data-pagesize'));
         request.options = this.getOptions($control);
-
         if ($control.attr('data-type') === 'Grid') {
             request.module = $control.attr('data-name');
         } else if ($control.attr('data-type') === 'Validation') {
@@ -2104,6 +2098,10 @@ class FwBrowseClass {
                     , SortSequence: sortSequence
                 });
             };
+
+            if (typeof $field.attr('data-sum') != 'undefined' && $field.attr('data-sum') === 'on' && (fieldtype === 'money' || fieldtype === 'number')) {
+                request.totalfields.push(browsedatafield);
+            }
         });
         if (typeof $control.attr('data-hasinactive') === 'string' && $control.attr('data-hasinactive') === 'true') {
             if (typeof $control.attr('data-activeinactiveview') !== 'string') {
@@ -2415,8 +2413,8 @@ class FwBrowseClass {
             if (typeof dt.Totals === 'object') {
                 for (var key in dt.Totals) {
                     const $field = $control.find(`.runtime .tablewrapper table thead [data-browsedatafield="${key}"]`);
-                    if ($field.length) {
-                        $field.find('.sum').text(dt.Totals[key]);
+                    if ($field.length && dt.Totals[key] != null) {
+                        $field.find('.sum').text(dt.Totals[key].toLocaleString());
                     }
                 }
             }
@@ -5070,6 +5068,7 @@ class BrowseRequest {
     searchseparators?: string[] = [];
     searchcondition?: string[] = [];
     searchconjunctions?: string[] = [];
+    totalfields?: string[] = [];
     uniqueids?: any = {};
     boundids?: any = {};
     filterfields?: any = {};
