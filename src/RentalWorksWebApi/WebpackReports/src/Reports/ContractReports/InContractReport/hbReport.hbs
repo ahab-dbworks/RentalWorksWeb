@@ -106,135 +106,134 @@
       </tr>
     </table>
   </div>
-</div>
-<div class="rpt-flexrow" style="margin-top:25px;">
-  <table style="table-layout:fixed;">
-    {{#each Items}}
-    {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
-      </tr>
-      <tr class="rectype-header">
-        <td style="min-width:100px;">I-Code</td>
-        <td style="min-width:600px;">Description</td>
-        <td class="number" style="min-width:100px;">Ordered</td>
-        <td class="number" style="min-width:100px;">Total In</td>
-        <td class="number" style="min-width:100px;">In</td>
-      </tr>
-    </tbody>
-    <tbody>
-      {{/ifEquals}}
-      {{#ifEquals RowType "detail"}}
-      <tr data-rowtype="{{RowType}}" class="description-row">
-        <td class="nowrap">{{ICode}}</td>
-        <td>{{Description}}</td>
-        <td class="number">{{QuantityOrdered}}</td>
-        <td class="number">{{TotalQuantity}}</td>
-        <td class="number">{{Quantity}}</td>
-      </tr>
-      <tr data-rowtype="{{RowType}}" class="barcode-row">
-        <td></td>
-        <td>
-          {{#if ../IncludeBarCodes}}
-          {{#if BarCodes}}
-          <div>
-            <b>Bar Codes:</b> {{BarCodes}}
-          </div>
-          {{/if}}
-          {{/if}}
+  <div class="rpt-flexrow section-start">
+    <table style="table-layout:fixed;">
+      {{#each Items}}
+      {{#ifEquals RowType "RecTypeDisplayheader"}}
+      <tbody data-rowtype="{{RowType}}">
+        <tr class="avoid-page-break">
+          <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+        </tr>
+        <tr class="rectype-header">
+          <td style="min-width:100px;">I-Code</td>
+          <td style="min-width:600px;">Description</td>
+          <td class="number" style="min-width:100px;">Ordered</td>
+          <td class="number" style="min-width:100px;">Total In</td>
+          <td class="number" style="min-width:100px;">In</td>
+        </tr>
+      </tbody>
+      <tbody>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <tr data-rowtype="{{RowType}}" class="description-row">
+          <td class="nowrap">{{ICode}}</td>
+          <td>{{Description}}</td>
+          <td class="number">{{QuantityOrdered}}</td>
+          <td class="number">{{TotalQuantity}}</td>
+          <td class="number">{{Quantity}}</td>
+        </tr>
+        <tr data-rowtype="{{RowType}}" class="barcode-row">
+          <td></td>
+          <td>
+            {{#if ../IncludeBarCodes}}
+            {{#if BarCodes}}
+            <div>
+              <b>Bar Codes:</b> {{BarCodes}}
+            </div>
+            {{/if}}
+            {{/if}}
 
-          {{#if ../IncludeSerialNumbers}}
-          {{#if SerialNumbers}}
-          <div>
-            <b>Serial Numbers:</b> {{SerialNumbers}}
-          </div>
-          {{/if}}
-          {{/if}}
+            {{#if ../IncludeSerialNumbers}}
+            {{#if SerialNumbers}}
+            <div>
+              <b>Serial Numbers:</b> {{SerialNumbers}}
+            </div>
+            {{/if}}
+            {{/if}}
 
-          {{#if ../IncludeRfids}}
-          {{#if Rfids}}
-          <div>
-            <b>RFIDs:</b> {{Rfids}}
-          </div>
-          {{/if}}
-          {{/if}}
+            {{#if ../IncludeRfids}}
+            {{#if Rfids}}
+            <div>
+              <b>RFIDs:</b> {{Rfids}}
+            </div>
+            {{/if}}
+            {{/if}}
 
-          {{#if ../IncludeManufacturerPartNumbers}}
-          {{#if ManufacturerPartNumbers}}
-          <div>
-            <b>Part Numbers:</b> {{ManufacturerPartNumbers}}
-          </div>
-          {{/if}}
-          {{/if}}
+            {{#if ../IncludeManufacturerPartNumbers}}
+            {{#if ManufacturerPartNumbers}}
+            <div>
+              <b>Part Numbers:</b> {{ManufacturerPartNumbers}}
+            </div>
+            {{/if}}
+            {{/if}}
 
-          {{#if Notes}}
-          <div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div>
-          {{/if}}
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td colspan="5"></td>
-      </tr>
-      {{/ifEquals}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-{{#if TermsAndConditionsHtml}}
-<div id="termsRow" colspan="7">
-  <div style="font-weight:700;margin:20px 0 0 0;">Terms and Conditions:</div>
-  <div><span id="terms"></span></div>
-</div>
-{{/if}}
-{{#if PersonPrintName}}
-<div class="rpt-flexrow avoid-page-break" style="margin-top:25px;">
-  <fieldset style="height:150px">
-    <legend>RECEIVED BY</legend>
-    <table>
-      <tr>
-        <td valign="bottom"><img id="base64img" src="{{PersonSignature}}" alt="signature" style="width:auto;height:100px;" /></td>
-        <td>&nbsp;</td>
-        <td valign="bottom" style="width:250px">{{PersonPrintName}}</td>
-        <td>&nbsp;</td>
-        <td valign="bottom" style="width:100px">{{ContractDate}}</td>
-      </tr>
-      <tr>
-        <td style="border-top:1px solid #000000"><div class="caption">SIGNATURE</div></td>
-        <td>&nbsp;</td>
-        <td style="border-top:1px solid #000000"><div class="caption">PRINT NAME</div></td>
-        <td>&nbsp;</td>
-        <td style="border-top:1px solid #000000"><div class="caption">DATE</div></td>
-      </tr>
+            {{#if Notes}}
+            <div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div>
+            {{/if}}
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="5"></td>
+        </tr>
+        {{/ifEquals}}
+        {{/each}}
+      </tbody>
     </table>
-  </fieldset>
-</div>
-{{else}}
-<div class="rpt-flexrow avoid-page-break" style="margin-top:25px;">
-  <fieldset>
-    <legend>RECEIVED BY</legend>
-    <div>
-      <div style="display:flex">
-        <div class="receivedbyfield">
-          <div class="value"></div>
-          <div class="caption">SIGNATURE</div>
+  </div>
+  {{#if TermsAndConditionsHtml}}
+  <div id="termsRow" colspan="7">
+    <div style="font-weight:700;margin:20px 0 0 0;">Terms and Conditions:</div>
+    <div><span id="terms"></span></div>
+  </div>
+  {{/if}}
+  {{#if PersonPrintName}}
+  <div class="rpt-flexrow avoid-page-break" style="margin-top:25px;">
+    <fieldset style="height:150px">
+      <legend>RECEIVED BY</legend>
+      <table>
+        <tr>
+          <td valign="bottom"><img id="base64img" src="{{PersonSignature}}" alt="signature" style="width:auto;height:100px;" /></td>
+          <td>&nbsp;</td>
+          <td valign="bottom" style="width:250px">{{PersonPrintName}}</td>
+          <td>&nbsp;</td>
+          <td valign="bottom" style="width:100px">{{ContractDate}}</td>
+        </tr>
+        <tr>
+          <td style="border-top:1px solid #000000"><div class="caption">SIGNATURE</div></td>
+          <td>&nbsp;</td>
+          <td style="border-top:1px solid #000000"><div class="caption">PRINT NAME</div></td>
+          <td>&nbsp;</td>
+          <td style="border-top:1px solid #000000"><div class="caption">DATE</div></td>
+        </tr>
+      </table>
+    </fieldset>
+  </div>
+  {{else}}
+  <div class="rpt-flexrow avoid-page-break" style="margin-top:25px;">
+    <fieldset>
+      <legend>RECEIVED BY</legend>
+      <div>
+        <div style="display:flex">
+          <div class="receivedbyfield">
+            <div class="value"></div>
+            <div class="caption">SIGNATURE</div>
+          </div>
+          <div class="receivedbyfield">
+            <div class="value"></div>
+            <div class="caption">PRINT NAME</div>
+          </div>
         </div>
-        <div class="receivedbyfield">
-          <div class="value"></div>
-          <div class="caption">PRINT NAME</div>
+        <div style="display:flex">
+          <div class="receivedbyfield">
+            <div class="value"></div>
+            <div class="caption">DATE</div>
+          </div>
+          <div class="receivedbyfield"></div>
         </div>
       </div>
-      <div style="display:flex">
-        <div class="receivedbyfield">
-          <div class="value"></div>
-          <div class="caption">DATE</div>
-        </div>
-        <div class="receivedbyfield"></div>
-      </div>
-    </div>
-  </fieldset>
-</div>
-{{/if}}
+    </fieldset>
+  </div>
+  {{/if}}

@@ -209,12 +209,12 @@
   </div>
 </div>
 <!-- Rental Items -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each RentalItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -449,15 +449,12 @@
   </table>
 </div>
 <!-- Used Sale Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each UsedSaleItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td>&nbsp;</td>
-      </tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -691,15 +688,12 @@
   </table>
 </div>
 <!-- Loss & Damage Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each LossAndDamageItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td>&nbsp;</td>
-      </tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="9" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -958,15 +952,12 @@
   </table>
 </div>
 <!-- Sales Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each SalesItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td>&nbsp;</td>
-      </tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1183,15 +1174,12 @@
   </table>
 </div>
 <!-- Labor Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each LaborItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td>&nbsp;</td>
-      </tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1424,15 +1412,12 @@
   </table>
 </div>
 <!-- Misc Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td>&nbsp;</td>
-      </tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1666,15 +1651,12 @@
   </table>
 </div>
 <!-- Facilities Items -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each FacilityItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td>&nbsp;</td>
-      </tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
@@ -1899,15 +1881,12 @@
   </table>
 </div>
 <!-- Adjustments -->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow section-start">
   <table style="table-layout:fixed;">
     {{#each AdjustmentItems}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td>&nbsp;</td>
-      </tr><!-- spacer row -->
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">

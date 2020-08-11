@@ -97,12 +97,12 @@
     </table>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow section-start">
   <table>
     {{#each Items}}
     {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr>
+      <tr class="avoid-page-break">
         <td colspan="6" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
       <tr class="rectype-header">
