@@ -2829,18 +2829,32 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     printShippingLabel($form: any, tag: string) {
         try {
-            const module = this.Module;
-            const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
-            const orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
-            const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
+            const print = () => {
+                const module = this.Module;
+                const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
+                const orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
+                const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
 
-            const $report = (tag === 'Incoming') ? IncomingShippingLabelController.openForm() : OutgoingShippingLabelController.openForm();
-            FwModule.openSubModuleTab($form, $report);
+                const $report = (tag === 'Incoming') ? IncomingShippingLabelController.openForm() : OutgoingShippingLabelController.openForm();
+                FwModule.openSubModuleTab($form, $report);
 
-            FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
-            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
-            const $tab = FwTabs.getTabByElement($report);
-            $tab.find('.caption').html(`Print ${module} ${tag} Label `);
+                FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
+                FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
+                const $tab = FwTabs.getTabByElement($report);
+                $tab.find('.caption').html(`Print ${module} ${tag} Label `);
+            }
+
+            const isModified = $form.attr('data-modified');
+            if (isModified === 'true') {
+                const $confirmation = FwConfirmation.renderConfirmation('Unsaved Changes on Form', "Any unsaved changes related to your shipping label will not be reflected in print. Continue to print or cancel and save changes?");
+                const $yes = FwConfirmation.addButton($confirmation, `Print Label`, false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', e => {
+                    print();
+                });
+            } else {
+                print();
+            }
         } catch (ex) {
             FwFunc.showError(ex);
         }
