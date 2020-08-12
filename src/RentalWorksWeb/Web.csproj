@@ -152,12 +152,6 @@
     <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
-    <Content Include="Libraries\Fw\scripts\sheetsJS\jszip.js" />
-    <Content Include="Libraries\Fw\scripts\sheetsJS\xlsx.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\css\intlTelInput.css" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput-jquery.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\intlTelInput.js" />
-    <Content Include="Libraries\Fw\scripts\jquery\internationalphone\build\js\utils.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
@@ -1426,7 +1420,6 @@
     <Content Include="Source\Grids\CustomReportLayoutGroupGrid\CustomReportLayoutGroupGridController.js.map" />
     <Content Include="Source\Grids\CustomReportLayoutUserGrid\CustomReportLayoutUserGridController.js.map" />
     <Content Include="Source\Grids\InventoryPurchaseItemGrid\InventoryPurchaseItemGridController.js.map" />
-    <Content Include="Libraries\Fw\scripts\sheetsJS\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1436,6 +1429,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
+    <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
