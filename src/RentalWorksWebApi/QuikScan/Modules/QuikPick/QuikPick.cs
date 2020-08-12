@@ -57,11 +57,11 @@ namespace RentalWorksQuikScan.Modules
                             //select.Add("and orderdesc like @orderdesc");
                             //select.AddParameter("@orderdesc", "%" + request.searchvalue + "%");
                             {
-                                string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] searchValues = request.searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                                 for (int i = 0; i < searchValues.Length; i++)
                                 {
-                                    select.Add($"and orderdesc like @searchvalue{i}");
-                                    select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                                    select.Add($"and orderdesc like @orderdesc{i}");
+                                    select.AddParameter($"@orderdesc{i}", $"%{searchValues[i]}%");
                                 }
                             }
                             break;

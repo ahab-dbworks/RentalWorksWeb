@@ -1125,7 +1125,7 @@ namespace RentalWorksQuikScan.Source
                 select.AddWhere("((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
                 if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] searchValues = searchValue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < searchValues.Length; i++)
                     {
                         select.AddWhere($"description like @searchvalue{i}");

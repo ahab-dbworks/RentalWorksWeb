@@ -1,4 +1,4 @@
-using FwStandard.Mobile;
+﻿using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.Utilities;
@@ -61,9 +61,9 @@ namespace RentalWorksQuikScan.Modules
                                     await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, session.security.webUser.usersid, select);
                                     select.Parse();
                                     select.AddOrderBy("orderdate desc, orderno desc");
-                                    select.AddWhere("orderno like @searchvalue");
+                                    select.AddWhere("orderno like @orderno");
                                     select.AddParameter("@warehouseid", await this.AppData.GetWarehouseIdAsync(session));
-                                    select.AddParameter("@searchvalue", request.searchvalue + "%");
+                                    select.AddParameter("@orderno", request.searchvalue + "%");
                                     break;
                                 case "orderdesc":
                                     select.PageNo = request.pageno;
@@ -81,11 +81,11 @@ namespace RentalWorksQuikScan.Modules
                                     //select.AddWhere("orderdesc like @searchvalue");
                                     //select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
                                     {
-                                        string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                        string[] searchValues = request.searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                                         for (int i = 0; i < searchValues.Length; i++)
                                         {
-                                            select.AddWhere($"orderdesc like @searchvalue{i}");
-                                            select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                                            select.AddWhere($"orderdesc like @orderdesc{i}");
+                                            select.AddParameter($"@orderdesc{i}", $"%{searchValues[i]}%");
                                         }
                                     }
                                     select.AddOrderBy("orderdate desc, orderno desc");
@@ -104,7 +104,15 @@ namespace RentalWorksQuikScan.Modules
                                     select.Add("where orderno = orderno");
                                     await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, session.security.webUser.usersid, select);
                                     select.Parse();
-                                    select.AddWhere("deal like @searchvalue");
+                                    //select.AddWhere("deal like @searchvalue");
+                                    {
+                                        string[] searchValues = request.searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                        for (int i = 0; i < searchValues.Length; i++)
+                                        {
+                                            select.AddWhere($"deal like @deal{i}");
+                                            select.AddParameter($"@deal{i}", $"%{searchValues[i]}%");
+                                        }
+                                    }
                                     select.AddOrderBy("orderdate desc, orderno desc");
                                     select.AddParameter("@warehouseid", await this.AppData.GetWarehouseIdAsync(session));
                                     select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
@@ -121,9 +129,9 @@ namespace RentalWorksQuikScan.Modules
                                     await DepartmentFilter.SetDepartmentFilterAsync(this.ApplicationConfig, session.security.webUser.usersid, select);
                                     select.AddParameter("@locationid", userLocation.locationId);
                                     select.Parse();
-                                    select.AddWhere("sessionno like @searchvalue");
+                                    select.AddWhere("sessionno like @sessionno");
                                     select.AddOrderBy("statusdate desc, sessionno desc");
-                                    select.AddParameter("@searchvalue", request.searchvalue + "%");
+                                    select.AddParameter("@sessionno", request.searchvalue + "%");
                                     break;
                             }
                             break;
@@ -156,7 +164,7 @@ namespace RentalWorksQuikScan.Modules
                                     //select.AddWhere("orderdesc like @searchvalue");
                                     //select.AddParameter("@searchvalue", request.searchvalue + "%");
                                     {
-                                        string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                        string[] searchValues = request.searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                                         for (int i = 0; i < searchValues.Length; i++)
                                         {
                                             select.AddWhere($"orderdesc like @searchvalue{i}");
@@ -225,7 +233,7 @@ namespace RentalWorksQuikScan.Modules
                                     //select.AddWhere("orderdesc like @searchvalue");
                                     //select.AddParameter("@searchvalue", request.searchvalue + "%");
                                     {
-                                        string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                        string[] searchValues = request.searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                                         for (int i = 0; i < searchValues.Length; i++)
                                         {
                                             select.AddWhere($"orderdesc like @searchvalue{i}");
@@ -423,7 +431,7 @@ namespace RentalWorksQuikScan.Modules
                 select.Parse();
                 if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] searchValues = searchValue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < searchValues.Length; i++)
                     {
                         select.AddWhere($"description like @searchvalue{i}");
@@ -465,7 +473,7 @@ namespace RentalWorksQuikScan.Modules
                 select.Parse();
                 if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] searchValues = searchValue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < searchValues.Length; i++)
                     {
                         select.AddWhere($"description like @searchvalue{i}");

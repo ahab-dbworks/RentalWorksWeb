@@ -1,4 +1,4 @@
-using FwStandard.Mobile;
+﻿using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.Utilities;
@@ -157,20 +157,24 @@ namespace RentalWorksQuikScan.Modules
                             select.AddParameter("@orderno", request.searchvalue + "%");
                             break;
                         case "DESCRIPTION":
-                            //select.Add("and orderdesc like @orderdesc");
-                            //select.AddParameter("@orderdesc",  "%" + request.searchvalue + "%");
                             {
-                                string[] searchValues = request.searchvalue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] searchValues = request.searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                                 for (int i = 0; i < searchValues.Length; i++)
                                 {
-                                    select.AddWhere($"orderdesc like @searchvalue{i}");
-                                    select.AddParameter($"@searchvalue{i}", $"%{searchValues[i]}%");
+                                    select.Add($"and orderdesc like @orderdesc{i}");
+                                    select.AddParameter($"@orderdesc{i}", $"%{searchValues[i]}%");
                                 }
                             }
                             break;
                         case "DEAL":
-                            select.Add("and deal like @deal");
-                            select.AddParameter("@deal", "%" + request.searchvalue + "%");
+                            {
+                                string[] searchValues = request.searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                for (int i = 0; i < searchValues.Length; i++)
+                                {
+                                    select.Add($"and deal like @deal{i}");
+                                    select.AddParameter($"@deal{i}", $"%{searchValues[i]}%");
+                                }
+                            }
                             break;
                     }
                 }

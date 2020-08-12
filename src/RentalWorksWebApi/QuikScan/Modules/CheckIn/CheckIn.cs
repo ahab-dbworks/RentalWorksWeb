@@ -1,4 +1,4 @@
-using FwStandard.Mobile;
+﻿using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.Utilities;
@@ -528,7 +528,7 @@ namespace RentalWorksQuikScan.Modules
                 select.Parse();
                 if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] searchValues = searchValue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < searchValues.Length; i++)
                     {
                         select.AddWhere($"description like @searchvalue{i}");
@@ -719,7 +719,7 @@ namespace RentalWorksQuikScan.Modules
                 select.Parse();
                 if (searchMode == "description" && searchValue != null && searchValue.Length > 0)
                 {
-                    string[] searchValues = searchValue.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] searchValues = searchValue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < searchValues.Length; i++)
                     {
                         select.AddWhere($"description like @searchvalue{i}");
