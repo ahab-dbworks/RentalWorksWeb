@@ -25,7 +25,7 @@
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
     <thead id="columnHeader">
-      <tr data-row="main-header">
+      <tr data-row="main-header" data-linkedrow="detail">
         <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
         <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber"></th>
         <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate"></th>
@@ -86,21 +86,21 @@
         <td colspan="4"><div><span style="font-weight:700;">Address: </span>{{Address1}}&nbsp;{{Address2}}&nbsp;{{City}},&nbsp;{{State}}&nbsp;{{Zip}}&nbsp;{{Country}}</div></td>
         <td colspan="4"><div><span style="font-weight:700;">Primary Contact: </span>{{DealPrimaryContactName}}&nbsp;{{DealPrimaryContactPhone}}&nbsp;{{DealPrimaryContactExt}}</div></td>
       </tr>
-      <tr data-row="sub-detail" data-sort="true" data-rowtype="{{RowType}}">
-        <td data-linkedcolumn="EmptyTd-1" data-valuefield=""></td>
-        <td data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</td>
-        <td data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Create Date</td>
-        <td data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate">Est. Start Date</td>
-        <td data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</td>
-        <td data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">PO No.</td>
-        <td data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus">Status</td>
-        <td data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate">As Of</td>
-        <td data-linkedcolumn="OrderTotal" class="number" data-valuefield="OrderTotal">Amount</td>
+      <tr data-row="linked-sub-header" data-sort="true" data-linkedrow="detail" data-rowtype="{{RowType}}">
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Create Date</th>
+        <th data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate">Est. Start Date</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">PO No.</th>
+        <th data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus">Status</th>
+        <th data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate">As Of</th>
+        <th data-linkedcolumn="OrderTotal" class="number" data-valuefield="OrderTotal">Amount</th>
       </tr>
       {{/ifEquals}}
 
       {{#ifEquals RowType "detail"}}
-      <tr id="detailRow" data-row="detail" data-rowtype="{{RowType}}">
+      <tr id="detailRow" data-row="detail" data-linkedrow="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="EmptyTd-1" data-value=""></td>
         <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
         <td data-linkedcolumn="OrderDate" data-value="{{OrderDate}}"></td>

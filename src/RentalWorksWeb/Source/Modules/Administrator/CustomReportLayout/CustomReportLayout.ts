@@ -404,14 +404,15 @@ class CustomReportLayout {
                 const $column = jQuery(e.item);
                 $column.removeAttr('draggable');
                 const linkedColumnName = $column.attr('data-linkedcolumn');
-
                 const $tr = jQuery(e.currentTarget);
+
                 $form.data('columnsmoved', {
                     oldIndex: e.oldIndex,
                     newIndex: e.newIndex,
                     fromRowIndex: e.from.rowIndex,
                     toRowIndex: $column.parent().index(),
-                    rowType: $tr.attr('data-row')
+                    rowType: $tr.attr('data-row'),
+                    linkedRow: $tr.attr('data-linkedrow')
                 });
                 $form.data('updatetype', 'tableheader');
                 this.updateHTML($form, $table, $tr, $column);
@@ -588,6 +589,7 @@ class CustomReportLayout {
                                 $form.data('rowindex', $row.get(0).rowIndex);
                                 break;
                             case 'sub-header':
+                            case 'linked-sub-header':
                                 linkedColumn = $column.attr('data-linkedcolumn');
                                 $form.data('updatesubheader', { linkedcolumn: linkedColumn, caption: value });
                                 $form.data('updatetype', 'tableheader');
@@ -1071,7 +1073,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     moveColumns($form: JQuery, $wrapper: JQuery, tableNameSelector: string, $table: JQuery, $cachedRows: JQuery, $th: JQuery) {
-        let html, $detailRowTds, rowIndex = 0, footerRowIndex = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, skipDetailRows = false;
+        let html, cellType, $detailRowTds, rowIndex = 0, footerRowIndex = 0, detailRowIndex = 0, linkedSubHeaderRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, skipDetailRows = false;
         const linkedColumn = $th.attr('data-linkedcolumn');
         const sortIndex = $form.data('columnsmoved');
         const oldIndex = sortIndex.oldIndex;
@@ -1079,6 +1081,7 @@ class CustomReportLayout {
         const oldRowIndex = sortIndex.fromRowIndex;
         const newRowIndex = sortIndex.toRowIndex;
         const columnMovedRowType = sortIndex.rowType;
+        const linkedRow = sortIndex.linkedRow;
 
         switch (columnMovedRowType) {
             case 'main-header':
@@ -1088,26 +1091,35 @@ class CustomReportLayout {
 
                     switch (rowType) {
                         case 'detail':
+                            cellType = 'td';
                             rowIndex = detailRowIndex;
                             break;
+                        case 'linked-sub-header':
+                            cellType = 'th';
+                            rowIndex = linkedSubHeaderRowIndex;
+                            break;
                         case 'sub-header':
+                            cellType = 'th';
                             rowIndex = subHeaderRowIndex;
                             break;
                         case 'sub-detail':
+                            cellType = 'td';
                             rowIndex = subDetailRowIndex;
                             break;
                         case 'footer':
+                            cellType = 'td';
                             rowIndex = footerRowIndex;
                             break;
                         default:
+                            cellType = 'td';
                             rowIndex = 0;
                             break;
                     }
 
                     const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[rowIndex]);
                     const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                    let $designerTds = $designerRow.find('td');
-                    let $cachedTds = $row.find('td');
+                    let $designerTds = $designerRow.find(cellType);
+                    let $cachedTds = $row.find(cellType);
 
                     if (rowType == 'detail') {
                         if (!skipDetailRows) {
@@ -1132,11 +1144,11 @@ class CustomReportLayout {
                                 const $movedTdRow = jQuery($cachedRows.filter(`[data-row="${rowType}"]`)[oldRowIndex]);
                                 const $movedTd = $movedTdRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                 const $movedTdToRow = jQuery($cachedRows.filter(`[data-row="${rowType}"]`)[newRowIndex]);
-                                const $movedTdToRowTds = $movedTdToRow.find('td');
+                                const $movedTdToRowTds = $movedTdToRow.find(cellType);
 
                                 const $designerTdRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[oldRowIndex]);
                                 const $designerTdToRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[newRowIndex]);
-                                const $designerTdToRowTds = $designerTdToRow.find('td');
+                                const $designerTdToRowTds = $designerTdToRow.find(cellType);
                                 const $designerTd = $designerTdRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
 
                                 if (newIndex === 0) {
@@ -1151,6 +1163,20 @@ class CustomReportLayout {
                         }
                     } else if (rowType === 'sub-header') {
                         subHeaderRowIndex++;
+                    } else if (rowType === 'linked-sub-header') {
+                        if (typeof linkedRow != 'undefined' && linkedRow === $designerRow.attr('data-linkedrow')) {
+                            const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                            if ($movedTd.length) {
+                                if (oldIndex > newIndex) {
+                                    $movedTd.insertBefore($cachedTds[newIndex]);
+                                    $designerTd.insertBefore($designerTds[newIndex]);
+                                } else {
+                                    $movedTd.insertAfter($cachedTds[newIndex]);
+                                    $designerTd.insertAfter($designerTds[newIndex]);
+                                }
+                            }
+                        }
+                        linkedSubHeaderRowIndex++;
                     } else if (rowType === 'sub-detail') {
                         subDetailRowIndex++;
                     } else if (rowType == 'footer') {
@@ -1220,8 +1246,8 @@ class CustomReportLayout {
                                             $movedTd.insertAfter($cachedTds[totalNameIndex]);
                                             $designerTd.insertAfter($designerTds[totalNameIndex]);
 
-                                            $designerTds = $designerRow.find('td');  //reassign with new element order
-                                            $cachedTds = $row.find('td');
+                                            $designerTds = $designerRow.find(cellType);  //reassign with new element order
+                                            $cachedTds = $row.find(cellType);
 
                                             //split tds to the right into empty tds
                                             for (let j = 1; j <= columnsToUnmerge; j++) {
@@ -1248,8 +1274,8 @@ class CustomReportLayout {
                                             $movedTd.insertAfter($cachedTds[totalNameIndex]);
                                             $designerTd.insertAfter($designerTds[totalNameIndex]);
 
-                                            $designerTds = $designerRow.find('td');  //reassign with new element order
-                                            $cachedTds = $row.find('td');
+                                            $designerTds = $designerRow.find(cellType);  //reassign with new element order
+                                            $cachedTds = $row.find(cellType);
 
                                             //split tds to the right into empty tds
                                             for (let j = 1; j <= columnsToUnmerge; j++) {
@@ -1338,6 +1364,51 @@ class CustomReportLayout {
                         }
                     }
                 }
+                break;
+            case 'linked-sub-header':
+                if (typeof linkedRow != 'undefined') {
+                    $form.data('columnsmoved')['rowType'] = 'main-header';
+                    this.moveColumns($form, $wrapper, tableNameSelector, $table, $cachedRows, $th);
+                }
+                //    const $linkedRows = $table.find(`tr[data-linkedrow="${linkedRow}"]:not([data-row="linked-sub-header"]`);
+                //    if ($linkedRows.length) {
+                //        const $cachedLinkedRows = $wrapper.find(`${tableNameSelector} tr[data-linkedrow="${linkedRow}"]:not([data-row="linked-sub-header"]`);
+
+                //        for (let i = 0; i < $linkedRows.length; i++) {
+                //            const $row = jQuery($linkedRows[i]);
+                //            const rowType = $row.attr('data-row');
+                //            const $cachedRow = jQuery($cachedLinkedRows[i]);
+                //            const $movedColumn = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                //            const $rowTds = $row.children();
+                //            const $cachedRowTds = $cachedRow.children();
+                //            if ($movedColumn.length) {
+                //                const $cachedColumn = $cachedRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                //                if (oldIndex > newIndex) { //moving left
+                //                    $movedColumn.insertBefore($rowTds[newIndex]);
+                //                    $cachedColumn.insertBefore($cachedRowTds[newIndex]).after('\n');
+                //                } else if (oldIndex < newIndex) { //moving right
+                //                    $movedColumn.insertAfter($rowTds[newIndex]);
+                //                    $cachedColumn.insertAfter($cachedRowTds[newIndex]).after('\n');
+                //                }
+
+                //                switch (rowType) {
+                //                    case 'main-header':
+                //                        break;
+                //                    case 'detail':
+                //                        break;
+                //                    case 'sub-header':
+                //                        break;
+                //                    case 'sub-detail':
+                //                        break;
+                //                    case ''
+                //                }
+                //                html = $table.find('tr[data-row="sub-header"]').get(0).innerHTML.trim();
+                //                jQuery($wrapper.find(`${tableNameSelector} tr[data-row="sub-header"]`)).html(html);     
+                //            }
+                //        }
+                //    }
+                //}
+
                 break;
             case 'sub-header':
                 //in designer
