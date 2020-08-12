@@ -2850,6 +2850,7 @@ class OrderBase {
                 const $yes = FwConfirmation.addButton($confirmation, `Print Label`, false);
                 const $no = FwConfirmation.addButton($confirmation, 'Cancel');
                 $yes.on('click', e => {
+                    FwConfirmation.destroyConfirmation($confirmation);
                     print();
                 });
             } else {
