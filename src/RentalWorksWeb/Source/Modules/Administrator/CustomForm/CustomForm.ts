@@ -386,7 +386,7 @@ class CustomForm {
     loadModules($form: JQuery) {
         // Load Modules dropdown with sorted list of Modules and Grids
         const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
-            if (moduleController.hasOwnProperty('apiurl')) {
+            if (moduleController.hasOwnProperty('apiurl') && moduleController.Module != 'BlankHomePage') {
                 modules.push({ value: `${moduleName}Browse`, text: `${moduleCaption} Browse`, type: 'Browse', controllername: moduleName + 'Controller', apiurl: moduleController.apiurl });
                 if (hasView || hasNew || hasEdit) {
                     modules.push({ value: `${moduleName}Form`, text: `${moduleCaption} Form`, type: 'Form', controllername: moduleName + 'Controller', apiurl: moduleController.apiurl });

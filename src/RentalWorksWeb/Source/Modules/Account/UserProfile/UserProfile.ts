@@ -84,7 +84,7 @@
             if (moduleController.hasOwnProperty('nav')) {
                 if (nodeModule) {
                     if (nodeModule.hasOwnProperty('properties')) {
-                        if (FwApplicationTree.isVisibleInSecurityTree(moduleController.id)) {
+                        if (FwApplicationTree.isVisibleInSecurityTree(moduleController.id) && moduleController.Module != 'BlankHomePage') {
                             if (moduleController.nav.startsWith('settings')) {
                                 modules.push({ value: `module/${moduleController.Module}`, text: moduleCaption, selected: 'T' });
                             } else {
