@@ -45,6 +45,19 @@
             //$browse.data('addBrowseMenuItems', (options: IAddBrowseMenuOptions) => {});
             FwModule.openBrowse($browse);
 
+            try {
+                FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    for (let key in response) {
+                        FwBrowse.addLegend($browse, key, response[key]);
+                    }
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $browse)
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+
+
             return $browse;
         }
 
@@ -637,7 +650,7 @@
                     <div class="field" data-isuniqueid="true" data-datafield="GroupId" data-browsedatatype="key" ></div>
                     </div>
                     <div class="column" data-width="100px" data-visible="true">
-                    <div class="field" data-caption="Group" data-isuniqueid="false" data-datafield="Name" data-browsedatatype="text" data-sort="asc"></div>
+                    <div class="field" data-caption="Group" data-isuniqueid="false" data-datafield="Name" data-browsedatatype="text" data-cellcolor="GroupColor" data-sort="asc"></div>
                     </div>  
                 </div>`;
         }

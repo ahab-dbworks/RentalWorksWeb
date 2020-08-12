@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FwCore.Modules.Administrator.Group
@@ -15,6 +16,17 @@ namespace FwCore.Modules.Administrator.Group
     public abstract class FwGroupController : FwDataController
     {
         public FwGroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/group/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "dV6fcgZ3C6UyA", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("My Group", FwGroupLogic.MY_GROUP_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
         //------------------------------------------------------------------------------------ 
         protected async Task<ActionResult<FwAmSecurityTreeNode>> DoGetApplicationTree([FromRoute]string id)
         {
