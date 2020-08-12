@@ -155,6 +155,10 @@ namespace FwCore.Mobile
                 jsonResponse = Newtonsoft.Json.JsonConvert.SerializeObject(response);
                 return new OkObjectResult(jsonResponse);
             }
+            catch (FwBadRequestException ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
             catch (TargetInvocationException ex)
             {
                 response = new ExpandoObject();
