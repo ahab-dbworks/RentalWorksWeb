@@ -144,6 +144,13 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
             FwFunc.showError(ex);
         }
     });
+    screen.$view.find('.fieldretiredreason').data('beforegetmany', (request: GetManyRequest): void => {
+        let filterReasonType = new GetManyFilter();
+        filterReasonType.fieldName = 'ReasonType';
+        filterReasonType.comparisonOperator = 'eq';
+        filterReasonType.fieldValue = 'INVENTORY';
+        request.filters.push(filterReasonType);
+    });
     //----------------------------------------------------------------------------------------------------
     screen.clearProperties = function() {
         screen.properties = {
