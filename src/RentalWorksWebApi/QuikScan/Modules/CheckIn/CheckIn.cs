@@ -961,7 +961,7 @@ namespace RentalWorksQuikScan.Modules
 
                 if (applicationoptions.facilities.enabled)
                 {
-                    dynamic controlresult = LoadSysControlValuesAsync();
+                    dynamic controlresult = await LoadSysControlValuesAsync();
 
                     if ((controlresult.itemsinrooms == "T") && (controlresult.facilitytypeincurrentlocation == "T"))
                     {
