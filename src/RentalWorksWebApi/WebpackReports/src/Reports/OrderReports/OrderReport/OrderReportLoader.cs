@@ -931,6 +931,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "outdeliverytypedisplay", modeltype: FwDataTypes.Text)]
         public string OutDeliveryTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryondate", modeltype: FwDataTypes.Date)]
+        public string OutDeliveryOnDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryontime", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryOnTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliveryondatetime", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryOnDateTime { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryattention", modeltype: FwDataTypes.Text)]
         public string OutDeliveryAttention { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -999,6 +1008,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliverytypedisplay", modeltype: FwDataTypes.Text)]
         public string InDeliveryTypeDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliveryondate", modeltype: FwDataTypes.Date)]
+        public string InDeliveryOnDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliveryontime", modeltype: FwDataTypes.Text)]
+        public string InDeliveryOnTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliveryondatetime", modeltype: FwDataTypes.Text)]
+        public string InDeliveryOnDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryattention", modeltype: FwDataTypes.Text)]
         public string InDeliveryAttention { get; set; }
