@@ -1138,6 +1138,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     //after the hourly dataset has been intialized once, then we only need to maintain the I-Codes that have Staged/Out items to update the "late" quantity
                     qry.Add(" and (qtystaged > 0 or qtyout > 0) ");
                 }
+                qry.Add(" option (recompile)  ");
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
                 foreach (List<object> row in dt.Rows)
@@ -1173,6 +1174,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     //after the hourly dataset has been intialized once, then we only need to maintain the I-Codes that have Staged/Out items to update the "late" quantity
                     qry.Add(" and (qtystaged > 0 or qtyout > 0) ");
                 }
+                qry.Add(" option (recompile)  ");
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
                 foreach (List<object> row in dt.Rows)
@@ -1209,6 +1211,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add(" from  tmpavailneedrecalcview a with (nolock)     ");
                 qry.Add(" where a.id > @lastneedrecalcid                   ");
                 qry.Add("order by a.id                                     ");
+                qry.Add(" option (recompile)  ");
                 qry.AddParameter("@lastneedrecalcid", LastNeedRecalcId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1260,6 +1263,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("delete                        ");
                 qry.Add(" from  tmpsearchsession       ");
                 qry.Add(" where sessionid = @sessionid ");
+                qry.Add(" option (recompile)  ");
                 qry.AddParameter("@sessionid", sessionId);
                 await qry.ExecuteNonQueryAsync();
             }
@@ -1280,6 +1284,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     qry.Add("   insert into tmpsearchsession (sessionid, masterid)                        ");
                     qry.Add("    values (@sessionid, @masterid" + i.ToString() + ")                       ");
                     qry.Add("end                                                                          ");
+                    qry.Add(" option (recompile)  ");
                     qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
                     //qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
                     i++;
@@ -1307,6 +1312,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qryAcc.Add("              join tmpsearchsession a on (p.packageid   = a.masterid)    ");
                 qryAcc.Add(" where a.sessionid = @sessionid                                          ");
                 qryAcc.Add("order by p.packageid, p.warehouseid                                      ");
+                qryAcc.Add(" option (recompile)  ");
                 qryAcc.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dtAcc = await qryAcc.QueryToFwJsonTableAsync();
 
@@ -1357,6 +1363,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qryAcc.Add("              join tmpsearchsession a on (p.packageid = a.masterid)      ");
                 qryAcc.Add(" where a.sessionid = @sessionid                                          ");
                 qryAcc.AddParameter("@sessionid", sessionId);
+                qryAcc.Add(" option (recompile)  ");
                 await qryAcc.ExecuteNonQueryAsync();
             }
 
@@ -1375,6 +1382,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add(" from  availabilitymasterwhview a with (nolock)                                                                       ");
                 qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid)                                       ");
                 qry.Add(" where t.sessionid = @sessionid                                                                                       ");
+                qry.Add(" option (recompile)  ");
                 qry.AddParameter("@sessionid", sessionId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1478,6 +1486,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 qry.Add("           join master m with (nolock) on (t.masterid = m.masterid)     ");
                 qry.Add(" where t.sessionid = @sessionid                                         ");
                 qry.Add(" and   m.noavail   = 'T'                                                ");
+                qry.Add(" option (recompile)  ");
                 qry.AddParameter("@sessionid", sessionId);
                 await qry.ExecuteNonQueryAsync();
             }
