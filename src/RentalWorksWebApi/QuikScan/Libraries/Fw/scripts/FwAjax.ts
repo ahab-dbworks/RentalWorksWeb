@@ -21,7 +21,10 @@ class FwAjaxRequest<T> {
         while (baseUrl.lastIndexOf('/') === baseUrl.length -1) {
             baseUrl = baseUrl.substring(0, baseUrl.length - 1);
         }
-        this.url = baseUrl + relativeUrl;
+        while (relativeUrl.indexOf('/') === 0) {
+            relativeUrl = relativeUrl.substring(1, relativeUrl.length);
+        }
+        this.url = baseUrl + '/' + relativeUrl;
     }
 }
 
