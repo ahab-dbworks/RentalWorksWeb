@@ -1644,12 +1644,14 @@ class FwBrowseClass {
                                 if (typeof $field.attr('data-sum') != 'undefined') {
                                     if ($field.attr('data-sum') === 'on') {
                                         $field.attr('data-sum', 'off');
-                                        $field.find('.sum').text('');
+                                        $field.find('.sum').text('').hide();
                                     } else {
                                         $field.attr('data-sum', 'on');
+                                        $field.find('.sum').show();
                                     }
                                 } else {
                                     $field.attr('data-sum', 'on');
+                                    $field.find('.sum').show();
                                 }
                                 me.databind($control);
                             } catch (ex) {

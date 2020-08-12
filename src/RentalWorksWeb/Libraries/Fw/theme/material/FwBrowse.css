@@ -363,7 +363,7 @@ html.theme-material .fwbrowse[data-type="Validation"] .pager .activeinactiveview
 
 html.theme-material .fwbrowse table thead tr .field[data-browsedatatype="money"] .fieldcaption { flex-wrap:wrap;}
 html.theme-material .fwbrowse table thead tr .field[data-browsedatatype="number"] .fieldcaption { flex-wrap:wrap;}
-html.theme-material .fwbrowse table thead tr .sum {margin-right:.2rem;margin-top:-.6rem; text-align:end;font-size:.8em;font-weight: bold;flex: 1 1 70%;color: black;}
+html.theme-material .fwbrowse table thead tr .sum {display:none;margin-right:.2rem;margin-top:-.6rem; text-align:end;font-size:.8em;font-weight: bold;flex: 1 1 70%;color: black;}
 
 html.theme-material .fwbrowse table thead tr td:nth-child(2) .field .fieldcaption {border-left:0;}
 html.theme-material .fwbrowse table thead tr td:last-of-type:not([style="display: none"]) .field .fieldcaption {border-right:0;}
