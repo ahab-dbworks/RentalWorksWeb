@@ -876,6 +876,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(calculatedColumnSql: "subtotal.nextsubtotalitemorder", modeltype: FwDataTypes.Text)]
         public string NextSubTotalItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -1119,6 +1119,9 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //[FwLogicProperty(Id:"kJn7Dj3kLFrj")]
         //public decimal? Quantityreturned { get; set; }
 
+        [FwLogicProperty(Id: "F4iT2CM8tyvqr", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id: "Wd2Vwb34Ijw3")]
         public string DateStamp { get { return orderItem.DateStamp; } set { orderItem.DateStamp = value; } }
 

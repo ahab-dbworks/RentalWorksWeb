@@ -406,6 +406,8 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "ydSxNcC99OMv", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "wRjO6jhxLOP3B", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
 
         [FwLogicProperty(Id: "n24xw5yJaELy")]
         public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
