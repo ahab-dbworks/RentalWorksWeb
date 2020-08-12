@@ -41,7 +41,6 @@ class ReceiptBatchReport extends FwWebApiReport {
     constructor() {
         super('ReceiptBatchReport', 'api/v1/receiptbatchreport', receiptBatchTemplate);
         this.reportOptions.HasDownloadExcel = true;
-        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
