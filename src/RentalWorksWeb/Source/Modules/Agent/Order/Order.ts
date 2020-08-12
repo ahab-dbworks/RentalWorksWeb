@@ -1923,9 +1923,9 @@ class Order extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="On Date" data-datafield="OutDeliveryTargetShipDate" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="time" data-timeformat="24" class="fwcontrol fwformfield" data-caption="On Time" data-datafield="OutDeliveryTargetShipTime" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="On Time" data-datafield="OutDeliveryTargetShipTime" style="flex:1 1 75px;"></div>
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Required By" data-datafield="OutDeliveryRequiredDate" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="time" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Required Time" data-datafield="OutDeliveryRequiredTime" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Required Time" data-datafield="OutDeliveryRequiredTime" style="flex:1 1 75px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Contact" data-datafield="OutDeliveryToContact" style="flex:1 1 250px;"></div>
@@ -1991,9 +1991,9 @@ class Order extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="On Date" data-datafield="InDeliveryTargetShipDate" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="time" data-timeformat="24" class="fwcontrol fwformfield" data-caption="On Time" data-datafield="InDeliveryTargetShipTime" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="On Time" data-datafield="InDeliveryTargetShipTime" style="flex:1 1 75px;"></div>
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Required By" data-datafield="InDeliveryRequiredDate" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="time" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Required Time" data-datafield="InDeliveryRequiredTime" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Required Time" data-datafield="InDeliveryRequiredTime" style="flex:1 1 75px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Contact" data-datafield="InDeliveryToContact" style="flex:1 1 250px;"></div>
