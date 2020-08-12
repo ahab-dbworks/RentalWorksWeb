@@ -432,7 +432,7 @@ class Program extends FwApplication {
                         screen = Exchange.getModuleScreen({}, {});
                         break;
                     case 'physicalinventory':
-                        screen = PhysicalInventory.gePhysicalInventoryScreen({}, {
+                        screen = PhysicalInventory.getPhysicalInventoryScreen({}, {
                             moduleType: RwConstants.moduleTypes.PhyInv
                         });
                         break;

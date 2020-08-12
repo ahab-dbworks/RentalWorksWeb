@@ -1,4 +1,4 @@
-﻿using FwStandard.Mobile;
+using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.Utilities;
@@ -175,7 +175,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.Add("                                  else 'F'");
                     qry.Add("                             end)");
                     qry.AddParameter("@contractid", request.contractid);
-                    await qry.ExecuteNonQueryAsync();
+                    await qry.ExecuteAsync();
                     response.showcreatecontract = qry.GetField("showcreatecontract").ToBoolean();
                 } 
             }
@@ -753,7 +753,7 @@ namespace RentalWorksQuikScan.Modules
                 {
                     throw new Exception("You do not have permission to Apply All Quantity Items");
                 }
-                pendinglist = GetPendingItems(request.contractId, "F");
+                pendinglist = await GetPendingItemsAsync(request.contractId, "F");
                 for (int i = 0; i < pendinglist.Count; i++)
                 {
                     trackedby = pendinglist[i].trackedby;
@@ -789,7 +789,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public async Task<dynamic> GetPendingItems(string contractid, string showall)
+        public async Task<dynamic> GetPendingItemsAsync(string contractid, string showall)
         {
             dynamic result;
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))

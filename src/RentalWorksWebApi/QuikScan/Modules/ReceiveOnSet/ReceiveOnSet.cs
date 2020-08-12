@@ -237,7 +237,7 @@ namespace RentalWorksQuikScan.Modules
                 dynamic userLocation;
                 FwSqlCommand qry;
 
-                userLocation = this.AppData.GetUserLocationAsync(conn: conn,
+                userLocation = await this.AppData.GetUserLocationAsync(conn: conn,
                                                          usersId: session.security.webUser.usersid);
 
                 qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);

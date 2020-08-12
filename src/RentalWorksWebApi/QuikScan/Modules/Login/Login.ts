@@ -41,7 +41,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
         screen.$view.find('#loginView-btnHome').hide();
     }
     screen.$view
-        .on('click', '#mobilelogin-btnLogin', async function() {
+        .on('click', '#mobilelogin-btnLogin', async () => {
             var request, $email, $password, exception;
             try {
                 $email    = jQuery('.mobilelogin-email-value');
@@ -156,28 +156,30 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                             }
                             program.navigate('home/home');
                         }
+                    } else {
+                        throw new Error(getJwtTokenResponse.statusmessage);
                     }
                 }
             } catch(ex) {
                 FwFunc.showError(ex);
             }
         })
-        .on('keydown', '.mobilelogin-email-value, .mobilelogin-password-value', function() {
-            var $this = jQuery(this);
+        .on('keydown', '.mobilelogin-email-value, .mobilelogin-password-value', (e: JQuery.KeyDownEvent) => {
+            var $this = jQuery(e.target);
             if ($this.parent().hasClass('error')) {
                 $this.parent().removeClass('error');
             }
         })
-        .on('click', '#loginView-btnHome', function() {
+        .on('click', '#loginView-btnHome', () => {
             window.history.back();
         })
-        .on('click', '#loginView-btnSupport', function() {
+        .on('click', '#loginView-btnSupport', () => {
             program.navigate('account/support');
         })
-        .on('click', '#loginView-btnPrivacyPolicy', function() {
+        .on('click', '#loginView-btnPrivacyPolicy', () => {
             program.navigate('account/privacypolicy');
         })
-        .on('click', '#loginView-btnRefresh', function() {
+        .on('click', '#loginView-btnRefresh', () => {
             window.location.reload(true);
         })
         .find('.programlogo').append('<div class="apptitle bgothm center" style="padding-top:2vh;font-size:40px;">Rental<span style="color:#6f30b3;">Works</span><br />QuikScan<span style="vertical-align:super;font-size:8px;">&reg;</span></div>')
@@ -185,7 +187,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
 
     screen.$view.find('.mobilelogin-footer').append('<div id="copyright">Copyright ' + new Date().getFullYear() + ' <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div><div id="version">RentalWorks QuikScan v' + applicationConfig.version + '</div>');
     
-    screen.load = function() {
+    screen.load = () => {
         var $txtEmail, $txtPassword;
         if (!(<any>window).Modernizr.touch)
         {

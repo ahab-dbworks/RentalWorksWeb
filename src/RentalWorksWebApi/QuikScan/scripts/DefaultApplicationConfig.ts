@@ -10,7 +10,7 @@
     demoPassword: 'QSDEMO',
     ajaxTimeoutSeconds: 20,
     version: '',
-    apiurl: '',
+    apiurl: '/',
     photoWidth: 1024,
     photoHeight: 1024,
     photoQuality: 100,

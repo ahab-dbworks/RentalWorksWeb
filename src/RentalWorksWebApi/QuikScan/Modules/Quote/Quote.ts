@@ -327,7 +327,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                 RwServices.callMethod("Quote", "AddItem", request, function(response) {
                     try {
                         if (response.insert.errno != 0) {
-                            FwFunc.showError(response.update.errmsg);
+                            FwFunc.showError(response.insert.errmsg);
                         } else {
                             $quotemain.find('#scanBarcodeView-txtBarcodeData').val('');
                             $quotemain.find('#item-list').fwmobilesearch('search');

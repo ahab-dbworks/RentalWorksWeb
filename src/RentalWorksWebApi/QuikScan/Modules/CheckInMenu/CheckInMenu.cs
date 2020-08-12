@@ -1,10 +1,11 @@
-﻿using FwStandard.Mobile;
+using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.Utilities;
 using RentalWorksQuikScan.Source;
 using System;
 using System.Data;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebApi.QuikScan;
 
@@ -67,6 +68,18 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public async Task SessionSearch(dynamic request, dynamic response, dynamic session)
         {
+            if (FwValidate.IsPropertyDefined(request, "searchvalue"))
+            {
+                string searchvalue = request.searchvalue.ToString();
+                if (searchvalue.Length > 0)
+                {
+                    Regex isNumeric = new Regex("^[0-9]*$/g");
+                    if (!isNumeric.IsMatch(searchvalue))
+                    {
+                        throw new FwBadRequestException("Session No must be an integer");
+                    }
+                }
+            }
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
                 dynamic userLocation = await this.AppData.GetUserLocationAsync(conn, session.security.webUser.usersid);

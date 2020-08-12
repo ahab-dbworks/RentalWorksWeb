@@ -249,6 +249,18 @@ namespace RentalWorksQuikScan.Source
             {
                 session.userLocation = await this.AppData.GetUserLocationAsync(conn: conn
                                                                        , usersId: session.security.webUser.usersid);
+                string spaceid = string.Empty;
+                string spacetypeid = string.Empty;
+                string facilitiestypeid = string.Empty;
+                if (FwValidate.IsPropertyDefined(request, "locationdata"))
+                {
+                    if (request.locationdata != null)
+                    {
+                        spaceid = request.locationdata.spaceid;
+                        spacetypeid = request.locationdata.spacetypeid;
+                        facilitiestypeid = request.locationdata.facilitiestypeid;
+                    }
+                }
                 response.webStageItem = await this.AppData.PdaStageItemAsync(conn: conn,
                                                                orderid: request.orderid,
                                                                code: request.code,
@@ -262,7 +274,7 @@ namespace RentalWorksQuikScan.Source
                                                                vendorid: request.vendorid,
                                                                meter: request.meter,
                                                                location: request.location,
-                                                               spaceid: (request.locationdata != null) ? request.locationdata.spaceid : "",
+                                                               spaceid: spaceid,
                                                                addcontainertoorder: request.addcontainertoorder,
                                                                overridereservation: request.overridereservation,
                                                                stageconsigned: request.stageconsigned,
@@ -272,8 +284,8 @@ namespace RentalWorksQuikScan.Source
                                                                ignoresuspendedin: request.ignoresuspendedin,
                                                                consignorid: request.consignorid,
                                                                consignoragreementid: request.consignoragreementid,
-                                                               spacetypeid: (request.locationdata != null) ? request.locationdata.spacetypeid : "",
-                                                               facilitiestypeid: (request.locationdata != null) ? request.locationdata.facilitiestypeid : "");
+                                                               spacetypeid: spacetypeid,
+                                                               facilitiestypeid: facilitiestypeid);
                 if (!string.IsNullOrEmpty(request.masteritemid))
                 {
                     masteritemid = request.masteritemid;

@@ -98,7 +98,7 @@ namespace RentalWorksQuikScan.Modules
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "repairId");
-            if ((request.images.Count > 0) && (request.imagedescriptions.Count > 0))
+            if ((request.images != null) && (request.images.Count > 0) && (request.imagedescriptions != null) && (request.imagedescriptions.Count > 0))
             {
                 images              = (List<object>)request.images;
                 documentdescription = request.documentdescription;

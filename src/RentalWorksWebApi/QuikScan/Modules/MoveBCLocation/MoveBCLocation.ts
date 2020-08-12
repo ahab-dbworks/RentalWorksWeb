@@ -43,14 +43,17 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
                         program.playStatus(false);
                     }
                 } else {
-                    screendata.aisle = $this.val().split('-')[0].toUpperCase();
-                    screendata.shelf = $this.val().split('-')[1].toUpperCase();
-                    $aisleshelfinfo.removeClass('notset');
-                    $aisleshelfinfo.find('.aisle .value').html(screendata.aisle);
-                    $aisleshelfinfo.find('.shelf .value').html(screendata.shelf);
-                    $this.val('');
-                    $movebclocationstatus.hide();
-                    program.setScanTargetLpNearfield('.fwmobilecontrol-value', true);
+                    const codes = $this.val().split('-');
+                    if (codes.length === 2) {
+                        screendata.aisle = $this.val().split('-')[0].toUpperCase();
+                        screendata.shelf = $this.val().split('-')[1].toUpperCase();
+                        $aisleshelfinfo.removeClass('notset');
+                        $aisleshelfinfo.find('.aisle .value').html(screendata.aisle);
+                        $aisleshelfinfo.find('.shelf .value').html(screendata.shelf);
+                        $this.val('');
+                        $movebclocationstatus.hide();
+                        program.setScanTargetLpNearfield('.fwmobilecontrol-value', true);
+                    }
                 }
             } catch(ex) {
                 FwFunc.showError(ex);

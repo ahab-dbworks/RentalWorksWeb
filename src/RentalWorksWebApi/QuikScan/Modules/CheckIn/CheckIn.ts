@@ -785,7 +785,7 @@
             itemTemplate: function(model) {
                 var html: string | string[] = [];
                 const isheader    = ((model.itemclass === 'N') || (model.sessionin === 0))
-                const attrInRepair = model.inrepair === 'T' ? ' data-inrepair="T">' : ''
+                const attrInRepair = model.inrepair === 'T' ? ' data-inrepair="T"' : ''
                 html.push(`<div data-itemclass="${model.itemclass}"${attrInRepair}>`);
                 html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
                 if (!isheader) {

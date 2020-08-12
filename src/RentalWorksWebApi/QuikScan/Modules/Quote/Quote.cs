@@ -67,13 +67,13 @@ namespace RentalWorksQuikScan.Modules
                 {
                     request.qty = 1;
                     request.masterno = request.enteredvalue;
-                    await AddItemAsync(request, response, session);
+                    await AddItem(request, response, session);
                 } 
             }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public async Task AddItemAsync(dynamic request, dynamic response, dynamic session)
+        public async Task AddItem(dynamic request, dynamic response, dynamic session)
         {
             response.insert = await QSInsertMasterItemAsync(orderid:          request.orderid,
                                                  barcode:          request.masterno,

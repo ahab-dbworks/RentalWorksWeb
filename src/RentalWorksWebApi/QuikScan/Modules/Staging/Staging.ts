@@ -559,7 +559,7 @@ class StagingControllerClass {
                 } else {
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                 }
-                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
+                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms === true) ? 'showButton' : 'hideButton';
                 screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
             }
         });

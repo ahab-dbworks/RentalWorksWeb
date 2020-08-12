@@ -46,7 +46,7 @@ namespace RentalWorksQuikScan.Modules
                 }
 
                 // Create the contract
-                response.createcontract = WebCreateContract(usersid, contracttype, contractid, orderid, responsiblepersonid, printname);
+                response.createcontract = await WebCreateContractAsync(usersid, contracttype, contractid, orderid, responsiblepersonid, printname);
 
                 if (string.IsNullOrEmpty(contractid)) contractid = response.createcontract.contractId;
 
@@ -56,7 +56,7 @@ namespace RentalWorksQuikScan.Modules
                     await FwSqlData.InsertAppImageAsync(conn, this.ApplicationConfig.DatabaseSettings, contractid, string.Empty, string.Empty, "CONTRACT_SIGNATURE", string.Empty, "JPG", request.signatureImage);
                 }
 
-                if ((FwValidate.IsPropertyDefined(request, "images")) && (request.images.Length > 0))
+                if ((FwValidate.IsPropertyDefined(request, "images")) && (request.images != null) && (request.images.Count > 0))
                 {
                     byte[] image;
                     for (int i = 0; i < request.images.Count; i++)
@@ -94,7 +94,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public async Task<dynamic> WebCreateContract(string usersid, string contracttype, string contractid, string orderId, string responsiblePersonId, string printname)
+        public async Task<dynamic> WebCreateContractAsync(string usersid, string contracttype, string contractid, string orderId, string responsiblePersonId, string printname)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {

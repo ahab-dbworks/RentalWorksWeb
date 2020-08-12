@@ -1,4 +1,4 @@
-﻿using FwStandard.Mobile;
+using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.Utilities;
@@ -865,7 +865,7 @@ namespace RentalWorksQuikScan.Modules
                 {
                     dynamic controlresult = await LoadSysControlValuesAsync();
 
-                    if ((controlresult.itemsinrooms == "T") && (controlresult.facilitytypeincurrentlocation == "T"))
+                    if ((controlresult.itemsinrooms) && (controlresult.facilitytypeincurrentlocation))
                     {
                         includefacilitiestype = "T";
                     }
@@ -908,6 +908,8 @@ namespace RentalWorksQuikScan.Modules
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+                qry.AddColumn("itemsinrooms", false, FwDataTypes.Boolean);
+                qry.AddColumn("facilitytypeincurrentlocation", false, FwDataTypes.Boolean);
                 qry.Add("select top 1 itemsinrooms, facilitytypeincurrentlocation");
                 qry.Add("  from syscontrol with (nolock)");
                 qry.Add(" where controlid = '1'");

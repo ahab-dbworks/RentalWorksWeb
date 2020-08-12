@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -35,7 +35,6 @@
     <Compile Remove="Modules\Warehouse\ScanBarCodes\**" />
     <Compile Remove="QuikScan\Libraries\Fw\**" />
     <Compile Remove="QuikScan\Libraries\jquery-keyboard-1.30.1\**" />
-    <Compile Remove="QuikScan\Source\Validations\**" />
     <Compile Remove="QuikScan\theme\fwfonts\bgothm\**" />
     <Compile Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <Compile Remove="QuikScan\theme\fwimages\icons\**" />
@@ -48,7 +47,6 @@
     <Content Remove="Modules\Warehouse\ScanBarCodes\**" />
     <Content Remove="QuikScan\Libraries\Fw\**" />
     <Content Remove="QuikScan\Libraries\jquery-keyboard-1.30.1\**" />
-    <Content Remove="QuikScan\Source\Validations\**" />
     <Content Remove="QuikScan\theme\fwfonts\bgothm\**" />
     <Content Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <Content Remove="QuikScan\theme\fwimages\icons\**" />
@@ -61,7 +59,6 @@
     <EmbeddedResource Remove="Modules\Warehouse\ScanBarCodes\**" />
     <EmbeddedResource Remove="QuikScan\Libraries\Fw\**" />
     <EmbeddedResource Remove="QuikScan\Libraries\jquery-keyboard-1.30.1\**" />
-    <EmbeddedResource Remove="QuikScan\Source\Validations\**" />
     <EmbeddedResource Remove="QuikScan\theme\fwfonts\bgothm\**" />
     <EmbeddedResource Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <EmbeddedResource Remove="QuikScan\theme\fwimages\icons\**" />
@@ -74,7 +71,6 @@
     <None Remove="Modules\Warehouse\ScanBarCodes\**" />
     <None Remove="QuikScan\Libraries\Fw\**" />
     <None Remove="QuikScan\Libraries\jquery-keyboard-1.30.1\**" />
-    <None Remove="QuikScan\Source\Validations\**" />
     <None Remove="QuikScan\theme\fwfonts\bgothm\**" />
     <None Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <None Remove="QuikScan\theme\fwimages\icons\**" />
@@ -90,12 +86,29 @@
     <Compile Remove="Modules\Agent\Customer\Controls\CustomerDocumentGrid\CustomerDocumentLogic.cs" />
     <Compile Remove="Modules\SharedControls\AdministratorControls\Test\TestController.cs" />
     <Compile Remove="QuikScan\Source\RwServiceRouting.cs" />
+    <Compile Remove="QuikScan\Source\Validations\ContainerDescriptionValidation\ContainerDescriptionValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\ManufacturerValidation\ManufacturerValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\PrimaryVendorValidation\PrimaryVendorValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\RepairOrderDescValidation\RepairOrderDescValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\RepairOrderNoValidation\RepairOrderNoValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\RetiredReasonValidation\RetiredReasonValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\SetCharactersByICodeValidation\SetCharactersByICodeValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\SetNoValidation\SetNoValidation.cs" />
+    <Compile Remove="QuikScan\Source\Validations\VendorValidation\VendorValidation.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="package-lock.json" />
     <Content Remove="package.json" />
+    <Content Remove="QuikScan\Application.dev.config" />
+    <Content Remove="QuikScan\Application.sample.config" />
+    <Content Remove="QuikScan\Application.test.config" />
+    <Content Remove="QuikScan\app_scripts.json" />
     <Content Remove="QuikScan\JSAppBuilder.config" />
+    <Content Remove="QuikScan\package-lock.json" />
+    <Content Remove="QuikScan\package.json" />
+    <Content Remove="QuikScan\tsconfig.json" />
+    <Content Remove="QuikScan\Web.config" />
     <Content Remove="WebpackReports\tsconfig.json" />
   </ItemGroup>
 
@@ -105,14 +118,6 @@
     <None Remove="QuikScan\@types\JQuery\index.d.ts" />
     <None Remove="QuikScan\@types\QuikScan\index.d.ts" />
     <None Remove="QuikScan\@types\Window\index.d.ts" />
-    <None Remove="QuikScan\ApplicationConfig.dev.js" />
-    <None Remove="QuikScan\ApplicationConfig.sample.js" />
-    <None Remove="QuikScan\ApplicationConfig.test.js" />
-    <None Remove="QuikScan\app_bodysrc.htm" />
-    <None Remove="QuikScan\app_headsrc.htm" />
-    <None Remove="QuikScan\app_startupscriptsrc.js" />
-    <None Remove="QuikScan\index.htm" />
-    <None Remove="QuikScan\index.js" />
     <None Remove="QuikScan\index.ts" />
     <None Remove="QuikScan\Modules\AssetDisposition\AssetDisposition.ts" />
     <None Remove="QuikScan\Modules\AssetSetLocation\AssetSetLocation.ts" />
@@ -304,14 +309,6 @@
     <TypeScriptCompile Include="QuikScan\scripts\RwLanguages.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\RwRFID.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\RwServices.ts" />
-    <Content Include="QuikScan\ApplicationConfig.dev.js" />
-    <Content Include="QuikScan\ApplicationConfig.sample.js" />
-    <Content Include="QuikScan\ApplicationConfig.test.js" />
-    <Content Include="QuikScan\app_bodysrc.htm" />
-    <Content Include="QuikScan\app_headsrc.htm" />
-    <Content Include="QuikScan\app_startupscriptsrc.js" />
-    <Content Include="QuikScan\index.htm" />
-    <Content Include="QuikScan\index.js" />
     <Content Include="QuikScan\theme\images\control\checkbox_checked.001.png" />
     <Content Include="QuikScan\theme\images\control\checkbox_unchecked.001.png" />
     <Content Include="QuikScan\theme\images\control\toggle_off.001.png" />
@@ -446,7 +443,19 @@
     <None Include="appsettings.json" />
     <None Include="package-lock.json" />
     <None Include="package.json" />
+    <None Include="QuikScan\Application.dev.config" />
+    <None Include="QuikScan\Application.sample.config" />
+    <None Include="QuikScan\Application.test.config" />
+    <None Include="QuikScan\app_scripts.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Include="QuikScan\JSAppBuilder.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QuikScan\package-lock.json" />
+    <None Include="QuikScan\package.json" />
+    <None Include="QuikScan\tsconfig.json" />
+    <None Include="QuikScan\Web.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Web.config" />
@@ -458,16 +467,10 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="node-build.js" />
-    <TypeScriptCompile Include="QuikScan\webpack\index.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\Constants.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\NearfieldRfidScanner.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\Program.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\RwVirtualNumpad.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="QuikScan\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
     <!--<Exec Command="npm install" />-->
