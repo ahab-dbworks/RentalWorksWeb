@@ -44,7 +44,7 @@ namespace FwStandard.SqlServer
             }
             if (dateTime != DateTime.MinValue)
             {
-                str = dateTime.ToDateTime().ToString("MM/dd/yyyy");
+                str = dateTime.ToDateTime().ToString("yyyy-MM-dd");
             }
 
             return str;

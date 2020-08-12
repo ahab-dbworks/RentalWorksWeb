@@ -1543,12 +1543,12 @@ class FwBrowseClass {
 
                 // mv 2018-07-08 this is really the wrong place for this.  This needs to be in one of the column files.  Need a way to edit the header html from the column files
                 (<any>$control.find('.value')).datepicker({
-                    endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
-                    autoclose: true,
-                    format: "mm/dd/yyyy",
+                    endDate:        (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
+                    autoclose:      true,
+                    format:         FwLocale.getDateFormat().toLowerCase(),
                     todayHighlight: true,
-                    todayBtn: 'linked',
-                    weekStart: FwFunc.getWeekStartInt(),
+                    todayBtn:       'linked',
+                    weekStart:      FwFunc.getWeekStartInt(),
                 }).off('focus');
 
                 $control.on('click', '.btndate', e => {
