@@ -60,18 +60,18 @@
         <td colspan="9" class="header-row">Deal: {{Deal}}</td>
       </tr>
       <tr data-row="sub-header" data-sort="true" data-rowtype="{{RowType}}">
-        <th data-linkedcolumn="DealNumber" data-valuefield="DealNumber">Deal No.</th>
-        <th data-linkedcolumn="DealPaymentTerms" data-valuefield="DealPaymentTerms">Payment Terms</th>
-        <th data-linkedcolumn="EstimatedStartDate-2" data-valuefield="EstimatedStartDate">Start Date</th>
-        <th data-linkedcolumn="EstimatedStopDate" data-valuefield="EstimatedStopDate">Close Date</th>
-        <th data-linkedcolumn="DealType" data-valuefield="DealType">Deal Type</th>
-        <th data-linkedcolumn="CreditStatus" data-valuefield="CreditStatus">Credit Status</th>
-        <th data-linkedcolumn="InsuranceStatus" data-valuefield="InsuranceStatus">Ins. Status</th>
-        <th data-linkedcolumn="Phone" data-valuefield="Phone">Phone</th>
-        <th data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="DealNumber" data-valuefield="DealNumber">Deal No.</th>
+        <th class="sub-header" data-linkedcolumn="DealPaymentTerms" data-valuefield="DealPaymentTerms">Payment Terms</th>
+        <th class="sub-header" data-linkedcolumn="EstimatedStartDate-2" data-valuefield="EstimatedStartDate">Start Date</th>
+        <th class="sub-header" data-linkedcolumn="EstimatedStopDate" data-valuefield="EstimatedStopDate">Close Date</th>
+        <th class="sub-header" data-linkedcolumn="DealType" data-valuefield="DealType">Deal Type</th>
+        <th class="sub-header" data-linkedcolumn="CreditStatus" data-valuefield="CreditStatus">Credit Status</th>
+        <th class="sub-header" data-linkedcolumn="InsuranceStatus" data-valuefield="InsuranceStatus">Ins. Status</th>
+        <th class="sub-header" data-linkedcolumn="Phone" data-valuefield="Phone">Phone</th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
       </tr>
       <tr data-row="sub-detail" data-rowtype="{{RowType}}">
-        <td data-linkedcolumn="EmptyTd-1" data-value="{{DealNumber}}"></td>
+        <td data-linkedcolumn="DealNumber" data-value="{{DealNumber}}"></td>
         <td data-linkedcolumn="DealPaymentTerms" data-value="{{DealPaymentTerms}}"></td>
         <td data-linkedcolumn="EstimatedStartDate-2" data-value="{{EstimatedStartDate}}"></td>
         <td data-linkedcolumn="EstimatedStopDate" data-value="{{EstimatedStopDate}}"></td>
@@ -88,14 +88,14 @@
       </tr>
       <tr data-row="linked-sub-header" data-sort="true" data-linkedrow="detail" data-rowtype="{{RowType}}">
         <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
-        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
-        <th data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Create Date</th>
-        <th data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate">Est. Start Date</th>
-        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
-        <th data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">PO No.</th>
-        <th data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus">Status</th>
-        <th data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate">As Of</th>
-        <th data-linkedcolumn="OrderTotal" class="number" data-valuefield="OrderTotal">Amount</th>
+        <th class="sub-header" data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th class="sub-header" data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Create Date</th>
+        <th class="sub-header" data-linkedcolumn="EstimatedStartDate" data-valuefield="EstimatedStartDate">Est. Start Date</th>
+        <th class="sub-header" data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th class="sub-header" data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">PO No.</th>
+        <th class="sub-header" data-linkedcolumn="OrderStatus" data-valuefield="OrderStatus">Status</th>
+        <th class="sub-header" data-linkedcolumn="OrderStatusDate" data-valuefield="OrderStatusDate">As Of</th>
+        <th class="sub-header number" data-linkedcolumn="OrderTotal" data-valuefield="OrderTotal">Amount</th>
       </tr>
       {{/ifEquals}}
 
@@ -112,7 +112,6 @@
         <td data-linkedcolumn="OrderTotal" class="number" data-value="{{OrderTotal}}"></td>
       </tr>
       {{/ifEquals}}
-
 
       {{#ifEquals RowType "Dealfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
