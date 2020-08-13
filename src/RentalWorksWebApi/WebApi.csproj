@@ -155,7 +155,6 @@
     <None Remove="QuikScan\scripts\controllers\RwInventoryController.ts" />
     <None Remove="QuikScan\scripts\controllers\RwOrderController.ts" />
     <None Remove="QuikScan\scripts\controllers\RwPartialController.ts" />
-    <None Remove="QuikScan\scripts\DefaultApplicationConfig.ts" />
     <None Remove="QuikScan\scripts\NearfieldRfidScanner.ts" />
     <None Remove="QuikScan\scripts\Program.ts" />
     <None Remove="QuikScan\scripts\Rw.ts" />
@@ -302,7 +301,6 @@
     <TypeScriptCompile Include="QuikScan\scripts\controllers\RwInventoryController.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\controllers\RwOrderController.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\controllers\RwPartialController.ts" />
-    <TypeScriptCompile Include="QuikScan\scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\Rw.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\RwAppData.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\RwConstants.ts" />
