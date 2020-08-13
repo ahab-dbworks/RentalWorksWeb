@@ -355,6 +355,9 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "sCSkPb8mzrS6", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "FMm5KqUxeXVSq", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id: "kAQAfXxTyZSQ", IsReadOnly: true)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
 

@@ -214,12 +214,6 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
         public bool? IsNonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
-        public string CurrencyId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
-        public string CurrencyCode { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 

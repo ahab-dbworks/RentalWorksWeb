@@ -137,7 +137,7 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "commissionrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
         public decimal? Commissionrate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikpaydiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
