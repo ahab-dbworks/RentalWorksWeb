@@ -11,7 +11,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class ContractSignature : QuikScanModule
+    public class ContractSignature : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------

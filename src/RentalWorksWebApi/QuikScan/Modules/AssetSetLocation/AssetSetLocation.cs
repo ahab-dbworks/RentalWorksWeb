@@ -9,7 +9,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class AssetSetLocation : QuikScanModule
+    class AssetSetLocation : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------

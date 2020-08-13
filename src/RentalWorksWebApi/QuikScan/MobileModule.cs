@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WebApi.QuikScan
 {
-    public abstract class QuikScanModule
+    public abstract class MobileModule
     {
         protected FwApplicationConfig ApplicationConfig;
 
-        public QuikScanModule(FwApplicationConfig applicationConfig)
+        public MobileModule(FwApplicationConfig applicationConfig)
         {
             this.ApplicationConfig = applicationConfig;
         }

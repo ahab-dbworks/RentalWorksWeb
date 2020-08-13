@@ -9,7 +9,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class Exchange : QuikScanModule
+    public class Exchange : MobileModule
     {
         RwAppData AppData;
         ExchangeDm exchangeDm;

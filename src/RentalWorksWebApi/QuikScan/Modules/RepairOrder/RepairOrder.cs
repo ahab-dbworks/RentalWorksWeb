@@ -12,7 +12,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class RepairOrder : QuikScanModule
+    class RepairOrder : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------

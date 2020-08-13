@@ -78,7 +78,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                             var getAuthTokenRequest = new FwAjaxRequest();
                             getAuthTokenRequest.$elementToBlock = screen.$view;
                             getAuthTokenRequest.httpMethod = "POST";
-                            getAuthTokenRequest.setWebApiUrl('/api/v1/quikscan?path=/account/getauthtoken');
+                            getAuthTokenRequest.setWebApiUrl('/api/v1/mobile?path=/account/getauthtoken');
                             getAuthTokenRequest.data = {
                                 email: $email.val(),
                                 password: $password.val()

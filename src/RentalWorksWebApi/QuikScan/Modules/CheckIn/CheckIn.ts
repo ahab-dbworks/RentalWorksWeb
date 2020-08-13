@@ -1604,7 +1604,7 @@
             //    screen.checkInItemCallback(responseCheckInItem);
             //});
             // trying to prevent duplicate scans
-            FwAppData.jsonPost(true, 'api/v1/quikscan?path=/services/CheckIn/CheckInItem', requestCheckInItem, null,
+            FwAppData.jsonPost(true, 'api/v1/mobile?path=/services/CheckIn/CheckInItem', requestCheckInItem, null,
                 function success(responseCheckInItem) {
                     screen.enableBarcodeField();
                     properties.responseCheckInItem = responseCheckInItem;

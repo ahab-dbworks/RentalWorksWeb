@@ -11,7 +11,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class CheckInMenu : QuikScanModule
+    public class CheckInMenu : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------

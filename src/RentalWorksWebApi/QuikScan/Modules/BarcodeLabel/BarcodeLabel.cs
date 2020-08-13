@@ -9,7 +9,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class BarcodeLabel : QuikScanModule
+    public class BarcodeLabel : MobileModule
     {
         //----------------------------------------------------------------------------------------------------
         RwAppData AppData;

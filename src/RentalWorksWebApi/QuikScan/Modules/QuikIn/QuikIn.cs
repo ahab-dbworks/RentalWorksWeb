@@ -8,7 +8,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class QuikIn : QuikScanModule
+    public class QuikIn : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------

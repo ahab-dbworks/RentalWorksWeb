@@ -8,7 +8,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class MoveBCLocation : QuikScanModule
+    class MoveBCLocation : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------

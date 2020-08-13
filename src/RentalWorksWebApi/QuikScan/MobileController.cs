@@ -23,12 +23,12 @@ namespace WebApi.Modules.Mobile.QuikScan
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "mobile-v1")]
     [FwController(Id: "L2TmlkfDPVoo")]
-    public class QuikScanController : FwJsonServiceController
+    public class MobileController : FwJsonServiceController
     {
         RentalWorksQuikScan.Modules.FillContainer fillContainer;
         RwService rwService;
         //---------------------------------------------------------------------------------------------
-        public QuikScanController(IOptions<FwApplicationConfig> appConfig) : base(appConfig)
+        public MobileController(IOptions<FwApplicationConfig> appConfig) : base(appConfig)
         {
             fillContainer = new RentalWorksQuikScan.Modules.FillContainer(appConfig.Value);
             rwService = new RwService(this.AppConfig, this.UserSession);
@@ -385,7 +385,7 @@ namespace WebApi.Modules.Mobile.QuikScan
             switch (componentType)
             {
                 case "services":
-                    type = typeof(QuikScanController).Assembly.GetType("RentalWorksQuikScan.Modules." + name, false);
+                    type = typeof(MobileController).Assembly.GetType("RentalWorksQuikScan.Modules." + name, false);
                     object service = Activator.CreateInstance(type, this.AppConfig);
                     methodInfo = service.GetType().GetMethod(method);
                     FwJsonServiceMethodAttribute[] serviceMethodAttributes = (FwJsonServiceMethodAttribute[])methodInfo.GetCustomAttributes(typeof(FwJsonServiceMethodAttribute), false);

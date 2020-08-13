@@ -11,7 +11,7 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    public class POSubReceiveReturn : QuikScanModule
+    public class POSubReceiveReturn : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------

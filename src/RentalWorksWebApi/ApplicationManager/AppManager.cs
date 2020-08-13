@@ -43,7 +43,7 @@ namespace WebApi.ApplicationManager
             controllerTypes.AddRange(appDataControllerTypes);
             controllerTypes.AddRange(appReportControllerTypes);
             controllerTypes.Add(typeof(GroupController));
-            controllerTypes.Add(typeof(QuikScanController));
+            controllerTypes.Add(typeof(MobileController));
 
             return controllerTypes;
         }
