@@ -24,7 +24,7 @@ const returnListTemplate = `
                   <div data-datafield="IncludeTrackedByBarcode" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include I-Codes tracked by Bar Code/Serial No." style="float:left;max-width:420px;"></div>
                   <!--div data-datafield="PrintBarcodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Bar Codes" style="float:left;max-width:420px;"></div-->
                   <!--div data-datafield="PrintICodeColumn" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print I-Code Column" style="float:left;max-width:420px;"></div-->
-                  <div data-datafield="PrintAisleShelf" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Aisle/ Shelf" style="float:left;max-width:420px;"></div>
+                  <!-- <div data-datafield="PrintAisleShelf" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Aisle/ Shelf" style="float:left;max-width:420px;"></div> -->
                   <div data-datafield="IncludeSales" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Sales" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
@@ -83,7 +83,6 @@ class ReturnListReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        //this.loadLists($form);
 
         // Default settings for first time running
         //const orders = JSON.parse(sessionStorage.getItem('order'));
@@ -100,37 +99,33 @@ class ReturnListReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-            const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-            const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
 
-            switch (datafield) {
-                case 'InventoryTypeId':
-                    request.uniqueids.Rental = true;
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                    break;
-                case 'CategoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                    break;
-                case 'InventoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    };
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-                    break;
-            }
-        
-    }
-    //----------------------------------------------------------------------------------------------
-    loadLists($form: JQuery): void {
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids.Rental = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'InventoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                };
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+        }
+
     }
     //----------------------------------------------------------------------------------------------
 };
 
 var ReturnListReportController: any = new ReturnListReport();
-//----------------------------------------------------------------------------------------------
