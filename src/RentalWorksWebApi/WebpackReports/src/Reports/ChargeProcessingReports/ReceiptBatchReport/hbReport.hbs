@@ -1,5 +1,5 @@
 ﻿<!--Receipt Batch Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,14 +11,14 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Ref/Check No.</th>
-        <th>Payment Type</th>
-        <th class="number">Amount</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ReceiptDate" data-valuefield="ReceiptDate">Date</th>
+        <th data-linkedcolumn="CheckNumber" data-valuefield="CheckNumber">Ref/Check No.</th>
+        <th data-linkedcolumn="PaymentType" data-valuefield="PaymentType">Payment Type</th>
+        <th data-linkedcolumn="Amount" data-valuefield="Amount" class="number">Amount</th>
       </tr>
     </thead>
     <tbody>
