@@ -15,12 +15,12 @@ export class DealOutstandingReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.IncludeFullImages = false;
-                    if (parameters.ShowResponsiblePerson === true) {
-                        data.ShowResponsiblePerson = true;
-                    }
-                    if (parameters.ShowBarcodes === true) {
-                        data.ShowBarcodes = true;
-                    }
+                    //if (parameters.ShowResponsiblePerson === true) {
+                    //    data.ShowResponsiblePerson = true;
+                    //}
+                    //if (parameters.ShowBarcodes === true) {
+                    //    data.ShowBarcodes = true;
+                    //}
                     if (parameters.ShowVendors === true) {
                         data.ShowVendors = true;
                         data.FooterColspan = 5;
