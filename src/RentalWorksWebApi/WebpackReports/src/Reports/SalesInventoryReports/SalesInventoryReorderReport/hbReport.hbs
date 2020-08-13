@@ -1,5 +1,5 @@
 ﻿<!--Sales Inventory Transaction Report-->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow" style="width: 1555px;">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,7 +11,7 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
   <table>
     <thead>
       <tr>
@@ -27,8 +27,8 @@
         <th class="number">Reorder Point</th>
         <th class="number">Reorder Qty</th>
         <th class="number">Last Purchase Qty</th>
-        <th class="number">Last Purchased</th>
-        <th class="number">Last Sold</th>
+        <th>Last Purchased</th>
+        <th>Last Sold</th>
       </tr>
     </thead>
     <tbody>
@@ -53,8 +53,8 @@
         <td class="number" data-value="{{ReorderPoint}}"></td>
         <td class="number" data-value="{{ReorderQuantity}}"></td>
         <td class="number" data-value="{{LastPurchaseQuantity}}"></td>
-        <td class="number" data-value="{{LastPurchaseDate}}"></td>
-        <td class="number" data-value="{{LastSaleDate}}"></td>
+        <td data-value="{{LastPurchaseDate}}"></td>
+        <td data-value="{{LastSaleDate}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryfooter"}}
         <td></td>
@@ -68,7 +68,7 @@
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
         <td></td>
-        <td class="total-name"  colspan="3" data-value="{{Warehouse}}"></td>
+        <td class="total-name" colspan="3" data-value="{{Warehouse}}"></td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td class="total-val" data-value="{{QuantityAllocated}}"></td>
         <td class="total-val" data-value="{{QuantityStaged}}"></td>
