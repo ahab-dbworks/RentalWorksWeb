@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.IncomingShippingLabel
+namespace WebApi.Modules.Reports.OrderReports.IncomingShippingLabel
 {
     [FwSqlTable("incomingshippinglabelwebview")]
     public class IncomingShippingLabelLoader : AppReportLoader

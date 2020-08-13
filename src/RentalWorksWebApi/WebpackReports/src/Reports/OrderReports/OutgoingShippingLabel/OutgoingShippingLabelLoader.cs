@@ -2,7 +2,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-namespace WebApi.Modules.Reports.OutgoingShippingLabel
+namespace WebApi.Modules.Reports.OrderReports.OutgoingShippingLabel
 {
     [FwSqlTable("outgoingshippinglabelwebview")]
     public class OutgoingShippingLabelLoader : AppReportLoader

@@ -14,7 +14,7 @@ using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 using WebApi.Modules.Agent.Order;
 
-namespace WebApi.Modules.Reports.OutgoingShippingLabel
+namespace WebApi.Modules.Reports.OrderReports.OutgoingShippingLabel
 {
     public class OutgoingShippingLabelRequest : AppReportRequest
     {
