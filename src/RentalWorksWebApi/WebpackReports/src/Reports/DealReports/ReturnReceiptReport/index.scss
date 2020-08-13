@@ -1,4 +1,4 @@
-﻿/*ReturnReceiptReport*/
+/*ReturnReceiptReport*/
 
 #unassigned {
     tr[data-rowtype="detail"]:nth-child(odd) {
@@ -17,12 +17,11 @@ table {
         }
     }
 
-
-    tbody[data-rowtype="detail"]:nth-of-type(even) {
-        background-color: #DCDCDC;
-    }
-
     tbody {
+        tr[data-rowtype="detail"]:nth-of-type(even) {
+            background-color: #DCDCDC;
+        }
+
         tr.subValues {
             text-align: left;
             padding-bottom: 2px;

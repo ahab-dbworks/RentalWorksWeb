@@ -1,5 +1,5 @@
 ﻿<!--ReturnReceiptReport-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,111 +11,115 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead class="main-header">
-      <tr>
-        <th>I-Code</th>
-        <th colspan="2">Description</th>
-        <th colspan="2">Vendor</th>
-        <th class="number">Quantity</th>
-        <th>Deal</th>
-        <th>Contract No.</th>
-        <th>Checked In</th>
+    <thead id="columnHeader" class="main-header">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
+        <th data-linkedcolumn="Vendor" data-valuefield="Vendor">Vendor</th>
+        <th data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
+        <th data-linkedcolumn="InQuantity" data-valuefield="InQuantity" class="number">Quantity</th>
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="InContractNumber" data-valuefield="InContractNumber">Contract No.</th>
+        <th data-linkedcolumn="InContractDate" data-valuefield="InContractDate">Checked In</th>
       </tr>
     </thead>
-    {{#each this}}
-    {{#ifEquals RowType "OfficeLocationheader"}}
-    <thead data-rowtype="{{RowType}}">
-      <tr>
-        <th class="header-row" colspan="4">Office: {{OfficeLocation}}</th>
+    <tbody>
+      {{#each this}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="header-row" colspan="9">Office: {{OfficeLocation}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Departmentheader"}}
-    <thead data-rowtype="{{RowType}}">
-      <tr>
-        <th class="lower header-row" colspan="4">Department: {{Department}}</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="lower header-row" colspan="9">Department: {{Department}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Dealheader"}}
-    <thead data-rowtype="{{RowType}}">
-      <tr>
-        <th class="lower header-row" colspan="4">Deal: {{Deal}}</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="lower header-row" colspan="9">Deal: {{Deal}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "detail"}}
-    <tbody data-rowtype="{{RowType}}">
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
       {{#ifEquals RecordType "RETURN_RECEIPT"}}
-      <tr>
-        <td data-value="{{ICode}}"></td>
-        <td colspan="2" data-value="{{Description}}"></td>
-        <td colspan="2" data-value="{{Vendor}}"></td>
-        <td class="number" data-value="{{InQuantity}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{InContractNumber}}"></td>
-        <td data-value="{{InContractDate}}"></td>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="EmptyTd-1"></td>
+        <td data-linkedcolumn="Vendor" data-value="{{Vendor}}"></td>
+        <td data-linkedcolumn="EmptyTd-2"></td>
+        <td data-linkedcolumn="InQuantity" class="number" data-value="{{InQuantity}}"></td>
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="InContractNumber" data-value="{{InContractNumber}}"></td>
+        <td data-linkedcolumn="InContractDate" data-value="{{InContractDate}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RecordType "ASSIGNED"}}
       {{#ifNotEquals RenderHeader false}}
-      <tr>
-        <th style="text-align:right;">Assigned:&nbsp;</th>
-        <th class="subHeaders">Order No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders">Contract No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders number">Applied</th>
-        <th colspan="3"></th>
+      <tr data-row="sub-header" data-sort="true" data-rowtype="{{RowType}}">
+        <th data-linkedcolumn="EmptyTd-3" data-valuefield="" style="text-align:right;">Assigned:&nbsp;</th>
+        <th data-linkedcolumn="ReconciledOrderNumber" data-valuefield="ReconciledOrderNumber" class="subHeaders">Order No.</th>
+        <th data-linkedcolumn="ReconciledOrderDate" data-valuefield="ReconciledOrderDate" class="subHeaders">Date</th>
+        <th data-linkedcolumn="ReconciledContractNumber" data-valuefield="ReconciledContractNumber" class="subHeaders">Contract No.</th>
+        <th data-linkedcolumn="ReconciledContractDate" data-valuefield="ReconciledContractDate" class="subHeaders">Date</th>
+        <th data-linkedcolumn="ReconciledAppliedQuantity" data-valuefield="ReconciledAppliedQuantity" class="subHeaders number">Applied</th>
+        <th data-linkedcolumn="EmptyTd-4" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-5" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-6" data-valuefield=""></th>
       </tr>
       {{/ifNotEquals}}
-      <tr class="subValues">
-        <td></td>
-        <td>{{ReconciledOrderNumber}}</td>
-        <td>{{ReconciledOrderDate}}</td>
-        <td>{{ReconciledContractNumber}}</td>
-        <td>{{ReconciledContractDate}}</td>
-        <td class="number">{{ReconciledAppliedQuantity}}</td>
-        <td colspan="3"></td>
+      <tr data-row="sub-detail" class="subValues">
+        <td data-linkedcolumn="EmptyTd-3"></td>
+        <td data-linkedcolumn="ReconciledOrderNumber" data-value="{{ReconciledOrderNumber}}"></td>
+        <td data-linkedcolumn="ReconciledOrderDate" data-value="{{ReconciledOrderDate}}"></td>
+        <td data-linkedcolumn="ReconciledContractNumber" data-value="{{ReconciledContractNumber}}"></td>
+        <td data-linkedcolumn="ReconciledContractDate" data-value="{{ReconciledContractDate}}"></td>
+        <td data-linkedcolumn="ReconciledAppliedQuantity" data-value="{{ReconciledAppliedQuantity}}" class="number"></td>
+        <td data-linkedcolumn="EmptyTd-4"></td>
+        <td data-linkedcolumn="EmptyTd-5"></td>
+        <td data-linkedcolumn="EmptyTd-6"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RecordType "RETURNED_TO_INVENTORY"}}
       {{#ifNotEquals RenderHeader false}}
-      <tr>
-        <th style="text-align:right;">Assigned:&nbsp;</th>
-        <th class="subHeaders">Order No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders">Contract No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders number">Applied</th>
-        <th colspan="3"></th>
+      <tr data-row="sub-header" data-sort="true" >
+        <th data-linkedcolumn="EmptyTd-7" style="text-align:right;">Assigned:&nbsp;</th>
+        <th data-linkedcolumn="ReconciledOrderNumber-2" data-valuefield="ReconciledOrderNumber" class="subHeaders">Order No.</th>
+        <th data-linkedcolumn="ReconciledOrderDate-2" data-valuefield="ReconciledOrderDate" class="subHeaders">Date</th>
+        <th data-linkedcolumn="ReconciledContractNumber-2" data-valuefield="ReconciledContractNumber" class="subHeaders">Contract No.</th>
+        <th data-linkedcolumn="ReconciledContractDate-2" data-valuefield="ReconciledContractDate" class="subHeaders">Date</th>
+        <th data-linkedcolumn="ReconciledAppliedQuantity-2" data-valuefield="ReconciledAppliedQuantity" class="subHeaders number">Applied</th>
+        <th data-linkedcolumn="EmptyTd-8"></th>
+        <th data-linkedcolumn="EmptyTd-9"></th>
+        <th data-linkedcolumn="EmptyTd-10"></th>
       </tr>
       {{/ifNotEquals}}
-      <tr class="subValues">
-        <td></td>
-        <td>{{ReconciledOrderNumber}}</td>
-        <td>{{ReconciledOrderDate}}</td>
-        <td>{{ReconciledContractNumber}}</td>
-        <td>{{ReconciledContractDate}}</td>
-        <td class="number">{{ReconciledAppliedQuantity}}</td>
-        <td colspan="3"></td>
-      </tr>
+    <tr data-row="sub-detail" class="subValues">
+      <td data-linkedcolumn="EmptyTd-7"></td>
+      <td data-linkedcolumn="ReconciledOrderNumber-2" data-value="{{ReconciledOrderNumber}}"></td>
+      <td data-linkedcolumn="ReconciledOrderDate-2" data-value="{{ReconciledOrderDate}}"></td>
+      <td data-linkedcolumn="ReconciledContractNumber-2" data-value="{{ReconciledContractNumber}}"></td>
+      <td data-linkedcolumn="ReconciledContractDate-2" data-value="{{ReconciledContractDate}}"></td>
+      <td data-linkedcolumn="ReconciledAppliedQuantity-2" data-value="{{ReconciledAppliedQuantity}}" class="number"></td>
+      <td data-linkedcolumn="EmptyTd-8"></td>
+      <td data-linkedcolumn="EmptyTd-9"></td>
+      <td data-linkedcolumn="EmptyTd-10"></td>
+    </tr>
       {{/ifEquals}}
-    </tbody>
-    {{/ifEquals}}
-    <tfoot data-rowtype="{{RowType}}">
+      {{/ifEquals}}
       {{#ifEquals RowType "ReportRowIdfooter"}}
       {{#gt AssignedQuantity 0}}
-      <tr>
-        <td colspan="5" class="total-name">Total for {{ICode}}</td>
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="7" class="total-name">Total for {{ICode}}</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
         <td style="text-align:left;border-top:none;" class="total-val">Unassigned: {{UnassignedQuantity}}</td>
       </tr>
       {{/gt}}
       {{/ifEquals}}
-    </tfoot>
-    {{/each}}
+      {{/each}}
+    </tbody>
   </table>
 </div>

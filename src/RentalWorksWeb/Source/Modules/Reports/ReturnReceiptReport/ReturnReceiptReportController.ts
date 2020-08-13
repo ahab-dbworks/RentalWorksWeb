@@ -65,6 +65,7 @@ class ReturnReceiptReport extends FwWebApiReport {
     constructor() {
         super('ReturnReceiptReport', 'api/v1/returnreceiptreport', returnReceiptTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
