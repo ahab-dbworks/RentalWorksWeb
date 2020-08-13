@@ -1,5 +1,5 @@
 ﻿<!--Customer Revenue By Type Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,118 +11,136 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Order No.</th>
-        <th>Invoice No.</th>
-        <th>Billing Start</th>
-        <th>Billing End</th>
-        <th>Agent</th>
-        <th class="number">Rental</th>
-        <th class="number">Sales</th>
-        <th class="number">Facilities</th>
-        <th class="number">Labor</th>
-        <th class="number">Misc</th>
-        <th class="number">Asset Sale</th>
-        <th class="number">Parts</th>
-        <th class="number">Tax</th>
-        <th class="number">Total</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
+        <th data-linkedcolumn="BillingStart" data-valuefield="BillingStart">Billing Start</th>
+        <th data-linkedcolumn="BillingEnd" data-valuefield="BillingEnd">Billing End</th>
+        <th data-linkedcolumn="Agent" data-valuefield="Agent">Agent</th>
+        <th data-linkedcolumn="Rental" data-valuefield="Rental" class="number">Rental</th>
+        <th data-linkedcolumn="Sales" data-valuefield="Sales" class="number">Sales</th>
+        <th data-linkedcolumn="Facilities" data-valuefield="Facilities" class="number">Facilities</th>
+        <th data-linkedcolumn="Labor" data-valuefield="Labor" class="number">Labor</th>
+        <th data-linkedcolumn="Miscellaneous" data-valuefield="Miscellaneous" class="number">Misc</th>
+        <th data-linkedcolumn="AssetSale" data-valuefield="AssetSale" class="number">Asset Sale</th>
+        <th data-linkedcolumn="Parts" data-valuefield="Parts" class="number">Parts</th>
+        <th data-linkedcolumn="Tax" data-valuefield="Tax" class="number">Tax</th>
+        <th data-linkedcolumn="Total" data-valuefield="Total" class="number">Total</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "OfficeLocationheader"}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="4" class="lower header-row">Department: {{Department}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="4" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="4" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td>{{OrderNumber}}</td>
-        <td>{{InvoiceNumber}}</td>
-        <td>{{BillingStart}}</td>
-        <td>{{BillingEnd}}</td>
-        <td>{{Agent}}</td>
-        <td class="number">{{Rental}}</td>
-        <td class="number">{{Sales}}</td>
-        <td class="number">{{Facilities}}</td>
-        <td class="number">{{Labor}}</td>
-        <td class="number">{{Miscellaneous}}</td>
-        <td class="number">{{AssetSale}}</td>
-        <td class="number">{{Parts}}</td>
-        <td class="number">{{Tax}}</td>
-        <td class="number">{{Total}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val">{{Rental}}</td>
-        <td class="total-val">{{Sales}}</td>
-        <td class="total-val">{{Facilities}}</td>
-        <td class="total-val">{{Labor}}</td>
-        <td class="total-val">{{Miscellaneous}}</td>
-        <td class="total-val">{{AssetSale}}</td>
-        <td class="total-val">{{Parts}}</td>
-        <td class="total-val">{{Tax}}</td>
-        <td class="total-val">{{Total}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="5" class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val">{{Rental}}</td>
-        <td class="total-val">{{Sales}}</td>
-        <td class="total-val">{{Facilities}}</td>
-        <td class="total-val">{{Labor}}</td>
-        <td class="total-val">{{Miscellaneous}}</td>
-        <td class="total-val">{{AssetSale}}</td>
-        <td class="total-val">{{Parts}}</td>
-        <td class="total-val">{{Tax}}</td>
-        <td class="total-val">{{Total}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="5" class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val">{{Rental}}</td>
-        <td class="total-val">{{Sales}}</td>
-        <td class="total-val">{{Facilities}}</td>
-        <td class="total-val">{{Labor}}</td>
-        <td class="total-val">{{Miscellaneous}}</td>
-        <td class="total-val">{{AssetSale}}</td>
-        <td class="total-val">{{Parts}}</td>
-        <td class="total-val">{{Tax}}</td>
-        <td class="total-val">{{Total}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val">{{Rental}}</td>
-        <td class="total-val">{{Sales}}</td>
-        <td class="total-val">{{Facilities}}</td>
-        <td class="total-val">{{Labor}}</td>
-        <td class="total-val">{{Miscellaneous}}</td>
-        <td class="total-val">{{AssetSale}}</td>
-        <td class="total-val">{{Parts}}</td>
-        <td class="total-val">{{Tax}}</td>
-        <td class="total-val">{{Total}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val">{{Rental}}</td>
-        <td class="total-val">{{Sales}}</td>
-        <td class="total-val">{{Facilities}}</td>
-        <td class="total-val">{{Labor}}</td>
-        <td class="total-val">{{Miscellaneous}}</td>
-        <td class="total-val">{{AssetSale}}</td>
-        <td class="total-val">{{Parts}}</td>
-        <td class="total-val">{{Tax}}</td>
-        <td class="total-val">{{Total}}</td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="4" class="lower header-row">Department: {{Department}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="4" class="lower header-row">Customer: {{Customer}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="4" class="lower header-row">Deal: {{Deal}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
+        <td data-linkedcolumn="BillingStart" data-value="{{BillingStart}}"></td>
+        <td data-linkedcolumn="BillingEnd" data-value="{{BillingEnd}}"></td>
+        <td data-linkedcolumn="Agent" data-value="{{Agent}}"></td>
+        <td data-linkedcolumn="Rental" data-value="{{Rental}}" class="number"></td>
+        <td data-linkedcolumn="Sales" data-value="{{Sales}}" class="number"></td>
+        <td data-linkedcolumn="Facilities" data-value="{{Facilities}}" class="number"></td>
+        <td data-linkedcolumn="Labor" data-value="{{Labor}}" class="number"></td>
+        <td data-linkedcolumn="Miscellaneous" data-value="{{Miscellaneous}}" class="number"></td>
+        <td data-linkedcolumn="AssetSale" data-value="{{AssetSale}}" class="number"></td>
+        <td data-linkedcolumn="Parts" data-value="{{Parts}}" class="number"></td>
+        <td data-linkedcolumn="Tax" data-value="{{Tax}}" class="number"></td>
+        <td data-linkedcolumn="Total" data-value="{{Total}}" class="number"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
+        <td data-linkedcolumn="Rental" data-value="{{Rental}}" class="total-val"></td>
+        <td data-linkedcolumn="Sales" data-value="{{Sales}}" class="total-val"></td>
+        <td data-linkedcolumn="Facilities" data-value="{{Facilities}}" class="total-val"></td>
+        <td data-linkedcolumn="Labor" data-value="{{Labor}}" class="total-val"></td>
+        <td data-linkedcolumn="Miscellaneous" data-value="{{Miscellaneous}}" class="total-val"></td>
+        <td data-linkedcolumn="AssetSale" data-value="{{AssetSale}}" class="total-val"></td>
+        <td data-linkedcolumn="Parts" data-value="{{Parts}}" class="total-val"></td>
+        <td data-linkedcolumn="Tax" data-value="{{Tax}}" class="total-val"></td>
+        <td data-linkedcolumn="Total" data-value="{{Total}}" class="total-val"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Customer}}&nbsp;</td>
+        <td data-linkedcolumn="Rental" data-value="{{Rental}}" class="total-val"></td>
+        <td data-linkedcolumn="Sales" data-value="{{Sales}}" class="total-val"></td>
+        <td data-linkedcolumn="Facilities" data-value="{{Facilities}} " class="total-val"></td>
+        <td data-linkedcolumn="Labor" data-value="{{Labor}}" class="total-val"></td>
+        <td data-linkedcolumn="Miscellaneous" data-value="{{Miscellaneous}}" class="total-val"></td>
+        <td data-linkedcolumn="AssetSale" data-value="{{AssetSale}}" class="total-val"></td>
+        <td data-linkedcolumn="Parts" data-value="{{Parts}}" class="total-val"></td>
+        <td data-linkedcolumn="Tax" data-value="{{Tax}}" class="total-val"></td>
+        <td data-linkedcolumn="Total" data-value="{{Total}}" class="total-val"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Department}}&nbsp;</td>
+        <td data-linkedcolumn="Rental" data-value="{{Rental}}" class="total-val"></td>
+        <td data-linkedcolumn="Sales" data-value="{{Sales}}" class="total-val"></td>
+        <td data-linkedcolumn="Facilities" data-value="{{Facilities}}" class="total-val"></td>
+        <td data-linkedcolumn="Labor" data-value="{{Labor}}" class="total-val"></td>
+        <td data-linkedcolumn="Miscellaneous" data-value="{{Miscellaneous}}" class="total-val"></td>
+        <td data-linkedcolumn="AssetSale" data-value="{{AssetSale}}" class="total-val"></td>
+        <td data-linkedcolumn="Parts" data-value="{{Parts}}" class="total-val"></td>
+        <td data-linkedcolumn="Tax" data-value="{{Tax}}" class="total-val"></td>
+        <td data-linkedcolumn="Total" data-value="{{Total}}" class="total-val"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td data-linkedcolumn="Rental" data-value="{{Rental}}" class="total-val"></td>
+        <td data-linkedcolumn="Sales" data-value="{{Sales}}" class="total-val"></td>
+        <td data-linkedcolumn="Facilities" data-value="{{Facilities}}" class="total-val"></td>
+        <td data-linkedcolumn="Labor" data-value="{{Labor}}" class="total-val"></td>
+        <td data-linkedcolumn="Miscellaneous" data-value="{{Miscellaneous}}" class="total-val"></td>
+        <td data-linkedcolumn="AssetSale" data-value="{{AssetSale}}" class="total-val"></td>
+        <td data-linkedcolumn="Parts" data-value="{{Parts}}" class="total-val"></td>
+        <td data-linkedcolumn="Tax" data-value="{{Tax}}" class="total-val"></td>
+        <td data-linkedcolumn="Total" data-value="{{Total}}" class="total-val"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="Rental" data-value="{{Rental}}" class="total-val"></td>
+        <td data-linkedcolumn="Sales" data-value="{{Sales}}" class="total-val"></td>
+        <td data-linkedcolumn="Facilities" data-value="{{Facilities}}" class="total-val"></td>
+        <td data-linkedcolumn="Labor" data-value="{{Labor}}" class="total-val"></td>
+        <td data-linkedcolumn="Miscellaneous" data-value="{{Miscellaneous}}" class="total-val"></td>
+        <td data-linkedcolumn="AssetSale" data-value="{{AssetSale}}" class="total-val"></td>
+        <td data-linkedcolumn="Parts" data-value="{{Parts}}" class="total-val"></td>
+        <td data-linkedcolumn="Tax" data-value="{{Tax}}" class="total-val"></td>
+        <td data-linkedcolumn="Total" data-value="{{Total}}" class="total-val"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

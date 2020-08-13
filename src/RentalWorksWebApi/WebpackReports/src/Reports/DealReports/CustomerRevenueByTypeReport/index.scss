@@ -1,5 +1,5 @@
 ﻿tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
+    tr[data-row="detail"]:nth-of-type(odd) {
         background-color: #DCDCDC;
     }
 

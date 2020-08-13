@@ -64,6 +64,7 @@ const customerRevenueByTypeTemplate = `
 class CustomerRevenueByTypeReport extends FwWebApiReport {
     constructor() {
         super('CustomerRevenueByTypeReport', 'api/v1/customerrevenuebytypereport', customerRevenueByTypeTemplate);
+        this.designerProvisioned = true;
     }
 
     //----------------------------------------------------------------------------------------------
