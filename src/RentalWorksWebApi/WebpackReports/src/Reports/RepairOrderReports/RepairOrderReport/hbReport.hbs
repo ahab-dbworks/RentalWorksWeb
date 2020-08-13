@@ -141,11 +141,12 @@
 </div>
 
 <!-- Parts Items -->
-<div class="rpt-flexrow section-start">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each PartsItems}}
     {{#ifEquals RowType "ItemTypeheader"}}
     <tbody data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!--spacer row-->
       <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{ItemType}}&nbsp;</td>
       </tr>
@@ -205,11 +206,12 @@
 </div>
 
 <!-- Misc Items -->
-<div class="rpt-flexrow section-start">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each MiscItems}}
     {{#ifEquals RowType "ItemTypeheader"}}
     <tbody data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!--spacer row-->
       <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{ItemType}}&nbsp;</td>
       </tr>
@@ -269,11 +271,12 @@
 </div>
 
 <!-- Labor Items -->
-<div class="rpt-flexrow section-start">
+<div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each LaborItems}}
     {{#ifEquals RowType "ItemTypeheader"}}
     <tbody data-rowtype="{{RowType}}">
+      <tr><td>&nbsp;</td></tr><!--spacer row-->
       <tr class="avoid-page-break">
         <td colspan="7" class="section-header">{{ItemType}}&nbsp;</td>
       </tr>
@@ -333,7 +336,7 @@
 </div>
 
 <!-- Grand Total row -->
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow">
   <table class="grandTotalRow">
     {{#ifNotEquals Tax 0}}
     <tr>
