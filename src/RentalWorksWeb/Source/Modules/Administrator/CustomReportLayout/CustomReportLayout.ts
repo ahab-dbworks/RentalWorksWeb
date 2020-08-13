@@ -410,7 +410,7 @@ class CustomReportLayout {
                     oldIndex: e.oldIndex,
                     newIndex: e.newIndex,
                     fromRowIndex: e.from.rowIndex,
-                    linkedRow: $tr.attr('data-linkedrow')
+                    linkedRow: $tr.attr('data-linkedrow'),
                     toRowIndex: e.item.parentElement.rowIndex,
                     rowType: $tr.attr('data-row'),
                     theadIndex: $tr.parent('thead').index() //jasonh - 08/07/20 experimental support for multiple theads (so that first thead can be used as a label to separate columns into sections)
