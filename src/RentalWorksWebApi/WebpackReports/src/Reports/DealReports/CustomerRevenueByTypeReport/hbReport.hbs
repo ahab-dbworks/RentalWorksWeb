@@ -35,22 +35,22 @@
       {{#each this}}
       {{#ifEquals RowType "OfficeLocationheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="15" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Departmentheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="4" class="lower header-row">Department: {{Department}}</td>
+        <td colspan="15" class="lower header-row">Department: {{Department}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Customerheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="4" class="lower header-row">Customer: {{Customer}}</td>
+        <td colspan="15" class="lower header-row">Customer: {{Customer}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Dealheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="4" class="lower header-row">Deal: {{Deal}}</td>
+        <td colspan="15" class="lower header-row">Deal: {{Deal}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
