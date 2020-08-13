@@ -9,12 +9,12 @@ namespace WebApi.Modules.Administrator.Group
     public class GroupLogic: FwGroupLogic
     {
 
-        FwGroupRecord group = new FwGroupRecord();
-        GroupLoader groupLoader = new GroupLoader();
+        //FwGroupRecord group = new FwGroupRecord();
+        //GroupLoader groupLoader = new GroupLoader();
         public GroupLogic() : base()
         {
-            dataRecords.Add(group);
-            dataLoader = groupLoader;
+            //dataRecords.Add(group);
+            //dataLoader = groupLoader;
         }
         //------------------------------------------------------------------------------------ 
 
