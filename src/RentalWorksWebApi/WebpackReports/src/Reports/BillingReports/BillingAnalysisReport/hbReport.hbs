@@ -37,19 +37,21 @@
         <th data-linkedcolumn="EmptyTd-6" data-valuefield=""></th>
       </tr>
     </thead>
-    <tbody>
-      {{#each this}}
-      {{#ifEquals RowType "OfficeLocationheader"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
-        <th class="header-row" colspan="9">Office Location: {{OfficeLocation}}</th>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "Agentheader"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
-        <th class="lower header-row" colspan="9">Agent: {{Agent}}</th>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "detail"}}
+    {{#each this}}
+
+    {{#ifEquals RowType "OfficeLocationheader"}}
+    <tr data-row="header" data-rowtype="{{RowType}}">
+      <th class="header-row" colspan="9">Office Location: {{OfficeLocation}}</th>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "Agentheader"}}
+    <tr data-row="header" data-rowtype="{{RowType}}">
+      <th class="lower header-row" colspan="9">Agent: {{Agent}}</th>
+    </tr>
+    {{/ifEquals}}
+
+    {{#ifEquals RowType "detail"}}
+    <tbody class="detail-row">
       <tr data-row="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
         <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
@@ -98,8 +100,10 @@
       </tr>
       {{/checkLength}}
       {{/if}}
-      {{/ifEquals}}
-      {{#ifEquals RowType "Agentfooter"}}
+    </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "Agentfooter"}}
+    <tbody>
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{Agent}}:&nbsp;</td>
         <td data-linkedcolumn="OrderTotal" class="total-val" data-value="{{OrderTotal}}"></td>
@@ -125,8 +129,8 @@
         <td data-linkedcolumn="InvoicedTotal" class="total-val" data-value="{{InvoicedTotal}}"></td>
         <td data-linkedcolumn="VendorInvoiceTotal" class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
       </tr>
-      {{/ifEquals}}
-      {{/each}}
     </tbody>
+    {{/ifEquals}}
+    {{/each}}
   </table>
 </div>

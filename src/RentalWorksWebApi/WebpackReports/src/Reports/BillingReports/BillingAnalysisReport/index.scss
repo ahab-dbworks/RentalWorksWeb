@@ -13,7 +13,7 @@ tbody {
     }
 }
 
-tbody[data-rowtype="detail"]:nth-of-type(even) {
+tbody.detail-row:nth-of-type(even) {
     background-color: #DCDCDC;
 }
 
