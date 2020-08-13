@@ -295,7 +295,7 @@ namespace WebApi.Modules.Reports.DealReports.OrdersByDealReport
                 string[] headerFieldsDeal = new string[] { "Customer", "DealNumber", "DealType", "DealPrimaryContactName", "DealPrimaryContactPhone", "DealPrimaryContactExt", "CreditStatus", "InsuranceCertification", "InsuranceStatus", "EstimatedStopDate", "EstimatedStartDate", "DealPaymentTerms", "Address1", "Address2", "City", "State", "Zip", "Country", "Phone" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
-                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+                dt.InsertSubTotalRows("Customer", "RowType", totalFields, totalFor: "Total for Customer");
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields, headerFieldsDeal, totalFor: "Total for Deal");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }

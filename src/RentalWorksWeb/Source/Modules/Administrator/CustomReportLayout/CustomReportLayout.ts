@@ -404,13 +404,13 @@ class CustomReportLayout {
                 const $column = jQuery(e.item);
                 $column.removeAttr('draggable');
                 const linkedColumnName = $column.attr('data-linkedcolumn');
-
                 const $tr = jQuery(e.currentTarget);
+
                 $form.data('columnsmoved', {
                     oldIndex: e.oldIndex,
                     newIndex: e.newIndex,
                     fromRowIndex: e.from.rowIndex,
-                    //toRowIndex: $column.parent().index(),
+                    linkedRow: $tr.attr('data-linkedrow')
                     toRowIndex: e.item.parentElement.rowIndex,
                     rowType: $tr.attr('data-row'),
                     theadIndex: $tr.parent('thead').index() //jasonh - 08/07/20 experimental support for multiple theads (so that first thead can be used as a label to separate columns into sections)
@@ -463,9 +463,10 @@ class CustomReportLayout {
 
                         //change sub-header caption
                         if (typeof $form.data('updatesubheader') !== 'undefined') {
-                            const linkedColumn = $form.data('updatesubheader').linkedcolumn;
-                            const caption = $form.data('updatesubheader').caption;
-                            const $cachedTd = jQuery($wrapper.find(`${tableNameSelector} [data-row="sub-header"] [data-linkedcolumn="${linkedColumn}"]`));
+                            const captionData = $form.data('updatesubheader');
+                            const linkedColumn = captionData.linkedcolumn;
+                            const caption = captionData.caption;
+                            const $cachedTd = jQuery($wrapper.find(`${tableNameSelector} [data-row="${captionData.rowtype}"] [data-linkedcolumn="${linkedColumn}"]`));
                             $cachedTd.removeClass('highlight').text(caption);
                             $form.removeData('updatesubheader');
                         }
@@ -536,13 +537,15 @@ class CustomReportLayout {
 
         //control properties events
         $form.on('change', '#controlProperties [data-datafield]', e => {
-            let $row, linkedColumn;
+            let $row, linkedColumn, rowType, linkedRow;
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
             const value = FwFormField.getValue2($property);
 
             if (typeof $column != 'undefined') {
                 $row = $column.parents('tr');
+                rowType = $row.attr('data-row');
+                linkedRow = $row.attr('data-linkedrow');
                 if ($column.data('newcolumn')) {
                     $form.data('updatetype', 'tableheader');
                 }
@@ -574,13 +577,18 @@ class CustomReportLayout {
                         $column.attr('data-valuefield', value);
                         FwFormField.setValueByDataField($form, 'CaptionField', value);
                         $column.text(value);
-                        $form.data('changevaluefield', { linkedcolumn: linkedColumn, oldfield: oldField, newfield: value });
+                        $form.data('changevaluefield',
+                            {
+                                linkedcolumn: linkedColumn,
+                                linkedrow: linkedRow,
+                                rowtype: rowType,
+                                oldfield: oldField,
+                                newfield: value
+                            });
                     }
                     break;
                 case 'CaptionField':
                     if (typeof $column != 'undefined') {
-                        const rowType = $row.attr('data-row');
-
                         switch (rowType) {
                             case 'main-header':
                                 $form.data('updatetype', 'tableheader');
@@ -590,8 +598,14 @@ class CustomReportLayout {
                                 $form.data('rowindex', $row.get(0).rowIndex);
                                 break;
                             case 'sub-header':
+                            case 'linked-sub-header':
                                 linkedColumn = $column.attr('data-linkedcolumn');
-                                $form.data('updatesubheader', { linkedcolumn: linkedColumn, caption: value });
+                                $form.data('updatesubheader', {
+                                    linkedcolumn: linkedColumn,
+                                    caption: value,
+                                    rowtype: rowType,
+                                    linkedrow: linkedRow
+                                });
                                 $form.data('updatetype', 'tableheader');
                                 break;
                             case 'footer':
@@ -894,11 +908,11 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     changeValueField($form: JQuery, $wrapper: JQuery, tableName: string, $table: JQuery, $cachedRows: JQuery) {
-        let $designerRow, $cachedRow, $cachedTd, $designerTd, html, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0;
+        let $designerRow, $cachedRow, $cachedTd, $designerTd, html, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, linkedSubHeaderRowIndex = 0;
+        const changes = $form.data('changevaluefield');
         for (let i = 0; i < $cachedRows.length; i++) {
             const $row = jQuery($cachedRows[i]);
             const rowType = $row.attr('data-row');
-            const changes = $form.data('changevaluefield');
 
             switch (rowType) {
                 case 'detail':
@@ -910,6 +924,23 @@ class CustomReportLayout {
                         $designerTd.attr('data-value', `{{${changes.newfield}}}`);
                     }
                     detailRowIndex++;
+                    break;
+                case 'linked-sub-header':
+                    $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                    $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"][data-linkedrow="${changes.linkedrow}"]`)[linkedSubHeaderRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                    if ($cachedTd.length && $designerTd.length) {
+                        $cachedTd.attr('data-valuefield', changes.newfield);
+                        $cachedTd.text(changes.newfield);
+                        $designerTd.attr('data-valuefield', changes.newfield);
+                        $designerTd.text(changes.newfield);
+                        $designerTd.removeClass('new-column');
+                        $designerRow = jQuery($table.find('tr[data-row="linked-sub-header"]')[linkedSubHeaderRowIndex]).clone();
+                        $designerRow.find('.highlight').removeClass('highlight');
+                        html = $designerRow.get(linkedSubHeaderRowIndex).innerHTML.trim();
+                        $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="linked-sub-header"]`)[linkedSubHeaderRowIndex]);
+                        $cachedRow.html(html);
+                    }
+                    linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
                     $designerRow = jQuery($table.find('tr[data-row="sub-header"]')[subHeaderRowIndex]).clone();
@@ -936,6 +967,19 @@ class CustomReportLayout {
                     break;
             }
         }
+
+        //update linked main header
+        if (changes.rowtype === 'linked-sub-header') {
+            const $headerRow = jQuery($table.find(`tr[data-row="main-header"][data-linkedrow="${changes.linkedrow}"]`));
+            const $headerTh = $headerRow.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+            $headerRow.find('.highlight').removeClass('highlight');
+            $headerTh.attr('data-valuefield', changes.newfield);
+            $headerTh.text(changes.newfield);
+            html = $headerRow.get(0).innerHTML.trim();
+            $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="main-header"][data-linkedrow="${changes.linkedrow}"]`));
+            $cachedRow.html(html);
+        }
+
         $form.removeData('changevaluefield');
     }
     //----------------------------------------------------------------------------------------------
@@ -1073,7 +1117,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     moveColumns($form: JQuery, $wrapper: JQuery, tableNameSelector: string, $table: JQuery, $cachedRows: JQuery, $th: JQuery) {
-        let html, $detailRowTds, rowIndex = 0, footerRowIndex = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, skipDetailRows = false;
+        let html, cellType, $detailRowTds, rowIndex = 0, footerRowIndex = 0, detailRowIndex = 0, linkedSubHeaderRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, skipDetailRows = false;
         const linkedColumn = $th.attr('data-linkedcolumn');
         const sortIndex = $form.data('columnsmoved');
         const oldIndex = sortIndex.oldIndex;
@@ -1081,6 +1125,7 @@ class CustomReportLayout {
         const oldRowIndex = sortIndex.fromRowIndex;
         const newRowIndex = sortIndex.toRowIndex;
         const columnMovedRowType = sortIndex.rowType;
+        const linkedRow = sortIndex.linkedRow;
 
         switch (columnMovedRowType) {
             case 'main-header':
@@ -1090,26 +1135,35 @@ class CustomReportLayout {
 
                     switch (rowType) {
                         case 'detail':
+                            cellType = 'td';
                             rowIndex = detailRowIndex;
                             break;
+                        case 'linked-sub-header':
+                            cellType = 'th';
+                            rowIndex = linkedSubHeaderRowIndex;
+                            break;
                         case 'sub-header':
+                            cellType = 'th';
                             rowIndex = subHeaderRowIndex;
                             break;
                         case 'sub-detail':
+                            cellType = 'td';
                             rowIndex = subDetailRowIndex;
                             break;
                         case 'footer':
+                            cellType = 'td';
                             rowIndex = footerRowIndex;
                             break;
                         default:
+                            cellType = 'td';
                             rowIndex = 0;
                             break;
                     }
 
                     const $designerRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[rowIndex]);
                     const $designerTd = $designerRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                    let $designerTds = $designerRow.find('td');
-                    let $cachedTds = $row.find('td');
+                    let $designerTds = $designerRow.find(cellType);
+                    let $cachedTds = $row.find(cellType);
 
                     if (rowType == 'detail') {
                         if (!skipDetailRows) {
@@ -1134,11 +1188,11 @@ class CustomReportLayout {
                                 const $movedTdRow = jQuery($cachedRows.filter(`[data-row="${rowType}"]`)[oldRowIndex]);
                                 const $movedTd = $movedTdRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
                                 const $movedTdToRow = jQuery($cachedRows.filter(`[data-row="${rowType}"]`)[newRowIndex]);
-                                const $movedTdToRowTds = $movedTdToRow.find('td');
+                                const $movedTdToRowTds = $movedTdToRow.find(cellType);
 
                                 const $designerTdRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[oldRowIndex]);
                                 const $designerTdToRow = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[newRowIndex]);
-                                const $designerTdToRowTds = $designerTdToRow.find('td');
+                                const $designerTdToRowTds = $designerTdToRow.find(cellType);
                                 const $designerTd = $designerTdRow.find(`[data-linkedcolumn="${linkedColumn}"]`);
 
                                 if (newIndex === 0) {
@@ -1153,6 +1207,20 @@ class CustomReportLayout {
                         }
                     } else if (rowType === 'sub-header') {
                         subHeaderRowIndex++;
+                    } else if (rowType === 'linked-sub-header') {
+                        if (typeof linkedRow != 'undefined' && linkedRow === $designerRow.attr('data-linkedrow')) {
+                            const $movedTd = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                            if ($movedTd.length) {
+                                if (oldIndex > newIndex) {
+                                    $movedTd.insertBefore($cachedTds[newIndex]);
+                                    $designerTd.insertBefore($designerTds[newIndex]);
+                                } else {
+                                    $movedTd.insertAfter($cachedTds[newIndex]);
+                                    $designerTd.insertAfter($designerTds[newIndex]);
+                                }
+                            }
+                        }
+                        linkedSubHeaderRowIndex++;
                     } else if (rowType === 'sub-detail') {
                         subDetailRowIndex++;
                     } else if (rowType == 'footer') {
@@ -1222,8 +1290,8 @@ class CustomReportLayout {
                                             $movedTd.insertAfter($cachedTds[totalNameIndex]);
                                             $designerTd.insertAfter($designerTds[totalNameIndex]);
 
-                                            $designerTds = $designerRow.find('td');  //reassign with new element order
-                                            $cachedTds = $row.find('td');
+                                            $designerTds = $designerRow.find(cellType);  //reassign with new element order
+                                            $cachedTds = $row.find(cellType);
 
                                             //split tds to the right into empty tds
                                             for (let j = 1; j <= columnsToUnmerge; j++) {
@@ -1250,8 +1318,8 @@ class CustomReportLayout {
                                             $movedTd.insertAfter($cachedTds[totalNameIndex]);
                                             $designerTd.insertAfter($designerTds[totalNameIndex]);
 
-                                            $designerTds = $designerRow.find('td');  //reassign with new element order
-                                            $cachedTds = $row.find('td');
+                                            $designerTds = $designerRow.find(cellType);  //reassign with new element order
+                                            $cachedTds = $row.find(cellType);
 
                                             //split tds to the right into empty tds
                                             for (let j = 1; j <= columnsToUnmerge; j++) {
@@ -1337,6 +1405,38 @@ class CustomReportLayout {
                             $row.find(`.empty-td[data-linkedcolumn="${linkedColumn}"]`).remove();
                             $designerRow.find(`.empty-td[data-linkedcolumn="${linkedColumn}"]`).remove();
                             footerRowIndex++;
+                        }
+                    }
+                }
+                break;
+            case 'linked-sub-header':
+                if (typeof linkedRow != 'undefined') {
+                    const $linkedRows = $table.find(`tr[data-linkedrow="${linkedRow}"]:not([data-row="linked-sub-header"])`);
+                    if ($linkedRows.length) {
+                        let colsMoved, rowIndex;
+                        for (let i = 0; i < $linkedRows.length; i++) {
+                            const $row = jQuery($linkedRows[i]);
+                            const rowType = $row.attr('data-row');
+                            const validRowTypes: any = ['main-header', 'sub-header', 'sub-detail'];
+                            if (validRowTypes.includes(rowType)) {
+                                $form.data('columnsmoved')['rowType'] = rowType;
+                                if (rowType === 'main-header') {
+                                    rowIndex = $row.index();
+                                    $form.data('columnsmoved')['toRowIndex'] = rowIndex;
+                                    $form.data('columnsmoved')['fromRowIndex'] = rowIndex;
+                                    colsMoved = $form.data('columnsmoved');
+
+                                    const $headerColumn = $row.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                                    const $headerColumns = $row.children();
+                                    if (oldIndex > newIndex) {
+                                        $headerColumn.insertBefore($headerColumns[newIndex]);
+                                    } else {
+                                        $headerColumn.insertAfter($headerColumns[newIndex]);
+                                    }
+                                }
+                                $form.data('columnsmoved', colsMoved);
+                                this.moveColumns($form, $wrapper, tableNameSelector, $table, $cachedRows, $th);
+                            }
                         }
                     }
                 }
