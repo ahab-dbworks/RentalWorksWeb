@@ -38,9 +38,9 @@ namespace FwCore.Modules.Administrator.Group
         public bool? HideNewMenuOptionsByDefault { get { return group.HideNewMenuOptionsByDefault; } set { group.HideNewMenuOptionsByDefault = value; } }
 
         [FwLogicProperty(Id: "JTUQvSiDM7PEx", IsReadOnly: true)]
-        public bool? IsMyGroup { get; set; }
+        public bool IsMyGroup { get; set; }
 
-        [FwLogicProperty(Id: "oX0ymm4ONYoad")]
+        [FwLogicProperty(Id: "oX0ymm4ONYoad", IsReadOnly: true)]
         public string GroupColor { get; set; }
 
         //public bool? Qehideaccessories { get { return group.Qehideaccessories; } set { group.Qehideaccessories = value; } }

@@ -49,11 +49,11 @@ namespace FwCore.Modules.Administrator.Group
         //public bool? Securitydefaultoff { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Boolean)]
-        public bool? IsMyGroup
+        public bool IsMyGroup
         {
             get
             {
-                return getIsMyGroup(GroupId);
+                return false;// getIsMyGroup(GroupId);   // mapping error
             }
             set { }
         }
@@ -61,7 +61,10 @@ namespace FwCore.Modules.Administrator.Group
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string GroupColor
         {
-            get { return getGroupColor(GroupId); }
+            get 
+            { 
+                return null; // getGroupColor(GroupId);    // mapping error
+            }
             set { }
         }
         //------------------------------------------------------------------------------------
@@ -74,15 +77,15 @@ namespace FwCore.Modules.Administrator.Group
             select.Parse();
         }
         //------------------------------------------------------------------------------------ 
-        private bool? getIsMyGroup(string groupId)
+        protected bool getIsMyGroup(string groupId)
         {
             return (!string.IsNullOrEmpty(groupId)) && (groupId.Equals(UserSession.GroupsId));
         }
         //------------------------------------------------------------------------------------ 
-        private string getGroupColor(string groupId)
+        protected string getGroupColor(string groupId)
         {
             string color = null;
-            if (getIsMyGroup(groupId).GetValueOrDefault(false))
+            if (getIsMyGroup(groupId))
             {
                 color = FwGroupLogic.MY_GROUP_COLOR;
             }
