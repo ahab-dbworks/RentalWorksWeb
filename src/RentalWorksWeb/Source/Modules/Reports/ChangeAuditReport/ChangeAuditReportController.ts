@@ -74,72 +74,25 @@ class ChangeAuditReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
-        //load modules
-        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        const modules = mainModules.concat(settingsModules);
-        let allModules = [];
-
-        for (let i = 0; i < modules.length; i++) { //Traverse security tree and only add modules with 'New' or 'Edit' options 
-            let moduleChildren = modules[i].children;
-            let browseNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Browse');
-            if (browseNodePosition != -1) {
-                let browseNodeChildren = moduleChildren[browseNodePosition].children;
-                let menuBarNodePosition = browseNodeChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
-                if (menuBarNodePosition != -1) {
-                    let menuBarChildren = browseNodeChildren[menuBarNodePosition].children;
-                    let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
-                    let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
-                    if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
-                        let moduleNav = modules[i].properties.controller.slice(0, -10)
-                            , moduleCaption = modules[i].properties.caption
-                            , moduleController = modules[i].properties.controller;
-                        if (typeof window[moduleController] !== 'undefined') {
-                            if (window[moduleController].hasOwnProperty('apiurl')) {
-                                var moduleUrl = (<any>window)[moduleController].apiurl;
-                                allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                            }
-                        }
-                    }
+        // Load Modules dropdown with sorted list of Modules and Grids
+        const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl') && moduleController.Module != 'BlankHomePage') {
+                if (hasNew || hasEdit) {
+                    modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
                 }
             }
-        };
-        //load grids
-        const gridNode = FwApplicationTree.getNodeById(FwApplicationTree.tree, '43765919-4291-49DD-BE76-F69AA12B13E8');
-        let gridModules = FwApplicationTree.getChildrenByType(gridNode, 'Grid');
-        for (let i = 0; i < gridModules.length; i++) { //Traverse security tree and only add grids with 'New' or 'Edit' options 
-            let gridChildren = gridModules[i].children;
-            let menuBarNodePosition = gridChildren.map(function (x) { return x.properties.nodetype; }).indexOf('MenuBar');
-            if (menuBarNodePosition != -1) {
-                let menuBarChildren = gridChildren[menuBarNodePosition].children;
-                let newMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('NewMenuBarButton');
-                let editMenuBarButtonPosition = menuBarChildren.map(function (x) { return x.properties.nodetype; }).indexOf('EditMenuBarButton');
-                if (newMenuBarButtonPosition != -1 || editMenuBarButtonPosition != -1) {
-                    let moduleNav = gridModules[i].properties.controller.slice(0, -14)
-                        , moduleCaption = gridModules[i].properties.caption
-                        , moduleController = gridModules[i].properties.controller;
-                    if (typeof window[moduleController] !== 'undefined') {
-                        if (window[moduleController].hasOwnProperty('apiurl')) {
-                            let moduleUrl = (<any>window)[moduleController].apiurl;
-                            allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
-                        }
-                    }
+        });
+        const grids = FwApplicationTree.getAllGrids(false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
+            if (moduleController.hasOwnProperty('apiurl')) {
+                if (hasNew || hasEdit) {
+                    modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
                 }
             }
-        };
+        });
 
-        //Sort modules
-        function compare(a, b) {
-            if (a.text < b.text)
-                return -1;
-            if (a.text > b.text)
-                return 1;
-            return 0;
-        }
-        allModules.sort(compare);
-
-        const $moduleSelect = $form.find('.modules');
+        const allModules = modules.concat(grids);
+        FwApplicationTree.sortModules(allModules);
+        let $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
         // Default settings for first time running
