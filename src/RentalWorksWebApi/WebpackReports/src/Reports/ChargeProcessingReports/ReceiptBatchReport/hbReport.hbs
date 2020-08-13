@@ -23,35 +23,49 @@
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Locationheader"}}
+      {{#ifEquals RowType "Locationheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="8" class="header-row">Office: {{Location}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="8" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="8" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td>{{ReceiptDate}}</td>
-        <td>{{CheckNumber}}</td>
-        <td>{{PaymentType}}</td>
-        <td class="number" data-value="{{Amount}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealfooter"}}
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ReceiptDate" data-value="{{ReceiptDate}}"></td>
+        <td data-linkedcolumn="CheckNumber" data-value="{{CheckNumber}}"></td>
+        <td data-linkedcolumn="PaymentType" data-value="{{PaymentType}}"></td>
+        <td data-linkedcolumn="Amount" class="number" data-value="{{Amount}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="3" class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val" data-value="{{Amount}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
+        <td class="total-val" data-linkedcolumn="Amount" data-value="{{Amount}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Customerfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="3" class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val" data-value="{{Amount}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Locationfooter"}}
+        <td class="total-val" data-linkedcolumn="Amount" data-value="{{Amount}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Locationfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="3" class="total-name">{{Location}}&nbsp;</td>
-        <td class="total-val" data-value="{{Amount}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
+        <td class="total-val" data-linkedcolumn="Amount" data-value="{{Amount}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Amount}}"></td>
         {{/ifEquals}}
