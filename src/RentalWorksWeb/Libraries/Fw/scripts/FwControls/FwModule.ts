@@ -367,15 +367,11 @@ class FwModule {
 
         if (sessionStorage.getItem('customForms') !== null) {
             let customForms = JSON.parse(sessionStorage.getItem('customForms'));
-            if (typeof controller === 'string') {
-                var baseForm = controller.replace('Controller', 'Form');
-                customForms = customForms.filter(a => a.BaseForm == baseForm);
-                if (customForms.length > 0) {
-                    $form = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
-                    $form.data('customformdata', customForms[0]);
-                }
-            } else {
-                console.error(`controller in FwModule.openForm is undefined.`)
+            var baseForm = controller.replace('Controller', 'Form');
+            customForms = customForms.filter(a => a.BaseForm == baseForm);
+            if (customForms.length > 0) {
+                $form = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                $form.data('customformdata', customForms[0]);
             }
         }
 
