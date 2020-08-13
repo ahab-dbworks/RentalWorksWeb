@@ -10,7 +10,6 @@ using WebApi.Modules.HomeControls.DealOrder;
 using WebApi.Modules.HomeControls.DealOrderDetail;
 using WebApi.Modules.HomeControls.Tax;
 using WebApi.Modules.Settings.SystemSettings.DefaultSettings;
-using WebApi;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 using WebApi.Modules.HomeControls.Delivery;
 using WebApi.Modules.HomeControls.OrderDates;
@@ -1177,7 +1176,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
                 if (e.Original != null)
                 {
-                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
+                    PurchaseOrderLogic orig = ((PurchaseOrderLogic)e.Original);
                     datesChanged = ((newEstimatedStartDate != orig.EstimatedStartDate) ||
                                     (newEstimatedStopDate != orig.EstimatedStopDate) ||
                                     (newBillingStartDate != orig.BillingStartDate) ||
