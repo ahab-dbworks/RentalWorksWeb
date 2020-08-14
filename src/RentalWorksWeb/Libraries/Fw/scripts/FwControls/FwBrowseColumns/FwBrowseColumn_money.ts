@@ -1,21 +1,27 @@
 ﻿class FwBrowseColumn_moneyClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-
+        var currencysymbol = $field.attr('data-currencysymbol');
+        if (typeof currencysymbol !== 'undefined') {
+            if (dtRow[dt.ColumnIndex["CurrencySymbol"]]) {
+                $field.attr('data-currencysymboldisplay', dtRow[dt.ColumnIndex["CurrencySymbol"]]);
+            }
+        }
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             var $value = $field.find('input.value');
+            var currencySymbol = (typeof $field.attr('data-currencysymboldisplay') === 'string') ? $field.attr('data-currencysymboldisplay') : '$';
             if ($value.length > 0) {
                 field.value = $field.find('input.value').inputmask('unmaskedvalue');
                 if (field.value === '') {
-                    field.value = originalvalue.replace('$', '');
+                    field.value = originalvalue.replace(currencySymbol, '');
                 } else if (field.value === '0.00') {
                     field.value = '0';
                 }
             } else {
-                field.value = originalvalue.replace('$', '');
+                field.value = originalvalue.replace(currencySymbol, '');
             }
         }
     }
@@ -48,11 +54,12 @@
     setFieldViewMode($browse, $tr, $field): void {
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var currencySymbol = (typeof $field.attr('data-currencysymboldisplay') === 'string') ? $field.attr('data-currencysymboldisplay') : '$';
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
-            $field.html('$' + (<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
-            $field.html(`<div class="fieldvalue">$${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
+            $field.html(currencySymbol + (<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
+            $field.html(`<div class="fieldvalue">${currencySymbol}${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
         } else {
-            $field.html('<div class="fieldvalue">$0.00</div>');
+            $field.html(`<div class="fieldvalue">${currencySymbol}0.00</div>`);
         }
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
