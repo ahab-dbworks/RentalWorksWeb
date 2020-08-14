@@ -51,6 +51,13 @@ routes.push({
         }
     }
 });
+//change pw screen
+routes.push({
+    pattern: /^changepassword$/,
+    action: function (match: RegExpExecArray) {
+        return RwBaseController.getChangePasswordScreen();
+    }
+});
 routes.push({
     pattern: /^default/,
     action: function (match: RegExpExecArray) {
