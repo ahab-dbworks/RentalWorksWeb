@@ -17,9 +17,9 @@
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
         if ($field.attr('data-formreadonly') === 'true') {
-            $field.find('.fieldvalue').text(data.value);
+            $field.find('.fieldvalue').text(FwLocale.formatDateToLocale(data.value));
         } else {
-            $field.find('input.value').val(data.value);
+            $field.find('input.value').val(FwLocale.formatDateToLocale(data.value));
         }
     }
     //---------------------------------------------------------------------------------
@@ -51,7 +51,7 @@
         html.push('<div class="btndate"><i class="material-icons">&#xE8DF;</i></div>');
         let htmlString = html.join('');
         $field.html(htmlString);
-        this.setFieldValue($browse, $tr, $field, { value: FwLocale.formatDateToLocale(originalvalue) });
+        this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         $field.find('input.value').inputmask(FwLocale.getDateFormat().toLowerCase());
 
         $field.find('input.value').datepicker({
