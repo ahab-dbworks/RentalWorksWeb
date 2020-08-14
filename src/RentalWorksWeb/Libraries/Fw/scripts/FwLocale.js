@@ -3,8 +3,14 @@ class FwLocaleClass {
         this.locale = 'en-US';
     }
     setLocale(language) {
-        this.locale = language;
-        moment.locale(language);
+        if (language) {
+            this.locale = language;
+            moment.locale(language);
+        }
+        else {
+            this.locale = window.navigator.language;
+            moment.locale(window.navigator.language);
+        }
     }
     getDateFormat(language) {
         var format = moment.localeData(this.locale)._longDateFormat.L;

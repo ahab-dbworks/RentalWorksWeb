@@ -2,8 +2,13 @@
     locale: string = 'en-US';
     //---------------------------------------------------------------------------------
     setLocale(language: string) {
-        this.locale = language;
-        moment.locale(language);
+        if (language) {
+            this.locale = language;
+            moment.locale(language);
+        } else {
+            this.locale = window.navigator.language;
+            moment.locale(window.navigator.language);
+        }
     }
     //---------------------------------------------------------------------------------
     getDateFormat(language?: string) {
