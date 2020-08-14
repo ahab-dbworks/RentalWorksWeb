@@ -1,4 +1,4 @@
-using FwCore.Api;
+﻿using FwCore.Api;
 using FwStandard.AppManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -79,11 +79,19 @@ namespace WebApi
                 var mobilefileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
                 mobilefileExtensionContentTypeProvider.Mappings[".json"] = "text/json";
                 mobileFileServerOptions.StaticFileOptions.ContentTypeProvider = mobilefileExtensionContentTypeProvider;
-                //quikscanFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
-                //{
-                //    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                //    context.Context.Response.Headers.Add("Expires", "-1");
-                //};
+                mobileFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                {
+                    bool cacheResults =
+                        context.File.Name.ToLower().EndsWith(".png") ||
+                        context.File.Name.ToLower().EndsWith(".jpg") ||
+                        context.File.Name.ToLower().EndsWith(".jpeg") ||
+                        context.File.Name.ToLower().EndsWith(".gif");
+                    if (!cacheResults)
+                    {
+                        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                        context.Context.Response.Headers.Add("Expires", "-1");
+                    }
+                };
                 app.UseFileServer(mobileFileServerOptions);
 
                 //var webFileServerOptions = new FileServerOptions();
