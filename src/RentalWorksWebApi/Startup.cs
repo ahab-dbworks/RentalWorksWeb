@@ -1,4 +1,4 @@
-﻿using FwCore.Api;
+using FwCore.Api;
 using FwStandard.AppManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -73,7 +73,7 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 var mobileFileServerOptions = new FileServerOptions();
-                mobileFileServerOptions.RequestPath = "/dev/quikscan";
+                mobileFileServerOptions.RequestPath = "/quikscandev";
                 mobileFileServerOptions.EnableDefaultFiles = true;
                 mobileFileServerOptions.FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "quikscan"));
                 var mobilefileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();

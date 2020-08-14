@@ -29,6 +29,13 @@ class Program extends FwApplication {
     constructor() {
         super();
         var me = this;
+
+        //document.write(applicationConfig.appbaseurl);
+        if (applicationConfig.apiurl === '' && /^https?:\/\/[a-zA-Z0-9.]+(:[0-9]+)?\/quikscan(dev)?\/$/.test(applicationConfig.appbaseurl)) {
+            applicationConfig.apiurl = applicationConfig.appbaseurl.replace('quikscandev/', '').replace('quikscan/', '');
+            //document.write(applicationConfig.apiurl);
+        }
+
         FwApplicationTree.currentApplicationId = '8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A';
         me.name                                = 'RentalWorks';
         me.htmlname                            = '<span class="bgothm" style="color:#2f2f2f;">Rental</span><span class="bgothm" style="color:#6f30b3;">Works</span>';
