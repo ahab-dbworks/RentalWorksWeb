@@ -43,6 +43,7 @@ namespace WebApi.Modules.Billing.Receipt
             legend.Add("NSF Adjustment", RwGlobals.RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR);
             legend.Add("Write Off", RwGlobals.RECEIPT_RECTYPE_WRITE_OFF_COLOR);
             legend.Add("Credit Memo", RwGlobals.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR);
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
