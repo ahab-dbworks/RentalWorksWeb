@@ -51,6 +51,7 @@ class Base {
             screen.$view
                 .on('click', '.btnLogin', async (e: JQuery.ClickEvent) => {
                     try {
+                       
                         var $loginWindow = screen.$view.find('.login-container');
                         var $email = screen.$view.find('#email');
                         var $password = screen.$view.find('#password');
@@ -64,6 +65,7 @@ class Base {
                             sessionStorage.clear();
 
                             // Ajax for a jwt token
+
                             const responseJwt = await FwAjax.callWebApi<any, any>({
                                 httpMethod: 'POST',
                                 url: `${applicationConfig.apiurl}api/v1/jwt`,
@@ -76,7 +78,7 @@ class Base {
                             });
 
                             if ((responseJwt.statuscode == 0) && (typeof responseJwt.access_token !== 'undefined')) {
-                                sessionStorage.setItem('apiToken', responseJwt.access_token);
+                                sessionStorage.setItem('apiToken', responseJwt.access_token); //possibly remove the token if user must change pw? JG
                                 localStorage.setItem('email', $email.val()); // mv 5/10/19 - this is the email or login and cannot be used to display the email address
                                 if (typeof responseJwt.exception !== 'undefined') {
                                     if (applicationConfig.debugMode) {
@@ -119,6 +121,13 @@ class Base {
                                     const promiseGetUserSettings = FwAjax.callWebApi<any, any>({
                                         httpMethod: 'GET',
                                         url: `${applicationConfig.apiurl}api/v1/userprofile/${responseSessionInfo.webUser.webusersid}`,
+                                        $elementToBlock: $loginWindow
+                                    });
+
+                                    //get user to check pw settings
+                                    const promiseGetUser = FwAjax.callWebApi<any, any>({
+                                        httpMethod: 'GET',
+                                        url: `${applicationConfig.apiurl}api/v1/user/${responseSessionInfo.webUser.usersid}`,
                                         $elementToBlock: $loginWindow
                                     });
 
@@ -207,8 +216,9 @@ class Base {
                                         promiseGetSystemNumbers,            // 08
                                         promiseGetIsTraining,               // 09
                                         promiseGetWarehouses,               // 10
+                                        promiseGetUser                      // 11
                                     ])
-                                        .then((values: any) => {
+                                        .then(async (values: any) => {
                                             const responseGetUserSettings = values[0];
                                             const responseGetCustomFields = values[1];
                                             const responseGetCustomForms = values[2];
@@ -220,6 +230,14 @@ class Base {
                                             const responseGetSystemNumbers = values[8];
                                             const responseGetIsTraining = values[9];
                                             const responseGetWarehouses = values[10];
+                                            const responseGetUser = values[11];
+
+                                            const userMustChangePassword = responseGetUser.UserMustChangePassword;
+                                            const userPasswordExpires = responseGetUser.PasswordExpires;
+                                            const userPasswordExpiresDays = responseGetUser.PasswordExpireDays;
+                                            const userPasswordLastChanged = responseGetUser.PasswordUpdatedDateTime;
+                                            const daysSincePasswordChange = (Date.now() - Date.parse(userPasswordLastChanged)) / 86400000;
+                                            const isUserPasswordPastExpirationDate = userPasswordExpires && daysSincePasswordChange >= userPasswordExpiresDays;
 
                                             // Load sounds into DOM for use elsewhere
                                             FwFunc.getBase64Sound('Success', responseGetUserSettings);
@@ -229,6 +247,7 @@ class Base {
                                             const homePage: any = {};
                                             homePage.guid = responseGetUserSettings.HomeMenuGuid;
                                             homePage.path = responseGetUserSettings.HomeMenuPath;
+
                                             const favorites = responseGetUserSettings.FavoritesJson;
                                             sessionStorage.setItem('homePage', JSON.stringify(homePage));
                                             sessionStorage.setItem('favorites', favorites);
@@ -353,24 +372,32 @@ class Base {
                                             }
                                             sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 
-
+                                          
+                                            
                                             if (responseGetIsTraining === true) {
                                                 sessionStorage.setItem('istraining', "true");
                                             } else {
                                                 sessionStorage.setItem('istraining', "false");
                                             }
 
-
                                             // set redirectPath to navigate user to default home page, still need to go to the home page to run startup code if the user refreshes the browser
+                                            // set redirectPath to navigate user to password reset page if must change password, then remove the token (set password reset page to not need api token) JG
+                                            let changePasswordPath = "CHANGEPASSWORD"
                                             let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
                                             if (homePagePath !== null && homePagePath !== '') {
                                                 sessionStorage.setItem('redirectPath', homePagePath);
                                             }
-                                            program.navigate('home');
+                                            if (userMustChangePassword || isUserPasswordPastExpirationDate) {
+                                                sessionStorage.setItem('redirectPath', changePasswordPath);
+                                                program.navigate('changepassword');
+                                                sessionStorage.removeItem('apiToken');
+                                            } else {
+                                                program.navigate('home');
+                                            }
                                         });
                                 }
-
-                            } else if (responseJwt.statuscode !== 0) {
+                            }
+                             else if (responseJwt.statuscode !== 0) {
                                 $loginWindow.find('.errormessage').html('').html(responseJwt.statusmessage).show();
                             }
                         }
@@ -434,6 +461,96 @@ class Base {
         screen = FwBasePages.getPasswordRecoveryScreen(viewModel);
         screen.viewModel = viewModel;
         screen.properties = properties;
+        return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    getChangePasswordScreen() {
+        let viewModel = {
+            captionEmail: RwLanguages.translate('E-mail / Username'),
+            captionPassword: RwLanguages.translate('Password'),
+            valueEmail: (localStorage.getItem('email') ? localStorage.getItem('email') : ''),
+            valuePassword: '',
+            captionBtnSubmit: RwLanguages.translate('Submit'),
+            captionBtnCancel: RwLanguages.translate('Cancel'),
+            valueYear: new Date().getFullYear(),
+            valueVersion: applicationConfig.version,
+        };
+        let properties = {};
+        let screen: any = {};
+        screen = FwBasePages.getChangePasswordScreen(viewModel);
+        screen.viewModel = viewModel;
+        screen.properties = properties;
+        screen.$view.find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
+
+        screen.$view
+            .on('click', '.btnSubmit', async (e: JQuery.ClickEvent) => {
+                try {
+                    const $loginWindow = screen.$view.find('.login-container');
+                    const $email = screen.$view.find('#email');
+                    const $password = screen.$view.find('#password');
+                    const $newPassword = screen.$view.find('#new-password');
+                    const $confirmNewPassword = screen.$view.find('#confirm-new-password');
+                    const homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+
+                    if ($email.val() == '') {
+                        $email.parent().addClass('error');
+                    } else if ($password.val() == '') {
+                        $password.parent().addClass('error');
+                    } else if ($newPassword.val() == '') {
+                        $newPassword.parent().addClass('error');
+                    }
+
+                    if ($newPassword.val() !== $confirmNewPassword.val()) {
+                        return $loginWindow.find('.errormessage').html('').html("New password confirmation does not match!").show(); 
+                    }
+
+                    if ($newPassword.val() === $password.val()) {
+                        return $loginWindow.find('.errormessage').html('').html("New password must be different from the old password!").show();
+                    }
+
+                    const responseJwt = await FwAjax.callWebApi<any, any>({
+                        httpMethod: 'POST',
+                        url: `${applicationConfig.apiurl}api/v1/jwt`,
+                        $elementToBlock: $loginWindow,
+                        data: {
+                            UserName: $email.val(),
+                            Password: $password.val()
+                        }
+                    });
+
+                    if (responseJwt.statuscode == 0) {
+                        sessionStorage.setItem('apiToken', responseJwt.access_token);
+                        await FwAjax.callWebApi<any, any>({
+                            httpMethod: 'PUT',
+                            url: `${applicationConfig.apiurl}api/v1/user/${sessionStorage.getItem('usersid')}`,
+                            $elementToBlock: $loginWindow,
+                            data: {
+                                UserId: `${sessionStorage.getItem('usersid')}`,
+                                Password: $newPassword.val(),
+                                UserMustChangePassword: false,
+                                PasswordUpdatedDateTime: moment().format('MM/DD/YYYY'),
+                                PasswordExpires: false
+                            }
+                        });
+                        sessionStorage.setItem('redirectPath', homePagePath);
+                        program.navigate('home');
+                    } else {
+                        $loginWindow.find('.errormessage').html('').html(responseJwt.statusmessage).show();
+                    }
+                } catch (ex) {
+                    sessionStorage.removeItem('apiToken');
+                    FwFunc.showError(ex);
+                }
+            })
+            .on('click', '.btnCancel', function (e) {
+                try {
+                    sessionStorage.removeItem('apiToken');
+                    program.navigate('default');
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+
         return screen;
     }
     //----------------------------------------------------------------------------------------------
