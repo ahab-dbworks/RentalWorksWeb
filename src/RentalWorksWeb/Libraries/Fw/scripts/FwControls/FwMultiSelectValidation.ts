@@ -387,12 +387,12 @@
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
         const multiselectfield = $control.find('.multiselectitems');
-        const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
+        const multiSeparator = $control.hasClass('email') ? ';' : jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         const $inputField = multiselectfield.find('span.addItem');
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
             let values: any = $valuefield.val();
-            values = values.split(',');
+            values = values.split(multiSeparator);
             values = values.map(s => s.trim());
             $browse.data('selectedrowsuniqueids', values);
         } else if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
@@ -402,7 +402,7 @@
         let selectedRowText: any = $textField.val();
 
         if (selectedRowText.length > 0) {
-            selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
+            selectedRowText = selectedRowText.split(multiSeparator);
         } else {
             selectedRowText = [];
         }
@@ -425,15 +425,17 @@
             }
         }
         multiselectfield.append($inputField);
-        uniqueid = selectedRowUniqueIds.join(',');
+
+        if ($control.hasClass('email')) {
+            uniqueid = selectedRowUniqueIds.join(';');
+            $textField.val(selectedRowUniqueIds.join(';'));
+        } else {
+            uniqueid = selectedRowUniqueIds.join(',');
+            $textField.val(selectedRowText.join(multiSeparator));
+        }
         $valuefield.val(uniqueid).change();
         $inputField.text('');
         $searchfield.val('');
-        if ($control.hasClass('email')) {
-            $textField.val(selectedRowText.join(';'));
-        } else {
-            $textField.val(selectedRowText.join(multiSeparator));
-        }
 
         if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['loadRelatedValidationFields'] === 'function')) {
             window[controller]['loadRelatedValidationFields'](validationName, $valuefield, $tr);

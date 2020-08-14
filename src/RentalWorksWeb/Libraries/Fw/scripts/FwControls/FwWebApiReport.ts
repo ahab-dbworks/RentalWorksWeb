@@ -414,13 +414,31 @@ abstract class FwWebApiReport {
                                     case 13://Enter Key
                                         e.preventDefault();
                                         $this = jQuery(e.currentTarget);
+                                        let emailList = FwFormField.getValue2($this);
+                                        if (emailList.length > 0) {
+                                            emailList = emailList.split(';');
+                                        } else {
+                                            emailList = [];
+                                        }
                                         const value = $this.find('.multiselectitems .addItem').text();
-                                        const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${value}">
+                                        if (emailList.indexOf(value) === -1) {
+                                            emailList.push(value);
+                                            if (emailList.length) {
+                                                emailList = emailList.join(';');
+                                            }
+
+                                            const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${value}">
                                                 <span>${value}</span>
                                                 <i class="material-icons">clear</i>
                                             </div>`
-                                        jQuery($email).insertBefore($this.find('.multiselectitems .addItem'));
-                                        $this.find('.addItem').text('').focus();
+
+                                            jQuery($email).insertBefore($this.find('.multiselectitems .addItem'));
+                                            $this.find('.fwformfield-value').val(emailList);
+                                            $this.find('.addItem').text('').focus();
+                                        }
+
+                                        //FwFormField.setValue2($this, emailList, emailList);
+                          
                                         break;
                                     case 8:  //Backspace
                                         $this = jQuery(e.currentTarget);
@@ -437,7 +455,52 @@ abstract class FwWebApiReport {
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             }
-                        });
+                        })
+                            .off('click', '.multiselectitems i')
+                            .on('click', '.multiselectitems i', e => {
+                                try {
+                                    const $this = jQuery(e.currentTarget);
+                                    const $browse = $this.closest('.fwformfield').data('browse');
+                                    const $selectedRows = $browse.data('selectedrows');
+                                    const selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+                                    const $item = $this.parent('div.multiitem');
+                                    const $valuefield = $item.parent('.multiselectitems').siblings('.fwformfield-value');
+                                    //removes item from values
+                                    const itemValue = $item.attr('data-multivalue');
+                                    let value: any = $valuefield.val();
+                                    value = value
+                                        .split(';')
+                                        .map(s => s.trim())
+                                        .filter((value) => {
+                                            return value !== itemValue;
+                                        })
+                                        .join(';');
+                                    $valuefield.val(value).change();
+                                    //removes item from text
+                                    const itemText = $item.find('span').text();
+                                    const $textField = $valuefield.siblings('.fwformfield-text');
+                                    let text: any = $textField.val();
+                                    text = text
+                                        .split(';')
+                                        .filter((text) => {
+                                            return text !== itemText;
+                                        })
+                                        .join(';');
+                                    $textField.val(text);
+                                    $item.remove();
+                                    if ($selectedRows !== undefined && selectedRowUniqueIds !== undefined) {
+                                        if (typeof $selectedRows[itemValue] !== 'undefined') {
+                                            delete $selectedRows[itemValue];
+                                        }
+                                        const index = selectedRowUniqueIds.indexOf(itemValue);
+                                        if (index != -1) {
+                                            selectedRowUniqueIds.splice(index, 1);
+                                        }
+                                    }
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            })
 
                         if (companyId != '' && companyId != null) {
                             this.addViewAllContacts($confirmation);
@@ -724,16 +787,16 @@ abstract class FwWebApiReport {
                         const rows = successResponse.Rows;
                         const isOrderedByIndex = successResponse.ColumnIndex.IsOrderedBy;
                         const emailIndex = successResponse.ColumnIndex.Email;
-                        //const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(', ');
-                        const emails = rows.filter(item => item[isOrderedByIndex] == true);
+                        const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(';');
+                        FwFormField.setValueByDataField($confirmation, 'tousers', emails);
                         //FwFormField.setValueByDataField($confirmation, 'tousers', emails);
-                        for (let i = 0; i < emails.length; i++) {
-                            const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${emails[i][emailIndex]}">
-                                                <span>${emails[i][emailIndex]}</span>
-                                                <i class="material-icons">clear</i>
-                                            </div>`
-                            jQuery($email).insertBefore($confirmation.find('.tousers .multiselectitems .addItem'));
-                        }
+                        //for (let i = 0; i < emails.length; i++) {
+                        //    const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${emails[i][emailIndex]}">
+                        //                        <span>${emails[i][emailIndex]}</span>
+                        //                        <i class="material-icons">clear</i>
+                        //                    </div>`
+                        //    jQuery($email).insertBefore($confirmation.find('.tousers .multiselectitems .addItem'));
+                        //}
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
