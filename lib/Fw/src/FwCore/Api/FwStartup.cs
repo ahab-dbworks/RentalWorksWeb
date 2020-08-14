@@ -222,8 +222,17 @@ namespace FwCore.Api
             var wwwrootFileServerOptions = new FileServerOptions();
             wwwrootFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
             {
-                context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                context.Context.Response.Headers.Add("Expires", "-1");
+                // Only cache the images in wwwroot
+                bool cacheResults =
+                    context.File.Name.ToLower().EndsWith(".png") ||
+                    context.File.Name.ToLower().EndsWith(".jpg") ||
+                    context.File.Name.ToLower().EndsWith(".jpeg") ||
+                    context.File.Name.ToLower().EndsWith(".gif");
+                if (!cacheResults)
+                {
+                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                    context.Context.Response.Headers.Add("Expires", "-1");
+                }
             };
             app.UseFileServer(wwwrootFileServerOptions);
         }

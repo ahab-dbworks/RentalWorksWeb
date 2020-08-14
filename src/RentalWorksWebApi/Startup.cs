@@ -68,9 +68,27 @@ namespace WebApi
         //------------------------------------------------------------------------------------
         protected override void ConfigureStaticFileHosting(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            base.ConfigureStaticFileHosting(app, env, loggerFactory);
-
-            if (env.IsDevelopment())
+            if (env.IsProduction())
+            {
+                // host static files in wwwroot with caching
+                var wwwrootFileServerOptions = new FileServerOptions();
+                wwwrootFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                {
+                    // Only cache the images in wwwroot
+                    bool cacheResults =
+                        context.File.Name.ToLower().EndsWith(".png") ||
+                        context.File.Name.ToLower().EndsWith(".jpg") ||
+                        context.File.Name.ToLower().EndsWith(".jpeg") ||
+                        context.File.Name.ToLower().EndsWith(".gif");
+                    if (!cacheResults)
+                    {
+                        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                        context.Context.Response.Headers.Add("Expires", "-1");
+                    }
+                };
+                app.UseFileServer(wwwrootFileServerOptions);
+            }
+            else if (env.IsDevelopment())
             {
                 var mobileFileServerOptions = new FileServerOptions();
                 mobileFileServerOptions.RequestPath = "/quikscandev";
@@ -81,6 +99,7 @@ namespace WebApi
                 mobileFileServerOptions.StaticFileOptions.ContentTypeProvider = mobilefileExtensionContentTypeProvider;
                 mobileFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
                 {
+                    // host static files in quikscan folder, but only cache the images
                     bool cacheResults =
                         context.File.Name.ToLower().EndsWith(".png") ||
                         context.File.Name.ToLower().EndsWith(".jpg") ||
@@ -107,6 +126,24 @@ namespace WebApi
                 ////    context.Context.Response.Headers.Add("Expires", "-1");
                 ////};
                 //app.UseFileServer(webFileServerOptions);
+
+                // host static files in wwwroot without caching
+                var wwwrootFileServerOptions = new FileServerOptions();
+                wwwrootFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                {
+                    // Only cache the images in wwwroot
+                    bool cacheResults =
+                        context.File.Name.ToLower().EndsWith(".png") ||
+                        context.File.Name.ToLower().EndsWith(".jpg") ||
+                        context.File.Name.ToLower().EndsWith(".jpeg") ||
+                        context.File.Name.ToLower().EndsWith(".gif");
+                    if (!cacheResults)
+                    {
+                        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                        context.Context.Response.Headers.Add("Expires", "-1");
+                    }
+                };
+                app.UseFileServer(wwwrootFileServerOptions);
             }
         }
         //------------------------------------------------------------------------------------
