@@ -67,7 +67,7 @@ class User {
         //        $this = jQuery(this);
         //        $invaliddate = $form.find('div[data-datafield="users.inactivedate"]');
         //        if ($this.find('input.fwformfield-value').prop('checked')) {
-        //            date = FwFunc.getDate();
+        //            date = FwLocale.getDate();
         //            $invaliddate.find('input.fwformfield-value').val(date);
         //        } else {
         //            $invaliddate.find('input.fwformfield-value').val('');

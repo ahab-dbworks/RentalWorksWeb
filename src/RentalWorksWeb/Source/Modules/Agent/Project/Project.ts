@@ -96,7 +96,7 @@ class Project {
         if (mode === 'NEW') {
             const office = JSON.parse(sessionStorage.getItem('location')),
                 warehouse = JSON.parse(sessionStorage.getItem('warehouse')),
-                today = FwFunc.getDate(),
+                today = FwLocale.getDate(),
                 usersid = sessionStorage.getItem('usersid'),
                 name = sessionStorage.getItem('name'),
                 department = JSON.parse(sessionStorage.getItem('department'));

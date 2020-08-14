@@ -1338,7 +1338,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
             // Dates and Times
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
             FwFormField.setValue($form, 'div[data-dateactivitytype="PICK"]', today);
             FwFormField.setValue($form, 'div[data-timeactivitytype="PICK"]', this.DefaultPickTime);
             FwFormField.setValue($form, 'div[data-dateactivitytype="START"]', today);
@@ -3270,7 +3270,7 @@ class OrderBase {
             if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
                 if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
                     FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        newEndDate = FwFunc.getDate(response, -1)
+                        newEndDate = FwLocale.getDate(response, null, { Quantity: -1, ObjectModified: 'days' });
                         FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
                         parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
                         parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
@@ -3283,7 +3283,7 @@ class OrderBase {
             else {
                 if (!isNaN(weeksValue) && weeksValue !== '0' && Math.sign(weeksValue) !== -1 && Math.sign(weeksValue) !== -0) {
                     daysToAdd = +(weeksValue * 7) - 1;
-                    newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
+                    newEndDate = FwLocale.getDate(billingStartDate, null, { Quantity: daysToAdd, ObjectModified: 'days' });
                     FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
                     parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
                     parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));

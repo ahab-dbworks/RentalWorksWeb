@@ -658,7 +658,7 @@ class SalesInventory extends InventoryBase {
                         const subTabId = subTabIds[subTabLength - 1];
                         const $subTab = jQuery(`#${subTabId}`);
                         const $subTabPage = FwTabs.getTabPageByTab($subTab);
-                        const today = FwFunc.getDate();
+                        const today = FwLocale.getDate();
                         const time = FwFunc.getTime(false);
                         const userId = JSON.parse(sessionStorage.getItem('userid'));
                         FwFormField.setValueByDataField($subTabPage, 'AdjustmentDate', today);

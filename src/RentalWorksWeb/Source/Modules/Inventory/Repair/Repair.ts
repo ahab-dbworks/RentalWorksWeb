@@ -218,7 +218,7 @@ class Repair {
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValueByDataField($form, 'Priority', 'MED');
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
             FwFormField.setValueByDataField($form, 'RepairDate', today);
             const office = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'Location', office.location);

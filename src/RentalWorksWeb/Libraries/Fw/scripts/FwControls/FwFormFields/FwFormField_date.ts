@@ -102,31 +102,24 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.today', function () {
-                var today;
-                try {
-                    today = FwFunc.getDate();
-                    $control.find('.fwformfield-value').val(today).change();
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
             .on('click', '.yesterday', function () {
-                var date, value;
                 try {
-                    value = $control.find('.fwformfield-value').val();
-                    date = FwFunc.getDate(value, -1);
-                    $control.find('.fwformfield-value').val(date).change();
+                    if ($control.attr('data-enabled') === 'true') {
+                        var value = $control.data('ISOFormat');
+                        var date = FwLocale.getDate(value, true, { Quantity: -1, ObjectModified: 'days' });
+                        $control.find('.fwformfield-value').val(date).change();
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
             .on('click', '.tomorrow', function () {
-                var date, value;
                 try {
-                    value = $control.find('.fwformfield-value').val();
-                    date = FwFunc.getDate(value, 1);
-                    $control.find('.fwformfield-value').val(date).change();
+                    if ($control.attr('data-enabled') === 'true') {
+                        var value = $control.data('ISOFormat');
+                        var date = FwLocale.getDate(value, true, { Quantity: 1, ObjectModified: 'days' });
+                        $control.find('.fwformfield-value').val(date).change();
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

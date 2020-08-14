@@ -152,8 +152,8 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        const today = FwFunc.getDate();
-        const twoWeeks = FwFunc.getDate(today, 14);
+        const today = FwLocale.getDate();
+        const twoWeeks = FwLocale.getDate(today, null, { Quantity: 2, ObjectModified: 'weeks' });
         FwFormField.setValueByDataField($form, 'FromDate', today);
         FwFormField.setValueByDataField($form, 'ToDate', twoWeeks);
 
@@ -225,7 +225,7 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     dateValidation = function ($form, event) {
         const $element = jQuery(event.currentTarget);
-        const todayParsed = Date.parse(FwFunc.getDate());
+        const todayParsed = Date.parse(FwLocale.getDate());
         const parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'FromDate'));
         const parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'ToDate'));
 

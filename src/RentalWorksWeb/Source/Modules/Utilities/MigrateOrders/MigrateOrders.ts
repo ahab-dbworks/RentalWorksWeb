@@ -45,7 +45,7 @@ class MigrateOrders {
         const rateType = JSON.parse(sessionStorage.getItem('defaultlocation')).ratetype;
         const rateTypeDisplay = JSON.parse(sessionStorage.getItem('defaultlocation')).ratetypedisplay;
         FwFormField.setValueByDataField($form, 'RateType', rateType, rateTypeDisplay);
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'FromDate', today);
         FwFormField.setValueByDataField($form, 'ToDate', today);
         FwFormField.setValueByDataField($form, 'CopyLineItemNotes', true);

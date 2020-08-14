@@ -117,7 +117,7 @@ class VendorInvoice {
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
 
             const location = JSON.parse(sessionStorage.getItem('location'));
