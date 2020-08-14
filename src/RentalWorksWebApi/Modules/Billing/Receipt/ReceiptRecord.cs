@@ -77,7 +77,7 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "externalid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string ExternalId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
