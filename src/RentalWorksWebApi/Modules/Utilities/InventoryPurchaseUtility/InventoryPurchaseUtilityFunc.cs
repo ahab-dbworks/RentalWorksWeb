@@ -60,6 +60,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
         public DateTime? PurchaseDate { get; set; }
         public DateTime? ReceiveDate { get; set; }
         public string VendorPartNumber { get; set; }
+        public string CurrencyId { get; set; }
         public decimal? UnitCost { get; set; }
     }
     public class InventoryPurchaseCompleteSessionResponse : TSpStatusResponse
@@ -371,7 +372,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 purchase.VendorPartNumber = request.VendorPartNumber;
                                 purchase.UnitCost = request.UnitCost;
                                 purchase.UnitCostWithTax = request.UnitCost;
-                                //purchase.CurrencyId = ??
+                                purchase.CurrencyId = request.CurrencyId;
                                 purchase.InputDate = DateTime.Today;
                                 purchase.InputByUserId = userSession.UsersId;
                                 purchase.PurchaseNotes = "Inventory Purchase Utility";
@@ -437,7 +438,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             purchase.VendorPartNumber = request.VendorPartNumber;
                             purchase.UnitCost = request.UnitCost;
                             purchase.UnitCostWithTax = request.UnitCost;
-                            //purchase.CurrencyId = ??
+                            purchase.CurrencyId = request.CurrencyId;
                             purchase.InputDate = DateTime.Today;
                             purchase.InputByUserId = userSession.UsersId;
                             purchase.PurchaseNotes = "Inventory Purchase Utility";

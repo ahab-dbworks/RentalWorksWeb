@@ -78,12 +78,14 @@ class InventoryPurchaseUtility {
     };
     //----------------------------------------------------------------------------------------------
     setDefaults($form) {
+        const office = JSON.parse(sessionStorage.getItem('location'));
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
         FwFormField.setValueByDataField($form, 'Quantity', 1);
         FwFormField.setValueByDataField($form, 'PurchaseDate', today);
         FwFormField.setValueByDataField($form, 'ReceiveDate', today);
+        FwFormField.setValueByDataField($form, 'CurrencyId', office.defaultcurrencyid, office.defaultcurrencycode);
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
@@ -137,6 +139,10 @@ class InventoryPurchaseUtility {
             FwFormField.setValueByDataField($form, 'WarrantyExpiration', expiration);
         });
 
+        $form.find('[data-datafield="PurchaseVendorId"]').data('onchange', $tr => {
+            FwFormField.setValueByDataField($form, 'CurrencyId', FwBrowse.getValueByDataField(null, $tr, 'DefaultCurrencyId'), FwBrowse.getValueByDataField(null, $tr, 'DefaultCurrencyCode'));
+        });
+
         $form.find('[data-datafield="ManufacturerVendorId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'CountryId', FwBrowse.getValueByDataField(null, $tr, 'CountryId'), FwBrowse.getValueByDataField(null, $tr, 'Country'));
         });
@@ -174,6 +180,7 @@ class InventoryPurchaseUtility {
                 PurchaseDate: FwFormField.getValueByDataField($form, 'PurchaseDate'),
                 ReceiveDate: FwFormField.getValueByDataField($form, 'ReceiveDate'),
                 VendorPartNumber: FwFormField.getValueByDataField($form, 'VendorPartNumber'),
+                CurrencyId: FwFormField.getValueByDataField($form, 'CurrencyId'),
                 UnitCost: FwFormField.getValueByDataField($form, 'UnitCost'),
             };
             FwAppData.apiMethod(true, 'POST', 'api/v1/inventorypurchaseutility/completesession', request, FwServices.defaultTimeout,
