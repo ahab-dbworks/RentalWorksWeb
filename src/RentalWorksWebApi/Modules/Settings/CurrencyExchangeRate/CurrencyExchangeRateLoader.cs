@@ -39,26 +39,14 @@ namespace WebApi.Modules.Settings.CurrencyExchangeRate
         [FwSqlDataField(column: "tocurrency", modeltype: FwDataTypes.Text)]
         public string ToCurrency { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? Inactive { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
-            //DateTime paramDate = GetUniqueIdAsDate("ParamDate", request) ?? DateTime.MinValue; 
-            //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("FromCurrencyId", "fromcurrencyid", select, request);
-            //select.AddParameter("@paramstring", paramString); 
-            //select.AddParameter("@paramdate", paramDate); 
-            //select.AddParameter("@paramboolean", paramBoolean); 
-
-            /*
-            if (not IncludeHistory)
-            begin
-               qryRates.sql.add(' and   c.exchangedate = (select max(exchangedate) from currencyrateview c2 with (nolock) where c2.fromcurrencyid = c.fromcurrencyid and c2.tocurrencyid = c.tocurrencyid)');
-            end;
-            */
-
         }
         //------------------------------------------------------------------------------------ 
     }

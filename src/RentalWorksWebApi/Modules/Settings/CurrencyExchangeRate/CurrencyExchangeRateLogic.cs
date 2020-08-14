@@ -34,6 +34,8 @@ namespace WebApi.Modules.Settings.CurrencyExchangeRate
         public string ToCurrencyCode { get; set; }
         [FwLogicProperty(Id: "ULkQiTE3OXyon", IsReadOnly: true)]
         public string ToCurrency { get; set; }
+        [FwLogicProperty(Id: "s4Ns6pDkcm7qr", IsReadOnly: true)]
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 
