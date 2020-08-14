@@ -2187,6 +2187,13 @@ class PurchaseOrder implements IModule {
                 FwFormField.setValueByDataField($form, 'RemitToZipCode', response.RemitZipCode);
                 FwFormField.setValueByDataField($form, 'RemitToCountryId', response.RemitCountryId, response.RemitCountry);
 
+
+                const office = JSON.parse(sessionStorage.getItem('location'));
+                const currencyId = response.DefaultCurrencyId || office.defaultcurrencyid;
+                const currencyCode = response.DefaultCurrencyCode || office.defaultcurrencycode;
+                FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
+
+
                 if ($form.attr('data-mode') === 'NEW') {
                     FwFormField.setValueByDataField($form, 'ReceiveDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
                     FwFormField.setValueByDataField($form, 'ReturnDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
