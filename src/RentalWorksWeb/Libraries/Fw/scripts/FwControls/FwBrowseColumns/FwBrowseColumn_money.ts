@@ -70,6 +70,7 @@
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var currencySymbol = (typeof $field.attr('data-currencysymboldisplay') === 'string') ? $field.attr('data-currencysymboldisplay') : '$';
         let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
@@ -78,7 +79,17 @@
         html.push(' />');
         let htmlString = html.join('');
         $field.html(htmlString);
-        $field.find('input.value').inputmask("currency");
+        $field.find('input.value').inputmask("currency", {
+            prefix: currencySymbol,
+            placeholder: "0.00",
+            min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
+            max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),
+            digits: ((typeof $field.attr('data-digits') !== 'undefined') ? $field.attr('data-digits') : 2),
+            radixPoint: '.',
+            groupSeparator: ',',
+            autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
+        });
+
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         if ($field.data('autoselect') === true) {
             $field.data('autoselect', false);
