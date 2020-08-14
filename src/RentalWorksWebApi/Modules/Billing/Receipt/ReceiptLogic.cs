@@ -131,6 +131,9 @@ namespace WebApi.Modules.Billing.Receipt
         [FwLogicProperty(Id: "D7LZaFqbzDWI", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "MDtLhP9KYoMUm", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id: "DFYUuxYiQR5I", IsReadOnly: true)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
 
