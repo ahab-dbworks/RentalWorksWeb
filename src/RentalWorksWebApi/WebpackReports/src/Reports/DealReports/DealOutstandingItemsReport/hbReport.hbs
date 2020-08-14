@@ -34,13 +34,6 @@
         <td colspan="10" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
       {{/ifEquals}}
-      {{#ifEquals RowType "OrderNumberheader"}}
-      <tr data-row="header" data-rowtype="{{RowType}}">
-        <td class="lower header-row order-header">Order No: {{OrderNumber}}</td>
-        <td class="order-header nowrap">Date: {{OrderDate}}</td>
-        <td class="order-header">Description: {{OrderDescription}}</td>
-      </tr>
-      {{/ifEquals}}
       {{#ifEquals RowType "Customerheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="10" class="lower header-row">Customer: {{Customer}}</td>
@@ -49,6 +42,32 @@
       {{#ifEquals RowType "Dealheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="10" class="lower header-row">Deal: {{Deal}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OrderNumberheader"}}
+      <tr data-row="sub-header" data-sort="true" data-rowtype="{{RowType}}">
+        <th class="sub-header" data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No</th>
+        <th class="sub-header" data-linkedcolumn="OrderDate" data-valuefield="OrderDate">Order Date</th>
+        <th class="sub-header" data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Order Description</th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-OrderA" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-OrderB" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-OrderC" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-OrderD" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-OrderE" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-OrderF" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-OrderG" data-valuefield=""></th>
+      </tr>
+      <tr data-row="sub-detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{OrderDate}}"></td>
+        <td data-linkedcolumn="Vendor" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="EmptyTd-OrderA"></td>
+        <td data-linkedcolumn="EmptyTd-OrderB"></td>
+        <td data-linkedcolumn="EmptyTd-OrderC"></td>
+        <td data-linkedcolumn="EmptyTd-OrderD"></td>
+        <td data-linkedcolumn="EmptyTd-OrderE"></td>
+        <td data-linkedcolumn="EmptyTd-OrderF"></td>
+        <td data-linkedcolumn="EmptyTd-OrderG"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
@@ -71,6 +90,17 @@
         <td data-linkedcolumn="Image" data-visible="{{#ifEquals ../ShowImages true}}{{#ifEquals ../IncludeThumbnailImages true}}true{{/ifEquals}}{{/ifEquals}}"><div style="width:50px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;" /></div></td>
       </tr>
       {{/ifEquals}}
+      {{#ifEquals RowType "OrderNumberfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{OrderNumber}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" class="total-val empty-td"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val empty-td"></td>
+        <td data-linkedcolumn="CostExtended" class="total-val" data-value="{{CostExtended}}"></td>
+        <td data-linkedcolumn="ResponsiblePerson" class="empty-td"></td>
+        <td data-linkedcolumn="Image" class="empty-td" data-visible="{{#ifEquals ../ShowImages true}}{{#ifEquals ../IncludeThumbnailImages true}}true{{/ifEquals}}{{/ifEquals}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{#ifEquals RowType "Dealfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
@@ -85,17 +115,6 @@
       {{#ifEquals RowType "Customerfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="5" class="total-name">{{Customer}}&nbsp;</td>
-        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
-        <td data-linkedcolumn="BarCode" class="total-val empty-td"></td>
-        <td data-linkedcolumn="UnitCost" class="total-val empty-td"></td>
-        <td data-linkedcolumn="CostExtended" class="total-val" data-value="{{CostExtended}}"></td>
-        <td data-linkedcolumn="ResponsiblePerson" class="empty-td"></td>
-        <td data-linkedcolumn="Image" class="empty-td" data-visible="{{#ifEquals ../ShowImages true}}{{#ifEquals ../IncludeThumbnailImages true}}true{{/ifEquals}}{{/ifEquals}}"></td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "OrderNumberfooter"}}
-      <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="5" class="total-name">{{OrderNumber}}&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
         <td data-linkedcolumn="BarCode" class="total-val empty-td"></td>
         <td data-linkedcolumn="UnitCost" class="total-val empty-td"></td>
