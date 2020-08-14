@@ -95,7 +95,6 @@ Global
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
-		{81982370-068F-4922-9F56-8807515D2291}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -138,7 +137,6 @@ Global
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
-		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
@@ -148,7 +146,6 @@ Global
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug RentalWorksWeb|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug RentalWorksWeb|Any CPU.Build.0 = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release RentalWorksWeb|Any CPU.ActiveCfg = Release|Any CPU
