@@ -85,6 +85,9 @@ namespace WebApi.Modules.Settings.UserProfile
         [FwSqlDataField(column: "emailsignature", modeltype: FwDataTypes.Text)]
         public string EmailSignature { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locale", modeltype: FwDataTypes.Text)]
+        public string Locale { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

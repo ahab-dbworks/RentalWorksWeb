@@ -401,6 +401,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "emailsignature", modeltype: FwDataTypes.Text)]
         public string EmailSignature { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locale", modeltype: FwDataTypes.Text)]
+        public string Locale { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
