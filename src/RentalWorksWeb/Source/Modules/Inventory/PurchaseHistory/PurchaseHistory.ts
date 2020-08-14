@@ -57,17 +57,17 @@ class PurchaseHistory {
             request.activeviewfields = this.ActiveViewFields;
         });
 
-        //try {
-        //    FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        //        for (let key in response) {
-        //            FwBrowse.addLegend($browse, key, response[key]);
-        //        }
-        //    }, function onError(response) {
-        //        FwFunc.showError(response);
-        //    }, $browse)
-        //} catch (ex) {
-        //    FwFunc.showError(ex);
-        //}
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
 
         return $browse;
     };
@@ -124,25 +124,36 @@ class PurchaseHistory {
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="PurchaseId" data-browsedatatype="key"></div>
           </div>
-          <div class="column flexcolumn" max-width="250px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Purchased" data-datafield="PurchaseDate" data-browsedatatype="date" data-sort="desc"></div>
           </div>
-          <div class="column flexcolumn" max-width="250px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Received" data-datafield="ReceiveDate" data-browsedatatype="date" data-sort="desc"></div>
           </div>
-          <div class="column flexcolumn" max-width="150px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="450px" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column flexcolumn" max-width="250px" data-visible="true">
-            <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Vendor" data-datafield="Vendor" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column" data-width="auto" data-visible="true">
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="PO Number" data-datafield="PurchaseOrderNumber" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Quantity" data-datafield="Quantity" data-browsedatatype="number" data-sort="off"></div>
           </div>
-          <div class="column spacer" data-width="auto" data-visible="true"></div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Unit Cost" data-datafield="UnitCost" data-browsedatatype="money" data-cellcolor="CurrencyColor" data-currencysymbol="CurrencySymbol" data-digits="2" data-formatnumeric="true" data-sort="off" style="justify-content:flex-end;"></div>
+          </div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Extended" data-datafield="CostExtended" data-browsedatatype="money" data-cellcolor="CurrencyColor" data-currencysymbol="CurrencySymbol" data-digits="2" data-formatnumeric="true" data-sort="off" style="justify-content:flex-end;"></div>
+          </div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>
+          </div>
         </div>`;
     };
     //---------------------------------------------------------------------------------------------
@@ -160,25 +171,35 @@ class PurchaseHistory {
                 <div data-type="tabpage" id="purchasetabpage" class="tabpage" data-tabid="purchasetab">
                   <div class="formpage">
                     <div class="formrow">
-                      <div class="formcolumn" style="width:700px;">
+                      <div class="formcolumn" style="width:900px;">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ownership" data-datafield="Ownership" data-enabled="false" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="float:left;width:175px;"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="float:left;width:175px;"></div>
                           </div>
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="float:left;width:500px;"></div>
-                          </div>
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="float:left;width:175px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="float:left;width:175px;"></div>
-                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCost" data-enabled="false" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" data-enabled="false" style="float:left;width:100px;"></div>
                           </div>
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-enabled="false" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 150px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 150px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Outside PO Number" data-datafield="OutsidePurchaseOrderNumber" data-enabled="false" style="flex:1 1 150px;"></div>
+                          </div>
+                        </div>
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Cost">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-enabled="false" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCost" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost with Tax" data-datafield="UnitCostWithTax" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Warehouse Currency Code" data-datafield="WarehouseDefaultCurrencyId" data-displayfield="WarehouseDefaultCurrencyCode" data-enabled="false" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Unit Cost with Tax" data-datafield="UnitCostWithTaxCurrencyConverted" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                           </div>
                         </div>
                       </div>

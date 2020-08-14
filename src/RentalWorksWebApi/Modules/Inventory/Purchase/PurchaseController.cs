@@ -15,6 +15,17 @@ namespace WebApi.Modules.Inventory.Purchase
     {
         public PurchaseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PurchaseLogic); }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/purchase/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "mEgQ24mt3Yu86", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/purchase/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id: "8xRNUpaPrGMBP", ActionType: FwControllerActionTypes.Browse)]
