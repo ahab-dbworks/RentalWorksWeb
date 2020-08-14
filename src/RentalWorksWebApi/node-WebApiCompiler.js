@@ -169,7 +169,7 @@ class WebApiCompiler {
 
             await fs.copy(`${srcDir}/index.htm`, `${destDir}/index.htm`);
             await fs.copy(`${srcDir}/index.js`, `${destDir}/index.js`);
-            await fs.copy(`${srcDir}/ApplicationConfig.js`, `${destDir}/ApplicationConfig.js`);
+            //await fs.copy(`${srcDir}/ApplicationConfig.js`, `${destDir}/ApplicationConfig.js`);
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
@@ -264,6 +264,7 @@ class WebApiCompiler {
                     await this.rmfr_downloads();
                     await this.rmfr_reports();
                     await this.rmfr_publishfolder();
+                    await this.rmfr_quikscan();
                     await this.npm_i();
                     await this.build_webpack_reports();
                     await this.build_quikscan();
