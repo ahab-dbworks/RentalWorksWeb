@@ -251,3 +251,7 @@ body {
     border-top: 1.5px solid black;
     padding-top: 10px;
 }
+
+[data-visible]:not([data-visible="true"]) {
+    display: none;
+}

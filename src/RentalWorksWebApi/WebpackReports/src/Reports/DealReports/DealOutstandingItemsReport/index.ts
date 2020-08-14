@@ -15,18 +15,18 @@ export class DealOutstandingReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.IncludeFullImages = false;
-                    if (parameters.ShowResponsiblePerson === true) {
-                        data.ShowResponsiblePerson = true;
-                    }
-                    if (parameters.ShowBarcodes === true) {
-                        data.ShowBarcodes = true;
-                    }
-                    if (parameters.ShowVendors === true) {
-                        data.ShowVendors = true;
-                        data.FooterColspan = 5;
-                    } else {
-                        data.FooterColspan = 4;
-                    }
+                    //if (parameters.ShowResponsiblePerson === true) {
+                    //    data.ShowResponsiblePerson = true;
+                    //}
+                    //if (parameters.ShowBarcodes === true) {
+                    //    data.ShowBarcodes = true;
+                    //}
+                    //if (parameters.ShowVendors === true) {
+                    //    data.ShowVendors = true;
+                    //    data.FooterColspan = 5;
+                    //} else {
+                    //    data.FooterColspan = 4;
+                    //}
                     if (parameters.IncludeFullImages === true || parameters.IncludeThumbnailImages === true) {
                         data.ShowImages = true;
                     } else {
@@ -38,21 +38,21 @@ export class DealOutstandingReport extends WebpackReport {
                     if (parameters.IncludeFullImages === true) {
                         data.IncludeFullImages = true;
                     }
-                    if (parameters.IncludeValueCost === 'R') {
-                        data.IncludeValueCost = 'R';
-                        data.IncludeValue = true;
-                        data.UnitValueHeading = "Replacement Cost";
-                    }
-                    if (parameters.IncludeValueCost === 'U') {
-                        data.IncludeValueCost = 'U';
-                        data.IncludeValue = true;
-                        data.UnitValueHeading = "Unit Value";
-                    }
-                    if (parameters.IncludeValueCost === 'P') {
-                        data.IncludeValueCost = 'P';
-                        data.IncludeValue = true;
-                        data.UnitValueHeading = "Purchase Amount";
-                    }
+                    //if (parameters.IncludeValueCost === 'R') {
+                    //    data.IncludeValueCost = 'R';
+                    //    data.IncludeValue = true;
+                    //    data.UnitValueHeading = "Replacement Cost";
+                    //}
+                    //if (parameters.IncludeValueCost === 'U') {
+                    //    data.IncludeValueCost = 'U';
+                    //    data.IncludeValue = true;
+                    //    data.UnitValueHeading = "Unit Value";
+                    //}
+                    //if (parameters.IncludeValueCost === 'P') {
+                    //    data.IncludeValueCost = 'P';
+                    //    data.IncludeValue = true;
+                    //    data.UnitValueHeading = "Purchase Amount";
+                    //}
               
                     data.PrintTime = moment().format('h:mm:ss A');
                     data.PrintDate = moment().format('MM/DD/YYYY');

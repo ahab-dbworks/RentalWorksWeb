@@ -173,6 +173,12 @@ namespace WebApi.Modules.Reports.DealReports.DealOutstandingItemsReport
         [FwSqlDataField(column: "replacementcostextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "costextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? CostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "responsiblepersonid", modeltype: FwDataTypes.Text)]
         public string ResponsiblePersonId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -202,6 +208,7 @@ namespace WebApi.Modules.Reports.DealReports.DealOutstandingItemsReport
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getdealoutstandingrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@datetouse", SqlDbType.Text, ParameterDirection.Input, request.DateType);
+                    qry.AddParameter("@costtouse", SqlDbType.Text, ParameterDirection.Input, request.IncludeValueCost);
                     qry.AddParameter("@returnimagemode", SqlDbType.Text, ParameterDirection.Input, request.IncludeFullImages.GetValueOrDefault(false) ? "FULL" : request.IncludeThumbnailImages.GetValueOrDefault(false) ? "THUMBNAIL" : "");
                     qry.AddParameter("@excludepending", SqlDbType.Text, ParameterDirection.Input, request.ExcludePendingExchanges);
                     qry.AddParameter("@containersonly", SqlDbType.Text, ParameterDirection.Input, request.IncludeContainersOnly);
@@ -231,7 +238,7 @@ namespace WebApi.Modules.Reports.DealReports.DealOutstandingItemsReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-                string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended" };
+                string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended", "CostExtended" };
                 string[] headerFieldsOrderNumber = new string[] { "OrderDate", "OrderDescription" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
