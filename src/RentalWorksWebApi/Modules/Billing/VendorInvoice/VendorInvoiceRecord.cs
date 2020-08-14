@@ -66,7 +66,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountamt", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 11, scale: 2)]
