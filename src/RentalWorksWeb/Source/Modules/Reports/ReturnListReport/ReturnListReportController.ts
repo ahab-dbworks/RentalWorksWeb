@@ -26,6 +26,7 @@ const returnListTemplate = `
                   <!--div data-datafield="PrintICodeColumn" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print I-Code Column" style="float:left;max-width:420px;"></div-->
                   <!-- <div data-datafield="PrintAisleShelf" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Print Aisle/ Shelf" style="float:left;max-width:420px;"></div> -->
                   <div data-datafield="IncludeSales" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Sales" style="float:left;max-width:420px;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="BarCodeStyle" data-savesetting="false" style="display:none;"></div>
                 </div>
               </div>
             </div>
@@ -83,6 +84,9 @@ class ReturnListReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+
+        const barCodeStyle = JSON.parse(sessionStorage.getItem('controldefaults')).documentbarcodestyle;
+        FwFormField.setValue($form, 'div[data-datafield="BarCodeStyle"]', barCodeStyle);
 
         // Default settings for first time running
         //const orders = JSON.parse(sessionStorage.getItem('order'));

@@ -4,6 +4,7 @@ import { DataTable } from '../../../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../../../lib/FwReportLibrary/src/scripts/Ajax';
 import * as moment from 'moment';
 import '../../../../lib/FwReportLibrary/src/theme/webpackReports.scss';
+import * as QrCodeGen from '../../../../lib/FwReportLibrary/src/scripts/QrCodeGen';
 import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
@@ -17,69 +18,72 @@ export class ReturnListReport extends WebpackReport {
                 .then((response: SuspendedSession) => {
                     let sessionNumber = response.SessionNumber;
                     let DealName = response.Deal;
-            Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
-                .then((response: DataTable) => {
-                    const logoObject: any = response;
-                    Ajax.post<DataTable>(`${apiUrl}/api/v1/returnlistreport/runreport`, authorizationHeader, parameters)
-                        .then((response: any) => {
-                            const data: any = response;
-                            data.Items = DataTable.toObjectList(response.ItemsTable);
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
-                            data.Report = 'RETURN LIST';
-                            data.Session = sessionNumber;
-                            data.DealName = DealName;
-                            data.Department = parameters.department;
-                            data.PrintAisleShelf = parameters.PrintAisleShelf;
-                            for (let i = 0; i < data.Items.length; i++) {
-                                data.Items[i].PrintAisleShelf = parameters.PrintAisleShelf;
-                            }
-                            for (let i = 0; i < data.Items.length; i++) {
-                                data.Items[i].PrintIn = data.PrintIn;
-                                data.Items[i].PrintOut = data.PrintOut;
-                            }
-                            data.Warehouse = parameters.warehouse;
-                            data.Company   = parameters.companyName;
-                            //if (logoObject.LogoImage != '') {
-                            //    data.Logosrc = logoObject.LogoImage;
-                            //}
-                            console.log(parameters, 'parameters');
-                            console.log(data, 'DATA');
+                    Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
+                        .then((response: DataTable) => {
+                            const logoObject: any = response;
+                            Ajax.post<DataTable>(`${apiUrl}/api/v1/returnlistreport/runreport`, authorizationHeader, parameters)
+                                .then((response: any) => {
+                                    const data: any = response;
+                                    data.Items = DataTable.toObjectList(response.ItemsTable);
+                                    data.PrintTime = moment().format('h:mm:ss A');
+                                    data.PrintDate = moment().format('MM/DD/YYYY');
+                                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                                    data.System = 'RENTALWORKS';
+                                    data.Report = 'RETURN LIST';
+                                    data.Session = sessionNumber;
+                                    data.DealName = DealName;
+                                    data.Department = parameters.department;
+                                    data.PrintAisleShelf = parameters.PrintAisleShelf;
+                                    for (let i = 0; i < data.Items.length; i++) {
+                                        data.Items[i].PrintAisleShelf = parameters.PrintAisleShelf;
+                                    }
+                                    for (let i = 0; i < data.Items.length; i++) {
+                                        data.Items[i].PrintIn = data.PrintIn;
+                                        data.Items[i].PrintOut = data.PrintOut;
+                                    }
+                                    data.Warehouse = parameters.warehouse;
+                                    data.Company = parameters.companyName;
 
-                            this.renderFooterHtml(data);
-                            if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                                document.getElementById('pageFooter').innerHTML = this.footerHtml;
-                            }
-                            if (parameters.isCustomReport) {
-                                document.getElementById('pageBody').innerHTML = parameters.CustomReport(data);
-                            } else {
-                                document.getElementById('pageBody').innerHTML = hbReport(data);
-                            }
+                                    if (parameters.BarCodeStyle === '1D') {
+                                        parameters.BarCodeStyle = '1D';
+                                    } else if (parameters.BarCodeStyle === '2D') {
+                                        parameters.BarCodeStyle = '2D';
+                                    } else {
+                                        parameters.BarCodeStyle = '1D';
+                                    }
+                                    data.BarCodeStyle = parameters.BarCodeStyle;
 
-                            // want to add
-                            //if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
-                            //    const termEl = document.getElementById('terms');
-                            //    termEl.innerHTML = data.TermsAndConditions;
-                            //    if (data.TermsAndConditionsNewPage) {
-                            //        const termsRow = document.getElementById('termsRow');
-                            //        termsRow.style.cssText = "page-break-before:always;";
-                            //    }
-                            //}
+                                    const qr = QrCodeGen.QrCode.encodeText(data.Session, QrCodeGen.Ecc.MEDIUM);
+                                    const svg = qr.toSvgString(4);
+                                    data.QrCode = svg;
 
+                                    //if (logoObject.LogoImage != '') {
+                                    //    data.Logosrc = logoObject.LogoImage;
+                                    //}
+                                    console.log(parameters, 'parameters');
+                                    console.log(data, 'DATA');
 
-                            this.onRenderReportCompleted();
-                        })
-                        .catch((ex) => {
-                            this.onRenderReportFailed(ex);
+                                    this.renderFooterHtml(data);
+                                    if (this.action === 'Preview' || this.action === 'PrintHtml') {
+                                        document.getElementById('pageFooter').innerHTML = this.footerHtml;
+                                    }
+                                    if (parameters.isCustomReport) {
+                                        document.getElementById('pageBody').innerHTML = parameters.CustomReport(data);
+                                    } else {
+                                        document.getElementById('pageBody').innerHTML = hbReport(data);
+                                    }
+
+                                    this.onRenderReportCompleted();
+                                })
+                                .catch((ex) => {
+                                    this.onRenderReportFailed(ex);
+                                });
+                        }).catch((ex) => {
+                            console.log('exception: ', ex)
                         });
                 }).catch((ex) => {
                     console.log('exception: ', ex)
                 });
-            }).catch((ex) => {
-                 console.log('exception: ', ex)
-            });
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
