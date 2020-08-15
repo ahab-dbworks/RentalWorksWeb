@@ -109,6 +109,9 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "invoicedwdiscounttotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceDaysPerWeekDiscountTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtoaddressid", modeltype: FwDataTypes.Text)]
+        public string BillToAddressId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtoadd1", modeltype: FwDataTypes.Text)]
         public string BillToAddress1 { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -304,10 +307,10 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "creditinginvoiceno", modeltype: FwDataTypes.Text)]
         public string CreditingInvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usagestartdate", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "usagestartdate", modeltype: FwDataTypes.Date)]
         public string UsageStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usageenddate", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "usageenddate", modeltype: FwDataTypes.Date)]
         public string UsageEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
 

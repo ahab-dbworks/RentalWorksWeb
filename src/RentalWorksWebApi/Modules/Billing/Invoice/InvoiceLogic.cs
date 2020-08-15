@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.Tax;
 using WebApi;
+using WebApi.Modules.HomeControls.Address;
 
 namespace WebApi.Modules.Billing.Invoice
 {
@@ -16,6 +17,7 @@ namespace WebApi.Modules.Billing.Invoice
         //------------------------------------------------------------------------------------ 
         InvoiceRecord invoice = new InvoiceRecord();
         TaxRecord tax = new TaxRecord();
+        AddressRecord billToAddress = new AddressRecord();
 
         InvoiceLoader invoiceLoader = new InvoiceLoader();
         InvoiceBrowseLoader invoiceBrowseLoader = new InvoiceBrowseLoader();
@@ -23,6 +25,7 @@ namespace WebApi.Modules.Billing.Invoice
         {
             dataRecords.Add(invoice);
             dataRecords.Add(tax);
+            dataRecords.Add(billToAddress);
 
             dataLoader = invoiceLoader;
             browseLoader = invoiceBrowseLoader;
@@ -32,6 +35,9 @@ namespace WebApi.Modules.Billing.Invoice
 
             invoice.BeforeSave += OnBeforeSaveInvoice;
             invoice.AfterSave += OnAfterSaveInvoice;
+
+            billToAddress.BeforeSave += OnBeforeSaveBillToAddress;
+            billToAddress.UniqueId1 = invoice.InvoiceId;
 
             ForceSave = true;
 
@@ -240,23 +246,26 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "c4xIVabX4i3E", IsReadOnly: true)]
         public string ProjectManager { get; set; }
 
-        [FwLogicProperty(Id: "tZyOANDHo8Fw", IsReadOnly: true)]
-        public string BillToAddress1 { get; set; }
+        [FwLogicProperty(Id: "LTY9tUFZr0GQP")]
+        public string BillToAddressId { get { return billToAddress.AddressId; } set { billToAddress.AddressId = value; } }
 
-        [FwLogicProperty(Id: "2uZH5Xexi9KV", IsReadOnly: true)]
-        public string BillToAddress2 { get; set; }
+        [FwLogicProperty(Id: "tZyOANDHo8Fw")]
+        public string BillToAddress1 { get { return billToAddress.Address1; } set { billToAddress.Address1 = value; } }
 
-        [FwLogicProperty(Id: "OEpfI9ylzesb", IsReadOnly: true)]
-        public string BillToCity { get; set; }
+        [FwLogicProperty(Id: "2uZH5Xexi9KV")]
+        public string BillToAddress2 { get { return billToAddress.Address2; } set { billToAddress.Address2 = value; } }
 
-        [FwLogicProperty(Id: "AtPsKGTs1ivW", IsReadOnly: true)]
-        public string BillToState { get; set; }
+        [FwLogicProperty(Id: "OEpfI9ylzesb")]
+        public string BillToCity { get { return billToAddress.City; } set { billToAddress.City = value; } }
 
-        [FwLogicProperty(Id: "vQBGjZOT0vJN", IsReadOnly: true)]
-        public string BillToZipCode { get; set; }
+        [FwLogicProperty(Id: "AtPsKGTs1ivW")]
+        public string BillToState { get { return billToAddress.State; } set { billToAddress.State = value; } }
 
-        [FwLogicProperty(Id: "H38yt0cXj2r9n", IsReadOnly: true)]
-        public string BillToCountryId { get; set; }
+        [FwLogicProperty(Id: "vQBGjZOT0vJN")]
+        public string BillToZipCode { get { return billToAddress.ZipCode; } set { billToAddress.ZipCode = value; } }
+
+        [FwLogicProperty(Id: "H38yt0cXj2r9n")]
+        public string BillToCountryId { get { return billToAddress.CountryId; } set { billToAddress.CountryId = value; } }
 
         [FwLogicProperty(Id: "x0nfCbNXPBcM", IsReadOnly: true)]
         public string BillToCountry { get; set; }
@@ -518,6 +527,7 @@ namespace WebApi.Modules.Billing.Invoice
                 {
                     InvoiceLogic orig = ((InvoiceLogic)e.Original);
                     TaxId = orig.TaxId;
+                    BillToAddressId = orig.BillToAddressId;
                 }
             }
 
@@ -535,8 +545,19 @@ namespace WebApi.Modules.Billing.Invoice
             }
         }
         //------------------------------------------------------------------------------------
+        public void OnBeforeSaveBillToAddress(object sender, BeforeSaveDataRecordEventArgs e)
+        {
+            if (BillToAddressId.Equals(string.Empty))
+            {
+                e.PerformSave = false;
+            }
+        }
+        //------------------------------------------------------------------------------------
         public virtual void OnAfterSaveInvoice(object sender, AfterSaveDataRecordEventArgs e)
         {
+
+            billToAddress.UniqueId1 = invoice.InvoiceId;
+
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
                 if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
