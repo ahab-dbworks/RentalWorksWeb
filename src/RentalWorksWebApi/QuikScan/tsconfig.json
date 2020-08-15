@@ -8,6 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "target": "ES5",
+    "noEmit": false,
     "lib": [
       "dom",
       "es5",
