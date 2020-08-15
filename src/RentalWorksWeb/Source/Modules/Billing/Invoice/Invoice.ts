@@ -1411,7 +1411,7 @@ class Invoice {
             const invoiceNumber = FwFormField.getValueByDataField($form, `${module}Number`);
             const dealId = FwFormField.getValueByDataField($form, 'DealId');
             FwFormField.setValueByDataField($report, `${module}Id`, invoiceId, invoiceNumber);
-            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId); 
+            FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
             const $tab = FwTabs.getTabByElement($report);
             $tab.find('.caption').html(`Print ${module}`);
         }
