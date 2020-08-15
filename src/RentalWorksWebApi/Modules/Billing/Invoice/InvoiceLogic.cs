@@ -255,6 +255,9 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "vQBGjZOT0vJN", IsReadOnly: true)]
         public string BillToZipCode { get; set; }
 
+        [FwLogicProperty(Id: "H38yt0cXj2r9n", IsReadOnly: true)]
+        public string BillToCountryId { get; set; }
+
         [FwLogicProperty(Id: "x0nfCbNXPBcM", IsReadOnly: true)]
         public string BillToCountry { get; set; }
 

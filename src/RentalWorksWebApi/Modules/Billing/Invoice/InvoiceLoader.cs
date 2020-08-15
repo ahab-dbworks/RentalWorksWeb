@@ -124,6 +124,9 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "billtozip", modeltype: FwDataTypes.Text)]
         public string BillToZipCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtocountryid", modeltype: FwDataTypes.Text)]
+        public string BillToCountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtocountry", modeltype: FwDataTypes.Text)]
         public string BillToCountry { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -1249,6 +1249,37 @@ class Invoice {
             this.checkBillingDateRange($form, event);
         });
 
+        //Defaults Address information when user selects a deal
+        $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
+            const dealId = FwFormField.getValueByDataField($form, 'DealId');
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            const currencyId = FwBrowse.getValueByDataField(null, $tr, 'CurrencyId') || office.defaultcurrencyid;
+            const currencyCode = FwBrowse.getValueByDataField(null, $tr, 'CurrencyCode') || office.defaultcurrencycode;
+            FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
+            FwFormField.setValueByDataField($form, 'DealNumber', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
+            //FwFormField.setValueByDataField($form, 'RateType', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+
+            FwFormField.setValueByDataField($form, 'RateType', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+            $form.find('div[data-datafield="RateType"] input.fwformfield-text').val($tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+
+
+            FwFormField.setValueByDataField($form, 'PaymentTermsId', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'PaymentTypeId', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
+
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
+                FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer);
+
+                //FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
+                //FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
+                FwFormField.setValueByDataField($form, 'BillToAddress1', response.BillToAddress1);
+                FwFormField.setValueByDataField($form, 'BillToAddress2', response.BillToAddress2);
+                FwFormField.setValueByDataField($form, 'BillToCity', response.BillToCity);
+                FwFormField.setValueByDataField($form, 'BillToState', response.BillToState);
+                FwFormField.setValueByDataField($form, 'BillToZipCode', response.BillToZipCode);
+                FwFormField.setValueByDataField($form, 'BillToCountryId', response.BillToCountryId, response.BillToCountry);
+            }, null, null);
+        });
+
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
