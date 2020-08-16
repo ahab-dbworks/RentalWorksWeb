@@ -134,6 +134,8 @@ namespace WebApi
         public const string ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_CONTRACT = "CONTRACT";
         public const string ORDER_DETERMINE_QUANTITIES_TO_BILL_BASED_ON_ORDER = "ORDER";
 
+        public const string UPDATE_RATES_CONFIRMATION = "UPDATE RATES";
+
 
         //ACTIVITY
         public const string ACTIVITY_TYPE_PICK = "PICK";

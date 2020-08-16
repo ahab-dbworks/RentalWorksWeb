@@ -32,6 +32,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         PurchaseOrderLoader purchaseOrderLoader = new PurchaseOrderLoader();
         PurchaseOrderBrowseLoader purchaseOrderBrowseLoader = new PurchaseOrderBrowseLoader();
 
+        private bool _changeRatesToNewCurrency = false;
+
         public PurchaseOrderLogic()
         {
             dataRecords.Add(purchaseOrder);
@@ -668,6 +670,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "e2zOESzvmQPY")]
         public string CurrencyId { get { return purchaseOrder.CurrencyId; } set { purchaseOrder.CurrencyId = value; } }
 
+        [FwLogicProperty(Id: "6rVDoG5iNriMw")]
+        public bool? UpdateAllRatesToNewCurrency { get; set; }
+
+        [FwLogicProperty(Id: "KdH86jJDvTKUd", IsNotAudited: true)]
+        public string ConfirmUpdateAllRatesToNewCurrency { get; set; }
+
         [FwLogicProperty(Id: "T6x3UjlxoKwxj", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
@@ -1025,6 +1033,11 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            PurchaseOrderLogic orig = null;
+            if (e.Original != null)
+            {
+                orig = ((PurchaseOrderLogic)e.Original);
+            }
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.PURCHASE_ORDER_STATUS_NEW;
@@ -1066,16 +1079,22 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if (e.Original != null)
+                if (orig != null)
                 {
-                    PurchaseOrderLogic orig = ((PurchaseOrderLogic)e.Original);
                     ReceiveDeliveryId = orig.ReceiveDeliveryId;
                     ReturnDeliveryId = orig.ReturnDeliveryId;
                     //BillToAddressId = orig.BillToAddressId;
                     TaxId = orig.TaxId;
+
+                    if ((!string.IsNullOrEmpty(CurrencyId)) && (!CurrencyId.Equals(orig.CurrencyId)))
+                    {
+                        if ((!string.IsNullOrEmpty(ConfirmUpdateAllRatesToNewCurrency)) && (ConfirmUpdateAllRatesToNewCurrency.ToUpper().Equals(RwConstants.UPDATE_RATES_CONFIRMATION)))
+                        {
+                            _changeRatesToNewCurrency = true;
+                        }
+                    }
                 }
             }
-
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
@@ -1186,6 +1205,17 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 if (datesChanged)
                 {
                     bool b = OrderFunc.UpdateOrderItemExtendedAllASync(this.AppConfig, this.UserSession, GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+                }
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (_changeRatesToNewCurrency)
+                {
+                    TSpStatusResponse resetCurrencyRatesResponse = OrderFunc.ResetOrderCurrencyRates(AppConfig, UserSession, PurchaseOrderId, e.SqlConnection).Result;
+                    //if (!response.success)  // need an error message here
+                    //{
+                    //}
                 }
             }
 

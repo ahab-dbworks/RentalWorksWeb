@@ -21,6 +21,10 @@ namespace WebApi.Modules.Billing.Invoice
 
         InvoiceLoader invoiceLoader = new InvoiceLoader();
         InvoiceBrowseLoader invoiceBrowseLoader = new InvoiceBrowseLoader();
+        
+        private bool _changeRatesToNewCurrency = false;
+
+
         public InvoiceLogic()
         {
             dataRecords.Add(invoice);
@@ -364,6 +368,12 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "9OnrVe14Xe2p")]
         public string CurrencyId { get { return invoice.CurrencyId; } set { invoice.CurrencyId = value; } }
 
+        [FwLogicProperty(Id: "ihzRrucizOXx4")]
+        public bool? UpdateAllRatesToNewCurrency { get; set; }
+
+        [FwLogicProperty(Id: "AKYJJxvbfAsBQ", IsNotAudited: true)]
+        public string ConfirmUpdateAllRatesToNewCurrency { get; set; }
+
         [FwLogicProperty(Id: "sCSkPb8mzrS6", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
@@ -513,6 +523,14 @@ namespace WebApi.Modules.Billing.Invoice
 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+
+            InvoiceLogic orig = null;
+            if (e.Original != null)
+            {
+                orig = ((InvoiceLogic)e.Original);
+            }
+
+
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.INVOICE_STATUS_NEW;
@@ -523,14 +541,20 @@ namespace WebApi.Modules.Billing.Invoice
             }
             else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if (e.Original != null)
+                if (orig != null)
                 {
-                    InvoiceLogic orig = ((InvoiceLogic)e.Original);
                     TaxId = orig.TaxId;
                     BillToAddressId = orig.BillToAddressId;
+
+                    if ((!string.IsNullOrEmpty(CurrencyId)) && (!CurrencyId.Equals(orig.CurrencyId)))
+                    {
+                        if ((!string.IsNullOrEmpty(ConfirmUpdateAllRatesToNewCurrency)) && (ConfirmUpdateAllRatesToNewCurrency.ToUpper().Equals(RwConstants.UPDATE_RATES_CONFIRMATION)))
+                        {
+                            _changeRatesToNewCurrency = true;
+                        }
+                    }
                 }
             }
-
         }
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveInvoice(object sender, BeforeSaveDataRecordEventArgs e)
@@ -582,6 +606,17 @@ namespace WebApi.Modules.Billing.Invoice
                 // this is a new Invoice.  TaxId was not known at time of insert.  Need to re-update the data with the known ID
                 invoice.TaxId = tax.TaxId;
                 int i = invoice.SaveAsync(null).Result;
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (_changeRatesToNewCurrency)
+                {
+                    //TSpStatusResponse resetCurrencyRatesResponse = InvoiceFunc.ResetOrderCurrencyRates(AppConfig, UserSession, InvoiceId, e.SqlConnection).Result;
+                    //if (!response.success)  // need an error message here
+                    //{
+                    //}
+                }
             }
 
 
