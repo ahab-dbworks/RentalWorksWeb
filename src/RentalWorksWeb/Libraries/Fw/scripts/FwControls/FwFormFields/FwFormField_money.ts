@@ -32,12 +32,16 @@
     //---------------------------------------------------------------------------------
     loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         var currencySymbol;
-        if (typeof model['CurrencySymbol'] !== 'undefined') {
-            currencySymbol = model['CurrencySymbol'];
-            $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
-        } else {
+        if (typeof $fwformfield.attr('data-currencysymbol') !== 'undefined' && typeof model[$fwformfield.attr('data-currencysymbol')] !== 'undefined') {
+            currencySymbol = model[$fwformfield.attr('data-currencysymbol')]
+        }
+
+        if (typeof currencySymbol === 'undefined' || currencySymbol === '') {
             currencySymbol = '$';
         }
+
+        $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+
         value = ((value === '') ? '0.00' : value);
         $fwformfield
             .attr('data-originalvalue', parseFloat(value).toFixed(2))

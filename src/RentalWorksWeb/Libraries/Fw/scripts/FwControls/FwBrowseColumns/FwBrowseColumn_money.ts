@@ -1,11 +1,12 @@
 ﻿class FwBrowseColumn_moneyClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-        var currencysymbol = $field.attr('data-currencysymbol');
-        if (typeof currencysymbol !== 'undefined') {
-            if (dtRow[dt.ColumnIndex["CurrencySymbol"]]) {
-                $field.attr('data-currencysymboldisplay', dtRow[dt.ColumnIndex["CurrencySymbol"]]);
+        if (typeof dt.ColumnIndex[$field.attr('data-currencysymbol')] === 'number') {
+            var currencySymbol = dtRow[dt.ColumnIndex[$field.attr('data-currencysymbol')]];
+            if (currencySymbol === '') {
+                currencySymbol = '$';
             }
+            $field.attr('data-currencysymboldisplay', currencySymbol);
         }
     }
     //---------------------------------------------------------------------------------
