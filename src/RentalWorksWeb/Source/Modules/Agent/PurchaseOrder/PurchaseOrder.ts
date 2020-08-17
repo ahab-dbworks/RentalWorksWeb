@@ -1535,6 +1535,11 @@ class PurchaseOrder implements IModule {
         const enableProjects = FwFormField.getValueByDataField($form, 'EnableProjects');
         enableProjects ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
 
+        //hide/reset Currency change fields
+        $form.find('[data-datafield="UpdateAllRatesToNewCurrency"], [data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
+        FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+        FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+
         this.renderScheduleDateAndTimeSection($form, response);
         this.applyTaxOptions($form, response);
     };
@@ -2389,6 +2394,42 @@ class PurchaseOrder implements IModule {
                 };
             }
             FwFormField.setValue2($form.find(`[data-validationname="${data.field}Validation"]`), id, data.value);
+        });
+
+        //Currency Change
+        $form.find('[data-datafield="CurrencyId"]').data('onchange', $tr => {
+            const mode = $form.attr('data-mode');
+            if (mode !== 'NEW') {
+                const originalVal = $form.find('[data-datafield="CurrencyId"]').data('originalvalue');
+                const newVal = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
+                const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
+                if (originalVal !== newVal) {
+                    const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
+                    const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
+                    $updateRatesCheckbox.show().find('.checkbox-caption')
+                        .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
+                        .css('white-space', 'break-spaces');
+                } else {
+                    $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]').hide();
+                }
+                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
+                FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+            }
+        });
+
+        //Currency Change Text Confirmation
+        $form.on('change', '[data-datafield="UpdateAllRatesToNewCurrency"]', e => {
+            const updateAllRates = FwFormField.getValueByDataField($form, 'UpdateAllRatesToNewCurrency');
+            const $updateRatesTextConfirmation = $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]');
+            if (updateAllRates) {
+                $updateRatesTextConfirmation.show().find('.fwformfield-caption')
+                    .text(`Type 'UPDATE RATES' here to confirm this change.  All Item Rates will be altered when this Purchase Order is saved.`)
+                    .css({ 'white-space': 'break-spaces', 'margin-bottom': '2.5em', 'font-size': '1em', 'color': 'red' });
+            } else {
+                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                $updateRatesTextConfirmation.hide();
+            }
         });
     };
     //----------------------------------------------------------------------------------------------

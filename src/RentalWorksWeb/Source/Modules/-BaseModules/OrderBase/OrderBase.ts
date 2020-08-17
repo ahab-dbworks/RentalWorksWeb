@@ -2626,6 +2626,42 @@ class OrderBase {
             }
             FwFormField.setValue2($form.find(`[data-validationname="${data.field}Validation"]`), id, data.value);
         });
+
+        //Currency Change
+        $form.find('[data-datafield="CurrencyId"]').data('onchange', $tr => {
+            const mode = $form.attr('data-mode');
+            if (mode !== 'NEW') {
+                const originalVal = $form.find('[data-datafield="CurrencyId"]').data('originalvalue');
+                const newVal = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
+                const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
+                if (originalVal !== newVal) {
+                    const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
+                    const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
+                    $updateRatesCheckbox.show().find('.checkbox-caption')
+                        .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
+                        .css('white-space', 'break-spaces');
+                } else {
+                    $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]').hide();
+                }
+                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
+                FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+            }
+        });
+
+        //Currency Change Text Confirmation
+        $form.on('change', '[data-datafield="UpdateAllRatesToNewCurrency"]', e => {
+            const updateAllRates = FwFormField.getValueByDataField($form, 'UpdateAllRatesToNewCurrency');
+            const $updateRatesTextConfirmation = $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]');
+            if (updateAllRates) {
+                $updateRatesTextConfirmation.show().find('.fwformfield-caption')
+                    .text(`Type 'UPDATE RATES' here to confirm this change.  All Item Rates will be altered when this ${this.Module} is saved.`)
+                    .css({ 'white-space': 'break-spaces', 'margin-bottom': '1.5em', 'font-size': '1em', 'color': 'red' });
+            } else {
+                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                $updateRatesTextConfirmation.hide();
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
@@ -4165,6 +4201,11 @@ class OrderBase {
         //Project Tab
         const enableProjects = FwFormField.getValueByDataField($form, 'EnableProjects');
         enableProjects ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
+
+        //hide/reset Currency change fields
+        $form.find('[data-datafield="UpdateAllRatesToNewCurrency"], [data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
+        FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+        FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
 
         //justin hoffman 02/11/2020 - after all, I want this option available even if manual sort is not set. There are other conditions where the user may need to do this.
         ////hide "Restore System Sorting" menu option from grids
