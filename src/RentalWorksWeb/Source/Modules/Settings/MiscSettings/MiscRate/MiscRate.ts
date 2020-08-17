@@ -148,6 +148,29 @@ class MiscRate {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RentalInventoryController.currencyViewForPricingGrids(e, 'local');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RentalInventoryController.currencyViewForPricingGrids(e, 'specific');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        RentalInventoryController.currencyViewForPricingGrids(e, 'all');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -182,21 +205,21 @@ class MiscRate {
                 const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
                 FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
                     try {
-                        this.currencyViewForPricingGrids(e, 'local');
+                        RentalInventoryController.currencyViewForPricingGrids(e, 'local');
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
                 FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
                     try {
-                        this.currencyViewForPricingGrids(e, 'specific');
+                        RentalInventoryController.currencyViewForPricingGrids(e, 'specific');
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
                 FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
                     try {
-                        this.currencyViewForPricingGrids(e, 'all');
+                        RentalInventoryController.currencyViewForPricingGrids(e, 'all');
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
