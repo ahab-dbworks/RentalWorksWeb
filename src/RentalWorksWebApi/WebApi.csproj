@@ -478,7 +478,8 @@
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
     <!--<Exec Command="npm install" />-->
-	<Exec Command="npm run build-quikscan-dev" />
+	  <Exec Command="npm run build-web-dev" />
+	  <Exec Command="npm run build-quikscan-dev" />
   </Target>
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">
