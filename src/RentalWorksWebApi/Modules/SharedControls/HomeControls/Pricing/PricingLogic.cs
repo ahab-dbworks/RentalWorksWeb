@@ -1,11 +1,14 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using System.Reflection;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.MasterWarehouse;
+using WebApi.Modules.HomeControls.MasterWarehouseCurrency;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 
 namespace WebApi.Modules.HomeControls.Pricing
 {
-    [FwLogic(Id:"AulvGR01yVbOI")]
+    [FwLogic(Id: "AulvGR01yVbOI")]
     public class PricingLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -15,6 +18,7 @@ namespace WebApi.Modules.HomeControls.Pricing
         {
             dataRecords.Add(rec);
             dataLoader = pricingLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "Vi4yKgBhWGfgT", IsPrimaryKey: true)]
@@ -27,7 +31,7 @@ namespace WebApi.Modules.HomeControls.Pricing
         public string WarehouseCode { get; set; }
         [FwLogicProperty(Id: "Vj5KWWTLAWQmn", IsReadOnly: true)]
         public string WarehouseDefaultCurrencyId { get; set; }
-        [FwLogicProperty(Id: "VJyChLjlQmDyr", IsReadOnly: true)]
+        [FwLogicProperty(Id: "VJyChLjlQmDyr")]
         public string CurrencyId { get; set; }
         [FwLogicProperty(Id: "vk80D1SIZGqej", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
@@ -141,7 +145,46 @@ namespace WebApi.Modules.HomeControls.Pricing
         public int? WarehouseOrderBy { get; set; }
         [FwLogicProperty(Id: "W6ueocJmhUcbg")]
         public string DateStamp { get { return rec.DateStamp; } set { rec.DateStamp = value; } }
+        //------------------------------------------------------------------------------------ 
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            //08/17/2020 justin hoffman
+            // this is an unusual scenario where the PricingLogic needs to save data to a separate table conditionally. If CurrencyId is provided with the save AND that CurrencyId is not
+            // the default currency for the Warehouse being saved, then spin up a new MasterWarehouseCurrencyRecord object and map all values from this PricingLogic to the new record and 
+            // perform the save to that record instead of the MasterWarehouseRecord
+            if ((!string.IsNullOrEmpty(CurrencyId)) && (!string.IsNullOrEmpty(WarehouseId)))
+            {
+                WarehouseLogic w = new WarehouseLogic();
+                w.SetDependencies(AppConfig, UserSession);
+                w.WarehouseId = WarehouseId;
+                bool b = w.LoadAsync<WarehouseLogic>(e.SqlConnection).Result;
+                if (!w.CurrencyId.Equals(CurrencyId))
+                {
+                    MasterWarehouseCurrencyRecord masterWarehouseCurrencyRec = new MasterWarehouseCurrencyRecord();
 
+                    masterWarehouseCurrencyRec.SetDependencies(AppConfig, UserSession);
+
+                    PropertyInfo[] thisProperties = this.GetType().GetProperties();
+                    PropertyInfo[] masterWarehouseCurrencyProperties = masterWarehouseCurrencyRec.GetType().GetProperties();
+                    foreach (PropertyInfo masterWarehouseCurrencyProperty in masterWarehouseCurrencyProperties)
+                    {
+                        if (masterWarehouseCurrencyProperty.CanWrite)
+                        {
+                            foreach (PropertyInfo thisProperty in thisProperties)
+                            {
+                                if (masterWarehouseCurrencyProperty.Name.Equals(thisProperty.Name))
+                                {
+                                    masterWarehouseCurrencyProperty.SetValue(masterWarehouseCurrencyRec, thisProperty.GetValue(this));
+                                }
+                            }
+                        }
+                    }
+
+                    dataRecords.Clear();
+                    dataRecords.Add(masterWarehouseCurrencyRec);
+                }
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
