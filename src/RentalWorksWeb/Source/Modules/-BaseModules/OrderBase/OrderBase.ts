@@ -2631,10 +2631,10 @@ class OrderBase {
         $form.find('[data-datafield="CurrencyId"]').data('onchange', $tr => {
             const mode = $form.attr('data-mode');
             if (mode !== 'NEW') {
-                const originalVal = $form.find('[data-datafield="CurrencyId"]').data('originalvalue');
+                const originalVal = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
                 const newVal = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
                 const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
-                if (originalVal !== newVal) {
+                if (originalVal !== '' && originalVal !== newVal) {
                     const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
                     const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
                     $updateRatesCheckbox.show().find('.checkbox-caption')
@@ -2656,7 +2656,7 @@ class OrderBase {
             if (updateAllRates) {
                 $updateRatesTextConfirmation.show().find('.fwformfield-caption')
                     .text(`Type 'UPDATE RATES' here to confirm this change.  All Item Rates will be altered when this ${this.Module} is saved.`)
-                    .css({ 'white-space': 'break-spaces', 'margin-bottom': '1.5em', 'font-size': '1em', 'color': 'red' });
+                    .css({ 'white-space': 'break-spaces', 'height': 'auto', 'font-size': '1em', 'color': 'red' });
             } else {
                 FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
                 $updateRatesTextConfirmation.hide();
