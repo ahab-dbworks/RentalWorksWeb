@@ -1384,6 +1384,15 @@ abstract class InventoryBase {
     //----------------------------------------------------------------------------------------------
     currencyViewForPricingGrids(evt, tag: string) {
         const $browse = jQuery(evt.currentTarget).closest('.fwbrowse');
+        const $form = jQuery(evt.currentTarget).closest('.fwform');
+        let isRateForm = false;
+        let rateId, inventoryId;
+        if ($form.hasClass('rate-form')) {
+            isRateForm = true;
+            rateId = FwFormField.getValueByDataField($form, 'RateId');
+        } else {
+            inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        }
         let view;
         if (tag === 'local') {
             view = '';
@@ -1397,6 +1406,11 @@ abstract class InventoryBase {
             request.uniqueids = {
                 CurrencyId: view,
             };
+            if (isRateForm) {
+                request.uniqueids.RateId = rateId;
+            } else {
+                request.uniqueids.InventoryId = inventoryId;
+            }
         });
         FwBrowse.search($browse);
     }
