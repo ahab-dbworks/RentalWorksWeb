@@ -58,9 +58,9 @@
         var currencySymbol = (typeof $field.attr('data-currencysymboldisplay') === 'string') ? $field.attr('data-currencysymboldisplay') : '$';
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
             $field.html(currencySymbol + (<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
-            $field.html(`<div class="fieldvalue">${currencySymbol}${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
+            $field.html(`<div class="fieldvalue">${currencySymbol} ${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
         } else {
-            $field.html(`<div class="fieldvalue">${currencySymbol}0.00</div>`);
+            $field.html(`<div class="fieldvalue">${currencySymbol} 0.00</div>`);
         }
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
@@ -81,7 +81,7 @@
         let htmlString = html.join('');
         $field.html(htmlString);
         $field.find('input.value').inputmask("currency", {
-            prefix: currencySymbol,
+            prefix: currencySymbol + ' ',
             placeholder: "0.00",
             min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
             max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),

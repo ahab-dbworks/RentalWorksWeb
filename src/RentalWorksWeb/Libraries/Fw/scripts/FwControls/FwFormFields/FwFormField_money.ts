@@ -48,7 +48,7 @@
             .find('.fwformfield-value')
             .val(value)
             .inputmask("currency", {
-                prefix: currencySymbol,
+                prefix: currencySymbol + ' ',
                 placeholder: "0.00",
                 min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
                 max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
