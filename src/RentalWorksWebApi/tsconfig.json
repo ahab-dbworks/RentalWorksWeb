@@ -1,7 +1,18 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false,
     "target": "ES2015",
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./QuikScan/@types"
+    ]
   },
-  "include": []
+  "files": [
+    "./node_modules/moment/moment.d.ts"
+  ],
+  "include": [
+    "./@types",
+    "**/*.ts"
+  ]
 }

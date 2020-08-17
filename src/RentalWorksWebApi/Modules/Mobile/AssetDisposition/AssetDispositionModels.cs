@@ -42,9 +42,9 @@ namespace WebApi.Modules.Mobile.AssetDisposition
         public string RetiredReason { get; set; }
 
         //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Category to use for filtering Retired Reasons for different purposes. {OTHER|INVENTORY|CHANGECODE|LOST|STOLEN|DONATED|SOLD}
-        /// </summary>
+        ///// <summary>
+        ///// Category to use for filtering Retired Reasons for different purposes. {OTHER|INVENTORY|CHANGECODE|LOST|STOLEN|DONATED|SOLD}
+        ///// </summary>
         //public string ReasonType { get; set; }
     }
 }

@@ -1009,7 +1009,7 @@ namespace RentalWorksQuikScan.Source
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
-                response.barcode = await await this.AppData.GetBarcodeFromRfidAsync(conn: conn,
+                response.barcode = await this.AppData.GetBarcodeFromRfidAsync(conn: conn,
                                                                         rfid: request.rfid); 
             }
         }

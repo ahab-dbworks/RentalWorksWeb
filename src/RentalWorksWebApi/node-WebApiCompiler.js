@@ -11,6 +11,7 @@ var exec = require('child_process').exec;
 class WebApiCompiler {
     static get TARGET_ALL() { return 'all'; };
     static get TARGET_API() { return 'api' };
+    static get TARGET_WEB() { return 'web' };
     static get TARGET_REPORTS() { return 'reports' };
     static get TARGET_QUIKSCAN() { return 'quikscan' };
     static get BUILD_CONFIGURATION_DEVELOPMENT() { return 'dev'; };
@@ -18,6 +19,8 @@ class WebApiCompiler {
     static get BUILD_ACTION_BUILD() { return 'build'; };
     static get BUILD_ACTION_RUN() { return 'run'; };
     static get BUILD_ACTION_WATCH() { return 'watch'; };
+
+    appSolutionDir = path.resolve(__dirname, '../../');
     //------------------------------------------------------------------------------------
     constructor(buildAction, target, buildMode, reports) {
         this.buildAction = buildAction;
@@ -33,6 +36,13 @@ class WebApiCompiler {
         await rmfr('wwwroot/temp/downloads');
     }
     //------------------------------------------------------------------------------------
+    async rmfr_web() {
+        console.log('//------------------------------------------------------------------------------------');
+        const webDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/rentalworks');
+        console.log(`Deleting: ${webDir}`);
+        await rmfr(webDir);
+    }
+    //------------------------------------------------------------------------------------
     async rmfr_reports() {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Deleting: wwwroot/Reports');
@@ -41,8 +51,9 @@ class WebApiCompiler {
     //------------------------------------------------------------------------------------
     async rmfr_quikscan() {
         console.log('//------------------------------------------------------------------------------------');
-        console.log('Deleting: wwwroot/QuikScan');
-        await rmfr('wwwroot/QuikScan');
+        const quikscanDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/quikscan');
+        console.log(`Deleting: ${quikscanDir}`);
+        await rmfr(quikscanDir);
     }
     //------------------------------------------------------------------------------------
     async rmfr_publishfolder() {
@@ -122,6 +133,7 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Building Webpack Reports');
         console.log('//------------------------------------------------------------------------------------');
+        await this.rmfr_reports();
         let compiler = new WebpackReportsCompiler(this.buildAction, this.target, this.buildConfiguration, this.reports);
         const stats = await compiler.build();
         console.log(stats.toString({ colors: true }));
@@ -131,9 +143,86 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Watching Webpack Reports');
         console.log('//------------------------------------------------------------------------------------');
-        let compiler = new QuikScanCompiler(this.buildAction, this.target, this.buildConfiguration, this.reports);
+        await this.rmfr_reports();
+        let compiler = new WebpackReportsCompiler(this.buildAction, this.target, this.buildConfiguration, this.reports);
         const stats = await compiler.watch();
         console.log(stats.toString({ colors: true }));
+    }
+    //------------------------------------------------------------------------------------
+    async build_web() {
+        console.log('//------------------------------------------------------------------------------------');
+        console.log('Building Web');
+        console.log('//------------------------------------------------------------------------------------');
+
+        const jsAppBuilderConfigFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/JSAppBuilder.config');
+        const versionFilePath = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/version.txt');
+        const version = (await fs.readFile(versionFilePath, 'utf8')).trim();
+        const srcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWeb');
+        const destDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/rentalworks');
+        let publish = false;
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            publish = false;
+        }
+        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            publish = true;
+            await this.rmfr_web();
+            const webOutputThemeDir = path.resolve(destDir, 'theme');
+            const webOutputLibrariesDir = path.resolve(destDir, 'libraries');
+            await fs.mkdir(destDir);
+            await fs.mkdir(webOutputThemeDir);
+            await fs.mkdir(webOutputLibrariesDir);
+
+            await fs.copy(`${srcDir}/theme/audio`, `${destDir}/theme/audio`);
+            await fs.copy(`${srcDir}/theme/fwaudio`, `${destDir}/theme/fwaudio`);
+            await fs.copy(`${srcDir}/theme/fwcursors`, `${destDir}/theme/fwcursors`);
+            await fs.copy(`${srcDir}/theme/fwfonts`, `${destDir}/theme/fwfonts`);
+            await fs.copy(`${srcDir}/theme/fwimages`, `${destDir}/theme/fwimages`);
+            await fs.copy(`${srcDir}/theme/images`, `${destDir}/theme/images`);
+            //await fs.copy(`${srcDir}/index.htm`, `${destDir}/index.htm`);
+            //await fs.copy(`${srcDir}/index.js`, `${destDir}/index.js`);
+            await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
+            await fs.copy(`./version.txt`, `${destDir}/version.txt`);
+        }
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`Building RentalWorksWeb TypeScript...`);
+        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        console.log(`Finished RentalWorksWeb TypeScript`);
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`Running JSAppBuilder for RentalWorksWeb...`);
+        await spawn(`${this.appSolutionDir}\\lib\\Fw\\build\\JSAppBuilder\\JSAppBuilder.exe`, ['-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
+        console.log(`Finished running JSAppBuilder for RentalWorksWeb`);
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            console.log('//------------------------------------------------------------------------------------');
+            console.log('Fixing urls on index page...')
+            const pathIndexFile = `${srcDir}/index.htm`;
+            let fileText = await fs.readFile(pathIndexFile, 'utf8');
+            fileText = fileText.replace(/\[appbaseurl\]/g, '/webdev/');
+            await fs.writeFile(pathIndexFile, fileText);
+        }
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            console.log('//------------------------------------------------------------------------------------');
+            console.log('Fixing urls on index page...')
+            const pathIndexFile = `${destDir}/index.htm`;
+            let fileText = await fs.readFile(pathIndexFile, 'utf8');
+            fileText = fileText.replace(/\[appbaseurl\]/g, './');
+            fileText = fileText.replace(/\[appvirtualdirectory\]/g, '');
+            await fs.writeFile(pathIndexFile, fileText);
+            console.log('//------------------------------------------------------------------------------------');
+            const pathCssDebug = path.resolve(destDir, `theme/style*-${version}.debug.css`);
+            console.log(`Deleting: ${pathCssDebug}`);
+            await rmfr(pathCssDebug, { glob: true });
+            console.log('//------------------------------------------------------------------------------------');
+            const pathScriptDebug = path.resolve(destDir, `script*-${version}.debug.js`);
+            console.log(`Deleting: ${pathScriptDebug}`);
+            await rmfr(pathScriptDebug, { glob: true });
+            console.log('//------------------------------------------------------------------------------------');
+        }
+    }
+    //------------------------------------------------------------------------------------
+    async watch_web() {
+        console.log('//------------------------------------------------------------------------------------');
+        console.log('Watch has not been implemented for Web');
+        console.log('//------------------------------------------------------------------------------------');
     }
     //------------------------------------------------------------------------------------
     async build_quikscan() {
@@ -141,25 +230,24 @@ class WebApiCompiler {
         console.log('Building QuikScan');
         console.log('//------------------------------------------------------------------------------------');
 
-        const appSolutionDir = path.resolve(__dirname, '../../');
-        const jsAppBuilderConfigFile = path.resolve(appSolutionDir, 'src/RentalWorksWebApi/QuikScan/JSAppBuilder.config');
-        const versionFilePath = path.resolve(appSolutionDir, 'src/RentalWorksWebApi/version.txt');
+        const jsAppBuilderConfigFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/JSAppBuilder.config');
+        const versionFilePath = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/version.txt');
         const version = (await fs.readFile(versionFilePath, 'utf8')).trim();
-        const srcDir = './QuikScan';
-        const destDir = './wwwroot/QuikScan';
+        const srcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan');
+        const destDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/quikScan');
         let publish = false;
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
             publish = false;
-            await fs.copy(`./version.txt`, `${srcDir}/version.txt`);
-            await fs.copy(`${srcDir}/theme`, `${destDir}/theme`);
-            await fs.copy(`${srcDir}/views`, `${destDir}/views`);
+            await fs.copy(path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/version.txt'), path.resolve(srcDir, 'version.txt'));
+            await fs.copy(path.resolve(srcDir, 'theme'), path.resolve(destDir, 'theme'));
+            await fs.copy(path.resolve(srcDir, 'views'), path.resolve(destDir, 'views'));
         }
         else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
             publish = true;
-            const quikScanOutputDir = path.resolve(appSolutionDir, 'src/RentalWorksWebApi/wwwroot/QuikScan');
-            const quikScanOutputThemeDir = path.resolve(quikScanOutputDir, 'theme');
-            fs.mkdir(quikScanOutputDir);
-            fs.mkdir(quikScanOutputThemeDir);
+            await this.rmfr_quikscan();
+            const quikScanOutputThemeDir = path.resolve(destDir, 'theme');
+            await fs.mkdir(destDir);
+            await fs.mkdir(quikScanOutputThemeDir);
 
             await fs.copy(`${srcDir}/theme/fwaudio`, `${destDir}/theme/fwaudio`);
             await fs.copy(`${srcDir}/theme/fwcursors`, `${destDir}/theme/fwcursors`);
@@ -173,24 +261,27 @@ class WebApiCompiler {
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
-
-        const result1 = exec('npx tsc --build ./QuikScan/tsconfig.json');
-        result1.stdout.on('data', (data) => {
-            console.error(`stdout: ${data}`);
-        });
-        result1.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-        });
-
-        const jsAppBuilderCommand = `"${appSolutionDir}\\lib\\Fw\\build\\JSAppBuilder\\JSAppBuilder.exe" -ConfigFilePath "${jsAppBuilderConfigFile}" -SolutionDir "${appSolutionDir}" -Version "${version}" -UpdateSchema false -Publish ${publish} -AttachDebugger false`;
-        console.log(jsAppBuilderCommand);
-        const result = exec(jsAppBuilderCommand);
-        result.stdout.on('data', (data) => {
-            console.error(`stdout: ${data}`);
-        });
-        result.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-        });
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`Building QuikScan TypeScript...`);
+        await spawn('npx', ['tsc', '--build', './QuikScan/tsconfig.json'], { stdio: 'inherit' });
+        console.log(`Finished QuikScan TypeScript`);
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`Running JSAppBuilder for QuikScan...`);
+        await spawn(`${this.appSolutionDir}\\lib\\Fw\\build\\JSAppBuilder\\JSAppBuilder.exe`, ['-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
+        console.log(`Finished running JSAppBuilder for QuikScan`);
+        console.log('//------------------------------------------------------------------------------------');
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            const pathCssDebug = path.resolve(destDir, `theme/style*-${version}.debug.css`);
+            console.log(`Deleting: ${pathCssDebug}`);
+            await rmfr(pathCssDebug, { glob: true });
+            //await fs.unlink(pathCssDebug, function (error) { if (error) { throw error; } console.log(`Deleted ${pathCssDebug}`); });
+            console.log('//------------------------------------------------------------------------------------');
+            const pathScriptDebug = path.resolve(destDir, `script*-${version}.debug.js`);
+            console.log(`Deleting: ${pathScriptDebug}`);
+            await rmfr(pathScriptDebug, { glob: true });
+            //await fs.unlink(pathScriptDebug, function (error) { if (error) { throw error; } console.log(`Deleted ${pathScriptDebug}`); });
+            console.log('//------------------------------------------------------------------------------------');
+        }
 
         // build project with webpack
         //let compiler = new WebpackQuikScanCompiler(this.buildAction, this.target, this.buildConfiguration);
@@ -200,11 +291,8 @@ class WebApiCompiler {
     //------------------------------------------------------------------------------------
     async watch_quikscan() {
         console.log('//------------------------------------------------------------------------------------');
-        console.log('Watching QuikScan');
+        console.log('Watch has not been implemented for QuikScan');
         console.log('//------------------------------------------------------------------------------------');
-        //let compiler = new QuikScanCompiler(this.buildAction, this.target, this.buildConfiguration);
-        //const stats = await compiler.watch();
-        //onsole.log(stats.toString({ colors: true }));
     }
     //------------------------------------------------------------------------------------
     async dotnet_build() {
@@ -244,31 +332,30 @@ class WebApiCompiler {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
-                        await this.rmfr_reports();
                         await this.build_webpack_reports();
                         await this.build_quikscan();
                         await this.dotnet_build();
+                        await this.build_web();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
-                        await this.rmfr_reports();
                         await this.build_webpack_reports();
                         await this.build_quikscan();
                         await this.dotnet_run();
+                        await this.build_web();
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
                     }
                 } else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                     await this.clean_api();
                     await this.rmfr_downloads();
-                    await this.rmfr_reports();
                     await this.rmfr_publishfolder();
-                    await this.rmfr_quikscan();
                     await this.npm_i();
                     await this.build_webpack_reports();
                     await this.build_quikscan();
                     await this.dotnet_publish();
+                    await this.build_web();
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
@@ -293,12 +380,24 @@ class WebApiCompiler {
             } else if (this.target === WebApiCompiler.TARGET_REPORTS) {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                     await this.npm_i();
-                    await this.rmfr_reports();
                     await this.build_webpack_reports();
                 } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
                     await this.npm_i();
-                    await this.rmfr_reports();
                     await this.watch_webpack_reports();
+                } else {
+                    throw UNSUPPORTED_CONFIGURATION;
+                }
+            } else if (this.target === WebApiCompiler.TARGET_WEB) {
+                if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                    if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                        await this.npm_i();
+                    }
+                    await this.build_web();
+                } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
+                    if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                        await this.npm_i();
+                    }
+                    await this.watch_web();
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
@@ -306,13 +405,11 @@ class WebApiCompiler {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                         await this.npm_i();
-                        await this.rmfr_quikscan();
                     }
                     await this.build_quikscan();
                 } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                         await this.npm_i();
-                        await this.rmfr_quikscan();
                     }
                     await this.watch_quikscan();
                 } else {

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -109,10 +109,12 @@
     <Content Remove="QuikScan\package.json" />
     <Content Remove="QuikScan\tsconfig.json" />
     <Content Remove="QuikScan\Web.config" />
+    <Content Remove="tsconfig.json" />
     <Content Remove="WebpackReports\tsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="index.ts" />
     <None Remove="QuikScan\@types\Cordova\index.d.ts" />
     <None Remove="QuikScan\@types\Fw\index.d.ts" />
     <None Remove="QuikScan\@types\JQuery\index.d.ts" />
@@ -261,6 +263,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="index.ts" />
     <TypeScriptCompile Include="QuikScan\@types\Cordova\index.d.ts" />
     <TypeScriptCompile Include="QuikScan\@types\Fw\index.d.ts" />
     <TypeScriptCompile Include="QuikScan\@types\JQuery\index.d.ts" />
@@ -410,6 +413,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="apps\rentalworks\" />
+    <Folder Include="apps\quikscan\" />
     <Folder Include="Modules\SharedControls\AdministratorControls\Test\" />
     <Folder Include="Modules\Containers\ContainerStatus\" />
     <Folder Include="Modules\Containers\EmptyContainer\" />
@@ -456,6 +461,7 @@
     <None Include="QuikScan\Web.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="tsconfig.json" />
     <None Include="Web.config" />
     <None Include="WebpackReports\tsconfig.json" />
   </ItemGroup>

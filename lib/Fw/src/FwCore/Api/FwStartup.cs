@@ -244,18 +244,11 @@ namespace FwCore.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //redirect to HTTPS in production configuration
-            //if (HostingEnvironment.IsProduction())
-            //{
-            //    var options = new RewriteOptions()
-            //        .AddRedirectToHttps();
-            //    app.UseRewriter(options);
-            //}
-
-            // shows an exception page
+            //app.FwMaintainCorsHeaders();  // this can maybe be removed after .net core 2.2, which is supposed to fix CORS on 500 errors, currently the headers are getting dropped
             //if (env.IsDevelopment())
-            app.FwMaintainCorsHeaders();  // this can maybe be removed after .net core 2.2, which is supposed to fix CORS on 500 errors, currently the headers are getting dropped
-            app.UseDeveloperExceptionPage();
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
 
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder =>
@@ -292,13 +285,6 @@ namespace FwCore.Api
                 c.DocExpansion(DocExpansion.None);
                 this.AddSwaggerEndPoints(c);
             });
-            if (!env.IsDevelopment())
-            {
-                app.Run(context => {
-                    context.Response.Redirect(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger");
-                    return Task.CompletedTask;
-                });
-            }
         }
         //------------------------------------------------------------------------------------
         protected abstract void AddSwaggerEndPoints(SwaggerUIOptions options);

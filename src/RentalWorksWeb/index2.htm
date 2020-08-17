@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html class="no-js desktop gateworks">
+<head id="head">
+  <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+  <meta id="metaFormatDetection" name="format-detection" content="telephone=no">
+  <meta id="metaMsApplicationTapHighlight" name="msapplication-tap-highlight" content="no">
+  <meta id="metaViewport" name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="theme/images/icons/favicon.ico">
+  <title id="title">Loading...</title>
+
+  <script type="text/javascript">
+    window.runningInCordova = false;
+  </script>
+
+</head>
+<body id="body">
+  <div id="cdvapploading" style="position:absolute;height:140px;width:260px;top:50%;left:50%;margin:-70px 0 0 -60px;color:#000000;text-align:center;font-family:Arial;font-weight:16px;">
+    Loading RentalWorks<span id="index-loadingdot" style="display:inline-block;width:50px;text-align:left;">...</span>
+</div>
+  <div id="cdvapploadinginfo" style="display:none;position:absolute;height:40px;width:200px;top:50%;left:50%;margin:70px 0 0 -100px;color:#000000;text-align:center;font-family:Arial;">
+    <div id="index-loadingmessage" style="text-align: center;">Loading...</div>
+    <div id="index-version"></div>
+  </div>
+  <div id="cdvapp" style="display:none;"></div>
+
+  <script type="text/javascript" src="app_startupscript.js"></script>
+  <script type="text/javascript" src="ApplicationConfig.js"></script>
+
+  <script type="text/javascript">
+    var loadingInterval = setInterval(() => {
+      var elCdvAppLoading = document.getElementById('cdvapploading');
+      var elLoadingDot = document.getElementById('index-loadingdot');
+      if (elCdvAppLoading.style.display === 'none') {
+        clearInterval(loadingInterval);
+        return;
+      }
+      var text = elLoadingDot.innerText;
+      if (text.length === 5) {
+        text = '';
+      }
+      text += '.';
+      elLoadingDot.innerText = text;
+    }, 300);
+
+    //compute applicationConfig.appbaseurl for desktop browsers from window.location.href
+    var url, len, indexofhash;
+    url = window.location.href;
+    len = url.length;
+    indexofhash = url.indexOf('/#');
+    if (indexofhash !== -1) {
+      len = indexofhash + 1;
+    } else {
+      for (var charno = url.length - 1; charno >= 0; charno--) {
+        if (url[charno] === '/') {
+          len = charno + 1;
+          break;
+        }
+      }
+    }
+    url = url.substr(0, len);
+    len = url.length;
+    for (var vdcharno = applicationConfig.appvirtualdirectory.length - 1; vdcharno >= 0; vdcharno--) {
+      len--;
+      if (url[len] !== applicationConfig.appvirtualdirectory[vdcharno]) {
+        break;
+      }
+    }
+    url = url.substr(0, len);
+    //alert(url);
+    applicationConfig.appbaseurl = url;
+  </script>
+  <script type="text/javascript" src="index2.js"></script>
+  <link rel="stylesheet" href="libraries/codemirror/lib/codemirror.css">
+</body>
+</html>

@@ -11,7 +11,7 @@
     <FwFrontEndLibraryPath>$(FwApplicationDirectory)\Libraries\Fw</FwFrontEndLibraryPath>
     <FwBuildFolder>$(AppSolutionDir)\build</FwBuildFolder>
     <FwApplicationName>RentalWorksWeb</FwApplicationName>
-    <FwUpdateSchema>true</FwUpdateSchema>
+    <FwUpdateSchema>false</FwUpdateSchema>
     <FwPublish>false</FwPublish>
     <FwDeploymentDirectory>$(FwBuildFolder)\$(FwApplicationName)</FwDeploymentDirectory>
     <FwDeploymentTempDirectory>$(FwDeploymentDirectory)Temp</FwDeploymentTempDirectory>
@@ -72,7 +72,7 @@
     </TypeScriptSourceRoot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <FwUpdateSchema>true</FwUpdateSchema>
+    <FwUpdateSchema>false</FwUpdateSchema>
     <FwPublish>true</FwPublish>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -137,10 +137,15 @@
     <Content Include="ApplicationConfig.js" />
     <Content Include="ApplicationConfig.sample.js" />
     <Content Include="ApplicationConfig.test.js" />
+    <Content Include="app_bodysrc.htm" />
     <Content Include="App_Data\Client\4WallLogo.png" />
     <Content Include="App_Data\Client\ReportLogo.png" />
+    <Content Include="app_headsrc.htm" />
+    <Content Include="app_startupscriptsrc.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="index2.htm" />
+    <Content Include="index2.js" />
     <Content Include="index_src.htm" />
     <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.css" />
@@ -1610,10 +1615,11 @@
   <Target Name="AfterBuild">
   </Target>
   <Target Name="FwDebugTarget" Condition="$(FwPublish)=='false'">
-    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" />
+    <!--<Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema $(FwUpdateSchema) -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" />-->
+   <Exec Command="npm run build-web-dev"/>
   </Target>
   <Target Name="FwPublishTarget" Condition="$(FwPublish)=='true'">
-    <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
+    <!--<RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)" Condition="!Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme" Condition="!Exists('$(FwDeploymentDirectory)\theme')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\audio" Condition="!Exists('$(FwDeploymentDirectory)\theme\audio')" ContinueOnError="false" />
@@ -1628,7 +1634,9 @@
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\Integration" Condition="!Exists('$(FwDeploymentDirectory)\Integration')" ContinueOnError="false" />
+	<Copy SourceFiles="$(FwApplicationDirectory)\index.htm" DestinationFiles="$(FwDeploymentDirectory)\index.htm" />
+	<Copy SourceFiles="$(FwApplicationDirectory)\index.js" DestinationFiles="$(FwDeploymentDirectory)\index.js" />
+	<MakeDir Directories="$(FwDeploymentDirectory)\Integration" Condition="!Exists('$(FwDeploymentDirectory)\Integration')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Integration\QBOIntegration" Condition="!Exists('$(FwDeploymentDirectory)\Integration\QBOIntegration')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Integration\QBOIntegration\images" Condition="!Exists('$(FwDeploymentDirectory)\Integration\QBOIntegration\images')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Integration\QBOIntegration\images&quot; &quot;$(FwDeploymentDirectory)\Integration\QBOIntegration\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
@@ -1658,9 +1666,9 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp\Downloads" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp\Downloads')" ContinueOnError="false" />
-    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="del &quot;$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema $(FwUpdateSchema) -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="del &quot;$(FwDeploymentDirectory)\script1-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" ContinueOnError="false" IgnoreExitCode="false" />-->
   </Target>
   <Target Name="AfterClean">
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />

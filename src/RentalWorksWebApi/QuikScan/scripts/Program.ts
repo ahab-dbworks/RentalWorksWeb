@@ -343,7 +343,7 @@ class Program extends FwApplication {
             if (!foundroute) {
                 switch (path.toLowerCase()) {
                     case 'login':
-                        if (!sessionStorage.getItem('authToken')) {
+                        if (!sessionStorage.getItem('apiToken')) {
                             screen = RwAccountController.getLoginScreen({}, {});
                         } else {
                             me.navigate('home/home');
@@ -544,7 +544,7 @@ class Program extends FwApplication {
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 sessionStorage.setItem('sessionLock', 'false');
                 me.navigate('logoff');
-            } else if (sessionStorage.getItem('apiToken')) {
+            } else if (sessionStorage.getItem('apiToken') && sessionStorage.getItem('app') && sessionStorage.getItem('app') === 'quikscan') {
                 me.navigate('home/home');
             } else {
                 me.navigate('login');

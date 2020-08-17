@@ -44,8 +44,6 @@
     }
   </script>-->
 
-  <link rel="stylesheet" href="libraries/codemirror/lib/codemirror.css">
-
 </head>
 <body>
 
@@ -53,38 +51,14 @@
 
   <!-- JavaScript -->
   {{{javascripts}}}
+  {{{javascripts2}}}
 
   <!-- Version -->
+  <script type="text/javascript">
   {{{applicationConfigVersion}}}
+  </script>
 
   <script type="text/javascript" src="ApplicationConfig.js"></script>
-  <script src="libraries/ckeditor/ckeditor.js"></script>
-  <script src="libraries/ckeditor/adapters/jquery.js"></script>
-  <script src="libraries/ckeditor/config.js"></script>
-  <script src="libraries/codemirror/lib/codemirror.js"></script>
-  <script src="libraries/codemirror/addon/fold/foldcode.js"></script>
-  <script src="libraries/codemirror/addon/fold/foldgutter.js"></script>
-  <script src="libraries/codemirror/addon/fold/xml-fold.js"></script>
-  <script src="libraries/codemirror/mode/xml/xml.js"></script>
-
-  <script type="text/javascript">
-    // inline templates when debugging by ajaxing for the src url
-    var $templates = jQuery('script[data-ajaxload="true"]');
-    $templates.each(function () {
-      let $element = jQuery(this);
-      $element.removeAttr('data-ajaxload');
-      if ($element.attr("src")) {
-        jQuery.ajax(
-          $element.attr("src"),
-          {
-            async: true,
-            context: this,
-            success: function (data) { jQuery(this).html(data); }
-          }
-        );
-      }
-    });
-  </script>
 
   <!--<script type="text/javascript">
     FwGlobalLeakTest.leaked = [];

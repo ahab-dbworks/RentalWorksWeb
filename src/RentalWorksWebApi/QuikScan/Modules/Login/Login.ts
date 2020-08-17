@@ -66,6 +66,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                     var getJwtTokenResponse = await FwAjax.callWebApi<any, any>(getJwtTokenRequest);
                     if ((getJwtTokenResponse.statuscode == 0) && (typeof getJwtTokenResponse.access_token !== 'undefined')) {
                         sessionStorage.setItem('apiToken', getJwtTokenResponse.access_token);
+                        sessionStorage.setItem('app', 'quikscan');
                         localStorage.setItem('email', $email.val()); // mv 5/10/19 - this is the email or login and cannot be used to display the email address
                         if (typeof getJwtTokenResponse.exception !== 'undefined') {
                             if (applicationConfig.debugMode) {
