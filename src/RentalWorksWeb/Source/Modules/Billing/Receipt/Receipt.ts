@@ -106,14 +106,16 @@ class Receipt {
             const name = sessionStorage.getItem('name');
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
             // Deal and Customer fields
-            $form.find('.deal-customer').data('onchange', () => {
+            $form.find('.deal-customer').data('onchange', $tr => {
+                const currencyId = $tr.find('.field[data-formdatafield="CurrencyId"]').attr('data-originalvalue');
+                FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="CurrencyCode"]').attr('data-originalvalue'));
                 $form.find('span.credit-amounts').hide();
                 const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
                 if (paymentTypeType !== '' && paymentTypeType === 'REFUND CHECK') {
-                    this.loadReceiptCreditGrid($form);
+                    this.loadReceiptCreditGrid($form, currencyId);
 
                 } else {
-                    this.loadReceiptInvoiceGrid($form);
+                    this.loadReceiptInvoiceGrid($form, currencyId);
                 }
                 const $submoduleCreditBrowse = this.openCreditBrowse($form);
                 $form.find('.credits-page').html($submoduleCreditBrowse);
@@ -615,7 +617,7 @@ class Receipt {
 
     }
     //----------------------------------------------------------------------------------------------
-    loadReceiptInvoiceGrid($form: JQuery): void {
+    loadReceiptInvoiceGrid($form: JQuery, currencyId?: string): void {
         $form.find('.credits-row').hide();
         $form.find('.credits-row').attr('data-visible', 'false');
         $form.find('.invoice-row').show();
@@ -758,7 +760,7 @@ class Receipt {
             $form.find(`div[data-totalfield="InvoiceDue"] input`).val(due);
             $form.find(`div[data-totalfield="InvoiceAmountTotal"] input`).val(amount);
         }
-        const getInvoiceData = ($form) => {
+        const getInvoiceData = ($form, currencyId?) => {
             const request: any = {};
             const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
@@ -770,6 +772,9 @@ class Receipt {
                 ReceiptDate: receiptDate,
             }
             request.orderby = 'InvoiceDate,InvoiceNumber'
+            if (currencyId) {
+                request.uniqueids.CurrencyID = currencyId;
+            }
             const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
             if (paymentBy === 'DEAL') {
                 request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
@@ -851,7 +856,7 @@ class Receipt {
                 }
             }, null, $form);
         }
-        getInvoiceData($form);
+        getInvoiceData($form, currencyId);
     }
     //----------------------------------------------------------------------------------------------
     getFormTableData($form: JQuery): any {
@@ -879,7 +884,7 @@ class Receipt {
         return InvoiceDataList;
     }
     //----------------------------------------------------------------------------------------------
-    loadReceiptCreditGrid($form: JQuery): void {
+    loadReceiptCreditGrid($form: JQuery, currencyId?: string): void {
         $form.find('.invoice-row').hide();
         $form.find('.invoice-row').attr('data-visible', 'false');
         $form.find('.credits-row').show();
@@ -1002,7 +1007,7 @@ class Receipt {
             $form.find(`div[data-totalfield="UnappliedCreditTotal"] input`).val(unappliedTotal);
             $form.find(`div[data-totalfield="CreditAmountTotal"] input`).val(amount);
         }
-        const getInvoiceCreditData = ($form) => {
+        const getInvoiceCreditData = ($form, currencyId?) => {
             const request: any = {};
             const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
@@ -1019,6 +1024,9 @@ class Receipt {
             } else if (paymentBy === 'CUSTOMER') {
                 request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
                 validationName = 'CustomerCredit';
+            }
+            if (currencyId) {
+                request.uniqueids.CurrencyId = currencyId;
             }
             request.orderby = 'ReceiptDate,CheckNumber'
 
@@ -1110,7 +1118,7 @@ class Receipt {
                 }
             }, null, $form);
         }
-        getInvoiceCreditData($form);
+        getInvoiceCreditData($form, currencyId);
     }
     //----------------------------------------------------------------------------------------------
     getCreditFormTableData($form: JQuery): any {
