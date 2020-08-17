@@ -277,29 +277,29 @@ class RwLaborRate {
             const $tab = jQuery(e.currentTarget);
             const tabPageId = $tab.attr('data-tabpageid');
 
-                if ($tab.hasClass('tabGridsLoaded') === false) {
-                    const submoduleName = $tab.attr('data-submodulename');
-                    let $browseControl;
-                    const $tabpage = $form.find(`#${tabPageId}`);
+            if ($tab.hasClass('tabGridsLoaded') === false) {
+                const submoduleName = $tab.attr('data-submodulename');
+                let $browseControl;
+                const $tabpage = $form.find(`#${tabPageId}`);
 
-                    switch (submoduleName) {
-                        case 'Order':
-                            $browseControl = this.openSubModuleBrowse($form, submoduleName);
-                            $tabpage.append($browseControl);
-                            FwBrowse.search($browseControl);
-                            break;
-                        default:
-                            //let $browseControls = $form.find(`#${tabPageId} [data-type="Browse"]`);
-                            //if ($browseControls.length > 0) {
-                            //    for (let i = 0; i < $browseControls.length; i++) {
-                            //        const $browseControl = jQuery($browseControls[i]);
-                            //        FwBrowse.search($browseControl);
-                            //    }
-                            //}
-                            break;
-                    }
-
+                switch (submoduleName) {
+                    case 'Order':
+                        $browseControl = this.openSubModuleBrowse($form, submoduleName);
+                        $tabpage.append($browseControl);
+                        FwBrowse.search($browseControl);
+                        break;
+                    default:
+                        //let $browseControls = $form.find(`#${tabPageId} [data-type="Browse"]`);
+                        //if ($browseControls.length > 0) {
+                        //    for (let i = 0; i < $browseControls.length; i++) {
+                        //        const $browseControl = jQuery($browseControls[i]);
+                        //        FwBrowse.search($browseControl);
+                        //    }
+                        //}
+                        break;
                 }
+
+            }
             $tab.addClass('tabGridsLoaded');
         });
 

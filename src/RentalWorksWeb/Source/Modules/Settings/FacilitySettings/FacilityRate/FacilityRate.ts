@@ -212,7 +212,7 @@ class FacilityRate {
             case 'ProfitAndLossCategoryId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateprofitandlosscategory`);
                 break;
-        } 
+        }
     }
 }
 
