@@ -1382,6 +1382,25 @@ abstract class InventoryBase {
         this.afterLoadSetClassification($form);
     }
     //----------------------------------------------------------------------------------------------
+    currencyViewForPricingGrids(evt, tag: string) {
+        const $browse = jQuery(evt.currentTarget).closest('.fwbrowse');
+        let view;
+        if (tag === 'local') {
+            view = '';
+        } else if (tag === 'specific') {
+            view = 'SelectedCurrencyId';
+        } else if (tag === 'all') {
+            view = 'ALL';
+        }
+
+        $browse.data('ondatabind', request => {
+            request.uniqueids = {
+                CurrencyId: view,
+            };
+        });
+        FwBrowse.search($browse);
+    }
+    //----------------------------------------------------------------------------------------------
     //calculateYearly() {
     //    for (var jan = 0; jan <= 30; jan++) {
     //        this.yearlyEvents.push({
