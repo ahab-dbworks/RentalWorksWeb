@@ -9,7 +9,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.HomeControls.InventoryPackageInventory
 {
-    [FwSqlTable("dbo.funcpackageitem(@packageid, @warehouseid)")]
+    [FwSqlTable("dbo.funcpackageitemweb(@packageid, @warehouseid, @currencyid)")]
     public class InventoryPackageInventoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -118,6 +118,15 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -126,6 +135,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             useWithNoLock = false;
             string packageId = "";
             string warehouseId = "xnonex";
+            string currencyId = "";
             if ((request != null) && (request.uniqueids != null))
             {
                 IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
@@ -136,6 +146,10 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
                 if (uniqueIds.ContainsKey("WarehouseId"))
                 {
                     warehouseId = uniqueIds["WarehouseId"].ToString();
+                }
+                if (uniqueIds.ContainsKey("CurrencyId"))
+                {
+                    currencyId = uniqueIds["CurrencyId"].ToString();
                 }
             }
 
@@ -153,6 +167,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             select.Parse();
             select.AddParameter("@packageid", packageId);
             select.AddParameter("@warehouseid", warehouseId);
+            select.AddParameter("@currencyid", currencyId);
         }
         //------------------------------------------------------------------------------------ 
         private string getDefaultQuantityColor(decimal? defaultQuantity)

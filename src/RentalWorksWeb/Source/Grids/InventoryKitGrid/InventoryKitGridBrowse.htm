@@ -12,42 +12,45 @@
     <div class="field" data-caption="#" data-datafield="OrderBy" data-browsedatatype="text" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-browsedatatype="validation" data-formdatatype="validation" data-sort="asc" data-validationname="RentalInventoryValidation" data-formrequired="true" data-fullcellcolor="ICodeColor"></div>
+    <div class="field" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-browsedatatype="validation" data-formdatatype="validation" data-sort="none" data-validationname="RentalInventoryValidation" data-formrequired="true" data-fullcellcolor="ICodeColor"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-formdatatype="text" data-sort="none" data-formrequired="true" data-fullcellcolor="LineColor"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Tracked By" data-datafield="ItemTrackedBy" data-browsedatatype="text" data-formdatatype="text" data-sort="asc" data-formrequired="false" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Tracked By" data-datafield="ItemTrackedBy" data-browsedatatype="text" data-formdatatype="text" data-sort="none" data-formrequired="false" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
   </div>
   <div class="column" data-width="80px" data-visible="true">
-    <div class="field" data-caption="Daily" data-datafield="DailyRate" data-datatype="money" data-formdatatype="text" data-sort="none" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Currency" data-datafield="CurrencyId" data-browsedisplayfield="CurrencyCode" data-datatype="validation" data-validationname="CurrencyValidation" data-sort="none" data-formreadonly="true" data-formrequired="true" data-enabled="false" data-fullcellcolor="LineColor"></div>
   </div>
   <div class="column" data-width="80px" data-visible="true">
-    <div class="field" data-caption="Weekly" data-datafield="WeeklyRate" data-datatype="money" data-formdatatype="text" data-sort="none" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Daily" data-datafield="DailyRate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+  </div>
+  <div class="column" data-width="80px" data-visible="true">
+    <div class="field" data-caption="Weekly" data-datafield="WeeklyRate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
   </div>
   <!--<div class="column" data-width="75px" data-visible="true">
-    <div class="field" data-caption="Week 2" data-datafield="Week2Rate" data-datatype="money" data-sort="none" data-mappedfield="Rate" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Week 2" data-datafield="Week2Rate" data-datatype="money" data-currencysymbol="CurrencySymbol"  data-sort="none" data-mappedfield="Rate" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
   </div>
   <div class="column" data-width="80px" data-visible="true">
-    <div class="field" data-caption="Week 3" data-datafield="Week3Rate" data-datatype="money" data-sort="none" data-mappedfield="Rate" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Week 3" data-datafield="Week3Rate" data-datatype="money" data-currencysymbol="CurrencySymbol"  data-sort="none" data-mappedfield="Rate" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
   </div>
   <div class="column" data-width="80px" data-visible="true">
-    <div class="field" data-caption="Week 4+" data-datafield="Week4Rate" data-datatype="money" data-sort="none" data-mappedfield="Rate" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Week 4+" data-datafield="Week4Rate" data-datatype="money" data-currencysymbol="CurrencySymbol"  data-sort="none" data-mappedfield="Rate" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
   </div>-->
   <div class="column" data-width="80px" data-visible="true">
-    <div class="field" data-caption="Monthly" data-datafield="MonthlyRate" data-datatype="money" data-formdatatype="text" data-sort="none" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Monthly" data-datafield="MonthlyRate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
   </div>
   <!--<div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Currency" data-datafield="" data-browsedatatype="text" data-formdatafield="" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-fullcellcolor="LineColor"></div>
+    <div class="field" data-caption="Currency" data-datafield="" data-browsedatatype="text" data-formdatafield="" data-formdatatype="text" data-sort="none" data-formrequired="true" data-fullcellcolor="LineColor"></div>
   </div>-->
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Quantity/%" data-datafield="DefaultQuantity" data-browsedatatype="number" data-formdatatype="number" data-digits="3" data-sort="asc" data-formrequired="true" data-fullcellcolor="DefaultQuantityColor"></div>
+    <div class="field" data-caption="Quantity/%" data-datafield="DefaultQuantity" data-browsedatatype="number" data-formdatatype="number" data-digits="3" data-sort="none" data-formrequired="true" data-fullcellcolor="DefaultQuantityColor"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Option" data-datafield="IsOption" data-browsedatatype="checkbox" data-formdatatype="checkbox" data-sort="asc"></div>
+    <div class="field" data-caption="Option" data-datafield="IsOption" data-browsedatatype="checkbox" data-formdatatype="checkbox" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Charge" data-datafield="Charge" data-browsedatatype="checkbox" data-formdatatype="checkbox" data-sort="asc"></div>
+    <div class="field" data-caption="Charge" data-datafield="Charge" data-browsedatatype="checkbox" data-formdatatype="checkbox" data-sort="none"></div>
   </div>
 </div>
