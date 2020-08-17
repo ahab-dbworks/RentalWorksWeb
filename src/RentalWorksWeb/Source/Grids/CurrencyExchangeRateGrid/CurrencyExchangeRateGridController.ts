@@ -10,7 +10,8 @@
         const $form = $control.closest('.fwform');
         $generatedtr.find('div[data-browsedatafield="ToCurrencyId"]').data('onchange', $tr => {
             let currencyName = FwBrowse.getValueByDataField($control, $tr, 'Currency');
-            FwBrowse.setFieldValue($control, $generatedtr, 'ToCurrency', { value: currencyName, text: currencyName })
+            //FwBrowse.setFieldValue($control, $generatedtr, 'ToCurrency', { value: currencyName, text: currencyName })
+            $generatedtr.find('[data-browsedatafield="ToCurrency"]').text(currencyName);
         });
     }
 }
