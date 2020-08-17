@@ -1,0 +1,29 @@
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "target": "ES5",
+    "noEmit": false,
+    "lib": [
+      "dom",
+      "es5",
+      "es2015.promise"
+    ],
+    "typeRoots": [
+      "../node_modules/@types",
+      "./@types"
+    ]
+  },
+  "files": [
+    "../node_modules/moment/moment.d.ts"
+  ],
+  "include": [
+    "./@types",
+    "**/*.ts"
+  ]
+}

@@ -4,40 +4,33 @@ class Program extends FwApplication {
     //---------------------------------------------------------------------------------
     constructor() {
         super();
-        //FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
+        FwApplicationTree.currentApplicationId = Constants.appId;
     }
 }
 //---------------------------------------------------------------------------------
 var program: Program = new Program();
 //---------------------------------------------------------------------------------
 jQuery(function () {
-    function start() {
-        function loadApp() {
-            program.load();
-            program.loadCustomFormsAndBrowseViews();
+    jQuery('html').css('background-color', 'initial');
+    //add a catch all 404 route at the end of the routes array
+    routes.push({
+        pattern: /.*/,
+        action: function (match: RegExpExecArray) {
+            //if we have okta stuff, we are redirecting to localhost/rentalworksweb/ as we cant redirect to a url with hash fragment per oauth.
+            if (window.location.href === "http://localhost/rentalworksweb/" && (localStorage.getItem('okta-token-storage') !== null)) {
+                program.navigate('login');
+            } else {
+                FwConfirmation.showMessage('404', `Not Found: ${window.location.href}`, false, true, 'OK', (event) => {
+                    program.navigate('home');
+                });
+            }
         }
-        var $templates = jQuery('script[data-ajaxload="true"]');
-        if ($templates.length > 0) {
-            do {
-                setTimeout(() => {
-                    $templates = jQuery('script[data-ajaxload="true"]');
-                    if ($templates.length === 0) {
-                        loadApp();
-                    }
-                }, 250);
-            } while ($templates.length > 0)
-        } else {
-            loadApp();
-        }
-    }
-    if (applicationConfig.debugMode) {
-        setTimeout(function () {
-            start();
-        }, 1000);
-    } else {
-        start();
-
-    }
+    });
+    setTimeout(() => {
+        program.load();
+        program.loadCustomFormsAndBrowseViews();
+        program.loadDefaultPage();
+    }, 2000);
 });
 //---------------------------------------------------------------------------------
 routes.push({

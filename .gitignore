@@ -1,6 +1,6 @@
 /.vs/
 /build/
-/node_modules/
+**/node_modules/
 /packages/
 *.user
 
@@ -48,6 +48,9 @@
 
 /src/RentalWorksTest/Application.config
 
+/src/RentalWorksWeb/app_body.htm
+/src/RentalWorksWeb/app_head.htm
+/src/RentalWorksWeb/app_startupscript.js
 /src/RentalWorksWeb/App_Data/Temp/
 /src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
 /src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
@@ -83,13 +86,26 @@
 /src/RwQBO/Source/Modules/Settings/**/*.js
 /src/RwQBO/Source/Modules/Settings/**/*.js.map
 
+/src/RentalWorksWebApi/apps/
 /src/RentalWorksWebApi/appsettings.json
 /src/RentalWorksWebApi/.local-chromium/
 /src/RentalWorksWebApi/wwwroot/temp/
 /src/RentalWorksWebApi/node_modules/
+/src/RentalWorksWebApi/wwwroot/QuikScan/
 /src/RentalWorksWebApi/wwwroot/Reports/
 /src/RentalWorksWebApi/WebpackReports/**/*.js
 /src/RentalWorksWebApi/WebpackReports/**/*.js.map
+/src/RentalWorksWebApi/QuikScan/app_body.htm
+/src/RentalWorksWebApi/QuikScan/app_head.htm
+/src/RentalWorksWebApi/QuikScan/app_scripts.json
+/src/RentalWorksWebApi/QuikScan/app_startupscript.js
+/src/RentalWorksWebApi/QuikScan/Application.config
+/src/RentalWorksWebApi/QuikScan/ApplicationConfig.js
+/src/RentalWorksWebApi/QuikScan/Modules/**/*.js
+/src/RentalWorksWebApi/QuikScan/Modules/**/*.js.map
+/src/RentalWorksWebApi/QuikScan/Modules/**/*.js
+/src/RentalWorksWebApi/QuikScan/scripts/**/*.js
+/src/RentalWorksWebApi/QuikScan/scripts/**/*.js.map
 
 /src/TrakitWorksWeb/App_Data/Temp/
 /src/TrakitWorksWeb/app_scripts.json
@@ -175,6 +191,8 @@
 **/Fw/scripts/FwControls/FwValidation2.js.map
 **/Fw/scripts/FwControls/FwWebApiReport.js
 **/Fw/scripts/FwControls/FwWebApiReport.js.map
+**/Fw/scripts/FwPages/**/*.js
+**/Fw/scripts/FwPages/**/*.js.map
 **/Fw/scripts/Integration/Authenticate/Okta/FwOktaLogin.js
 **/Fw/scripts/Integration/Authenticate/Okta/FwOktaLogin.js.map
 **/Fw/scripts/Modules/FwGroup.js.map
@@ -213,3 +231,4 @@
 /src/JestTest/*.pdf
 /src/JestTest/*.jpg
 /src/JestTest/output/**
+

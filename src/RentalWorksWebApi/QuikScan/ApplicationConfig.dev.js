@@ -1,0 +1,9 @@
+applicationConfig.debugMode = true;
+applicationConfig.designMode = false;
+applicationConfig.demoMode = false;
+applicationConfig.apiurl = 'http://localhost:57949/';
+//applicationConfig.fwvirtualdirectory = '';
+//applicationConfig.appvirtualdirectory = '';
+applicationConfig.quikIn.enableQuikInSessionSearch = true;
+applicationConfig.quikIn.enableSessionInItemSearch = true;
+applicationConfig.quikIn.enableCancelItem = true;

@@ -1,0 +1,185 @@
+﻿<div class="view assetDispositionView">
+  <div class="search scanbarcode"></div>
+    
+  <div class="qserror Error">
+    <div class="genericError txtGenericError"></div>
+    <div class="msg txtMsg"></div>
+  </div>
+
+  <div class="screenItemStatus">
+    <div class="center retirefrom">
+      <div>{{captionRetireFrom}}:</div>
+      <ul class="retiretype fwradiobuttongroup2">
+        <li><input id="retirefromorder" type="radio" name="retirefrom" checked="checked" /><label for="retirefromorder">{{captionRetireItemsOnOrder}}</label></li>
+        <li><input id="retirefromwarehouse" type="radio" name="retirefrom" /><label for="retirefromwarehouse">{{captionRetireInWarehouse}}</label></li>
+      </ul>
+    </div>
+    <div class="pnlDetails">
+      
+      <div class="pnlGenericStatus">
+        <div class="txtStatus"></div>
+        <div class="txtStatusDate"></div>
+      </div>
+      
+      <div class="flexrow pnlInStatus">
+        <div class="flexrow flexalignitemscenter col1">
+          <div class="txtStatus"></div>
+        </div>
+        <div class="col2">
+          <div class="flexrow flexalignitemscenter rowWarehouse">
+            <div class="caption">{{captionWarehouse}}:</div><div class="value txtWarehouse"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter rowAisle">
+            <div class="caption">{{captionAisle}}:</div><div class="value txtAisle"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter rowShelf">
+            <div class="caption">{{captionShelf}}:</div><div class="value txtShelf"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter rowCheckInDate">
+            <div class="caption">{{captionCheckInDate}}:</div><div class="value txtStatusDate"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flexrow pnlOutStatus">
+        <div class="flexrow flexalignitemscenter col1">
+          <div class="txtStatus"></div>
+        </div>
+        <div class="col2">
+          <div class="flexrow flexalignitemscenter rowSetCharacterName">
+            <div class="caption">{{captionSetCharacter}}:</div><div class="value txtSetCharacterName"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter rowAssetLocation">
+            <div class="caption">{{captionSetLocation}}:</div><div class="value txtAssetLocation"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter rowStatusDate">
+            <div class="caption">{{captionSetReceiveDate}}:</div><div class="value txtStatusDate"></div>
+          </div>
+        </div>
+      </div>
+      
+      <table class="tblDetails">
+        <tbody>
+          <!-- Begin barcoded item -->
+          <tr class="cyan trDepartment">
+            <td class="key captionDepartment">{{captionDepartment}}:</td>
+            <td class="value txtDepartment"></td>
+          </tr>
+          <tr class="cyan trProduction">
+            <td class="key captionProduction">{{captionProduction}}:</td>
+            <td class="value txtProduction"></td>
+          </tr>
+          <!-- End barcodeditem -->
+
+
+          <tr class="cyan trICode">
+            <td class="key captionICode">{{captionICode}}:</td>
+            <td class="value txtICode"></td>
+          </tr>
+          <tr class="cyan trDescription">
+            <td class="key captionDescription">{{captionDescription}}:</td>  
+            <td class="value txtDescription"></td>
+          </tr>
+
+          <!-- Begin rentalStatus: IN -->
+          <tr class="cyan trWarehouse">
+            <td class="key captionWarehouse">{{captionWarehouse}}:</td>
+            <td class="value txtWarehouse"></td>
+          </tr>
+          <tr class="cyan trAisle">
+            <td class="key captionAisle">{{captionAisle}}:</td>
+            <td class="value txtAisle"></td>
+          </tr>
+          <tr class="cyan trShelf">
+            <td class="key captionShelf">{{captionShelf}}:</td>
+            <td class="value txtShelf"></td>
+          </tr>
+          <tr class="light trQty">
+            <td class="key captionQty">{{captionTotal}}:</td>
+            <td class="value txtQty"></td>
+          </tr>
+          <tr class="light trQtyIn">
+            <td class="key captionQtyIn">{{captionIn}}:</td>
+            <td class="value txtQtyIn"></td>
+          </tr>
+          <tr class="light trQtyQCRequired">
+            <td class="key captionQtyQCRequired">{{captionQCRqd}}:</td>
+            <td class="value txtQtyQCRequired"></td>
+          </tr>
+          <tr class="light trStaged">
+            <td class="key captionStaged">{{captionStaged}}:</td>
+            <td class="value txtStaged"></td>
+          </tr>
+          <tr class="light trQtyOut">
+            <td class="key captionOut">{{captionOut}}:</td>
+            <td class="value txtQtyOut"></td>
+          </tr>
+          <tr class="light trInRepair">
+            <td class="key captionInRepair">{{captionInRepair}}:</td>
+            <td class="value txtInRepair"></td>
+          </tr>
+          <tr class="light trQtyOnPO">
+            <td class="key captionOnPO">{{captionOnPO}}:</td>
+            <td class="value txtQtyOnPO"></td>
+          </tr>
+          <!-- End rentalStatus: IN -->
+
+          <!-- Begin rentalStatus: OUT -->
+          <tr class="light trVendor">
+            <td class="key captionVendor">{{captionVendor}}:</td>
+            <td class="value txtVendor"></td>
+          </tr>
+          <tr class="light trPrimaryVendor">
+            <td class="key captionPrimaryVendor">{{captionPrimaryVendor}}:</td>
+            <td class="value txtPrimaryVendor"></td>
+          </tr>
+          <tr class="light trManufacturer">
+            <td class="key captionManufacturer">{{captionManufacturer}}:</td> 
+            <td class="value txtManufacturer"></td>
+          </tr>
+          <tr class="light trPONo">
+            <td class="key captionPONo">{{captionPONo}}:</td>
+            <td class="value txtPONo"></td>
+          </tr>
+          <!-- end rentalStatus: OUT -->
+        </tbody>
+      </table>
+    </div>
+    <div class="pnlImages"></div>
+  </div>
+  
+  <div class="screenRetire fwform">
+    <div class="itemheader">
+      <div class="flexrow icode">
+        <div class="caption">{{captionICode}}:</div>
+        <div class="value txtICodeNo"></div>
+      </div>
+      <div class="flexrow description">
+        <div class="caption">{{captionDescription}}:</div>
+        <div class="value txtICodeDescription"></div>
+      </div>
+      <div class="flexrow warehouse">
+        <div class="caption">{{captionWarehouse}}:</div>
+        <div class="value txtWarehouse"></div>
+      </div>
+    </div>
+    <div class="fields">
+      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fieldmasterid" data-caption="" data-datafield="masterid" style="display:none"></div>
+      <div data-control="FwFormField" data-type="combobox" class="fwcontrol fwformfield fieldsetcharacter" data-caption="{{captionSetCharacter}}:" data-validationname="SetCharactersByICodeValidation" data-boundfields="masterid"></div>
+      <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield fieldretireqty" data-caption="{{captionRetireQty}}:" data-maxvalue="1000000" data-minvalue="1"></div>
+      <div data-control="FwFormField" data-type="combobox" class="fwcontrol fwformfield fieldretiredreason" data-caption="{{captionRetireReason}}:" data-validationname="RetiredReasonValidation" data-validationmode="2" data-apiurl="api/v1/mobile/assetdisposition/lookupretiredreason"></div>
+      <div class="field fieldTrackLossAmount">
+        <div class="caption">{{captionTrackLossAmount}}:</div>
+        <div class="pnlLossAmountType">
+          <ul class="fwradiobuttongroup2 rbgLossAmountType">
+            <li><input id="assetDispositionView-lossamount-rbItemValue" class="rbItemValue" type="radio" name="lossamount" value="ItemValue" checked="checked" /><label for="assetDispositionView-lossamount-rbItemValue">{{captionItemValue}}</label></li>
+            <li><input id="assetDispositionView-lossamount-rbCustom" class="rbCustom" type="radio" name="lossamount" value="Custom" /><label for="assetDispositionView-lossamount-rbCustom">{{captionCustom}}</label></li>
+          </ul>
+        </div>
+        <div class="value"><input type="text" class="textbox txtLossAmount" /></div>
+      </div>
+      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield fieldnotes" data-caption="{{captionNotes}}:"></div>
+    </div>
+  </div>
+
+</div>

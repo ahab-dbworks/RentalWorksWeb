@@ -1,4 +1,6 @@
+using FwStandard.Mobile;
 using FwStandard.Models;
+using FwStandard.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -741,6 +743,197 @@ namespace FwStandard.SqlServer
                 success = true;
             }
             return success;
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task<string> InsertAppImageAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype, string extension, byte[] image)
+        {
+            int width, height;
+            string appImageId;
+            FwSqlCommand sp;
+
+            width = 0;
+            height = 0;
+            sp = new FwSqlCommand(conn, "insertappimage", dbConfig.QueryTimeout);
+            sp.AddParameter("@uniqueid1", uniqueid1);
+            sp.AddParameter("@uniqueid2", uniqueid2);
+            sp.AddParameter("@uniqueid3", uniqueid3);
+            sp.AddParameter("@description", description);
+            sp.AddParameter("@rectype", rectype);
+            sp.AddParameter("@extension", extension);
+            sp.AddParameter("@image", FwGraphics.ResizeAndConvertToJpg(image, ref width, ref height));
+            sp.AddParameter("@thumbnail", FwGraphics.GetJpgThumbnail(image));
+            sp.AddParameter("@width", width);
+            sp.AddParameter("@height", height);
+            sp.AddParameter("@appimageid", System.Data.SqlDbType.Char, System.Data.ParameterDirection.Output);
+            await sp.ExecuteAsync();
+            appImageId = sp.GetParameter("@appimageid").ToString().TrimEnd();
+
+            return appImageId;
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task<string> InsertAppImageAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype, string extension, string base64Image)
+        {
+            byte[] image;
+            string appImageId;
+
+            image = Convert.FromBase64String(base64Image);
+            appImageId = await FwSqlData.InsertAppImageAsync(conn, dbConfig, uniqueid1, uniqueid2, uniqueid3, description, rectype, extension, image);
+
+            return appImageId;
+        }
+        //-----------------------------------------------------------------------------
+        public class WebInsertAppDocumentResponse
+        {
+            public string AppDocumentId = string.Empty;
+            public string AppImageId = string.Empty;
+        }
+        public static async Task<WebInsertAppDocumentResponse> WebInsertAppDocumentAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string uniqueid1, string uniqueid2, string description, string documenttypeid, string inputbyusersid, byte[] file, string extension)
+        {
+            WebInsertAppDocumentResponse response = new WebInsertAppDocumentResponse();
+            int width = 0, height = 0;
+
+            FwSqlCommand sp = new FwSqlCommand(conn, "dbo.webinsertappdocument", dbConfig.QueryTimeout);
+            sp.AddParameter("@uniqueid1", uniqueid1);
+            sp.AddParameter("@uniqueid2", uniqueid2);
+            sp.AddParameter("@description", description);
+            sp.AddParameter("@documenttypeid", documenttypeid);
+            sp.AddParameter("@inputbyusersid", inputbyusersid);
+            switch (extension.ToUpper())
+            {
+                case "BMP":
+                case "GIF":
+                case "JPG":
+                case "JPEG":
+                case "PNG":
+                case "TIF":
+                case "TIFF":
+                    sp.AddParameter("@image", FwGraphics.ResizeAndConvertToJpg(file, ref width, ref height));
+                    sp.AddParameter("@thumbnail", FwGraphics.GetJpgThumbnail(file));
+                    sp.AddParameter("@extension", "");
+                    break;
+                case "PDF":
+                    sp.AddParameter("@image", file);
+                    sp.AddParameter("@extension", extension.ToUpper());
+                    break;
+            }
+            sp.AddParameter("@appdocumentid", SqlDbType.Char, ParameterDirection.Output, 8);
+            sp.AddParameter("@appimageid", SqlDbType.Char, ParameterDirection.Output, 8);
+            await sp.ExecuteAsync();
+            response.AppDocumentId = sp.GetParameter("@appdocumentid").ToString().TrimEnd();
+            response.AppImageId = sp.GetParameter("@appimageid").ToString().TrimEnd();
+
+            return response;
+        }
+        //------------------------------------------------------------------------------
+        public class WebAuthenticateResult
+        {
+            public string WebUsersId { get; set; } = string.Empty;
+            public int ErrNo { get; set; } = 0;
+            public string ErrMsg { get; set; } = string.Empty;
+        }
+        public static async Task<WebAuthenticateResult> WebAuthenticateAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string email, string password)
+        {
+            string webpassword, encryptedwebpassword;
+            FwSqlCommand sp;
+            //dynamic appoptions;
+
+            //appoptions = FwSqlData.GetApplicationOptions(conn);     //MY 6/26/2015: Why are we loading app options in WebGetUsers?
+            //webpassword =  ((FwValidate.IsPropertyDefined(appoptions, "mixedcase")) && (appoptions.mixedcase.enabled)) ? password : password.ToUpper();
+            //AG 02/11/2015 need to support mixcase on passwords
+            webpassword = password.ToUpper();
+            encryptedwebpassword = await FwSqlData.EncryptAsync(conn, dbConfig, webpassword);
+            //sp = new FwSqlCommand(conn, "webgetusers2"); //MY + AG 10/23/2017: Changed method to remove web access check and not effect old .net systems.
+            sp = new FwSqlCommand(conn, "webauthenticate", dbConfig.QueryTimeout);
+            sp.AddParameter("@userlogin", email);
+            sp.AddParameter("@userloginpassword", encryptedwebpassword);
+            sp.AddParameter("@webusersid", SqlDbType.NVarChar, ParameterDirection.Output);
+            sp.AddParameter("@errno", SqlDbType.Int, ParameterDirection.Output);
+            sp.AddParameter("@errmsg", SqlDbType.NVarChar, ParameterDirection.Output);
+            await sp.ExecuteAsync();
+            WebAuthenticateResult result = new WebAuthenticateResult();
+            result.WebUsersId = sp.GetParameter("@webusersid").ToString().TrimEnd();
+            result.ErrNo = sp.GetParameter("@errno").ToInt32();
+            result.ErrMsg = sp.GetParameter("@errmsg").ToString().TrimEnd();
+
+            return result;
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task<dynamic> GetWebUsersViewAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string webusersid)
+        {
+            FwSqlCommand qry;
+            dynamic result;
+            FwJsonDataTable dt;
+            object cellValue;
+            IDictionary<String, object> webUser;
+
+            result = null;
+            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
+            qry.Add("select top 1 *");
+            qry.Add("from   webusersview with(nolock)");
+            qry.Add("where  webusersid = @webusersid");
+            qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
+            qry.AddParameter("@webusersid", webusersid);
+            dt = await qry.QueryToFwJsonTableAsync();
+            if (dt.Rows.Count == 1)
+            {
+                result = new ExpandoObject();
+                webUser = result as IDictionary<String, object>;
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    cellValue = dt.Rows[0][i];
+                    if (cellValue is string)
+                    {
+                        cellValue = cellValue.ToString().TrimEnd();
+                    }
+                    webUser[dt.ColumnNameByIndex[i]] = cellValue;
+                }
+            }
+
+            return result;
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task<FwWebUserSettings> GetWebUserSettingsAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string webusersid)
+        {
+            FwSqlCommand qry;
+            FwJsonDataTable dt;
+            FwWebUserSettings control;
+
+            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
+            qry.Add("select top 1 settings");
+            qry.Add("from webusers with(nolock)");
+            qry.Add("where webusersid = @webusersid");
+            qry.AddParameter("@webusersid", webusersid);
+            dt = await qry.QueryToFwJsonTableAsync();
+            control = null;
+            if (dt.Rows.Count > 0)
+            {
+                control = new FwWebUserSettings(dbConfig);
+                control.LoadSettings(dt.GetValue(0, "settings").ToString().TrimEnd());
+            }
+
+            return control;
+        }
+        //-----------------------------------------------------------------------------
+        public class WebUserResetPasswordResult
+        {
+            public int ErrNo { get; set; } = 0;
+            public string ErrMsg { get; set; } = string.Empty;
+        }
+        public static async Task<WebUserResetPasswordResult> WebUserResetPassword2Async(FwSqlConnection conn, SqlServerConfig dbConfig, string usersEmail)
+        {
+            FwSqlCommand sp;
+            WebUserResetPasswordResult result;
+
+            result = new WebUserResetPasswordResult();
+            sp = new FwSqlCommand(conn, "webuserresetpassword", dbConfig.QueryTimeout);
+            sp.AddParameter("@usersemail", SqlDbType.NVarChar, ParameterDirection.Input, usersEmail);
+            sp.AddParameter("@errno", SqlDbType.Int, ParameterDirection.Output);
+            sp.AddParameter("@errmsg", SqlDbType.NVarChar, ParameterDirection.Output);
+            await sp.ExecuteAsync();
+            result.ErrNo = sp.GetParameter("@errno").ToInt32();
+            result.ErrMsg = sp.GetParameter("@errmsg").ToString().TrimEnd();
+
+            return result;
         }
         //-----------------------------------------------------------------------------
     }

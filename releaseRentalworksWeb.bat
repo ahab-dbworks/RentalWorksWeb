@@ -71,7 +71,7 @@ set zipfilename=%productname%Web_%buildnoforzip%.zip
 
 rem Update the version.txt files
 echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\%productname%Web\version.txt
-echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\RentalWorksQuikScan\version.txt
+echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\RentalWorksWebApi\QuikScan\version.txt
 echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt
 echo | set /p buildnumber="%fullversionno%">%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt
 
@@ -98,20 +98,6 @@ for /L %%i in (1,1,%count%) do (
    if errorlevel 1 (echo !array[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%)
 )
 
-rem Update QuikScan AssemblyInfo.cs
-set newassemblyline=%openBrack%assembly: AssemblyVersion("%fullversionno%")%closeBrack%
-set file=%DwRentalWorksWebPath%\src\RentalWorksQuikScan\Properties\AssemblyInfo.cs
-set count=0
-for /F "delims=" %%a in (%file%) do (
-    set /A count+=1
-    set "array2[!count!]=%%a"
-)
-del %file%
-for /L %%i in (1,1,%count%) do (
-   echo !array2[%%i]!|find "AssemblyVersion" >nul
-   if errorlevel 1 (echo !array2[%%i]!>>%file%) else (call echo !newassemblyline!>>%file%)
-)
-
 rem We need to commit the version files and Tag the repo here because other commits may come in while we Build
 IF "%commitandftp%"=="y" (
     rem rem command-line Git push in the modified version and assemply files
@@ -120,8 +106,7 @@ IF "%commitandftp%"=="y" (
     git config --global gc.auto 0
     git add "src/%productname%Web/version.txt"
     git add "src/%productname%Web/Properties/AssemblyInfo.cs"
-    git add "src/RentalWorksQuikScan/version.txt"
-    git add "src/RentalWorksQuikScan/Properties/AssemblyInfo.cs"
+    git add "src/RentalWorksWebApi/QuikScan/version.txt"
     git add "src/RentalWorksWebApi/version.txt"
     git add "src/RentalWorksWebApi/version-%productname%Web.txt"
     git commit -m "%tagprefix%: %fullversionno%"
@@ -175,30 +160,25 @@ call npm run publish
 
 if "%productname%"=="RentalWorks" (
     set webpath=%DwRentalWorksWebPath%\build\RentalWorksWeb\
-    set quikscanpath=%DwRentalWorksWebPath%\build\RentalWorksQuikScan\
     set webapipath=%DwRentalWorksWebPath%\build\RentalWorksWebApi\
-	set jestsrcpath=%DwRentalWorksWebPath%\src\JestTest\src\
+    set jestsrcpath=%DwRentalWorksWebPath%\src\JestTest\src\
 ) else if "%productname%"=="TrakitWorks" (
     move %DwRentalWorksWebPath%\build\RentalWorksWebApi %DwRentalWorksWebPath%\build\TrakitWorksWebApi
-    move %DwRentalWorksWebPath%\build\RentalWorksQuikScan\ %DwRentalWorksWebPath%\build\TrakitWorksQuikScan\
     set webpath=%DwRentalWorksWebPath%\build\TrakitWorksWeb\
-    set quikscanpath=%DwRentalWorksWebPath%\build\TrakitWorksQuikScan\
     set webapipath=%DwRentalWorksWebPath%\build\TrakitWorksWebApi\
-	set jestsrcpath=%DwRentalWorksWebPath%\src\JestTest\src\
+    set jestsrcpath=%DwRentalWorksWebPath%\src\JestTest\src\
 )
 del "%webapipath%version-RentalWorksWeb.txt"
 del "%webapipath%version-TrakitWorksWeb.txt"
 
 rem make the ZIP deliverable
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %webpath%
-"c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %quikscanpath%
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %webapipath%
 "c:\Program Files\7-Zip\7z.exe" a %DwRentalWorksWebPath%\build\%zipfilename% %jestsrcpath%ts\
 cd %DwRentalWorksWebPath%\build
 
 rem delete the work files
 if exist %productname%Web\ (rmdir %productname%Web /S /Q)
-if exist RentalWorksQuikScan\ (rmdir RentalWorksQuikScan /S /Q)
 if exist %productname%WebApi\ (rmdir %productname%WebApi /S /Q)
 
 rem copy the ZIP delivable to "history" sub-directory

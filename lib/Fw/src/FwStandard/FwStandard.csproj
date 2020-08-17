@@ -17,6 +17,8 @@
   <ItemGroup>
     <Compile Remove="AppManager\FwSecurityTreeBranch.cs" />
     <Compile Remove="FwColorTranslator - Copy.cs" />
+    <Compile Remove="Mobile\FwValidate.cs" />
+    <Compile Remove="Mobile\FwVersion.cs" />
     <Compile Remove="Security\FwGroupSecurityNode.cs" />
     <Compile Remove="Security\FwSecurityTree.cs" />
     <Compile Remove="Security\FwSecurityTreeBranch.cs" />
@@ -48,6 +50,7 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
     <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
   </ItemGroup>
 

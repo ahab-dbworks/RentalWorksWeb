@@ -9,12 +9,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
+using OfficeOpenXml.ConditionalFormatting;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -214,6 +217,26 @@ namespace FwCore.Api
         //------------------------------------------------------------------------------------
         protected abstract void AddSwaggerDocs(SwaggerGenOptions options);
         //------------------------------------------------------------------------------------
+        protected virtual void ConfigureStaticFileHosting(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            var wwwrootFileServerOptions = new FileServerOptions();
+            wwwrootFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+            {
+                // Only cache the images in wwwroot
+                bool cacheResults =
+                    context.File.Name.ToLower().EndsWith(".png") ||
+                    context.File.Name.ToLower().EndsWith(".jpg") ||
+                    context.File.Name.ToLower().EndsWith(".jpeg") ||
+                    context.File.Name.ToLower().EndsWith(".gif");
+                if (!cacheResults)
+                {
+                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                    context.Context.Response.Headers.Add("Expires", "-1");
+                }
+            };
+            app.UseFileServer(wwwrootFileServerOptions);
+        }
+        //------------------------------------------------------------------------------------
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -221,18 +244,11 @@ namespace FwCore.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //redirect to HTTPS in production configuration
-            //if (HostingEnvironment.IsProduction())
-            //{
-            //    var options = new RewriteOptions()
-            //        .AddRedirectToHttps();
-            //    app.UseRewriter(options);
-            //}
-
-            // shows an exception page
+            //app.FwMaintainCorsHeaders();  // this can maybe be removed after .net core 2.2, which is supposed to fix CORS on 500 errors, currently the headers are getting dropped
             //if (env.IsDevelopment())
-            app.FwMaintainCorsHeaders();  // this can maybe be removed after .net core 2.2, which is supposed to fix CORS on 500 errors, currently the headers are getting dropped
-            app.UseDeveloperExceptionPage();
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
 
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder =>
@@ -243,18 +259,7 @@ namespace FwCore.Api
                .AllowCredentials()
                .SetPreflightMaxAge(TimeSpan.FromDays(7))); // this line keeps the browser from pre-flighting every request
 
-            //app.UseDefaultFiles(); // Call first before app.UseStaticFiles()
-            //app.UseStaticFiles(); // For the wwwroot folder
-
-            // For the wwwroot folder
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                OnPrepareResponse = context =>
-                {
-                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                    context.Context.Response.Headers.Add("Expires", "-1");
-                }
-            });
+            this.ConfigureStaticFileHosting(app, env, loggerFactory);
 
             app.UseAuthentication();
             app.UseMvc();
@@ -280,13 +285,6 @@ namespace FwCore.Api
                 c.DocExpansion(DocExpansion.None);
                 this.AddSwaggerEndPoints(c);
             });
-            if (!env.IsDevelopment())
-            {
-                app.Run(context => {
-                    context.Response.Redirect(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger");
-                    return Task.CompletedTask;
-                });
-            }
         }
         //------------------------------------------------------------------------------------
         protected abstract void AddSwaggerEndPoints(SwaggerUIOptions options);

@@ -3,6 +3,8 @@ using FwStandard.Models;
 using System;
 using System.Collections.Generic;
 using WebApi.Modules.Administrator.Group;
+using WebApi.Modules.Mobile;
+using WebApi.Modules.Mobile.QuikScan;
 
 namespace WebApi.ApplicationManager
 {
@@ -41,6 +43,7 @@ namespace WebApi.ApplicationManager
             controllerTypes.AddRange(appDataControllerTypes);
             controllerTypes.AddRange(appReportControllerTypes);
             controllerTypes.Add(typeof(GroupController));
+            controllerTypes.Add(typeof(MobileController));
 
             return controllerTypes;
         }

@@ -88,6 +88,7 @@ namespace FwStandard.Utilities
         //    return outputImage;
         //}
         //---------------------------------------------------------------------------------------------
+        
         public static byte[] GetJpgThumbnail(byte[] image)
         {
             decimal scale;
@@ -145,6 +146,12 @@ namespace FwStandard.Utilities
         }
         //---------------------------------------------------------------------------------------------
         public static byte[] ResizeAndConvertToJpg(byte[] imageData)
+        {
+            int width = 0, height = 0;
+            return ResizeAndConvertToJpg(imageData, ref width, ref height);
+        }
+        //---------------------------------------------------------------------------------------------
+        public static byte[] ResizeAndConvertToJpg(byte[] imageData, ref int width, ref int height)
         {
             int widthNew = 0, heightNew = 0;
             using (MemoryStream stream = new MemoryStream(imageData))
@@ -204,6 +211,8 @@ namespace FwStandard.Utilities
                         scale = (decimal)heightNew / (decimal)originalImage.Height;
                         widthNew = FwConvert.ToInt32(Math.Round(scale * originalImage.Width));
                     }
+                    width = widthNew;
+                    height = heightNew;
                     using (Bitmap destBitmap = new Bitmap(widthNew, heightNew))
                     {
                         destBitmap.SetResolution(72, 72);

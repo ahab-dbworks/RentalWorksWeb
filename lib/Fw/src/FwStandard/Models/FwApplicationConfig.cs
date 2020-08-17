@@ -1,4 +1,3 @@
-﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -20,6 +19,12 @@ namespace FwStandard.Models
         public string ApiPath { get; set; } = string.Empty;
         public string WebPath { get; set; } = string.Empty;
         public HostedServices HostedServices { get; set; } = new HostedServices();
+        public WebAppConfig WebApp { get; set; } = new WebAppConfig();
+        public string WebRequestPath { get; set; } = null;
+        public string MobileRequestPath { get; set; } = null;
+        public MobileAppConfig MobileApp { get; set; } = new MobileAppConfig();
+        //public bool EnableHttpsRedirect { get; set; } = false;
+        //public List<RewriteRulesConfig> RewriteRules { get; set; }
     }
 
     public class HostedServices : ConcurrentDictionary<string, HostedService>
@@ -65,4 +70,81 @@ namespace FwStandard.Models
         public bool LogSql { get; set; } = false;
         public bool LogSqlContext { get; set; } = true;
     }
+
+    public class WebAppConfig
+    {
+        public string appbaseurl { get; set; } = string.Empty;
+        public string fwvirtualdirectory { get; set; } = string.Empty;
+        public string appvirtualdirectory { get; set; } = string.Empty;
+        public bool debugMode { get; set; } = false;
+        public bool designMode { get; set; } = false;
+        public int ajaxTimeoutSeconds { get; set; } = 300;
+        public string version { get; set; } = string.Empty;
+        public string apiurl { get; set; } = string.Empty;
+        public bool defaultPeek { get; set; } = false;
+        public int photoQuality { get; set; } = 100;
+        public int photoWidth { get; set; } = 1024;
+        public int photoHeight { get; set; } = 1024;
+        public bool customLogin { get; set; } = false;
+        public string client { get; set; } = string.Empty;
+        public bool allCaps { get; set; } = false;
+        //public bool OktaEnabled { get; set; } = false;
+        //public FwOktaSignInConfig oktaSignIn { get; set; } = new FwOktaSignInConfig
+        //public string oktaApiUrl = string.Empty;
+    }
+
+        public class MobileAppConfig
+    {
+        public string appbaseurl { get; set; } = string.Empty;
+        public string fwvirtualdirectory { get; set; } = string.Empty;
+        public string appvirtualdirectory { get; set; } = string.Empty;
+        public bool debugMode { get; set; } = false;
+        public bool designMode { get; set; } = false;
+        public bool demoMode { get; set; } = false;
+        public bool devMode { get; set; } = false;
+        public string demoEmail { get; set; } = "qsdemo@dbworks.com";
+        public string demoPassword { get; set; } = "QSDEMO";
+        public int ajaxTimeoutSeconds { get; set; } = 20;
+        public string version { get; set; } = string.Empty;
+        public string apiurl { get; set; } = string.Empty;
+        public int photoWidth { get; set; } = 1024;
+        public int photoHeight { get; set; } = 1024;
+        public int photoQuality { get; set; } = 100;
+        public int iPodPhotoQuality { get; set; } = 100;
+        public int iPhonePhotoQuality { get; set; } = 100;
+        public bool defaultPeek { get; set; } = false;
+        public QuikInConfig quikIn { get; set; } = new QuikInConfig();
+        public bool allowDisableBarcodeFieldInStaging { get; set; } = true;
+    }
+
+    public class QuikInConfig
+    {
+        public bool enableQuikInSessionSearch { get; set; } = false;
+        public bool enableSessionInItemSearch { get; set; } = true;
+        public bool enableCancelItem { get; set; } = true;
+
+    }
+
+    public class RewriteRulesConfig
+    {
+        public string Regex { get; set; } = string.Empty;
+        public string Replacement { get; set; } = string.Empty;
+        public bool SkipRemainingRules { get; set; } = false;
+    }
+
+    //public class OktaSignInConfig
+    //{
+    //    renderEl = null;
+    //    hasTokensInUrl = null;
+    //    authClient = null;
+    //    signIn = null;
+    //    public string baseUrl { get; set; } = "";
+    //    public string clientId { get; set; } = "";
+    //    public string redirectUri { get; set; } = "";
+    //    authParams = {
+    //        issuer: "",
+    //        responseType: ['token', 'id_token'],
+    //        display: 'page'
+    //    }
+    //}
 }
