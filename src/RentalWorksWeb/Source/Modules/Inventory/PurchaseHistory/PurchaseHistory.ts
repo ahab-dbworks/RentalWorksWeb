@@ -75,7 +75,6 @@ class PurchaseHistory {
     openForm(mode: string) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-        this.showHideWarhouseRow($form);
         return $form;
     };
     //---------------------------------------------------------------------------------------------
@@ -116,6 +115,7 @@ class PurchaseHistory {
     afterLoad($form: JQuery) {
         //const $itemAttributeValueGrid: JQuery = $form.find(`[data-name="${this.nameItemAttributeValueGrid}"]`);
         //FwBrowse.search($itemAttributeValueGrid);
+        this.showHideWarhouseRow($form);
     };
     //---------------------------------------------------------------------------------------------
     showHideWarhouseRow($form) {
