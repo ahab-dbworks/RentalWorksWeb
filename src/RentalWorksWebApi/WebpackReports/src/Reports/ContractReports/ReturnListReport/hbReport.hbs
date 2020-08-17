@@ -1,7 +1,7 @@
 ﻿<!--Return List Report-->
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn" style="padding-bottom:5px;">
-    <span class="header-left">{{Company}}</span>
+    <span class="company-header">{{Company}}</span>
     <span class="header-left">Department: {{Department}}</span>
     <span class="header-left">Warehouse: {{Warehouse}}</span>
   </div>
@@ -12,8 +12,8 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="header-right">Session: {{Session}}</span>
-        {{#ifEquals BarCodeStyle "1D"}}
-    <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{Session}}*</span> <!-- We need to wrap this in * so that the barcode works -->
+    {{#ifEquals BarCodeStyle "1D"}}
+    <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{Session}}*</span> <!-- wrap this in * so that the barcode works -->
     {{/ifEquals}}
     {{#ifEquals BarCodeStyle "2D"}}
     <span class="header-right qrcode">{{{QrCode}}}</span>
@@ -91,12 +91,12 @@
   </table>
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">
-    <div>
-      <div style="display:flex">
-        <div class="receivedbyfield">
-          <div class="value"></div>
-          <div style="font-weight:700;" class="caption">RECEIVED BY</div>
-        </div>
+  <div>
+    <div style="display:flex">
+      <div class="receivedbyfield">
+        <div class="value"></div>
+        <div style="font-weight:700;" class="caption">RECEIVED BY</div>
       </div>
     </div>
+  </div>
 </div>
