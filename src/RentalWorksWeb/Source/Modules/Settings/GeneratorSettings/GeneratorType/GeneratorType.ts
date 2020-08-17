@@ -123,6 +123,12 @@ class GeneratorType {
         $form.find('div[data-datafield="CostOfGoodsRentedExpenseAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsRentedExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
+        $form.find('div[data-datafield="DepreciationExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="DepreciationExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="AccumulatedDepreciationExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="AccumulatedDepreciationExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
     }
     //----------------------------------------------------------------------------------------------
     //beforeValidateInventoryType($browse, $grid, request) {

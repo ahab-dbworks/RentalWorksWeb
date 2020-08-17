@@ -108,6 +108,12 @@ transworksvehicle
         [FwSqlDataField(column: "cogrexpenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string CostOfGoodsRentedExpenseAccountId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "depreciationexpenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string DepreciationExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "accumulateddepreciationexpenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string AccumulatedDepreciationExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
         public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
