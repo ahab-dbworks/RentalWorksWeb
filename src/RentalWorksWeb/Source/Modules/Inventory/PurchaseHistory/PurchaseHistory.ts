@@ -24,18 +24,18 @@ class PurchaseHistory {
             this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
         }
 
-        let viewSubitems: Array<JQuery> = [];
+        const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($userWarehouse, $all);
         FwMenu.addViewBtn(options.$menu, 'Warehouse', viewSubitems, true, "WarehouseId");
     };
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $browse: JQuery = this.openBrowse();
+        const $browse: JQuery = this.openBrowse();
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
@@ -75,12 +75,12 @@ class PurchaseHistory {
     openForm(mode: string) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-
+        this.showHideWarhouseRow($form);
         return $form;
     };
     //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'PurchaseId', uniqueids.PurchaseId);
         FwModule.loadForm(this.Module, $form);
         return $form;
@@ -117,6 +117,16 @@ class PurchaseHistory {
         //const $itemAttributeValueGrid: JQuery = $form.find(`[data-name="${this.nameItemAttributeValueGrid}"]`);
         //FwBrowse.search($itemAttributeValueGrid);
     };
+    //---------------------------------------------------------------------------------------------
+    showHideWarhouseRow($form) {
+        const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
+        const warehouseCurrencyId = FwFormField.getValueByDataField($form, 'WarehouseDefaultCurrencyId');
+        if (currencyId !== '' && currencyId !== warehouseCurrencyId) {
+            $form.find('.warehouse-currency').show();
+        } else {
+            $form.find('.warehouse-currency').hide();
+        }
+    }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
@@ -196,7 +206,7 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCost" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost with Tax" data-datafield="UnitCostWithTax" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                           </div>
-                          <div class="flexrow">
+                          <div class="flexrow warehouse-currency" style="display:none;">
                             <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Warehouse Currency Code" data-datafield="WarehouseDefaultCurrencyId" data-displayfield="WarehouseDefaultCurrencyCode" data-enabled="false" style="flex:1 1 75px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Unit Cost with Tax" data-datafield="UnitCostWithTaxCurrencyConverted" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
@@ -206,6 +216,7 @@ class PurchaseHistory {
                     </div>
                   </div>
                 </div>
+
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                 <div class="flexpage">
