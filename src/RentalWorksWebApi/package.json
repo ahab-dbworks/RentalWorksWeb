@@ -2,7 +2,6 @@
   "name": "rentalworkswebapi",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "postinstall": "npm rebuild node-sass",
     "build-reports-dev-byname": "node node-build build reports dev",

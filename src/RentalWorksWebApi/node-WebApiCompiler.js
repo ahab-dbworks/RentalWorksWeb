@@ -181,6 +181,7 @@ class WebApiCompiler {
             //await fs.copy(`${srcDir}/index.htm`, `${destDir}/index.htm`);
             //await fs.copy(`${srcDir}/index.js`, `${destDir}/index.js`);
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
+            await fs.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
         console.log('//------------------------------------------------------------------------------------');
@@ -257,6 +258,7 @@ class WebApiCompiler {
 
             await fs.copy(`${srcDir}/index.htm`, `${destDir}/index.htm`);
             await fs.copy(`${srcDir}/index.js`, `${destDir}/index.js`);
+            await fs.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
             //await fs.copy(`${srcDir}/ApplicationConfig.js`, `${destDir}/ApplicationConfig.js`);
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
@@ -303,17 +305,29 @@ class WebApiCompiler {
     }
     //------------------------------------------------------------------------------------
     async dotnet_publish() {
+        const appsSrcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps');
+        const appsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps');
+        const webSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps/rentalworks');
+        const webDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWeb');
         console.log('//------------------------------------------------------------------------------------');
         console.log(`dotnet publish -o ../../build/RentalWorksWebApi WebApi.csproj --configuration ${this.dotnetConfiguration} --self-contained -r win-x64`);
         console.log('//------------------------------------------------------------------------------------');
         await spawn('dotnet', ['publish', '-o', '../../build/RentalWorksWebApi', 'WebApi.csproj', '--configuration', this.dotnetConfiguration, '--self-contained', '-r', 'win-x64'], { stdio: 'inherit' });
         console.log('Deleting: appsettings.json');
         await fs.unlink('../../build/RentalWorksWebApi/appsettings.json', function (error) { if (error) { throw error; } console.log('Deleted appsettings.json'); });
+        console.log('//------------------------------------------------------------------------------------');
+        await fs.mkdirSync('app');
+        console.log(`Deploying apps folder from: "${appsSrcDir}" to "${appsDestDir}"`);
+        await fs.copy(appsSrcDir, appsDestDir);
+        console.log(`Deploying legacy RentalWorksWeb folder from: "${webSrcDir}" to "${webDestDir}"`);
+        await fs.copy(webSrcDir, webDestDir);
+        console.log('//------------------------------------------------------------------------------------');
         console.log('Adding: wwwroot/temp/downloads');
         await process.chdir('../../build/RentalWorksWebApi/wwwroot');
         await fs.mkdirSync('temp');
         await process.chdir('temp');
         await fs.mkdirSync('downloads');
+        await process.chdir('temp');
         console.log('//------------------------------------------------------------------------------------');
     }
     //------------------------------------------------------------------------------------
@@ -332,18 +346,18 @@ class WebApiCompiler {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
-                        await this.build_webpack_reports();
-                        await this.build_quikscan();
-                        await this.dotnet_build();
                         await this.build_web();
+                        await this.build_quikscan();
+                        await this.build_webpack_reports();
+                        await this.dotnet_build();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
-                        await this.build_webpack_reports();
-                        await this.build_quikscan();
-                        await this.dotnet_run();
                         await this.build_web();
+                        await this.build_quikscan();
+                        await this.build_webpack_reports();
+                        await this.dotnet_run();
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
                     }
@@ -352,10 +366,10 @@ class WebApiCompiler {
                     await this.rmfr_downloads();
                     await this.rmfr_publishfolder();
                     await this.npm_i();
-                    await this.build_webpack_reports();
-                    await this.build_quikscan();
-                    await this.dotnet_publish();
                     await this.build_web();
+                    await this.build_quikscan();
+                    await this.build_webpack_reports();
+                    await this.dotnet_publish();
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
