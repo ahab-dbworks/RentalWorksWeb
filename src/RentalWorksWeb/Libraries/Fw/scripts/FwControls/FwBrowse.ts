@@ -2162,8 +2162,10 @@ class FwBrowseClass {
     //---------------------------------------------------------------------------------
     getManyRequest($control: JQuery): GetManyRequest {
         let request = new GetManyRequest();
-        request.pageno = parseInt($control.attr('data-pageno'));
-        request.pagesize = parseInt($control.attr('data-pagesize'));
+        request.pageno = (!isNaN(parseInt($control.attr('data-pageno')))) ? parseInt($control.attr('data-pageno')) : request.pageno;
+        request.pageno = (request.pageno === 0) ? 1 : request.pageno;
+        request.pagesize = (!isNaN(parseInt($control.attr('data-pagesize')))) ? parseInt($control.attr('data-pagesize')) : request.pagesize;
+        request.pagesize = (request.pagesize === 0) ? 1000 : request.pagesize;
         //request.options = this.getOptions($control);
         let orderby: any = [];
         let module = '';
@@ -2266,7 +2268,7 @@ class FwBrowseClass {
                 if ($control.length > 0) {
                     let request = this.getRequest($control);
                     if (typeof $control.data('calldatabind') === 'function') {
-                        $control.data('calldatabind')(request, function (response) {
+                        await $control.data('calldatabind')(request, function (response) {
                             resolve();
                         });
                     } else {
@@ -4316,24 +4318,26 @@ class FwBrowseClass {
                             }
 
                             // Getting PrimaryKey from API for this browse or grid
-                            const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>({
+                            const getPrimaryKeyReq: any = {
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/keyfieldnames`,
                                 $elementToBlock: jQuery('#application'),
-                            })
+                            }
+                            const promiseGetPrimaryKey = FwAjax.callWebApi<any, any>(getPrimaryKeyReq)
                                 .then(async (keys: any) => {
                                     if (keys.length) {
-                                        async function uploadRecord(url, method, data): Promise<any> {
-                                            return FwAjax.callWebApi<any, any>({
+                                        const uploadRecord = (url, method, data): Promise<any> => {
+                                            const request: any = {
                                                 httpMethod: method,
                                                 data: data,
                                                 url: url || `${applicationConfig.apiurl}${(<any>window[controller]).apiurl}/`,
                                                 $elementToBlock: jQuery('#application'),
-                                            })
+                                            }
+                                            return FwAjax.callWebApi<any, any>(request)
                                         }
 
                                         let method: any = 'PUT';
-                                        function processKeys(keys) { // some modules have multiple keys
+                                        const processKeys = (keys) => { // some modules have multiple keys
                                             for (let j = 0; j < keys.length; j++) {
                                                 const id = keys[j];
                                                 if (excelObject[i].hasOwnProperty(id)) { // Does the key exist within the record?
@@ -5031,6 +5035,8 @@ class DataTable {
                 column.Name = key;
                 column.DataField = key;
                 dt.Columns.push(column);
+
+                colno++;
             }
         }
         for (let recno = 0; recno < getManyModel.Items.length; recno++) {
@@ -5078,8 +5084,8 @@ class BrowseRequest {
 }
 
 class GetManyRequest {
-    pageno: number = 0;
-    pagesize: number = 0;
+    pageno: number = 1;
+    pagesize: number = 1000;
     sort: string = '';
     //options: this.getOptions($control);
     filters: Array<GetManyFilter> = [];
