@@ -18,8 +18,16 @@ namespace WebApi.Modules.HomeControls.Pricing
     public class PricingLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        public PricingLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string RateId { get { return InventoryId; } set { InventoryId = value; } }  // RateId and InventoryId are interchangeable
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string WarehouseId { get; set; }
@@ -207,14 +215,18 @@ namespace WebApi.Modules.HomeControls.Pricing
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-            string inventoryId = InventoryId;
+            string inventoryOrRateId = InventoryId;
             string filterWarehouseId = WarehouseId;
             string userWarehouseId = string.Empty;
             string currencyId = CurrencyId;
 
-            if (string.IsNullOrEmpty(inventoryId))
+            if (string.IsNullOrEmpty(inventoryOrRateId))
             {
-                inventoryId = GetUniqueIdAsString("InventoryId", request);
+                inventoryOrRateId = GetUniqueIdAsString("InventoryId", request);
+            }
+            if (string.IsNullOrEmpty(inventoryOrRateId))
+            {
+                inventoryOrRateId = GetUniqueIdAsString("RateId", request);
             }
 
             if (string.IsNullOrEmpty(filterWarehouseId))
@@ -231,9 +243,9 @@ namespace WebApi.Modules.HomeControls.Pricing
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            if (inventoryId == null)
+            if (inventoryOrRateId == null)
             {
-                inventoryId = "";
+                inventoryOrRateId = "";
             }
             if (filterWarehouseId == null)
             {
@@ -244,11 +256,26 @@ namespace WebApi.Modules.HomeControls.Pricing
                 currencyId = "";
             }
 
-            select.AddParameter("@masterid", inventoryId);
+            select.AddParameter("@masterid", inventoryOrRateId);
             select.AddParameter("@userswarehouseid", userWarehouseId);
             select.AddParameter("@filterwarehouseid", filterWarehouseId);
             select.AddParameter("@currencyid", currencyId);
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("RateId")] = row[dt.GetColumnNo("InventoryId")].ToString();
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

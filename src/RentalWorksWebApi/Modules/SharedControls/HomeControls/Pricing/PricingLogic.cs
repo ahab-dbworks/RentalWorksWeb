@@ -23,6 +23,8 @@ namespace WebApi.Modules.HomeControls.Pricing
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "Vi4yKgBhWGfgT", IsPrimaryKey: true)]
         public string InventoryId { get { return rec.MasterId; } set { rec.MasterId = value; } }
+        [FwLogicProperty(Id: "8SC1QHEHoFwa7", IsNotAudited: true)]
+        public string RateId { get { return InventoryId; } set { InventoryId = value; } }  // RateId and InventoryId are interchangeable
         [FwLogicProperty(Id: "vI73bnkZ9aNfR", IsPrimaryKey: true)]
         public string WarehouseId { get { return rec.WarehouseId; } set { rec.WarehouseId = value; } }
         [FwLogicProperty(Id: "vIdmL8qHaMh3t", IsReadOnly: true)]
