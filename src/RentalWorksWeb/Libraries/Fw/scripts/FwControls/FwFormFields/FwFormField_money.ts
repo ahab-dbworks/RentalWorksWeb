@@ -30,12 +30,29 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
+        var currencySymbol;
+        if (typeof model['CurrencySymbol'] !== 'undefined') {
+            currencySymbol = model['CurrencySymbol'];
+            $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+        } else {
+            currencySymbol = '$';
+        }
         value = ((value === '') ? '0.00' : value);
         $fwformfield
             .attr('data-originalvalue', parseFloat(value).toFixed(2))
             .find('.fwformfield-value')
-            .val(value);
+            .val(value)
+            .inputmask("currency", {
+                prefix: currencySymbol,
+                placeholder: "0.00",
+                min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
+                max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
+                digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
+                radixPoint: '.',
+                groupSeparator: ',',
+                autoGroup: (((typeof $fwformfield.attr('data-formatnumeric') !== 'undefined') && ($fwformfield.attr('data-formatnumeric') == 'true')) ? true : false)
+            });
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {

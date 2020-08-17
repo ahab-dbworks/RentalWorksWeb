@@ -1571,7 +1571,7 @@ interface IFwFormField {
     enable($control: JQuery<HTMLElement>): void;
     getText2?($fwformfield: JQuery<HTMLElement>): string;
     getValue2($fwformfield: JQuery<HTMLElement>): any;
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void;
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void;
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void;
     renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void;
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void;

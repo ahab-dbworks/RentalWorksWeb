@@ -231,7 +231,7 @@ class FwFormFieldClass {
 
                         if ((typeof window['FwFormField_' + data_type] === 'object') &&
                             (typeof window['FwFormField_' + data_type].loadForm === 'function')) {
-                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text);
+                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text, model);
                         }
                         else {
                             $fwformfield
@@ -258,7 +258,7 @@ class FwFormFieldClass {
 
                         if ((typeof window['FwFormField_' + data_type] === 'object') &&
                             (typeof window['FwFormField_' + data_type].loadForm === 'function')) {
-                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text);
+                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text, model);
                         }
                         else {
                             $fwformfield
