@@ -49,11 +49,29 @@ class Currency {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    renderGrids($form: JQuery): void {
+        FwBrowse.renderGrid({
+            nameGrid: 'CurrencyExchangeRateGrid',
+            gridSecurityId: 'UfURKoOaUi87C',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    FromCurrencyId: FwFormField.getValueByDataField($form, 'CurrencyId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.FromCurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        FwBrowse.search($form.find('[data-name="CurrencyExchangeRateGrid"]'));
     }
 }
 //----------------------------------------------------------------------------------------------

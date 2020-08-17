@@ -864,6 +864,7 @@ var Constants = {
         ContractSummaryGrid:                    { id: 'a8I3UCKA3LN3',  caption: 'Contract Summary' },
         CrewLocationGrid:                       { id: 'vCrMyhsLCP7h',  caption: 'Crew Location' },
         CrewPositionGrid:                       { id: 'shA9rX1DYWp3',  caption: 'Crew Position' },
+        CurrencyExchangeRateGrid:               { id: 'UfURKoOaUi87C', caption: 'Currency Exchange Rate' },
         CustomerNoteGrid:                       { id: '6AHfzr9WBEW9',  caption: 'Customer Note' },
         CustomFormGroupGrid:                    { id: '11txpzVKVGi2',  caption: 'Custom Form Group' },
         CustomFormUserGrid:                     { id: 'nHNdXDBX6m6cp', caption: 'Custom Form User' },
