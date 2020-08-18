@@ -14,6 +14,7 @@ namespace RentalWorksQuikScan.Modules
     public class CheckInMenu : MobileModule
     {
         RwAppData AppData;
+        private Regex isNumeric = new Regex("^[0-9]*$");
         //----------------------------------------------------------------------------------------------------
         public CheckInMenu(FwApplicationConfig applicationConfig) : base(applicationConfig)
         {
@@ -73,7 +74,6 @@ namespace RentalWorksQuikScan.Modules
                 string searchvalue = request.searchvalue.ToString();
                 if (searchvalue.Length > 0)
                 {
-                    Regex isNumeric = new Regex("^[0-9]*$/g");
                     if (!isNumeric.IsMatch(searchvalue))
                     {
                         throw new FwBadRequestException("Session No must be an integer");
