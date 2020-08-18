@@ -34,7 +34,7 @@
             }
         } else {
             if ((data.value.length > 0) && (!isNaN(parseFloat(data.value)))) {
-                $field.find('input.value').val(parseFloat(data.value).toFixed(2));
+                $field.find('input.value').val(parseFloat(data.value));
             } else {
                 $field.find('input.value').val('$0.00');
             }
