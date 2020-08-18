@@ -632,7 +632,7 @@ html.theme-material div.dashboard-btn-row .btn-container span { margin: 5px 2px 
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr:last-child td div[data-headercontent="Vendor"] { border-bottom: 2px solid #ffd666 !important; }
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr:first-child td div[data-headercontent="Vendor"] { border-top: 2px solid #ffd666 !important; }
 html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-browsedatafield="VendorRate"] { border-left: 2px solid #ffd666; }
-html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-mappedfield="VendorPeriodExtended"] { border-right: 2px solid #ffd666; }
+html.theme-material div[data-name="SubPurchaseOrderItemGrid"].fwbrowse table tbody tr td div[data-borderend="true"] { border-right: 2px solid #ffd666; }
 
 /*Rate Update Utility*/
 [data-controller="RateUpdateUtilityController"] [data-datafield="AvailableFor"] div.fwformfield-control {display:flex !important;}

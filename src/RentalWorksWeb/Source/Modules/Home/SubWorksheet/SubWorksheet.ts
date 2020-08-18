@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/subworksheet$/, action: function (match: RegExpExecArray) { return SubWorksheetController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/subworksheet$/, action: function (match: RegExpExecArray) { return SubWorksheetController.getModuleScreen(); } });
 
 class SubWorksheet {
     Module: string = 'SubWorksheet';
@@ -474,6 +474,31 @@ class SubWorksheet {
             $form.find(".totalType input").on('change', e => {
                 this.getSubPOItemGridTotals($form, response);
             });
+
+            const $totalFields = $form.find('[data-totalfield][data-type="money"]');
+            let currencySymbol = response.Rows[0][response.ColumnIndex['VendorCurrencySymbol']];
+            $totalFields.each((index, element) => {
+                let $fwformfield;
+                $fwformfield = jQuery(element);
+                if (typeof currencySymbol == 'undefined' || currencySymbol === '') {
+                    currencySymbol = '$';
+                }
+
+                $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+
+                $fwformfield
+                    .find('.fwformfield-value')
+                    .inputmask('currency', {
+                        prefix: currencySymbol + ' ',
+                        placeholder: "0.00",
+                        min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
+                        max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
+                        digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
+                        radixPoint: '.',
+                        groupSeparator: ','
+                    });
+            });
+
             FwFormField.setValue($form, 'div[data-totalfield="Total"]', total);
             FwFormField.setValue($form, 'div[data-totalfield="Tax"]', salesTax);
             FwFormField.setValue($form, 'div[data-totalfield="SubTotal"]', subTotal);
@@ -527,13 +552,34 @@ class SubWorksheet {
             },
             beforeSave: (request: any) => {
                 request.SessionId = this.SessionId;
+            },
+            afterDataBindCallback: ($browse, dt) => {
+                this.showConvertedCurrency($browse, dt);
             }
         });
     }
     //----------------------------------------------------------------------------------------------
+    showConvertedCurrency($browse: JQuery, dt: any) {
+        const $form = $browse.closest('.fwform');
+        const rate = FwFormField.getValueByDataField($form, 'RateId');
+        const dtRow = dt.Rows[0];
+        const vendorCurrency = dtRow[dt.ColumnIndex['VendorCurrencyId']];
+        const dealCurrency = dtRow[dt.ColumnIndex['DealCurrencyId']];
+
+        if (vendorCurrency != dealCurrency) {
+            $browse.find('[data-browsedatafield="VendorPeriodExtended"]').attr('data-borderend', 'false');
+            $browse.find('[data-browsedatafield="CurrencyConvertedPeriodExtended"]').closest('td').show();
+            if (rate === 'MONTHLY') {
+                $browse.find('[data-browsedatafield="CurrencyConvertedMonthlyExtended"]').closest('td').show();
+            } else {
+                $browse.find('[data-browsedatafield="CurrencyConvertedWeeklyExtended"]').closest('td').show();
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     hideFieldsColumns($form: any): void {
-        const listSubPOFields: any = ["VendorDaysPerWeek", "VendorWeeklyExtended", "VendorMonthlyExtended", 
-                                              "DealDaysPerWeek", "DealWeeklyExtended", "DealMonthlyExtended"];
+        const listSubPOFields: any = ["VendorDaysPerWeek", "VendorWeeklyExtended", "VendorMonthlyExtended",
+            "DealDaysPerWeek", "DealWeeklyExtended", "DealMonthlyExtended"];
         let hiddenSubPOFields: any = [];
         let visibleSubPOFields: any = [];
         const orderRateType = FwFormField.getValueByDataField($form, 'OrderRateType');
