@@ -40,6 +40,10 @@ namespace WebApi.Modules.Inventory.Purchase
         public DateTime? PurchaseDate { get { return purchase.PurchaseDate; } set { purchase.PurchaseDate = value; } }
         [FwLogicProperty(Id: "9dmdw3FaHpegB", DisableDirectAssign: true, DisableDirectModify: true)]
         public DateTime? ReceiveDate { get { return purchase.ReceiveDate; } set { purchase.ReceiveDate = value; } }
+        [FwLogicProperty(Id: "jNSSjhIPTIsni", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public string PurchaseDateString{ get; set; }
+        [FwLogicProperty(Id: "P640wPnn50hWw", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public string ReceiveDateString { get; set; }
         [FwLogicProperty(Id: "9ebLUq35fzHbK", DisableDirectAssign: true, DisableDirectModify: true)]
         public string PurchasePoId { get { return purchase.PurchasePoId; } set { purchase.PurchasePoId = value; } }
         [FwLogicProperty(Id: "9egWAoPEXSBrD", DisableDirectAssign: true, DisableDirectModify: true)]

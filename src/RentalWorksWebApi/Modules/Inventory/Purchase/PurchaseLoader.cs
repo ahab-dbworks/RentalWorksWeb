@@ -52,6 +52,12 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "received", modeltype: FwDataTypes.Date)]
         public DateTime? ReceiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
+        public string PurchaseDateString { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "received", modeltype: FwDataTypes.Date)]
+        public string ReceiveDateString { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasepoid", modeltype: FwDataTypes.Text)]
         public string PurchasePoId { get; set; }
         //------------------------------------------------------------------------------------ 

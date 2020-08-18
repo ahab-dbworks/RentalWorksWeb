@@ -92,7 +92,7 @@ namespace WebApi.Modules.HomeControls.Depreciation
         //------------------------------------------------------------------------------------ 
         private string getDepreciationExtendedColor(bool? isAdjustment)
         {
-            return (IsAdjustment.GetValueOrDefault(false) ? RwGlobals.DEPRECIATION_ADJUSTMENT_COLOR : null);
+            return (isAdjustment.GetValueOrDefault(false) ? RwGlobals.DEPRECIATION_ADJUSTMENT_COLOR : null);
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
