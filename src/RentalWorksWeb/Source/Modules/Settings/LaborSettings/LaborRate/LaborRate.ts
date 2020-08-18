@@ -179,10 +179,11 @@ class RwLaborRate {
                 request.uniqueids = {
                     RateId: FwFormField.getValueByDataField($form, 'RateId'),
                 };
+            },
+            beforeSave: (request: any, $browse, $tr) => {
+                request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
-            //beforeSave: (request: any) => {
-            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
-            //},
         });
 
         //const $singleRateWarehouseGrid = $form.find('div[data-grid="SingleRateWarehouseGrid"]');
@@ -232,10 +233,11 @@ class RwLaborRate {
                 request.uniqueids = {
                     RateId: FwFormField.getValueByDataField($form, 'RateId'),
                 };
+            },
+            beforeSave: (request: any, $browse, $tr) => {
+                request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
-            //beforeSave: (request: any) => {
-            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
-            //},
         });
     }
     //----------------------------------------------------------------------------------------------

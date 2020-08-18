@@ -98,16 +98,6 @@ class MiscRate {
 
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-        //const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
-        //$rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-        //$rateLocationTaxGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
-        //    };
-        //})
-        //FwBrowse.init($rateLocationTaxGridControl);
-        //FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'RateLocationTaxGrid',
@@ -127,18 +117,6 @@ class MiscRate {
             //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
             //},
         });
-
-
-        //const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
-        //const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
-        //$rateWarehouseGrid.empty().append($rateWarehouseGridControl);
-        //$rateWarehouseGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
-        //    };
-        //})
-        //FwBrowse.init($rateWarehouseGridControl);
-        //FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'RateWarehouseGrid',
@@ -177,21 +155,11 @@ class MiscRate {
                     RateId: FwFormField.getValueByDataField($form, 'RateId'),
                 };
             },
-            //beforeSave: (request: any) => {
-            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId);
-            //},
+            beforeSave: (request: any, $browse, $tr) => {
+                request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
+            },
         });
-
-        //const $singleRateWarehouseGrid = $form.find('div[data-grid="SingleRateWarehouseGrid"]');
-        //const $singleRateWarehouseGridControl = FwBrowse.loadGridFromTemplate('SingleRateWarehouseGrid');
-        //$singleRateWarehouseGrid.empty().append($singleRateWarehouseGridControl);
-        //$singleRateWarehouseGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
-        //    };
-        //})
-        //FwBrowse.init($singleRateWarehouseGridControl);
-        //FwBrowse.renderRuntimeHtml($singleRateWarehouseGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'SingleRateWarehouseGrid',

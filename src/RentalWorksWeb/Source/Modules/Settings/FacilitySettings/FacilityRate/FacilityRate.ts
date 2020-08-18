@@ -173,9 +173,10 @@ class FacilityRate {
                     RateId: FwFormField.getValueByDataField($form, 'RateId'),
                 };
             },
-            //beforeSave: (request: any) => {
-            //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
-            //},
+            beforeSave: (request: any, $browse, $tr) => {
+                request.RateId = FwFormField.getValueByDataField($form, 'RateId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
+            }
         });
     }
 

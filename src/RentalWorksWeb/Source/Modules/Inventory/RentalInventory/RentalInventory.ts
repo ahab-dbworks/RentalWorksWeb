@@ -134,8 +134,9 @@ class RentalInventory extends InventoryBase {
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
             },
-            beforeSave: (request: any) => {
+            beforeSave: (request: any, $browse, $tr) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
 
@@ -180,8 +181,9 @@ class RentalInventory extends InventoryBase {
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
             },
-            beforeSave: (request: any) => {
+            beforeSave: (request: any, $browse, $tr) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
 
@@ -226,8 +228,9 @@ class RentalInventory extends InventoryBase {
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
             },
-            beforeSave: (request: any) => {
+            beforeSave: (request: any, $browse, $tr) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
 
