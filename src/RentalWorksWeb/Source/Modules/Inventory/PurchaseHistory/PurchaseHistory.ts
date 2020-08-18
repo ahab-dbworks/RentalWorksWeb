@@ -119,6 +119,7 @@ class PurchaseHistory {
     afterLoad($form: JQuery) {
         const $depreciationGrid = $form.find('[data-name="DepreciationGrid"]');
         FwBrowse.search($depreciationGrid);
+
         this.showHideWarhouseRow($form);
     };
     //---------------------------------------------------------------------------------------------

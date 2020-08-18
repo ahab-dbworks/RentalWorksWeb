@@ -9,6 +9,7 @@ class Receipt {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     thisModule: Receipt;
+    currencySymbol: string = '';
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         FwMenu.addBrowseMenuButtons(options);
@@ -702,10 +703,10 @@ class Receipt {
                             dueLineTotal = dueLineTotal.plus(dueValOnLine).minus(amountDifference);
                             let applied = appliedLineTotal.toFixed(2);
                             applied = applied.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                            $appliedFields.eq(i).text(`${currencySymbol}${applied}`);
+                            $appliedFields.eq(i).text(`${this.currencySymbol}${applied}`);
                             let due = dueLineTotal.toFixed(2);
                             due = due.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                            $dueFields.eq(i).text(`${currencySymbol}${due}`);
+                            $dueFields.eq(i).text(`${this.currencySymbol}${due}`);
                             recurse = true;
                             break;
                         }
@@ -727,10 +728,10 @@ class Receipt {
                         dueLineTotal = dueLineTotal.plus(dueValOnLine).minus(amountDifference);
                         let applied = appliedLineTotal.toFixed(2);
                         applied = applied.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                        $appliedFields.eq(i).text(`${currencySymbol}${applied}`);
+                        $appliedFields.eq(i).text(`${this.currencySymbol}${applied}`);
                         let due = dueLineTotal.toFixed(2);
                         due = due.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                        $dueFields.eq(i).text(`${currencySymbol}${due}`);
+                        $dueFields.eq(i).text(`${this.currencySymbol}${due}`);
                         recurse = true;
                         break;
                     }
@@ -777,16 +778,19 @@ class Receipt {
                 const rows = res.Rows;
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
-                    currencySymbol = rows[0][res.ColumnIndex.CurrencySymbol] || '#';
                     for (let i = 0; i < rows.length; i++) {
+                        currencySymbol = rows[i][res.ColumnIndex.CurrencySymbol] || '';
+                        if (currencySymbol !== '') {
+                            if (!this.currencySymbol) {
+                                this.currencySymbol = currencySymbol;
+                            }
+                        }
                         htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
                     }
                     $form.find('.table-rows').html('');
                     $form.find('.table-rows').html(htmlRows.join(''));
-                    $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: currencySymbol });
-                    $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: currencySymbol });
-                    //$form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: '' });
-                    //$form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
+                    $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: this.currencySymbol });
+                    $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: this.currencySymbol });
 
                     (function () {
                         const $amountFields = $form.find('.invoice-amount input');
@@ -966,7 +970,7 @@ class Receipt {
 
                             let remaining = remainingLineTotal.toFixed(2);
                             remaining = remaining.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                            $remainingFields.eq(i).text(`${currencySymbol}${remaining}`);
+                            $remainingFields.eq(i).text(`${this.currencySymbol}${remaining}`);
                             recurse = true;
                             break;
                         }
@@ -987,7 +991,7 @@ class Receipt {
                         remainingLineTotal = remainingLineTotal.plus(remainingValOnLine).minus(amountDifference);
                         let remaining = remainingLineTotal.toFixed(2);
                         remaining = remaining.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                        $remainingFields.eq(i).text(`${currencySymbol}${remaining}`);
+                        $remainingFields.eq(i).text(`${this.currencySymbol}${remaining}`);
                         recurse = true;
                         break;
                     }
@@ -1031,8 +1035,13 @@ class Receipt {
                 const rows = res.Rows;
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
-                    const currencySymbol = rows[0][res.ColumnIndex.CurrencySymbol] || '';
                     for (let i = 0; i < rows.length; i++) {
+                        currencySymbol = rows[i][res.ColumnIndex.CurrencySymbol] || '';
+                        if (currencySymbol !== '') {
+                            if (!this.currencySymbol) {
+                                this.currencySymbol = currencySymbol;
+                            }
+                        }
                         let buttonPeek;
                         const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
 
@@ -1049,10 +1058,9 @@ class Receipt {
 
                     $form.find('.credit-table-rows').html('');
                     $form.find('.credit-table-rows').html(htmlRows.join(''));
-                    //$form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: '' });
-                    //$form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: '' });
-                    $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: currencySymbol });
-                    $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: currencySymbol });
+
+                    $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
+                    $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: this.currencySymbol });
                     (function () {
                         const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
                         for (let i = 0; i < $amountFields.length; i++) {
