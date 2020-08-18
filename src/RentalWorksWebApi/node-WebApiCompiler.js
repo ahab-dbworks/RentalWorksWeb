@@ -19,8 +19,6 @@ class WebApiCompiler {
     static get BUILD_ACTION_BUILD() { return 'build'; };
     static get BUILD_ACTION_RUN() { return 'run'; };
     static get BUILD_ACTION_WATCH() { return 'watch'; };
-
-    appSolutionDir = path.resolve(__dirname, '../../');
     //------------------------------------------------------------------------------------
     constructor(buildAction, target, buildMode, reports) {
         this.buildAction = buildAction;
@@ -28,6 +26,7 @@ class WebApiCompiler {
         this.buildConfiguration = buildMode;
         this.dotnetConfiguration = this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT ? "Debug" : "Release";
         this.reports = reports;
+        this.appSolutionDir = path.resolve(__dirname, '../../');
     }
     //------------------------------------------------------------------------------------
     async rmfr_downloads() {
