@@ -116,9 +116,15 @@ class SubWorksheet {
         });
 
         $form.on('change', '.subworksheet', e => {
-            if (jQuery(e.currentTarget).attr('data-datafield') === 'RateId') {
+            const datafield = jQuery(e.currentTarget).attr('data-datafield');
+            if (datafield === 'RateId') {
                 this.hideFieldsColumns($form);
             }
+
+            if (datafield === 'VendorId') {
+                return false;
+            }
+
             const worksheetOpened = $form.data('worksheet-opened-flag');
             if (worksheetOpened) {
                 this.updatePOWorksheetSession($form, parentmoduleinfo);
@@ -249,7 +255,7 @@ class SubWorksheet {
             $form.attr('data-modified', 'false');
         })
         // Misc events
-        $form.find('div[data-datafield="VendorId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
             const newRate = FwBrowse.getValueByDataField($form, $tr, 'DefaultRate');
 
             if (newRate != '') {
@@ -264,6 +270,11 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'ContactId', $tr.find('.field[data-browsedatafield="PrimaryContactId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PrimaryContact"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="PrimaryContactPhone"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="PrimaryContactExtension"]').attr('data-originalvalue'));
+
+            const worksheetOpened = $form.data('worksheet-opened-flag');
+            if (worksheetOpened) {
+                this.updatePOWorksheetSession($form, parentmoduleinfo);
+            }
         });
 
         $form.find('div[data-datafield="ContactId"]').data('onchange', function ($tr) {
