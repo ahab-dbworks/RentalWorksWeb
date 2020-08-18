@@ -250,8 +250,12 @@ class SubWorksheet {
         })
         // Misc events
         $form.find('div[data-datafield="VendorId"]').data('onchange', function ($tr) {
-            FwFormField.setValueByDataField($form, 'RateId', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+            const newRate = FwBrowse.getValueByDataField($form, $tr, 'DefaultRate');
 
+            if (newRate != '') {
+                FwFormField.setValueByDataField($form, 'RateId', newRate, newRate);
+            }
+           
             //only update the Currency if one is specified on the Vendor
             if ($tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue')) {
                 FwFormField.setValueByDataField($form, 'CurrencyId', $tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
