@@ -1,5 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+
 namespace WebApi.Modules.HomeControls.Depreciation
 {
     [FwLogic(Id: "wkgKJs3KscaCf")]
@@ -12,6 +14,10 @@ namespace WebApi.Modules.HomeControls.Depreciation
         {
             dataRecords.Add(depreciation);
             dataLoader = depreciationLoader;
+
+            BeforeSave += OnBeforeSave;
+            BeforeDelete += OnBeforeDelete;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "Wlx7DuPOLHgwz", IsPrimaryKey: true)]
@@ -54,12 +60,39 @@ namespace WebApi.Modules.HomeControls.Depreciation
         public string DepreciationExtendedColor { get; set; }
 
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
+        { 
+            bool isValid = true;
+
+            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                DepreciationLogic orig = (DepreciationLogic)original;
+                if (!orig.IsAdjustment.GetValueOrDefault(false))
+                {
+                    isValid = false;
+                    validateMsg = "Cannot edit a " + BusinessLogicModuleName + " record.  Add an Adjustment entry instead.";
+                }
+            }
+
+            return isValid; 
+        } 
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                IsAdjustment = true;
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            if (!IsAdjustment.GetValueOrDefault(false))
+            {
+                e.PerformDelete = false;
+                e.ErrorMessage = "Cannot delete a " + BusinessLogicModuleName + " record.  Add an Adjustment entry instead.";
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
