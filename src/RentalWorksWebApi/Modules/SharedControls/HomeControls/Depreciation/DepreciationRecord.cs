@@ -23,7 +23,7 @@ namespace WebApi.Modules.HomeControls.Depreciation
         public decimal? UnitDepreciationAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "adjustment", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Adjustment { get; set; }
+        public bool? IsAdjustment { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

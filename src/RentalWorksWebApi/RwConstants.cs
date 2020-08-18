@@ -136,6 +136,7 @@ namespace WebApi
 
         public const string UPDATE_RATES_CONFIRMATION = "UPDATE RATES";
 
+        public const int DEPRECIATION_ADJUSTMENT_COLOR = 7303167;       // light red
 
         //ACTIVITY
         public const string ACTIVITY_TYPE_PICK = "PICK";

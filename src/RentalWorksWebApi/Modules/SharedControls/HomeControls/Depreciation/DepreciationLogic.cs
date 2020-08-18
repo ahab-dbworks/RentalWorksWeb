@@ -49,7 +49,10 @@ namespace WebApi.Modules.HomeControls.Depreciation
         [FwLogicProperty(Id: "wqHET17jMKid9", IsReadOnly: true)]
         public decimal? DepreciationExtended { get; set; }
         [FwLogicProperty(Id: "wqN56hzDkmOXw")]
-        public bool? Adjustment { get { return depreciation.Adjustment; } set { depreciation.Adjustment = value; } }
+        public bool? IsAdjustment { get { return depreciation.IsAdjustment; } set { depreciation.IsAdjustment = value; } }
+        [FwLogicProperty(Id: "WHstD7yI3oqQX")]
+        public string DepreciationExtendedColor { get; set; }
+
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 

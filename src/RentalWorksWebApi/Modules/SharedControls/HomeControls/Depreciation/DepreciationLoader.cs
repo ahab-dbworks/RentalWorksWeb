@@ -2,12 +2,18 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.HomeControls.Depreciation
 {
     [FwSqlTable("depreciationview")]
     public class DepreciationLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public DepreciationLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "depreciationid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
         public int? DepreciationId { get; set; } = 0;
@@ -61,8 +67,15 @@ namespace WebApi.Modules.HomeControls.Depreciation
         public decimal? DepreciationExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "adjustment", modeltype: FwDataTypes.Boolean)]
-        public bool? Adjustment { get; set; }
+        public bool? IsAdjustment { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DepreciationExtendedColor
+        {
+            get { return getDepreciationExtendedColor(IsAdjustment); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
@@ -71,11 +84,32 @@ namespace WebApi.Modules.HomeControls.Depreciation
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("PurchaseId", "purchaseid", select, request); 
+            addFilterToSelect("PurchaseId", "purchaseid", select, request);
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
         }
         //------------------------------------------------------------------------------------ 
+        private string getDepreciationExtendedColor(bool? isAdjustment)
+        {
+            return (IsAdjustment.GetValueOrDefault(false) ? RwGlobals.DEPRECIATION_ADJUSTMENT_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("DepreciationExtendedColor")] = getDepreciationExtendedColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsAdjustment")].ToString()));
+                    }
+                }
+
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }
