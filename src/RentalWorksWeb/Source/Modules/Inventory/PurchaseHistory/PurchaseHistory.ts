@@ -1,4 +1,3 @@
-//copied from Asset
 class PurchaseHistory {
     Module: string = 'PurchaseHistory';
     apiurl: string = 'api/v1/purchase';
@@ -95,21 +94,26 @@ class PurchaseHistory {
     //};
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        ////Item Attribute Value Grid
-        //FwBrowse.renderGrid({
-        //    nameGrid: 'ItemAttributeValueGrid',
-        //    gridSecurityId: 'CntxgVXDQtQ7',
-        //    moduleSecurityId: this.id,
-        //    $form: $form,
-        //    onDataBind: (request: any) => {
-        //        request.uniqueids = {
-        //            ItemId: FwFormField.getValueByDataField($form, 'ItemId')
-        //        };
-        //    }, 
-        //    beforeSave: (request: any) => {
-        //        request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
-        //    }
-        //});
+        //Item Attribute Value Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'DepreciationGrid',
+            gridSecurityId: 'Wi9NxgGglKjTN',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId'),
+                };
+            }, 
+            beforeSave: (request: any) => {
+                request.PurchaseId = FwFormField.getValueByDataField($form, 'PurchaseId');
+            }
+        });
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -171,7 +175,7 @@ class PurchaseHistory {
         return `
         <div id="purchasehistoryform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase History" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseHistoryController">
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="PurchaseId"></div>
-          <div id="assetform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+          <div id="purchasehistoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="purchasetab" class="tab" data-tabpageid="purchasetabpage" data-caption="General"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
@@ -212,6 +216,11 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Unit Cost with Tax" data-datafield="UnitCostWithTaxCurrencyConverted" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                           </div>
                         </div>
+                        <div class="flexrow">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
+                            <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
+                          </div>
+                       </div>
                       </div>
                     </div>
                   </div>
