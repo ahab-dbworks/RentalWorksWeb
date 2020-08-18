@@ -112,10 +112,10 @@ class Receipt {
                 $form.find('span.credit-amounts').hide();
                 const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
                 if (paymentTypeType !== '' && paymentTypeType === 'REFUND CHECK') {
-                    this.loadReceiptCreditGrid($form, currencyId);
+                    this.loadReceiptCreditGrid($form);
 
                 } else {
-                    this.loadReceiptInvoiceGrid($form, currencyId);
+                    this.loadReceiptInvoiceGrid($form);
                 }
                 const $submoduleCreditBrowse = this.openCreditBrowse($form);
                 $form.find('.credits-page').html($submoduleCreditBrowse);
@@ -389,8 +389,8 @@ class Receipt {
             const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             const customerCreditRemaining = FwBrowse.getValueByDataField(null, $tr, 'Remaining');
             if (paymentTypeType === 'DEPLETING DEPOSIT') {
-                    FwFormField.setValueByDataField($form, 'PaymentAmount', customerCreditRemaining);
-                    $form.find('div[data-datafield="PaymentAmount"] input').change();
+                FwFormField.setValueByDataField($form, 'PaymentAmount', customerCreditRemaining);
+                $form.find('div[data-datafield="PaymentAmount"] input').change();
             }
         });
     }
@@ -617,7 +617,8 @@ class Receipt {
 
     }
     //----------------------------------------------------------------------------------------------
-    loadReceiptInvoiceGrid($form: JQuery, currencyId?: string): void {
+    loadReceiptInvoiceGrid($form: JQuery): void {
+        const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId')
         $form.find('.credits-row').hide();
         $form.find('.credits-row').attr('data-visible', 'false');
         $form.find('.invoice-row').show();
@@ -786,11 +787,14 @@ class Receipt {
                 const rows = res.Rows;
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
+                    const currencySymbol = rows[0][res.ColumnIndex.CurrencySymbol] || '#';
                     for (let i = 0; i < rows.length; i++) {
                         htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
                     }
                     $form.find('.table-rows').html('');
                     $form.find('.table-rows').html(htmlRows.join(''));
+                    //$form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: currencySymbol });
+                    //$form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: currencySymbol });
                     $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: '' });
                     $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
 
@@ -884,7 +888,8 @@ class Receipt {
         return InvoiceDataList;
     }
     //----------------------------------------------------------------------------------------------
-    loadReceiptCreditGrid($form: JQuery, currencyId?: string): void {
+    loadReceiptCreditGrid($form: JQuery): void {
+        const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
         $form.find('.invoice-row').hide();
         $form.find('.invoice-row').attr('data-visible', 'false');
         $form.find('.credits-row').show();
@@ -1036,10 +1041,11 @@ class Receipt {
                 console.log('ROWS', rows)
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
+                    const currencySymbol = rows[0][res.ColumnIndex.CurrencySymbol] || '';
                     for (let i = 0; i < rows.length; i++) {
-
                         let buttonPeek;
                         const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+
                         //const isValidationWithPeek = (Constants.validationsWithPeeks.indexOf('PaymentType') > -1); // could be used later on to be more exact for other peek in the "grid"
                         if (isWebAdmin === 'true') {
                             buttonPeek = '<i class="material-icons btnpeek">more_horiz</i>';
@@ -1055,7 +1061,8 @@ class Receipt {
                     $form.find('.credit-table-rows').html(htmlRows.join(''));
                     $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: '' });
                     $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: '' });
-
+                    //$form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: currencySymbol });
+                    //$form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: currencySymbol });
                     (function () {
                         const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
                         for (let i = 0; i < $amountFields.length; i++) {
