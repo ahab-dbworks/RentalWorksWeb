@@ -243,8 +243,20 @@ namespace WebApi.Modules.HomeControls.SubPurchaseOrderItem
         [FwSqlDataField(column: "vendorcurrencyid", modeltype: FwDataTypes.Text)]
         public string VendorCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorcurrencycode", modeltype: FwDataTypes.Text)]
+        public string VendorCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string VendorCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealcurrencyid", modeltype: FwDataTypes.Text)]
         public string DealCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealcurrencycode", modeltype: FwDataTypes.Text)]
+        public string DealCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string DealCurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyexchangerate", modeltype: FwDataTypes.Decimal)]
         public decimal? CurrencyExchangeRate { get; set; }

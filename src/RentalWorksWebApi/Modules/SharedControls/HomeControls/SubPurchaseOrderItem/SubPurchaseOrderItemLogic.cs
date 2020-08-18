@@ -231,8 +231,20 @@ namespace WebApi.Modules.HomeControls.SubPurchaseOrderItem
         [FwLogicProperty(Id:"Xik4Xg7MkV9S9", IsReadOnly:true)]
         public string VendorCurrencyId { get; set; }
 
+        [FwLogicProperty(Id: "in7dcLdKuA3HE", IsReadOnly: true)]
+        public string VendorCurrencyCode { get; set; }
+
+        [FwLogicProperty(Id: "5tHFn2EmNiscB", IsReadOnly: true)]
+        public string VendorCurrencySymbol { get; set; }
+
         [FwLogicProperty(Id:"sm7qIeOTpBPd9", IsReadOnly:true)]
         public string DealCurrencyId { get; set; }
+
+        [FwLogicProperty(Id: "yPQ9a3uZsu50G", IsReadOnly: true)]
+        public string DealCurrencyCode { get; set; }
+
+        [FwLogicProperty(Id: "jprcCUTWKhF5b", IsReadOnly: true)]
+        public string DealCurrencySymbol { get; set; }
 
         [FwLogicProperty(Id:"zJ4lzlnIA7bo2", IsReadOnly:true)]
         public decimal? CurrencyExchangeRate { get; set; }

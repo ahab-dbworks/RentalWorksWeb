@@ -682,6 +682,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "qUfpc2ERE8Kxy", IsReadOnly: true)]
         public string Currency { get; set; }
 
+        [FwLogicProperty(Id: "zRw3qmweehM2Z", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id: "uApGEj8iolr8")]
         public string BillingCycleId { get { return purchaseOrder.BillingCycleId; } set { purchaseOrder.BillingCycleId = value; } }
 
