@@ -3006,12 +3006,19 @@ class OrderBase {
         //grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
         //total = taxTotal.plus(extendedTotal).toFixed(2);
 
-        $form.find(`.${gridType}totals [data-totalfield="SubTotal"] input`).val(subTotal);
-        $form.find(`.${gridType}totals [data-totalfield="Discount"] input`).val(discount);
-        $form.find(`.${gridType}totals [data-totalfield="Tax"] input`).val(salesTax);
-        $form.find(`.${gridType}totals [data-totalfield="Tax2"] input`).val(salesTax2);
-        $form.find(`.${gridType}totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
-        $form.find(`.${gridType}totals [data-totalfield="Total"] input`).val(total);
+        //$form.find(`.${gridType}totals [data-totalfield="SubTotal"] input`).val(subTotal);
+        //$form.find(`.${gridType}totals [data-totalfield="Discount"] input`).val(discount);
+        //$form.find(`.${gridType}totals [data-totalfield="Tax"] input`).val(salesTax);
+        //$form.find(`.${gridType}totals [data-totalfield="Tax2"] input`).val(salesTax2);
+        //$form.find(`.${gridType}totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
+        //$form.find(`.${gridType}totals [data-totalfield="Total"] input`).val(total);
+        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="SubTotal"]`), subTotal);
+        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Discount"]`), discount);
+        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Tax"]`), salesTax);
+        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Tax2"]`), salesTax2);
+        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="GrossTotal"]`), grossTotal);
+        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Total"]`), total);
+
     };
     //----------------------------------------------------------------------------------------------
     checkDateRangeForPick($form, event) {
@@ -4220,6 +4227,34 @@ class OrderBase {
         this.renderScheduleDateAndTimeSection($form, response);
         this.showHideDeliveryLocationField($form);
         this.applyTaxOptions($form, response);
+        this.applyCurrencySymbolToTotalFields($form, response);
+    }
+    //----------------------------------------------------------------------------------------------
+    applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
+        const $totalFields = $form.find('.totals[data-type="money"]');
+
+        $totalFields.each((index, element) => {
+            let $fwformfield, currencySymbol;
+            $fwformfield = jQuery(element);
+            currencySymbol = response[$fwformfield.attr('data-currencysymbol')];
+            if (typeof currencySymbol == 'undefined' || currencySymbol === '') {
+                currencySymbol = '$';
+            }
+
+            $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+
+            $fwformfield
+                .find('.fwformfield-value')
+                .inputmask('currency', {
+                    prefix: currencySymbol + ' ',
+                    placeholder: "0.00",
+                    min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
+                    max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
+                    digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
+                    radixPoint: '.',
+                    groupSeparator: ','
+                });
+        });
     }
     //----------------------------------------------------------------------------------------------
     disableOrderItemGridMenus($form: JQuery) {

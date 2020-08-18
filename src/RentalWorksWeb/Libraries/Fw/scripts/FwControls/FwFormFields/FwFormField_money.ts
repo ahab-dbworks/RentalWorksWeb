@@ -54,8 +54,7 @@
                 max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
                 digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
                 radixPoint: '.',
-                groupSeparator: ',',
-                autoGroup: (((typeof $fwformfield.attr('data-formatnumeric') !== 'undefined') && ($fwformfield.attr('data-formatnumeric') == 'true')) ? true : false)
+                groupSeparator: ','
             });
     }
     //---------------------------------------------------------------------------------
@@ -79,7 +78,8 @@
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
         var $inputvalue = $fwformfield.find('.fwformfield-value');
-        $inputvalue.val(value);
+        $inputvalue
+            .val(value)
         if (firechangeevent) $inputvalue.change();
     }
     //---------------------------------------------------------------------------------
