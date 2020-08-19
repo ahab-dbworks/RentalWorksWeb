@@ -1,4 +1,5 @@
 ﻿declare var RwLanguages: any;
+declare var applicationConfig: any;
 //declare var DesignerController: any;
 //declare var PresentationLayerActivityController: any;
 //declare var RwCustomerSettingsController: any;
