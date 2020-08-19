@@ -11,7 +11,9 @@
     "noEmit": true,
     "typeRoots": [
       "./node_modules/@types",
-      "./QuikScan/@types"
+      "./QuikScan/@types",
+      "../RentalWorksWeb/@types",
+      "./TrakitWorks/@types"
     ]
   },
   "files": [
@@ -19,6 +21,7 @@
   ],
   "include": [
     "./@types",
-    "**/*.ts"
+    "**/*.ts",
+    "../RentalWorksWeb/**/*.ts"
   ]
 }

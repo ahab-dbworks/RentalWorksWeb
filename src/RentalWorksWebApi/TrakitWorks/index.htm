@@ -1,0 +1,750 @@
+<!DOCTYPE HTML>
+<html class="no-js desktop rentalworks">
+<head>
+<title>TrakitWorks</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no, address=no" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+<meta id="metaMsApplicationTapHighlight" name="msapplication-tap-highlight" content="no">
+<meta id="metaViewport" name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<link rel="icon" type="image/ico" href="theme/images/icons/favicon.001.png" />
+
+<!-- StyleSheets -->
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwBrowse.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwConfirmation.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwContainer.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwContextMenu.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwFileMenu.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwFormField.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwMenu.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwModules.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwNotification.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwScheduler.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/material/FwTabs.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/databaseworks.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/FwAppImage.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/FwOverlay.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/theme/FwSettings.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/scripts/jquery/clockpicker/dist/jquery-clockpicker.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/scripts/jquery/colorpicker/colpick.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/scripts/jquery/datepicker/datepicker.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/libraries/fw/scripts/jquery/timepicker/timepicker.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/source/Modules/Administrator/Reports/Reports.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/source/Modules/Administrator/Settings/Settings.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/source/Modules/Agent/Contact/Contact.css" />
+<link type="text/css" rel="stylesheet" href="/trakitworksweb/theme/trakitworks.css" />
+
+
+<!-- Controls & Pages -->
+<script id="tmpl-pages-Master" type="text/html">
+<div id="master" class="view">
+  <div id="master-header">
+    <div id="master-header-row1">
+      <div id="btnmenu">
+        <div id="btnmenu-icon"></div>
+      </div>
+      <div id="master-header-caption">{{{captionPageTitle}}}</div>
+      <div id="module-controls"></div>
+      <div id="device-status-icons"></div>
+    </div>
+    <div id="master-header-row2">{{{captionPageSubTitle}}}</div>
+    <div id="master-header-row3"></div>
+    <div id="master-header-row4"></div>
+  </div>
+  <div id="master-body">{{{htmlPageBody}}}</div>
+
+
+  <div id="master-footer">
+    <div id="master-footer-connectionstate" style="display:none;"></div>
+  </div>
+</div>
+
+</script>
+<script id="tmpl-pages-Home" type="text/html">
+<div class="fwpage homepage">
+  <div class="programlogo">
+    <!--<div class="chart-row">
+      <div data-chart="ordersbystatus" class="chart-container">
+        <canvas style="padding:5px;" id="myChart"></canvas>
+        <i class="chart-settings material-icons">settings</i>
+      </div>
+      <div data-chart="ordersbyagent" class="chart-container">
+        <canvas style="padding:5px;" id="myPieChart"></canvas>
+        <i class="chart-settings material-icons">settings</i>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div data-chart="dealsbytype" class="chart-container">
+        <canvas style="padding:5px;" id="myHorizontalChart"></canvas>
+        <i class="chart-settings material-icons">settings</i>
+      </div>
+      <div data-chart="billingbyagentbymonth" class="chart-container">
+        <canvas style="padding:5px;" id="myGroupChart"></canvas>
+        <i class="chart-settings material-icons">settings</i>
+      </div>
+    </div>-->
+  </div>
+</div>
+</script>
+
+
+<!-- Validations -->
+<script id="tmpl-validations-AssetValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/AssetValidation/AssetValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-AttributeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/AttributeValidation/AttributeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-AttributeValueValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/AttributeValueValidation/AttributeValueValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CompanyContactValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CompanyContactValidation/CompanyContactValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CompanyValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CompanyValidation/CompanyValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-ContactEventValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/ContactEventValidation/ContactEventValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-ContactJobValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/ContactJobValidation/ContactJobValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-ContactTitleValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/ContactTitleValidation/ContactTitleValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-ContactValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/ContactValidation/ContactValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-ContractValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/ContractValidation/ContractValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CountryValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CountryValidation/CountryValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CreditStatusValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CreditStatusValidation/CreditStatusValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CurrencyValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CurrencyValidation/CurrencyValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CustomerCategoryValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CustomerCategoryValidation/CustomerCategoryValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CustomerStatusValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CustomerStatusValidation/CustomerStatusValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CustomerTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CustomerTypeValidation/CustomerTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-CustomerValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/CustomerValidation/CustomerValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-DealClassificationValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/DealClassificationValidation/DealClassificationValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-DealStatusValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/DealStatusValidation/DealStatusValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-DealTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/DealTypeValidation/DealTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-DealValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/DealValidation/DealValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-DepartmentValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/DepartmentValidation/DepartmentValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-DiscountTemplateValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/DiscountTemplateValidation/DiscountTemplateValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-FacilityTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/FacilityTypeValidation/FacilityTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-GeneralItemValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/GeneralItemValidation/GeneralItemValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-GroupValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/GroupValidation/GroupValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-InventoryAttributeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/InventoryAttributeValidation/InventoryAttributeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-InventoryConditionValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/InventoryConditionValidation/InventoryConditionValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-InventoryTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/InventoryTypeValidation/InventoryTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-LaborTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/LaborTypeValidation/LaborTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-MiscTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/MiscTypeValidation/MiscTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-OfficeLocationValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/OfficeLocationValidation/OfficeLocationValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-OrderTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/OrderTypeValidation/OrderTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-OrderValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/OrderValidation/OrderValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-OrganizationTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/OrganizationTypeValidation/OrganizationTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-PartsCategoryValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/PartsCategoryValidation/PartsCategoryValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-PaymentTermsValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/PaymentTermsValidation/PaymentTermsValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-PaymentTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/PaymentTypeValidation/PaymentTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-PersonValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/PersonValidation/PersonValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-PickListValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/PickListValidation/PickListValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-POClassificationValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/POClassificationValidation/POClassificationValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-POTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/POTypeValidation/POTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-ProductionTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/ProductionTypeValidation/ProductionTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-PurchaseOrderValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/PurchaseOrderValidation/PurchaseOrderValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-QuoteValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/QuoteValidation/QuoteValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-RankValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/RankValidation/RankValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-RateTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/RateTypeValidation/RateTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-RecTypeValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/RecTypeValidation/RecTypeValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-RentalCategoryValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/RentalCategoryValidation/RentalCategoryValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-RentalInventoryValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/RentalInventoryValidation/RentalInventoryValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-RepairItemStatusValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/RepairItemStatusValidation/RepairItemStatusValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-RetiredReasonValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/RetiredReasonValidation/RetiredReasonValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-SalesInventoryValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/SalesInventoryValidation/SalesInventoryValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-ShipViaValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/ShipViaValidation/ShipViaValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-SoundValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/SoundValidation/SoundValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-StateValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/StateValidation/StateValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-SubCategoryValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/SubCategoryValidation/SubCategoryValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-UnitValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/UnitValidation/UnitValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-UserValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/UserValidation/UserValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-VendorClassValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/VendorClassValidation/VendorClassValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-VendorValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/VendorValidation/VendorValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WardrobeCareValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WardrobeCareValidation/WardrobeCareValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WardrobeGenderValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WardrobeGenderValidation/WardrobeGenderValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WardrobeLabelValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WardrobeLabelValidation/WardrobeLabelValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WardrobePatternValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WardrobePatternValidation/WardrobePatternValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WardrobePeriodValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WardrobePeriodValidation/WardrobePeriodValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WardrobeSourceValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WardrobeSourceValidation/WardrobeSourceValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WarehouseValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WarehouseValidation/WarehouseValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WidgetDateBehaviorValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WidgetDateBehaviorValidation/WidgetDateBehaviorValidationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-validations-WidgetNumberFormatValidationBrowse" type="text/html" src="/trakitworksweb/Source/Validations/WidgetNumberFormatValidation/WidgetNumberFormatValidationBrowse.htm" data-ajaxload="true"></script>
+
+
+<!-- Grids -->
+<script id="tmpl-grids-AttributeValueGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/AttributeValueGrid/AttributeValueGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-AuditHistoryGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/AuditHistoryGrid/AuditHistoryGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CheckedInItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CheckedInItemGrid/CheckedInItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CheckedOutItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CheckedOutItemGrid/CheckedOutItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CheckInExceptionGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CheckInExceptionGrid/CheckInExceptionGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CheckInOrderGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CheckInOrderGrid/CheckInOrderGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CheckInQuantityItemsGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CheckInQuantityItemsGrid/CheckInQuantityItemsGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CheckInSwapGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CheckInSwapGrid/CheckInSwapGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CheckOutPendingItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CheckOutPendingItemGrid/CheckOutPendingItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-CompanyContactGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/CompanyContactGrid/CompanyContactGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ContactCompanyGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ContactCompanyGrid/ContactCompanyGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ContactNoteGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ContactNoteGrid/ContactNoteGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ContactPersonalEventGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ContactPersonalEventGrid/ContactPersonalEventGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ContainerWarehouseGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ContainerWarehouseGrid/ContainerWarehouseGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ContractDetailGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ContractDetailGrid/ContractDetailGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ContractExchangeItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ContractExchangeItemGrid/ContractExchangeItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ContractSummaryGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ContractSummaryGrid/ContractSummaryGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-DealNoteGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/DealNoteGrid/DealNoteGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-DealShipperGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/DealShipperGrid/DealShipperGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ExchangeItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ExchangeItemGrid/ExchangeItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryAttributeValueGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryAttributeValueGrid/InventoryAttributeValueGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryAvailabilityGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryAvailabilityGrid/InventoryAvailabilityGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryCompatibilityGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryCompatibilityGrid/InventoryCompatibilityGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryCompleteGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryCompleteGrid/InventoryCompleteGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryCompleteKitGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryCompleteKitGrid/InventoryCompleteKitGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryConsignmentGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryConsignmentGrid/InventoryConsignmentGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryKitGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryKitGrid/InventoryKitGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryQcGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryQcGrid/InventoryQcGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventorySubstituteGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventorySubstituteGrid/InventorySubstituteGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryVendorGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryVendorGrid/InventoryVendorGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-InventoryWarehouseStagingGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/InventoryWarehouseStagingGrid/InventoryWarehouseStagingGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ItemAttributeValueGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ItemAttributeValueGrid/ItemAttributeValueGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ItemQcGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ItemQcGrid/ItemQcGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderContactGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderContactGrid/OrderContactGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderItemGrid/OrderItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderNoteGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderNoteGrid/OrderNoteGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderStatusHistoryGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderStatusHistoryGrid/OrderStatusHistoryGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderStatusRentalDetailGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderStatusRentalDetailGrid/OrderStatusRentalDetailGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderStatusSalesDetailGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderStatusSalesDetailGrid/OrderStatusSalesDetailGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderStatusSummaryGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderStatusSummaryGrid/OrderStatusSummaryGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderTypeActivityDatesGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderTypeActivityDatesGrid/OrderTypeActivityDatesGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderTypeContactTitleGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderTypeContactTitleGrid/OrderTypeContactTitleGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderTypeCoverLetterGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderTypeCoverLetterGrid/OrderTypeCoverLetterGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderTypeInvoiceExportGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderTypeInvoiceExportGrid/OrderTypeInvoiceExportGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderTypeNoteGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderTypeNoteGrid/OrderTypeNoteGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-OrderTypeTermsAndConditionsGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/OrderTypeTermsAndConditionsGrid/OrderTypeTermsAndConditionsGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-PickListItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/PickListItemGrid/PickListItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-POReceiveBarCodeGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/POReceiveBarCodeGrid/POReceiveBarCodeGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-POReceiveItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/POReceiveItemGrid/POReceiveItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-POReturnBarCodeGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/POReturnBarCodeGrid/POReturnBarCodeGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-POReturnItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/POReturnItemGrid/POReturnItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-QuikActivityGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/QuikActivityGrid/QuikActivityGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-QuoteItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/QuoteItemGrid/QuoteItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-RentalInventoryWarehouseGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/RentalInventoryWarehouseGrid/RentalInventoryWarehouseGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-RepairReleaseGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/RepairReleaseGrid/RepairReleaseGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-ReportSettingsGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/ReportSettingsGrid/ReportSettingsGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-SearchPreviewGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/SearchPreviewGrid/SearchPreviewGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-StagedItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/StagedItemGrid/StagedItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-StageHoldingItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/StageHoldingItemGrid/StageHoldingItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-StageQuantityItemGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/StageQuantityItemGrid/StageQuantityItemGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-SubCategoryGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/SubCategoryGrid/SubCategoryGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-VendorNoteGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/VendorNoteGrid/VendorNoteGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-VendorTaxOptionGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/VendorTaxOptionGrid/VendorTaxOptionGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-WarehouseAvailabilityHourGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/WarehouseAvailabilityHourGrid/WarehouseAvailabilityHourGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-WarehouseDepartmentGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/WarehouseDepartmentGrid/WarehouseDepartmentGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-WarehouseDepartmentUserGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/WarehouseDepartmentUserGrid/WarehouseDepartmentUserGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-WarehouseInventoryTypeGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/WarehouseInventoryTypeGrid/WarehouseInventoryTypeGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-WarehouseOfficeLocationGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/WarehouseOfficeLocationGrid/WarehouseOfficeLocationGridBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-grids-WarehouseQuikLocateApproverGridBrowse" type="text/html" src="/trakitworksweb/Source/Grids/WarehouseQuikLocateApproverGrid/WarehouseQuikLocateApproverGridBrowse.htm" data-ajaxload="true"></script>
+
+
+<!-- Modules -->
+<script id="tmpl-modules-UserProfileForm" type="text/html" src="/trakitworksweb/Source/Modules/Account/UserProfile/UserProfileForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-AlertBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/Alert/AlertBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-AlertForm" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/Alert/AlertForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomFieldBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/CustomField/CustomFieldBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomFieldForm" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/CustomField/CustomFieldForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomFormBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/CustomForm/CustomFormBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomFormForm" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/CustomForm/CustomFormForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomReportLayoutBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/CustomReportLayout/CustomReportLayoutBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomReportLayoutForm" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/CustomReportLayout/CustomReportLayoutForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DuplicateRuleBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/DuplicateRule/DuplicateRuleBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DuplicateRuleForm" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/DuplicateRule/DuplicateRuleForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-HotfixBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/Hotfix/HotfixBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-HotfixForm" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/Hotfix/HotfixForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-Reports" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/Reports/Reports.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-Settings" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/Settings/Settings.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-UserBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/User/UserBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-UserForm" type="text/html" src="/trakitworksweb/Source/Modules/Administrator/User/UserForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ContactBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Contact/ContactBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ContactForm" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Contact/ContactForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomerBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Customer/CustomerBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CustomerForm" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Customer/CustomerForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Deal/DealBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealForm" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Deal/DealForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OrderBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Order/OrderBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OrderForm" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Order/OrderForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-PurchaseOrderBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Agent/PurchaseOrder/PurchaseOrderBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-PurchaseOrderForm" type="text/html" src="/trakitworksweb/Source/Modules/Agent/PurchaseOrder/PurchaseOrderForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-QuoteBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Quote/QuoteBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-QuoteForm" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Quote/QuoteForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-VendorBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Vendor/VendorBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-VendorForm" type="text/html" src="/trakitworksweb/Source/Modules/Agent/Vendor/VendorForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CreatePickListForm" type="text/html" src="/trakitworksweb/Source/Modules/Home/CreatePickList/CreatePickListForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ExpendableItemBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Home/ExpendableItem/ExpendableItemBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ExpendableItemForm" type="text/html" src="/trakitworksweb/Source/Modules/Home/ExpendableItem/ExpendableItemForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-PartsInventoryBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Home/PartsInventory/PartsInventoryBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-PartsInventoryForm" type="text/html" src="/trakitworksweb/Source/Modules/Home/PartsInventory/PartsInventoryForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-SubWorksheetForm" type="text/html" src="/trakitworksweb/Source/Modules/Home/SubWorksheet/SubWorksheetForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-SuspendedSessionBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Home/SuspendedSession/SuspendedSessionBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-AssetBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Inventory/Asset/AssetBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-AssetForm" type="text/html" src="/trakitworksweb/Source/Modules/Inventory/Asset/AssetForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryItemBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Inventory/InventoryItem/InventoryItemBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryItemForm" type="text/html" src="/trakitworksweb/Source/Modules/Inventory/InventoryItem/InventoryItemForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-RepairBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Inventory/Repair/RepairBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-RepairForm" type="text/html" src="/trakitworksweb/Source/Modules/Inventory/Repair/RepairForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CountryBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/AddressSettings/Country/CountryBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CountryForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/AddressSettings/Country/CountryForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-StateBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/AddressSettings/State/StateBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-StateForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/AddressSettings/State/StateForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DepartmentBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/CompanyDepartmentSettings/Department/DepartmentBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DepartmentForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/CompanyDepartmentSettings/Department/DepartmentForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ContactTitleBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/ContactSettings/ContactTitle/ContactTitleBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ContactTitleForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/ContactSettings/ContactTitle/ContactTitleForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CurrencyBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/CurrencySettings/Currency/CurrencyBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-CurrencyForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/CurrencySettings/Currency/CurrencyForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealClassificationBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/DealSettings/DealClassification/DealClassificationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealClassificationForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/DealSettings/DealClassification/DealClassificationForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealStatusSettings" type="text/html" src="/trakitworksweb/Source/Modules/Settings/DealSettings/DealStatus/DealStatusSettings.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealStatusBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/DealSettings/DealStatus/DealStatusBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealStatusForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/DealSettings/DealStatus/DealStatusForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealTypeBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/DealSettings/DealType/DealTypeBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DealTypeForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/DealSettings/DealType/DealTypeForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-AttributeBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/Attribute/AttributeBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-AttributeForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/Attribute/AttributeForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryConditionBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/InventoryCondition/InventoryConditionBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryConditionForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/InventoryCondition/InventoryConditionForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryRankBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/InventoryRank/InventoryRankBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryRankForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/InventoryRank/InventoryRankForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryTypeBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/InventoryType/InventoryTypeBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-InventoryTypeForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/InventoryType/InventoryTypeForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-RentalCategoryBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/RentalCategory/RentalCategoryBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-RentalCategoryForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/RentalCategory/RentalCategoryForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-UnitBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/Unit/UnitBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-UnitForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/InventorySettings/Unit/UnitForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OfficeLocationBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/OfficeLocationSettings/OfficeLocation/OfficeLocationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OfficeLocationForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/OfficeLocationSettings/OfficeLocation/OfficeLocationForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OrderTypeBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/OrderSettings/OrderType/OrderTypeBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OrderTypeForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/OrderSettings/OrderType/OrderTypeForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-POClassificationBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/POSettings/POClassification/POClassificationBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-POClassificationForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/POSettings/POClassification/POClassificationForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-POTypeBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/POSettings/POType/POTypeBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-POTypeForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/POSettings/POType/POTypeForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-RepairItemStatusBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/RepairSettings/RepairItemStatus/RepairItemStatusBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-RepairItemStatusForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/RepairSettings/RepairItemStatus/RepairItemStatusForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ShipViaBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/ShipViaSettings/ShipVia/ShipViaBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ShipViaForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/ShipViaSettings/ShipVia/ShipViaForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OrganizationTypeBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/VendorSettings/OrganizationType/OrganizationTypeBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-OrganizationTypeForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/VendorSettings/OrganizationType/OrganizationTypeForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-VendorClassBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/VendorSettings/VendorClass/VendorClassBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-VendorClassForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/VendorSettings/VendorClass/VendorClassForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-WarehouseBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Settings/WarehouseSettings/Warehouse/WarehouseBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-WarehouseForm" type="text/html" src="/trakitworksweb/Source/Modules/Settings/WarehouseSettings/Warehouse/WarehouseForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-DashboardSettingsForm" type="text/html" src="/trakitworksweb/Source/Modules/Utilities/DashboardSettings/DashboardSettingsForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ContractBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Warehouse/Contract/ContractBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-ContractForm" type="text/html" src="/trakitworksweb/Source/Modules/Warehouse/Contract/ContractForm.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-PickListBrowse" type="text/html" src="/trakitworksweb/Source/Modules/Warehouse/PickList/PickListBrowse.htm" data-ajaxload="true"></script>
+<script id="tmpl-modules-PickListForm" type="text/html" src="/trakitworksweb/Source/Modules/Warehouse/PickList/PickListForm.htm" data-ajaxload="true"></script>
+
+
+<!-- Reports -->
+
+
+<!-- ApplicationConfig Overrides -->
+<!--<script type="text/javascript">
+  var FwGlobalLeakTest = {
+    globalsBefore: {}
+  };
+  for (var key in window) {
+      FwGlobalLeakTest.globalsBefore[key] = true;
+  }
+</script>-->
+
+
+<link rel="stylesheet" href="libraries/codemirror/lib/codemirror.css">
+
+</head>
+<body>
+
+  <div id="application" class="application hidden"></div>
+
+  <!-- JavaScript -->
+  <script type="text/javascript" src="/trakitworksweb/scripts/Constants.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/modernizr/modernizr-2.6.2.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/mustache/mustache-0.7.0.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/jquery-noconflict.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-common.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-bubble.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-calendar.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-datepicker.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-gantt.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-menu.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-modal.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-month.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-navigator.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-scheduler.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/DayPilotPro/scripts/src/daypilot-year.src.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/Routes.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwAjax.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwAppData.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwApplicationConfig.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwAudit.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwApplicationTree.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_appdocumentimage.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_appdocumentversion.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_appimage.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_checkbox.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_date.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_hidden.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_key.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_legend.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_money.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_note.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_number.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_olecolor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_phone.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_rowbackgroundcolor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_rowtextcolor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_text.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_time.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_time12.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_timepicker.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_toggleswitch.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_utcdate.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_utcdatetime.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_utctime.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowseColumns/FwBrowseColumn_validation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwBrowse.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwCharge.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwConfirmation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwContainer.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwContextMenu.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwControl.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormField.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_checkbox.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_checkboxlist.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_color.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_combobox.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_date.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_datetime.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_editor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_email.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_encrypt.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_key.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_money.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_multiselectvalidation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_number.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_orderby.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_password.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_percent.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_phone.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_radio.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_searchbox.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_select.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_ssn.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_text.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_textarea.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_time.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_timepicker.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_togglebuttons.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_toggleswitch.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_url.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_validation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFormFields/FwFormField_zipcode.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwAppImage.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwGridMenu.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwMenu.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwModule.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwMultiSelectValidation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwNotification.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwOverlay.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwPopup.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwReport.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwReportsPage.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwFileMenu.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwScheduler.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwSettings.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwTabs.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwValidation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwControls/FwWebApiReport.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwPages/FwBasePages.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/hybrid/FwHybridMasterController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/jquery.signaturepad.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/jquery.FwConversion.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/jquery.RemoveClassPrefix.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/clockpicker/dist/jquery-clockpicker.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/colorpicker/colpick.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/datepicker/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/inputmask/jquery.inputmask.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/timepicker/jquery.timepicker.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/jquery/jquery.color.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/MasterPages/WebMaster.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwFunc.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwLanguages.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwSecurity.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwServices.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/Sortable-1.1.1/Sortable.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/chart.js/dist/Chart.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/decimal.js/decimal.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/Modules/FwGroup.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/moment/moment.min.js"></script>
+<script type="text/javascript" src="/trakitworksweb/scripts/RwLanguages.js"></script>
+<script type="text/javascript" src="/trakitworksweb/scripts/RwMaster.js"></script>
+<script type="text/javascript" src="/trakitworksweb/scripts/RwServices.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/AttributeValueGrid/AttributeValueGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/AuditHistoryGrid/AuditHistoryGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CheckedInItemGrid/CheckedInItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CheckedOutItemGrid/CheckedOutItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CheckInExceptionGrid/CheckInExceptionGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CheckInOrderGrid/CheckInOrderGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CheckInQuantityItemsGrid/CheckInQuantityItemsGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CheckInSwapGrid/CheckInSwapGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CheckOutPendingItemGrid/CheckOutPendingItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/CompanyContactGrid/CompanyContactGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ContactCompanyGrid/ContactCompanyGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ContactNoteGrid/ContactNoteGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ContactPersonalEventGrid/ContactPersonalEventGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ContainerWarehouseGrid/ContainerWarehouseGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ContractDetailGrid/ContractDetailGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ContractExchangeItemGrid/ContractExchangeItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ContractSummaryGrid/ContractSummaryGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/DealNoteGrid/DealNoteGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/DealShipperGrid/DealShipperGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ExchangeItemGrid/ExchangeItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryAttributeValueGrid/InventoryAttributeValueGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryAvailabilityGrid/InventoryAvailabilityGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryCompatibilityGrid/InventoryCompatibilityGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryCompleteGrid/InventoryCompleteGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryCompleteKitGrid/InventoryCompleteKitGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryConsignmentGrid/InventoryConsignmentGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryKitGrid/InventoryKitGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryQcGrid/InventoryQcGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventorySubstituteGrid/InventorySubstituteGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryVendorGrid/InventoryVendorGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/InventoryWarehouseStagingGrid/InventoryWarehouseStagingGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ItemAttributeValueGrid/ItemAttributeValueGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ItemQcGrid/ItemQcGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderContactGrid/OrderContactGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderItemGrid/OrderItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderNoteGrid/OrderNoteGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderStatusHistoryGrid/OrderStatusHistoryGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderStatusRentalDetailGrid/OrderStatusRentalDetailGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderStatusSalesDetailGrid/OrderStatusSalesDetailGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderStatusSummaryGrid/OrderStatusSummaryGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderTypeActivityDatesGrid/OrderTypeActivityDatesGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderTypeContactTitleGrid/OrderTypeContactTitleGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderTypeCoverLetterGrid/OrderTypeCoverLetterGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderTypeInvoiceExportGrid/OrderTypeInvoiceExportGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderTypeNoteGrid/OrderTypeNoteGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/OrderTypeTermsAndConditionsGrid/OrderTypeTermsAndConditionsGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/PickListItemGrid/PickListItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/POReceiveBarCodeGrid/POReceiveBarCodeGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/POReceiveItemGrid/POReceiveItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/POReturnBarCodeGrid/POReturnBarCodeGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/POReturnItemGrid/POReturnItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/QuikActivityGrid/QuikActivityGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/QuoteItemGrid/QuoteItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/RentalInventoryWarehouseGrid/RentalInventoryWarehouseGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/RepairReleaseGrid/RepairReleaseGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/ReportSettingsGrid/ReportSettingsGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/SearchPreviewGrid/SearchPreviewGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/StagedItemGrid/StagedItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/StageHoldingItemGrid/StageHoldingItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/StageQuantityItemGrid/StageQuantityItemGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/SubCategoryGrid/SubCategoryGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/VendorNoteGrid/VendorNoteGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/VendorTaxOptionGrid/VendorTaxOptionGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/WarehouseAvailabilityHourGrid/WarehouseAvailabilityHourGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/WarehouseDepartmentGrid/WarehouseDepartmentGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/WarehouseDepartmentUserGrid/WarehouseDepartmentUserGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/WarehouseInventoryTypeGrid/WarehouseInventoryTypeGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/WarehouseOfficeLocationGrid/WarehouseOfficeLocationGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Grids/WarehouseQuikLocateApproverGrid/WarehouseQuikLocateApproverGridController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/-BaseModules/CheckInBase/CheckInBase.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/-BaseModules/OrderBase/OrderBase.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/-BaseModules/OrderStatusBase/OrderStatusBase.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/-BaseModules/StagingCheckoutBase/StagingCheckoutBase.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Account/UserProfile/UserProfile.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/Alert/Alert.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/Control/Control.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/CustomField/CustomField.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/CustomForm/CustomForm.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/CustomReportLayout/CustomReportLayout.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/DuplicateRule/DuplicateRule.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/EmailHistory/EmailHistory.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/Group/Group.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/Hotfix/Hotfix.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/Reports/ReportsController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/Settings/SettingsController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Administrator/User/User.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/Contact/Contact.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/Customer/Customer.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/Deal/Deal.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/Order/Order.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/Order/SearchInterface.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/PurchaseOrder/PurchaseOrder.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/Quote/Quote.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Agent/Vendor/Vendor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Asset/Asset.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/AssignBarCodes/AssignBarCodes.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/CheckIn/CheckIn.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Contact/Contact.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Contract/Contract.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/CreatePickList/CreatePickList.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Customer/Customer.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Deal/Deal.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Exchange/Exchange.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/ExpendableItem/ExpendableItem.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/InventoryItem/InventoryItem.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Order/Order.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Order/SearchInterface.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/OrderStatus/OrderStatus.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/PickList/PickList.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/PurchaseOrder/PurchaseOrder.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Quote/Quote.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/ReceiveFromVendor/ReceiveFromVendor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Repair/Repair.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/ReturnToVendor/ReturnToVendor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/StagingCheckout/StagingCheckout.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/SubWorksheet/SubWorksheet.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/SuspendedSession/SuspendedSession.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Home/Vendor/Vendor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Inventory/Asset/Asset.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Inventory/InventoryItem/InventoryItem.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Inventory/Repair/Repair.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/DealOutstandingItemsReport/DealOutstandingItemsReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/LateReturnDueBackReport/LateReturnDueBackReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/OrderReport/OrderReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/OutContract/OutContractReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/PickListReport/PickListReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/QuoteReport/QuoteReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalEquipmentRepairHistoryReport/RentalEquipmentRepairHistoryReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryAttributesReport/RentalInventoryAttributesReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryCatalogReport/RentalInventoryCatalogReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryChangeReport/RentalInventoryChangeReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryPurchaseHistoryReport/RentalInventoryPurchaseHistoryReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryQCRequiredReport/RentalInventoryQCRequiredReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryUsageReport/RentalInventoryUsageReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryValueReport/RentalInventoryValueReport Controller.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RentalInventoryValueReport/RentalInventoryValueReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/RetiredRentalInventoryReport/RetiredRentalInventoryReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/ReturnedToInventoryReport/ReturnedToInventoryReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/UnretiredRentalInventoryReport/UnretiredRentalInventoryReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Reports/ValueOfOutRentalInventoryReport/ValueOfOutRentalInventoryReportController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/AddressSettings/Country/Country.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/AddressSettings/State/State.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/Attribute/Attribute.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/CompanyDepartmentSettings/Department/Department.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/ContactSettings/ContactTitle/ContactTitle.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/ContactTitle/ContactTitle.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/Country/Country.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/Currency/Currency.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/CurrencySettings/Currency/Currency.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/DealClassification/DealClassification.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/DealSettings/DealClassification/DealClassification.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/DealSettings/DealStatus/DealStatus.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/DealSettings/DealType/DealType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/DealStatus/DealStatus.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/DealType/DealType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/Department/Department.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventoryCondition/InventoryCondition.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventoryRank/InventoryRank.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventorySettings/Attribute/Attribute.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventorySettings/InventoryCondition/InventoryCondition.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventorySettings/InventoryRank/InventoryRank.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventorySettings/InventoryType/InventoryType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventorySettings/RentalCategory/RentalCategory.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventorySettings/Unit/Unit.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/InventoryType/InventoryType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/OfficeLocation/OfficeLocation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/OfficeLocationSettings/OfficeLocation/OfficeLocation.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/OrderSettings/OrderType/OrderType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/OrderType/OrderType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/OrganizationType/OrganizationType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/POClassification/POClassification.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/POSettings/POClassification/POClassification.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/POSettings/POType/POType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/POType/POType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/RentalCategory/RentalCategory.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/RepairItemStatus/RepairItemStatus.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/RepairSettings/RepairItemStatus/RepairItemStatus.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/ShipVia/ShipVia.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/ShipViaSettings/ShipVia/ShipVia.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/State/State.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/Unit/Unit.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/UserSettings/UserSettings.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/VendorClass/VendorClass.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/VendorSettings/OrganizationType/OrganizationType.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/VendorSettings/VendorClass/VendorClass.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/Warehouse/Warehouse.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Settings/WarehouseSettings/Warehouse/Warehouse.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Utilities/Dashboard/Dashboard.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Utilities/DashboardSettings/DashboardSettings.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Utilities/QuikActivityCalendar/QuikActivityCalendar.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/AssignBarCodes/AssignBarCodes.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/CheckIn/CheckIn.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/Contract/Contract.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/Exchange/Exchange.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/OrderStatus/OrderStatus.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/PickList/PickList.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/ReceiveFromVendor/ReceiveFromVendor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/ReturnToVendor/ReturnToVendor.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Modules/Warehouse/StagingCheckout/StagingCheckout.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Pages/Base/Base.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Pages/HomePage/HomeController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Validations/BaseInventoryValidation/BaseInventoryValidationController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Validations/CompanyValidation/CompanyValidationController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Validations/GeneralItemValidation/GeneralItemValidationController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Validations/RentalInventoryValidation/RentalInventoryValidationController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Validations/SalesInventoryValidation/SalesInventoryValidationController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/source/Validations/SoundValidation/SoundValidationController.js"></script>
+<script type="text/javascript" src="/trakitworksweb/libraries/fw/scripts/FwApplication.js"></script>
+<script type="text/javascript" src="/trakitworksweb/scripts/Program.js"></script>
+
+
+  <!-- Version -->
+  <script type="text/javascript">
+class ApplicationConfig extends FwApplicationConfig {
+}
+var applicationConfig = new ApplicationConfig();
+//# sourceMappingURL=DefaultApplicationConfig.js.map
+applicationConfig.version='2019.1.1.1';
+</script>
+
+
+  <script type="text/javascript" src="ApplicationConfig.js"></script>
+  <script src="libraries/ckeditor/ckeditor.js"></script>
+  <script src="libraries/ckeditor/adapters/jquery.js"></script>
+  <script src="libraries/ckeditor/config.js"></script>
+  <script src="libraries/codemirror/lib/codemirror.js"></script>
+  <script src="libraries/codemirror/addon/fold/foldcode.js"></script>
+  <script src="libraries/codemirror/addon/fold/foldgutter.js"></script>
+  <script src="libraries/codemirror/addon/fold/xml-fold.js"></script>
+  <script src="libraries/codemirror/mode/xml/xml.js"></script>
+
+  <script type="text/javascript">
+      // inline templates when debugging by ajaxing for the src url
+      var $templates = jQuery('script[data-ajaxload="true"]');
+      $templates.each(function () {
+          let $element = jQuery(this);
+          $element.removeAttr('data-ajaxload');
+          if ($element.attr("src")) {
+              jQuery.ajax(
+                  $element.attr("src"),
+                  {
+                      async: true,
+                      context: this,
+                      success: function (data) { jQuery(this).html(data); }
+                  }
+              );
+          }
+      });
+  </script>
+
+  <!--<script type="text/javascript">
+    FwGlobalLeakTest.leaked = [];
+    for (var key in window) {
+    if (!FwGlobalLeakTest.globalsBefore.hasOwnProperty(key)) {
+        FwGlobalLeakTest.leaked.push(key);
+      }
+    }
+    FwGlobalLeakTest.logResults = function() {
+      if (FwGlobalLeakTest.leaked.length > 0) {
+        console.log('Leaked global variables: [' + FwGlobalLeakTest.leaked.join('\n') + ']');
+      }
+    };
+  </script>-->
+
+</body>
+</html>
