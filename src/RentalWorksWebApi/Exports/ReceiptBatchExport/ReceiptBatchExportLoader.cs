@@ -19,9 +19,20 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
         public class BatchReceipt
         {
             public string ReceiptId { get; set; }
+            public DateTime? ReceiptDate { get; set; }
             public string CheckNumber { get; set; }
             public string PaymentType { get; set; }
+            public string PaymentBy { get; set; }
+            public string Customer { get; set; }
+            public string CustomerNumber { get; set; }
+            public string Deal { get; set; }
+            public string DealNumber { get; set; }
             public decimal? Amount { get; set; }
+            public decimal? AmountNegative { get; set; }
+            public string AccountsReceivableAccountNumber { get; set; }
+            public string AccountsReceivableAccountDescription { get; set; }
+            public string UndepositedFundsAccountNumber { get; set; }
+            public string UndepositedFundsAccountDescription { get; set; }
 
             public class Invoice
             {
@@ -80,9 +91,20 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
                 {
                     BatchReceipt r = new BatchReceipt();
                     r.ReceiptId = row[dt.GetColumnNo("arid")].ToString();
+                    r.ReceiptDate = FwConvert.ToDateTime(row[dt.GetColumnNo("ardate")].ToString());
                     r.CheckNumber = row[dt.GetColumnNo("arid")].ToString();
                     r.PaymentType = row[dt.GetColumnNo("paytype")].ToString();
+                    r.PaymentBy = row[dt.GetColumnNo("paymentby")].ToString();
+                    r.CustomerNumber = row[dt.GetColumnNo("custno")].ToString();
+                    r.Customer = row[dt.GetColumnNo("customer")].ToString();
+                    r.DealNumber = row[dt.GetColumnNo("dealno")].ToString();
+                    r.Deal = row[dt.GetColumnNo("deal")].ToString();
                     r.Amount = FwConvert.ToDecimal(row[dt.GetColumnNo("amount")].ToString());
+                    r.AmountNegative = (-1) * r.Amount;
+                    r.AccountsReceivableAccountNumber = row[dt.GetColumnNo("arglno")].ToString();
+                    r.AccountsReceivableAccountDescription = row[dt.GetColumnNo("argldesc")].ToString();
+                    r.UndepositedFundsAccountNumber = row[dt.GetColumnNo("undepositedfundsglno")].ToString();
+                    r.UndepositedFundsAccountDescription = row[dt.GetColumnNo("undepositedfundsgldesc")].ToString();
                     Receipts.Add(r);
                 }
             }
