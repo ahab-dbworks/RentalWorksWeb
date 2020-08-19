@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -476,7 +476,7 @@
     <TypeScriptCompile Include="QuikScan\scripts\RwVirtualNumpad.ts" />
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-    <!--<Exec Command="npm install" />-->
+      <Exec Command="npm i" />
 	  <Exec Command="npm run build-web-dev" />
 	  <Exec Command="npm run build-quikscan-dev" />
   </Target>

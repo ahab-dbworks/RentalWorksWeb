@@ -6,6 +6,7 @@ const WebpackReportsCompiler = require('./node-WebpackReportsCompiler');
 //const WebpackQuikScanCompiler = require('./node-WebpackQuikScanCompiler');
 const UNSUPPORTED_CONFIGURATION = 'Unsupported configuration.';
 const path = require('path');
+//onst { FileWatcherEventKind } = require('typescript');
 var exec = require('child_process').exec;
 
 class WebApiCompiler {
@@ -308,6 +309,7 @@ class WebApiCompiler {
         const appsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps');
         const webSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps/rentalworks');
         const webDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWeb');
+        const downloadsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/temp/downloads');
         console.log('//------------------------------------------------------------------------------------');
         console.log(`dotnet publish -o ../../build/RentalWorksWebApi WebApi.csproj --configuration ${this.dotnetConfiguration} --self-contained -r win-x64`);
         console.log('//------------------------------------------------------------------------------------');
@@ -315,7 +317,8 @@ class WebApiCompiler {
         console.log('Deleting: appsettings.json');
         await fs.unlink('../../build/RentalWorksWebApi/appsettings.json', function (error) { if (error) { throw error; } console.log('Deleted appsettings.json'); });
         console.log('//------------------------------------------------------------------------------------');
-        await fs.mkdirSync('app');
+        await rmfr(appsDestDir);
+        await fs.ensureDir(appsDestDir);
         console.log(`Deploying apps folder from: "${appsSrcDir}" to "${appsDestDir}"`);
         await fs.copy(appsSrcDir, appsDestDir);
         console.log(`Deploying legacy RentalWorksWeb folder from: "${webSrcDir}" to "${webDestDir}"`);
@@ -323,10 +326,9 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Adding: wwwroot/temp/downloads');
         await process.chdir('../../build/RentalWorksWebApi/wwwroot');
-        await fs.mkdirSync('temp');
-        await process.chdir('temp');
+        await fs.mkdir('temp');
         await fs.mkdirSync('downloads');
-        await process.chdir('temp');
+        await fs.ensureDir(downloadsDestDir);
         console.log('//------------------------------------------------------------------------------------');
     }
     //------------------------------------------------------------------------------------
