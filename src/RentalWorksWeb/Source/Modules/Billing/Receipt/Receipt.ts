@@ -109,7 +109,10 @@ class Receipt {
             // Deal and Customer fields
             $form.find('.deal-customer').data('onchange', $tr => {
                 const currencyId = $tr.find('.field[data-formdatafield="CurrencyId"]').attr('data-originalvalue');
-                FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="CurrencyCode"]').attr('data-originalvalue'));
+                if (currencyId) { // default currency to deal or Customer but only if one is indicated
+                    FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="CurrencyCode"]').attr('data-originalvalue'));
+                }
+
                 $form.find('span.credit-amounts').hide();
                 const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
                 if (paymentTypeType !== '' && paymentTypeType === 'REFUND CHECK') {
