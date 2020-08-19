@@ -117,12 +117,12 @@ class PurchaseHistory {
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
-        //const $itemAttributeValueGrid: JQuery = $form.find(`[data-name="${this.nameItemAttributeValueGrid}"]`);
-        //FwBrowse.search($itemAttributeValueGrid);
+        const $depreciationGrid = $form.find('[data-name="DepreciationGrid"]');
+        FwBrowse.search($depreciationGrid);
         this.showHideWarhouseRow($form);
     };
     //---------------------------------------------------------------------------------------------
-    showHideWarhouseRow($form) {
+     showHideWarhouseRow($form) {
         const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
         const warehouseCurrencyId = FwFormField.getValueByDataField($form, 'WarehouseDefaultCurrencyId');
         if (currencyId !== '' && currencyId !== warehouseCurrencyId) {
