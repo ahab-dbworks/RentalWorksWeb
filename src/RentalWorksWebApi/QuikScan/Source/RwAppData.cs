@@ -971,7 +971,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from repair with (nolock)");
             qry.Add("where repairno = @repairno");
             qry.AddParameter("@repairno", repairno);
-            await qry.ExecuteNonQueryAsync();
+            await qry.ExecuteAsync();
             if (qry.RowCount > 0)
             {
                 repairid = qry.GetField("repairid").ToString().TrimEnd();
