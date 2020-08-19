@@ -109,6 +109,10 @@ class Receipt {
             // Deal and Customer fields
             $form.find('.deal-customer').data('onchange', $tr => {
                 const currencyId = $tr.find('.field[data-formdatafield="CurrencyId"]').attr('data-originalvalue');
+                const currencySymbol = $tr.find('.field[data-formdatafield="CurrencySymbol"]').attr('data-originalvalue');
+                if (currencySymbol) {
+                    this.currencySymbol = currencySymbol;
+                }
                 if (currencyId) { // default currency to deal or Customer but only if one is indicated
                     FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="CurrencyCode"]').attr('data-originalvalue'));
                 }
@@ -344,23 +348,14 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
+        // ----------
         $form.find('div[data-datafield="PaymentTypeId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
-            const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-            //justin 10/25/2019 disabling this for now to avoid confusion. Terry was thinking he had to click the Make Payment button to save a Receipt
-            //paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
-
-            let isOverDepletingMemo = false;
-            if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
-                isOverDepletingMemo = true;
-            }
-            this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
-            if (paymentTypeType === 'REFUND CHECK') {
-                this.loadReceiptCreditGrid($form);
-            } else {
-                this.loadReceiptInvoiceGrid($form);
-            }
-
+            this.paymentTypes($form);
+        });
+        // ----------
+        $form.find('div[data-datafield="CurrencyId"]').data('onchange', $tr => {
+            this.paymentTypes($form);
         });
         // ----------
         $form.find('div.credits-tab').on('click', e => {
@@ -387,6 +382,22 @@ class Receipt {
                 $form.find('div[data-datafield="PaymentAmount"] input').change();
             }
         });
+    }
+    paymentTypes($form) {
+        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
+        //justin 10/25/2019 disabling this for now to avoid confusion. Terry was thinking he had to click the Make Payment button to save a Receipt
+        //paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
+
+        let isOverDepletingMemo = false;
+        if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
+            isOverDepletingMemo = true;
+        }
+        this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
+        if (paymentTypeType === 'REFUND CHECK') {
+            this.loadReceiptCreditGrid($form);
+        } else {
+            this.loadReceiptInvoiceGrid($form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
@@ -794,6 +805,7 @@ class Receipt {
                     $form.find('.table-rows').html(htmlRows.join(''));
                     $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: this.currencySymbol });
                     $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: this.currencySymbol });
+                    $form.find('div[data-type="money"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
 
                     (function () {
                         const $amountFields = $form.find('.invoice-amount input');
@@ -1039,7 +1051,7 @@ class Receipt {
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        currencySymbol = rows[i][res.ColumnIndex.CurrencySymbol] || '';
+                        currencySymbol = rows[i][res.ColumnIndex.CurrencySymbol] || '€';
                         if (currencySymbol !== '') {
                             if (!this.currencySymbol) {
                                 this.currencySymbol = currencySymbol;
@@ -1064,6 +1076,7 @@ class Receipt {
 
                     $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
                     $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: this.currencySymbol });
+                    $form.find('div[data-type="money"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
                     (function () {
                         const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
                         for (let i = 0; i < $amountFields.length; i++) {
