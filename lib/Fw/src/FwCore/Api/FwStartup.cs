@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -285,6 +288,20 @@ namespace FwCore.Api
                 c.DocExpansion(DocExpansion.None);
                 this.AddSwaggerEndPoints(c);
             });
+
+            var serverAddressesFeature = app.ServerFeatures.Get<IServerAddressesFeature>();
+            foreach (var serverAddress in serverAddressesFeature.Addresses)
+            {
+                var ipAddresses = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+                foreach (var ipAddress in ipAddresses)
+                {
+                    if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        string address = serverAddress.Replace("0.0.0.0", ipAddress.ToString());
+                        Console.WriteLine($"Now listening on: {address}");
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------
         protected abstract void AddSwaggerEndPoints(SwaggerUIOptions options);

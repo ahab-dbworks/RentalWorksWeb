@@ -5,18 +5,33 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Debug QuikScan",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:57949/quikscandev",
+            "webRoot": "${workspaceFolder}/QuikScan"
+        },
+        {
+            "name": "Debug RentalWorks",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:57949/webdev",
+            "webRoot": "${workspaceFolder}/../RentalWorksWeb"
+        },
+        {
+            "name": "Debug WebApi",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/bin/Debug/netcoreapp2.1/WebApi.dll",
-            "args": [],
+            "args": [""],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
+            // "serverReadyAction": {
+            //     //"action": "debugWithChrome"
+            //     "action": "openExternally",
+            //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
