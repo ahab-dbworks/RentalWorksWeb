@@ -186,9 +186,9 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
                                 for (var j = 0; j < appdocument.images.length; j++) {
                                     var image = appdocument.images[j];
                                     adhtml.push('<div class="appimage dbappimage">');
-                                    adhtml.push('  <div class="imagecontent"><img data-appimageid="' + image.appimageid + '" src="' + 'data:image/jpeg;base64,' + image.thumbnail + '"></div>');
-                                    adhtml.push('  <div class="imagedesccontent">' + image.imagedesc + '</div>');
-                                    adhtml.push('  <div class="imagenocontent">' + image.imageno + '</div>');
+                                    adhtml.push(`  <div class="imagecontent"><img data-appimageid="${image.appimageid}" src="${image.thumbnail}"></div>`);
+                                    adhtml.push(`  <div class="imagedesccontent">${image.imagedesc}</div>`);
+                                    adhtml.push(`  <div class="imagenocontent">${image.imageno}</div>`);
                                     adhtml.push('</div>');
                                 }
                                 adhtml.push('  </div>');
