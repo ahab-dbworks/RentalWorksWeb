@@ -2228,7 +2228,7 @@
         };
 
         screen.toggleFillContainerButton = function() {
-            if ((screen.getContractId().length > 0) && (sessionStorage.userType === 'USER') && (typeof applicationOptions.container !== 'undefined') && (applicationOptions.container.enabled)) {
+            if ((screen.getContractId().length > 0) && (sessionStorage.userType === 'USER')) {
                 //var requestHasCheckinFillContainerButton = {
                 //    contractid: screen.getContractId()
                 //};
