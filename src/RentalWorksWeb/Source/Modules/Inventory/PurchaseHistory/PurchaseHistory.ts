@@ -93,8 +93,8 @@ class PurchaseHistory {
     //    FwModule.loadAudit($form, uniqueid);
     //};
     //---------------------------------------------------------------------------------------------
-    renderGrids($form: JQuery) {
-        //Item Attribute Value Grid
+    renderGrids($form) {
+        //Depreciation Grid
         FwBrowse.renderGrid({
             nameGrid: 'DepreciationGrid',
             gridSecurityId: 'Wi9NxgGglKjTN',
@@ -117,9 +117,8 @@ class PurchaseHistory {
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
-        const $depreciationGrid = $form.find('[data-name="DepreciationGrid"]');
-        FwBrowse.search($depreciationGrid);
-
+        //const $itemAttributeValueGrid: JQuery = $form.find(`[data-name="${this.nameItemAttributeValueGrid}"]`);
+        //FwBrowse.search($itemAttributeValueGrid);
         this.showHideWarhouseRow($form);
     };
     //---------------------------------------------------------------------------------------------
@@ -186,13 +185,13 @@ class PurchaseHistory {
                 <div data-type="tabpage" id="purchasetabpage" class="tabpage" data-tabid="purchasetab">
                   <div class="formpage">
                     <div class="formrow">
-                      <div class="formcolumn" style="width:900px;">
+                      <div class="formcolumn" style="width:1100px;">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ownership" data-datafield="Ownership" data-enabled="false" style="float:left;width:250px;"></div>
-                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="float:left;width:175px;"></div>
-                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="float:left;width:175px;"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDateString" data-enabled="false" style="float:left;width:175px;"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDateString" data-enabled="false" style="float:left;width:175px;"></div>
                           </div>
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="float:left;width:150px;"></div>
