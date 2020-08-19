@@ -574,6 +574,8 @@ class SubWorksheet {
             } else {
                 $browse.find('[data-browsedatafield="CurrencyConvertedWeeklyExtended"]').closest('td').show();
             }
+        } else {
+            $browse.find('[data-browsedatafield="CurrencyConvertedPeriodExtended"], [data-browsedatafield="CurrencyConvertedWeeklyExtended"], [data-browsedatafield="CurrencyConvertedMonthlyExtended"]').closest('td').hide();
         }
     }
     //----------------------------------------------------------------------------------------------
