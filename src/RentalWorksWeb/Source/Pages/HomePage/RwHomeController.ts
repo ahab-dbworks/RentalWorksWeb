@@ -6,7 +6,7 @@ class RwHome {
         const screen: any = {};
         screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
 
-        jQuery('title').html('RentalWorks');
+        jQuery('title').html(Constants.appCaption);
 
         screen.load = async () => {
             if (typeof window.firstLoadCompleted === 'undefined') {

@@ -1,9 +1,9 @@
 var Constants = {
-    isTrakitWorks: false,
-    isRentalWorks: true,
     appId: '0A5F2584-D239-480F-8312-7C2B552A30BA',
     appCaption: 'RentalWorks',
     appTitle: 'Rental<span class="rwpurple">Works</span>',
+    //appCaption: 'TrakitWorks',
+    //appTitle: 'Trakit<span class="tiwred">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
     validationsWithPeeks: ['ContactValidation', 'CustomerValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'GeneralItemValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'InvoiceValidation', 'ReceiptValidation', 'CompanyValidation'],
     //MainMenu: {
     //    Reports: { id: 'Reports' },

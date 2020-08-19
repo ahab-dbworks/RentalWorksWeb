@@ -2,11 +2,12 @@ class Base {
     //----------------------------------------------------------------------------------------------
     getDefaultScreen() {
         const viewModel = {
-            captionProgramTitle: 'RentalWorks',
+            captionProgramTitle: Constants.appCaption,
             valueYear: new Date().getFullYear(),
             valueVersion: applicationConfig.version
         };
         const screen = FwBasePages.getDefaultScreen(viewModel);
+        document.title = Constants.appCaption;
 
         screen.$view
             .on('click', '.btnLogin', function () {
@@ -16,15 +17,13 @@ class Base {
                     FwFunc.showError(ex);
                 }
             })
-            //.find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
-            .find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works</span></div>');
+            .find('.programlogo').empty().html(`<div class="bgothm">${Constants.appTitle}</div>`);
 
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     getLoginScreen() {
         const viewModel = {
-            captionPanelLogin: 'RentalWorks Login',
             captionEmail: RwLanguages.translate('E-mail / Username'),
             valueEmail: (localStorage.getItem('email') ? localStorage.getItem('email') : ''),
             captionPassword: RwLanguages.translate('Password'),
@@ -386,9 +385,7 @@ class Base {
                         FwFunc.showError(ex);
                     }
                 })
-
-                //.find('.programlogo').empty().html('<div class="bgothm">Rental<span class="rwpurple">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
-                .find('.programlogo').empty().html(`<div class="bgothm">Rental<span class="rwpurple">Works</span></div>`);
+                .find('.programlogo').empty().html(`<div class="bgothm">${Constants.appTitle}</div>`);
         }
 
         screen.load = function () {

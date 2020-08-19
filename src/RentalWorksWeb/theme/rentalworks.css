@@ -13,6 +13,9 @@
 .rwpurple {
     color: #6a3aaf;
 }
+.tiwred {
+    color: #d32f2f;
+}
 
 /*audio upload in sound*/
 .upload-btn-wrapper { position: relative;overflow: hidden;display: inline-block;}

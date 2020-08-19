@@ -16,7 +16,7 @@ class BlankHomePage {
         const $form = this.openForm('EDIT');
 
         screen.load = () => {
-            FwModule.openModuleTab($form, 'RentalWorks', false, 'FORM', true);
+            FwModule.openModuleTab($form, Constants.appCaption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
