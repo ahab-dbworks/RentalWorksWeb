@@ -2065,27 +2065,8 @@ class PurchaseOrder implements IModule {
     //};
     ////----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
-        let subTotal, discount, salesTax, salesTax2, grossTotal, total, rateType;
-        //let extendedTotal = new Decimal(0);
-        //let discountTotal = new Decimal(0);
-        //let taxTotal = new Decimal(0);
-        //let taxTotal2 = new Decimal(0);
-
-        let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
-        //switch (rateValue) {
-        //    case 'W':
-        //        rateType = 'Weekly';
-        //        break;
-        //    case 'P':
-        //        rateType = 'Period';
-        //        break;
-        //    case 'M':
-        //        rateType = 'Monthly';
-        //        break;
-        //    default:
-        //        rateType = 'Period';
-        //}
-
+        let subTotal, discount, salesTax, salesTax2, grossTotal, total;
+        const rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
 
         //const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
         //const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
@@ -2148,12 +2129,12 @@ class PurchaseOrder implements IModule {
                 total = totals.PeriodTotal;
         }
 
-        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="SubTotal"]`), subTotal);
-        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Discount"]`), discount);
-        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Tax"]`), salesTax);
-        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Tax2"]`), salesTax2);
-        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="GrossTotal"]`), grossTotal);
-        FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Total"]`), total);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="SubTotal"]`), subTotal);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Discount"]`), discount);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Tax"]`), salesTax);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Tax2"]`), salesTax2);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="GrossTotal"]`), grossTotal);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Total"]`), total);
     };
     //----------------------------------------------------------------------------------------------
     applyRateType($form: JQuery) {
