@@ -149,10 +149,6 @@ if exist %productname%Web\ (rmdir %productname%Web /S /Q)
 if exist %productname%WebApi\ (rmdir %productname%WebApi /S /Q)
 if exist %zipfilename% (del %zipfilename%)
 
-rem build Web
-rem dotnet restore %DwRentalWorksWebPath%\RentalWorksWeb.sln
-rem "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" %DwRentalWorksWebPath%\RentalWorksWeb.sln /t:Rebuild /p:Configuration="Release %productname%Web" /p:Platform="any cpu" /p:ReferencePath=%DwRentalWorksWebPath%\packages 
-
 rem build the API 
 cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
 call npm i

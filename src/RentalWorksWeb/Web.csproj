@@ -1618,7 +1618,7 @@
   </Target>
   <Target Name="FwDebugTarget" Condition="$(FwPublish)=='false'">
     <!--<Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema $(FwUpdateSchema) -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" />-->
-    <Exec Command="npm run build-web-dev" />
+    <!--<Exec Command="npm run build-web-dev" />-->
   </Target>
   <Target Name="FwPublishTarget" Condition="$(FwPublish)=='true'">
     <!--<RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
@@ -1675,8 +1675,8 @@
   <Target Name="AfterClean">
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
     <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
-    <Exec Command="del /s /q $(FwApplicationDirectory)\Source\*.js" />
-    <Exec Command="del /s /q $(FwApplicationDirectory)\Source\*.js.map" />
+    <!--<Exec Command="del /s /q $(FwApplicationDirectory)\Source\*.js" />
+    <Exec Command="del /s /q $(FwApplicationDirectory)\Source\*.js.map" />-->
   </Target>
   <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>

@@ -263,7 +263,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="index.ts" />
     <TypeScriptCompile Include="QuikScan\@types\Cordova\index.d.ts" />
     <TypeScriptCompile Include="QuikScan\@types\Fw\index.d.ts" />
     <TypeScriptCompile Include="QuikScan\@types\JQuery\index.d.ts" />
