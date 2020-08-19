@@ -155,8 +155,8 @@
     <TypeScriptCompile Include="%40types\Web\index.d.ts" />
     <TypeScriptCompile Include="%40types\Window\index.d.ts" />
     <TypeScriptCompile Include="scripts\Constants.ts" />
-    <TypeScriptCompile Include="DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
+    <Content Include="scripts\DefaultApplicationConfig.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
@@ -1618,7 +1618,7 @@
   </Target>
   <Target Name="FwDebugTarget" Condition="$(FwPublish)=='false'">
     <!--<Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema $(FwUpdateSchema) -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" />-->
-   <Exec Command="npm run build-web-dev"/>
+    <Exec Command="npm run build-web-dev" />
   </Target>
   <Target Name="FwPublishTarget" Condition="$(FwPublish)=='true'">
     <!--<RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
