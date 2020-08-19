@@ -81,7 +81,7 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public async Task UpdateQCItemAsync(dynamic request, dynamic response, dynamic session)
+        public async Task UpdateQCItem(dynamic request, dynamic response, dynamic session)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
