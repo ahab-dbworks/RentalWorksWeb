@@ -1,4 +1,4 @@
-﻿using FwCore.Mobile;
+using FwCore.Mobile;
 using FwStandard.AppManager;
 using FwStandard.Mobile;
 using FwStandard.Models;
@@ -373,7 +373,7 @@ namespace WebApi.Modules.Mobile.QuikScan
             Type type;
             MethodInfo methodInfo;
 
-            
+            await Task.CompletedTask;
             if (this.ControllerContext.HttpContext.Request.Query["path"].Count > 0)
             {
                 path = this.ControllerContext.HttpContext.Request.Query["path"][0];
@@ -388,6 +388,15 @@ namespace WebApi.Modules.Mobile.QuikScan
                     type = typeof(MobileController).Assembly.GetType("RentalWorksQuikScan.Modules." + name, false);
                     object service = Activator.CreateInstance(type, this.AppConfig);
                     methodInfo = service.GetType().GetMethod(method);
+                    if (methodInfo == null)
+                    {
+                        string methodAsync = method + "Async";
+                        methodInfo = service.GetType().GetMethod(methodAsync);    
+                        if (methodInfo == null)
+                        {
+                            throw new FwNotFoundException($"{name}.{method} not found.");
+                        }
+                    }
                     FwJsonServiceMethodAttribute[] serviceMethodAttributes = (FwJsonServiceMethodAttribute[])methodInfo.GetCustomAttributes(typeof(FwJsonServiceMethodAttribute), false);
                     if ((serviceMethodAttributes.Length > 0) && methodInfo.IsPublic)
                     {
@@ -406,7 +415,7 @@ namespace WebApi.Modules.Mobile.QuikScan
                     }
                     else
                     {
-                        throw new Exception("Unable to find web service: " + name + "." + method);
+                        throw new FwNotFoundException("Unable to find web service: " + name + "." + method);
                     }
                     break;
                 //case "module":
