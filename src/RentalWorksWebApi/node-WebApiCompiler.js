@@ -309,7 +309,7 @@ class WebApiCompiler {
         const appsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps');
         const webSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps/rentalworks');
         const webDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWeb');
-        const downloadsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/temp/downloads');
+        const downloadsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/wwwroot/temp/downloads');
         console.log('//------------------------------------------------------------------------------------');
         console.log(`dotnet publish -o ../../build/RentalWorksWebApi WebApi.csproj --configuration ${this.dotnetConfiguration} --self-contained -r win-x64`);
         console.log('//------------------------------------------------------------------------------------');
@@ -326,8 +326,6 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Adding: wwwroot/temp/downloads');
         await process.chdir('../../build/RentalWorksWebApi/wwwroot');
-        await fs.mkdir('temp');
-        await fs.mkdirSync('downloads');
         await fs.ensureDir(downloadsDestDir);
         console.log('//------------------------------------------------------------------------------------');
     }
