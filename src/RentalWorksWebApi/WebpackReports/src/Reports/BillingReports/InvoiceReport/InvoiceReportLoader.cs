@@ -170,6 +170,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string TotalExtendedWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
+
         public async Task<List<T>> LoadItems<T>(InvoiceReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -187,7 +194,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "Tax", "Tax1", "Tax2", "TaxSubTotal", "ExtendedWithTax", "TotalExtended", "TotalExtendedWithTax" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate", "TaxRate1", "TaxRate2" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate", "TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -197,6 +204,11 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             {
                 T item = (T)Activator.CreateInstance(typeof(T));
                 PropertyInfo[] properties = item.GetType().GetProperties();
+
+                bool isSubOrGrandTotalRow = (row[dt.GetColumnNo("RowType")].ToString().Equals("grandtotal") || row[dt.GetColumnNo("RowType")].ToString().Equals("RecTypeDisplayfooter"));
+                string currencySymbol = dt.Rows[0][dt.GetColumnNo("CurrencySymbol")].ToString();
+                string currencyCode = dt.Rows[0][dt.GetColumnNo("CurrencyCode")].ToString();
+
                 foreach (var property in properties)
                 {
                     string fieldName = property.Name;
@@ -218,7 +230,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         if (isDecimal)
                         {
                             decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
-                            property.SetValue(item, d.ToString("N", numberFormat));
+                            string stringValue = d.ToString("N", numberFormat);
+                            if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")))
+                            {
+                                stringValue = currencySymbol + " " + stringValue;
+                            }
+                            property.SetValue(item, stringValue);
                         }
                         else if (propType.Equals(FwDataTypes.Boolean))
                         {
@@ -973,6 +990,13 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invoicemessage", modeltype: FwDataTypes.Text)]
         public string OfficeLocationInvoiceMessage { get; set; }
+        //------------------------------------------------------------------------------------
+
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------
 
         //------------------------------------------------------------------------------------

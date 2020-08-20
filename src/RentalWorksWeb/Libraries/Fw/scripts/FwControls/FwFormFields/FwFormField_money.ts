@@ -30,12 +30,32 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
+        var currencySymbol;
+        if (typeof $fwformfield.attr('data-currencysymbol') !== 'undefined' && typeof model[$fwformfield.attr('data-currencysymbol')] !== 'undefined') {
+            currencySymbol = model[$fwformfield.attr('data-currencysymbol')]
+        }
+
+        if (typeof currencySymbol === 'undefined' || currencySymbol === '') {
+            currencySymbol = '$';
+        }
+
+        $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+
         value = ((value === '') ? '0.00' : value);
         $fwformfield
             .attr('data-originalvalue', parseFloat(value).toFixed(2))
             .find('.fwformfield-value')
-            .val(value);
+            .val(value)
+            .inputmask("currency", {
+                prefix: currencySymbol + ' ',
+                placeholder: "0.00",
+                min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
+                max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
+                digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
+                radixPoint: '.',
+                groupSeparator: ','
+            });
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
@@ -58,7 +78,8 @@
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
         var $inputvalue = $fwformfield.find('.fwformfield-value');
-        $inputvalue.val(value);
+        $inputvalue
+            .val(value)
         if (firechangeevent) $inputvalue.change();
     }
     //---------------------------------------------------------------------------------

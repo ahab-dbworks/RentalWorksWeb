@@ -97,6 +97,18 @@ class VendorInvoice {
             request.activeviewfields = self.ActiveViewFields;
         });
 
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
@@ -107,11 +119,13 @@ class VendorInvoice {
         if (mode === 'NEW') {
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
+
+            const location = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
+            FwFormField.setValueByDataField($form, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
             $form.find('.continue').show();
         }
 
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
 
         this.events($form);
         return $form;
@@ -469,6 +483,7 @@ class VendorInvoice {
                 FwFormField.setValueByDataField($form, 'PurchaseOrderDate', response.PurchaseOrderDate);
                 FwFormField.setValueByDataField($form, 'PurchaseOrderEstimatedStartDate', response.EstimatedStartDate);
                 FwFormField.setValueByDataField($form, 'PurchaseOrderEstimatedStopDate', response.EstimatedStopDate);
+                FwFormField.setValueByDataField($form, 'CurrencyId', response.CurrencyId, response.CurrencyCode);
 
                 //add days to date to get invoice due date
                 let invoiceDate = FwFormField.getValueByDataField($form, 'InvoiceDate');

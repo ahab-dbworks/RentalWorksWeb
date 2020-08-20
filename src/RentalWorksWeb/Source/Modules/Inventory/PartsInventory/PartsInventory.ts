@@ -105,6 +105,29 @@ class PartsInventory extends InventoryBase {
                 options.hasNew = false;
                 options.hasDelete = false;
                 options.hasEdit = true;
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'local');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'specific');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'all');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
             onDataBind: (request: any) => {
@@ -116,8 +139,9 @@ class PartsInventory extends InventoryBase {
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
             },
-            beforeSave: (request: any) => {
+            beforeSave: (request: any, $browse, $tr) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
 
@@ -129,6 +153,29 @@ class PartsInventory extends InventoryBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'local');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'specific');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'all');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -139,8 +186,9 @@ class PartsInventory extends InventoryBase {
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
             },
-            beforeSave: (request: any) => {
+            beforeSave: (request: any, $browse, $tr) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
 
@@ -152,6 +200,29 @@ class PartsInventory extends InventoryBase {
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasDelete = false;
+                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'local');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'specific');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.currencyViewForPricingGrids(e, 'all');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -162,23 +233,12 @@ class PartsInventory extends InventoryBase {
                 };
                 request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
             },
-            beforeSave: (request: any) => {
+            beforeSave: (request: any, $browse, $tr) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
         // ----------
-        //const $inventoryCompleteKitGrid: any = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
-        //const $inventoryCompleteKitGridControl: any = FwBrowse.loadGridFromTemplate('InventoryCompleteKitGrid');
-        //$inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
-        //$inventoryCompleteKitGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //FwBrowse.init($inventoryCompleteKitGridControl);
-        //FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
-
-        //Inventory Complete/Kit Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryCompleteKitGrid',
             gridSecurityId: 'gflkb5sQf7it',
@@ -192,21 +252,6 @@ class PartsInventory extends InventoryBase {
             }
         });
         // ----------
-        //const $partsinventorySubstituteGrid: any = $form.find('div[data-grid="PartsInventorySubstituteGrid"]');
-        //const $partsinventorySubstituteGridControl: any = FwBrowse.loadGridFromTemplate('PartsInventorySubstituteGrid');
-        //$partsinventorySubstituteGrid.empty().append($partsinventorySubstituteGridControl);
-        //$partsinventorySubstituteGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //    };
-        //});
-        //$partsinventorySubstituteGridControl.data('beforesave', request => {
-        //    request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //FwBrowse.init($partsinventorySubstituteGridControl);
-        //FwBrowse.renderRuntimeHtml($partsinventorySubstituteGridControl);
-
-        //Parts Inventory Substitute Grid
         FwBrowse.renderGrid({
             nameGrid: 'PartsInventorySubstituteGrid',
             gridSecurityId: '5sN9zKtGzNTq',

@@ -1,4 +1,4 @@
-﻿<div data-name="InventoryWarehouseCompletePricingGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Warehouse Pricing" data-multisave="true" data-rendermode="template" data-showsearch="false" data-controller="InventoryWarehouseCompletePricingGridController">
+﻿<div data-name="InventoryWarehouseCompletePricingGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Warehouse Pricing" data-multisave="true" data-rendermode="template" data-showsearch="false" data-controller="InventoryWarehouseCompletePricingGridController" data-auditmodule="Pricing">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-datafield="InventoryId" data-datatype="key" data-isuniqueid="true" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
@@ -11,37 +11,40 @@
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Warehouse" data-datafield="WarehouseCode" data-datatype="text" data-formdatatype="text" data-sort="asc" data-sortsequence="2" data-formreadonly="true" data-formrequired="true" data-enabled="false"></div>
   </div>
+  <div class="column" data-width="80px" data-visible="true">
+    <div class="field" data-caption="Currency" data-datafield="CurrencyId" data-browsedisplayfield="CurrencyCode" data-datatype="validation" data-validationname="CurrencyValidation" data-sort="asc" data-sortsequence="3" data-formreadonly="true" data-formrequired="true" data-enabled="false"></div>
+  </div>
   <!--Rental Inventory-->
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field can-enable" data-caption="Daily" data-datafield="DailyRate" data-datatype="money" data-formdatatype="text" data-sort="none"></div>
+    <div class="field can-enable" data-caption="Daily" data-datafield="DailyRate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field can-enable" data-caption="Weekly" data-datafield="WeeklyRate" data-datatype="money" data-formdatatype="text" data-sort="none"></div>
+    <div class="field can-enable" data-caption="Weekly" data-datafield="WeeklyRate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="75px" data-visible="false">
-    <div class="field" data-caption="Week 2" data-datafield="Week2Rate" data-datatype="money" data-sort="none" data-mappedfield="Rate"></div>
+    <div class="field" data-caption="Week 2" data-datafield="Week2Rate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-sort="none" data-mappedfield="Rate"></div>
   </div>
   <div class="column" data-width="80px" data-visible="false">
-    <div class="field" data-caption="Week 3" data-datafield="Week3Rate" data-datatype="money" data-sort="none" data-mappedfield="Rate"></div>
+    <div class="field" data-caption="Week 3" data-datafield="Week3Rate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-sort="none" data-mappedfield="Rate"></div>
   </div>
   <div class="column" data-width="80px" data-visible="false">
-    <div class="field" data-caption="Week 4+" data-datafield="Week4Rate" data-datatype="money" data-sort="none" data-mappedfield="Rate"></div>
+    <div class="field" data-caption="Week 4+" data-datafield="Week4Rate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-sort="none" data-mappedfield="Rate"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field can-enable" data-caption="Monthly" data-datafield="MonthlyRate" data-datatype="money" data-formdatatype="text" data-sort="none"></div>
+    <div class="field can-enable" data-caption="Monthly" data-datafield="MonthlyRate" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none"></div>
   </div>
 
   <!-- Sales and Parts Inventory-->
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field can-enable" data-caption="Price" data-datafield="Price" data-datatype="money" data-formdatatype="text" data-sort="none"></div>
+    <div class="field can-enable" data-caption="Price" data-datafield="Price" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field can-enable" data-caption="Retail" data-datafield="Retail" data-datatype="money" data-formdatatype="text" data-sort="none"></div>
+    <div class="field can-enable" data-caption="Retail" data-datafield="Retail" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Average Cost" data-datafield="AverageCost" data-datatype="money" data-formdatatype="text" data-formreadonly="true" data-sort="none"></div>
+    <div class="field" data-caption="Average Cost" data-datafield="AverageCost" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-formreadonly="true" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field can-enable" data-caption="Restocking Fee" data-datafield="RestockingFee" data-datatype="money" data-formdatatype="text" data-sort="none"></div>
+    <div class="field can-enable" data-caption="Restocking Fee" data-datafield="RestockingFee" data-datatype="money" data-currencysymbol="CurrencySymbol" data-formdatatype="text" data-sort="none"></div>
   </div>
 </div>

@@ -118,6 +118,37 @@ namespace WebApi.Logic
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> DataExistsAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues)
+        {
+            bool dataExists = false;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select top 1 * ");
+                qry.Add("from " + tablename + " with (nolock)");
+                qry.Add("where ");
+                for (int c = 0; c < wherecolumns.Length; c++)
+                {
+                    qry.Add(wherecolumns[c] + " = @wherecolumnvalue" + c.ToString());
+                    if (c < (wherecolumns.Length - 1))
+                    {
+                        qry.Add(" and ");
+                    }
+                }
+
+                for (int c = 0; c < wherecolumnvalues.Length; c++)
+                {
+                    qry.AddParameter("@wherecolumnvalue" + c.ToString(), wherecolumnvalues[c]);
+                }
+
+                await qry.ExecuteAsync();
+                dataExists = (qry.RowCount >= 1);
+            }
+
+            return dataExists;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<FwDatabaseField[]> GetDataAsync(FwApplicationConfig appConfig, string tablename, string[] wherecolumns, string[] wherecolumnvalues, string[] selectcolumns)
         {
             FwDatabaseField[] results;

@@ -20,6 +20,17 @@ namespace WebApi.Modules.Billing.VendorInvoice
     {
         public VendorInvoiceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorInvoiceLogic); }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/vendorinvoice/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "rDWak7o2DDTHN", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoice/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id:"nRYgEuIU5vz", ActionType: FwControllerActionTypes.Browse)]

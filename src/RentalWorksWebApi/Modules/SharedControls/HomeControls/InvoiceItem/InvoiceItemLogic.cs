@@ -198,6 +198,16 @@ namespace WebApi.Modules.HomeControls.InvoiceItem
         [FwLogicProperty(Id:"dcbXIxrGYZyK", IsReadOnly:true)]
         public decimal? QuikPayExtended { get; set; }
 
+        [FwLogicProperty(Id: "pJZRP7CLDUrmi", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+
+        [FwLogicProperty(Id: "n4CCdEJzbcM6A", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+
+        [FwLogicProperty(Id: "hjhASqFMIIsce", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
+
         //------------------------------------------------------------------------------------ 
     }
 }

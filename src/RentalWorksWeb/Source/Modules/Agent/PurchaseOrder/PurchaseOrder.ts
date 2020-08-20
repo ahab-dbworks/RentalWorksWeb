@@ -1535,9 +1535,54 @@ class PurchaseOrder implements IModule {
         const enableProjects = FwFormField.getValueByDataField($form, 'EnableProjects');
         enableProjects ? $form.find('.projecttab').show() : $form.find('.projecttab').hide();
 
+        //hide/reset Currency change fields
+        $form.find('[data-datafield="UpdateAllRatesToNewCurrency"], [data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
+        FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+        FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+
         this.renderScheduleDateAndTimeSection($form, response);
         this.applyTaxOptions($form, response);
+        this.applyCurrencySymbolToTotalFields($form, response);
     };
+    //----------------------------------------------------------------------------------------------
+    applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
+        const $totalFields = $form.find('.totals[data-type="money"]');
+
+        $totalFields.each((index, element) => {
+            let $fwformfield, currencySymbol;
+            $fwformfield = jQuery(element);
+            currencySymbol = response[$fwformfield.attr('data-currencysymbol')];
+            if (typeof currencySymbol == 'undefined' || currencySymbol === '') {
+                currencySymbol = '$';
+            }
+
+            $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+
+            $fwformfield
+                .find('.fwformfield-value')
+                .inputmask('currency', {
+                    prefix: currencySymbol + ' ',
+                    placeholder: "0.00",
+                    min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
+                    max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
+                    digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
+                    radixPoint: '.',
+                    groupSeparator: ','
+                });
+        });
+
+        //add to grids
+        const $grids = $form.find('[data-name="OrderItemGrid"]');
+
+        $grids.each((index, element) => {
+            let $grid, currencySymbol;
+            $grid = jQuery(element);
+            currencySymbol = response["CurrencySymbol"];
+            if (typeof currencySymbol != 'undefined' && currencySymbol != '') {
+                $grid.attr('data-currencysymboldisplay', currencySymbol);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     applyTaxOptions($form: JQuery, response: any) {
         const $taxFields = $form.find('[data-totalfield="Tax"]');
@@ -2032,27 +2077,8 @@ class PurchaseOrder implements IModule {
     //};
     ////----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
-        let subTotal, discount, salesTax, salesTax2, grossTotal, total, rateType;
-        //let extendedTotal = new Decimal(0);
-        //let discountTotal = new Decimal(0);
-        //let taxTotal = new Decimal(0);
-        //let taxTotal2 = new Decimal(0);
-
-        let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
-        //switch (rateValue) {
-        //    case 'W':
-        //        rateType = 'Weekly';
-        //        break;
-        //    case 'P':
-        //        rateType = 'Period';
-        //        break;
-        //    case 'M':
-        //        rateType = 'Monthly';
-        //        break;
-        //    default:
-        //        rateType = 'Period';
-        //}
-
+        let subTotal, discount, salesTax, salesTax2, grossTotal, total;
+        const rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
 
         //const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
         //const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
@@ -2115,12 +2141,12 @@ class PurchaseOrder implements IModule {
                 total = totals.PeriodTotal;
         }
 
-        $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
-        $form.find(`.${gridType}-totals [data-totalfield="Discount"] input`).val(discount);
-        $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
-        $form.find(`.${gridType}-totals [data-totalfield="Tax2"] input`).val(salesTax2);
-        $form.find(`.${gridType}-totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
-        $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="SubTotal"]`), subTotal);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Discount"]`), discount);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Tax"]`), salesTax);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Tax2"]`), salesTax2);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="GrossTotal"]`), grossTotal);
+        FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Total"]`), total);
     };
     //----------------------------------------------------------------------------------------------
     applyRateType($form: JQuery) {
@@ -2186,6 +2212,13 @@ class PurchaseOrder implements IModule {
                 FwFormField.setValueByDataField($form, 'RemitToState', response.RemitState);
                 FwFormField.setValueByDataField($form, 'RemitToZipCode', response.RemitZipCode);
                 FwFormField.setValueByDataField($form, 'RemitToCountryId', response.RemitCountryId, response.RemitCountry);
+
+
+                const office = JSON.parse(sessionStorage.getItem('location'));
+                const currencyId = response.DefaultCurrencyId || office.defaultcurrencyid;
+                const currencyCode = response.DefaultCurrencyCode || office.defaultcurrencycode;
+                FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
+
 
                 if ($form.attr('data-mode') === 'NEW') {
                     FwFormField.setValueByDataField($form, 'ReceiveDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
@@ -2382,6 +2415,42 @@ class PurchaseOrder implements IModule {
                 };
             }
             FwFormField.setValue2($form.find(`[data-validationname="${data.field}Validation"]`), id, data.value);
+        });
+
+        //Currency Change
+        $form.find('[data-datafield="CurrencyId"]').data('onchange', $tr => {
+            const mode = $form.attr('data-mode');
+            if (mode !== 'NEW') {
+                const originalVal = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
+                const newVal = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
+                const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
+                if (originalVal !== '' && originalVal !== newVal) {
+                    const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
+                    const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
+                    $updateRatesCheckbox.show().find('.checkbox-caption')
+                        .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
+                        .css('white-space', 'break-spaces');
+                } else {
+                    $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]').hide();
+                }
+                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
+                FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+            }
+        });
+
+        //Currency Change Text Confirmation
+        $form.on('change', '[data-datafield="UpdateAllRatesToNewCurrency"]', e => {
+            const updateAllRates = FwFormField.getValueByDataField($form, 'UpdateAllRatesToNewCurrency');
+            const $updateRatesTextConfirmation = $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]');
+            if (updateAllRates) {
+                $updateRatesTextConfirmation.show().find('.fwformfield-caption')
+                    .text(`Type 'UPDATE RATES' here to confirm this change.  All Item Rates will be altered when this Purchase Order is saved.`)
+                    .css({ 'white-space': 'break-spaces', 'height': 'auto', 'font-size': '1em', 'color': 'red' });
+            } else {
+                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                $updateRatesTextConfirmation.hide();
+            }
         });
     };
     //----------------------------------------------------------------------------------------------

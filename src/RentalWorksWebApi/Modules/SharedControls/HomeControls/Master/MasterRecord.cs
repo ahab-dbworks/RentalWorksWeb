@@ -301,6 +301,15 @@ namespace WebApi.Modules.HomeControls.Master
         [FwSqlDataField(column: "cogrexpenseaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CostOfGoodsRentedExpenseAccountId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciationexpenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string DepreciationExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "accumulateddepreciationexpenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string AccumulatedDepreciationExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+
 
         [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? IsHazardousMaterial { get; set; }

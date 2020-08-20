@@ -55,6 +55,8 @@ namespace WebApi.Modules.HomeControls.ReceiptInvoice
         public string CurrencyId { get; set; }
         [FwLogicProperty(Id: "zTPlBz9HAqq")]
         public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "GUkvgcwbRWmdg")]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

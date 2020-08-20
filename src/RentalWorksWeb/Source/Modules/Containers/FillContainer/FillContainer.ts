@@ -76,7 +76,7 @@ class FillContainer extends StagingCheckoutBase {
                                 request.uniqueids = {
                                     ScannableInventoryId: inventoryId
                                 };
-                                FwAppData.apiMethod(true, 'POST', `api/v1/container/browse`, request, FwServices.defaultTimeout,
+                                FwAppData.apiMethod(true, 'POST', `api/v1/rentalinventory/browse`, request, FwServices.defaultTimeout,
                                     response => {
                                         if (response.TotalRows === 1) {
                                             const containerIdIndex = response.ColumnIndex.ContainerId;
@@ -105,7 +105,7 @@ class FillContainer extends StagingCheckoutBase {
                                                 FwFormField.disable($form.find('[data-datafield="BarCode"]'));
                                                 FwFormField.setValueByDataField($form, 'OrderId', response.ContainerItemId);
                                                 FwFormField.setValueByDataField($form, 'ContainerItemId', response.ContainerItemId, barcode, true);
-                                                FwNotification.renderNotification('SUCCESS', 'Successfully Instantiated New Container.');
+                                                FwNotification.renderNotification('SUCCESS', 'Successfully Created New Container.');
                                                 $form.find('[data-datafield="Code"] input').focus();
                                             } else {
                                                 $errorMsg.html(`<div><span>${response.msg}</span></div>`);

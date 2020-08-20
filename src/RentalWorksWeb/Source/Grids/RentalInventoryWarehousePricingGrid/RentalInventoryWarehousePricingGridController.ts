@@ -1,6 +1,7 @@
 ﻿class RentalInventoryWarehousePricingGrid {
     Module: string = 'InventoryWarehouseGrid';  //justin 04/10/2019 potential issue with shared Module value. See Issue #401
-    apiurl: string = 'api/v1/inventorywarehouse';
+    //apiurl: string = 'api/v1/inventorywarehouse';
+    apiurl: string = 'api/v1/pricing';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="UnitValue"]').on('change', 'input.value', e => {

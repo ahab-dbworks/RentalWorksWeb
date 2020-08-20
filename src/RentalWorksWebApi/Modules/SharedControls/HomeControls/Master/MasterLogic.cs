@@ -194,6 +194,24 @@ namespace WebApi.Modules.HomeControls.Master
         [FwLogicProperty(Id: "MmZUwR6995DXo", IsReadOnly: true)]
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
 
+        [FwLogicProperty(Id: "CQ5WGXKc7j440")]
+        public string DepreciationExpenseAccountId { get { return master.DepreciationExpenseAccountId; } set { master.DepreciationExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "PmggN2qAFvzuc", IsReadOnly: true)]
+        public string DepreciationExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "vOibaySAZYb95", IsReadOnly: true)]
+        public string DepreciationExpenseAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "E4ybPP2bgZqLo")]
+        public string AccumulatedDepreciationExpenseAccountId { get { return master.AccumulatedDepreciationExpenseAccountId; } set { master.AccumulatedDepreciationExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "MerM2rktkrM6k", IsReadOnly: true)]
+        public string AccumulatedDepreciationExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "PWvuFO2ZHerDR", IsReadOnly: true)]
+        public string AccumulatedDepreciationExpenseAccountDescription { get; set; }
+
         [FwLogicProperty(Id: "DlarQ9MMkOEe")]
         public bool? Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
 

@@ -202,9 +202,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "billphone", modeltype: FwDataTypes.Text)]
         public string RemitToPhone { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
-        public string CurrencyCode { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
         public string Currency{ get; set; }
         //------------------------------------------------------------------------------------ 

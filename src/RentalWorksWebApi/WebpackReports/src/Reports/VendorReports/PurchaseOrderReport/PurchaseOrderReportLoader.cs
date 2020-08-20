@@ -198,6 +198,12 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
         public async Task<List<T>> LoadItems<T>(PurchaseOrderReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -217,7 +223,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "WeeklyTax", "WeeklyTax1", "WeeklyTax2", "WeeklyTaxSubTotal", "WeeklyExtendedWithTax", "WeeklyExtendedWithTaxSubTotal",
                                                  "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal", "MonthlyTax", "MonthlyTax1", "MonthlyTax2", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
                                                  "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTax", "PeriodTax1", "PeriodTax2", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -226,6 +232,11 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             {
                 T item = (T)Activator.CreateInstance(typeof(T));
                 PropertyInfo[] properties = item.GetType().GetProperties();
+
+                bool isSubOrGrandTotalRow = (row[dt.GetColumnNo("RowType")].ToString().Equals("grandtotal") || row[dt.GetColumnNo("RowType")].ToString().Equals("RecTypeDisplayfooter"));
+                string currencySymbol = dt.Rows[0][dt.GetColumnNo("CurrencySymbol")].ToString();
+                string currencyCode = dt.Rows[0][dt.GetColumnNo("CurrencyCode")].ToString();
+
                 foreach (var property in properties)
                 {
                     string fieldName = property.Name;
@@ -247,7 +258,12 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                         if (isDecimal)
                         {
                             decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
-                            property.SetValue(item, d.ToString("N", numberFormat));
+                            string stringValue = d.ToString("N", numberFormat);
+                            if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")))
+                            {
+                                stringValue = currencySymbol + " " + stringValue;
+                            }
+                            property.SetValue(item, stringValue);
                         }
                         else if (propType.Equals(FwDataTypes.Boolean))
                         { 
@@ -1012,6 +1028,13 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         public string Tax2ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
 
+
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
 
         public List<RentalOrderItemReportLoader> RentalItems { get; set; } = new List<RentalOrderItemReportLoader>(new RentalOrderItemReportLoader[] { new RentalOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 

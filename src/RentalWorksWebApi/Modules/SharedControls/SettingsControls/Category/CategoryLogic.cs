@@ -107,14 +107,35 @@ namespace WebApi.Modules.Settings.Category
         [FwLogicProperty(Id:"8K6j3PbKMbS8", IsReadOnly:true)]
         public string CostOfGoodsSoldExpenseAccountDescription { get; set; }
 
-        [FwLogicProperty(Id:"Wiq4Bx4grkyN")]
+        [FwLogicProperty(Id: "Wiq4Bx4grkyN")]
         public string CostOfGoodsRentedExpenseAccountId { get { return inventoryCategory.CostOfGoodsRentedExpenseAccountId; } set { inventoryCategory.CostOfGoodsRentedExpenseAccountId = value; } }
 
-        [FwLogicProperty(Id:"MY8nvI6S1J3A", IsReadOnly:true)]
+        [FwLogicProperty(Id: "MY8nvI6S1J3A", IsReadOnly: true)]
         public string CostOfGoodsRentedExpenseAccountNo { get; set; }
 
-        [FwLogicProperty(Id:"4rCiqlISVIq6", IsReadOnly:true)]
+        [FwLogicProperty(Id: "4rCiqlISVIq6", IsReadOnly: true)]
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "HT8p89O7RY2D")]
+        public int? DepreciationMonths { get { return inventoryCategory.DepreciationMonths; } set { inventoryCategory.DepreciationMonths = value; } }
+
+        [FwLogicProperty(Id: "Z91JiGlqX80RV")]
+        public string DepreciationExpenseAccountId { get { return inventoryCategory.DepreciationExpenseAccountId; } set { inventoryCategory.DepreciationExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "5bA5uiML8VlUo", IsReadOnly: true)]
+        public string DepreciationExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "peOQuwTuKu3v2", IsReadOnly: true)]
+        public string DepreciationExpenseAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "Jk4haG8xHYc2S")]
+        public string AccumulatedDepreciationExpenseAccountId { get { return inventoryCategory.AccumulatedDepreciationExpenseAccountId; } set { inventoryCategory.AccumulatedDepreciationExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "Z5ZQ7KAxAuFjd", IsReadOnly: true)]
+        public string AccumulatedDepreciationExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "pb2RSWYTPvUDI", IsReadOnly: true)]
+        public string AccumulatedDepreciationExpenseAccountDescription { get; set; }
 
         [FwLogicProperty(Id: "7T93jVw52KUI7", IsReadOnly: true)]
         public decimal? InventoryTypeOrderBy { get; set; }

@@ -46,12 +46,6 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "chgbatchid", modeltype: FwDataTypes.Text)]
         public string ChargeBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
-        public string CurrencyId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
-        public string OfficeLocationDefaultCurrencyId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealdepositid", modeltype: FwDataTypes.Text)]
         public string DealDepositId { get; set; }
         //------------------------------------------------------------------------------------ 

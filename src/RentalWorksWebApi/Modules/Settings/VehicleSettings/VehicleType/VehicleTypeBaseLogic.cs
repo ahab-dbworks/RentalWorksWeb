@@ -146,6 +146,28 @@ namespace WebApi.Modules.Settings.VehicleSettings.VehicleType
         [FwLogicProperty(Id:"ANFi8Dcde75", IsReadOnly:true)]
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
 
+        [FwLogicProperty(Id: "JDhnERVlBLSz6")]
+        public int? DepreciationMonths { get { return inventoryCategory.DepreciationMonths; } set { inventoryCategory.DepreciationMonths = value; } }
+
+        [FwLogicProperty(Id: "9gcYsNkY708z5")]
+        public string DepreciationExpenseAccountId { get { return inventoryCategory.DepreciationExpenseAccountId; } set { inventoryCategory.DepreciationExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "6IwTDiCJ0Iuws", IsReadOnly: true)]
+        public string DepreciationExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "HV9Mj1LfZWnmf", IsReadOnly: true)]
+        public string DepreciationExpenseAccountDescription { get; set; }
+
+        [FwLogicProperty(Id: "uNeJHKDt7COSr")]
+        public string AccumulatedDepreciationExpenseAccountId { get { return inventoryCategory.AccumulatedDepreciationExpenseAccountId; } set { inventoryCategory.AccumulatedDepreciationExpenseAccountId = value; } }
+
+        [FwLogicProperty(Id: "a35wnlwpJ0Jd0", IsReadOnly: true)]
+        public string AccumulatedDepreciationExpenseAccountNo { get; set; }
+
+        [FwLogicProperty(Id: "vWjZFQKSxTWEZ", IsReadOnly: true)]
+        public string AccumulatedDepreciationExpenseAccountDescription { get; set; }
+
+
         [FwLogicProperty(Id:"D6CkbLaeihY")]
         public decimal? OrderBy { get { return inventoryCategory.OrderBy; } set { inventoryCategory.OrderBy = value; } }
 

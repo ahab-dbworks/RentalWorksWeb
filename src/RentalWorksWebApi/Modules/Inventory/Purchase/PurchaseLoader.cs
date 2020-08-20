@@ -3,12 +3,18 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
+using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.Inventory.Purchase
 {
     [FwSqlTable("purchasewebview")]
     public class PurchaseLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------
+        public PurchaseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchaseid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string PurchaseId { get; set; }
@@ -45,6 +51,12 @@ namespace WebApi.Modules.Inventory.Purchase
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "received", modeltype: FwDataTypes.Date)]
         public DateTime? ReceiveDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
+        public string PurchaseDateString { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "received", modeltype: FwDataTypes.Date)]
+        public string ReceiveDateString { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasepoid", modeltype: FwDataTypes.Text)]
         public string PurchasePoId { get; set; }
@@ -88,11 +100,32 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? CostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtwithtax", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCostWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtaxextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? CostWithTaxExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtcurrconv", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCostCurrencyConverted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtcurrconvextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? CostCurrencyConvertedExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtaxcurrconv", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtaxcurrconvextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? CostWithTaxCurrencyConvertedExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invcost", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorInvoiceCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invcostextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? VendorInvoiceCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventoryreceiptid", modeltype: FwDataTypes.Text)]
         public string InventoryReceiptId { get; set; }
@@ -106,8 +139,24 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor
+        {
+            get { return getCurrencyColor(CurrencyId, WarehouseDefaultCurrencyId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "whdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string WarehouseDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whdefaultcurrencycode", modeltype: FwDataTypes.Text)]
+        public string WarehouseDefaultCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whdefaultcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string WarehouseDefaultCurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "physicalid", modeltype: FwDataTypes.Text)]
         public string PhysicalInventoryId { get; set; }
@@ -193,6 +242,31 @@ namespace WebApi.Modules.Inventory.Purchase
             select.Parse();
             addFilterToSelect("InventoryId", "masterid", select, request); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("CurrencyColor")] = getCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("WarehouseDefaultCurrencyId")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
+        protected string getCurrencyColor(string currencyId, string warehouseCurrencyId)
+        {
+            string color = null;
+            if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(warehouseCurrencyId)))
+            {
+                color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+            }
+            return color;
         }
         //------------------------------------------------------------------------------------ 
     }

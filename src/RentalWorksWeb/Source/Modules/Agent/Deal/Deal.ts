@@ -125,6 +125,7 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="PoType"]', dealDefaults.defaultdealpotype);
             FwFormField.setValueByDataField($form, 'DefaultRate', officeLocation.ratetype, officeLocation.ratetype);
             FwFormField.setValue($form, 'div[data-datafield="CreditStatusId"]', dealDefaults.defaultcreditstatusid, dealDefaults.defaultcreditstatus);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', officeLocation.defaultcurrencyid, officeLocation.defaultcurrencycode);
         }
 
         const userAssignedDealNo = JSON.parse(sessionStorage.getItem('controldefaults')).userassigneddealnumber;
@@ -901,6 +902,7 @@ class Deal {
                 FwFormField.setValueByDataField($form, 'Email', response.Email);
                 FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
                 FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', response.PaymentTermsId, response.PaymentTerms);
+                FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', response.CurrencyId, response.CurrencyCode);
                 // Insurance tab
                 if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
                     FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);

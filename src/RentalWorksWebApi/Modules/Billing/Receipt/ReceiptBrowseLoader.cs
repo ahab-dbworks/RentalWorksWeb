@@ -53,9 +53,25 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "chgbatchno", modeltype: FwDataTypes.Text)]
         public string ChargeBatchNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor
+        {
+            get { return getCurrencyColor(CurrencyId, OfficeLocationDefaultCurrencyId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string RecTypeColor
         {
@@ -87,6 +103,16 @@ namespace WebApi.Modules.Billing.Receipt
             return AppFunc.GetReceiptRecTypeColor(recType);
         }
         //------------------------------------------------------------------------------------    
+        protected string getCurrencyColor(string currencyId, string officeLocationCurrencyId)
+        {
+            string color = null;
+            if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationCurrencyId)))
+            {
+                color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
         {
             if (e.DataTable != null)
@@ -97,6 +123,7 @@ namespace WebApi.Modules.Billing.Receipt
                     foreach (List<object> row in dt.Rows)
                     {
                         row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
+                        row[dt.GetColumnNo("CurrencyColor")] = getCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
                     }
                 }
             }

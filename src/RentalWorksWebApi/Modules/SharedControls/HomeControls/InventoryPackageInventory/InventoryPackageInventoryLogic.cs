@@ -114,6 +114,15 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwLogicProperty(Id: "dE3z1QedlNKm", IsReadOnly: true)]
         public decimal? MonthlyRate { get; set; }
 
+
+        [FwLogicProperty(Id: "wQ5HkwcUACkCP", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "TuPYOSF7acMbg", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "W7CgBy8ThvzNv", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
+
         [FwLogicProperty(Id: "UZG6tS55HmCK")]
         public string DateStamp { get { return inventoryPackageInventory.DateStamp; } set { inventoryPackageInventory.DateStamp = value; } }
 

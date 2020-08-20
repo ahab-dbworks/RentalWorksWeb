@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/subworksheet$/, action: function (match: RegExpExecArray) { return SubWorksheetController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/subworksheet$/, action: function (match: RegExpExecArray) { return SubWorksheetController.getModuleScreen(); } });
 
 class SubWorksheet {
     Module: string = 'SubWorksheet';
@@ -116,9 +116,15 @@ class SubWorksheet {
         });
 
         $form.on('change', '.subworksheet', e => {
-            if (jQuery(e.currentTarget).attr('data-datafield') === 'RateId') {
+            const datafield = jQuery(e.currentTarget).attr('data-datafield');
+            if (datafield === 'RateId') {
                 this.hideFieldsColumns($form);
             }
+
+            if (datafield === 'VendorId') {
+                return false;
+            }
+
             const worksheetOpened = $form.data('worksheet-opened-flag');
             if (worksheetOpened) {
                 this.updatePOWorksheetSession($form, parentmoduleinfo);
@@ -249,9 +255,13 @@ class SubWorksheet {
             $form.attr('data-modified', 'false');
         })
         // Misc events
-        $form.find('div[data-datafield="VendorId"]').data('onchange', function ($tr) {
-            FwFormField.setValueByDataField($form, 'RateId', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+        $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
+            const newRate = FwBrowse.getValueByDataField($form, $tr, 'DefaultRate');
 
+            if (newRate != '') {
+                FwFormField.setValueByDataField($form, 'RateId', newRate, newRate);
+            }
+           
             //only update the Currency if one is specified on the Vendor
             if ($tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue')) {
                 FwFormField.setValueByDataField($form, 'CurrencyId', $tr.find('.field[data-browsedatafield="DefaultCurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
@@ -260,6 +270,11 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'ContactId', $tr.find('.field[data-browsedatafield="PrimaryContactId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PrimaryContact"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="PrimaryContactPhone"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="PrimaryContactExtension"]').attr('data-originalvalue'));
+
+            const worksheetOpened = $form.data('worksheet-opened-flag');
+            if (worksheetOpened) {
+                this.updatePOWorksheetSession($form, parentmoduleinfo);
+            }
         });
 
         $form.find('div[data-datafield="ContactId"]').data('onchange', function ($tr) {
@@ -459,6 +474,31 @@ class SubWorksheet {
             $form.find(".totalType input").on('change', e => {
                 this.getSubPOItemGridTotals($form, response);
             });
+
+            const $totalFields = $form.find('[data-totalfield][data-type="money"]');
+            let currencySymbol = response.Rows[0][response.ColumnIndex['VendorCurrencySymbol']];
+            $totalFields.each((index, element) => {
+                let $fwformfield;
+                $fwformfield = jQuery(element);
+                if (typeof currencySymbol == 'undefined' || currencySymbol === '') {
+                    currencySymbol = '$';
+                }
+
+                $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+
+                $fwformfield
+                    .find('.fwformfield-value')
+                    .inputmask('currency', {
+                        prefix: currencySymbol + ' ',
+                        placeholder: "0.00",
+                        min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
+                        max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
+                        digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
+                        radixPoint: '.',
+                        groupSeparator: ','
+                    });
+            });
+
             FwFormField.setValue($form, 'div[data-totalfield="Total"]', total);
             FwFormField.setValue($form, 'div[data-totalfield="Tax"]', salesTax);
             FwFormField.setValue($form, 'div[data-totalfield="SubTotal"]', subTotal);
@@ -512,13 +552,36 @@ class SubWorksheet {
             },
             beforeSave: (request: any) => {
                 request.SessionId = this.SessionId;
+            },
+            afterDataBindCallback: ($browse, dt) => {
+                this.showConvertedCurrency($browse, dt);
             }
         });
     }
     //----------------------------------------------------------------------------------------------
+    showConvertedCurrency($browse: JQuery, dt: any) {
+        const $form = $browse.closest('.fwform');
+        const rate = FwFormField.getValueByDataField($form, 'RateId');
+        const dtRow = dt.Rows[0];
+        const vendorCurrency = dtRow[dt.ColumnIndex['VendorCurrencyId']];
+        const dealCurrency = dtRow[dt.ColumnIndex['DealCurrencyId']];
+
+        if (vendorCurrency != dealCurrency) {
+            $browse.find('[data-browsedatafield="VendorPeriodExtended"]').attr('data-borderend', 'false');
+            $browse.find('[data-browsedatafield="CurrencyConvertedPeriodExtended"]').closest('td').show();
+            if (rate === 'MONTHLY') {
+                $browse.find('[data-browsedatafield="CurrencyConvertedMonthlyExtended"]').closest('td').show();
+            } else {
+                $browse.find('[data-browsedatafield="CurrencyConvertedWeeklyExtended"]').closest('td').show();
+            }
+        } else {
+            $browse.find('[data-browsedatafield="CurrencyConvertedPeriodExtended"], [data-browsedatafield="CurrencyConvertedWeeklyExtended"], [data-browsedatafield="CurrencyConvertedMonthlyExtended"]').closest('td').hide();
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     hideFieldsColumns($form: any): void {
-        const listSubPOFields: any = ["VendorDaysPerWeek", "VendorWeeklyExtended", "VendorMonthlyExtended", 
-                                              "DealDaysPerWeek", "DealWeeklyExtended", "DealMonthlyExtended"];
+        const listSubPOFields: any = ["VendorDaysPerWeek", "VendorWeeklyExtended", "VendorMonthlyExtended",
+            "DealDaysPerWeek", "DealWeeklyExtended", "DealMonthlyExtended"];
         let hiddenSubPOFields: any = [];
         let visibleSubPOFields: any = [];
         const orderRateType = FwFormField.getValueByDataField($form, 'OrderRateType');

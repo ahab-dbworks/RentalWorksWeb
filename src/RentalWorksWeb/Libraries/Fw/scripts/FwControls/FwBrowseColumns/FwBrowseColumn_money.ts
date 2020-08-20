@@ -1,21 +1,31 @@
 ﻿class FwBrowseColumn_moneyClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-
+        if (typeof dt.ColumnIndex[$field.attr('data-currencysymbol')] === 'number') {
+            var currencySymbol = dtRow[dt.ColumnIndex[$field.attr('data-currencysymbol')]];
+            if (currencySymbol === '') {
+                currencySymbol = '$';
+            }
+            $field.attr('data-currencysymboldisplay', currencySymbol);
+            //$field.css('--currencysymbol', `'${currencySymbol} '`);
+        }
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             var $value = $field.find('input.value');
+            var currencySymbol = (typeof $field.attr('data-currencysymboldisplay') === 'string') ? $field.attr('data-currencysymboldisplay') : '$';
             if ($value.length > 0) {
                 field.value = $field.find('input.value').inputmask('unmaskedvalue');
                 if (field.value === '') {
-                    field.value = originalvalue.replace('$', '');
+                    field.value = originalvalue.replace(currencySymbol, '');
+                    field.value = originalvalue;
                 } else if (field.value === '0.00') {
                     field.value = '0';
                 }
             } else {
-                field.value = originalvalue.replace('$', '');
+                field.value = originalvalue.replace(currencySymbol, '');
+                //field.value = originalvalue;
             }
         }
     }
@@ -27,9 +37,10 @@
             }
         } else {
             if ((data.value.length > 0) && (!isNaN(parseFloat(data.value)))) {
-                $field.find('input.value').val(parseFloat(data.value).toFixed(2));
+                $field.find('input.value').val(parseFloat(data.value));
             } else {
                 $field.find('input.value').val('$0.00');
+                //$field.find('input.value').val('0.00');
             }
         }
     }
@@ -46,13 +57,24 @@
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
+        var currencySymbol = '$';
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        if ((typeof $browse.attr('data-currencysymboldisplay') === 'string') && $browse.attr('data-currencysymboldisplay') !== '') {
+            currencySymbol = $browse.attr('data-currencysymboldisplay');
+        }
+
+        if (typeof $field.attr('data-currencysymboldisplay') === 'string' && $field.attr('data-currencysymboldisplay') !== '') {
+            currencySymbol = $field.attr('data-currencysymboldisplay');
+        }
+
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
-            $field.html('$' + (<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
-            $field.html(`<div class="fieldvalue">$${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
+            $field.html(/*currencySymbol +*/ (<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
+            $field.html(`<div class="fieldvalue">${currencySymbol} ${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
+            //$field.html(`<div class="fieldvalue">${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
         } else {
-            $field.html('<div class="fieldvalue">$0.00</div>');
+            $field.html(`<div class="fieldvalue">${currencySymbol} 0.00</div>`);
+            //$field.html(`<div class="fieldvalue">0.00</div>`);
         }
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
@@ -62,7 +84,17 @@
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
+        var currencySymbol = '$';
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        if ((typeof $browse.attr('data-currencysymboldisplay') === 'string') && $browse.attr('data-currencysymboldisplay') !== '') {
+            currencySymbol = $browse.attr('data-currencysymboldisplay');
+        }
+
+        if (typeof $field.attr('data-currencysymboldisplay') === 'string' && $field.attr('data-currencysymboldisplay') !== '') {
+            currencySymbol = $field.attr('data-currencysymboldisplay');
+        }
+
+
         let html = [];
         html.push('<input class="value" type="text"');
         if ($browse.attr('data-enabled') === 'false') {
@@ -71,7 +103,17 @@
         html.push(' />');
         let htmlString = html.join('');
         $field.html(htmlString);
-        $field.find('input.value').inputmask("currency");
+        $field.find('input.value').inputmask("currency", {
+            prefix: currencySymbol + ' ',
+            placeholder: "0.00",
+            min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
+            max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),
+            digits: ((typeof $field.attr('data-digits') !== 'undefined') ? $field.attr('data-digits') : 2),
+            radixPoint: '.',
+            groupSeparator: ',',
+            autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
+        });
+
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         if ($field.data('autoselect') === true) {
             $field.data('autoselect', false);

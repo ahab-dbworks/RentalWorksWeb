@@ -154,6 +154,24 @@ namespace WebApi.Modules.Settings.Category
         [FwSqlDataField(column: "cogrexpenseglacctdesc", modeltype: FwDataTypes.Text)]
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "depreciationexpenseaccountid", modeltype: FwDataTypes.Text)]
+        public string DepreciationExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "depreciationexpenseglno", modeltype: FwDataTypes.Text)]
+        public string DepreciationExpenseAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "depreciationexpenseglacctdesc", modeltype: FwDataTypes.Text)]
+        public string DepreciationExpenseAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "accumulateddepreciationexpenseaccountid", modeltype: FwDataTypes.Text)]
+        public string AccumulatedDepreciationExpenseAccountId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "accumulateddepreciationexpenseglno", modeltype: FwDataTypes.Text)]
+        public string AccumulatedDepreciationExpenseAccountNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "accumulateddepreciationexpenseglacctdesc", modeltype: FwDataTypes.Text)]
+        public string AccumulatedDepreciationExpenseAccountDescription { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "idorderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
         public decimal? InventoryTypeOrderBy { get; set; }
         //------------------------------------------------------------------------------------

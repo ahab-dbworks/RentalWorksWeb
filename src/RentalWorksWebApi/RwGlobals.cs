@@ -111,6 +111,8 @@ namespace WebApi
         public static string INVENTORY_AVAILABLE_FOR_PARTS_COLOR { get; set; }
         public static string INVENTORY_STATUS_IN_ID { get; set; }
 
+        public static string DEPRECIATION_ADJUSTMENT_COLOR { get; set; }
+
 
         //STAGING / CHECK-OUT
         public static string STAGING_PENDING_ITEMS_MISSING_COLOR { get; set; }
@@ -160,6 +162,7 @@ namespace WebApi
 
             INVENTORY_AVAILABLE_FOR_SALE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_SALE_COLOR);
             INVENTORY_AVAILABLE_FOR_PARTS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS_COLOR);
+            DEPRECIATION_ADJUSTMENT_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.DEPRECIATION_ADJUSTMENT_COLOR);
 
             using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
             {

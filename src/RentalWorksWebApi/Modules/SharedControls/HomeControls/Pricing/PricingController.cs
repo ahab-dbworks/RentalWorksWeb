@@ -35,29 +35,29 @@ namespace WebApi.Modules.HomeControls.Pricing
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/pricing/D00BYU6Z/B0029AY5/A001TSXJ   //masterid/warehouseid/currencyid
-        [HttpGet("{masterid}/{warehouseid}/{currencyid}")]
+        // GET api/v1/pricing/D00BYU6Z/B0029AY5/A001TSXJ   //inventoryid/warehouseid/currencyid
+        [HttpGet("{inventoryid}/{warehouseid}/{currencyid}")]
         [FwControllerMethod(Id:"jQK0qxwBnK", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAndCurrencyIdAsync([FromRoute]string masterid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAndCurrencyIdAsync([FromRoute]string inventoryid, [FromRoute]string warehouseid, [FromRoute]string currencyid)
         {
-            return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, currencyid);
+            return await DoSpecialGetAsync<PricingLogic>(inventoryid, warehouseid, currencyid);
 
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/pricing/D00BYU6Z/B0029AY5   //masterid/warehouseid
-        [HttpGet("{masterid}/{warehouseid}")]
+        // GET api/v1/pricing/D00BYU6Z/B0029AY5   //inventoryid/warehouseid
+        [HttpGet("{inventoryid}/{warehouseid}")]
         [FwControllerMethod(Id:"07TSm1lM7e", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAsync([FromRoute]string masterid, [FromRoute]string warehouseid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAndWarehouseIdAsync([FromRoute]string inventoryid, [FromRoute]string warehouseid)
         {
-            return await DoSpecialGetAsync<PricingLogic>(masterid, warehouseid, "");
+            return await DoSpecialGetAsync<PricingLogic>(inventoryid, warehouseid, "");
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/pricing/D00BYU6Z    //masterid
-        [HttpGet("{masterid}")]
+        // GET api/v1/pricing/D00BYU6Z    //inventoryid
+        [HttpGet("{inventoryid}")]
         [FwControllerMethod(Id:"qyjbDa9I9W", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAsync([FromRoute]string masterid)
+        public async Task<ActionResult<IEnumerable<PricingLogic>>> GetManyByMasterIdAsync([FromRoute]string inventoryId)
         {
-            return await DoSpecialGetAsync<PricingLogic>(masterid, "", "");
+            return await DoSpecialGetAsync<PricingLogic>(inventoryId, "", "");
         }
         //------------------------------------------------------------------------------------ 
         protected async Task<ActionResult<IEnumerable<T>>> DoSpecialGetAsync<T>(string masterId, string warehouseId, string currencyId)
@@ -70,7 +70,7 @@ namespace WebApi.Modules.HomeControls.Pricing
             {
 
                 IDictionary<string, object> uniqueIds = new Dictionary<string, object>();
-                uniqueIds.Add("MasterId", masterId);
+                uniqueIds.Add("InventoryId", masterId);
                 uniqueIds.Add("WarehouseId", warehouseId);
                 uniqueIds.Add("CurrencyId", currencyId);
 
@@ -90,5 +90,23 @@ namespace WebApi.Modules.HomeControls.Pricing
             }
         }
         //------------------------------------------------------------------------------------
+        //// PUT api/v1/pricing/A0000001 
+        //[HttpPut("{id}")]
+        //[FwControllerMethod(Id: "vHn1dP6sZ8rgB", ActionType: FwControllerActionTypes.Edit)]
+        //public async Task<ActionResult<PricingLogic>> EditAsync([FromRoute] string id, [FromBody]PricingLogic l)
+        //{
+        //    return await DoEditAsync<PricingLogic>(l);
+        //}
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/pricing/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "3EIIA7or0scGl")]
+        public async Task<List<ActionResult<PricingLogic>>> PostAsync([FromBody]List<PricingLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<PricingLogic>(l2);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

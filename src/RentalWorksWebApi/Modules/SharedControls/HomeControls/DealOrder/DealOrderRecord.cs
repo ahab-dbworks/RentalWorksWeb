@@ -176,7 +176,7 @@ namespace WebApi.Modules.HomeControls.DealOrder
         [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string PaymentTypeId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08, required: true)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]

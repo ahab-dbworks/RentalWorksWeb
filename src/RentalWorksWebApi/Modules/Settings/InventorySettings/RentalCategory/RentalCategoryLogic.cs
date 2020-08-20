@@ -60,13 +60,11 @@ namespace WebApi.Modules.Settings.InventorySettings.RentalCategory
         [FwLogicProperty(Id:"keQ2OzKwH9QZ")]
         public int? PreventiveMaintenanceCyclePeriod { get { return inventoryCategory.PreventiveMaintenanceCyclePeriod; } set { inventoryCategory.PreventiveMaintenanceCyclePeriod = value; } }
 
-        [FwLogicProperty(Id:"HT8p89O7RY2D")]
-        public int? DepreciationMonths { get { return inventoryCategory.DepreciationMonths; } set { inventoryCategory.DepreciationMonths = value; } }
 
-
+        //------------------------------------------------------------------------------------    
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            RecType = "R";
+            RecType = RwConstants.RECTYPE_RENTAL;
         }
         //------------------------------------------------------------------------------------    
     }

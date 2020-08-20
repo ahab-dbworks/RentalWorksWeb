@@ -1382,6 +1382,81 @@ abstract class InventoryBase {
         this.afterLoadSetClassification($form);
     }
     //----------------------------------------------------------------------------------------------
+    currencyViewForPricingGrids(evt, tag: string) {
+        const $browse = jQuery(evt.currentTarget).closest('.fwbrowse');
+        const $form = jQuery(evt.currentTarget).closest('.fwform');
+
+        const showPrompt = () => {
+            const $confirmation = FwConfirmation.renderConfirmation('Choose a currency', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '300px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="flexrow">');
+            html.push('  <div class="flexcolumn">');
+            html.push('    <div class="flexrow">');
+            html.push('      <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class= "fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" style="flex:1 1 250px;" ></div>');
+            html.push('  </div>')
+            html.push('  </div>');
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'View', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            $yes.on('click', e => {
+                const currencyId = FwFormField.getValueByDataField($confirmation, 'CurrencyId');
+                if (currencyId) {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    $browse.data('ondatabind', request => {
+                        request.uniqueids = {
+                            CurrencyId: currencyId,
+                        };
+                        if (isRateForm) {
+                            request.uniqueids.RateId = rateId;
+                        } else {
+                            request.uniqueids.InventoryId = inventoryId;
+                        }
+                    });
+                    FwBrowse.search($browse);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Choose a currency before proceeding')
+                }
+            });
+        }
+        let isRateForm = false;
+        let rateId, inventoryId;
+        if ($form.hasClass('rate-form')) {
+            isRateForm = true;
+            rateId = FwFormField.getValueByDataField($form, 'RateId');
+        } else {
+            inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        }
+
+        let view;
+        if (tag === 'specific') {
+            showPrompt();
+        } else if (tag === 'local' || tag === 'all') {
+            if (tag === 'local') {
+                view = '';
+            }
+            if (tag === 'all') {
+                view = 'ALL'
+            }
+
+            $browse.data('ondatabind', request => {
+                request.uniqueids = {
+                    CurrencyId: view,
+                };
+                if (isRateForm) {
+                    request.uniqueids.RateId = rateId;
+                } else {
+                    request.uniqueids.InventoryId = inventoryId;
+                }
+            });
+            FwBrowse.search($browse);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     //calculateYearly() {
     //    for (var jan = 0; jan <= 30; jan++) {
     //        this.yearlyEvents.push({
