@@ -307,6 +307,9 @@ class WebApiCompiler {
     async dotnet_publish() {
         const appsSrcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps');
         const appsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps');
+        const rentalworksDestSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/RentalWorks');
+        const quikscanDestSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/QuikScan');
+        const trakitworksDestSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/TrakitWorks');
         const webSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps/rentalworks');
         const webDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWeb');
         const downloadsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/wwwroot/temp/downloads');
@@ -318,6 +321,12 @@ class WebApiCompiler {
         await fs.unlink('../../build/RentalWorksWebApi/appsettings.json', function (error) { if (error) { throw error; } console.log('Deleted appsettings.json'); });
         console.log('//------------------------------------------------------------------------------------');
         await rmfr(appsDestDir);
+
+        // prevent any source folders from getting deployed by accident.
+        await rmfr(rentalworksDestSrcDir);
+        await rmfr(quikscanDestSrcDir);
+        await rmfr(trakitworksDestSrcDir);
+
         await fs.ensureDir(appsDestDir);
         console.log(`Deploying apps folder from: "${appsSrcDir}" to "${appsDestDir}"`);
         await fs.copy(appsSrcDir, appsDestDir);
