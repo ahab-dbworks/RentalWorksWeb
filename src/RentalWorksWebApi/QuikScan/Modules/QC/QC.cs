@@ -1,6 +1,7 @@
 ﻿using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using FwStandard.Utilities;
 using RentalWorksQuikScan.Source;
 using System;
 using System.Data;
@@ -92,7 +93,8 @@ namespace RentalWorksQuikScan.Modules
                     await UpdateRentalItemQCAsync(request.qcitem.rentalitemid, request.qcitem.rentalitemqcid, request.conditionid, request.note);
                 }
 
-                for (int i = 0; i < request.images.Length; i++)
+                if (FwValidate.IsPropertyDefined(request, "images") && request.images != null)
+                for (int i = 0; i < request.images.Count; i++)
                 {
                     image = Convert.FromBase64String(request.images[i]);
                     await FwSqlData.InsertAppImageAsync(conn, this.ApplicationConfig.DatabaseSettings, request.qcitem.rentalitemqcid, string.Empty, string.Empty, string.Empty, string.Empty, "JPG", image);
