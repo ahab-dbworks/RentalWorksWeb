@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -109,6 +109,11 @@
     <Content Remove="QuikScan\package.json" />
     <Content Remove="QuikScan\tsconfig.json" />
     <Content Remove="QuikScan\Web.config" />
+    <Content Remove="TrakitWorks\app_scripts.json" />
+    <Content Remove="TrakitWorks\JSAppBuilder.config" />
+    <Content Remove="TrakitWorks\package.json" />
+    <Content Remove="TrakitWorks\tsconfig.json" />
+    <Content Remove="TrakitWorks\Web.config" />
     <Content Remove="tsconfig.json" />
     <Content Remove="WebpackReports\tsconfig.json" />
   </ItemGroup>
@@ -460,6 +465,11 @@
     <None Include="QuikScan\Web.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="TrakitWorks\app_scripts.json" />
+    <None Include="TrakitWorks\JSAppBuilder.config" />
+    <None Include="TrakitWorks\package.json" />
+    <None Include="TrakitWorks\tsconfig.json" />
+    <None Include="TrakitWorks\Web.config" />
     <None Include="tsconfig.json" />
     <None Include="Web.config" />
     <None Include="WebpackReports\tsconfig.json" />
