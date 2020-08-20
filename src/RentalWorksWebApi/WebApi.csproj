@@ -39,6 +39,7 @@
     <Compile Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <Compile Remove="QuikScan\theme\fwimages\icons\**" />
     <Compile Remove="QuikScan\theme\fwimages\textures\**" />
+    <Compile Remove="TrakitWorks\Libraries\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Compile Remove="wwwroot\lib\**" />
@@ -51,6 +52,7 @@
     <Content Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <Content Remove="QuikScan\theme\fwimages\icons\**" />
     <Content Remove="QuikScan\theme\fwimages\textures\**" />
+    <Content Remove="TrakitWorks\Libraries\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <Content Remove="wwwroot\lib\**" />
@@ -63,6 +65,7 @@
     <EmbeddedResource Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <EmbeddedResource Remove="QuikScan\theme\fwimages\icons\**" />
     <EmbeddedResource Remove="QuikScan\theme\fwimages\textures\**" />
+    <EmbeddedResource Remove="TrakitWorks\Libraries\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <EmbeddedResource Remove="wwwroot\lib\**" />
@@ -75,6 +78,7 @@
     <None Remove="QuikScan\theme\fwfonts\materialicons\**" />
     <None Remove="QuikScan\theme\fwimages\icons\**" />
     <None Remove="QuikScan\theme\fwimages\textures\**" />
+    <None Remove="TrakitWorks\Libraries\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <None Remove="WebpackReports\lib\FwReportLibrary\dist\**" />
     <None Remove="wwwroot\lib\**" />
@@ -111,6 +115,7 @@
     <Content Remove="QuikScan\Web.config" />
     <Content Remove="TrakitWorks\app_scripts.json" />
     <Content Remove="TrakitWorks\JSAppBuilder.config" />
+    <Content Remove="TrakitWorks\package-lock.json" />
     <Content Remove="TrakitWorks\package.json" />
     <Content Remove="TrakitWorks\tsconfig.json" />
     <Content Remove="TrakitWorks\Web.config" />
@@ -467,6 +472,7 @@
     </None>
     <None Include="TrakitWorks\app_scripts.json" />
     <None Include="TrakitWorks\JSAppBuilder.config" />
+    <None Include="TrakitWorks\package-lock.json" />
     <None Include="TrakitWorks\package.json" />
     <None Include="TrakitWorks\tsconfig.json" />
     <None Include="TrakitWorks\Web.config" />
