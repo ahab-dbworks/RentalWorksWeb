@@ -7,7 +7,6 @@
                 currencySymbol = '$';
             }
             $field.attr('data-currencysymboldisplay', currencySymbol);
-            //$field.css('--currencysymbol', `'${currencySymbol} '`);
         }
     }
     //---------------------------------------------------------------------------------
@@ -25,7 +24,6 @@
                 }
             } else {
                 field.value = originalvalue.replace(currencySymbol, '');
-                //field.value = originalvalue;
             }
         }
     }
@@ -40,7 +38,6 @@
                 $field.find('input.value').val(parseFloat(data.value));
             } else {
                 $field.find('input.value').val('$0.00');
-                //$field.find('input.value').val('0.00');
             }
         }
     }
@@ -69,12 +66,10 @@
         }
 
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
-            $field.html(/*currencySymbol +*/ (<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
+            //$field.html(currencySymbol +(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
             $field.html(`<div class="fieldvalue">${currencySymbol} ${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
-            //$field.html(`<div class="fieldvalue">${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
         } else {
             $field.html(`<div class="fieldvalue">${currencySymbol} 0.00</div>`);
-            //$field.html(`<div class="fieldvalue">0.00</div>`);
         }
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
@@ -93,7 +88,6 @@
         if (typeof $field.attr('data-currencysymboldisplay') === 'string' && $field.attr('data-currencysymboldisplay') !== '') {
             currencySymbol = $field.attr('data-currencysymboldisplay');
         }
-
 
         let html = [];
         html.push('<input class="value" type="text"');
