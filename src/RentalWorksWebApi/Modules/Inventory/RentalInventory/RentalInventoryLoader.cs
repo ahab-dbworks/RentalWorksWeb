@@ -85,6 +85,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
             select.AddWhere("(availfor='" + RwConstants.INVENTORY_AVAILABLE_FOR_RENT + "')");
+            addFilterToSelect("ScannableInventoryId", "scannablemasterid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

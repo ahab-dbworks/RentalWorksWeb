@@ -13,6 +13,7 @@ using WebApi.Modules.Transfers.TransferOrder;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.HomeControls.ContainerItem;
 using WebApi.Modules.Containers.Container;
+using WebApi.Modules.Inventory.RentalInventory;
 
 namespace WebApi.Modules.Warehouse.CheckOut
 {
@@ -394,8 +395,8 @@ namespace WebApi.Modules.Warehouse.CheckOut
         [FwControllerMethod(Id: "j06Fok0NSyuW", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateContainerBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<ContainerLogic>(browseRequest);
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
         }
-
+        //------------------------------------------------------------------------------------ 
     }
 }
