@@ -1570,6 +1570,16 @@ class PurchaseOrder implements IModule {
                     groupSeparator: ','
                 });
         });
+
+        //add to grids
+        const $grids = $form.find('[data-name="OrderItemGrid"]');
+
+        $grids.each((index, element) => {
+            let $grid, currencySymbol;
+            $grid = jQuery(element);
+            currencySymbol = response["CurrencySymbol"];
+            $grid.attr('data-currencysymboldisplay', currencySymbol);
+        });
     }
     //----------------------------------------------------------------------------------------------
     applyTaxOptions($form: JQuery, response: any) {
