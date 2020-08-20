@@ -25,7 +25,7 @@
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: { text: string, value: string, selected?: boolean, optgroup?: string }[], hideEmptyItem: boolean): void {
+    loadItems($control: JQuery<HTMLElement>, items: { text: string, value: string, selected?: boolean, optgroup?: string }[], hideEmptyItem: boolean, model: any): void {
         var optgroup, selected;
 
         const html = [];
