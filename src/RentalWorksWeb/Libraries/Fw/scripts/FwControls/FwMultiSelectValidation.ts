@@ -387,7 +387,7 @@
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
         const multiselectfield = $control.find('.multiselectitems');
-        const multiSeparator = $control.hasClass('email') ? ';' : jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
+        const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         const $inputField = multiselectfield.find('span.addItem');
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
@@ -426,13 +426,9 @@
         }
         multiselectfield.append($inputField);
 
-        if ($control.hasClass('email')) {
-            uniqueid = selectedRowUniqueIds.join(';');
-            $textField.val(selectedRowUniqueIds.join(';'));
-        } else {
-            uniqueid = selectedRowUniqueIds.join(',');
-            $textField.val(selectedRowText.join(multiSeparator));
-        }
+        uniqueid = selectedRowUniqueIds.join(',');
+        $textField.val(selectedRowText.join(multiSeparator));
+
         $valuefield.val(uniqueid).change();
         $inputField.text('');
         $searchfield.val('');
@@ -493,11 +489,7 @@
                 $selectedRows[uniqueIdValue] = $tr;
             }
         }
-        if ($control.hasClass('email')) {
-            $textField.val(selectedRowText.join(';'));
-        } else {
-            $textField.val(selectedRowText.join(multiSeparator));
-        }
+        $textField.val(selectedRowText.join(multiSeparator));
 
         $browse.data('selectedrows', $selectedRows);
         $browse.data('selectedrowsuniqueids', selectedRowUniqueIds);

@@ -416,7 +416,7 @@ abstract class FwWebApiReport {
                                         $this = jQuery(e.currentTarget);
                                         let emailList = FwFormField.getValue2($this);
                                         if (emailList.length > 0) {
-                                            emailList = emailList.split(';');
+                                            emailList = emailList.split(',');
                                         } else {
                                             emailList = [];
                                         }
@@ -424,7 +424,7 @@ abstract class FwWebApiReport {
                                         if (emailList.indexOf(value) === -1) {
                                             emailList.push(value);
                                             if (emailList.length) {
-                                                emailList = emailList.join(';');
+                                                emailList = emailList.join(',');
                                             }
 
                                             const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${value}">
@@ -469,23 +469,23 @@ abstract class FwWebApiReport {
                                     const itemValue = $item.attr('data-multivalue');
                                     let value: any = $valuefield.val();
                                     value = value
-                                        .split(';')
+                                        .split(',')
                                         .map(s => s.trim())
                                         .filter((value) => {
                                             return value !== itemValue;
                                         })
-                                        .join(';');
+                                        .join(',');
                                     $valuefield.val(value).change();
                                     //removes item from text
                                     const itemText = $item.find('span').text();
                                     const $textField = $valuefield.siblings('.fwformfield-text');
                                     let text: any = $textField.val();
                                     text = text
-                                        .split(';')
+                                        .split(',')
                                         .filter((text) => {
                                             return text !== itemText;
                                         })
-                                        .join(';');
+                                        .join(',');
                                     $textField.val(text);
                                     $item.remove();
                                     if ($selectedRows !== undefined && selectedRowUniqueIds !== undefined) {
@@ -787,7 +787,7 @@ abstract class FwWebApiReport {
                         const rows = successResponse.Rows;
                         const isOrderedByIndex = successResponse.ColumnIndex.IsOrderedBy;
                         const emailIndex = successResponse.ColumnIndex.Email;
-                        const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(';');
+                        const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(',');
                         FwFormField.setValueByDataField($confirmation, 'tousers', emails);
                         //FwFormField.setValueByDataField($confirmation, 'tousers', emails);
                         //for (let i = 0; i < emails.length; i++) {

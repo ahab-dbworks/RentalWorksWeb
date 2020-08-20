@@ -130,11 +130,12 @@
         if (value !== '') {
             const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
             if (typeof text !== 'undefined') {
-                textArr = text.split($fwformfield.hasClass('email') ? ';' : multiSeparator);
+                textArr = text.split(multiSeparator);
             }
+
             if ($fwformfield.hasClass('email')) {
-                valueArr = value.split(';');
-                textArr = value.split(';');
+                textArr = value.split(',');
+                valueArr = value.split(',');
             } else {
                 valueArr = value.split(',');
             }
