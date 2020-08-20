@@ -4255,6 +4255,18 @@ class OrderBase {
                     groupSeparator: ','
                 });
         });
+
+        //add to grids
+        const $grids = $form.find('[data-name="OrderItemGrid"]');
+
+        $grids.each((index, element) => {
+            let $grid, currencySymbol;
+            $grid = jQuery(element);
+            currencySymbol = response["CurrencySymbol"];
+            if (typeof currencySymbol != 'undefined' && currencySymbol != '') {
+                $grid.attr('data-currencysymboldisplay', currencySymbol);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     disableOrderItemGridMenus($form: JQuery) {

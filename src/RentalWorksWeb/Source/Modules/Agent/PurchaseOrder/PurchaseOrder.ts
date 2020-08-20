@@ -1578,7 +1578,9 @@ class PurchaseOrder implements IModule {
             let $grid, currencySymbol;
             $grid = jQuery(element);
             currencySymbol = response["CurrencySymbol"];
-            $grid.attr('data-currencysymboldisplay', currencySymbol);
+            if (typeof currencySymbol != 'undefined' && currencySymbol != '') {
+                $grid.attr('data-currencysymboldisplay', currencySymbol);
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
