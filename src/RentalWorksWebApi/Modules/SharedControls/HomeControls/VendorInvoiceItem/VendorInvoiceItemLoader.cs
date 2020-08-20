@@ -216,6 +216,9 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceItem
         [FwSqlDataField(column: "vendorinvoiceid", modeltype: FwDataTypes.Text)]
         public string VendorInvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

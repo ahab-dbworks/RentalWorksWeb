@@ -225,6 +225,10 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceItem
 
         [FwLogicProperty(Id: "HltCLNfSZfa")]
         public string VendorInvoiceId { get { return vendorInvoiceItem.VendorInvoiceId; } set { vendorInvoiceItem.VendorInvoiceId = value; } }
+
+        [FwLogicProperty(Id: "CZHwJO0dnbrPz", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 
