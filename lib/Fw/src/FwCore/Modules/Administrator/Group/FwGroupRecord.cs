@@ -15,7 +15,7 @@ namespace FwCore.Modules.Administrator.Group
         [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string GroupId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)]
+        [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30, required: true)]
         public string Name { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "memo", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
