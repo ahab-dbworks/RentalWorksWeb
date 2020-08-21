@@ -185,6 +185,7 @@ class Billing {
                             request.uniqueids = {
                                 SessionId: this.SessionId
                             }
+                            request.pagesize = max;
                         });
                         const msgRequest: any = {};
                         msgRequest.uniqueids = {
