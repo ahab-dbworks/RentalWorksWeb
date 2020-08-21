@@ -187,6 +187,7 @@ class Billing {
                             }
                             request.pagesize = max;
                         });
+                        $billingMessageBrowse.find('.pager .col2, .pager .col3').hide();
                         const msgRequest: any = {};
                         msgRequest.uniqueids = {
                             SessionId: this.SessionId
