@@ -715,6 +715,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
 
             DateTime currentAvailabilityDateTime = (InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
 
+            if (!InventoryWarehouse.HourlyAvailability)
+            {
+                fromDateTime = fromDateTime.Date;
+                toDateTime = toDateTime.Date;
+            }
+
+
             //if (fromDateTime < DateTime.Today)
             //{
             //    fromDateTime = DateTime.Today;
@@ -2231,6 +2238,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                             TInventoryWarehouseAvailability tmpAvailData = new TInventoryWarehouseAvailability(availKey.InventoryId, availKey.WarehouseId);
                             tmpAvailData.CloneFrom(availData);
                             foundInCache = true;
+
+                            if (!availData.InventoryWarehouse.HourlyAvailability)
+                            {
+                                fromDateTime = fromDateTime.Date;
+                                toDateTime = toDateTime.Date;
+                            }
+
 
                             DateTime currentAvailabilityDateTime = (availData.InventoryWarehouse.HourlyAvailability ? InventoryAvailabilityFunc.GetCurrentAvailabilityHour() : DateTime.Today);
 
