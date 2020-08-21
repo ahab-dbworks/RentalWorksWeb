@@ -6,7 +6,7 @@
     <RuntimeFrameworkVersion>2.1.0</RuntimeFrameworkVersion>
     <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>2018.1.2.1</FileVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <AppSrcDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSrcDir>
     <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWebApi</FwApplicationDirectory>
