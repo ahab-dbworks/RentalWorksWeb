@@ -13,6 +13,7 @@ using WebApi.Logic;
 
 /*
 QuickBooks IIF file for Invoice
+----------------------------------------------
 !CUST	NAME	BADDR1	BADDR2	BADDR3	PHONE1	
 {{#each Customers}}
 CUST	{{CustomerName}}	{{Address1}}	{{Address2}}	{{City}}, {{State}} {{ZipCode}}	{{Phone}}
@@ -31,6 +32,20 @@ SPL	{{../InvoiceTypeForQuickBooks}}	{{../InvoiceDate}}	{{TaxAccountNumber1}}	"{{
 ENDTRNS
 {{/each}}
 */
+
+/*
+QuickBooks IIF file for Receipt
+----------------------------------------------
+!TRNS	TRNSTYPE	PAYMETH	DATE	ACCNT	NAME	AMOUNT	DOCNUM	MEMO	CLEAR
+!SPL	TRNSTYPE	DATE	ACCNT	NAME	AMOUNT	DOCNUM
+!ENDTRNS
+{{#each Receipts}}
+TRNS	PAYMENT	{{PaymentType}}	{{ReceiptDate}}	{{UndepositedFundsAccountNumber}}	{{Customer}}	{{Amount}}	{{CheckNumber}}	{{ReceiptNote}}	N
+SPL	PAYMENT	{{ReceiptDate}}	{{AccountsReceiveableAccountNumber}}	{{Customer}}	{{AmountNegative}}	{{CheckNumber}}	F
+ENDTRNS
+{{/each}}
+*/
+
 
 namespace WebApi.Modules.Exports.InvoiceBatchExport
 {

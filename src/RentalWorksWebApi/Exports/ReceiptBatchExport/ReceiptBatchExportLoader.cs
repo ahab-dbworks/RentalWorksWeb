@@ -19,7 +19,7 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
         public class BatchReceipt
         {
             public string ReceiptId { get; set; }
-            public DateTime? ReceiptDate { get; set; }
+            public string ReceiptDate { get; set; }
             public string CheckNumber { get; set; }
             public string PaymentType { get; set; }
             public string PaymentBy { get; set; }
@@ -91,8 +91,8 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
                 {
                     BatchReceipt r = new BatchReceipt();
                     r.ReceiptId = row[dt.GetColumnNo("arid")].ToString();
-                    r.ReceiptDate = FwConvert.ToDateTime(row[dt.GetColumnNo("ardate")].ToString());
-                    r.CheckNumber = row[dt.GetColumnNo("arid")].ToString();
+                    r.ReceiptDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("ardate")].ToString());
+                    r.CheckNumber = row[dt.GetColumnNo("checkno")].ToString();
                     r.PaymentType = row[dt.GetColumnNo("paytype")].ToString();
                     r.PaymentBy = row[dt.GetColumnNo("paymentby")].ToString();
                     r.CustomerNumber = row[dt.GetColumnNo("custno")].ToString();
