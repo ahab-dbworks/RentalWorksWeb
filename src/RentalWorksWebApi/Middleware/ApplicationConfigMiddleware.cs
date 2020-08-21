@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -18,9 +21,9 @@ namespace WebApi.Middleware
         private readonly RequestDelegate _next;
         private readonly FwApplicationConfig _appConfig;
         private readonly Regex _regexWebProdApplicationConfig;
-        private readonly Regex _regexWebDevApplicationConfig = new Regex("^.*\\/webdev\\/applicationconfig.js$");
+        private readonly Regex _regexWebDevApplicationConfig;
         private readonly Regex _regexMobileProdApplicationConfig;
-        private readonly Regex _regexMobileDevApplicationConfig = new Regex("^.*\\/quikscandev\\/applicationconfig.js$");
+        private readonly Regex _regexMobileDevApplicationConfig;
         private readonly string _version = "0.0.0.0";
 
         public ApplicationConfigMiddleware(RequestDelegate next, IOptions<FwApplicationConfig> options)
@@ -28,18 +31,12 @@ namespace WebApi.Middleware
             this._next = next;
             this._appConfig = options.Value;
             string webPathRoot = this._appConfig.WebRequestPath;
-            //if (string.IsNullOrEmpty(webPathRoot))
-            //{
-            //    webPathRoot = "/";
-            //}
-            this._regexWebProdApplicationConfig = new Regex("^.*\\" + webPathRoot + "/applicationconfig.js$");
+            this._regexWebProdApplicationConfig = new Regex($"^{webPathRoot}/applicationconfig.js$");
+            this._regexWebDevApplicationConfig = new Regex("^\\/webdev\\/applicationconfig.js$");
 
             string mobilePathRoot = this._appConfig.MobileRequestPath;
-            //if (string.IsNullOrEmpty(mobilePathRoot))
-            //{
-            //    mobilePathRoot = "/";
-            //}
-            this._regexMobileProdApplicationConfig = new Regex("^.*\\" + mobilePathRoot + "/applicationconfig.js$");
+            this._regexMobileProdApplicationConfig = new Regex($"^{mobilePathRoot}/applicationconfig.js$");
+            this._regexMobileDevApplicationConfig = new Regex("^\\/quikscandev\\/applicationconfig.js$");
             
             string pathVersion = Path.Combine(Environment.CurrentDirectory, "version.txt");
             if (File.Exists(pathVersion))
@@ -52,7 +49,7 @@ namespace WebApi.Middleware
             
             try
             {
-                // dynamically generate QuikScan's ApplicationConfig.js
+                // dynamically generate Web's ApplicationConfig.js
                 string path = httpContext.Request.Path.Value.ToLower();
                 if (this._appConfig.WebApp != null && (_regexWebProdApplicationConfig.IsMatch(path) || _regexWebDevApplicationConfig.IsMatch(path)))
                 {
@@ -61,15 +58,14 @@ namespace WebApi.Middleware
                     {
                         webAppConfig.apiurl = this._appConfig.PublicBaseUrl;
                     }
-                    webAppConfig.version = this._version;
+                    //webAppConfig.version = this._version;
 
-                    string jsonAppConfig = JsonConvert.SerializeObject(webAppConfig);
                     httpContext.Response.StatusCode = 200;
-                    await httpContext.Response.WriteAsync($"applicationConfig = JSON.parse('{jsonAppConfig}');\n");
+                    await httpContext.Response.WriteAsync(this.GetApplicationConfigText(webAppConfig));
                     return;
                 }
 
-                // dynamically generate Web's ApplicationConfig.js
+                // dynamically generate QuikScan's ApplicationConfig.js
                 if (this._appConfig.MobileApp != null && (_regexMobileProdApplicationConfig.IsMatch(path) || _regexMobileDevApplicationConfig.IsMatch(path)))
                 {
                     MobileAppConfig mobileAppConfig = JsonConvert.DeserializeObject<MobileAppConfig>(JsonConvert.SerializeObject(this._appConfig.MobileApp));
@@ -77,10 +73,10 @@ namespace WebApi.Middleware
                     {
                         mobileAppConfig.apiurl = this._appConfig.PublicBaseUrl;
                     }
-                    mobileAppConfig.version = this._version;
-                    string jsonAppConfig = JsonConvert.SerializeObject(mobileAppConfig);
+                    //mobileAppConfig.version = this._version;
+                    
                     httpContext.Response.StatusCode = 200;
-                    await httpContext.Response.WriteAsync($"applicationConfig = JSON.parse('{jsonAppConfig}');\n");
+                    await httpContext.Response.WriteAsync(this.GetApplicationConfigText(mobileAppConfig));
                     return;
                 }
                 await _next(httpContext); // Call the pipeline
@@ -96,6 +92,42 @@ namespace WebApi.Middleware
                 await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiException));
                 return;
             }
+        }
+
+        string GetApplicationConfigText(object configObj)
+        {
+            // create a JSON serializer that ignores nulls, so we can strip all the unassigned properties out
+            JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
+            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            JsonSerializer serializer = JsonSerializer.Create(serializerSettings);
+            StringBuilder jsonAppConfig = new StringBuilder();
+            using (StringWriter writer = new StringWriter(jsonAppConfig))
+            {
+                serializer.Serialize(writer, configObj);
+            }
+
+            // populate a dictionary with the stripped down JSON object
+            Dictionary<string, object> appConfigObj = new Dictionary<string, object>();
+            JsonConvert.PopulateObject(jsonAppConfig.ToString(), appConfigObj);
+            
+            // generate the applicationConfig file
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in appConfigObj)
+            {
+                if (item.Value is string)
+                {
+                    sb.AppendLine($"applicationConfig.{item.Key} = '{item.Value}';");
+                }
+                else if (item.Value is bool)
+                {
+                    sb.AppendLine($"applicationConfig.{item.Key} = {item.Value.ToString().ToLower()};");
+                }
+                else
+                {
+                    sb.AppendLine($"applicationConfig.{item.Key} = {item.Value};");
+                }
+            }
+            return sb.ToString();
         }
     }
     

@@ -73,55 +73,55 @@ namespace FwStandard.Models
 
     public class WebAppConfig
     {
-        public string appbaseurl { get; set; } = string.Empty;
-        public string fwvirtualdirectory { get; set; } = string.Empty;
-        public string appvirtualdirectory { get; set; } = string.Empty;
-        public bool debugMode { get; set; } = false;
-        public bool designMode { get; set; } = false;
-        public int ajaxTimeoutSeconds { get; set; } = 300;
-        public string version { get; set; } = string.Empty;
-        public string apiurl { get; set; } = string.Empty;
-        public bool defaultPeek { get; set; } = false;
-        public int photoQuality { get; set; } = 100;
-        public int photoWidth { get; set; } = 1024;
-        public int photoHeight { get; set; } = 1024;
-        public bool customLogin { get; set; } = false;
-        public string client { get; set; } = string.Empty;
-        public bool allCaps { get; set; } = false;
+        public string appbaseurl { get; set; } = null;
+        public string fwvirtualdirectory { get; set; } = null;
+        public string appvirtualdirectory { get; set; } = null;
+        public bool? debugMode { get; set; } = null;
+        public bool? designMode { get; set; } = null;
+        public int? ajaxTimeoutSeconds { get; set; } = null;
+        public string version { get; set; } = null;
+        public string apiurl { get; set; } = null;
+        public bool? defaultPeek { get; set; } = null;
+        public int? photoQuality { get; set; } = null;
+        public int? photoWidth { get; set; } = null;
+        public int? photoHeight { get; set; } = null;
+        public bool? customLogin { get; set; } = null;
+        public string client { get; set; } = null;
+        public bool? allCaps { get; set; } = null;
         //public bool OktaEnabled { get; set; } = false;
         //public FwOktaSignInConfig oktaSignIn { get; set; } = new FwOktaSignInConfig
         //public string oktaApiUrl = string.Empty;
     }
 
-        public class MobileAppConfig
+    public class MobileAppConfig
     {
-        public string appbaseurl { get; set; } = string.Empty;
-        public string fwvirtualdirectory { get; set; } = string.Empty;
-        public string appvirtualdirectory { get; set; } = string.Empty;
-        public bool debugMode { get; set; } = false;
-        public bool designMode { get; set; } = false;
-        public bool demoMode { get; set; } = false;
-        public bool devMode { get; set; } = false;
-        public string demoEmail { get; set; } = "qsdemo@dbworks.com";
-        public string demoPassword { get; set; } = "QSDEMO";
-        public int ajaxTimeoutSeconds { get; set; } = 20;
-        public string version { get; set; } = string.Empty;
-        public string apiurl { get; set; } = string.Empty;
-        public int photoWidth { get; set; } = 1024;
-        public int photoHeight { get; set; } = 1024;
-        public int photoQuality { get; set; } = 100;
-        public int iPodPhotoQuality { get; set; } = 100;
-        public int iPhonePhotoQuality { get; set; } = 100;
-        public bool defaultPeek { get; set; } = false;
-        public QuikInConfig quikIn { get; set; } = new QuikInConfig();
-        public bool allowDisableBarcodeFieldInStaging { get; set; } = true;
+        public string appbaseurl { get; set; } = null;
+        public string fwvirtualdirectory { get; set; } = null;
+        public string appvirtualdirectory { get; set; } = null;
+        public bool? debugMode { get; set; } = null;
+        public bool? designMode { get; set; } = null;
+        public bool? demoMode { get; set; } = null;
+        public bool? devMode { get; set; } = null;
+        public string demoEmail { get; set; } = null;
+        public string demoPassword { get; set; } = null;
+        public int? ajaxTimeoutSeconds { get; set; } = null;
+        public string version { get; set; } = null;
+        public string apiurl { get; set; } = null;
+        public int? photoWidth { get; set; } = null;
+        public int? photoHeight { get; set; } = null;
+        public int? photoQuality { get; set; } = null;
+        public int? iPodPhotoQuality { get; set; } = null;
+        public int? iPhonePhotoQuality { get; set; } = null;
+        public bool? defaultPeek { get; set; } = null;
+        public QuikInConfig quikIn { get; set; } = null;
+        public bool? allowDisableBarcodeFieldInStaging { get; set; } = null;
     }
 
     public class QuikInConfig
     {
-        public bool enableQuikInSessionSearch { get; set; } = false;
-        public bool enableSessionInItemSearch { get; set; } = true;
-        public bool enableCancelItem { get; set; } = true;
+        public bool? enableQuikInSessionSearch { get; set; } = null;
+        public bool? enableSessionInItemSearch { get; set; } = null;
+        public bool? enableCancelItem { get; set; } = null;
 
     }
 
