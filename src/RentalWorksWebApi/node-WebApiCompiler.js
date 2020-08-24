@@ -186,11 +186,19 @@ class WebApiCompiler {
         }
         console.log('//------------------------------------------------------------------------------------');
         console.log(`Building RentalWorksWeb TypeScript...`);
-        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        //delete TypScript generated files
+        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json'), '--clean'], { stdio: 'inherit' });
+        // compile TypeScript
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        }
+        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        }
         console.log(`Finished RentalWorksWeb TypeScript`);
         console.log('//------------------------------------------------------------------------------------');
         console.log(`Running JSAppBuilder for RentalWorksWeb...`);
-        await spawn(`${this.appSolutionDir}\\lib\\Fw\\build\\JSAppBuilder\\JSAppBuilder.exe`, ['-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
+        await spawn('dotnet', [path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll'), '-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
         console.log(`Finished running JSAppBuilder for RentalWorksWeb`);
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
             console.log('//------------------------------------------------------------------------------------');
@@ -209,13 +217,17 @@ class WebApiCompiler {
             fileText = fileText.replace(/\[appvirtualdirectory\]/g, '');
             await fs.writeFile(pathIndexFile, fileText);
             console.log('//------------------------------------------------------------------------------------');
-            const pathCssDebug = path.resolve(destDir, `theme/style*-${version}.debug.css`);
-            console.log(`Deleting: ${pathCssDebug}`);
-            await rmfr(pathCssDebug, { glob: true });
+            console.log(`Minifiying RentalWorks JavaScript with google-closure-compiler...`);
+            await fs.move(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/script1-${version}.js`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/script1-${version}.merged.js`));
+            await spawn('npx', ['google-closure-compiler', '--js=' + path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/script1-${version}.merged.js`), '--js_output_file=' + path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/script1-${version}.js`)], { stdio: 'inherit' });
+            await fs.unlink(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/script1-${version}.merged.js`));
+            console.log(`Finished minifying RentalWorks JavaScript`);
             console.log('//------------------------------------------------------------------------------------');
-            const pathScriptDebug = path.resolve(destDir, `script*-${version}.debug.js`);
-            console.log(`Deleting: ${pathScriptDebug}`);
-            await rmfr(pathScriptDebug, { glob: true });
+            console.log(`Minifiying RentalWorks CSS with clean-css-cli...`);
+            await fs.move(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/theme/style-${version}.css`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/theme/style-${version}.merged.css`));
+            await spawn('npx', ['clean-css-cli', '-o', path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/theme/style-${version}.css`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/theme/style-${version}.merged.css`)], { stdio: 'inherit' });
+            await fs.unlink(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/rentalworks/theme/style-${version}.merged.css`));
+            console.log(`Finished minifying RentalWorks CSS`);
             console.log('//------------------------------------------------------------------------------------');
         }
     }
@@ -235,7 +247,7 @@ class WebApiCompiler {
         const versionFilePath = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/version.txt');
         const version = (await fs.readFile(versionFilePath, 'utf8')).trim();
         const srcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan');
-        const destDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/quikScan');
+        const destDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/quikscan');
         let publish = false;
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
             publish = false;
@@ -259,29 +271,39 @@ class WebApiCompiler {
             await fs.copy(`${srcDir}/index.htm`, `${destDir}/index.htm`);
             await fs.copy(`${srcDir}/index.js`, `${destDir}/index.js`);
             await fs.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
-            //await fs.copy(`${srcDir}/ApplicationConfig.js`, `${destDir}/ApplicationConfig.js`);
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
         console.log('//------------------------------------------------------------------------------------');
         console.log(`Building QuikScan TypeScript...`);
-        await spawn('npx', ['tsc', '--build', './QuikScan/tsconfig.json'], { stdio: 'inherit' });
+        //delete TypScript generated files
+        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json'), '--clean'], { stdio: 'inherit' });
+        // compile TypeScript
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json')], { stdio: 'inherit' });
+        }
+        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json')], { stdio: 'inherit' });
+        }
         console.log(`Finished QuikScan TypeScript`);
         console.log('//------------------------------------------------------------------------------------');
         console.log(`Running JSAppBuilder for QuikScan...`);
-        await spawn(`${this.appSolutionDir}\\lib\\Fw\\build\\JSAppBuilder\\JSAppBuilder.exe`, ['-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
+        await spawn('dotnet', [path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll'), '-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
         console.log(`Finished running JSAppBuilder for QuikScan`);
-        console.log('//------------------------------------------------------------------------------------');
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
-            const pathCssDebug = path.resolve(destDir, `theme/style*-${version}.debug.css`);
-            console.log(`Deleting: ${pathCssDebug}`);
-            await rmfr(pathCssDebug, { glob: true });
-            //await fs.unlink(pathCssDebug, function (error) { if (error) { throw error; } console.log(`Deleted ${pathCssDebug}`); });
             console.log('//------------------------------------------------------------------------------------');
-            const pathScriptDebug = path.resolve(destDir, `script*-${version}.debug.js`);
-            console.log(`Deleting: ${pathScriptDebug}`);
-            await rmfr(pathScriptDebug, { glob: true });
-            //await fs.unlink(pathScriptDebug, function (error) { if (error) { throw error; } console.log(`Deleted ${pathScriptDebug}`); });
+            console.log(`Minifiying QuikScan with google-closure-compiler...`);
+            await fs.move(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.js`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.merged.js`));
+            await spawn('npx', ['google-closure-compiler', '--js=' + path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.merged.js`), '--js_output_file=' + path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.js`)], { stdio: 'inherit' });
+            //await spawn('npx', ['uglifyjs', path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.js`), '-o', path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.min.js`), '--compress', '--mangle'], { stdio: 'inherit' });
+            await fs.unlink(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.merged.js`));
+            console.log(`Finished minifying QuikScan`);
+            console.log('//------------------------------------------------------------------------------------');
+            console.log(`Minifiying QuikScan CSS with clean-css-cli...`);
+            await fs.move(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/theme/style-${version}.css`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/theme/style-${version}.merged.css`));
+            await spawn('npx', ['clean-css-cli', '-o', path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/theme/style-${version}.css`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/theme/style-${version}.merged.css`)], { stdio: 'inherit' });
+            await fs.unlink(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/theme/style-${version}.merged.css`));
+            console.log(`Finished minifying QuikScan CSS`);
             console.log('//------------------------------------------------------------------------------------');
         }
 

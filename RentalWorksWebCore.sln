@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{362116D5-D26E-4EFA-9683-8C7F2F2E22C6}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwStandard", "lib\Fw\src\FwStandard\FwStandard.csproj", "{BF70FE28-DA24-40EC-AA7E-613803411E12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\RentalWorksWebApi\WebApi.csproj", "{8015A604-E732-481C-AB96-065C9E7E20B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwCore", "lib\Fw\src\FwCore\FwCore.csproj", "{727C09EB-27BD-4657-A43E-7CA436679403}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "getting started with RentalWorksWeb on a new machine", "getting started with RentalWorksWeb on a new machine", "{920F1EA3-BD62-4428-9EB3-23423915A48C}"
+	ProjectSection(SolutionItems) = preProject
+		doc\getting started with RentalWorksWeb on a new machine\Getting started with RentalWorksWeb on a new machine.md = doc\getting started with RentalWorksWeb on a new machine\Getting started with RentalWorksWeb on a new machine.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "converting Validations to the new format", "converting Validations to the new format", "{EFEDEFDF-BBF1-43EF-B842-D93CA8852F39}"
+	ProjectSection(SolutionItems) = preProject
+		doc\converting Validations to the new format\ConvertingValidationsToNewFormat.md = doc\converting Validations to the new format\ConvertingValidationsToNewFormat.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to release RentalWorksWeb", "how to release RentalWorksWeb", "{6762EA08-96B3-40DD-9AD4-8975DB08BB84}"
+	ProjectSection(SolutionItems) = preProject
+		doc\how to release RentalWorksWeb\how to release RentalWorks Web.md = doc\how to release RentalWorksWeb\how to release RentalWorks Web.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to add data fields to a Logical object in the API", "how to add data fields to a Logical object in the API", "{187221DF-BEEC-4397-8C56-95056FB237A0}"
+	ProjectSection(SolutionItems) = preProject
+		doc\how to add data fields to a Logical object in the API\how to add data fields to a Logical object in the API.md = doc\how to add data fields to a Logical object in the API\how to add data fields to a Logical object in the API.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Using JestTest - TestWorks", "Using JestTest - TestWorks", "{39554123-D422-473A-8BC9-D744D7EC2B0E}"
+	ProjectSection(SolutionItems) = preProject
+		doc\Running JestTest\how to run and use TestWorks.md = doc\Running JestTest\how to run and use TestWorks.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to add a report to RentalWorks", "how to add a report to RentalWorks", "{BBD2775C-BDB2-456A-80DF-3B2F50108249}"
+	ProjectSection(SolutionItems) = preProject
+		howtoaddareport.md = howtoaddareport.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug QuartzScheduler|Any CPU = Debug QuartzScheduler|Any CPU
+		Debug WebApi|Any CPU = Debug WebApi|Any CPU
+		Release QuartzScheduler|Any CPU = Release QuartzScheduler|Any CPU
+		Release WebApi|Any CPU = Release WebApi|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug WebApi|Any CPU.Build.0 = Debug|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release WebApi|Any CPU.Build.0 = Release|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug WebApi|Any CPU.Build.0 = Debug|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release WebApi|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug WebApi|Any CPU.Build.0 = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release WebApi|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
+		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{920F1EA3-BD62-4428-9EB3-23423915A48C} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{EFEDEFDF-BBF1-43EF-B842-D93CA8852F39} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{6762EA08-96B3-40DD-9AD4-8975DB08BB84} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{187221DF-BEEC-4397-8C56-95056FB237A0} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{39554123-D422-473A-8BC9-D744D7EC2B0E} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+		{BBD2775C-BDB2-456A-80DF-3B2F50108249} = {362116D5-D26E-4EFA-9683-8C7F2F2E22C6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E145E0E5-999D-45BB-A556-3EA0D6972F03}
+	EndGlobalSection
+EndGlobal

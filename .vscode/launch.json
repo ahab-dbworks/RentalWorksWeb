@@ -1,0 +1,77 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug QuikScan",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:57949/quikscandev",
+            "webRoot": "${workspaceFolder}/src/RentalWorksWebApi/QuikScan"
+        },
+        {
+            "name": "Debug RentalWorks",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:57949/webdev",
+            "webRoot": "${workspaceFolder}/src/RentalWorksWeb"
+        },
+        {
+            "name": "Debug Web",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:57949",
+            "webRoot": "${workspaceFolder}/src/RentalWorksWebApi"
+        },
+        {
+            "name": "Build and Debug Api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/RentalWorksWebApi/bin/Debug/netcoreapp2.1/WebApi.dll",
+            "args": [""],
+            "cwd": "${workspaceFolder}/src/RentalWorksWebApi",
+            "stopAtEntry": false,
+            // "serverReadyAction": {
+            //     //"action": "debugWithChrome"
+            //     "action": "openExternally",
+            //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Debug Api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "",
+            "program": "${workspaceFolder}/src/RentalWorksWebApi/bin/Debug/netcoreapp2.1/WebApi.dll",
+            "args": [""],
+            "cwd": "${workspaceFolder}/src/RentalWorksWebApi",
+            "stopAtEntry": false,
+            // "serverReadyAction": {
+            //     //"action": "debugWithChrome"
+            //     "action": "openExternally",
+            //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }
+    ]
+}

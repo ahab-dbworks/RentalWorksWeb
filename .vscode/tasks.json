@@ -1,0 +1,214 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "group": "build",
+            "type": "process",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "args": [
+                "build",
+                "\"${workspaceFolder}/src/RentalWorksWebApi/WebApi.csproj\"",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "group": "build",
+            "type": "process",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "args": [
+                "publish",
+                "\"${workspaceFolder}/src/RentalWorksWebApi/WebApi.csproj\"",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "group": "build",
+            "type": "process",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "args": [
+                "watch",
+                "run",
+                "\"${workspaceFolder}/src/RentalWorksWebApi/WebApi.csproj\"",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run the Api",
+            "type": "shell",
+            "command": "npm run api",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build All for Development",
+            "type": "shell",
+            "command": "npm run build-all-dev",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build All for Production",
+            "type": "shell",
+            "command": "npm run build-all-prod",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Reports for Development",
+            "type": "shell",
+            "command": "npm run build-reports-dev",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Reports for Production",
+            "type": "shell",
+            "command": "npm run build-reports-prod",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build RentalWorksWeb for Production and publish to Output Directory",
+            "type": "shell",
+            "command": "npm run publish",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Reports for Development",
+            "type": "shell",
+            "command": "npm run build-reports-dev",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Reports for Production",
+            "type": "shell",
+            "command": "npm run build-reports-prod",
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build RentalWorks for Production",
+            "type": "shell",
+            "command": "npm run build-web-prod",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build RentalWorks for Development",
+            "type": "shell",
+            "command": "npm run build-web-dev",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build QuikScan for Production",
+            "type": "shell",
+            "command": "npm run build-quikscan-prod",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build QuikScan for Development",
+            "type": "shell",
+            "command": "npm run build-quikscan-dev",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/RentalWorksWebApi"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -70,11 +70,8 @@ namespace WebApi
         //------------------------------------------------------------------------------------
         protected override void ConfigureStaticFileHosting(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            string pathWebApi = env.ContentRootPath;
-            string pathSrcFolder = Path.GetDirectoryName(pathWebApi);
-
             // host quikscan prod
-            var mobileProdDir = Path.Combine(env.ContentRootPath, "apps/quikscan");
+            var mobileProdDir = Path.Combine(Environment.CurrentDirectory, $"apps{Path.DirectorySeparatorChar}quikscan");
             if (Directory.Exists(mobileProdDir))
             {
                 var mobileProdFileServerOptions = new FileServerOptions();
@@ -115,7 +112,7 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 string mobileDevRequestPath = "/quikscandev";
-                var mobileDevDir = Path.Combine(env.ContentRootPath, "QuikScan");
+                var mobileDevDir = Path.Combine(Environment.CurrentDirectory, "QuikScan");
                 if (Directory.Exists(mobileDevDir))
                 {
                     var mobileDevFileServerOptions = new FileServerOptions();
@@ -153,7 +150,7 @@ namespace WebApi
 
             // host rentalworksweb prod
             string webProdRequestPath = "";
-            var webProdDir = Path.Combine(env.ContentRootPath, "apps/rentalworks");
+            var webProdDir = Path.Combine(Environment.CurrentDirectory, $"apps{Path.DirectorySeparatorChar}rentalworks");
             if (Directory.Exists(webProdDir))
             {
                 var webProdFileServerOptions = new FileServerOptions();
@@ -192,6 +189,8 @@ namespace WebApi
             // host rentalworksweb dev
             if (env.IsDevelopment())
             {
+                string pathWebApiProject = Environment.CurrentDirectory;
+                string pathSrcFolder = Path.GetDirectoryName(pathWebApiProject);
                 string webDevRequestPath = "/webdev";
                 var webDevDir = Path.Combine(pathSrcFolder, "RentalWorksWeb");
                 if (Directory.Exists(webDevDir))
@@ -230,24 +229,34 @@ namespace WebApi
 
 
             // host static files in wwwroot
-            var wwwrootFileServerOptions = new FileServerOptions();
-            wwwrootFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+            var wwwrootDir = Path.Combine(Environment.CurrentDirectory, "wwwroot");
+            var wwwrootRequestPath = "";
+            if (Directory.Exists(wwwrootDir))
             {
-                // Only cache the images in wwwroot
-                bool cacheResults =
-                    context.File.Name.ToLower().EndsWith(".png") ||
-                    context.File.Name.ToLower().EndsWith(".jpg") ||
-                    context.File.Name.ToLower().EndsWith(".jpeg") ||
-                    context.File.Name.ToLower().EndsWith(".gif");
-                if (!cacheResults)
+                var wwwrootFileServerOptions = new FileServerOptions();
+                wwwrootFileServerOptions.RequestPath = wwwrootRequestPath;
+                wwwrootFileServerOptions.EnableDefaultFiles = true;
+                wwwrootFileServerOptions.FileProvider = new PhysicalFileProvider(wwwrootDir);;
+                wwwrootFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
                 {
-                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                    context.Context.Response.Headers.Add("Expires", "-1");
-                }
-            };
-            app.UseFileServer(wwwrootFileServerOptions);
+                    // Only cache the images in wwwroot
+                    bool cacheResults =
+                        context.File.Name.ToLower().EndsWith(".png") ||
+                        context.File.Name.ToLower().EndsWith(".jpg") ||
+                        context.File.Name.ToLower().EndsWith(".jpeg") ||
+                        context.File.Name.ToLower().EndsWith(".gif");
+                    if (!cacheResults)
+                    {
+                        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                        context.Context.Response.Headers.Add("Expires", "-1");
+                    }
+                };
+                app.UseFileServer(wwwrootFileServerOptions);
+            }
             Console.WriteLine("------------------------------------------------------------------------------------");
-            Console.WriteLine("Hosting static files in wwwroot");
+            Console.WriteLine("Hosting wwwroot at:");
+            Console.WriteLine($"  url: \"{wwwrootRequestPath}\"");
+            Console.WriteLine($"  path: \"{wwwrootDir}\"");
             Console.WriteLine("------------------------------------------------------------------------------------");
         }
         //------------------------------------------------------------------------------------

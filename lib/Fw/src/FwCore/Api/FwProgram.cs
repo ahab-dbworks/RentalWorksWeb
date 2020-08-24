@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.IO;
 
@@ -12,7 +12,7 @@ namespace FwCore.Api
         //---------------------------------------------------------------------------------------------------------------------------
         public static IWebHostBuilder BuildWebHost(string[] args, Type startupType)
         {
-            FwProgram.ServerVersion = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "version.txt"));
+            FwProgram.ServerVersion = File.ReadAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "version.txt"));
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())

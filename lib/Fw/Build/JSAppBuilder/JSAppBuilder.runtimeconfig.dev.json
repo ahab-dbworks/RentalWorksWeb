@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\mike.DBWORKS\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\mike.DBWORKS\\.nuget\\packages"
+    ]
+  }
+}
