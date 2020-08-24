@@ -48,14 +48,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "how to add a report to Rent
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug QuartzScheduler|Any CPU = Debug QuartzScheduler|Any CPU
 		Debug WebApi|Any CPU = Debug WebApi|Any CPU
-		Release QuartzScheduler|Any CPU = Release QuartzScheduler|Any CPU
 		Release WebApi|Any CPU = Release WebApi|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug WebApi|Any CPU.Build.0 = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
@@ -68,10 +64,6 @@ Global
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug WebApi|Any CPU.Build.0 = Debug|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 		{727C09EB-27BD-4657-A43E-7CA436679403}.Release WebApi|Any CPU.Build.0 = Release|Any CPU
-		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
-		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Debug WebApi|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A88A175-8FFF-4A04-882B-A4CF74BE2FC7}.Release WebApi|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
