@@ -25,7 +25,10 @@ export class OutgoingShippingLabel extends WebpackReport {
                             //data.System = 'RENTALWORKS';
                             //data.Company = parameters.companyName;
                             //this.renderFooterHtml(data);
-                            console.log('data: ', data);
+                            if (logoObject.LogoImage != '') {
+                                data.Logosrc = logoObject.LogoImage;
+                            }
+
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;
                             }
