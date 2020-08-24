@@ -103,6 +103,10 @@ class RwHome {
                         $sysUpdateContainer.remove();
                     });
                 }
+            }).catch((ex) => {
+                if (ex.reason !== 'Timeout') {
+                    FwFunc.showError(ex.message);
+                }
             });
         }
     }
