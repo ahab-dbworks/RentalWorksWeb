@@ -248,7 +248,7 @@ class FwServicesClass {
         FwAppData.jsonPost(true, 'api/v1/mobile?path=/fwscheduler/getholidayevents', request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
     }
     //----------------------------------------------------------------------------------------------
-    callMethod(servicename: string, methodname: string, request: string, timeout: number, $elementToBlock: JQuery, onSuccess: () => void, onError: () => void): void {
+    callMethod(servicename: string, methodname: string, request: string, timeout: number, $elementToBlock: JQuery, onSuccess: (response: any) => void, onError: (ex: any) => void): void {
         FwAppData.jsonPost(true,  'api/v1/mobile?path=/services/' + servicename + '/' + methodname, request, timeout, onSuccess, onError, $elementToBlock);
     }
 }
