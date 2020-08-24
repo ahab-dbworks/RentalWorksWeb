@@ -131,6 +131,8 @@
 
 .DS_Store
 
+**/Fw/scripts/mobile/**/*.js
+**/Fw/scripts/mobile/**/*.js.map
 **/Fw/scripts/FwControls/FwAudit.js
 **/Fw/scripts/FwControls/FwAudit.js.map
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js
