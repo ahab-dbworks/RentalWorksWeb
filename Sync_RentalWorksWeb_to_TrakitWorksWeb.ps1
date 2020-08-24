@@ -145,7 +145,7 @@ try {
     echo 'Syncing RentalWorksWeb to TrakitWorksWeb...'
     foreach ($module in $modules) {
         $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\$module"
-        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\$module"
+        $destination = "$Env:DwRentalWorksWebPath\src\RentalWorksWebApi\TrakitWorks\Source\$module"
         robocopy "$source" "$destination" /mir /xf *.js *.js.map _SyncLog.txt | Out-Null
         if (($LastExitCode -eq 1) -or ($LastExitCode -eq 3) -or ($LastExitCode -eq 5) -or ($LastExitCode -eq 7) -or ($LastExitCode -eq 9) -or ($LastExitCode -eq 11) -or ($LastExitCode -eq 13) -or ($LastExitCode -eq 15))
         {
@@ -160,7 +160,7 @@ try {
     }
 
     echo 'Compiling TypeScript...'
-    cd "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb"
+    cd "$Env:DwRentalWorksWebPath\src\RentalWorksWebApi\TrakitWorks"
     tsc
 
     echo ''
