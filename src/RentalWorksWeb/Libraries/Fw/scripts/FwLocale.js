@@ -1,19 +1,19 @@
 class FwLocaleClass {
     constructor() {
-        this.locale = 'en-US';
+        this.Locale = 'en-US';
     }
     setLocale(language) {
         if (language) {
-            this.locale = language;
+            this.Locale = language;
             moment.locale(language);
         }
         else {
-            this.locale = window.navigator.language;
+            this.Locale = window.navigator.language;
             moment.locale(window.navigator.language);
         }
     }
     getDateFormat(language) {
-        var format = moment.localeData(this.locale)._longDateFormat.L;
+        var format = moment.localeData(this.Locale)._longDateFormat.L;
         if (language) {
             format = moment.localeData(language)._longDateFormat.L;
         }
@@ -47,6 +47,13 @@ class FwLocaleClass {
             localmoment.add(modifier.Quantity, modifier.ObjectModified);
         }
         return (localFormat) ? localmoment.format('L') : localmoment.format('YYYY-MM-DD');
+    }
+    getNumber(value, language, options) {
+        if (typeof value === 'string') {
+            value = parseFloat(value);
+        }
+        var locale = (language) ? language : FwLocale.Locale;
+        return Intl.NumberFormat(locale, options).format(value);
     }
 }
 var FwLocale = new FwLocaleClass();
