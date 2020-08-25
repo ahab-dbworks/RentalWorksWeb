@@ -44,6 +44,15 @@ class CurrencyProvisioningUtility {
             const $applyCurrencyBtn = $form.find('.apply');
             isChecked ? $applyCurrencyBtn.show() : $applyCurrencyBtn.hide();
         });
+
+        $form.find('.apply').on('click', e => {
+            const $grid = $form.find('[data-name="CurrencyMissingGrid"]');
+            FwAppData.apiMethod(true, 'POST', 'api/v1/currencymissingutility/applyproposedcurrencies', null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($grid);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
@@ -52,15 +61,14 @@ class CurrencyProvisioningUtility {
             gridSecurityId: 'qH0cLrQVt9avI',
             moduleSecurityId: this.id,
             $form: $form,
-            onDataBind: (request: any) => {
-                //request.uniqueids = {
-
-                //};
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasEdit = false;
+                options.hasNew = false;
+                options.hasDelete = false;
             },
-            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-
-            }
         });
+
+        FwBrowse.search($form.find('[data-name="CurrencyMissingGrid"]'));
     }
     //----------------------------------------------------------------------------------------------
 
