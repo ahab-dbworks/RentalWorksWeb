@@ -155,6 +155,7 @@ class RwMaster extends WebMaster {
                 children: [
                     Constants.Modules.Utilities.children.ChangeICodeUtility,
                     Constants.Modules.Utilities.children.ChangeOrderStatus,
+                    Constants.Modules.Utilities.children.CurrencyProvisioningUtility,
                     Constants.Modules.Utilities.children.Dashboard,
                     Constants.Modules.Utilities.children.InventoryPurchaseUtility,
                     Constants.Modules.Utilities.children.InventoryRetireUtility,
