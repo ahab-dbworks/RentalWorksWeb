@@ -41,7 +41,7 @@ QuikPick.getQuikPickScreen = function() {
             var html: string | string[] = [];
             html.push('<div class="record order">');
             html.push('  <div class="row">');
-            html.push('    <div class="caption fixed">Desc:</div>');
+            //html.push('    <div class="caption fixed">Desc:</div>');
             html.push('    <div class="value desc">{{orderdesc}}</div>');
             html.push('  </div>');
             html.push('  <div class="row">');
