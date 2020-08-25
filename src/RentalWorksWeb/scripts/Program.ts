@@ -12,6 +12,12 @@ var program: Program = new Program();
 //---------------------------------------------------------------------------------
 jQuery(function () {
     jQuery('html').css('background-color', 'initial');
+
+    if (sessionStorage.getItem('app') !== null && sessionStorage.getItem('app') !== 'rentalworks') {
+        program.navigate('logoff');
+        return;
+    }
+
     //add a catch all 404 route at the end of the routes array
     routes.push({
         pattern: /.*/,

@@ -64,15 +64,43 @@ class WebApiCompiler {
     //------------------------------------------------------------------------------------
     async npm_i() {
         console.log('//------------------------------------------------------------------------------------');
+        console.log(`cd ${this.appSolutionDir}`);
+        await process.chdir(this.appSolutionDir);
         console.log('npm i');
+        await spawn('npm', ['i'], { stdio: 'inherit' });
+        
+        const pathWeb = path.resolve(this.appSolutionDir, 'src/RentalWorksWeb');
         console.log('//------------------------------------------------------------------------------------');
+        console.log(`cd ${pathWeb}`);
+        await process.chdir(pathWeb);
+        console.log('npm i');
+        await spawn('npm', ['i'], { stdio: 'inherit' });
+
+        const pathQuikScan = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan');
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`cd ${pathQuikScan}`);
+        await process.chdir(pathQuikScan);
+        console.log('npm i');
+        await spawn('npm', ['i'], { stdio: 'inherit' });
+
+        const pathTraktitWorks = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakitWorks');
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`cd ${pathTraktitWorks}`);
+        await process.chdir(pathTraktitWorks);
+        console.log('npm i');
+        await spawn('npm', ['i'], { stdio: 'inherit' });
+
+        const pathWebApi = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi');
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`cd ${pathWebApi}`);
+        await process.chdir(pathWebApi);
+        console.log('npm i');
         await spawn('npm', ['i'], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
     async dotnet_restore() {
         console.log('//------------------------------------------------------------------------------------');
         console.log('dotnet restore');
-        console.log('//------------------------------------------------------------------------------------');
         await spawn('dotnet', ['restore'], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
@@ -290,7 +318,22 @@ class WebApiCompiler {
         console.log(`Running JSAppBuilder for QuikScan...`);
         await spawn('dotnet', [path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll'), '-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
         console.log(`Finished running JSAppBuilder for QuikScan`);
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            console.log('//------------------------------------------------------------------------------------');
+            console.log('Fixing urls on index page...')
+            const pathIndexFile = `${srcDir}/index.htm`;
+            let fileText = await fs.readFile(pathIndexFile, 'utf8');
+            fileText = fileText.replace(/\[appbaseurl\]/g, '/quikscandev/');
+            await fs.writeFile(pathIndexFile, fileText);
+        }
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            console.log('//------------------------------------------------------------------------------------');
+            console.log('Fixing urls on index page...')
+            const pathIndexFile = `${destDir}/index.htm`;
+            let fileText = await fs.readFile(pathIndexFile, 'utf8');
+            fileText = fileText.replace(/\[appbaseurl\]/g, './');
+            fileText = fileText.replace(/\[appvirtualdirectory\]/g, '');
+            await fs.writeFile(pathIndexFile, fileText);
             console.log('//------------------------------------------------------------------------------------');
             console.log(`Minifiying QuikScan with google-closure-compiler...`);
             await fs.move(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.js`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/quikscan/script-${version}.merged.js`));
@@ -319,14 +362,14 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
     }
     //------------------------------------------------------------------------------------
-    async dotnet_build() {
+    async build_webapi() {
         console.log('//------------------------------------------------------------------------------------');
         console.log(`dotnet build --configuration ${this.dotnetConfiguration}`);
         console.log('//------------------------------------------------------------------------------------');
         await spawn('dotnet', ['build', '--configuration', this.dotnetConfiguration], { stdio: 'inherit' });
     }
     //------------------------------------------------------------------------------------
-    async dotnet_publish() {
+    async publish_webapi() {
         const appsSrcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps');
         const appsDestDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/apps');
         const rentalworksDestSrcDir = path.resolve(this.appSolutionDir, 'build/RentalWorksWebApi/RentalWorks');
@@ -361,7 +404,7 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
     }
     //------------------------------------------------------------------------------------
-    async dotnet_run() {
+    async run_webapi() {
         console.log('//------------------------------------------------------------------------------------');
         console.log(`dotnet run --configuration ${this.dotnetConfiguration} --launch-profile WebApi`);
         console.log('//------------------------------------------------------------------------------------');
@@ -379,7 +422,7 @@ class WebApiCompiler {
                         await this.build_web();
                         await this.build_quikscan();
                         await this.build_webpack_reports();
-                        await this.dotnet_build();
+                        await this.build_webapi();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.npm_i();
                         await this.dotnet_restore();
@@ -387,7 +430,7 @@ class WebApiCompiler {
                         await this.build_web();
                         await this.build_quikscan();
                         await this.build_webpack_reports();
-                        await this.dotnet_run();
+                        await this.run_webapi();
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
                     }
@@ -399,7 +442,7 @@ class WebApiCompiler {
                     await this.build_web();
                     await this.build_quikscan();
                     await this.build_webpack_reports();
-                    await this.dotnet_publish();
+                    await this.publish_webapi();
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
@@ -409,12 +452,12 @@ class WebApiCompiler {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
-                        await this.dotnet_build();
+                        await this.build_webapi();
                     } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
-                        await this.dotnet_run();
+                        await this.run_webapi();
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
                     }

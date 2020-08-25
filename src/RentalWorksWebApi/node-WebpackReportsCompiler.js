@@ -39,9 +39,14 @@ class WebpackReportsCompiler {
                             hash: true,
                             chunks: [reportName]
                         }));
-                        plugins.push(new CopyPlugin([
-                            { from: `./${srcReportDir}/${reportCategoryName}/${reportName}/hbReport.hbs`, to: `${reportName}/hbReport.hbs` }
-                        ]));
+                        plugins.push(new CopyPlugin({
+                            patterns: [
+                                {
+                                    from: `./${srcReportDir}/${reportCategoryName}/${reportName}/hbReport.hbs`, 
+                                    to: `${reportName}/hbReport.hbs`
+                                }
+                            ]
+                        }));
                     }
                 }
             }

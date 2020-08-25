@@ -87,7 +87,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "Build Reports for Development",
@@ -100,7 +101,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "Build Reports for Production",
@@ -139,7 +141,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "Build Reports for Production",

@@ -6,6 +6,11 @@ class RwMaster extends WebMaster {
     initMainMenu() {
         let userType = sessionStorage.getItem('userType');
         const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+
+        if (controlDefaults === null) {
+            program.navigate('logoff');
+            return;
+        }
         //const applicationOptions = JSON.parse(sessionStorage.getItem('applicationOptions'));
         this.navigation = [];
 

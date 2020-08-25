@@ -115,8 +115,12 @@ class Program extends FwApplication {
             }
         };
 
-        setTimeout(function() {
-            me.loadApplication();
+        setTimeout(() => {
+            if (sessionStorage.getItem('app') !== 'quikscan') {
+                this.navigate('logoff');
+                return;
+            }
+            this.loadApplication();
         }, 2000);
         if (typeof document.addEventListener !== 'undefined') {
             document.addEventListener('deviceready', () => {
@@ -541,6 +545,9 @@ class Program extends FwApplication {
             me.load();
             jQuery('html').addClass('mobile');
             jQuery('html').addClass('theme-material');
+            if (sessionStorage.getItem('app') !== null && sessionStorage.getItem('app') !== 'quikscan') {
+                this.navigate('logoff');
+            }
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 sessionStorage.setItem('sessionLock', 'false');
                 me.navigate('logoff');
