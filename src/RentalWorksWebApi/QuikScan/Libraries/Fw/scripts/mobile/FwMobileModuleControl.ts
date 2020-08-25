@@ -1,12 +1,9 @@
-﻿
-// mv 2020-08-21 what is the point of all this nonsense other than making the code hard to read?
-
-class FwMobileModuleControl {
+﻿class FwMobileModuleControl {
     _state: number = 0;
     _buttons: any = {};
     $element: JQuery;
     _options: any = {};
-    defaults = {
+    static defaults = {
         buttons: []
     };
 
@@ -182,7 +179,7 @@ class FwMobileModuleControl {
             data = $this.data('fwmobilemodulecontrol'),
             options = typeof option === 'object' && option;
         if (!data) {
-            var opts = jQuery.extend({}, this.defaults, options); // Options priority: js args, defaults
+            var opts = jQuery.extend({}, FwMobileModuleControl.defaults, options); // Options priority: js args, defaults
             $this.data('fwmobilemodulecontrol', (data = new FwMobileModuleControl(this, opts)));
         }
         if (typeof option === 'string' && typeof data[option] === 'function'){

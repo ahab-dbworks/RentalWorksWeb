@@ -2,7 +2,7 @@
     tabs: any = {};
     $element: JQuery;
     _options: any;
-    defaults = {
+    static defaults = {
         tabs: []
     };
     
@@ -82,7 +82,7 @@
             data = $this.data('fwmobilemoduletabs'),
             options = typeof option === 'object' && option;
         if (!data) {
-            var opts = jQuery.extend({}, this.defaults, options); // Options priority: js args, defaults
+            var opts = jQuery.extend({}, FwMobileModuleTabs.defaults, options); // Options priority: js args, defaults
             $this.data('fwmobilemoduletabs', (data = new FwMobileModuleTabs(this, opts)));
         }
         if (typeof option === 'string' && typeof data[option] === 'function'){

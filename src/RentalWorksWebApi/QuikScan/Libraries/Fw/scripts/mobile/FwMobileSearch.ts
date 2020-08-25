@@ -8,7 +8,7 @@ class FwMobileSearch {
     _searchModesLookup: any = {};
     $element: JQuery = null;
     _options: any = null;
-    defaults: any = {
+    static defaults: any = {
         service: '',
         method: '',
         placeholder: '',
@@ -587,12 +587,12 @@ class FwMobileSearch {
     var args = Array.apply(null, arguments);
     args.shift();
     var internal_return;
-    this.each(function () {
+    this.each(() => {
         var $this = jQuery(this),
             data = $this.data('fwmobilesearch'),
             options = typeof option === 'object' && option;
         if (!data) {
-            var opts = jQuery.extend({}, this.defaults, options); // Options priority: js args, defaults
+            var opts = jQuery.extend({}, FwMobileSearch.defaults, options); // Options priority: js args, defaults
             $this.data('fwmobilesearch', (data = new FwMobileSearch(this, opts)));
         }
         if (typeof option === 'string' && typeof data[option] === 'function') {
