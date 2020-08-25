@@ -29,7 +29,7 @@ class Program extends FwApplication {
     constructor() {
         super();
         var me = this;
-
+        
         //document.write(applicationConfig.appbaseurl);
         if (applicationConfig.apiurl === '' && /^https?:\/\/[a-zA-Z0-9.]+(:[0-9]+)?\/quikscan(dev)?\/$/.test(applicationConfig.appbaseurl)) {
             applicationConfig.apiurl = applicationConfig.appbaseurl.replace('quikscandev/', '').replace('quikscan/', '');
@@ -116,7 +116,7 @@ class Program extends FwApplication {
         };
 
         setTimeout(() => {
-            if (sessionStorage.getItem('app') !== 'quikscan') {
+            if (sessionStorage.getItem('app') !== null && sessionStorage.getItem('app') !== 'quikscan') {
                 this.navigate('logoff');
                 return;
             }

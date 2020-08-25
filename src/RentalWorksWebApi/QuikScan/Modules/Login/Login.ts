@@ -55,7 +55,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                     sessionStorage.clear();
                     //-------------------------
                     var getJwtTokenRequest = new FwAjaxRequest();
-                    getJwtTokenRequest.$elementToBlock = screen.$view;
+                    //getJwtTokenRequest.$elementToBlock = screen.$view;
                     getJwtTokenRequest.addAuthorizationHeader = false;
                     getJwtTokenRequest.httpMethod = "POST";
                     getJwtTokenRequest.setWebApiUrl('/api/v1/jwt');
@@ -77,7 +77,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                         } else {
                             //-------------------------
                             var getAuthTokenRequest = new FwAjaxRequest();
-                            getAuthTokenRequest.$elementToBlock = screen.$view;
+                            //getAuthTokenRequest.$elementToBlock = screen.$view;
                             getAuthTokenRequest.httpMethod = "POST";
                             getAuthTokenRequest.setWebApiUrl('/api/v1/mobile?path=/account/getauthtoken');
                             getAuthTokenRequest.data = {
@@ -130,7 +130,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
 
                             // get session info
                             var getSessionRequest = new FwAjaxRequest();
-                            getSessionRequest.$elementToBlock = screen.$view;
+                            //getSessionRequest.$elementToBlock = screen.$view;
                             getSessionRequest.httpMethod = "GET";
                             getSessionRequest.setWebApiUrl('/api/v1/account/session?applicationid={' + FwApplicationTree.currentApplicationId + '}');
                             var getSessionResponse = await FwAjax.callWebApi<any, any>(getSessionRequest);

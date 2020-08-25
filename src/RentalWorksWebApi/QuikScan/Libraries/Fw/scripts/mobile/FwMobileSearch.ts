@@ -453,7 +453,7 @@ class FwMobileSearch {
             plugin._options.request.searchmode = plugin._options.currentMode;
             plugin._options.request.pagesize = plugin._options.pageSize;
             plugin._options.request.pageno = plugin._pageNo;
-            FwServices.callMethod(plugin._options.service, plugin._options.method, plugin._options.request, plugin._options.queryTimeout, plugin.$element, (response) => {
+            FwServices.callMethod(plugin._options.service, plugin._options.method, plugin._options.request, plugin._options.queryTimeout, null, (response) => {
                 try {
                     this._toggleWaitIcons(false);
                     plugin._load(response.searchresults);

@@ -166,29 +166,28 @@ class FwAjaxClass {
     //----------------------------------------------------------------------------------------------
     showLoader(options: FwAjaxRequest<any>) {
         FwAjax.requests[options.requestId] = options;
-        if (options.$elementToBlock !== null) {
-            var isdesktop = jQuery('html').hasClass('desktop');
-            var ismobile = jQuery('html').hasClass('mobile');
-            if (isdesktop || (ismobile && (options.$elementToBlock !== null))) {
-                if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
-                    if (options.$elementToBlock.hasClass('fwformfield') && options.$elementToBlock.attr('data-type') !== undefined && options.$elementToBlock.attr('data-type') === 'validation') {
-                        // hide validation search button and show spinner
-                        options.$elementToBlock.find('.btnvalidate').hide();
-                        options.$elementToBlock.find('.validation-loader').show();
-                    } else {
-                        options.$elementToBlock.data('ajaxoverlay', this.showPleaseWaitOverlay(options));
-                    }
+        var isdesktop = jQuery('html').hasClass('desktop');
+        var ismobile = jQuery('html').hasClass('mobile');
+        if (isdesktop || (ismobile && (options.$elementToBlock !== null))) {
+            if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
+                if (options.$elementToBlock.hasClass('fwformfield') && options.$elementToBlock.attr('data-type') !== undefined && options.$elementToBlock.attr('data-type') === 'validation') {
+                    // hide validation search button and show spinner
+                    options.$elementToBlock.find('.btnvalidate').hide();
+                    options.$elementToBlock.find('.validation-loader').show();
+                } else {
+                    options.$elementToBlock.data('ajaxoverlay', this.showPleaseWaitOverlay(options));
                 }
-            } else if (ismobile) {
-                var maxZIndex;
-                jQuery('#index-loadingInner').hide();
-                maxZIndex = FwFunc.getMaxZ('*');
-                jQuery('#index-loading').css('z-index', maxZIndex).show();
-                options.$elementToBlock.data('ajaxloadingTimeout', setTimeout(function () {
-                    options.$elementToBlock.data('ajaxloadingTimeout', null);
-                    jQuery('#index-loadingInner').stop().fadeIn(50);
-                }, 0));
             }
+        } else if (ismobile) {
+            var maxZIndex;
+            jQuery('#index-loadingInner').hide();
+            maxZIndex = FwFunc.getMaxZ('*');
+            jQuery('#index-loading').css('z-index', maxZIndex).show();
+            const $elementToBlock = (options.$elementToBlock !== null) ? options.$elementToBlock : jQuery('body');
+            $elementToBlock.data('ajaxloadingTimeout', setTimeout(function () {
+                $elementToBlock.data('ajaxloadingTimeout', null);
+                jQuery('#index-loadingInner').stop().fadeIn(50);
+            }, 0));
         }
     }
     //----------------------------------------------------------------------------------------------
