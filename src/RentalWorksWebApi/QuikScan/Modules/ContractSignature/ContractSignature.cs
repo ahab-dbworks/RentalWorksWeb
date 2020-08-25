@@ -1,4 +1,4 @@
-﻿using FwStandard.Mobile;
+using FwStandard.Mobile;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.Utilities;
@@ -115,7 +115,7 @@ namespace RentalWorksQuikScan.Modules
                     namefml = qryInputByUser.GetField("namefml").ToString().TrimEnd();
                     if (usersid != inputbyusersid)
                     {
-                        throw new Exception("Only the session owner " + namefml + " can create a contract.");
+                        throw new FwBadRequestException("Only the session owner " + namefml + " can create a contract.");
                     }
                 }
 
