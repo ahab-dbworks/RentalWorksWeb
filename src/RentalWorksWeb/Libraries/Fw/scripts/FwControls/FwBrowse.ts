@@ -1275,7 +1275,7 @@ class FwBrowseClass {
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     //if ($control.attr('data-hasmultirowselect') !== 'false') {
-                        html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-multirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                    html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-hasmultirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
                     //}
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
@@ -4549,6 +4549,24 @@ class FwBrowseClass {
                 FwFunc.showError(response);
             }, null);
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    openMultiRowEditForm($browse: JQuery) {
+        try {
+            let $form;
+            const controller = $browse.attr('data-controller');
+            if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+            const module = (<any>window)[controller].Module;
+
+            $form = window[controller].openForm('MULTI-EDIT');
+            const $fwformfields = $form.data('fields');
+            FwFormField.enable($fwformfields);
+            $form.find('[data-required="true"]').attr('data-required', 'false');
+
+            FwModule.openModuleTab($form, `Edit ${module}s`, true, 'FORM', true);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     showMultiRowSelector($control: JQuery, e: JQuery.ClickEvent) {

@@ -771,7 +771,7 @@ class FwMenuClass {
             $menubarbutton.attr('data-type', 'ViewMenuBarButton');
             $menubarbutton.on('click', function (event) {
                 try {
-                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const $browse = options.$browse;
                     const $selectedRow = $browse.find('tr.selected');
                     if ($selectedRow.length > 0) {
                         $selectedRow.dblclick();
@@ -787,11 +787,23 @@ class FwMenuClass {
             $menubarbutton2.attr('data-type', 'EditMenuBarButton');
             $menubarbutton2.on('click', function (event) {
                 try {
-                    const $selectedRow = options.$browse.find('tr.selected');
-                    if ($selectedRow.length > 0) {
-                        $selectedRow.dblclick();
+                    const $browse = options.$browse;
+                    if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
+                        const $selectedRows = options.$browse.find('tbody .tdselectrow input:checked');
+                        if ($selectedRows.length > 1) {
+                            FwBrowse.openMultiRowEditForm($browse);
+                        } else if ($selectedRows.length === 1) {
+                            $selectedRows.dblclick();
+                        } else {
+                            FwNotification.renderNotification('WARNING', 'Please select a row.');
+                        }
                     } else {
-                        FwNotification.renderNotification('WARNING', 'Please select a row.');
+                        const $selectedRow = $browse.find('tr.selected');
+                        if ($selectedRow.length > 0) {
+                            $selectedRow.dblclick();
+                        } else {
+                            FwNotification.renderNotification('WARNING', 'Please select a row.');
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
