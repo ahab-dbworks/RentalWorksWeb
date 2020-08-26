@@ -42,6 +42,7 @@ class SearchInterface {
                             <div class="flexpage">
                               <div class="fwmenu default"></div>
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Currency" data-datafield="CurrencyId" style="display:none;"></div>                                
                                 <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryType"></div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Date" data-datafield="PickDate" style="flex: 0 1 135px;"></div>                                
                                 <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Time" data-datafield="PickTime" style="flex: 0 1 100px;"></div>                                                     
@@ -242,13 +243,14 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'PickTime', pickStartStop.PickTime);
                 FwFormField.setValueByDataField($popup, 'FromTime', pickStartStop.StartTime);
                 FwFormField.setValueByDataField($popup, 'ToTime', pickStartStop.StopTime);
-
+                FwFormField.setValueByDataField($popup, 'CurrencyId', FwFormField.getValueByDataField($form, 'CurrencyId'));
                 $popup.data('ratetype', FwFormField.getValueByDataField($form, 'RateType'));
                 break;
             case 'PurchaseOrder':
                 $popup.find('[data-datafield="PickDate"], [data-datafield="FromDate"], [data-datafield="ToDate"]').hide();
                 $popup.find('[data-datafield="PickTime"], [data-datafield="FromTime"], [data-datafield="ToTime"]').hide();
                 startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
+                FwFormField.setValueByDataField($popup, 'CurrencyId', FwFormField.getValueByDataField($form, 'CurrencyId'));
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 break;
             case 'Transfer':
@@ -1269,6 +1271,7 @@ class SearchInterface {
                 const fromDate    = FwFormField.getValueByDataField($popup, 'FromDate');
                 const toDate      = FwFormField.getValueByDataField($popup, 'ToDate');
                 const pickDate    = FwFormField.getValueByDataField($popup, 'PickDate');
+                const currencyId  = FwFormField.getValueByDataField($popup, 'CurrencyId');
                 const view        = $popup.find('#itemlist').attr('data-view');
                 let request: any  = {
                     OrderId:     id,
@@ -1279,7 +1282,11 @@ class SearchInterface {
                     FromDate:    pickDate != "" ? pickDate : fromDate,
                     ToDate:      toDate
                 }
-               
+
+                if (currencyId != '') {
+                    request.CurrencyId = currencyId;
+                }
+
                 if (quantity > 0) {
                     hasItemInGrids = true;
                 }
@@ -1333,6 +1340,7 @@ class SearchInterface {
                 const fromDate      = FwFormField.getValueByDataField($popup, 'FromDate');
                 const toDate        = FwFormField.getValueByDataField($popup, 'ToDate');
                 const pickDate = FwFormField.getValueByDataField($popup, 'PickDate');
+                const currencyId = FwFormField.getValueByDataField($popup, 'CurrencyId');
                 const view = $popup.find('#itemlist').attr('data-view');
                 let accRequest: any = {
                     SessionId:   id,
@@ -1342,6 +1350,10 @@ class SearchInterface {
                     FromDate:    pickDate != "" ? pickDate : fromDate,
                     ToDate:      toDate
                 };
+
+                if (currencyId != '') {
+                    accRequest.CurrencyId = currencyId;
+                }
 
                 if ($element.parents('.nested-accessories').length) {
                     accRequest.ParentId = $element.parents('.nested-accessories').attr('data-parentid');
@@ -1830,6 +1842,7 @@ class SearchInterface {
             CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
             SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
             SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined,
+            CurrencyId:                    FwFormField.getValueByDataField($popup, 'CurrencyId') || undefined
         }
 
         let type = $popup.find('#itemsearch').attr('data-moduletype');
@@ -1896,7 +1909,8 @@ class SearchInterface {
             FromDate:           fromDateAndTime.fromDate || undefined,
             FromTime:           fromDateAndTime.fromTime || undefined,
             ToDate:             FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-            Toime:              FwFormField.getValueByDataField($popup, 'ToTime') || undefined
+            ToTime:             FwFormField.getValueByDataField($popup, 'ToTime') || undefined,
+            CurrencyId:         FwFormField.getValueByDataField($popup, 'CurrencyId') || undefined
         }
 
         const isNestedAccessory = $el.attr('data-isnestedaccessory');
