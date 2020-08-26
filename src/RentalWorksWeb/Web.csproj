@@ -525,15 +525,11 @@
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
-    <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
-    <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Account\UserProfile\UserProfile.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DataHealth\DataHealth.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomReportLayout\CustomReportLayout.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
-    <TypeScriptCompile Include="Source\Modules\-BaseModules\CheckInBase\CheckInBase.ts" />
-    <TypeScriptCompile Include="Source\Modules\-BaseModules\ContractBase\ContractBase.ts" />
     <Content Include="Source\Modules\Account\UserProfile\UserProfileForm.htm" />
     <Content Include="Source\Modules\Administrator\Alert\AlertBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Alert\AlertForm.htm" />
@@ -553,7 +549,6 @@
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldForm.htm" />
     <Content Include="Source\Modules\Administrator\Reports\Reports.htm" />
     <Content Include="Source\Modules\Administrator\Reports\Reports.css" />
-    <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomForm\CustomForm.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\SystemUpdate\SystemUpdate.ts" />
@@ -573,6 +568,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\ManifestReport\ManifestReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusDetailReport\OrderStatusDetailReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReturnListReport\PurchaseOrderReturnListReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnListReport\ReturnListReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RateUpdateReport\RateUpdateReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RepairOrderReport\RepairOrderReportController.ts" />
@@ -743,7 +739,6 @@
     <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\Sound\Sound.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SystemSettings\SystemSettings\SystemSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WorkWeekSettings\WorkWeek\WorkWeek.ts" />
-    <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Agent\Order\SearchInterface.ts" />
@@ -1399,7 +1394,6 @@
     </Content>
     <TypeScriptCompile Include="Source\Pages\OktaLogin\OktaLogin.ts" />
     <TypeScriptCompile Include="Source\Validations\ActivityTypeValidation\ActivityTypeValidationController.ts" />
-    <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CountryValidation\CountryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\RateValidation\RateValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\ReceiptValidation\ReceiptValidationController.ts" />

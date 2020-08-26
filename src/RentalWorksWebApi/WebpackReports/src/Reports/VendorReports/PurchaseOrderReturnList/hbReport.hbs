@@ -1,0 +1,82 @@
+﻿<!--Return List Report-->
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+  <div class="rpt-flexcolumn" style="padding-bottom:5px;">
+    <span class="company-header">{{Company}}</span>
+    <span class="header-left">Department: {{Department}}</span>
+    <span class="header-left">Warehouse: {{Warehouse}}</span>
+  </div>
+  <div style="max-width: 300px;" class="rpt-flexcolumn">
+    <span class="contract-title blue">{{Report}}</span>
+    <span class="sub-title">As Of: {{PrintDate}} &nbsp; {{PrintTime}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="header-right">Session: {{Session}}</span>
+    {{#ifEquals BarCodeStyle "1D"}}
+    <span class="header-right" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{Session}}*</span> <!-- wrap this in * so that the barcode works -->
+    {{/ifEquals}}
+    {{#ifEquals BarCodeStyle "2D"}}
+    <span class="header-right qrcode">{{{QrCode}}}</span>
+    {{/ifEquals}}
+  </div>
+</div>
+<div class="rpt-flexrow">
+  <table>
+    <thead>
+      <tr style="height:44px;">
+        <th>I-Code</th>
+        <th>Description</th>
+        <th class="centered"><span>Received</span></th>
+        <th class="centered"><span>Returnable</span></th>
+        <th class="centered"><span>Returned????</span></th>
+      </tr>
+    </thead>
+    {{#each Items}}
+    <tbody>
+      {{#ifEquals RowType "PurchaseOrderNumberheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="header-row">PO No: {{PurchaseOrderNumber}}</td>
+        <td class="header-row">Vendor: {{Vendor}}</td>
+        <td class="header-row">Agent {{Agent}}</td>
+        <td class="header-row">Warehouse: {{Warehouse}}</td>
+      </tr>
+      <tr data-rowtype="{{RowType}}" class="barcode-row">
+        <td style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;" colspan="8">*{{PurchaseOrderNumber}}*</td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "SubOrderNumberheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="4" class="header-row">Order No: {{SubOrderNumber}}</td>
+      </tr>
+      {{/ifEquals}}
+
+      {{#ifEquals RowType "detail"}}
+      <tr data-rowtype="{{RowType}}" class="description-row">
+        <td class="nowrap"><span class="nowrap" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{ICode}}*{{/ifEquals}}</span></td>
+        <td>{{Description}}</td>
+        <td class="centered bordered">{{QuantityReceived}}</td>
+        <td class="centered bordered">{{QuantityReturnable}}</td>
+        <td class="centered bordered">{{QuantityReturnable}}</td>
+        <td class="bordered">&nbsp;</td>
+        <td class="" style="border-left:1px solid;">&nbsp;</td>
+      </tr>
+      {{#gt Barcodes.length 0}}
+      <tr data-rowtype="{{RowType}}" class="barcode-row">
+        <td class="" colspan="8">{{Barcodes}}</td>
+      </tr>
+      {{/gt}}
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <div>
+    <div style="display:flex">
+      <div class="receivedbyfield">
+        <div class="value"></div>
+        <div style="font-weight:700;" class="caption">RECEIVED BY</div>
+      </div>
+    </div>
+  </div>
+</div>
