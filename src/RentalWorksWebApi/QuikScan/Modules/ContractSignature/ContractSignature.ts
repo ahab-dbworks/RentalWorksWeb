@@ -387,11 +387,11 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        if (properties.contract.contractType === 'OUT') {
-            $printimagecapture.showscreen();
-        } else {
-            $signaturecapture.showscreen();
-        }
+        //if (properties.contract.contractType === 'OUT') {
+        $printimagecapture.showscreen();
+        // } else {
+        //     $signaturecapture.showscreen();
+        // }
     };
 
     screen.unload = function() {

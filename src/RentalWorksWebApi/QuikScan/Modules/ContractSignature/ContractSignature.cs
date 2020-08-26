@@ -168,9 +168,37 @@ namespace RentalWorksQuikScan.Modules
             string subject = request.subject;
             string body = request.body;
 
-            // send the email
-            OutContractReport report = new OutContractReport(this.ApplicationConfig);
-            await report.EmailPdfAsync(usersid, webusersid, contractid, from, to, cc, subject, body);
+            string contractType = null;
+            using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select contracttype");
+                    qry.Add("from contract with (nolock)");
+                    qry.Add("where contractid = @contractid");
+                    qry.AddParameter("@contractid", request.contractId);
+                    await qry.ExecuteAsync();
+                    contractType = qry.GetField("contracttype").ToString().TrimEnd();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(contractType))
+            {
+                switch(contractType)
+                {
+                    case "OUT":       
+                        // send the email
+                        OutContractReport outContractReport = new OutContractReport(this.ApplicationConfig);
+                        await outContractReport.EmailPdfAsync(usersid, webusersid, contractid, from, to, cc, subject, body);
+                        break;
+                    case "IN":
+                        InContractReport inContractReport = new InContractReport(this.ApplicationConfig);
+                        await inContractReport.EmailPdfAsync(usersid, webusersid, contractid, from, to, cc, subject, body);
+                        break;
+                    default:
+                        throw new Exception($"Emailing contract type: {contractType} is currently unsupported.");
+                }
+            }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]

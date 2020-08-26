@@ -12,11 +12,11 @@ using WebApi.QuikScan;
 
 namespace RentalWorksQuikScan.Modules
 {
-    class OutContractReport : MobileModule
+    class InContractReport : MobileModule
     {
         RwAppData AppData;
         //----------------------------------------------------------------------------------------------------
-        public OutContractReport(FwApplicationConfig applicationConfig) : base(applicationConfig)
+        public InContractReport(FwApplicationConfig applicationConfig) : base(applicationConfig)
         {
             this.AppData = new RwAppData(applicationConfig);
         }
@@ -28,7 +28,7 @@ namespace RentalWorksQuikScan.Modules
             public int expires_in = 300;
         }
         //---------------------------------------------------------------------------------------------
-        public class OutContractReportResponse
+        public class InContractReportResponse
         {
             public string htmlReportDownloadUrl { get; set; } = string.Empty;
             public string pdfReportDownloadUrl { get; set; } = string.Empty;
@@ -76,7 +76,7 @@ namespace RentalWorksQuikScan.Modules
                 var jsonJwtResponse = apiJwtResponse.Content.ReadAsStringAsync().Result;
                 var jwtResponse = JsonConvert.DeserializeObject<JwtResponse>(jsonJwtResponse);
 
-                HttpRequestMessage requestContractReport = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/OutContractReport/render");
+                HttpRequestMessage requestContractReport = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/InContractReport/render");
                 requestContractReport.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.access_token);
                 FwReportRenderRequest renderRequest = new FwReportRenderRequest();
                 renderRequest.downloadPdfAsAttachment = false;
@@ -94,7 +94,7 @@ namespace RentalWorksQuikScan.Modules
                 if (apiHtmlReportResponse.IsSuccessStatusCode)
                 {
                     var jsonContractReportResponse = apiHtmlReportResponse.Content.ReadAsStringAsync().Result;
-                    var contractReportResponse = JsonConvert.DeserializeObject<OutContractReportResponse>(jsonContractReportResponse);
+                    var contractReportResponse = JsonConvert.DeserializeObject<InContractReportResponse>(jsonContractReportResponse);
                 }
             }
         }
