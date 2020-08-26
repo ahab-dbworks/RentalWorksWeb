@@ -414,7 +414,7 @@
                 }
             }
         });
-        if (RwRFID.isConnected && RwRFID.isTsl) {
+        if (RwRFID.isConnected) {
             moduleControlButtons.push({
                 caption: '',
                 orientation: 'right',
@@ -422,7 +422,7 @@
                 state: 0,
                 buttonclick: function () {
                     try {
-                        RwRFID.setTslRfidPowerLevel();
+                        RwRFID.setRfidPowerLevel();
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -527,7 +527,7 @@
                     state:       0,
                     buttonclick: function () {
                         try {
-                            RwRFID.setTslRfidPowerLevel();
+                            RwRFID.setRfidPowerLevel();
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -786,7 +786,7 @@
                     state:       0,
                     buttonclick: function () {
                         try {
-                            RwRFID.setTslRfidPowerLevel();
+                            RwRFID.setRfidPowerLevel();
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }

@@ -458,7 +458,7 @@
                 } else {
                     $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                 }
-                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
+                var showhideselectorder = (properties !== undefined && properties.moduleType !== undefined && properties.moduleType === 'Order' && moduleproperties.syscontrol.itemsinrooms == "T") ? 'showButton' : 'hideButton';
                 $checkincontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
             }
         });

@@ -559,7 +559,7 @@ class StagingControllerClass {
                 } else {
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
                 }
-                var showhideselectorder = (moduleproperties.syscontrol.itemsinrooms === true) ? 'showButton' : 'hideButton';
+                var showhideselectorder = (properties !== undefined && properties.moduleType !== undefined && properties.moduleType === 'Order' && moduleproperties.syscontrol.itemsinrooms === true) ? 'showButton' : 'hideButton';
                 screen.$modulecontrol.fwmobilemodulecontrol(showhideselectorder, '#selectorderlocation');
             }
         });
@@ -3274,7 +3274,7 @@ class StagingControllerClass {
                     var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
                     FwConfirmation.addControls($confirmation, '<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="qty" data-minvalue="0" data-formatnumeric="true"></div>');
-
+                    FwFormField.setValueByDataField($confirmation, 'qty', '1');
                     $ok.on('click', function () {
                         request.Qty = FwFormField.getValueByDataField($confirmation, 'qty');
                         FwConfirmation.destroyConfirmation($confirmation);
