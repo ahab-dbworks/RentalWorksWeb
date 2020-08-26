@@ -727,6 +727,9 @@ class FwMenuClass {
         if (typeof options.hasCustomize === 'undefined') {
             options.hasCustomize = true;
         }
+        if (typeof options.hasMultiRowEditing === 'undefined') {
+            options.hasMultiRowEditing = false;
+        }
         //if (typeof buttons.hasExportExcel) {
         //    //check the security tree
         //    const nodeExportExcel
@@ -1232,6 +1235,16 @@ class FwMenuClass {
                 }
             });
         }
+
+        if (options.hasMultiRowEditing) {
+            FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
+                try {
+                    FwBrowse.showMultiRowSelector(options.$browse, e);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuButtons(options: IAddFormMenuOptions) {
@@ -1319,7 +1332,8 @@ interface IAddBrowseMenuOptions {
     hasFind?: boolean
     hasDownloadExcel?: boolean
     hasInactive?: boolean
-    hasCustomize?: boolean;
+    hasCustomize?: boolean
+    hasMultiRowEditing?: boolean
 }
 
 interface IAddGridMenuOptions {

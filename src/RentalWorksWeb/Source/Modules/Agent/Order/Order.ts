@@ -9,6 +9,7 @@ class Order extends OrderBase {
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasInactive = false;
         options.hasDelete = false;
+        options.hasMultiRowEditing = true;
         FwMenu.addBrowseMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, 'Cancel / Uncancel', 'dpH0uCuEp3E89', (e: JQuery.ClickEvent) => {
@@ -736,7 +737,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Order" data-control="FwBrowse" data-type="Browse" id="OrderBrowse" class="fwcontrol fwbrowse" data-controller="OrderController">
+        <div data-name="Order" data-control="FwBrowse" data-type="Browse" id="OrderBrowse" class="fwcontrol fwbrowse" data-hasmultirowselect="true" data-multirowediting="true" data-controller="OrderController">
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-browsedatatype="key"></div>
           </div>

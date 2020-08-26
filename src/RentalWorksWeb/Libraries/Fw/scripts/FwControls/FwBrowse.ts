@@ -1274,9 +1274,9 @@ class FwBrowseClass {
                         html.push(`<td class="column manual-sort" style="display:none;"></td>`);
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
-                    if ($control.attr('data-hasmultirowselect') !== 'false') {
-                        html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
-                    }
+                    //if ($control.attr('data-hasmultirowselect') !== 'false') {
+                        html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-multirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                    //}
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
                     var $column = $columns.eq(colno);
@@ -4549,6 +4549,19 @@ class FwBrowseClass {
                 FwFunc.showError(response);
             }, null);
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    showMultiRowSelector($control: JQuery, e: JQuery.ClickEvent) {
+        const $menuOption = jQuery(e.currentTarget);
+        if ($menuOption.hasClass('active')) {
+            $menuOption.removeClass('active');
+            $control.find('td.tdselectrow:visible').hide();
+            $menuOption.find('.caption').text('Show Multi-Row Selector');
+        } else {
+            $menuOption.addClass('active');
+            $control.find('td.tdselectrow:hidden').show();
+            $menuOption.find('.caption').text('Hide Multi-Row Selector');
+        }
     }
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {
