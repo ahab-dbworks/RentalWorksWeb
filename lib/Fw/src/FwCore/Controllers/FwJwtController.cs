@@ -2,6 +2,7 @@
 using FwCore.Logic;
 using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -37,22 +38,21 @@ namespace FwCore.Controllers
         public class JwtResponseModel
         {
             public int statuscode { get; set; }
-            public int statusmessage { get; set; }
+            public string statusmessage { get; set; }
             public string access_token { get; set; }
             public int expires_in { get; set; }
+            public bool resetpassword { get; set; } = false;
         }
         //---------------------------------------------------------------------------------------------
         protected virtual async Task<ActionResult<JwtResponseModel>> DoPost([FromBody] FwStandard.Models.FwApplicationUser user)
         {
-            dynamic response = new ExpandoObject();
-            var identity = await FwAmUserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, user.UserName, user.Password);
-            if (identity == null)
+            JwtResponseModel response = new JwtResponseModel();
+
+            dynamic userauth = await FwSqlData.UserAuthenticationAsync(_appConfig.DatabaseSettings, user.UserName, user.Password);
+
+            if (userauth.Status == 0)
             {
-                response.statuscode    = 401; //Unauthorized
-                response.statusmessage = "Invalid user and/or password.";
-            }
-            else
-            {
+                ClaimsIdentity identity = await FwAmUserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, userauth.WebUsersId);
                 var jwtClaims = new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
@@ -70,6 +70,14 @@ namespace FwCore.Controllers
                 response.statuscode   = 0;
                 response.access_token = encodedJwt;
                 response.expires_in   = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
+
+                //Check if user needs to reset their password
+                response.resetpassword = await FwSqlData.CheckPasswordExpirationAsync(_appConfig.DatabaseSettings, userauth.WebUsersId);
+            }
+            else if (userauth.Status == 100) //Failed Basic Authentication
+            {
+                response.statuscode    = 401; //Unauthorized
+                response.statusmessage = "Invalid user and/or password.";
             }
 
             //var json = JsonConvert.SerializeObject(response, _serializerSettings);

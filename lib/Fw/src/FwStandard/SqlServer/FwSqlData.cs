@@ -12,6 +12,150 @@ namespace FwStandard.SqlServer
     public class FwSqlData
     {
         //-----------------------------------------------------------------------------
+        static public async Task<dynamic> UserAuthenticationAsync(SqlServerConfig dbConfig, string username, string password)
+        {
+            dynamic response = new ExpandoObject();
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                dynamic userauthdata = null;
+
+                //Load data from the user table
+                using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                {
+                    qry.Add("select webusersid   = wu.webusersid,");
+                    qry.Add("       usersid      = wu.usersid,");
+                    qry.Add("       email        = u.email,");
+                    qry.Add("       loginname    = u.loginname,");
+                    qry.Add("       password     = u.password,");
+                    qry.Add("       inactive     = u.inactive,");
+                    qry.Add("       failedlogins = wu.failedloginattempts,");
+                    qry.Add("       usertype     = 'USER'");
+                    qry.Add("  from webusers wu with (nolock) join users u with (nolock) on (wu.usersid = u.usersid)");
+                    qry.Add(" where u.inactive    <> 'T'");
+                    qry.Add("   and ((u.email     = @username) or");
+                    qry.Add("        (u.loginname = @username))");
+                    qry.AddParameter("@username", username);
+                    userauthdata = await qry.QueryToDynamicObject2Async();
+                }
+
+                //Load data from contact table if no match in the user table
+                if (userauthdata == null)
+                {
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                    {
+                        qry.Add("select webusersid   = wu.webusersid,");
+                        qry.Add("       usersid      = wu.usersid,");
+                        qry.Add("       contactid    = wu.contactid,");
+                        qry.Add("       email        = c.email,");
+                        qry.Add("       password     = wu.webpassword,");
+                        qry.Add("       inactive     = c.inactive,");
+                        qry.Add("       failedlogins = wu.failedloginattempts,");
+                        qry.Add("       usertype     = 'CONTACT'");
+                        qry.Add("  from webusers wu with (nolock) join contact c with (nolock) on (wu.contactid = c.contactid)");
+                        qry.Add(" where c.contactrecordtype in ('CONTACT', 'CREW')");
+                        qry.Add("   and c.email             = @username");
+                        qry.AddParameter("@username", username);
+                        userauthdata = await qry.QueryToDynamicObject2Async();
+                    }
+                }
+
+                if (userauthdata != null)
+                {
+                    bool passwordmatch = false;
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                    {
+                        qry.Add("select case when @password = dbo.encrypt(@userpassword) then 1 else 0 end as match");
+                        qry.AddParameter("@password",     userauthdata.password);
+                        qry.AddParameter("@userpassword", password.ToUpper());
+                        await qry.ExecuteAsync();
+                        passwordmatch = qry.GetField("match").ToBoolean();
+                    }
+
+                    if (passwordmatch)
+                    {
+                        if (userauthdata.failedlogins > 0)
+                        {
+                            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                            {
+                                qry.Add("update webusers");
+                                qry.Add("   set failedloginattempts = 0");
+                                qry.Add(" where webusersid = @webusersid");
+                                qry.AddParameter("@webusersid",   userauthdata.webusersid);
+                                await qry.ExecuteAsync();
+                            }
+                        }
+
+                        response.Status = 0;
+                        response.WebUsersId = userauthdata.webusersid;
+                    }
+                    else
+                    {
+                        response.Status = 100;
+
+                        //On failed password increment the failedloginattempts on the account
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                        {
+                            qry.Add("update webusers");
+                            qry.Add("   set failedloginattempts = @failedlogins");
+                            qry.Add(" where webusersid = @webusersid");
+                            qry.AddParameter("@failedlogins", userauthdata.failedlogins + 1);
+                            qry.AddParameter("@webusersid",   userauthdata.webusersid);
+                            await qry.ExecuteAsync();
+                        }
+                    }
+                }
+                else
+                {
+                    response.Status = 100;
+                }
+            }
+            return response;
+        }
+        //-----------------------------------------------------------------------------
+        static public async Task<Boolean> CheckPasswordExpirationAsync(SqlServerConfig dbConfig, string WebUsersId)
+        {
+            bool response = false;
+            bool changepassword;
+            bool expireflag;
+            int  expireindays;
+            DateTime passwordlastupdated;
+
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                {
+                    qry.Add("select webusersid      = wu.webusersid,");
+                    qry.Add("       usersid         = wu.usersid,");
+                    qry.Add("       mustchangepwflg = u.mustchangepwflg,");
+                    qry.Add("       expireflg       = u.expireflg,");
+                    qry.Add("       expiredays      = u.expiredays,");
+                    qry.Add("       pwupdated       = u.pwupdated");
+                    qry.Add("  from webusers wu with (nolock) join users u with (nolock) on (wu.usersid = u.usersid)");
+                    qry.Add(" where webusersid = @webusersid");
+                    qry.AddParameter("@webusersid", WebUsersId);
+                    await qry.ExecuteAsync();
+                    changepassword      = qry.GetField("mustchangepwflg").ToBoolean();
+                    expireflag          = qry.GetField("expireflg").ToBoolean();
+                    expireindays        = qry.GetField("expiredays").ToInt32();
+                    passwordlastupdated = qry.GetField("pwupdated").ToDateTime();
+                }
+            }
+
+            if (changepassword)
+            {
+                response = true;
+            }
+            else if (expireflag)
+            {
+                if (DateTime.Compare(DateTime.Today, passwordlastupdated.AddDays(expireindays)) > 0)
+                {
+                    response = true;
+                }
+            }
+
+            return response;
+        }
+        //-----------------------------------------------------------------------------
         //static public async Task<String> DecryptAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string data)
         //{
         //    using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
