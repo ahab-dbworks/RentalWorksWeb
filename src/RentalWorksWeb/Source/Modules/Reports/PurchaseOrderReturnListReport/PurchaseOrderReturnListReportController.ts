@@ -71,37 +71,7 @@ class PurchaseOrderReturnList extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        parameters.department = JSON.parse(sessionStorage.getItem('department')).department;
-        parameters.warehouse = JSON.parse(sessionStorage.getItem('warehouse')).warehouse;
         return parameters;
-    }
-    //----------------------------------------------------------------------------------------------
-    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-
-        switch (datafield) {
-            case 'InventoryTypeId':
-                request.uniqueids.Rental = true;
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                break;
-            case 'CategoryId':
-                if (inventoryTypeId !== "") {
-                    request.uniqueids.InventoryTypeId = inventoryTypeId;
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                break;
-            case 'InventoryId':
-                if (inventoryTypeId !== "") {
-                    request.uniqueids.InventoryTypeId = inventoryTypeId;
-                };
-                if (categoryId !== "") {
-                    request.uniqueids.CategoryId = categoryId;
-                };
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-                break;
-        }
-
     }
     //----------------------------------------------------------------------------------------------
 };

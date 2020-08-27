@@ -9,7 +9,6 @@ const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
 export class PurchaseOrderReturnList extends WebpackReport {
-    contract: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -31,8 +30,6 @@ export class PurchaseOrderReturnList extends WebpackReport {
                     //    data.Items[i].PrintIn = data.PrintIn;
                     //    data.Items[i].PrintOut = data.PrintOut;
                     //}
-                    data.Warehouse = parameters.warehouse;
-                    data.Company = parameters.companyName;
 
                     if (parameters.BarCodeStyle === '1D') {
                         parameters.BarCodeStyle = '1D';
