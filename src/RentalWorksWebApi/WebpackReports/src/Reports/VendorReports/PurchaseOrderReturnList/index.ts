@@ -14,14 +14,15 @@ export class PurchaseOrderReturnList extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/purchaseorderreturnlist/runreport`, authorizationHeader, parameters)
                 .then((response: any) => {
-                    const data: any = response;
-                    data.Items = DataTable.toObjectList(response.ItemsTable);
+                    const data: any = DataTable.toObjectList(response);
                     data.PrintTime = moment().format('h:mm:ss A');
                     data.PrintDate = moment().format('MM/DD/YYYY');
                     data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     data.System = 'RENTALWORKS';
                     data.Report = 'VENDOR RETURN LIST';
                     data.Department = parameters.department;
+                    data.Company = parameters.companyName;
+
                     //data.PrintAisleShelf = parameters.PrintAisleShelf;
                     //for (let i = 0; i < data.Items.length; i++) {
                     //    data.Items[i].PrintAisleShelf = parameters.PrintAisleShelf;

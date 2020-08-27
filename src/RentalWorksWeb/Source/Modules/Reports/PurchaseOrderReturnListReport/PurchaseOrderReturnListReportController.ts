@@ -38,6 +38,7 @@ class PurchaseOrderReturnList extends FwWebApiReport {
     constructor() {
         super('PurchaseOrderReturnList', 'api/v1/purchaseorderreturnlist', purchaseOrderReturnListTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
