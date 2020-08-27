@@ -2147,6 +2147,7 @@
             // Reset the LineaPro
             program.setScanTarget('#scanBarcodeView-txtBarcodeData');
             program.setScanTargetLpNearfield('');
+            program.onScanBarcode = null;
 
             if (typeof window.TslReader !== 'undefined') {
                 window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_checkincontrollerjs_getCheckInScreen');
