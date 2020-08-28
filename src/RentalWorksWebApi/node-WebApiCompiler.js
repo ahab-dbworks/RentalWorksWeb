@@ -206,8 +206,7 @@ class WebApiCompiler {
             await fs.copy(`${srcDir}/theme/fwfonts`, `${destDir}/theme/fwfonts`);
             await fs.copy(`${srcDir}/theme/fwimages`, `${destDir}/theme/fwimages`);
             await fs.copy(`${srcDir}/theme/images`, `${destDir}/theme/images`);
-            //await fs.copy(`${srcDir}/index.htm`, `${destDir}/index.htm`);
-            //await fs.copy(`${srcDir}/index.js`, `${destDir}/index.js`);
+            await fs.copy(`${srcDir}/libraries/ckeditor`, `${destDir}/libraries/ckeditor`);
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
             await fs.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
