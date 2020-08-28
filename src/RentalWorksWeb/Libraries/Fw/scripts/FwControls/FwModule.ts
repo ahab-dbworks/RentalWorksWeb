@@ -923,9 +923,13 @@ class FwModule {
             const controller = window[controllername];
             const apiurl = controller.apiurl;
             const uniqueids = $form.data('multirowedituniqueids');
-            const $fields = FwModule.getFormFields($form, false);
+            const modifiedFields = $form.data('modifiedfields');
 
-            request = [];
+            for (let i = 0; i < uniqueids.length; i++) {
+                const fields = { ...uniqueids[i], ...modifiedFields }; 
+                request.push(fields);
+            }
+
             FwAppData.apiMethod(true, 'POST', apiurl + '/many', request, FwServices.defaultTimeout, function onSuccess(response) {
                 //
             }, ex => FwFunc.showError(ex), $form);

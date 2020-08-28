@@ -4569,6 +4569,16 @@ class FwBrowseClass {
             FwFormField.enable($fwformfields);
             $form.find('[data-required="true"]').attr('data-required', 'false');
             $form.data('multirowedituniqueids', uniqueids);
+            $form.data('modifiedfields', {});
+
+            $form.on('change', '.fwformfield', e => {
+                const modifiedFields = $form.data('modifiedfields');
+                const $fwformfield = jQuery(e.currentTarget);
+                const datafield = $fwformfield.attr('data-datafield');
+                const value = FwFormField.getValue2($fwformfield);
+                modifiedFields[datafield] = value;
+                $form.data('modifiedfields', modifiedFields);
+            });
 
             FwModule.openModuleTab($form, `Edit ${module}s`, true, 'FORM', true);
         } catch (ex) {
