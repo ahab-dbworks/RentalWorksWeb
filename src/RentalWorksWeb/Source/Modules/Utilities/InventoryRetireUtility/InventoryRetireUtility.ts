@@ -39,6 +39,15 @@ class InventoryRetireUtility {
         FwFormField.setValueByDataField($form, 'Quantity', 1);
 
         this.events($form);
+
+        if (typeof parentmoduleinfo !== 'undefined') {
+            FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', parentmoduleinfo.ItemId, parentmoduleinfo.BarCode);
+            FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', parentmoduleinfo.ItemId, parentmoduleinfo.SerialNumber)
+            FwFormField.setValueByDataField($form, 'InventoryId', parentmoduleinfo.InventoryId, parentmoduleinfo.ICode);
+            FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.Description);
+            jQuery($form.find('[data-datafield="ItemId"] input')).trigger('change');
+            jQuery($form.find('[data-datafield="InventoryId"] input')).trigger('change');
+        }
         return $form;
     };
     //----------------------------------------------------------------------------------------------

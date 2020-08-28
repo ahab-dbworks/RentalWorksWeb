@@ -90,6 +90,18 @@ class RwAsset {
 
         return $browse;
     };
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Retire Asset', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.retireAsset(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
@@ -420,6 +432,22 @@ class RwAsset {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountryoforigin`);
                 break;
         }
+    }
+    //---------------------------------------------------------------------------------------------
+    retireAsset($form) {
+        const assetInfo: any = {};
+        assetInfo.BarCode = FwFormField.getValueByDataField($form, 'BarCode');
+        assetInfo.ICode = FwFormField.getTextByDataField($form, 'InventoryId');
+        assetInfo.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        assetInfo.SerialNumber = FwFormField.getValueByDataField($form, 'SerialNumber');
+        assetInfo.Description = FwFormField.getValueByDataField($form, 'Description');
+        assetInfo.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
+
+        const mode = 'EDIT';
+        const $inventoryRetireForm = InventoryRetireUtilityController.openForm(mode, assetInfo);
+        FwModule.openSubModuleTab($form, $inventoryRetireForm);
+        const $tab = FwTabs.getTabByElement($inventoryRetireForm);
+        $tab.find('.caption').html('Retire Asset');
     }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
