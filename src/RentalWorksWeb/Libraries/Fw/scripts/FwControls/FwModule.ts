@@ -916,6 +916,24 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
+    static multiEditSave($form: JQuery) {
+        try {
+            let request: any = [];
+            const controllername = $form.attr('data-controller');
+            const controller = window[controllername];
+            const apiurl = controller.apiurl;
+            const uniqueids = $form.data('multirowedituniqueids');
+            const $fields = FwModule.getFormFields($form, false);
+
+            request = [];
+            FwAppData.apiMethod(true, 'POST', apiurl + '/many', request, FwServices.defaultTimeout, function onSuccess(response) {
+                //
+            }, ex => FwFunc.showError(ex), $form);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     static deleteRecord(module: string, $control: JQuery) {
         try {
             const $browse = $control;
@@ -981,7 +999,8 @@ class FwModule {
             $groupOptions: $groupOptions,
             hasSave: true,
             hasNext: false,
-            hasPrevious: false
+            hasPrevious: false,
+            hasMultiEdit: false
         };
         //if (typeof $form.data('addFormMenuItems') === 'function') {
         //    $form.data('addFormMenuItems')(options);
@@ -992,7 +1011,6 @@ class FwModule {
         else {
             FwMenu.addFormMenuButtons(options);
         }
-
 
         // Refresh form button
         if (typeof (<any>window[controller])['loadForm'] === 'function') {

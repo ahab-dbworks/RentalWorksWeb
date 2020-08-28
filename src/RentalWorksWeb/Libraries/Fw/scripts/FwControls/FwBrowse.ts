@@ -4551,17 +4551,24 @@ class FwBrowseClass {
         });
     }
     //----------------------------------------------------------------------------------------------
-    openMultiRowEditForm($browse: JQuery) {
+    openMultiRowEditForm($browse: JQuery, $selectedRows: JQuery) {
         try {
-            let $form;
+            let $form, uniqueids: any = [];
             const controller = $browse.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
             const module = (<any>window)[controller].Module;
+
+            for (let i = 0; i < $selectedRows.length; i++) {
+                let $row = jQuery($selectedRows[i]);
+                let uniqueid = this.getRowBrowseUniqueIds($browse, $row);
+                uniqueids.push(uniqueid);
+            }
 
             $form = window[controller].openForm('MULTI-EDIT');
             const $fwformfields = $form.data('fields');
             FwFormField.enable($fwformfields);
             $form.find('[data-required="true"]').attr('data-required', 'false');
+            $form.data('multirowedituniqueids', uniqueids);
 
             FwModule.openModuleTab($form, `Edit ${module}s`, true, 'FORM', true);
         } catch (ex) {

@@ -32,6 +32,11 @@ class Deal {
         options.hasMultiRowEditing = true;
         FwMenu.addBrowseMenuButtons(options);
     }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasMultiEdit = true;
+        FwMenu.addFormMenuButtons(options);
+    }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = jQuery(this.getBrowseTemplate());

@@ -175,8 +175,9 @@ class FwMenuClass {
                         case 'Edit': btnHtml.push('<i class="material-icons">&#xE254;</i>'); break; //mode_edit
                         case 'Delete': btnHtml.push('<i class="material-icons">&#xE872;</i>'); break; //delete
                         case 'Save': btnHtml.push('<i class="material-icons">&#xE161;</i>'); break; //save
-                        case 'Refresh': btnHtml.push('<i class="material-icons">refresh</i>'); break; //find
+                        case 'Refresh': btnHtml.push('<i class="material-icons">refresh</i>'); break; //refresh
                         case 'Find': btnHtml.push('<i class="material-icons">search</i>'); break; //find
+                        case 'Update Records': btnHtml.push('<i class="material-icons">&#xE161;</i>'); break; //update records (multi-edit)
                     }
                 }
                 const addedClass = caption.toLowerCase().replace(/ /g, '');
@@ -789,9 +790,9 @@ class FwMenuClass {
                 try {
                     const $browse = options.$browse;
                     if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
-                        const $selectedRows = options.$browse.find('tbody .tdselectrow input:checked');
+                        const $selectedRows = options.$browse.find('tbody .tdselectrow input:checked').closest('tr');
                         if ($selectedRows.length > 1) {
-                            FwBrowse.openMultiRowEditForm($browse);
+                            FwBrowse.openMultiRowEditForm($browse, $selectedRows);
                         } else if ($selectedRows.length === 1) {
                             $selectedRows.dblclick();
                         } else {
@@ -1312,6 +1313,17 @@ class FwMenuClass {
                 }
             });
         }
+        if (options.$form.attr('data-mode') === 'MULTI-EDIT' && typeof options.hasMultiEdit === 'boolean' && options.hasMultiEdit) {
+            var $multiEdit = FwMenu.addStandardBtn(options.$menu, 'Update Records');
+            $multiEdit.attr('data-type', 'UpdateRecordsButton');
+            $multiEdit.on('click', function () {
+                try {
+                    FwModule.multiEditSave(options.$form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
@@ -1327,6 +1339,7 @@ interface IAddFormMenuOptions {
     hasPrevious?: boolean
     hasNext?: boolean
     hasSave?: boolean
+    hasMultiEdit?: boolean
 }
 
 interface IAddBrowseMenuOptions {
