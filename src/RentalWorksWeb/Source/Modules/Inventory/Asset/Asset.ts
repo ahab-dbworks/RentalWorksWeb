@@ -94,13 +94,14 @@ class RwAsset {
     addFormMenuItems(options: IAddFormMenuOptions): void {
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Retire Asset', '', (e: JQuery.ClickEvent) => {
-            try {
-                this.retireAsset(options.$form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        // justin hoffman - temporarily disabled as Josh works on
+        //FwMenu.addSubMenuItem(options.$groupOptions, 'Retire Asset', '', (e: JQuery.ClickEvent) => {
+        //    try {
+        //        this.retireAsset(options.$form);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
     }
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
