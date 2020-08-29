@@ -32,10 +32,10 @@ jQuery(function () {
             }
         }
     });
-    setTimeout(() => {
+    setTimeout(async () => {
         program.load();
-        program.loadCustomFormsAndBrowseViews();
-        program.loadDefaultPage();
+        await program.loadCustomFormsAndBrowseViewsAsync();
+        //program.loadDefaultPage();
     }, 2000);
 });
 //---------------------------------------------------------------------------------

@@ -190,6 +190,7 @@ class FwApplication {
     //---------------------------------------------------------------------------------
     load() {
         var me = this;
+        me.registerScripts();
         window.addEventListener("dragover", function (e) {
             e.preventDefault();
         }, false);
@@ -207,6 +208,20 @@ class FwApplication {
         } else {
             var media = localStorage.getItem('media');
             this.setMedia(media);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    registerScripts() {
+        if (applicationConfig.OktaEnabled) {
+            jQuery('<script>')
+                .attr('type', 'text/javascript')
+                .attr('src', 'https://global.oktacdn.com/okta-signin-widget/3.2.0/js/okta-sign-in.min.js')
+                .appendTo(jQuery('head'));
+            jQuery('<link>')
+                .attr('type', 'text/css')
+                .attr('rel', 'stylesheet')
+                .attr('src', 'https://global.oktacdn.com/okta-signin-widget/3.2.0/css/okta-sign-in.min.css')
+                .appendTo(jQuery('head'));
         }
     }
     //---------------------------------------------------------------------------------
@@ -301,7 +316,7 @@ class FwApplication {
     };
     //---------------------------------------------------------------------------------
     getModule(path: string): void {
-        const $bodyContainer = jQuery('#master-body');
+        const $bodyContainer = jQuery('#fw-app-body');
         const $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
         path = path.toLowerCase();
         if ($modifiedForms.length > 0) {
@@ -321,54 +336,55 @@ class FwApplication {
         return JSON.parse(sessionStorage.getItem('applicationOptions'));
     };
     //---------------------------------------------------------------------------------
-    loadCustomFormsAndBrowseViews() {
+    async loadCustomFormsAndBrowseViewsAsync() {
         const self = this;
         try {
             if (sessionStorage.getItem('userid') != null) {
-                let request: any = {};
                 const WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-                request.uniqueids = {
-                    WebUserId: WebUserId
-                };
-                FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, response => {
-                    try {
-                        const baseFormIndex = response.ColumnIndex.BaseForm;
-                        const htmlIndex = response.ColumnIndex.Html;
-                        for (let i = 0; i < response.Rows.length; i++) {
-                            let customForm = response.Rows[i];
-                            let baseform = customForm[baseFormIndex];
-                            jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
-                        }
 
-                        if (sessionStorage.getItem('location') != null) {
-                            request.uniqueids.OfficeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
-                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, request, FwServices.defaultTimeout, response => {
-                                try {
-                                    const moduleNameIndex = response.ColumnIndex.ModuleName;
-                                    const activeViewFieldsIndex = response.ColumnIndex.ActiveViewFields;
-                                    const idIndex = response.ColumnIndex.Id;
-                                    for (let i = 0; i < response.Rows.length; i++) {
-                                        let controller = `${response.Rows[i][moduleNameIndex]}Controller`;
-                                        if (typeof window[controller] !== 'undefined') {
-                                            window[controller].ActiveViewFields = JSON.parse(response.Rows[i][activeViewFieldsIndex]);
-                                            window[controller].ActiveViewFieldsId = response.Rows[i][idIndex];
-                                        }
-                                    }
-                                    self.loadDefaultPage();
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            }, null, null);
-                        } else {
-                            self.loadDefaultPage();
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
+                var requestAssignedCustomForm = new FwAjaxRequest<any>();
+                requestAssignedCustomForm.setWebApiUrl('/api/v1/assignedcustomform/browse');
+                requestAssignedCustomForm.httpMethod = 'POST';
+                requestAssignedCustomForm.$elementToBlock = jQuery('body');
+                requestAssignedCustomForm.data = {
+                    uniqueids: {
+                        WebUserId: WebUserId
                     }
-                }, null, null);
-            } else {
-                self.loadDefaultPage();
+                }
+                var responseAssignedCustomForm = await FwAjax.callWebApi<any, any>(requestAssignedCustomForm);
+                const baseFormIndex = responseAssignedCustomForm.ColumnIndex.BaseForm;
+                const htmlIndex = responseAssignedCustomForm.ColumnIndex.Html;
+                for (let i = 0; i < responseAssignedCustomForm.Rows.length; i++) {
+                    let customForm = responseAssignedCustomForm.Rows[i];
+                    let baseform = customForm[baseFormIndex];
+                    jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
+                }
+
+                if (sessionStorage.getItem('location') != null) {
+                    var requestBrowseActiveViewFields = new FwAjaxRequest<any>();
+                    requestBrowseActiveViewFields.setWebApiUrl('/api/v1/browseactiveviewfields/browse');
+                    requestBrowseActiveViewFields.httpMethod = 'POST';
+                    requestBrowseActiveViewFields.$elementToBlock = jQuery('body');
+                    requestBrowseActiveViewFields.data = {
+                        uniqueids: {
+                            WebUserId: WebUserId,
+                            OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
+                        }
+                    }
+                    var responseBrowseActiveViewFields = await FwAjax.callWebApi<any, any>(requestBrowseActiveViewFields);
+                    const moduleNameIndex = responseBrowseActiveViewFields.ColumnIndex.ModuleName;
+                    const activeViewFieldsIndex = responseBrowseActiveViewFields.ColumnIndex.ActiveViewFields;
+                    const idIndex = responseBrowseActiveViewFields.ColumnIndex.Id;
+                    for (let i = 0; i < responseBrowseActiveViewFields.Rows.length; i++) {
+                        let controller = `${responseBrowseActiveViewFields.Rows[i][moduleNameIndex]}Controller`;
+                        if (typeof window[controller] !== 'undefined') {
+                            window[controller].ActiveViewFields = JSON.parse(responseBrowseActiveViewFields.Rows[i][activeViewFieldsIndex]);
+                            window[controller].ActiveViewFieldsId = responseBrowseActiveViewFields.Rows[i][idIndex];
+                        }
+                    }
+                }
             }
+            self.loadDefaultPage();
         } catch (ex) {
             FwFunc.showError(ex);
         };
@@ -398,12 +414,12 @@ class FwApplication {
             this.screens[0] = screen;
 
             var $applicationContainer = jQuery('#application');
-            if ((jQuery('#master').length == 0) && FwAppData.verifyHasAuthToken()) {
+            if ((jQuery('#fw-app').length == 0) && FwAppData.verifyHasAuthToken()) {
                 $applicationContainer.empty().append(masterController.getMasterView()).removeClass('hidden');
             }
 
-            if (jQuery('#master').length > 0) {
-                $appendToContainer = jQuery('#master-body');
+            if (jQuery('#fw-app').length > 0) {
+                $appendToContainer = jQuery('#fw-app-body');
             } else {
                 $appendToContainer = $applicationContainer;
             }
@@ -415,7 +431,22 @@ class FwApplication {
             document.body.scrollTop = 0;
         }
         if (!foundmatch) {
-            FwFunc.showError(`404: Not Found - ${path}`);
+            const localSubStr = "localhost:";
+            const apiurlSubStr = applicationConfig.apiurl.replace('api/', '');
+            if (applicationConfig.apiurl.indexOf(localSubStr) !== -1) {
+                //okta redirects to the base url without a hash symbol, so if its active and we are there its probaly redirecting with tokens to the base app page, so we redirect to login.
+                if ((window.location.href === "http://localhost/rentalworksweb/" || "http://localhost/gateworksweb") && applicationConfig.OktaEnabled === true) {
+                    program.navigate('login');
+                } else {
+                    FwFunc.showError(`404: Not Found - ${path}`);
+                }
+            } else {
+                if ((window.location.href === apiurlSubStr) && applicationConfig.OktaEnabled === true) {
+                    program.navigate('login');
+                } else {
+                    FwFunc.showError(`404: Not Found - ${path}`);
+                }
+            }
         }
     };
     //---------------------------------------------------------------------------------
@@ -437,6 +468,36 @@ class FwApplication {
             }
             this.navigate('home');
         } else {
+            if (applicationConfig.oktaSignIn) {
+                if (applicationConfig.oktaSignIn.hasTokensInUrl()) {
+                    applicationConfig.oktaSignIn.authClient.token.parseFromUrl().then(
+                        function success(tokens) {
+                            // Save the tokens for later use, e.g. if the page gets refreshed:
+                            // Add the token to tokenManager to automatically renew the token when needed
+                            tokens.forEach(token => {
+                                if (token.idToken) {
+
+                                    applicationConfig.oktaSignIn.authClient.tokenManager.add('idToken', token);
+                                }
+                                if (token.accessToken) {
+                                    applicationConfig.oktaSignIn.authClient.tokenManager.add('accessToken', token);
+                                }
+                            });
+
+                            // Say hello to the person who just signed in:
+                            var idToken = applicationConfig.oktaSignIn.signIn.tokenManager.get('idToken');
+                            console.log('Hello, ' + idToken.claims.email);
+
+                            // Remove the tokens from the window location hash
+                            window.location.hash = '';
+                        },
+                        function error(err) {
+                            // handle errors as needed
+                            console.error(err);
+                        }
+                    );
+                }
+            }
             this.navigate('default');
         }
     }
@@ -464,7 +525,7 @@ window.onhashchange = function () {
 window.addEventListener("error", e => {
     // if logged in on the desktop, but the master section doesn't come up, need to logout to clear the error
     // this can avoid the user getting a blank white screen under certain error conditions
-    if (jQuery('#master').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
+    if (jQuery('#fw-app').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
         sessionStorage.clear();
         window.location.reload(true);
     } else {
@@ -476,7 +537,7 @@ window.addEventListener("error", e => {
 window.addEventListener("unhandledrejection", e => {
     // if logged in on the desktop, but the master section doesn't come up, need to logout to clear the error
     // this can avoid the user getting a blank white screen under certain error conditions
-    if (jQuery('#master').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
+    if (jQuery('#fw-app').length === 0 && jQuery('html.desktop').length === 1 && sessionStorage.getItem('apiToken') !== null) {
         sessionStorage.clear();
         window.location.reload(true);
     } else {

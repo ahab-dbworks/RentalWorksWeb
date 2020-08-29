@@ -16,10 +16,21 @@ class FwAjaxRequest<T> {
     requestId?: string = FwAjax.generateUID();
     xmlHttpRequest?: XMLHttpRequest = new XMLHttpRequest();
     cancelable?: boolean = false;
+    setWebApiUrl?(relativeUrl: string) {
+        let baseUrl = <string>applicationConfig.apiurl;
+        while (baseUrl.lastIndexOf('/') === baseUrl.length - 1) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+        }
+        while (relativeUrl.indexOf('/') === 0) {
+            relativeUrl = relativeUrl.substring(1, relativeUrl.length);
+        }
+        this.url = baseUrl + '/' + relativeUrl;
+    }
+    logoutOnAuthFailure?: boolean = true;
 }
 
 interface IRequest {
-   [key: string]: FwAjaxRequest<any>;
+    [key: string]: FwAjaxRequest<any>;
 }
 
 class FwAjaxRejectReason {
@@ -35,7 +46,7 @@ class FwAjaxClass {
     requests: IRequest = {};
     //----------------------------------------------------------------------------------------------
     async callWebApi<TRequest, TResponse>(options: FwAjaxRequest<TRequest>): Promise<TResponse> {
-        return new Promise<TResponse>(async(resolve, reject) => {
+        return new Promise<TResponse>(async (resolve, reject) => {
             try {
                 if (typeof options.timeout === 'undefined' || options.timeout === null) {
                     options.timeout = 15000;
@@ -72,19 +83,19 @@ class FwAjaxClass {
                 }
                 options.xmlHttpRequest.onload = () => {
                     if (typeof FwAjax.requests[options.requestId] !== 'undefined') {
-                        if (options.xmlHttpRequest.status !== 500) {
-                            this.hideLoader(options);
-                            if (options.xmlHttpRequest.status === 200) {
-                                return resolve(JSON.parse(options.xmlHttpRequest.response));
-                            }
-                            else {
-                                return resolve(options.xmlHttpRequest.response);
-                            }
-                        }
-                        else {
-                            this.hideLoader(options);
+                        this.hideLoader(options);
+                        if (options.xmlHttpRequest.status === 500) {
                             return this.rejectFwApiException<TRequest>(options, reject);
                         }
+                        if ((options.xmlHttpRequest.status === 401 || options.xmlHttpRequest.status === 403) &&
+                            (options.logoutOnAuthFailure === undefined || options.logoutOnAuthFailure === true)) {
+                            sessionStorage.clear();
+                            window.location.reload(true);
+                        }
+                        if (options.xmlHttpRequest.getResponseHeader('content-type').indexOf('application/json') !== -1) {
+                            return resolve(JSON.parse(options.xmlHttpRequest.response));
+                        }
+                        return resolve(options.xmlHttpRequest.response);
                     }
                 };
                 options.xmlHttpRequest.ontimeout = () => {
@@ -156,29 +167,28 @@ class FwAjaxClass {
     //----------------------------------------------------------------------------------------------
     showLoader(options: FwAjaxRequest<any>) {
         FwAjax.requests[options.requestId] = options;
-        if (options.$elementToBlock !== null) {
-            var isdesktop = jQuery('html').hasClass('desktop');
-            var ismobile = jQuery('html').hasClass('mobile');
-            if (isdesktop || (ismobile && (options.$elementToBlock !== null))) {
-                if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
-                    if (options.$elementToBlock.hasClass('fwformfield') && options.$elementToBlock.attr('data-type') !== undefined && options.$elementToBlock.attr('data-type') === 'validation') {
-                        // hide validation search button and show spinner
-                        options.$elementToBlock.find('.btnvalidate').hide();
-                        options.$elementToBlock.find('.validation-loader').show();
-                    } else {
-                        options.$elementToBlock.data('ajaxoverlay', this.showPleaseWaitOverlay(options));
-                    }
+        var isdesktop = jQuery('html').hasClass('desktop');
+        var ismobile = jQuery('html').hasClass('mobile');
+        if (isdesktop || (ismobile && (options.$elementToBlock !== null))) {
+            if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
+                if (options.$elementToBlock.hasClass('fwformfield') && options.$elementToBlock.attr('data-type') !== undefined && options.$elementToBlock.attr('data-type') === 'validation') {
+                    // hide validation search button and show spinner
+                    options.$elementToBlock.find('.btnvalidate').hide();
+                    options.$elementToBlock.find('.validation-loader').show();
+                } else {
+                    options.$elementToBlock.data('ajaxoverlay', this.showPleaseWaitOverlay(options));
                 }
-            } else if (ismobile) {
-                var maxZIndex;
-                jQuery('#index-loadingInner').hide();
-                maxZIndex = FwFunc.getMaxZ('*');
-                jQuery('#index-loading').css('z-index', maxZIndex).show();
-                options.$elementToBlock.data('ajaxloadingTimeout', setTimeout(function () {
-                    options.$elementToBlock.data('ajaxloadingTimeout', null);
-                    jQuery('#index-loadingInner').stop().fadeIn(50);
-                }, 0));
             }
+        } else if (ismobile) {
+            var maxZIndex;
+            jQuery('#index-loadingInner').hide();
+            maxZIndex = FwFunc.getMaxZ('*');
+            jQuery('#index-loading').css('z-index', maxZIndex).show();
+            const $elementToBlock = (options.$elementToBlock !== null) ? options.$elementToBlock : jQuery('body');
+            $elementToBlock.data('ajaxloadingTimeout', setTimeout(function () {
+                $elementToBlock.data('ajaxloadingTimeout', null);
+                jQuery('#index-loadingInner').stop().fadeIn(50);
+            }, 0));
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -197,8 +207,10 @@ class FwAjaxClass {
                 }
             }
         } else if (ismobile) {
-            if (options.$elementToBlock.data('ajaxloadingTimeout')) {
-                clearTimeout(options.$elementToBlock.data('ajaxloadingTimeout'));
+            if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
+                if (options.$elementToBlock.data('ajaxloadingTimeout')) {
+                    clearTimeout(options.$elementToBlock.data('ajaxloadingTimeout'));
+                }
             }
             jQuery('#index-loadingInner').stop().fadeOut(50, function () {
                 jQuery('#index-loading').css('z-index', 0).hide();

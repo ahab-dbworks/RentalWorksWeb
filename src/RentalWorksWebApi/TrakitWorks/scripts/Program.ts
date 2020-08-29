@@ -18,32 +18,32 @@ class Program extends FwApplication {
 //---------------------------------------------------------------------------------
 var program: Program = new Program();
 //---------------------------------------------------------------------------------
-jQuery(function () {
-    function start() {
-        function loadApp() {
+jQuery(async () => {
+    const startAsync = async () => {
+        const loadAppAsync = async () => {
             program.load();
-            program.loadCustomFormsAndBrowseViews();
+            program.loadCustomFormsAndBrowseViewsAsync();
         }
         var $templates = jQuery('script[data-ajaxload="true"]');
         if ($templates.length > 0) {
             do {
-                setTimeout(() => {
+                setTimeout(async () => {
                     $templates = jQuery('script[data-ajaxload="true"]');
                     if ($templates.length === 0) {
-                        loadApp();
+                        await loadAppAsync();
                     }
                 }, 250);
             } while ($templates.length > 0)
         } else {
-            loadApp();
+            await loadAppAsync();
         }
     }
     if (applicationConfig.debugMode) {
-        setTimeout(function () {
-            start();
+        setTimeout(async () => {
+            await start();
         }, 1000);
     } else {
-        start();
+        await startAsync();
 
     }
 });
