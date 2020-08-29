@@ -146,7 +146,7 @@
                         <i class="material-icons">clear</i>
                     </div>`).insertBefore($multiselectfield.find('.addItem'));
             }
-            $multiselectfield.find('.addItem').focus();
+            //$multiselectfield.find('.addItem').focus();
         }
         if (firechangeevent) $inputvalue.change();
     }

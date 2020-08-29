@@ -80,9 +80,13 @@
         $popup = FwPopup.renderPopup($browse, { 'ismodal': true });
 
         const $clearAllBtn = $control.find('.clearall');
-        $clearAllBtn.on('click', e => {
-            FwMultiSelectValidation.clear(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
-        });
+        $clearAllBtn
+            .on('click', e => {
+                FwMultiSelectValidation.clear(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
+            })
+            .on('mousedown', e => {
+                e.preventDefault();
+            });
 
         $searchfield.on('change', function () {
             try {
@@ -108,21 +112,26 @@
             }
         });
 
-        $btnvalidate.on('click', function () {
-            try {
-                if ((typeof $control.attr('data-enabled') !== 'undefined') && ($control.attr('data-enabled') !== 'false')) {
-                    if ((<string>$searchfield.val()).length > 0) {
-                        FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
-                        FwBrowse.selectRowByIndex($browse, 0);
-                    } else {
-                        FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
-                        focusValidationSearchBox($browse);
+        $btnvalidate
+            .on('click', function (e) {
+                e.stopPropagation();
+                try {
+                    if ((typeof $control.attr('data-enabled') !== 'undefined') && ($control.attr('data-enabled') !== 'false')) {
+                        if ((<string>$searchfield.val()).length > 0) {
+                            FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                            FwBrowse.selectRowByIndex($browse, 0);
+                        } else {
+                            FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
+                            focusValidationSearchBox($browse);
+                        }
                     }
+                } catch (ex) {
+                    FwFunc.showError(ex);
                 }
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+            })
+            .on('mousedown', e => { //prevents blur event from triggering
+                e.preventDefault();
+            });
 
         $browse
             .on('click', '.validationbuttons .btnSelect', function () {
@@ -319,7 +328,6 @@
                             } else {
                                 FwBrowse.selectRowByIndex($browse, 0);
                             };
-
                             break;
                         case 8:  //Backspace
                             const inputLength = $control.find('span.addItem').text().length;

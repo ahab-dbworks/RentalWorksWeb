@@ -434,7 +434,7 @@ abstract class FwWebApiReport {
 
                                             jQuery($email).insertBefore($this.find('.multiselectitems .addItem'));
                                             $this.find('.fwformfield-value').val(emailList);
-                                            $this.find('.addItem').text('').focus();
+                                            $this.find('.addItem').text('');
                                         }
 
                                         //FwFormField.setValue2($this, emailList, emailList);
@@ -501,6 +501,23 @@ abstract class FwWebApiReport {
                                     FwFunc.showError(ex);
                                 }
                             })
+                            .on('blur', 'div[contenteditable="true"]', e => {
+                                const $this = jQuery(e.currentTarget);
+                                if ($this.find('.addItem').text().length !== 0) {
+                                    const $fwformfield = $this.parents('.fwformfield');
+                                    const $input = $this.find('span.addItem');
+                                    const value = $input.text();
+
+                                    let emails = FwFormField.getValue2($fwformfield);
+                                    if (emails.length) {
+                                        emails = emails + ',' + value;
+                                    } else {
+                                        emails = value;
+                                    }
+                                    FwFormField.setValue2($fwformfield, emails, emails, false);
+                                    $this.find('span.addItem').text('')
+                                }
+                            });
 
                         if (companyId != '' && companyId != null) {
                             this.addViewAllContacts($confirmation);
@@ -529,8 +546,8 @@ abstract class FwWebApiReport {
                                 let body = FwFormField.getValueByDataField($confirmation, 'body') + '<p>' + signature + '</p>';
                                 requestEmailPdf.renderMode = 'Email';
                                 requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
-                                requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-value').val();
-                                requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-value').val();
+                                requestEmailPdf.email.to = FwFormField.getValueByDataField($confirmation, 'tousers');
+                                requestEmailPdf.email.cc = FwFormField.getValueByDataField($confirmation, 'ccusers');
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                                 requestEmailPdf.email.body = body;
                                 requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
@@ -538,8 +555,7 @@ abstract class FwWebApiReport {
                                 if (requestEmailPdf.parameters.hasOrderNo) {
                                     requestEmailPdf.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
                                 }
-
-                                if (requestEmailPdf.parameters != null) {
+                                if (requestEmailPdf.parameters != null && requestEmailPdf.email.to != '') {
                                     requestEmailPdf.parameters.companyName = companyName;
                                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
                                         (successResponse) => {
