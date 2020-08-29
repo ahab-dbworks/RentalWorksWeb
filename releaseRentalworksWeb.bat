@@ -119,9 +119,7 @@ IF "%commitandftp%"=="y" (
     if not exist build\ mkdir build
     copy releasedocumentlogo.png build /y
 
-    rem temporarily commenting line below because it's taking too much of my bandwidth to download chromium with each build (justin hoffman)
-    rem call npm i
-
+    call npm i
 
     rem command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
     cd %DwRentalWorksWebPath%\build
