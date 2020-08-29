@@ -190,6 +190,10 @@ class WebApiCompiler {
         let publish = false;
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
             publish = false;
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwaudio`, `${srcDir}/theme/fwaudio`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwcursors`, `${srcDir}/theme/fwcursors`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwfonts`, `${srcDir}/theme/fwfonts`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwimages`, `${srcDir}/theme/fwimages`);
         }
         else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
             publish = true;
@@ -201,10 +205,10 @@ class WebApiCompiler {
             await fs.mkdir(webOutputLibrariesDir);
 
             await fs.copy(`${srcDir}/theme/audio`, `${destDir}/theme/audio`);
-            await fs.copy(`${srcDir}/theme/fwaudio`, `${destDir}/theme/fwaudio`);
-            await fs.copy(`${srcDir}/theme/fwcursors`, `${destDir}/theme/fwcursors`);
-            await fs.copy(`${srcDir}/theme/fwfonts`, `${destDir}/theme/fwfonts`);
-            await fs.copy(`${srcDir}/theme/fwimages`, `${destDir}/theme/fwimages`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwaudio`, `${destDir}/theme/fwaudio`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwcursors`, `${destDir}/theme/fwcursors`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwfonts`, `${destDir}/theme/fwfonts`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwimages`, `${destDir}/theme/fwimages`);
             await fs.copy(`${srcDir}/theme/images`, `${destDir}/theme/images`);
             await fs.copy(`${srcDir}/libraries/ckeditor`, `${destDir}/libraries/ckeditor`);
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
