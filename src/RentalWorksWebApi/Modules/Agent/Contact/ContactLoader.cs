@@ -8,7 +8,7 @@ using WebApi;
 
 namespace WebApi.Modules.Agent.Contact
 {
-    [FwSqlTable("webcontactview2")]
+    [FwSqlTable("webcontactview3")]
     public class ContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 

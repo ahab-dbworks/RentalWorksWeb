@@ -19,44 +19,18 @@ namespace FwStandard.SqlServer
             {
                 dynamic userauthdata = null;
 
-                //Load data from the user table
+                //Find User by email or loginname
                 using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                 {
-                    qry.Add("select webusersid   = wu.webusersid,");
-                    qry.Add("       usersid      = wu.usersid,");
-                    qry.Add("       email        = u.email,");
-                    qry.Add("       loginname    = u.loginname,");
-                    qry.Add("       password     = u.password,");
-                    qry.Add("       inactive     = u.inactive,");
-                    qry.Add("       failedlogins = wu.failedloginattempts,");
-                    qry.Add("       usertype     = 'USER'");
-                    qry.Add("  from webusers wu with (nolock) join users u with (nolock) on (wu.usersid = u.usersid)");
-                    qry.Add(" where u.inactive    <> 'T'");
-                    qry.Add("   and ((u.email     = @username) or");
-                    qry.Add("        (u.loginname = @username))");
+                    qry.Add("select top 1 webusersid, usersid, password, failedlogins, usertype");
+                    qry.Add("  from webauthenticateview with (nolock)");
+                    qry.Add(" where inactive    <> 'T'");
+                    qry.Add("   and webaccess   =  'T'");
+                    qry.Add("   and lockaccount <> 'T'");
+                    qry.Add("   and ((email     = @username) or");
+                    qry.Add("        (loginname = @username))");
                     qry.AddParameter("@username", username);
                     userauthdata = await qry.QueryToDynamicObject2Async();
-                }
-
-                //Load data from contact table if no match in the user table
-                if (userauthdata == null)
-                {
-                    using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-                    {
-                        qry.Add("select webusersid   = wu.webusersid,");
-                        qry.Add("       usersid      = wu.usersid,");
-                        qry.Add("       contactid    = wu.contactid,");
-                        qry.Add("       email        = c.email,");
-                        qry.Add("       password     = wu.webpassword,");
-                        qry.Add("       inactive     = c.inactive,");
-                        qry.Add("       failedlogins = wu.failedloginattempts,");
-                        qry.Add("       usertype     = 'CONTACT'");
-                        qry.Add("  from webusers wu with (nolock) join contact c with (nolock) on (wu.contactid = c.contactid)");
-                        qry.Add(" where c.contactrecordtype in ('CONTACT', 'CREW')");
-                        qry.Add("   and c.email             = @username");
-                        qry.AddParameter("@username", username);
-                        userauthdata = await qry.QueryToDynamicObject2Async();
-                    }
                 }
 
                 if (userauthdata != null)
@@ -64,9 +38,11 @@ namespace FwStandard.SqlServer
                     bool passwordmatch = false;
                     using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                     {
-                        qry.Add("select case when @password = dbo.encrypt(@userpassword) then 1 else 0 end as match");
+                        qry.Add("select match = (case when (@password = dbo.encrypt(@userpassword)) then 1");
+                        qry.Add("                                                                   else 0");
+                        qry.Add("               end)");
                         qry.AddParameter("@password",     userauthdata.password);
-                        qry.AddParameter("@userpassword", password.ToUpper());
+                        qry.AddParameter("@userpassword", password.ToUpper()); //2020-08-27 MY: Need to figure out a way to not toupper passwords for comparison
                         await qry.ExecuteAsync();
                         passwordmatch = qry.GetField("match").ToBoolean();
                     }
@@ -77,16 +53,17 @@ namespace FwStandard.SqlServer
                         {
                             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                             {
-                                qry.Add("update webusers");
+                                qry.Add("update users");
                                 qry.Add("   set failedloginattempts = 0");
-                                qry.Add(" where webusersid = @webusersid");
-                                qry.AddParameter("@webusersid",   userauthdata.webusersid);
+                                qry.Add(" where usersid = @usersid");
+                                qry.AddParameter("@usersid",   userauthdata.usersid);
                                 await qry.ExecuteAsync();
                             }
                         }
 
-                        response.Status = 0;
+                        response.Status     = 0;
                         response.WebUsersId = userauthdata.webusersid;
+                        response.UsersId    = userauthdata.usersid;
                     }
                     else
                     {
@@ -95,11 +72,11 @@ namespace FwStandard.SqlServer
                         //On failed password increment the failedloginattempts on the account
                         using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                         {
-                            qry.Add("update webusers");
+                            qry.Add("update users");
                             qry.Add("   set failedloginattempts = @failedlogins");
-                            qry.Add(" where webusersid = @webusersid");
+                            qry.Add(" where usersid = @usersid");
                             qry.AddParameter("@failedlogins", userauthdata.failedlogins + 1);
-                            qry.AddParameter("@webusersid",   userauthdata.webusersid);
+                            qry.AddParameter("@usersid",      userauthdata.usersid);
                             await qry.ExecuteAsync();
                         }
                     }
@@ -112,7 +89,7 @@ namespace FwStandard.SqlServer
             return response;
         }
         //-----------------------------------------------------------------------------
-        static public async Task<Boolean> CheckPasswordExpirationAsync(SqlServerConfig dbConfig, string WebUsersId)
+        static public async Task<Boolean> CheckPasswordExpirationAsync(SqlServerConfig dbConfig, string UsersId)
         {
             bool response = false;
             bool changepassword;
@@ -124,15 +101,10 @@ namespace FwStandard.SqlServer
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                 {
-                    qry.Add("select webusersid      = wu.webusersid,");
-                    qry.Add("       usersid         = wu.usersid,");
-                    qry.Add("       mustchangepwflg = u.mustchangepwflg,");
-                    qry.Add("       expireflg       = u.expireflg,");
-                    qry.Add("       expiredays      = u.expiredays,");
-                    qry.Add("       pwupdated       = u.pwupdated");
-                    qry.Add("  from webusers wu with (nolock) join users u with (nolock) on (wu.usersid = u.usersid)");
-                    qry.Add(" where webusersid = @webusersid");
-                    qry.AddParameter("@webusersid", WebUsersId);
+                    qry.Add("select mustchangepwflg, expireflg, expiredays, pwupdated");
+                    qry.Add("  from users u with (nolock)");
+                    qry.Add(" where usersid = @usersid");
+                    qry.AddParameter("@usersid", UsersId);
                     await qry.ExecuteAsync();
                     changepassword      = qry.GetField("mustchangepwflg").ToBoolean();
                     expireflag          = qry.GetField("expireflg").ToBoolean();

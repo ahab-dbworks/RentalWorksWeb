@@ -53,7 +53,7 @@ namespace FwCore.AppManager
                     if (hasTokenTypeClaim)
                     {
                         var tokenType = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.TokenType).Value;
-                        if (tokenType == "REPORT")
+                        if ((tokenType == "REPORT") || (tokenType == "SERVICE"))
                         {
                             var controllerAttributes = (FwControllerAttribute[])controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(FwControllerAttribute), false);
                             if (controllerAttributes.Length == 0)

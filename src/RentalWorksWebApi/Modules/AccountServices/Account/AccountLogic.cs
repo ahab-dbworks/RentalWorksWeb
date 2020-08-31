@@ -31,28 +31,14 @@ namespace WebApi.Modules.AccountServices.Account
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    if (request.UserType == "USER")
-                    {
-                        qry.Add("update users");
-                        qry.Add("   set password = dbo.encrypt(@password), mustchangepwflg = 'F', pwupdated = @today");
-                        qry.Add(" where usersid = @usersid");
-                        qry.AddParameter("@password", request.Password);
-                        qry.AddParameter("@today", FwDateTime.Now.GetSqlDate());
-                        qry.AddParameter("@usersid", request.UsersId);
-                        await qry.ExecuteAsync();
-                    }
-                    else if (request.UserType == "CONTACT")
-                    {
-                        qry.Add("update webusers");
-                        qry.Add("   set webpassword = dbo.encrypt(@password), mustchangepwflg = 'F', pwupdated = @today");
-                        qry.Add(" where webusersid = @webusersid");
-                        qry.Add("   and contactid  = @contactid");
-                        qry.AddParameter("@password", request.Password);
-                        qry.AddParameter("@today", FwDateTime.Now.GetSqlDate());
-                        qry.AddParameter("@webusersid", request.WebUsersId);
-                        qry.AddParameter("@contactid", request.ContactId);
-                        await qry.ExecuteAsync();
-                    }
+                    qry.Add("update users");
+                    qry.Add("   set password = dbo.encrypt(@password), mustchangepwflg = 'F', pwupdated = @today");
+                    qry.Add(" where usersid = @usersid");
+                    qry.AddParameter("@password", request.Password);
+                    qry.AddParameter("@today",    FwDateTime.Now.GetSqlDate());
+                    qry.AddParameter("@usersid",  this.UserSession.UsersId);
+                    await qry.ExecuteAsync();
+                    response.Status = 0;
                 }
             }
 

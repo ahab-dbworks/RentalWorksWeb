@@ -227,23 +227,15 @@ FwBasePages.getChangePasswordScreen = function (viewModel) {
     html.push('    <div class="programlogo">');
     html.push('      <img id="programlogo" src="" alt="program logo" />');
     html.push('    </div>');
-    html.push('      <div class="change-password-caption">Your password needs to be changed</div>');
+    html.push('    <div class="change-password-caption">Your password needs to be changed</div>');
     html.push('    <div class="login-fields">');
-    html.push('      <div class="login-field" data-id="AQ0NDgwPBwg">');
-    html.push('        <input id="email" class="login-field-value" type="text" autocapitalize="none" />');
-    html.push('        <label class="login-field-caption" for="email">Username / Email</label>');
-    html.push('      </div>');
-    html.push('      <div class="login-field" data-id="BwcODw4HBw8">');
-    html.push('        <input id="password" class="login-field-value" type="password" />');
-    html.push('        <label class="login-field-caption" for="password">Current Password</label>');
-    html.push('      </div>');
     html.push('      <div class="login-field" data-id="BwcODw4HBw8">');
     html.push('        <input id="new-password" class="login-field-value" type="password" />');
-    html.push('        <label class="login-field-caption" for="password">New Password</label>');
+    html.push('        <label class="login-field-caption" for="new-password">New Password</label>');
     html.push('      </div>');
     html.push('      <div class="login-field" data-id="BwcODw4HBw8">');
     html.push('        <input id="confirm-new-password" class="login-field-value" type="password" />');
-    html.push('        <label class="login-field-caption" for="password">Confirm New Password</label>');
+    html.push('        <label class="login-field-caption" for="confirm-new-password">Confirm New Password</label>');
     html.push('      </div>');
     html.push('    </div>');
     html.push('    <div class="errormessage"></div>');
@@ -264,38 +256,7 @@ FwBasePages.getChangePasswordScreen = function (viewModel) {
 
     screen.$view = $changepasswordscreen;
 
-    if (viewModel.valueEmail !== '') {
-        screen.$view.find('#email').val(viewModel.valueEmail);
-        screen.$view.find('#email').siblings().addClass('active');
-    }
-
     screen.$view
-        .on('keypress', '#email', function (e) {
-            e = e || window.event;
-            var charCode = e.which || e.keyCode;
-            switch (charCode) {
-                case 13:
-                    if (screen.$view.find('#password').val() === '') {
-                        screen.$view.find('#password').select();
-                    } else {
-                        screen.$view.find('.btnSubmit').click();
-                    }
-                    break;
-            }
-        })
-        .on('keypress', '#password', function (e) {
-            e = e || window.event;
-            var charCode = e.which || e.keyCode;
-            switch (charCode) {
-                case 13:
-                    if (screen.$view.find('#email').val() === '') {
-                        screen.$view.find('#email').focus();
-                    } else {
-                        screen.$view.find('.btnSubmit').click();
-                    }
-                    break;
-            }
-        })
         .on('focus', '.login-field-value', function () {
             var $this = jQuery(this);
             $this.siblings().addClass('active');

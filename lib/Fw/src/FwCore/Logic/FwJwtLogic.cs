@@ -154,13 +154,20 @@ namespace FwCore.Logic
         {
             public List<string> ControllerIds = new List<string>();
             public DateTime? Expiration = DateTime.Now.AddMinutes(15);
+            public string TokenType = "REPORT";
+            public List<Claim> Claims;
         }
 
         public static async Task<string> GetServiceTokenAsync(FwApplicationConfig appConfig, ServiceTokenOptions serviceTokenOptions)
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
-            claims.Add(new Claim(AuthenticationClaimsTypes.TokenType, "REPORT"));
+            claims.Add(new Claim(AuthenticationClaimsTypes.TokenType, serviceTokenOptions.TokenType));
+
+            if (serviceTokenOptions.Claims.Count > 0)
+            {
+                claims.AddRange(serviceTokenOptions.Claims);
+            }
 
             var jwt = new JwtSecurityToken(
                     issuer: appConfig.JwtIssuerOptions.Issuer,

@@ -176,12 +176,12 @@ namespace WebApi.Modules.AccountServices.Account
             return response;
         }
         //---------------------------------------------------------------------------------------------
-        // GET api/v1/account/resetpassword
-        [HttpGet("resetpassword")]
+        // POST api/v1/account/resetpassword
+        [HttpPost("resetpassword")]
         [FwControllerMethod(Id: "CL8bnxKGRvMO", ValidateSecurityGroup:false)]
         public async Task<ActionResult<ResetPasswordResponse>> ResetPassword([FromBody]ResetPasswordRequest request)
         {
-            if ((!(await request.ValidateAsync(ModelState))) && (!ModelState.IsValid))
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -198,7 +198,7 @@ namespace WebApi.Modules.AccountServices.Account
                 else
                 {
                     var jsonException        = new FwApiException();
-                    jsonException.StatusCode = StatusCodes.Status422UnprocessableEntity;
+                    jsonException.StatusCode = StatusCodes.Status400BadRequest;
                     jsonException.Message    = response.Message;
                     return StatusCode(jsonException.StatusCode, jsonException);
                 }

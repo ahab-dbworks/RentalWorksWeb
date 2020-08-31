@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WebApi.Modules.AccountServices.Jwt;
+using static FwCore.Logic.FwJwtLogic;
 
 namespace FwCore.Controllers
 {
@@ -52,27 +53,45 @@ namespace FwCore.Controllers
 
             if (userauth.Status == 0)
             {
-                ClaimsIdentity identity = await FwAmUserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, userauth.WebUsersId);
-                var jwtClaims = new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, await _appConfig.JwtIssuerOptions.JtiGenerator()),
-                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
-                };
-                List<Claim> claims = new List<Claim>();
-                claims.AddRange(jwtClaims);
-                claims.AddRange(identity.Claims);
-
-                // Create the JWT security token and encode it.
-                var encodedJwt = FwJwtLogic.GenerateEncodedJwtToken(_appConfig, claims);
-
-                // Serialize and return the response
-                response.statuscode   = 0;
-                response.access_token = encodedJwt;
-                response.expires_in   = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
-
                 //Check if user needs to reset their password
-                response.resetpassword = await FwSqlData.CheckPasswordExpirationAsync(_appConfig.DatabaseSettings, userauth.WebUsersId);
+                response.resetpassword = await FwSqlData.CheckPasswordExpirationAsync(_appConfig.DatabaseSettings, userauth.UsersId);
+
+                if (response.resetpassword == true)
+                {
+                    var options = new ServiceTokenOptions();
+                    options.ControllerIds.Add("R6UM7U78W2dB"); //AccountControllerID
+                    options.TokenType = "SERVICE";
+                    options.Claims = new List<Claim>()
+                    {
+                        new Claim(AuthenticationClaimsTypes.UsersId, userauth.UsersId),
+                        new Claim(AuthenticationClaimsTypes.WebUsersId, userauth.WebUsersId)
+                    };
+                    var token = await FwJwtLogic.GetServiceTokenAsync(_appConfig, options);
+
+                    response.statuscode   = 0;
+                    response.access_token = token;
+                }
+                else
+                {
+                    ClaimsIdentity identity = await FwAmUserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, userauth.WebUsersId);
+                    var jwtClaims = new[]
+                    {
+                        new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, await _appConfig.JwtIssuerOptions.JtiGenerator()),
+                        new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
+                    };
+                    List<Claim> claims = new List<Claim>();
+                    claims.AddRange(jwtClaims);
+                    claims.AddRange(identity.Claims);
+
+                    // Create the JWT security token and encode it.
+                    var encodedJwt = FwJwtLogic.GenerateEncodedJwtToken(_appConfig, claims);
+
+                    // Serialize and return the response
+                    response.statuscode   = 0;
+                    response.access_token = encodedJwt;
+                    response.expires_in   = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
+                }
             }
             else if (userauth.Status == 100) //Failed Basic Authentication
             {
