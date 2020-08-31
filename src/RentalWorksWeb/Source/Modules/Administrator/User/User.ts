@@ -522,20 +522,20 @@ class User {
                     <div class="flexcolumn" style="flex:1 1 600px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Phone">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficePhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficePhone" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ext" data-datafield="OfficeExtension" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Direct" data-datafield="DirectPhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Direct" data-datafield="DirectPhone" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Home" data-datafield="HomePhone" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Mobile" data-datafield="Cellular" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Home" data-datafield="HomePhone" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Mobile" data-datafield="Cellular" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Pager No." data-datafield="Pager" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Pin No." data-datafield="PagerPin" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Pager No." data-datafield="Pager" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Pin No." data-datafield="PagerPin" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="phoneinternational" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                     </div>

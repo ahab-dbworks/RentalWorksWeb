@@ -5,7 +5,7 @@
     //addValidationEvents($control) {
     //    $control.data('onchange', e => {
     //        const $form = $control.parents('.fwform');
-    //        const phoneFields = $form.find('div[data-type="phone"][data-phonemask="true"]');
+    //        const phoneFields = $form.find('div[data-type="phoneinterna"][data-phonemask="true"]');
     //        phoneFields.find('input').inputmask('remove');
     //    })
     //}
