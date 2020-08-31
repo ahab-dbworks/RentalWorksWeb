@@ -4593,16 +4593,20 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    showMultiRowSelector($control: JQuery, e: JQuery.ClickEvent) {
-        const $menuOption = jQuery(e.currentTarget);
-        if ($menuOption.hasClass('multi-edit-active')) {
-            $menuOption.removeClass('multi-edit-active');
-            $control.find('td.tdselectrow:visible').hide();
-            $menuOption.find('.caption').text('Show Multi-Row Selector');
-        } else {
-            $menuOption.addClass('multi-edit-active');
-            $control.find('td.tdselectrow:hidden').show();
-            $menuOption.find('.caption').text('Hide Multi-Row Selector');
+    showMultiRowSelector($control: JQuery, $menuOption: JQuery) {
+        try {
+            if ($menuOption.hasClass('multi-edit-active')) {
+                $menuOption.removeClass('multi-edit-active');
+                $control.find('td.tdselectrow:visible').hide();
+                $control.find('td.tdselectrow input[type="checkbox"]').prop('checked', false);
+                $menuOption.find('.caption').text('Show Multi-Row Selector');
+            } else {
+                $menuOption.addClass('multi-edit-active');
+                $control.find('td.tdselectrow:hidden').show();
+                $menuOption.find('.caption').text('Hide Multi-Row Selector');
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
         }
     }
     //----------------------------------------------------------------------------------------------

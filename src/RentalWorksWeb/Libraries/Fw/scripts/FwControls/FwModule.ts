@@ -916,7 +916,7 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
-    static multiEditSave($form: JQuery) {
+    static multiEditSave($form: JQuery, $browse: JQuery) {
         try {
             let request: any = [];
             const controllername = $form.attr('data-controller');
@@ -935,6 +935,8 @@ class FwModule {
                 const $tab = FwTabs.getTabByElement($form);
                 $tab.find('.modified').text('');
                 FwModule.closeForm($form, $tab);
+                FwBrowse.showMultiRowSelector($browse, $browse.find('[data-type="MultiRowEditButton"]'));
+                FwBrowse.search($browse);
                 FwNotification.renderNotification('SUCCESS', 'Records successfully updated.');
             }, ex => FwFunc.showError(ex), $form);
         } catch (ex) {

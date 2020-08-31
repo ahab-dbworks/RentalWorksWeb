@@ -1258,7 +1258,9 @@ class FwMenuClass {
         if (options.hasMultiRowEditing) {
             FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    FwBrowse.showMultiRowSelector(options.$browse, e);
+                    const $menuOption = jQuery(e.currentTarget);
+                    $menuOption.attr('data-type', 'MultiRowEditButton')
+                    FwBrowse.showMultiRowSelector(options.$browse, $menuOption);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -1323,8 +1325,11 @@ class FwMenuClass {
             var $multiEdit = FwMenu.addStandardBtn(options.$menu, 'Update Records');
             $multiEdit.attr('data-type', 'UpdateRecordsButton');
             $multiEdit.on('click', function () {
+                var $this, $browse, $tab, $selectedrow;
                 try {
-                    FwModule.multiEditSave(options.$form);
+                    $this = jQuery(this);
+                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
+                    FwModule.multiEditSave(options.$form, $browse);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
