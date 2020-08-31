@@ -379,6 +379,20 @@ class Deal {
             gridSecurityId: 'gQHuhVDA5Do2',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1');
+                FwMenu.addSubMenuItem($optionsgroup, 'Copy Contacts from Customer', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        const $this = jQuery(e.currentTarget);
+                        const $form = $this.closest('.fwform');
+                        const $browse = $this.closest('.fwbrowse');
+                        this.copyContactsFromCustomer($form, $browse);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                })
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CompanyId: FwFormField.getValueByDataField($form, 'DealId')
@@ -883,6 +897,20 @@ class Deal {
         });
         const TaxOption = $tr.find('.field[data-browsedatafield="TaxOptionId"]').attr('data-originaltext');
         jQuery('.TaxOption').find(':input').val(TaxOption);
+    }
+    //----------------------------------------------------------------------------------------------
+    copyContactsFromCustomer($form: JQuery, $browse: JQuery) {
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        if (dealId != '') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/deal/${dealId}/copycontactsfromcustomer`, null, FwServices.defaultTimeout, response => {
+                if (response.success) {
+                    FwBrowse.search($browse);
+                    FwNotification.renderNotification('SUCCESS', 'Contacts successfully copied.');
+                } else {
+                    FwNotification.renderNotification('ERROR', response.msg);
+                }
+            }, ex => FwFunc.showError(ex), $form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     customerChange($form: any): void {
