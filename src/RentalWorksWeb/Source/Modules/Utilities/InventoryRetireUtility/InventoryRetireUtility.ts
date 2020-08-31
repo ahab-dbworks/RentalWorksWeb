@@ -45,9 +45,8 @@ class InventoryRetireUtility {
             FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', parentmoduleinfo.ItemId, parentmoduleinfo.SerialNumber)
             FwFormField.setValueByDataField($form, 'InventoryId', parentmoduleinfo.InventoryId, parentmoduleinfo.ICode);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.Description);
-            jQuery($form.find('[data-datafield="ItemId"] input')).trigger('change');
-            jQuery($form.find('[data-datafield="InventoryId"] input')).trigger('change');
         }
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -69,6 +68,15 @@ class InventoryRetireUtility {
                         $form.find('.fwformfield textarea').val('');
                         FwFormField.setValueByDataField($form, 'Quantity', 1);
                         FwModule.refreshForm($form);
+
+                        // Refresh parent form
+                        const $tab = FwTabs.getTabByElement($form);
+                        const parentTabId = $tab.data('parenttabid');
+                        if (typeof parentTabId === 'string') {
+                            const $tabControl = jQuery('#moduletabs');
+                            const $parentForm = $tabControl.find(`div[data-tabid="${parentTabId}"] .fwform`);
+                            FwModule.refreshForm($parentForm);
+                        }
                     } else {
                     }
                 }, ex => FwFunc.showError(ex), $form);
