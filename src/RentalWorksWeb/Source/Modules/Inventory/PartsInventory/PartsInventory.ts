@@ -386,24 +386,6 @@ class PartsInventory extends InventoryBase {
 
         ////});
 
-
-        //$inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-        //    let primaryRowIndex;
-        //    if (primaryRowIndex === undefined) {
-        //        const orderByIndex = dt.ColumnIndex.OrderBy;
-        //        const inventoryIdIndex = dt.ColumnIndex.InventoryId
-        //        for (let i = 0; i < dt.Rows.length; i++) {
-        //            if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-        //                primaryRowIndex = i
-        //            }
-        //        }
-        //    }
-        //    if (rowIndex === primaryRowIndex) {
-        //        return true;
-        //    } else {
-        //        return false;
-        //    }
-        //});
         //FwBrowse.init($inventoryCompleteGridControl);
         //FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
 
@@ -440,24 +422,6 @@ class PartsInventory extends InventoryBase {
             }
         });
 
-        $inventoryCompleteGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
-            let primaryRowIndex;
-            if (primaryRowIndex === undefined) {
-                const orderByIndex = dt.ColumnIndex.OrderBy;
-                const inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (let i = 0; i < dt.Rows.length; i++) {
-                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-                        primaryRowIndex = i
-                    }
-                }
-            }
-            if (rowIndex === primaryRowIndex) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-
 
         // ----------
         //const $inventoryKitGrid: any = $form.find('div[data-grid="InventoryKitGrid"]');
@@ -471,23 +435,6 @@ class PartsInventory extends InventoryBase {
         //});
         //$inventoryKitGridControl.data('beforesave', function (request) {
         //    request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        //});
-        //$inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-        //    let primaryRowIndex;
-        //    if (primaryRowIndex === undefined) {
-        //        const orderByIndex = dt.ColumnIndex.OrderBy;
-        //        const inventoryIdIndex = dt.ColumnIndex.InventoryId
-        //        for (let i = 0; i < dt.Rows.length; i++) {
-        //            if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-        //                primaryRowIndex = i
-        //            }
-        //        }
-        //    }
-        //    if (rowIndex === primaryRowIndex) {
-        //        return true;
-        //    } else {
-        //        return false;
-        //    }
         //});
         //FwBrowse.init($inventoryKitGridControl);
         //FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
@@ -523,25 +470,6 @@ class PartsInventory extends InventoryBase {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
-            }
-        });
-
-
-        $inventoryKitGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
-            let primaryRowIndex;
-            if (primaryRowIndex === undefined) {
-                const orderByIndex = dt.ColumnIndex.OrderBy;
-                const inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (let i = 0; i < dt.Rows.length; i++) {
-                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-                        primaryRowIndex = i
-                    }
-                }
-            }
-            if (rowIndex === primaryRowIndex) {
-                return true;
-            } else {
-                return false;
             }
         });
 

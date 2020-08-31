@@ -471,24 +471,6 @@ class RentalInventory extends InventoryBase {
             }
         });
 
-        $inventoryCompleteGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
-            let primaryRowIndex;
-            if (primaryRowIndex === undefined) {
-                const orderByIndex = dt.ColumnIndex.OrderBy;
-                const inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (let i = 0; i < dt.Rows.length; i++) {
-                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-                        primaryRowIndex = i
-                    }
-                }
-            }
-            if (rowIndex === primaryRowIndex) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-
         //Inventory Warehouse Staging Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryWarehouseStagingGrid',
@@ -538,24 +520,6 @@ class RentalInventory extends InventoryBase {
                 request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-            }
-        });
-
-        $inventoryKitGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
-            let primaryRowIndex;
-            if (primaryRowIndex === undefined) {
-                const orderByIndex = dt.ColumnIndex.OrderBy;
-                const inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (let i = 0; i < dt.Rows.length; i++) {
-                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-                        primaryRowIndex = i
-                    }
-                }
-            }
-            if (rowIndex === primaryRowIndex) {
-                return true;
-            } else {
-                return false;
             }
         });
 

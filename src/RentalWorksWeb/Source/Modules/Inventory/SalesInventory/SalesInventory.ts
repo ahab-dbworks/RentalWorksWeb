@@ -389,24 +389,6 @@ class SalesInventory extends InventoryBase {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
             }
         });
-
-        $inventoryCompleteGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
-            let primaryRowIndex;
-            if (primaryRowIndex === undefined) {
-                const orderByIndex = dt.ColumnIndex.OrderBy;
-                const inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (let i = 0; i < dt.Rows.length; i++) {
-                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-                        primaryRowIndex = i
-                    }
-                }
-            }
-            if (rowIndex === primaryRowIndex) {
-                return true;
-            } else {
-                return false;
-            }
-        });
         // ----------
         const $inventoryKitGrid = FwBrowse.renderGrid({
             nameGrid: 'InventoryKitGrid',
@@ -436,24 +418,6 @@ class SalesInventory extends InventoryBase {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
-            }
-        });
-
-        $inventoryKitGrid.data('isfieldeditable', function ($field, dt, rowIndex) {
-            let primaryRowIndex;
-            if (primaryRowIndex === undefined) {
-                const orderByIndex = dt.ColumnIndex.OrderBy;
-                const inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (let i = 0; i < dt.Rows.length; i++) {
-                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-                        primaryRowIndex = i
-                    }
-                }
-            }
-            if (rowIndex === primaryRowIndex) {
-                return true;
-            } else {
-                return false;
             }
         });
         // ----------
