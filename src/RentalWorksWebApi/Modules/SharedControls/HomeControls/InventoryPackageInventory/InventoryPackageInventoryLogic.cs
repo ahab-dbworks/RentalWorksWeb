@@ -191,10 +191,35 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             }
             else //(saveMode == TDataRecordSaveMode.smUpdate)
             {
-                if (((InventoryPackageInventoryLogic)original).IsPrimary.GetValueOrDefault(false))
+                InventoryPackageInventoryLogic orig = (InventoryPackageInventoryLogic)original;
+                if (orig.IsPrimary.GetValueOrDefault(false))
                 {
-                    isValid = false;
-                    validateMsg = "Cannot modify the Primary item.";
+                    if (isValid)
+                    {
+                        if (IsOption.GetValueOrDefault(false))
+                        {
+                            isValid = false;
+                            validateMsg = "The Primary item cannot be optional.";
+                        }
+                    }
+
+                    if (isValid)
+                    {
+                        if ((DefaultQuantity != null) && (DefaultQuantity != 1))
+                        {
+                            isValid = false;
+                            validateMsg = "The default quantity of the Primary item must be 1.";
+                        }
+                    }
+
+                    if (isValid)
+                    {
+                        if ((!string.IsNullOrEmpty(InventoryId)) && (!InventoryId.Equals(orig.InventoryId)))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot modify the InventoryId of the Primary item.";
+                        }
+                    }
                 }
             }
 
@@ -210,6 +235,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
                     if (!GetPackageHasAccessories(e.SqlConnection))
                     {
                         IsPrimary = true;
+                        IsOption = false;
                     }
                 }
             }
