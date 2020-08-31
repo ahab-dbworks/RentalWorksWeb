@@ -240,5 +240,31 @@ namespace WebApi.Modules.Agent.Deal
         {
             return await DoBrowseAsync<CountryLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/deal/A0000001/copycontactsfromcustomer
+        [HttpPost("{id}/copycontactsfromcustomer")]
+        [FwControllerMethod(Id: "Lk2dMECX4zoab", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<CopyContactsFromCustomerResponse>> CopyContactsFromCustomerAsync([FromRoute] string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            DealLogic d = new DealLogic();
+            d.SetDependencies(AppConfig, UserSession);
+            d.DealId = id;
+            bool exists = await d.LoadAsync<DealLogic>();
+            if (exists)
+            {
+                CopyContactsFromCustomerRequest request = new CopyContactsFromCustomerRequest();
+                request.Deal = d;
+                return await DealFunc.CopyContactsFromCustomerAsync(AppConfig, UserSession, request);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
