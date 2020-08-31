@@ -931,7 +931,11 @@ class FwModule {
             }
 
             FwAppData.apiMethod(true, 'POST', apiurl + '/many', request, FwServices.defaultTimeout, function onSuccess(response) {
-                //
+                $form.attr('data-modified', 'false');
+                const $tab = FwTabs.getTabByElement($form);
+                $tab.find('.modified').text('');
+                FwModule.closeForm($form, $tab);
+                FwNotification.renderNotification('SUCCESS', 'Records successfully updated.');
             }, ex => FwFunc.showError(ex), $form);
         } catch (ex) {
             FwFunc.showError(ex);

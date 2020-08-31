@@ -790,7 +790,13 @@ class FwMenuClass {
                 try {
                     const $browse = options.$browse;
                     if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
-                        const $selectedRows = options.$browse.find('tbody .tdselectrow input:checked').closest('tr');
+                        let $selectedRows;
+                        if ($browse.find('.multi-edit-active').length) {
+                            $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+                        } else {
+                            $selectedRows = $browse.find('tr.selected');
+                        }
+                 
                         if ($selectedRows.length > 1) {
                             FwBrowse.openMultiRowEditForm($browse, $selectedRows);
                         } else if ($selectedRows.length === 1) {

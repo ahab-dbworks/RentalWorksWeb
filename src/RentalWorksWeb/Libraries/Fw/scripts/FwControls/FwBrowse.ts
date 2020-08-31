@@ -4568,6 +4568,13 @@ class FwBrowseClass {
             const $fwformfields = $form.data('fields');
             FwFormField.enable($fwformfields);
             $form.find('[data-required="true"]').attr('data-required', 'false');
+
+            $form.find('.submodule[data-type="tab"]').hide();
+            $form.find('.audittab[data-type="tab"]').hide();
+            $form.find('[data-control="FwGrid"]').hide();
+
+            $form.find('.updaterecords-btn').text(`Update ${$selectedRows.length} Records`);
+
             $form.data('multirowedituniqueids', uniqueids);
             $form.data('modifiedfields', {});
 
@@ -4588,12 +4595,12 @@ class FwBrowseClass {
     //----------------------------------------------------------------------------------------------
     showMultiRowSelector($control: JQuery, e: JQuery.ClickEvent) {
         const $menuOption = jQuery(e.currentTarget);
-        if ($menuOption.hasClass('active')) {
-            $menuOption.removeClass('active');
+        if ($menuOption.hasClass('multi-edit-active')) {
+            $menuOption.removeClass('multi-edit-active');
             $control.find('td.tdselectrow:visible').hide();
             $menuOption.find('.caption').text('Show Multi-Row Selector');
         } else {
-            $menuOption.addClass('active');
+            $menuOption.addClass('multi-edit-active');
             $control.find('td.tdselectrow:hidden').show();
             $menuOption.find('.caption').text('Hide Multi-Row Selector');
         }
