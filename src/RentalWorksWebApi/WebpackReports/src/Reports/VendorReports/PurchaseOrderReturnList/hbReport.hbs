@@ -11,7 +11,7 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow">
+<div data-section="table" class="rpt-flexrow">
   <table>
     <thead id="columnHeader">
       <tr data-row="main-header" style="height:44px;">
@@ -19,11 +19,11 @@
         <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
         <th data-linkedcolumn="QuantityReceived" data-valuefield="QuantityReceived" class="centered">Received</th>
         <th data-linkedcolumn="QuantityReturnable" data-valuefield="QuantityReturnable" class="centered">Returnable</th>
-        <th data-linkedcolumn="QuantityReturnable" data-valuefield="QuantityReturnable" class="centered">Returned??</th>
+        <th data-linkedcolumn="QuantityReturned" data-valuefield="QuantityReturned" class="centered">Returned</th> <!--blank field-->
       </tr>
     </thead>
-    {{#each this}}
     <tbody>
+      {{#each this}}
       {{#ifEquals RowType "PurchaseOrderNumberheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}" style="border-bottom:none;">
         <td class="header-row">PO No: {{PurchaseOrderNumber}}</td>
@@ -45,24 +45,23 @@
 
       {{#ifEquals RowType "detail"}}
       <tr id="detailRow" data-row="detail" data-rowtype="{{RowType}}">
-        <td class="nowrap"><span class="nowrap" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{ICode}}*</span></td>
+        <td data-linkedcolumn="ICode" class="nowrap" style="font-family:'Libre Barcode 39 Text', serif; font-size:50px;">*{{ICode}}*</td>
         <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
         <td data-linkedcolumn="QuantityReceived" data-value="{{QuantityReceived}}" class="centered bordered"></td>
         <td data-linkedcolumn="QuantityReturnable" data-value="{{QuantityReturnable}}" class="centered bordered"></td>
-        <td data-linkedcolumn="QuantityReturnable" data-value="{{QuantityReturnable}}" class="centered bordered"></td>
+        <td data-linkedcolumn="" data-value="" class="centered bordered"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td class="total-name">Grand Total:&nbsp;</td>
+        <td></td>
+        <td data-linkedcolumn="QuantityReceived" class="total-val centered" data-value="{{QuantityReceived}}"></td>
+        <td data-linkedcolumn="QuantityReturnable" class="total-val centered" data-value="{{QuantityReturnable}}"></td>
+        <td data-linkedcolumn="QuantityReturned" class="total-val centered" data-value="{{QuantityReturned}}"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
 </div>
-<!--<div class="rpt-flexrow" style="margin-top:25px;">
-  <div>
-    <div style="display:flex">
-      <div class="receivedbyfield">
-        <div class="value"></div>
-        <div style="font-weight:700;" class="caption">RECEIVED BY</div>
-      </div>
-    </div>
-  </div>
-</div>-->

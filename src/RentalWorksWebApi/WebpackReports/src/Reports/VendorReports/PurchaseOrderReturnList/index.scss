@@ -1,5 +1,7 @@
-﻿tr[data-row="detail"]:nth-of-type(odd) {
-    background-color: #DCDCDC;
+﻿tbody {
+    tr[data-row="detail"]:nth-of-type(even) {
+        background-color: #DCDCDC;
+    }
 }
 
 thead {

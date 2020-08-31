@@ -18,6 +18,13 @@ class ReturnToVendor {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Return List', 'tM8if9Yclmiv6', (e: JQuery.ClickEvent) => {
+            try {
+                this.printReturnList(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -313,6 +320,26 @@ class ReturnToVendor {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
                 break;
         };
+    }
+    //----------------------------------------------------------------------------------------------
+    printReturnList($form: JQuery) {
+        try {
+            const $report = PurchaseOrderReturnListController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            const purchaseOrderId = FwFormField.getValueByDataField($form, `PurchaseOrderId`);
+            const purchaseOrderNumber = FwFormField.getTextByDataField($form, `PurchaseOrderId`);
+            FwFormField.setValueByDataField($report, `PurchaseOrderId`, purchaseOrderId, purchaseOrderNumber);
+
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse')).warehouse;
+            const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            FwFormField.setValueByDataField($report, `WarehouseId`, warehouseId, warehouse);
+
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Return List`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
