@@ -2285,8 +2285,31 @@ class OrderBase {
         });
         // ----------
         $form.find('div[data-datafield="OrderTypeId"]').on('change', event => {
+            const request: any = {};
             this.renderGrids($form);
             this.applyOrderTypeAndRateTypeToForm($form);
+
+            request.uniqueids = {
+                OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId'),
+                Enabled: true
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/browse`, request, FwServices.defaultTimeout, response => {
+                let orderDates: any = [];
+                const columnNames = response.ColumnNameByIndex;
+                for (let i = 0; i < response.Rows.length; i++) {
+                    const container: any = {};
+                    const item = response.Rows[i];
+                    for (let j = 0; j < item.length; j++) {
+                        container[columnNames[j]] = item[j];
+                    }
+                    orderDates.push(container);
+                }
+                response.ActivityDatesAndTimes = orderDates;
+                this.renderScheduleDateAndTimeSection($form, response);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
         });
         // ----------
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
@@ -4406,7 +4429,7 @@ class OrderBase {
             }
             const $row = jQuery(`<div class="flexrow date-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield ${validationClass}" data-caption="${row.DescriptionDisplayTitleCase} Date" data-dateactivitytype="${row.ActivityType}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield ${validationClass}" data-caption="${row.DescriptionDisplayTitleCase || row.DescriptionDisplay} Date" data-dateactivitytype="${row.ActivityType}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
                               <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-timeactivitytype="${row.ActivityType}" data-datafield="Time" data-enabled="true" style="flex:0 1 120px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 120px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>                          
