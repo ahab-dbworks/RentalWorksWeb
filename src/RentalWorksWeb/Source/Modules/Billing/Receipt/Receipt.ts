@@ -1062,8 +1062,6 @@ class Receipt {
 
                     $form.find('.credit-table-rows').html('');
                     $form.find('.credit-table-rows').html(htmlRows.join(''));
-                    $form.find('.credit-amounts').inputmask({ alias: "currency", prefix: this.currencySymbol });
-
                     $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
                     $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: this.currencySymbol });
                     $form.find('div[data-type="money"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
