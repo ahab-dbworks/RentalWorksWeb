@@ -41,7 +41,7 @@ QuickBooks IIF file for Receipt
 !ENDTRNS
 {{#each Receipts}}
 TRNS	PAYMENT	{{PaymentType}}	{{ReceiptDate}}	{{UndepositedFundsAccountNumber}}	{{Customer}}	{{Amount}}	{{CheckNumber}}	{{ReceiptNote}}	N
-SPL	PAYMENT	{{ReceiptDate}}	{{AccountsReceiveableAccountNumber}}	{{Customer}}	{{AmountNegative}}	{{CheckNumber}}	F
+SPL	PAYMENT	{{ReceiptDate}}	{{AccountsReceivableAccountNumber}}	{{Customer}}	{{AmountNegative}}	{{CheckNumber}}	F
 ENDTRNS
 {{/each}}
 */
