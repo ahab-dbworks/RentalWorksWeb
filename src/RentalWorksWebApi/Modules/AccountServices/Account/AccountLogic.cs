@@ -40,6 +40,17 @@ namespace WebApi.Modules.AccountServices.Account
                     await qry.ExecuteAsync();
                     response.Status = 0;
                 }
+
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("update webusers");
+                    qry.Add("   set webpassword = dbo.encrypt(@password)");
+                    qry.Add(" where webusersid = @webusersid");
+                    qry.AddParameter("@password",   request.Password);
+                    qry.AddParameter("@webusersid", this.UserSession.WebUsersId);
+                    await qry.ExecuteAsync();
+                    response.Status = 0;
+                }
             }
 
             return response;

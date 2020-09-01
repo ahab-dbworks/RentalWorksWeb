@@ -159,7 +159,7 @@ namespace WebApi.Modules.Agent.Contact
         public string UserId { get { return user.UserId; } set { user.UserId = value; } }
 
         [FwLogicProperty(Id:"8j5hfJNXnujE")]
-        public string WebPassword { get { return user.Password; } set { user.Password = value; } }
+        public string WebPassword { get { return user.Password; } set { user.Password = value;  webUser.WebPassword = value; } }
 
         [FwLogicProperty(Id:"5sJJi29pSLA7")]
         public bool? ChangePasswordAtNextLogin { get { return user.UserMustChangePassword; } set { user.UserMustChangePassword = value; } }

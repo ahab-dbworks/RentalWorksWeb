@@ -59,8 +59,7 @@ namespace FwCore.Controllers
                 if (response.resetpassword == true)
                 {
                     var options = new ServiceTokenOptions();
-                    options.ControllerIds.Add("R6UM7U78W2dB"); //AccountControllerID
-                    options.TokenType = "SERVICE";
+                    options.MethodIds.Add("CL8bnxKGRvMO"); //AccountController.ResetPassword
                     options.Claims = new List<Claim>()
                     {
                         new Claim(AuthenticationClaimsTypes.UsersId, userauth.UsersId),

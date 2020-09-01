@@ -53,19 +53,20 @@ namespace FwCore.AppManager
                     if (hasTokenTypeClaim)
                     {
                         var tokenType = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.TokenType).Value;
-                        if ((tokenType == "REPORT") || (tokenType == "SERVICE"))
+                        if (tokenType == "SERVICE")
                         {
-                            var controllerAttributes = (FwControllerAttribute[])controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(FwControllerAttribute), false);
-                            if (controllerAttributes.Length == 0)
-                            {
-                                // reject the request, because the [FwController] attribute is missing from the Controller
-                                context.Result = new ForbidResult();
-                                return Task.CompletedTask;
-                            }
-                            var controllerAttribute = controllerAttributes[0];
                             var hasControllerIdFilterClaim = context.HttpContext.User.Claims.Any(c => c.Type == AuthenticationClaimsTypes.ControllerIdFilter && !string.IsNullOrEmpty(c.Value));
                             if (hasControllerIdFilterClaim)
                             {
+                                var controllerAttributes = (FwControllerAttribute[])controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(FwControllerAttribute), false);
+                                if (controllerAttributes.Length == 0)
+                                {
+                                    // reject the request, because the [FwController] attribute is missing from the Controller
+                                    context.Result = new ForbidResult();
+                                    return Task.CompletedTask;
+                                }
+                                var controllerAttribute = controllerAttributes[0];
+
                                 var controllerIdFilter = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.ControllerIdFilter).Value;
                                 List<string> controllerIds = new List<string>(controllerIdFilter.Split(",", StringSplitOptions.RemoveEmptyEntries));
                                 if (!controllerIds.Contains(controllerAttribute.Id))
@@ -74,11 +75,28 @@ namespace FwCore.AppManager
                                 }
                                 return Task.CompletedTask;
                             }
-                            
-                            //if (hasTokenTypeClaim && tokenType == "REPORT")
-                            //{
 
-                            //    if (controllerAttribute.Id)
+                            var hasMethodIdFilterClaim = context.HttpContext.User.Claims.Any(c => c.Type == AuthenticationClaimsTypes.MethodIdFilter && !string.IsNullOrEmpty(c.Value));
+                            if (hasMethodIdFilterClaim)
+                            {
+                                var methodAttributes = (FwControllerMethodAttribute[])controllerActionDescriptor.MethodInfo.GetCustomAttributes(typeof(FwControllerMethodAttribute), false);
+                                if (methodAttributes.Length == 0)
+                                {
+                                    // reject the request, because the [FwControllerMethod] attribute is missing from the Method
+                                    context.Result = new ForbidResult();
+                                    return Task.CompletedTask;
+                                }
+                                var methodAttribute = methodAttributes[0];
+
+                                var methodIdFilter = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.MethodIdFilter).Value;
+                                List<string> methodIds = new List<string>(methodIdFilter.Split(",", StringSplitOptions.RemoveEmptyEntries));
+                                if (!methodIds.Contains(methodAttribute.Id))
+                                {
+                                    context.Result = new ForbidResult();
+                                }
+                                return Task.CompletedTask;
+                            }
+
                             return Task.CompletedTask;
                         }
                     }
