@@ -1,0 +1,43 @@
+﻿tbody {
+    tr[data-row="detail"]:nth-of-type(even) {
+        background-color: #DCDCDC;
+    }
+}
+
+thead {
+    th {
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
+}
+
+tr {
+    border-bottom: 1px solid #000000;
+}
+
+.list-title {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/*.slanted {
+    transform: rotate(-40deg) skew(-5deg);
+}*/
+
+.qrcode {
+    height: 75px;
+    width: 100px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.bordered {
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+}

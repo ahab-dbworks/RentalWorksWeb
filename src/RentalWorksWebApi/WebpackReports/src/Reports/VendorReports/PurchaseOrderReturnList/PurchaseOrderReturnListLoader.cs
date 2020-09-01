@@ -97,8 +97,10 @@ namespace WebApi.Modules.Reports.PurchaseOrderReports.PurchaseOrderReturnList
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "QuantityReceived", "QuantityReturnable" };
-                dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields);
-                dt.InsertSubTotalRows("SubOrderNumber", "RowType", totalFields);
+                string[] poHeaderFields = new string[] { "Agent", "PurchaseOrderDescription", "PurchaseOrderNumber", "Vendor", "Warehouse", "WarehouseCode" };
+                string[] orderHeaderFields = new string[] { "SubDeal", "SubDealNumber", "SubOrderDescription", "SubOrderNumber", "Warehouse", "WarehouseCode" };
+                dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields, poHeaderFields, true);
+                dt.InsertSubTotalRows("SubOrderNumber", "RowType", totalFields, orderHeaderFields, true);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
