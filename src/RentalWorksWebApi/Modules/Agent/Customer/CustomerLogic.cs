@@ -425,6 +425,8 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "RCz8yGJRI9YWG", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "wMnkfPfFxP8dV", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
 
         [FwLogicProperty(Id: "jgUoBTFkpbw2", IsReadOnly: true)]
         public bool? Inactive { get; set; }

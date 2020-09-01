@@ -160,6 +160,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwLogicProperty(Id: "VjRCix1OMaGa5", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "xhMTHlf2HmSjv", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id:"w4NMUZnj45BH")]
         public bool? UseCustomerDiscount { get { return deal.UseCustomerDiscount; } set { deal.UseCustomerDiscount = value; } }
 
