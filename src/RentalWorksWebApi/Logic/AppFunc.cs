@@ -727,6 +727,7 @@ namespace WebApi.Logic
             public string defaultcurrency { get; set; } = string.Empty;
             public string defaultcurrencyid { get; set; } = string.Empty;
             public string defaultcurrencycode { get; set; } = string.Empty;
+            public string defaultcurrencysymbol { get; set; } = string.Empty;
             public string countryid { get; set; } = string.Empty;
             public string country { get; set; } = string.Empty;
         }
@@ -737,7 +738,7 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select locationid, location, locationcolor, company, ratetype, ratetypedisplay, defaultcurrencyid, defaultcurrency, defaultcurrencycode, ");
+                    qry.Add("select locationid, location, locationcolor, company, ratetype, ratetypedisplay, defaultcurrencyid, defaultcurrency, defaultcurrencycode, defaultcurrencysymbol, ");
                     qry.Add("       countryid, country                                                                                                                ");
                     qry.Add("from locationview with (nolock)                                                                                                          ");
                     qry.Add("where locationid = @locationid                                                                                                           ");
@@ -752,6 +753,7 @@ namespace WebApi.Logic
                     response.defaultcurrencyid = qry.GetField("defaultcurrencyid").ToString().TrimEnd();
                     response.defaultcurrency = qry.GetField("defaultcurrency").ToString().TrimEnd();
                     response.defaultcurrencycode = qry.GetField("defaultcurrencycode").ToString().TrimEnd();
+                    response.defaultcurrencysymbol = qry.GetField("defaultcurrencysymbol").ToString().TrimEnd();
                     response.countryid = qry.GetField("countryid").ToString().TrimEnd();
                     response.country = qry.GetField("country").ToString().TrimEnd();
                 }
