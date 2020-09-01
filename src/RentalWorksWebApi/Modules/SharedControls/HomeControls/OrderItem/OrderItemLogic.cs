@@ -270,6 +270,21 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwLogicProperty(Id: "0f68TPtI5WWo", IsReadOnly: true)]
         public decimal? AverageWeeklyExtendedNoDiscount { get; set; }
 
+        [FwLogicProperty(Id: "Y7xXYPTjOkpDh", IsReadOnly: true)]
+        public decimal? AverageWeeklyDiscountAmount { get; set; }
+
+        [FwLogicProperty(Id: "x1SIMNVnutjvV", IsReadOnly: true)]
+        public decimal? AverageWeeklyTax { get; set; }
+
+        [FwLogicProperty(Id: "sIw384Q1ErxpS", IsReadOnly: true)]
+        public decimal? AverageWeeklyTax1 { get; set; }
+
+        [FwLogicProperty(Id: "cXnCfMBv2pM0B", IsReadOnly: true)]
+        public decimal? AverageWeeklyTax2 { get; set; }
+
+        [FwLogicProperty(Id: "0uVY4j7Xzygjv", IsReadOnly: true)]
+        public decimal? AverageWeeklyTotal { get; set; }
+
         [FwLogicProperty(Id: "ab4SmyGMUuyn", IsReadOnly: true)]
         public int? Episodes { get; set; }
 

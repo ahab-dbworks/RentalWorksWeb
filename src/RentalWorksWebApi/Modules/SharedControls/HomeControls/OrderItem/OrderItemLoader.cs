@@ -279,6 +279,21 @@ namespace WebApi.Modules.HomeControls.OrderItem
         [FwSqlDataField(column: "averageweeklyextendednodisc", modeltype: FwDataTypes.Decimal)]
         public decimal? AverageWeeklyExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklydiscountamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageWeeklyDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklytax", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageWeeklyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklytax1", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageWeeklyTax1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklytax2", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageWeeklyTax2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklytotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageWeeklyTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "episodes", modeltype: FwDataTypes.Integer)]
         public int? Episodes { get; set; }
         //------------------------------------------------------------------------------------ 
