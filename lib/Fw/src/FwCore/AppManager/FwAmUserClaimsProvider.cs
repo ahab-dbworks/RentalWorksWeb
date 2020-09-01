@@ -2,6 +2,7 @@
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -10,131 +11,88 @@ namespace FwCore.AppManager
     public class FwAmUserClaimsProvider
     {
         //---------------------------------------------------------------------------------------------
-        internal static async Task<ClaimsIdentity> GetClaimsIdentity(SqlServerConfig dbConfig, string username, string password)
+        internal static async Task<ClaimsIdentity> GetClaimsIdentity(SqlServerConfig dbConfig, string WebUsersId)
         {
             ClaimsIdentity identity = null;
             using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
             {
-                using (FwSqlCommand qryAuthenticate = new FwSqlCommand(conn, "webauthenticate", dbConfig.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                 {
-                    //qry.Add("select top 1 *");
-                    //qry.Add("from webusersview with (nolock)");
-                    //qry.Add("where (upper(userloginname) = upper(@username) and upper(userpassword) = dbo.encrypt(upper(@password)))");
-                    //qry.Add("  or (upper(email) = upper(@username) and upper(webpassword) = dbo.encrypt(upper(@password)))");
-                    //qry.AddParameter("@username", username);
-                    //qry.AddParameter("@password", password);
+                    qry.Add("select top 1 wuv.*, groupsdatestamp = g.datestamp");
+                    qry.Add("from webusersview wuv with (nolock)");
+                    qry.Add("  join groups g  with (nolock) on (wuv.groupsid = g.groupsid)");
+                    qry.Add("where webusersid = @webusersid");
+                    qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
+                    qry.AddParameter("@webusersid", WebUsersId);
 
-                    //jh 04/13/2018 splitting the above query into two for speed.  Takes to long to decrypt passwords when there are 35,000+ entries in the webusersview
-
-                    FwSqlCommand qryEncrypt = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-                    qryEncrypt.Add("select value = dbo.encrypt(@data)");
-                    qryEncrypt.AddParameter("@data", password.ToUpper());
-                    await qryEncrypt.ExecuteAsync();
-                    string webpassword = qryEncrypt.GetField("value").ToString().TrimEnd();
-
-                    string webUsersId = string.Empty, errmsg = string.Empty;
-                    int errno = 0;
-
-                    qryAuthenticate.AddParameter("@userlogin", username);
-                    qryAuthenticate.AddParameter("@userloginpassword", webpassword);
-                    qryAuthenticate.AddParameter("@webusersid", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
-                    qryAuthenticate.AddParameter("@errno", System.Data.SqlDbType.Int, System.Data.ParameterDirection.Output);
-                    qryAuthenticate.AddParameter("@errmsg", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
-                    await qryAuthenticate.ExecuteAsync();
-                    webUsersId = qryAuthenticate.GetParameter("@webusersid").ToString().TrimEnd();
-                    errno = qryAuthenticate.GetParameter("@errno").ToInt32();
-                    errmsg = qryAuthenticate.GetParameter("@errmsg").ToString().TrimEnd();
-
-                    if (!string.IsNullOrEmpty(webUsersId) && (errno.Equals(0)))
+                    await qry.ExecuteAsync();
+                    if (qry.RowCount > 0)
                     {
-                        using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                        //identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
+                        identity = new ClaimsIdentity();
+                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
+                        if (qry.FieldNames.Contains("webusersid"))
                         {
-                            qry.Add("select top 1 wuv.*, groupsdatestamp = g.datestamp");
-                            qry.Add("from webusersview wuv with (nolock)");
-                            qry.Add("  join groups g  with (nolock) on (wuv.groupsid = g.groupsid)");
-                            qry.Add("where webusersid = @webusersid");
-                            qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
-                            qry.AddParameter("@webusersid", webUsersId);
-
-                            await qry.ExecuteAsync();
-                            if (qry.RowCount > 0)
+                            string webusersid = qry.GetField("webusersid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(webusersid))
                             {
-                                //identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
-                                identity = new ClaimsIdentity();
-                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
-                                if (qry.FieldNames.Contains("webusersid"))
-                                {
-                                    string webusersid = qry.GetField("webusersid").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(webusersid))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.WebUsersId, webusersid));
-                                    }
-                                }
-                                if (qry.FieldNames.Contains("usersid"))
-                                {
-                                    string usersid = qry.GetField("usersid").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(usersid))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UsersId, usersid));
-                                    }
-                                }
-                                if (qry.FieldNames.Contains("contactid"))
-                                {
-                                    string contactid = qry.GetField("contactid").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(contactid))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.ContactId, contactid));
-                                    }
-                                }
-                                if (qry.FieldNames.Contains("groupsid"))
-                                {
-                                    string groupsid = qry.GetField("groupsid").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(groupsid))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.GroupsId, groupsid));
-                                    }
-                                }
-                                if (qry.FieldNames.Contains("groupsdatestamp"))
-                                {
-                                    string groupsdatestamp = qry.GetField("groupsdatestamp").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(groupsdatestamp))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.GroupsDateStamp, groupsdatestamp));
-                                    }
-                                }
-                                if (qry.FieldNames.Contains("usertype"))
-                                {
-                                    string usertype = qry.GetField("usertype").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(usertype))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserType, usertype));
-                                    }
-                                }
-                                if (qry.FieldNames.Contains("personid"))
-                                {
-                                    string personid = qry.GetField("personid").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(personid))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.PersonId, personid));
-                                    }
-                                }
-                                // mv 2019-08-27 - I don't accept this change.  This adds overhead to every web service call for something you can already determine via the webusersid.  Do a query instead.
-                                //if (qry.FieldNames.Contains("fullname"))
-                                //{
-                                //    string userName = qry.GetField("fullname").ToString().TrimEnd();
-                                //    if (!string.IsNullOrEmpty(userName))
-                                //    {
-                                //        identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserName, userName));
-                                //    }
-                                //}
-                                if (qry.FieldNames.Contains("primarycampusid"))
-                                {
-                                    string campusId = qry.GetField("primarycampusid").ToString().TrimEnd();
-                                    if (!string.IsNullOrEmpty(campusId))
-                                    {
-                                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusId)); ;
-                                    }
-                                }
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.WebUsersId, webusersid));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("usersid"))
+                        {
+                            string usersid = qry.GetField("usersid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(usersid))
+                            {
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.UsersId, usersid));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("contactid"))
+                        {
+                            string contactid = qry.GetField("contactid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(contactid))
+                            {
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.ContactId, contactid));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("groupsid"))
+                        {
+                            string groupsid = qry.GetField("groupsid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(groupsid))
+                            {
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.GroupsId, groupsid));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("groupsdatestamp"))
+                        {
+                            string groupsdatestamp = qry.GetField("groupsdatestamp").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(groupsdatestamp))
+                            {
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.GroupsDateStamp, groupsdatestamp));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("usertype"))
+                        {
+                            string usertype = qry.GetField("usertype").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(usertype))
+                            {
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.UserType, usertype));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("personid"))
+                        {
+                            string personid = qry.GetField("personid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(personid))
+                            {
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.PersonId, personid));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("primarycampusid"))
+                        {
+                            string campusId = qry.GetField("primarycampusid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(campusId))
+                            {
+                                identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusId)); ;
                             }
                         }
                     }

@@ -1,6 +1,8 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -33,7 +35,7 @@ namespace WebApi.Modules.AccountServices.Account
             public string clientcode { get; set; } = string.Empty;
             public string serverVersion { get; set; } = string.Empty;
         }
-
+        //---------------------------------------------------------------------------------------------
         // GET api/v1/account/sessioninfo
         [HttpGet("session")]
         [FwControllerMethod(Id: "hC5MXcjWFqjb", ValidateSecurityGroup:false)]
@@ -152,7 +154,7 @@ namespace WebApi.Modules.AccountServices.Account
             public AppFunc.SessionWarehouse warehouse { get; set; } = null;
             public AppFunc.SessionDepartment department { get; set; } = null;
         }
-        
+        //---------------------------------------------------------------------------------------------
         // GET api/v1/account/locationinfo?locationid=value&warehouseid=value&departmentid=value
         [HttpGet("officelocation")]
         [FwControllerMethod(Id: "d22TgeY4ersd", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]  //justin hoffman 12/16/2019 added ValidateSecurityGroup=false as a temporary fix for #1473.  
@@ -172,6 +174,45 @@ namespace WebApi.Modules.AccountServices.Account
             response.department = taskSessionDepartment.Result;
             await Task.CompletedTask;
             return response;
+        }
+        //---------------------------------------------------------------------------------------------
+        // POST api/v1/account/resetpassword
+        [HttpPost("resetpassword")]
+        [FwControllerMethod(Id: "CL8bnxKGRvMO", ValidateSecurityGroup:false)]
+        public async Task<ActionResult<ResetPasswordResponse>> ResetPassword([FromBody]ResetPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var response = new ResetPasswordResponse();
+                var account  = FwBusinessLogic.CreateBusinessLogic<AccountLogic>(this.AppConfig, this.UserSession);
+
+                response = await account.ValidatePassword(request);
+                if (response.Status == 0)
+                {
+                    response = await account.ResetPassword(request);
+                }
+                else
+                {
+                    var jsonException        = new FwApiException();
+                    jsonException.StatusCode = StatusCodes.Status400BadRequest;
+                    jsonException.Message    = response.Message;
+                    return StatusCode(jsonException.StatusCode, jsonException);
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                var jsonException        = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message    = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //---------------------------------------------------------------------------------------------
     }

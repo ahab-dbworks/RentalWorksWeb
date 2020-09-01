@@ -218,6 +218,66 @@ FwBasePages.getAboutScreen = function(viewModel) {
     return screen;
 };
 //---------------------------------------------------------------------------------
+FwBasePages.getChangePasswordScreen = function (viewModel) {
+    var html, screen, $changepasswordscreen;
+    screen = {};
+    html = [];
+    html.push('<div class="login-page">');
+    html.push('  <div class="login-container">');
+    html.push('    <div class="programlogo">');
+    html.push('      <img id="programlogo" src="" alt="program logo" />');
+    html.push('    </div>');
+    html.push('    <div class="change-password-caption">Your password needs to be changed</div>');
+    html.push('    <div class="login-fields">');
+    html.push('      <div class="login-field" data-id="BwcODw4HBw8">');
+    html.push('        <input id="new-password" class="login-field-value" type="password" />');
+    html.push('        <label class="login-field-caption" for="new-password">New Password</label>');
+    html.push('      </div>');
+    html.push('      <div class="login-field" data-id="BwcODw4HBw8">');
+    html.push('        <input id="confirm-new-password" class="login-field-value" type="password" />');
+    html.push('        <label class="login-field-caption" for="confirm-new-password">Confirm New Password</label>');
+    html.push('      </div>');
+    html.push('    </div>');
+    html.push('    <div class="errormessage"></div>');
+    html.push('    <div class="login-buttons">');
+    html.push('      <div class="login-button btnSubmit" data-id="BA4JDgMACgA">{{captionBtnSubmit}}</div>');
+    html.push('      <div class="login-button btnCancel">{{captionBtnCancel}}</div>');
+    html.push('    </div>');
+    html.push('  </div>');
+    html.push('  <div id="master-footer">');
+    html.push('    <div id="copyright">© {{valueYear}} <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div>');
+    html.push('    <div id="version">v{{valueVersion}}</div>');
+    html.push('  </div>');
+    html.push('</div>');
+
+    html = html.join('');
+    html = Mustache.render(html, viewModel);
+    $changepasswordscreen = jQuery(html);
+
+    screen.$view = $changepasswordscreen;
+
+    screen.$view
+        .on('focus', '.login-field-value', function () {
+            var $this = jQuery(this);
+            $this.siblings().addClass('active');
+        })
+        .on('blur', '.login-field-value', function () {
+            var $this = jQuery(this);
+            if ($this.val() === '') {
+                $this.siblings().removeClass('active');
+            }
+        })
+        .on('click', '#dbworkslink', function () {
+            try {
+                window.location.href = 'http://www.dbworks.com';
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        })
+
+    return screen;
+};
+//---------------------------------------------------------------------------------
 FwBasePages.getSupportScreen = function() {
 
 };

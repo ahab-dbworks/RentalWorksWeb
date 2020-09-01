@@ -158,6 +158,21 @@ namespace WebApi.Modules.Agent.Contact
         [FwLogicProperty(Id:"L9nN3oaMplkQ")]
         public string UserId { get { return user.UserId; } set { user.UserId = value; } }
 
+        [FwLogicProperty(Id:"8j5hfJNXnujE")]
+        public string WebPassword { get { return user.Password; } set { user.Password = value;  webUser.WebPassword = value; } }
+
+        [FwLogicProperty(Id:"5sJJi29pSLA7")]
+        public bool? ChangePasswordAtNextLogin { get { return user.UserMustChangePassword; } set { user.UserMustChangePassword = value; } }
+
+        [FwLogicProperty(Id:"DzHzzswzDXZn")]
+        public bool? ExpirePassword { get { return user.PasswordExpires; } set { user.PasswordExpires = value; } }
+
+        [FwLogicProperty(Id:"hJV187gx8xUP")]
+        public int? ExpireDays { get { return user.PasswordExpireDays; } set { user.PasswordExpireDays = value; } }
+
+        [FwLogicProperty(Id:"lq0kifooMFzd")]
+        public string PasswordLastUpdated { get { return user.PasswordUpdatedDateTime; } set { user.PasswordUpdatedDateTime = value; } }
+
 
         // WebUserRecord
         [FwLogicProperty(Id:"qy03CaOxmkQ2")]
@@ -175,23 +190,8 @@ namespace WebApi.Modules.Agent.Contact
         [FwLogicProperty(Id:"6P7hd6okvoGJ")]
         public bool? LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
 
-        [FwLogicProperty(Id:"8j5hfJNXnujE")]
-        public string WebPassword { get { return webUser.WebPassword; } set { webUser.WebPassword = value; } }
-
-        [FwLogicProperty(Id:"DzHzzswzDXZn")]
-        public bool? ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
-
-        [FwLogicProperty(Id:"hJV187gx8xUP")]
-        public int? ExpireDays { get { return webUser.ExpireDays; } set { webUser.ExpireDays = value; } }
-
-        [FwLogicProperty(Id:"5sJJi29pSLA7")]
-        public bool? ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
-
-        [FwLogicProperty(Id:"lq0kifooMFzd")]
-        public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
-
         [FwLogicProperty(Id: "l8VxIy5GqGzB")]
-        public string DefaultDealId{ get { return contact.DealId; } set { contact.DealId = value; } }
+        public string DefaultDealId { get { return contact.DealId; } set { contact.DealId = value; } }
 
         [FwLogicProperty(Id: "0cCkZ7XplnCq")]
         public string DefaultDeal { get; set; }

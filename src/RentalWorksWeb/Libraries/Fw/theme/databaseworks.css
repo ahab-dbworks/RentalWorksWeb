@@ -44,6 +44,7 @@ FwLogin
 ***************************/
 .login-page {height:100vh;background-color:#e5e5e5;overflow:auto;}
 .login-page .login-container {background-color: #fefefe;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px;padding:30px;max-width:500px;margin:10% auto 30px auto;}
+.login-page .login-container .change-password-caption {text-align: center; font-size: 1rem; margin: 5px auto;}
 .login-page .login-container .programlogo {text-align:center;font-size:3.5em;color: #2f2f2f;}
 .login-page .login-container .programlogo img {display:block;margin:0 auto;max-width:75%;}
 .login-page .login-container .login-fields {margin:40px auto 20px auto;max-width: 400px;overflow:auto;}

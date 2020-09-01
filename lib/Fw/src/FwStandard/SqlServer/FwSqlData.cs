@@ -14,6 +14,122 @@ namespace FwStandard.SqlServer
     public class FwSqlData
     {
         //-----------------------------------------------------------------------------
+        static public async Task<dynamic> UserAuthenticationAsync(SqlServerConfig dbConfig, string username, string password)
+        {
+            dynamic response = new ExpandoObject();
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                dynamic userauthdata = null;
+
+                //Find User by email or loginname
+                using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                {
+                    qry.Add("select top 1 webusersid, usersid, password, failedlogins, usertype");
+                    qry.Add("  from webauthenticateview with (nolock)");
+                    qry.Add(" where inactive    <> 'T'");
+                    qry.Add("   and webaccess   =  'T'");
+                    qry.Add("   and lockaccount <> 'T'");
+                    qry.Add("   and ((email     = @username) or");
+                    qry.Add("        (loginname = @username))");
+                    qry.AddParameter("@username", username);
+                    userauthdata = await qry.QueryToDynamicObject2Async();
+                }
+
+                if (userauthdata != null)
+                {
+                    bool passwordmatch = false;
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                    {
+                        qry.Add("select match = (case when (@password = dbo.encrypt(@userpassword)) then 1");
+                        qry.Add("                                                                   else 0");
+                        qry.Add("               end)");
+                        qry.AddParameter("@password",     userauthdata.password);
+                        qry.AddParameter("@userpassword", password.ToUpper()); //2020-08-27 MY: Need to figure out a way to not toupper passwords for comparison
+                        await qry.ExecuteAsync();
+                        passwordmatch = qry.GetField("match").ToBoolean();
+                    }
+
+                    if (passwordmatch)
+                    {
+                        if (userauthdata.failedlogins > 0)
+                        {
+                            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                            {
+                                qry.Add("update users");
+                                qry.Add("   set failedloginattempts = 0");
+                                qry.Add(" where usersid = @usersid");
+                                qry.AddParameter("@usersid",   userauthdata.usersid);
+                                await qry.ExecuteAsync();
+                            }
+                        }
+
+                        response.Status     = 0;
+                        response.WebUsersId = userauthdata.webusersid;
+                        response.UsersId    = userauthdata.usersid;
+                    }
+                    else
+                    {
+                        response.Status = 100;
+
+                        //On failed password increment the failedloginattempts on the account
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                        {
+                            qry.Add("update users");
+                            qry.Add("   set failedloginattempts = @failedlogins");
+                            qry.Add(" where usersid = @usersid");
+                            qry.AddParameter("@failedlogins", userauthdata.failedlogins + 1);
+                            qry.AddParameter("@usersid",      userauthdata.usersid);
+                            await qry.ExecuteAsync();
+                        }
+                    }
+                }
+                else
+                {
+                    response.Status = 100;
+                }
+            }
+            return response;
+        }
+        //-----------------------------------------------------------------------------
+        static public async Task<Boolean> CheckPasswordExpirationAsync(SqlServerConfig dbConfig, string UsersId)
+        {
+            bool response = false;
+            bool changepassword;
+            bool expireflag;
+            int  expireindays;
+            DateTime passwordlastupdated;
+
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                {
+                    qry.Add("select mustchangepwflg, expireflg, expiredays, pwupdated");
+                    qry.Add("  from users u with (nolock)");
+                    qry.Add(" where usersid = @usersid");
+                    qry.AddParameter("@usersid", UsersId);
+                    await qry.ExecuteAsync();
+                    changepassword      = qry.GetField("mustchangepwflg").ToBoolean();
+                    expireflag          = qry.GetField("expireflg").ToBoolean();
+                    expireindays        = qry.GetField("expiredays").ToInt32();
+                    passwordlastupdated = qry.GetField("pwupdated").ToDateTime();
+                }
+            }
+
+            if (changepassword)
+            {
+                response = true;
+            }
+            else if (expireflag)
+            {
+                if (DateTime.Compare(DateTime.Today, passwordlastupdated.AddDays(expireindays)) > 0)
+                {
+                    response = true;
+                }
+            }
+
+            return response;
+        }
+        //-----------------------------------------------------------------------------
         //static public async Task<String> DecryptAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string data)
         //{
         //    using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
