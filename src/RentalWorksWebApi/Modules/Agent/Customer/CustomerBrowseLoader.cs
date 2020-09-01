@@ -396,6 +396,9 @@ namespace WebApi.Modules.Agent.Customer
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

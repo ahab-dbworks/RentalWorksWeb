@@ -67,6 +67,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
         public string Phone { get; set; }
         //------------------------------------------------------------------------------------ 
