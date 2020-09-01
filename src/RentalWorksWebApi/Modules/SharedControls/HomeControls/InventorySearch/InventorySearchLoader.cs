@@ -264,6 +264,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@availfor", SqlDbType.NVarChar, ParameterDirection.Input, request.AvailableFor);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                    qry.AddParameter("@currencyid", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrencyId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@categoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.SubCategoryId);

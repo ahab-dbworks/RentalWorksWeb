@@ -29,6 +29,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string OrderId;
         public string AvailableFor;
         public string WarehouseId;
+        public string CurrencyId;
         public string InventoryTypeId;
         public string CategoryId;
         public string SubCategoryId;

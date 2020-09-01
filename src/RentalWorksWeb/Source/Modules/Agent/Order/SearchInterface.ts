@@ -43,6 +43,7 @@ class SearchInterface {
                               <div class="fwmenu default"></div>
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
                                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Currency" data-datafield="CurrencyId" style="display:none;"></div>                                
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="CurrencySymbol" style="display:none;"></div>                                     
                                 <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryType"></div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Date" data-datafield="PickDate" style="flex: 0 1 135px;"></div>                                
                                 <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield fwformcontrol" data-caption="Pick Time" data-datafield="PickTime" style="flex: 0 1 100px;"></div>                                                     
@@ -244,6 +245,7 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'FromTime', pickStartStop.StartTime);
                 FwFormField.setValueByDataField($popup, 'ToTime', pickStartStop.StopTime);
                 FwFormField.setValueByDataField($popup, 'CurrencyId', FwFormField.getValueByDataField($form, 'CurrencyId'));
+                FwFormField.setValueByDataField($popup, 'CurrencySymbol', FwFormField.getValueByDataField($form, 'CurrencySymbol'));
                 $popup.data('ratetype', FwFormField.getValueByDataField($form, 'RateType'));
                 break;
             case 'PurchaseOrder':
@@ -251,6 +253,7 @@ class SearchInterface {
                 $popup.find('[data-datafield="PickTime"], [data-datafield="FromTime"], [data-datafield="ToTime"]').hide();
                 startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
                 FwFormField.setValueByDataField($popup, 'CurrencyId', FwFormField.getValueByDataField($form, 'CurrencyId'));
+                FwFormField.setValueByDataField($popup, 'CurrencySymbol', FwFormField.getValueByDataField($form, 'CurrencySymbol'));
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);
                 break;
             case 'Transfer':
@@ -747,7 +750,21 @@ class SearchInterface {
                         }
                     } else if (laborMiscRateType == 'RECURRING') {
                         rate = Number(response.Rows[i][priceIndex]).toFixed(2);
-                    } 
+                    }
+                    break;
+            }
+
+
+            const location = JSON.parse(sessionStorage.getItem('location'));
+            const defaultCurrencyId = location.defaultcurrencyid;
+            const defaultCurrencySymbol = location.defaultcurrencysymbol;
+            const currencyId = FwFormField.getValueByDataField($popup, 'CurrencyId');
+            const currencySymbol = FwFormField.getValueByDataField($popup, 'CurrencySymbol');
+
+            if (currencyId === '' && (typeof defaultCurrencyId != 'undefined') && (typeof defaultCurrencySymbol != 'undefined')) {
+                rate = defaultCurrencySymbol + ' ' + rate;
+            } else {
+                rate = currencySymbol + ' ' + rate;
             }
 
             let conflictdate = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
@@ -1909,8 +1926,7 @@ class SearchInterface {
             FromDate:           fromDateAndTime.fromDate || undefined,
             FromTime:           fromDateAndTime.fromTime || undefined,
             ToDate:             FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-            ToTime:             FwFormField.getValueByDataField($popup, 'ToTime') || undefined,
-            CurrencyId:         FwFormField.getValueByDataField($popup, 'CurrencyId') || undefined
+            ToTime:             FwFormField.getValueByDataField($popup, 'ToTime') || undefined
         }
 
         const isNestedAccessory = $el.attr('data-isnestedaccessory');

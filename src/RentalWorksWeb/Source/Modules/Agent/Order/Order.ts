@@ -1746,6 +1746,7 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="validation" data-validationname="PaymentTypeValidation" class="fwcontrol fwformfield" data-caption="Pay Type" data-datafield="PaymentTypeId" data-displayfield="PaymentType" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="CurrencySymbol" style="display:none;"></div>
                         <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-required="true" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow" style='margin-top:.5em;'>

@@ -2637,9 +2637,11 @@ class OrderBase {
                 if (originalVal !== '' && originalVal !== newVal) {
                     const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
                     const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
+                    const currencySymbol = FwBrowse.getValueByDataField($form, $tr, 'CurrencySymbol');
                     $updateRatesCheckbox.show().find('.checkbox-caption')
                         .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
                         .css('white-space', 'break-spaces');
+                    FwFormField.setValueByDataField($form, 'CurrencySymbol', currencySymbol);
                 } else {
                     $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]').hide();
                 }
