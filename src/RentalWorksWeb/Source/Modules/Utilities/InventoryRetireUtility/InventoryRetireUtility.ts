@@ -44,7 +44,7 @@ class InventoryRetireUtility {
             FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', parentmoduleinfo.ItemId, parentmoduleinfo.BarCode);
             FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', parentmoduleinfo.ItemId, parentmoduleinfo.SerialNumber)
             FwFormField.setValueByDataField($form, 'InventoryId', parentmoduleinfo.InventoryId, parentmoduleinfo.ICode);
-            FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.Description);
+            FwFormField.setValueByDataField($form, 'ItemDescription', parentmoduleinfo.Description);
         }
 
         return $form;
