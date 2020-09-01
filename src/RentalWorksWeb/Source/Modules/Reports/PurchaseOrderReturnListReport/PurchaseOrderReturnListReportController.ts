@@ -15,7 +15,7 @@ const purchaseOrderReturnListTemplate = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:500px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Return List">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor Return List">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase Order" data-savesetting="false" data-required="true" data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="float:left;max-width:300px;"></div>
                 </div>

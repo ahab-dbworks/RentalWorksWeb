@@ -38,9 +38,12 @@
       {{/ifEquals}}
 
       {{#ifEquals RowType "SubOrderNumberheader"}}
+      {{#if SubOrderNumber}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="5" class="header-row">Order No: {{SubOrderNumber}}</td>
+        <td class="header-row">Order No: {{SubOrderNumber}}</td>
+        <td colspan="4" class="header-row">Deal: {{SubDeal}}</td>
       </tr>
+      {{/if}}
       {{/ifEquals}}
 
       {{#ifEquals RowType "detail"}}
