@@ -599,21 +599,21 @@ class Receipt {
             query = `remainingdepositamounts?CustomerId=${id}&DealId=&OfficeLocationId=${officeLocation}`
         }
 
-        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/${query}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/${query}`, null, FwServices.defaultTimeout, response => {
             if (response.Overpayments !== 0) {
-                $form.find(`span[data-creditfield="Overpayments"]`).text(`Overpayments: $${response.OverpaymentsFormatted}`);
+                $form.find(`span[data-creditfield="Overpayments"]`).text(`Overpayments: ${this.currencySymbol}${response.OverpaymentsFormatted}`);
                 $form.find(`span[data-creditfield="Overpayments"]`).show();
             } else {
                 $form.find(`span[data-creditfield="Overpayments"]`).hide();
             }
             if (response.CreditMemos !== 0) {
-                $form.find(`span[data-creditfield="CreditMemos"]`).text(`Credit Memos: $${response.CreditMemosFormatted}`);
+                $form.find(`span[data-creditfield="CreditMemos"]`).text(`Credit Memos: ${this.currencySymbol}${response.CreditMemosFormatted}`);
                 $form.find(`span[data-creditfield="CreditMemos"]`).show();
             } else {
                 $form.find(`span[data-creditfield="CreditMemos"]`).hide();
             }
             if (response.DepletingDeposits !== 0) {
-                $form.find(`span[data-creditfield="DepletingDeposits"]`).text(`Depleting Deposits: $${response.DepletingDepositsFormatted}`);
+                $form.find(`span[data-creditfield="DepletingDeposits"]`).text(`Depleting Deposits: ${this.currencySymbol}${response.DepletingDepositsFormatted}`);
                 $form.find(`span[data-creditfield="DepletingDeposits"]`).show();
             } else {
                 $form.find(`span[data-creditfield="DepletingDeposits"]`).hide();
@@ -1062,6 +1062,7 @@ class Receipt {
 
                     $form.find('.credit-table-rows').html('');
                     $form.find('.credit-table-rows').html(htmlRows.join(''));
+                    $form.find('.credit-amounts').inputmask({ alias: "currency", prefix: this.currencySymbol });
 
                     $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
                     $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: this.currencySymbol });
