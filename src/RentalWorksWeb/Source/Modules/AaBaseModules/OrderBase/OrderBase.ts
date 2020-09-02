@@ -2289,6 +2289,7 @@ class OrderBase {
             this.renderGrids($form);
             this.applyOrderTypeAndRateTypeToForm($form);
             this.getScheduleDatesByOrderType($form);
+            this.applyOrderTypeDefaults($form);
         });
         // ----------
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
@@ -2298,10 +2299,6 @@ class OrderBase {
             } else {
                 FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
             }
-        });
-        // ----------
-        $form.find('div[data-datafield="OrderTypeId"]').data('onchange', e => {
-            this.applyOrderTypeDefaults($form);
         });
         // ----------
         $form.find('div[data-datafield="DepartmentId"]').data('onchange', function ($tr) {
