@@ -123,6 +123,9 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "isflatpo", modeltype: FwDataTypes.Boolean)]
         public bool? IsFlatPo { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -184,7 +187,7 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string InvoiceTotalColor
         {
-            get { return getInvoiceTotalColor(IsNoCharge.GetValueOrDefault(false)); }
+            get { return getInvoiceTotalColor(IsNoCharge.GetValueOrDefault(false), CurrencyId, OfficeLocationDefaultCurrencyId); }
             set { }
         }
         //------------------------------------------------------------------------------------
@@ -318,13 +321,21 @@ namespace WebApi.Modules.Billing.Invoice
             return color;
         }
         //------------------------------------------------------------------------------------    
-        private string getInvoiceTotalColor(bool noCharge)
+        private string getInvoiceTotalColor(bool noCharge, string currencyId, string officeLocationCurrencyId)
         {
             string color = null;
             if (noCharge)
             {
                 color = RwGlobals.INVOICE_NO_CHARGE_COLOR;
             }
+            else
+            {
+                if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationCurrencyId)))
+                {
+                    color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+                }
+            }
+
             return color;
         }
         //------------------------------------------------------------------------------------    
@@ -346,7 +357,7 @@ namespace WebApi.Modules.Billing.Invoice
                         row[dt.GetColumnNo("DealColor")] = getDealColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BilledHiatus")].ToString()));
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("HasRepairItem")].ToString()), FwConvert.ToBoolean(row[dt.GetColumnNo("HasLossAndDamageItem")].ToString()));
                         row[dt.GetColumnNo("BillingStartDateColor")] = getBillingStartDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsAlteredDates")].ToString()));
-                        row[dt.GetColumnNo("InvoiceTotalColor")] = getInvoiceTotalColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsNoCharge")].ToString()));
+                        row[dt.GetColumnNo("InvoiceTotalColor")] = getInvoiceTotalColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsNoCharge")].ToString()), row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
                     }
                 }
             }

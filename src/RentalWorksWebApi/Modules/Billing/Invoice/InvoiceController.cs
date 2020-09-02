@@ -53,6 +53,7 @@ namespace WebApi.Modules.Billing.Invoice
             legend.Add("Repair", RwGlobals.INVOICE_REPAIR_COLOR);
             legend.Add("Estimate", RwGlobals.INVOICE_ESTIMATE_COLOR);
             legend.Add("Loss & Damage", RwGlobals.INVOICE_LOSS_AND_DAMAGE_COLOR);
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
