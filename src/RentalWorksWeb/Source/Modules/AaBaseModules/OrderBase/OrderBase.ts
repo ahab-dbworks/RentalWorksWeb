@@ -1364,6 +1364,7 @@ class OrderBase {
             $form.find(".frame .add-on").children().hide();
 
             FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetypedisplay);
+            this.getScheduleDatesByOrderType($form);
         }
 
         let nodeEmailHistory = FwApplicationTree.getNodeById(FwApplicationTree.tree, '3XHEm3Q8WSD8z');
@@ -2285,31 +2286,9 @@ class OrderBase {
         });
         // ----------
         $form.find('div[data-datafield="OrderTypeId"]').on('change', event => {
-            const request: any = {};
             this.renderGrids($form);
             this.applyOrderTypeAndRateTypeToForm($form);
-
-            request.uniqueids = {
-                OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId'),
-                Enabled: true
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/browse`, request, FwServices.defaultTimeout, response => {
-                let orderDates: any = [];
-                const columnNames = response.ColumnNameByIndex;
-                for (let i = 0; i < response.Rows.length; i++) {
-                    const container: any = {};
-                    const item = response.Rows[i];
-                    for (let j = 0; j < item.length; j++) {
-                        container[columnNames[j]] = item[j];
-                    }
-                    orderDates.push(container);
-                }
-                response.ActivityDatesAndTimes = orderDates;
-                this.renderScheduleDateAndTimeSection($form, response);
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, $form);
+            this.getScheduleDatesByOrderType($form);
         });
         // ----------
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
@@ -4414,6 +4393,30 @@ class OrderBase {
                 FwFormField.enable($billingPeriodFields);
             }
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    getScheduleDatesByOrderType($form: JQuery) {
+        const request: any = {};
+        request.uniqueids = {
+            OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId'),
+            Enabled: true
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/browse`, request, FwServices.defaultTimeout, response => {
+            let orderDates: any = [];
+            const columnNames = response.ColumnNameByIndex;
+            for (let i = 0; i < response.Rows.length; i++) {
+                const container: any = {};
+                const item = response.Rows[i];
+                for (let j = 0; j < item.length; j++) {
+                    container[columnNames[j]] = item[j];
+                }
+                orderDates.push(container);
+            }
+            response.ActivityDatesAndTimes = orderDates;
+            this.renderScheduleDateAndTimeSection($form, response);
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
     }
     //----------------------------------------------------------------------------------------------
     renderScheduleDateAndTimeSection($form, response) {
