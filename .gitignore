@@ -3,6 +3,8 @@
 **/node_modules/
 /packages/
 *.user
+.DS_Store
+._.DS_Store
 
 /src/*/Properties/PublishProfiles/
 
@@ -129,8 +131,6 @@
 
 /SecurityTreeBuilder/obj/
 /SecurityTreeBuilder/bin/
-
-.DS_Store
 
 **/Fw/scripts/mobile/**/*.js
 **/Fw/scripts/mobile/**/*.js.map
