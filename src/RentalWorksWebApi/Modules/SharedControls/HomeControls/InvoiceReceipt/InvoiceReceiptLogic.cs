@@ -58,6 +58,12 @@ namespace WebApi.Modules.HomeControls.InvoiceReceipt
         public string AppliedBy { get; set; }
         [FwLogicProperty(Id: "hzNeDn8OyNI", IsReadOnly: true)]
         public string PaymentMemo { get; set; }
+        [FwLogicProperty(Id: "ledMznVmCg63c", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "0F7HQUor6uzfs", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "RAi038oZTweRM", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         [FwLogicProperty(Id: "LszY68davOcH")]
         public string DateStamp { get { return invoiceReceipt.DateStamp; } set { invoiceReceipt.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

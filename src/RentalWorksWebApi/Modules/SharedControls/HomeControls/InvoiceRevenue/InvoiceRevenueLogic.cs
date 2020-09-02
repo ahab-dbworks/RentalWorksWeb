@@ -46,6 +46,12 @@ namespace WebApi.Modules.HomeControls.InvoiceRevenue
         public string WarehouseCode { get; set; }
         [FwLogicProperty(Id: "cFJBLkapb2nSh", IsReadOnly: true)]
         public string Warehouse { get; set; }
+        [FwLogicProperty(Id: "y4kR8bUGsY8ax", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "k9CG0CSek5OxO", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "kDFNQieEiE3Xf", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

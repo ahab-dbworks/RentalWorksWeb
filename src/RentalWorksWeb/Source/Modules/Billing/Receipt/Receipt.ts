@@ -782,7 +782,7 @@ class Receipt {
             }
             request.orderby = 'InvoiceDate,InvoiceNumber'
             if (currencyId) {
-                request.uniqueids.CurrencyID = currencyId;
+                request.uniqueids.CurrencyId = currencyId;
             }
             const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
             if (paymentBy === 'DEAL') {
