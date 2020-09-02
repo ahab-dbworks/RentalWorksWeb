@@ -59,6 +59,7 @@ class Customer {
             FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', controlDefaults.defaultcustomerstatusid, controlDefaults.defaultcustomerstatus);
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', controlDefaults.defaultcustomerpaymenttermsid, controlDefaults.defaultcustomerpaymentterms);
             FwFormField.setValue($form, 'div[data-datafield="CreditStatusId"]', controlDefaults.defaultcreditstatusid, controlDefaults.defaultcreditstatus);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', officeLocation.defaultcurrencyid, officeLocation.defaultcurrencycode);
         }
 
         let userassignedcustomerno = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedcustomernumber;
@@ -766,7 +767,7 @@ class Customer {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTermsId" data-displayfield="PaymentTerms" data-validationname="PaymentTermsValidation" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-required="true" style="flex:1 1 250px;"></div>
                         </div>
                       </div>
                       <!-- Discount Template section -->

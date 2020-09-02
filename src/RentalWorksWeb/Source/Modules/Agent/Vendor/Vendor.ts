@@ -52,6 +52,7 @@ class Vendor {
             FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
             $form.find('div[data-datafield="Vendor"]').attr('data-required', 'true');
+            FwFormField.setValue($form, 'div[data-datafield="DefaultCurrencyId"]', officeLocation.defaultcurrencyid, officeLocation.defaultcurrencycode);
         }
 
         let userassignedvendorno = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedvendornumber;
@@ -665,7 +666,7 @@ class Vendor {
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default PO Class" data-datafield="DefaultPoClassificationId" data-displayfield="DefaultPoClassification" data-validationname="POClassificationValidation" style="flex:1 1 275px;"></div>
                       </div>>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="DefaultCurrencyId" data-displayfield="DefaultCurrencyCode" data-validationname="CurrencyValidation" style="flex:1 1 275px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="DefaultCurrencyId" data-displayfield="DefaultCurrencyCode" data-validationname="CurrencyValidation" data-required="true" style="flex:1 1 275px;"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DefaultCurrency" data-enabled="false" style="flex:1 1 275px;"></div>
