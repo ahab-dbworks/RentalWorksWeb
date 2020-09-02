@@ -14,10 +14,17 @@ export class VendorInvoiceBatchReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/vendorinvoicebatchreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
+
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].RowType === 'detail') {
+                            data.BatchNumber = data[i].BatchNumber;
+                            data.BatchDate = data[i].BatchDate;
+                            break;
+                        }
+                    }
+
                     this.setReportMetadata(parameters, data);
-                    data.Date = parameters.BatchDate;
                     data.Report = 'Vendor Invoice Batch Report';
-                    data.BatchNumber = parameters.BatchNumber;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
