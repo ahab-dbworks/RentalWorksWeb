@@ -14,14 +14,10 @@ export class ReturnReceiptReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/ReturnReceiptReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Return Receipt Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     // to prevent repeating headers for these rows
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].RecordType === 'ASSIGNED' || data[i].RecordType === 'RETURNED_TO_INVENTORY') {

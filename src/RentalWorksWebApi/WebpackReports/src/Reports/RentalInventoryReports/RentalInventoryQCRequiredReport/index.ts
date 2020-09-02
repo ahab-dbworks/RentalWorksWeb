@@ -15,12 +15,8 @@ export class RentalInventoryQCRequiredReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = {};
                     data.rows = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.Report = 'Rental Inventory QC Required Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
 
                     this.renderFooterHtml(data);

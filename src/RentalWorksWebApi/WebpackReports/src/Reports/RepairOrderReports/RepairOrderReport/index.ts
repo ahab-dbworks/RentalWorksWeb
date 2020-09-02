@@ -21,10 +21,7 @@ export class RepairOrderReport extends WebpackReport {
                     Ajax.post<Repair>(`${apiUrl}/api/v1/repairorderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Repair) => {
                             const data: any = response;
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             data.Report = 'REPAIR';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

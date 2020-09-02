@@ -17,13 +17,9 @@ export class IncomingShippingLabel extends WebpackReport {
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/incomingshippinglabel/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
-                            //data.PrintTime = moment().format('h:mm:ss A');
-                            //data.PrintDate = moment().format('MM/DD/YYYY');
-                            //data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                             //data.AsOfDate = parameters.AsOfDate;
                             //data.Report = 'Incoming Shipping Label';
-                            //data.System = 'RENTALWORKS';
-                            //data.Company = parameters.companyName;
                             //this.renderFooterHtml(data);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

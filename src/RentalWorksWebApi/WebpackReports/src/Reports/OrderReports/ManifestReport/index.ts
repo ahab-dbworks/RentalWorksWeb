@@ -23,15 +23,11 @@ export class ManifestReport extends WebpackReport {
                         .then((response: ManifestReportResponse) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.ItemsTable);
-                            data.Company = parameters.companyName;
                             data.OrderNumber = parameters.orderno;
                             data.Report = "Value Sheet";
                             data.WhichReport = parameters.manifestReportItems;
                             data.Date = moment().format('MM/DD/YYYY');
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

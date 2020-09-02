@@ -25,10 +25,7 @@ export class ReturnListReport extends WebpackReport {
                                 .then((response: any) => {
                                     const data: any = response;
                                     data.Items = DataTable.toObjectList(response.ItemsTable);
-                                    data.PrintTime = moment().format('h:mm:ss A');
-                                    data.PrintDate = moment().format('MM/DD/YYYY');
-                                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                                    data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                                     data.Report = 'RETURN LIST';
                                     data.Session = sessionNumber;
                                     data.DealName = DealName;
@@ -42,7 +39,6 @@ export class ReturnListReport extends WebpackReport {
                                         data.Items[i].PrintOut = data.PrintOut;
                                     }
                                     data.Warehouse = parameters.warehouse;
-                                    data.Company = parameters.companyName;
 
                                     if (parameters.BarCodeStyle === '1D') {
                                         parameters.BarCodeStyle = '1D';

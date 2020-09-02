@@ -14,13 +14,9 @@ export class SubSalesStagedItemsReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/subsalesstageditemsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.Today = moment().format('LL');
                     data.Report = 'Sub-Sales Staged Items Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     console.log(data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

@@ -20,10 +20,7 @@ export class ExchangeContractReport extends WebpackReport {
                         .then((response: ExchangeContract) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.Items);
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             data.Report = 'EXCHANGE CONTRACT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

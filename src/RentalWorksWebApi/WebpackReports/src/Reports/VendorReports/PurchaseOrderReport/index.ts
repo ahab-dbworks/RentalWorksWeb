@@ -22,10 +22,7 @@ export class PurchaseOrderReport extends WebpackReport {
                     Ajax.post<Order>(`${apiUrl}/api/v1/purchaseorderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Order) => {
                             const data: any = response;
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }

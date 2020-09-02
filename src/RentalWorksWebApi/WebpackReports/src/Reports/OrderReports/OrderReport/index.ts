@@ -23,10 +23,7 @@ export class OrderReport extends WebpackReport {
                         .then((response: DataTable) => {
                             const data: any = response;
 
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }

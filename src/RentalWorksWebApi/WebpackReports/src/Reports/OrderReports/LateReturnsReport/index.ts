@@ -29,14 +29,10 @@ export class LateReturnsReport extends WebpackReport {
                             data[i].OrderPastDue = data[i + 1].OrderPastDue;
                         }
                     }
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     data.Report = 'Late Return / Due Back Report';
                     data.Type = parameters.Type;
                     data.subtitle = parameters.headerText;
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     if (parameters.ShowUnit) { data.ShowUnit = true };
                     if (parameters.ShowReplacement) { data.ShowReplacement = true };
                     if (parameters.ShowBarCode) { data.ShowBarCode = true };

@@ -16,12 +16,8 @@ export class ReturnOnAssetReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.Report = 'Return On Asset Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     if (parameters.UseDateRange) {
                         data.FromDate = parameters.FromDate;
                         data.ToDate = parameters.ToDate

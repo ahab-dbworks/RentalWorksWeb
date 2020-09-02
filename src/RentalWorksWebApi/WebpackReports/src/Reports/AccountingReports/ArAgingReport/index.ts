@@ -14,13 +14,11 @@ export class ArAgingReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/aragingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
                     data.AsOfDate = parameters.AsOfDate;
                     data.Report = 'A/R Aging Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
+
+                    this.setReportMetadata(parameters, data);
+
                     this.renderFooterHtml(data);
 
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

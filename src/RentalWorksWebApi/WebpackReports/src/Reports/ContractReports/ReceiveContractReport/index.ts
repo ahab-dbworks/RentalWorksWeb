@@ -18,10 +18,7 @@ export class ReceiveContractReport extends WebpackReport {
                     Ajax.post<any>(`${apiUrl}/api/v1/receivecontractreport/runreport`, authorizationHeader, parameters)
                         .then((response: any) => {
                             const data: any = response;
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             data.Report = 'RECEIVE CONTRACT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

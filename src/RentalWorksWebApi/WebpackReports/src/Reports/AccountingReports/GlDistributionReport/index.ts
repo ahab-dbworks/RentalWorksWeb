@@ -14,15 +14,11 @@ export class GlDistributionReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Location = parameters.Location;
                     data.Report = 'G/L Distribution Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     // Determine Summary or Detail View
                     if (parameters.IsSummary) {
                         data.IsSummary = true;

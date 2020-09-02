@@ -1,12 +1,13 @@
 ﻿import { Ajax } from './Ajax';
 import * as Handlebars from 'handlebars/dist/cjs/handlebars';
 import { HandlebarsHelpers } from './HandlebarsHelpers';
+import moment from 'moment';
 export abstract class WebpackReport {
     renderReportCompleted: boolean = false;
     renderReportFailed: boolean = false;
     footerHtml: string = '';
     action: ActionType;
-
+    //----------------------------------------------------------------------------------------------
     constructor() {
         window.addEventListener('unload', (ev: Event) => {
             ev.stopImmediatePropagation();
@@ -28,7 +29,7 @@ export abstract class WebpackReport {
             }
         });
     }
-
+    //----------------------------------------------------------------------------------------------
     processMessage(message: ReportPageMessage) {
         this.action = message.action;
         switch (message.action) {
@@ -40,7 +41,26 @@ export abstract class WebpackReport {
                 break;
         }
     }
-
+    //----------------------------------------------------------------------------------------------
+    setReportMetadata(parameters: any, data: any) {  // parameters included here for future expansion
+        data.PrintTime = moment().format('h:mm:ss A');
+        data.PrintDate = moment().format('MM/DD/YYYY');
+        data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+        data.System = 'UNKNOWN SYSTEM';
+        data.Company = 'UNKNOWN COMPANY';
+        if (sessionStorage.getItem('controldefaults') !== null) {
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            if (typeof controlDefaults !== 'undefined') {
+                if (typeof controlDefaults.companyname === 'string') {
+                    data.Company = controlDefaults.companyname;
+                }
+                if (typeof controlDefaults.systemname === 'string') {
+                    data.System = controlDefaults.systemname;
+                }
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         let htmlElements = document.getElementsByTagName('html');
         if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -55,7 +75,7 @@ export abstract class WebpackReport {
             parameters.CustomReport = Handlebars.compile(parameters.ReportTemplate);
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     onRenderReportCompleted() {
         if (!this.renderReportCompleted) {
             this.renderReportCompleted = true;
@@ -64,8 +84,7 @@ export abstract class WebpackReport {
             }
         }
     }
-
-
+    //----------------------------------------------------------------------------------------------
     onRenderReportFailed(err: any) {
         if (!this.renderReportCompleted) {
             this.renderReportCompleted = true;
@@ -74,6 +93,7 @@ export abstract class WebpackReport {
             Ajax.logError('An error occured while rendering the report.', err);
         }
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 export type RenderMode = 'Html' | 'Pdf' | 'Email';

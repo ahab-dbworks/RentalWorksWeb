@@ -21,10 +21,7 @@ export class InvoiceReport extends WebpackReport {
                     Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, parameters)
                         .then((response: Invoice) => {
                             const data: any = response;
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             data.Report = 'INVOICE';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

@@ -14,16 +14,12 @@ export class SalesInventoryPurchaseHistoryReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorypurchasehistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.PurchasedFromDate = parameters.PurchasedFromDate;
                     data.PurchasedToDate = parameters.PurchasedToDate;
                     data.ReceivedFromDate = parameters.ReceivedFromDate;
                     data.ReceivedToDate = parameters.ReceivedToDate;
                     data.Report = 'Sales Inventory Purchase History Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
 
                     if (parameters.PurchasedFromDate !== '' || parameters.PurchasedToDate !== '') {
                         data.showPurchaseDates = true;

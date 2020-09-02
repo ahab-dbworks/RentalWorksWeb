@@ -18,11 +18,7 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Customer Revenue By Type Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.ContractTime = moment(data.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

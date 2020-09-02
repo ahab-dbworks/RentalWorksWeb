@@ -26,12 +26,8 @@ export class CreateInvoiceProcessReport extends WebpackReport {
                     const data: any = DataTable.toObjectList(response);
                     data.BatchNumber = batchNumber;
                     data.Today = moment().format('LL');
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.Report = 'Create Invoice Process Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

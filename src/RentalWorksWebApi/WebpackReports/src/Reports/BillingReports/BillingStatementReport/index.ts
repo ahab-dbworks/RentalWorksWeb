@@ -18,15 +18,11 @@ export class BillingStatementReport extends WebpackReport {
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/BillingStatementReport/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                             data.FromDate = parameters.FromDate;
                             data.ToDate = parameters.ToDate;
                             data.Report = 'Billing Statement Report';
-                            data.System = 'RENTALWORKS';
                             data.Today = moment().format('MM/DD/YYYY')
-                            data.Company = parameters.companyName;
                             
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

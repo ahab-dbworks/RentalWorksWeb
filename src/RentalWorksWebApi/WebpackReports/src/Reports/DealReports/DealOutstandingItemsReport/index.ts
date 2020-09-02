@@ -54,14 +54,10 @@ export class DealOutstandingReport extends WebpackReport {
                     //    data.UnitValueHeading = "Purchase Amount";
                     //}
               
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Deal Outstanding Items Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
 
                     console.log('rpt', data)
                     this.renderFooterHtml(data);

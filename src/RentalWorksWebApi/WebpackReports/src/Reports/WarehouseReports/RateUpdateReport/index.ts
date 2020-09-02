@@ -14,14 +14,10 @@ export class RateUpdateReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rateupdatereport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = response;
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rate Update Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     if (parameters.ThreeWeekEnabled) {
                         data.ThreeWeekEnabled = true;
                         data.RentalHeaderColspan = 14;

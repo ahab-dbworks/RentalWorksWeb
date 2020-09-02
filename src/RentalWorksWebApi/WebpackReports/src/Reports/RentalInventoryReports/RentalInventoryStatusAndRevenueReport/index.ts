@@ -14,14 +14,10 @@ export class RentalInventoryStatusAndRevenueReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorystatusandrevenuereport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+                    this.setReportMetadata(parameters, data);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rental Inventory Status and Revenue Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
                     data.ShowStagedAndOut = parameters.ShowStagedAndOut;
                     console.log('rpt: ', data)

@@ -16,11 +16,7 @@ export class PickListReport extends WebpackReport {
                 .then((response: any) => {
                     const data: any = response;
                     //data.rows = DataTable.toObjectList(response.Items);
-                    data.PrintTime = moment().format('h:mm:ss A');
-                    data.PrintDate = moment().format('MM/DD/YYYY');
-                    data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                    data.System = 'RENTALWORKS';
-                    data.Company = parameters.companyName;
+                    this.setReportMetadata(parameters, data);
                     data.NewPagePerType = parameters.NewPagePerType;
                     //data.rows[1].IsFirstInventoryTypeHeader = true;
                     data.Items[1].IsFirstInventoryTypeHeader = true;

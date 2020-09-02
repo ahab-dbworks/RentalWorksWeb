@@ -22,13 +22,9 @@ export class OrderStatusDetailReport extends WebpackReport {
                         .then((response: OrderStatusDetailReportResponse) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.ItemsTable);
-                            data.Company = parameters.companyName;
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Detail";
-                            data.PrintTime = moment().format('h:mm:ss A');
-                            data.PrintDate = moment().format('MM/DD/YYYY');
-                            data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
-                            data.System = 'RENTALWORKS';
+                    this.setReportMetadata(parameters, data);
                             
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
