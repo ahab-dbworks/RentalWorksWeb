@@ -10,7 +10,6 @@ const hbFooter = require("./hbFooter.hbs");
 export class ReturnOnAssetReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log('parameters', parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetreport/runreport`, authorizationHeader, parameters)

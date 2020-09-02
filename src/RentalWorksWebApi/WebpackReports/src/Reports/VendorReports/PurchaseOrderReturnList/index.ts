@@ -42,7 +42,6 @@ export class PurchaseOrderReturnList extends WebpackReport {
                     data.QrCode = svg;
 
                     console.log(parameters, 'parameters');
-                    console.log(data, 'DATA');
 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

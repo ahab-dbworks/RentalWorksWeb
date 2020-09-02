@@ -18,7 +18,6 @@ export class OrderConflictReport extends WebpackReport {
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Availability Item Conflict Report';
-                    console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

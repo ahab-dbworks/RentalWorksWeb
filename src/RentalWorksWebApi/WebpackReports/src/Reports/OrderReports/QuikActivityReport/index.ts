@@ -19,7 +19,6 @@ export class QuikActivityReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'QuikActivity Report';
                     data.IsSummary = parameters.IsSummary;
-                    console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

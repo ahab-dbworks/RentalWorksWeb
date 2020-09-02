@@ -59,7 +59,6 @@ export class DealOutstandingReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Deal Outstanding Items Report';
 
-                    console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

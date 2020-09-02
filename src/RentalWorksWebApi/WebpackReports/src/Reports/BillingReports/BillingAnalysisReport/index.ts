@@ -19,7 +19,6 @@ export class BillingAnalysisReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Billing Analysis Report';
                     data.IncludeProjectStatus = parameters.IncludeProjectStatus;
-                    console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

@@ -16,7 +16,6 @@ export class SubSalesStagedItemsReport extends WebpackReport {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
                     data.Report = 'Sub-Sales Staged Items Report';
-                    console.log(data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

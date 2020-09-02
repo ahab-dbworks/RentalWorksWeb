@@ -24,7 +24,6 @@ export class IncomingShippingLabel extends WebpackReport {
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }
-                            console.log('data: ', data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;
                             }

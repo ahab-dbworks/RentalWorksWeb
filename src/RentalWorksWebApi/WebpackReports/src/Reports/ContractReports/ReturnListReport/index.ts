@@ -56,8 +56,6 @@ export class ReturnListReport extends WebpackReport {
                                     //if (logoObject.LogoImage != '') {
                                     //    data.Logosrc = logoObject.LogoImage;
                                     //}
-                                    console.log(parameters, 'parameters');
-                                    console.log(data, 'DATA');
 
                                     this.renderFooterHtml(data);
                                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

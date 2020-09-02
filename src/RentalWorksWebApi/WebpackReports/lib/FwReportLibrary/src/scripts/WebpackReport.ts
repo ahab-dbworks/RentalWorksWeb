@@ -59,6 +59,7 @@ export abstract class WebpackReport {
                 }
             }
         }
+        console.log('report data: ', data);
     }
     //----------------------------------------------------------------------------------------------
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {

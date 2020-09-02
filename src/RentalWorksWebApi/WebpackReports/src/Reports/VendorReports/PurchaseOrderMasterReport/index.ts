@@ -18,7 +18,6 @@ export class PurchaseOrderMasterReport extends WebpackReport {
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Purchase Order Master Report';
-                    console.log(data);
 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

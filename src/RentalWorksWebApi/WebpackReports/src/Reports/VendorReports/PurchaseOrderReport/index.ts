@@ -32,8 +32,6 @@ export class PurchaseOrderReport extends WebpackReport {
                             const svg = qr.toSvgString(4);
                             data.OrderNumberQrCode = svg;
 
-                            console.log(data, 'DATA');
-
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
                                 document.getElementById('pageFooter').innerHTML = this.footerHtml;

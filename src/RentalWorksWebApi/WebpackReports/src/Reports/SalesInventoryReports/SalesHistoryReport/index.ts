@@ -31,7 +31,6 @@ export class SalesHistoryReport extends WebpackReport {
                     } else {
                         data.IncludeSalesTax = false;
                     }
-                    console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

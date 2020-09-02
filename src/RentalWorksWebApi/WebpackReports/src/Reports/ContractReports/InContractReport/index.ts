@@ -37,7 +37,6 @@ export class InContractReport extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
-                            console.log('DATA: ', data)
                             // Terms and Conditions
                             if (data.TermsAndConditionsHtml !== null && data.TermsAndConditionsHtml !== '') {
                                 const termEl = document.getElementById('terms');

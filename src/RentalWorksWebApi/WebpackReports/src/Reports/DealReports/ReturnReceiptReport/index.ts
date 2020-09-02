@@ -28,7 +28,6 @@ export class ReturnReceiptReport extends WebpackReport {
                     }
 
                     this.renderFooterHtml(data);
-                    console.log('rpt', data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

@@ -31,7 +31,6 @@ export class QuoteReport extends WebpackReport {
                             }
                             data.Report = 'QUOTE';
                             document.title = 'Quote Report';
-                            console.log('data: ', data);
 
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {

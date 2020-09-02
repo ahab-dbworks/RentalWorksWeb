@@ -37,7 +37,6 @@ export class PickListReport extends WebpackReport {
                     const svg = qr.toSvgString(4);
                     data.QrCode = svg;
 
-                    console.log(data);
 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

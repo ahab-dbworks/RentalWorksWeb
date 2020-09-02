@@ -18,7 +18,6 @@ export class RepairTag extends WebpackReport {
                     data.AsOfDate = parameters.AsOfDate;
                     data.Report = 'Repair Tag';
                     this.renderFooterHtml(data);
-                    console.log('data: ', data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

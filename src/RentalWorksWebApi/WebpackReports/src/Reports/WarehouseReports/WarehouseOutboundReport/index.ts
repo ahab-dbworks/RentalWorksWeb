@@ -22,7 +22,6 @@ export class WarehouseOutboundReport extends WebpackReport {
                     if (data[0] && data[0].Warehouse) {
                         data.Warehouse = data[0].Warehouse;
                     }
-                    console.log('data', data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

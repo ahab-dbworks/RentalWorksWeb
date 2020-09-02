@@ -37,7 +37,6 @@ export class LateReturnsReport extends WebpackReport {
                     if (parameters.ShowReplacement) { data.ShowReplacement = true };
                     if (parameters.ShowBarCode) { data.ShowBarCode = true };
                     if (parameters.ShowSerial) { data.ShowSerial = true };
-                    console.log(data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

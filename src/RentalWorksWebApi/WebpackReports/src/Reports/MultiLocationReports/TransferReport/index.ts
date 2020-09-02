@@ -18,7 +18,6 @@ export class TransferReport extends WebpackReport {
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Transfer Report';
-                    console.log('rpt', data)
                     // Determine Summary or Detail View
                     if (parameters.IsSummary === 'true') {
                         data.IsSummary = true;
