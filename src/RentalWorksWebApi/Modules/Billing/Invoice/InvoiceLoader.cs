@@ -220,9 +220,6 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
         public bool? IsNonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
-        public string OfficeLocationDefaultCurrencyId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "divisionid", modeltype: FwDataTypes.Text)]
         public string DivisionId { get; set; }
         //------------------------------------------------------------------------------------ 
