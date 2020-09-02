@@ -18,7 +18,6 @@ export class ContractRevisionReport extends WebpackReport {
                     data.Report = 'Contract Revision Report';
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Today = moment().format('LL');
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

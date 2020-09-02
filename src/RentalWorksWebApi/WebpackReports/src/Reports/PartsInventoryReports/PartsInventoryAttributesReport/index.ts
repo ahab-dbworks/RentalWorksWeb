@@ -17,7 +17,6 @@ export class PartsInventoryAttributesReport extends WebpackReport {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
                     data.Report = 'Parts Inventory Attributes Report';
-                    data.Today = moment().format('LL');
 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

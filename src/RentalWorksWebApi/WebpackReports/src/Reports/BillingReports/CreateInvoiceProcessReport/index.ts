@@ -25,7 +25,6 @@ export class CreateInvoiceProcessReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.BatchNumber = batchNumber;
-                    data.Today = moment().format('LL');
                     this.setReportMetadata(parameters, data);
                     data.Report = 'Create Invoice Process Report';
 

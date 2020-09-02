@@ -22,7 +22,6 @@ export class BillingStatementReport extends WebpackReport {
                             data.FromDate = parameters.FromDate;
                             data.ToDate = parameters.ToDate;
                             data.Report = 'Billing Statement Report';
-                            data.Today = moment().format('MM/DD/YYYY')
                             
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

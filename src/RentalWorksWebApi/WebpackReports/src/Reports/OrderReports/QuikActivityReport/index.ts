@@ -18,7 +18,6 @@ export class QuikActivityReport extends WebpackReport {
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'QuikActivity Report';
-                    data.Today = moment().format('LL');
                     data.IsSummary = parameters.IsSummary;
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);

@@ -15,7 +15,6 @@ export class SubSalesStagedItemsReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
-                    data.Today = moment().format('LL');
                     data.Report = 'Sub-Sales Staged Items Report';
                     console.log(data);
                     this.renderFooterHtml(data);

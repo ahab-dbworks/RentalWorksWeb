@@ -16,7 +16,6 @@ export class OutstandingSubRentalReport extends WebpackReport {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
                     data.Report = 'Outstanding Sub-Rental Report';
-                    data.Today = moment().format('LL');
         
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);

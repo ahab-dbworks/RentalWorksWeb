@@ -18,7 +18,6 @@ export class RentalInventoryStatusAndRevenueReport extends WebpackReport {
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rental Inventory Status and Revenue Report';
-                    data.Today = moment().format('LL');
                     data.ShowStagedAndOut = parameters.ShowStagedAndOut;
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);

@@ -26,7 +26,6 @@ export class ManifestReport extends WebpackReport {
                             data.OrderNumber = parameters.orderno;
                             data.Report = "Value Sheet";
                             data.WhichReport = parameters.manifestReportItems;
-                            data.Date = moment().format('MM/DD/YYYY');
                     this.setReportMetadata(parameters, data);
                             
                             if (logoObject.LogoImage != '') {

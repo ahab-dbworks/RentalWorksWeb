@@ -15,7 +15,6 @@ export class SalesInventoryReorderReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventoryreorderreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.PrintDate = moment().format('MM/DD/YYYY');
                     this.setReportMetadata(parameters, data);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;

@@ -18,7 +18,6 @@ export class SalesInventoryMasterReport extends WebpackReport {
                     data.FromDate = parameters.RevenueFromDate;
                     data.ToDate = parameters.RevenueToDate;
                     data.Report = 'Sales Inventory Master Report';
-                    data.Today = moment().format('LL');
         
                     // Determine view
                     if (parameters.CostType === 'AVERAGE') {

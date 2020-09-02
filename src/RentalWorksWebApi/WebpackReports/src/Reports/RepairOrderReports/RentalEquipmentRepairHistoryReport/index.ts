@@ -18,7 +18,6 @@ export class RentalEquipmentRepairHistoryReport extends WebpackReport {
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rental Equipment Repair History Report';
-                    data.Today = moment().format('LL');
         
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);

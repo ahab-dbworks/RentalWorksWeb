@@ -14,7 +14,6 @@ export class RepairOrderStatusReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
-                    data.Today = moment().format('MM/DD/YYYY')
                     data.Report = 'Repair Order Status Report';
                     data.IncludeDamageNotes = parameters.IncludeDamageNotes;
                     if (parameters.IsSummary === 'true') {
