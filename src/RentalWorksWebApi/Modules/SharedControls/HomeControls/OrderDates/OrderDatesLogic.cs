@@ -35,29 +35,30 @@ namespace WebApi.Modules.HomeControls.OrderDates
         [FwLogicProperty(Id: "G4deOHC8ZaCXR", IsReadOnly: true)]
         public string DescriptionDisplay { get; set; }
         [FwLogicProperty(Id: "VztT3BvgL7j4V", IsReadOnly: true)]
-        public string DescriptionDisplayTitleCase
-        {
-            get
-            {
-                string s = DescriptionDisplay;
-                if (!string.IsNullOrEmpty(s))
-                {
-                    s = FwConvert.ToTitleCase(s.ToLower());
-                    // justin hoffman 08/10/2020 #2849
-                    s = s.Replace("Po ", "PO ");
-                    if (s.EndsWith("Po"))
-                    {
-                        s = s.Substring(0, s.Length - 2) + "PO";
-                    }
-                    s = s.Replace("Wh ", "WH ");
-                    if (s.EndsWith("Wh"))
-                    {
-                        s = s.Substring(0, s.Length - 2) + "WH";
-                    }
-                }
-                return s;
-            }
-        }
+        //public string DescriptionDisplayTitleCase
+        //{
+        //    get
+        //    {
+        //        string s = DescriptionDisplay;
+        //        if (!string.IsNullOrEmpty(s))
+        //        {
+        //            s = FwConvert.ToTitleCase(s.ToLower());
+        //            // justin hoffman 08/10/2020 #2849
+        //            s = s.Replace("Po ", "PO ");
+        //            if (s.EndsWith("Po"))
+        //            {
+        //                s = s.Substring(0, s.Length - 2) + "PO";
+        //            }
+        //            s = s.Replace("Wh ", "WH ");
+        //            if (s.EndsWith("Wh"))
+        //            {
+        //                s = s.Substring(0, s.Length - 2) + "WH";
+        //            }
+        //        }
+        //        return s;
+        //    }
+        //}
+        public string DescriptionDisplayTitleCase { get; set; }
         [FwLogicProperty(Id: "RuCxNc4aMHA2l", IsReadOnly: true)]
         public bool? IsEnabled { get; set; }
         [FwLogicProperty(Id: "6VJRz3bf3pb6G", IsReadOnly: true)]

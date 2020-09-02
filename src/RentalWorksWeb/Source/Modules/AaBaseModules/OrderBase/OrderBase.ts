@@ -4397,6 +4397,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     getScheduleDatesByOrderType($form: JQuery) {
         const request: any = {};
+        request.OrderBy = "OrderBy";
         request.uniqueids = {
             OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId'),
             Enabled: true
