@@ -24,7 +24,7 @@ CUST	{{CustomerName}}	{{Address1}}	{{Address2}}	{{City}}, {{State}} {{ZipCode}}	
 {{#each Invoices}}
 TRNS	{{InvoiceTypeForQuickBooks}}	{{InvoiceDate}}	{{PaymentTerms}}	{{AccountsReceivableAccountNumber}}	"{{Customer}}"	{{InvoiceTotal}}	{{InvoiceNumber}}	{{../BatchNumber}}	"{{Customer}}"	"{{BillToAttention}}"	"{{BillToAddress1}}"	"{{BillToAddress2}}"	"{{BillToCity}}	 {{BillToState}} {{BillToZip}}"	{{PurchaseOrderNumber}}	{{../BatchNumber}}	{{InvoiceClass}}	Y	{{InvoiceDueDate}}
 {{#each Items}}
-SPL	{{../InvoiceTypeForQuickBooks}}	{{../InvoiceDate}}	{{IncomeAccountNumber}}	"{{../Customer}}"	{{ExtendedNegative}}	{{../InvoiceNumber}}	"{{Description}}"	{{Rate}}	{{QuantityNegative}}	{{ICode}}	{{TaxableYN}}	{{../InvoiceClass}}	
+SPL	{{../InvoiceTypeForQuickBooks}}	{{../InvoiceDate}}	{{IncomeAccountNumber}}	"{{../Customer}}"	{{ExtendedNegative}}	{{../InvoiceNumber}}	"{{DescriptionWithoutDoubleQuotes}}"	{{Rate}}	{{QuantityNegative}}	{{ICode}}	{{TaxableYN}}	{{../InvoiceClass}}	
 {{/each}}
 {{#each Taxes}}
 SPL	{{../InvoiceTypeForQuickBooks}}	{{../InvoiceDate}}	{{TaxAccountNumber1}}	"{{Vendor}}"	{{../InvoiceTaxNegative}}	{{../InvoiceNumber}}	"{{Description}}"	{{RentalTaxRate1}} %	-1	"{{Code}}"	N		AUTOSTAX

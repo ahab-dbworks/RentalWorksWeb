@@ -19,6 +19,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
         {
             public string ICode { get; set; }
             public string Description { get; set; }
+            public string DescriptionWithoutDoubleQuotes { get; set; }
             public decimal? Quantity { get; set; }
             public decimal? QuantityNegative { get; set; }
             public decimal? Rate { get; set; }
@@ -238,6 +239,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                             InvoiceItem ii = new InvoiceItem();
                             ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
                             ii.Description = row[dt.GetColumnNo("description")].ToString();
+                            ii.DescriptionWithoutDoubleQuotes = ii.Description.Replace("\"", "");
                             ii.Quantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
                             ii.QuantityNegative = (-1) * ii.Quantity;
                             ii.Rate = FwConvert.ToDecimal(row[dt.GetColumnNo("rate")].ToString());
