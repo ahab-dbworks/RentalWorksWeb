@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.HomeControls.OrderDates
 {
@@ -9,6 +10,11 @@ namespace WebApi.Modules.HomeControls.OrderDates
     public class OrderDatesLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        public OrderDatesLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -38,6 +44,13 @@ namespace WebApi.Modules.HomeControls.OrderDates
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "descriptiondisplay", modeltype: FwDataTypes.Text)]
         public string DescriptionDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Text)]
+        public string DescriptionDisplayTitleCase
+        {
+            get { return getDescriptionDisplayTitleCase(DescriptionDisplay); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean)]
         public bool? IsEnabled { get; set; }
@@ -87,8 +100,44 @@ namespace WebApi.Modules.HomeControls.OrderDates
             select.AddParameter("@ordertypeid", orderTypeId);
             if (enabled != null)
             {
-                select.AddWhere($"enabled {(enabled.GetValueOrDefault(false) ? "=": " <> ")} 'T'");
+                select.AddWhere($"enabled {(enabled.GetValueOrDefault(false) ? "=" : " <> ")} 'T'");
             }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("DescriptionDisplayTitleCase")] = getDescriptionDisplayTitleCase(row[dt.GetColumnNo("DescriptionDisplay")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
+        private string getDescriptionDisplayTitleCase(string descriptionDisplay)
+        {
+            string s = descriptionDisplay;
+            if (!string.IsNullOrEmpty(s))
+            {
+                s = FwConvert.ToTitleCase(s.ToLower());
+                // justin hoffman 08/10/2020 #2849
+                s = s.Replace("Po ", "PO ");
+                if (s.EndsWith("Po"))
+                {
+                    s = s.Substring(0, s.Length - 2) + "PO";
+                }
+                s = s.Replace("Wh ", "WH ");
+                if (s.EndsWith("Wh"))
+                {
+                    s = s.Substring(0, s.Length - 2) + "WH";
+                }
+            }
+            return s;
         }
         //------------------------------------------------------------------------------------ 
     }
