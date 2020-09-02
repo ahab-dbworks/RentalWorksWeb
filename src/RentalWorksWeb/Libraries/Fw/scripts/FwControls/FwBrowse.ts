@@ -4568,6 +4568,8 @@ class FwBrowseClass {
             const $fwformfields = $form.data('fields');
             FwFormField.enable($fwformfields);
             $form.find('[data-required="true"]').attr('data-required', 'false');
+            $form.find('[data-type="togglebuttons"] input[type="radio"]').prop('checked', false);
+            $form.find('[data-type="money"] .fwformfield-value').inputmask('numeric');
 
             $form.find('.submodule[data-type="tab"]').hide();
             $form.find('.audittab[data-type="tab"]').hide();
