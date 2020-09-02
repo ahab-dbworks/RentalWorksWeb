@@ -11,20 +11,19 @@ export class CreateInvoiceProcessReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            let batchNumber: any;
-
-            Ajax.get<DataTable>(`${apiUrl}/api/v1/invoicecreationbatch/${parameters.InvoiceCreationBatchId}`, authorizationHeader)
-                .then((response: any) => {
-                    batchNumber = response.BatchNumber;
-                })
-                .catch((ex) => {
-                    console.log('Exception: ', ex)
-                });
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.BatchNumber = batchNumber;
+
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].RowType === 'detail') {
+                            data.BatchNumber = data[i].BatchNumber;
+                            data.BatchDate = data[i].BatchDate;
+                            break;
+                        }
+                    }
+
                     this.setReportMetadata(parameters, data);
                     data.Report = 'Create Invoice Process Report';
 
