@@ -94,6 +94,17 @@ namespace WebApi.Modules.Agent.OrderManifest
         public decimal? TotalExtendedWeightKg { get; set; }
         [FwLogicProperty(Id: "WuBss6unVNfn", IsReadOnly: true)]
         public decimal? TotalExtendedWeightGr { get; set; }
+        [FwLogicProperty(Id: "6KuMOlEmUdINd", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "zfvscvRmBY5b1", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "mQk9uNNthvTzH", IsReadOnly: true)]
+        public string Currency { get; set; }
+        [FwLogicProperty(Id: "IFiPHSE2FPS1C", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 

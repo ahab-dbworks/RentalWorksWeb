@@ -66,6 +66,14 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         public string OrderBillingCycleId { get; set; }
         [FwLogicProperty(Id: "KNhjD2TOth73K", IsReadOnly: true)]
         public string OrderBillingCycleType { get; set; }
+        [FwLogicProperty(Id: "pdIHLlw35779g", IsReadOnly: true)]
+        public string OrderCurrencyId { get; set; }
+        [FwLogicProperty(Id: "kbQFBF2RmSe2S", IsReadOnly: true)]
+        public string OrderCurrency { get; set; }
+        [FwLogicProperty(Id: "giUEzMoe30yPm", IsReadOnly: true)]
+        public string OrderCurrencyCode { get; set; }
+        [FwLogicProperty(Id: "wgw9WxKJ9SH6I", IsReadOnly: true)]
+        public string OrderCurrencySymbol { get; set; }
         [FwLogicProperty(Id: "KNLKHIQaJ7Pe3", IsReadOnly: true)]
         public string OrderItemId { get; set; }
         [FwLogicProperty(Id: "KnlRuB6YKygl9", IsReadOnly: true)]
@@ -142,6 +150,14 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         public string PurchaseOrderBillingCycleId { get; set; }
         [FwLogicProperty(Id: "KZpA6ElPc0e8F", IsReadOnly: true)]
         public string PurchaseOrderBillingCycleType { get; set; }
+        [FwLogicProperty(Id: "3vN4niJQqIudv", IsReadOnly: true)]
+        public string PurchaseOrderCurrencyId { get; set; }
+        [FwLogicProperty(Id: "V9MVSYLUSbd1g", IsReadOnly: true)]
+        public string PurchaseOrderCurrency { get; set; }
+        [FwLogicProperty(Id: "gfJiyERmGSQUC", IsReadOnly: true)]
+        public string PurchaseOrderCurrencyCode { get; set; }
+        [FwLogicProperty(Id: "OuIbJ2yWGrSuT", IsReadOnly: true)]
+        public string PurchaseOrderCurrencySymbol { get; set; }
         [FwLogicProperty(Id: "L0lIACMcUPIjW", IsReadOnly: true)]
         public string PurchaseOrderClassificationId { get; set; }
         [FwLogicProperty(Id: "L1wcviIDsORy9", IsReadOnly: true)]

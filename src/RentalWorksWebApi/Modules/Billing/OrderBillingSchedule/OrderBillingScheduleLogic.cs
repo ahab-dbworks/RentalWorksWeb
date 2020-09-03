@@ -76,6 +76,14 @@ namespace WebApi.Modules.Billing.OrderBillingSchedule
         public decimal? RebateAmount { get; set; }
         [FwLogicProperty(Id: "X6ctB067myrG", IsReadOnly: true)]
         public string DueDate { get; set; }
+        [FwLogicProperty(Id: "mn5gPQNieJNUt", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "y9UVhCtDHwbYa", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "WDlXzqKcIkKpr", IsReadOnly: true)]
+        public string Currency { get; set; }
+        [FwLogicProperty(Id: "SCAmHvegLOq0j", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

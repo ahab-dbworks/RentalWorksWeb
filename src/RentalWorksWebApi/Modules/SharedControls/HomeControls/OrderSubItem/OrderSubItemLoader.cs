@@ -94,6 +94,18 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         [FwSqlDataField(column: "orderbillperiodtype", modeltype: FwDataTypes.Text)]
         public string OrderBillingCycleType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordercurrencyid", modeltype: FwDataTypes.Text)]
+        public string OrderCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordercurrency", modeltype: FwDataTypes.Text)]
+        public string OrderCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordercurrencycode", modeltype: FwDataTypes.Text)]
+        public string OrderCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordercurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string OrderCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
         public string OrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -207,6 +219,18 @@ namespace WebApi.Modules.HomeControls.OrderSubItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillperiodtype", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderBillingCycleType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pocurrencyid", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pocurrency", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pocurrencycode", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pocurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderCurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poclassificationid", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderClassificationId { get; set; }

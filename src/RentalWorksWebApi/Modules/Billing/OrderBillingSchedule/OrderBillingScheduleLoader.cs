@@ -114,7 +114,18 @@ namespace WebApi.Modules.Billing.OrderBillingSchedule
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duedate", modeltype: FwDataTypes.Date)]
         public string DueDate { get; set; }
-
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         protected string getHiatusColor(bool? isHiatus)
         {
