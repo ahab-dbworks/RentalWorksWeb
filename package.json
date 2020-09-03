@@ -15,7 +15,9 @@
     "md-to-pdf": "3.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "enablegithooks": "node configure-repo.js -enablegithooks",
+    "disablegithooks": "node configure-repo.js -disablegithooks"
   },
   "repository": {
     "type": "git",
