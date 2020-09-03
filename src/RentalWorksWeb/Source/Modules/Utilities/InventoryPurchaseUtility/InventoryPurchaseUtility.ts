@@ -217,17 +217,37 @@ class InventoryPurchaseUtility {
             }
         });
 
+        $form.find('[data-datafield="CurrencyId"]').on('change', e => {
+            const location = JSON.parse(sessionStorage.getItem('location'));
+            const defaultCurrencyId = location.defaultcurrencyid;
+            const defaultCurrencySymbol = location.defaultcurrencysymbol;
+            const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
 
-        $form.find('[data-datafield="CurrencyId"]').data('onchange', $tr => {
-            const defaultCurrencyId = JSON.parse(sessionStorage.getItem('location')).defaultcurrencyid;
-            const currencyId = FwBrowse.getValueByDataField($form, $tr, 'CurrencyId');
-            const currencySymbol = FwBrowse.getValueByDataField($form, $tr, 'CurrencySymbol');
-            if (currencyId != defaultCurrencyId) {
-                this.applyCurrencySymbol($form, $form.find('[data-datafield="UnitCost"]'), currencySymbol);
+            if ((currencyId != '') && (currencyId != defaultCurrencyId)) {
+                const request: any = {};
+                request.uniqueids = {
+                    FromCurrencyId: defaultCurrencyId,
+                    ToCurrencyId: currencyId
+                }
+                FwAppData.apiMethod(true, 'POST', `api/v1/currencyexchangerate/browse`, request, FwServices.defaultTimeout,
+                    response => {
+                        if (response.Rows.length > 0) {
+                            const currencySymbol = response.Rows[0][response.ColumnIndex.ToCurrencySymbol];
+                            const exchangeRate = response.Rows[0][response.ColumnIndex.ExchangeRate];
+                            this.applyCurrencySymbol($form, $form.find('[data-datafield="UnitCost"]'), currencySymbol);
+                            FwFormField.setValueByDataField($form, 'ExchangeRate', exchangeRate);
+                            this.calculateUnitCost($form);
+                        }
+                    }, ex => FwFunc.showError(ex), $form);
                 $form.find('.default-currency').show();
             } else {
+                this.applyCurrencySymbol($form, $form.find('[data-datafield="UnitCost"]'), defaultCurrencySymbol);
                 $form.find('.default-currency').hide();
             }
+        });
+
+        $form.find('[data-datafield="UnitCost"]').on('change', e => {
+            this.calculateUnitCost($form);
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -307,6 +327,13 @@ class InventoryPurchaseUtility {
                     groupSeparator: ','
                 });
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    calculateUnitCost($form: JQuery) {
+        const cost = parseFloat(FwFormField.getValueByDataField($form, 'UnitCost'));
+        const exchangeRate = parseFloat(FwFormField.getValueByDataField($form, 'ExchangeRate'));
+        const convertedUnitCost = cost * exchangeRate;
+        FwFormField.setValueByDataField($form, 'ConvertedUnitCost', convertedUnitCost);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {

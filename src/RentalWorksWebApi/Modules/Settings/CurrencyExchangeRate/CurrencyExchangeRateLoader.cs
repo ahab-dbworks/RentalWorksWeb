@@ -53,6 +53,7 @@ namespace WebApi.Modules.Settings.CurrencyExchangeRate
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("FromCurrencyId", "fromcurrencyid", select, request);
+            addFilterToSelect("ToCurrencyId", "tocurrencyid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }
