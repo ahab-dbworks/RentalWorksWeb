@@ -112,6 +112,9 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "purchamtcurrconv", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCostCurrencyConverted { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyexchangerate", modeltype: FwDataTypes.Decimal)]
+        public decimal? CurrencyExchangeRate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtcurrconvextended", modeltype: FwDataTypes.Decimal)]
         public decimal? CostCurrencyConvertedExtended { get; set; }
         //------------------------------------------------------------------------------------ 

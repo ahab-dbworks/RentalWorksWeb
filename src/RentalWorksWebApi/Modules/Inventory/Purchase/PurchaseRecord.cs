@@ -128,8 +128,11 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string SessionId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyexchangerate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 17, scale: 10)]
+        public decimal? CurrencyExchangeRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "origpurchaseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string OriginalPurchaseId { get; set; }

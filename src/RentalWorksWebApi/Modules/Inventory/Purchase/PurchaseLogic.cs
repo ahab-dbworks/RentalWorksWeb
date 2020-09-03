@@ -41,7 +41,7 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwLogicProperty(Id: "9dmdw3FaHpegB", DisableDirectAssign: true, DisableDirectModify: true)]
         public DateTime? ReceiveDate { get { return purchase.ReceiveDate; } set { purchase.ReceiveDate = value; } }
         [FwLogicProperty(Id: "jNSSjhIPTIsni", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
-        public string PurchaseDateString{ get; set; }
+        public string PurchaseDateString { get; set; }
         [FwLogicProperty(Id: "P640wPnn50hWw", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public string ReceiveDateString { get; set; }
         [FwLogicProperty(Id: "9ebLUq35fzHbK", DisableDirectAssign: true, DisableDirectModify: true)]
@@ -80,6 +80,8 @@ namespace WebApi.Modules.Inventory.Purchase
         public decimal? CostWithTaxExtended { get; set; }
         [FwLogicProperty(Id: "Q4iHVXmTjzPdu", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? UnitCostCurrencyConverted { get; set; }
+        [FwLogicProperty(Id: "TczHsziIfzZf6", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? CurrencyExchangeRate { get { return purchase.CurrencyExchangeRate; } set { purchase.CurrencyExchangeRate = value; } }
         [FwLogicProperty(Id: "zr6AwpOtrejS8", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? CostCurrencyConvertedExtended { get; set; }
         [FwLogicProperty(Id: "76vjGUY4KvMYd", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
