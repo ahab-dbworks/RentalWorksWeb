@@ -266,8 +266,12 @@ namespace WebApi.Modules.Agent.Order
                 string stagingWarehouseId = GetMiscFieldAsString("StagingWarehouseId", request);
                 if (!string.IsNullOrEmpty(stagingWarehouseId))
                 {
-                    select.AddWhere(" ((warehouseid = @stagingwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @stagingwhid))");
-                    select.AddWhere(" exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.rectype in ('" + RwConstants.RECTYPE_RENTAL + "','" + RwConstants.RECTYPE_SALE + "','" + RwConstants.RECTYPE_USED_SALE + "'))");
+                    //select.AddWhere(" ((warehouseid = @stagingwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @stagingwhid))");
+                    //select.AddWhere(" exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.rectype in ('" + RwConstants.RECTYPE_RENTAL + "','" + RwConstants.RECTYPE_SALE + "','" + RwConstants.RECTYPE_USED_SALE + "'))");
+                    
+                    //09/03/2020 justin hoffman #2942
+                    select.AddWhere(" ((" + TableAlias + ".warehouseid = @stagingwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @stagingwhid and mi.rectype in ('" + RwConstants.RECTYPE_RENTAL + "','" + RwConstants.RECTYPE_SALE + "','" + RwConstants.RECTYPE_USED_SALE + "')))");
+                    select.AddWhere(" (" + TableAlias + ".rental = 'T' or " + TableAlias + ".sales = 'T' or " + TableAlias + ".rentalsale = 'T')");
                     select.AddParameter("@stagingwhid", stagingWarehouseId);
                 }
             }
