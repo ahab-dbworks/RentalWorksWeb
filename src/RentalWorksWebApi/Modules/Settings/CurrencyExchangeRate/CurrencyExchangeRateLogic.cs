@@ -30,10 +30,14 @@ namespace WebApi.Modules.Settings.CurrencyExchangeRate
         public string FromCurrencyCode { get; set; }
         [FwLogicProperty(Id: "UKTn5T56tHWFm", IsReadOnly: true)]
         public string FromCurrency { get; set; }
+        [FwLogicProperty(Id: "krrDqznA7SqfQ", IsReadOnly: true)]
+        public string FromCurrencySymbol { get; set; }
         [FwLogicProperty(Id: "ul55M6LfrqGPj", IsReadOnly: true)]
         public string ToCurrencyCode { get; set; }
         [FwLogicProperty(Id: "ULkQiTE3OXyon", IsReadOnly: true)]
         public string ToCurrency { get; set; }
+        [FwLogicProperty(Id: "ylHiVdzmRFVwm", IsReadOnly: true)]
+        public string ToCurrencySymbol { get; set; }
         [FwLogicProperty(Id: "s4Ns6pDkcm7qr", IsReadOnly: true)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

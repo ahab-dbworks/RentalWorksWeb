@@ -33,11 +33,17 @@ namespace WebApi.Modules.Settings.CurrencyExchangeRate
         [FwSqlDataField(column: "fromcurrency", modeltype: FwDataTypes.Text)]
         public string FromCurrency { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string FromCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tocurrencycode", modeltype: FwDataTypes.Text)]
         public string ToCurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tocurrency", modeltype: FwDataTypes.Text)]
         public string ToCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tocurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string ToCurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
