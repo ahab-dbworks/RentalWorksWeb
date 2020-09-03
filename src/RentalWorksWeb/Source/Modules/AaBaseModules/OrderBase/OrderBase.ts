@@ -4232,7 +4232,7 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.totals[data-type="money"]');
+        const $totalFields = $form.find('.totals[data-type="money"], .frame[data-type="money"], .manifest-totals [data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
@@ -4258,7 +4258,7 @@ class OrderBase {
         });
 
         //add to grids
-        const $grids = $form.find('[data-name="OrderItemGrid"]');
+        const $grids = $form.find('[data-name="OrderItemGrid"], [data-name="OrderManifestGrid"]');
 
         $grids.each((index, element) => {
             let $grid, currencySymbol;

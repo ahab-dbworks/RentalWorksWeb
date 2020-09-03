@@ -1183,10 +1183,10 @@ class Order extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="" style="visibility:hidden"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Total" data-datafield="" data-framedatafield="TotalTax"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Total" data-datafield="" data-currencysymbol="CurrencySymbol" data-framedatafield="TotalTax"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-framedatafield="TaxCost"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Cost" data-datafield="" data-currencysymbol="CurrencySymbol" data-framedatafield="TaxCost"></div>
                         </div>
                       </div>
                     </div>
@@ -2060,7 +2060,7 @@ class Order extends OrderBase {
               <!-- MANIFEST TAB -->
               <div data-type="tabpage" id="manifesttabpage" class="tabpage" data-tabid="manifesttab" data-render="false">
                 <div class="wideflexrow">
-                  <div class="flexcolumn" style="flex:0 1 175px;">
+                  <div class="flexcolumn manifest-totals" style="flex:0 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Total">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OrderValueTotal" data-currencysymbol="CurrencySymbol" data-enabled="false"></div>

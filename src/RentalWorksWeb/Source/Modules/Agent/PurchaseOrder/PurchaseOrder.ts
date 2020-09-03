@@ -1546,7 +1546,7 @@ class PurchaseOrder implements IModule {
     };
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.totals[data-type="money"]');
+        const $totalFields = $form.find('.totals[data-type="money"], .frame[data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
