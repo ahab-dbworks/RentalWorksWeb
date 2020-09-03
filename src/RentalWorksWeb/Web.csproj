@@ -529,6 +529,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DataHealth\DataHealth.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomReportLayout\CustomReportLayout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\EmailTemplate\EmailTemplate.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
     <Content Include="Source\Modules\Account\UserProfile\UserProfileForm.htm" />
     <Content Include="Source\Modules\Administrator\Alert\AlertBrowse.htm" />
@@ -539,6 +540,8 @@
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomReportLayout\CustomReportLayoutBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomReportLayout\CustomReportLayoutForm.htm" />
+    <Content Include="Source\Modules\Administrator\EmailTemplate\EmailTemplateBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\EmailTemplate\EmailTemplateForm.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixForm.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRule\DuplicateRuleBrowse.htm" />

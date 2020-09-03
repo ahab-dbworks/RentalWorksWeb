@@ -22,6 +22,7 @@ var Constants = {
                 DataHealth:         { id: 'ZtbmCyitBrBe',  caption: 'Data Health',          nav: 'module/datahealth',           nodetype: 'Module' },
                 DuplicateRule:      { id: 'v7oBspDLjli8',  caption: 'Duplicate Rule',       nav: 'module/duplicaterule',        nodetype: 'Module' },
                 EmailHistory:       { id: '3XHEm3Q8WSD8z', caption: 'Email History',        nav: 'module/emailhistory',         nodetype: 'Module' },
+                EmailTemplate:      { id: 'PMAan9TbkIOf',  caption: 'Email Template',       nav: 'module/emailtemplate',        nodetype: 'Module' },
                 Group:              { id: '0vP4rXxgGL1M',  caption: 'Group',                nav: 'module/group',                nodetype: 'Module' },
                 Hotfix:             { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',               nav: 'module/hotfix',               nodetype: 'Module' },
                 Reports:            { id: 'Reports',       caption: 'Reports',              nav: 'module/reports',              nodetype: 'Module' },
