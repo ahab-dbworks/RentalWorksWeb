@@ -30,9 +30,9 @@ namespace WebApi.Modules.Administrator.EmailTemplate
             browseRequest.searchfields.Add("Inactive");
             browseRequest.searchfieldvalues.Add("T");
             browseRequest.searchfieldoperators.Add("<>");
-            browseRequest.searchfields.Add("FilterId");
-            browseRequest.searchfieldvalues.Add(browseRequest.filterfields["CampusId"]);
-            browseRequest.searchfieldoperators.Add("=");
+            //browseRequest.searchfields.Add("FilterId");   - (JG) RWW templates do not have a filterId attached to them like in GWW, leaving this here in case that is changed in the future.
+            //browseRequest.searchfieldvalues.Add(browseRequest.filterfields["CampusId"]);
+            //browseRequest.searchfieldoperators.Add("=");
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 

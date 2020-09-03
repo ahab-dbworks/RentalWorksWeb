@@ -35,12 +35,12 @@ class EmailTemplate {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        $browse.data('ondatabind', (request: any) => {
-            let campusid = JSON.parse(sessionStorage.getItem('campus')).CampusId;
-            request.filterfields = {
-                CampusId: campusid
-            };
-        });
+        //$browse.data('ondatabind', (request: any) => {
+        //    let campusid = JSON.parse(sessionStorage.getItem('location')).locationid;
+        //    request.filterfields = {
+        //        CampusId: campusid
+        //    };
+        //});  - We may use this in the future if we filter by location/campus like GWW email templates. - JG
 
         return $browse;
     }
