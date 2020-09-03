@@ -60,24 +60,24 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     screen.$view.find('#fillcontainer-pendingitems-pnladdallqtyitems').toggle(sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T');
 
     screen.$view.find('.containerdesc').data('beforegetmany', (request: GetManyRequest): void => {
-        // Add WarehouseId filter to ContainerDescription validation request
-        let filterWarehouseId = new GetManyFilter();
-        const warehouseJson = sessionStorage.getItem('warehouse');
-        let warehouse = null;
-        let warehouseId = '';
-        if (warehouseJson !== null) {
-            warehouse = JSON.parse(warehouseJson);
-            if (typeof warehouse === 'object' && typeof warehouse.warehouseid === 'string') {
-                warehouseId = warehouse.warehouseid;
-            }
-        }
-        if (warehouseId.length === 0) {
-            throw 'WarehouseId is required.';
-        }
-        filterWarehouseId.fieldName = 'WarehouseId';
-        filterWarehouseId.comparisonOperator = 'eq';
-        filterWarehouseId.fieldValue = warehouseId;
-        request.filters.push(filterWarehouseId);
+        //// Add WarehouseId filter to ContainerDescription validation request
+        //let filterWarehouseId = new GetManyFilter();
+        //const warehouseJson = sessionStorage.getItem('warehouse');
+        //let warehouse = null;
+        //let warehouseId = '';
+        //if (warehouseJson !== null) {
+        //    warehouse = JSON.parse(warehouseJson);
+        //    if (typeof warehouse === 'object' && typeof warehouse.warehouseid === 'string') {
+        //        warehouseId = warehouse.warehouseid;
+        //    }
+        //}
+        //if (warehouseId.length === 0) {
+        //    throw 'WarehouseId is required.';
+        //}
+        //filterWarehouseId.fieldName = 'WarehouseId';
+        //filterWarehouseId.comparisonOperator = 'eq';
+        //filterWarehouseId.fieldValue = warehouseId;
+        //request.filters.push(filterWarehouseId);
 
         // Add ScannableMasterId filter to ContainerDescription validation request
         let filterScannableMasterId = new GetManyFilter();
@@ -88,7 +88,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         if (scannableMasterId.length === 0) {
             throw 'ScannableMasterId is required.';
         }
-        filterScannableMasterId.fieldName = 'ScannableMasterId';
+        filterScannableMasterId.fieldName = 'ScannableInventoryId';
         filterScannableMasterId.comparisonOperator = 'eq';
         filterScannableMasterId.fieldValue = scannableMasterId;
         request.filters.push(filterScannableMasterId);

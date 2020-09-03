@@ -3,33 +3,33 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Modules.Containers.Container
 {
-    [GetRequest(DefaultSort: "ContainerDescription:asc")]
+    [GetRequest(DefaultSort: "Description:asc")]
     public class LookupContainerDescriptionRequest : GetRequest
     {
         //------------------------------------------------------------------------------------
         /// <summary>
-        /// Container Description Identifier [Key|Filter]
+        /// Container Identifier [Key|Filter]
         /// </summary>
         [GetRequestProperty(true, false)]
-        public string ContainerDescriptionId { get; set; }
+        public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------
         /// <summary>
-        /// Reason for retiring an item. [Filter|Sort]
+        /// Container Description. [Filter|Sort]
         /// </summary>
         [GetRequestProperty(true, true)]
-        public string ContainerDescription { get; set; }
+        public string Description { get; set; }
+        ////------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// Warehouse Identifier . [Filter]
+        ///// </summary>
+        //[GetRequestProperty(true, false), Required]
+        //public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------
         /// <summary>
-        /// Warehouse identifier . [Filter]
+        /// InventoryId of Scannable Item Barcode. [Filter]
         /// </summary>
         [GetRequestProperty(true, false), Required]
-        public string WarehouseId { get; set; }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// MasterId of Scannable Item Barcode. [Filter]
-        /// </summary>
-        [GetRequestProperty(true, false), Required]
-        public string ScannableMasterId { get; set; }
+        public string ScannableInventoryId { get; set; }
         //------------------------------------------------------------------------------------
     }
 
@@ -39,12 +39,12 @@ namespace WebApi.Modules.Containers.Container
         /// <summary>
         /// Container Description Identifier
         /// </summary>
-        public string ContainerDescriptionId { get; set; }
+        public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------
         /// <summary>
-        /// Reason for retiring an item
+        /// Container Description
         /// </summary>
-        public string ContainerDescription { get; set; }
+        public string Description { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

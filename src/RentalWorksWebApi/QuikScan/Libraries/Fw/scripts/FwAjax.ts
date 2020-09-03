@@ -16,7 +16,7 @@ class FwAjaxRequest<T> {
     requestId?: string = FwAjax.generateUID();
     xmlHttpRequest?: XMLHttpRequest = new XMLHttpRequest();
     cancelable?: boolean = false;
-    setWebApiUrl(relativeUrl: string) {
+    setWebApiUrl?(relativeUrl: string) {
         let baseUrl = <string>applicationConfig.apiurl;
         while (baseUrl.lastIndexOf('/') === baseUrl.length - 1) {
             baseUrl = baseUrl.substring(0, baseUrl.length - 1);
@@ -26,6 +26,8 @@ class FwAjaxRequest<T> {
         }
         this.url = baseUrl + '/' + relativeUrl;
     }
+    logoutOnAuthFailure?: boolean = true;
+    forceJsonParseResponse?= false;
 }
 
 interface IRequest {
@@ -82,25 +84,24 @@ class FwAjaxClass {
                 }
                 options.xmlHttpRequest.onload = () => {
                     if (typeof FwAjax.requests[options.requestId] !== 'undefined') {
-                        if (options.xmlHttpRequest.status !== 500) {
-                            this.hideLoader(options);
-                            if (options.xmlHttpRequest.status === 200) {
-                                return resolve(JSON.parse(options.xmlHttpRequest.response));
-                            }
-                            else {
-                                return resolve(options.xmlHttpRequest.response);
-                            }
-                        }
-                        else {
-                            this.hideLoader(options);
+                        this.hideLoader(options);
+                        if (options.xmlHttpRequest.status === 500) {
                             return this.rejectFwApiException<TRequest>(options, reject);
                         }
+                        if ((options.xmlHttpRequest.status === 401 || options.xmlHttpRequest.status === 403) &&
+                            (options.logoutOnAuthFailure === undefined || options.logoutOnAuthFailure === true)) {
+                            sessionStorage.clear();
+                            window.location.reload(true);
+                        }
+                        if (options.forceJsonParseResponse ||
+                            (options.xmlHttpRequest.getResponseHeader('content-type') !== null && options.xmlHttpRequest.getResponseHeader('content-type').indexOf('application/json') !== -1)) {
+                            return resolve(JSON.parse(options.xmlHttpRequest.response));
+                        }
+                        return resolve(options.xmlHttpRequest.response);
                     }
                 };
                 options.xmlHttpRequest.ontimeout = () => {
-                    if (options.$elementToBlock !== null) {
-                        this.hideLoader(options);
-                    }
+                    this.hideLoader(options);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Timeout';
                     rejectReason.message = `Request timeout expired\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
@@ -127,6 +128,7 @@ class FwAjaxClass {
                     }
                 }
             } catch (ex) {
+                this.hideLoader(options);
                 let rejectReason = new FwAjaxRejectReason();
                 rejectReason.reason = 'Exception';
                 rejectReason.exception = ex;
