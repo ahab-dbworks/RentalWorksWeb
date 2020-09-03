@@ -931,6 +931,7 @@ class Deal {
                 FwFormField.setValue($form, 'div[data-datafield="CountryId"]', response.CountryId, response.Country);
                 FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', response.PaymentTermsId, response.PaymentTerms);
                 FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', response.CurrencyId, response.CurrencyCode);
+                FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', response.DepartmentId, response.Department);
                 // Insurance tab
                 if (FwFormField.getValueByDataField($form, 'UseCustomerInsurance') === true) {
                     FwFormField.setValueByDataField($form, 'InsuranceCompanyAddress1', response.InsuranceCompanyAddress1);
@@ -948,9 +949,25 @@ class Deal {
                 if (FwFormField.getValueByDataField($form, 'ShippingAddressType') === 'CUSTOMER') {
                     this.loadCustomerShippingValues($form, response);
                 }
+                // Billint tab
                 if (FwFormField.getValueByDataField($form, 'BillToAddressType') === 'CUSTOMER') {
                     this.loadCustomerBillingValues($form, response);
                 }
+                // Options tab
+                FwFormField.setValueByDataField($form, 'DisableQuoteOrderActivity', response.DisableQuoteOrderActivity);
+                $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').change();
+                FwFormField.setValueByDataField($form, 'DisableRental', response.DisableRental);
+                FwFormField.setValueByDataField($form, 'DisableSubRental', response.DisableSubRental);
+                FwFormField.setValueByDataField($form, 'DisableSales', response.DisableSales);
+                FwFormField.setValueByDataField($form, 'DisableSubSale', response.DisableSubSale);
+                FwFormField.setValueByDataField($form, 'DisableFacilities', response.DisableFacilities);
+                FwFormField.setValueByDataField($form, 'DisableTransportation', response.DisableTransportation);
+                FwFormField.setValueByDataField($form, 'DisableLabor', response.DisableLabor);
+                FwFormField.setValueByDataField($form, 'DisableSubLabor', response.DisableSubLabor);
+                FwFormField.setValueByDataField($form, 'DisableMisc', response.DisableMisc);
+                FwFormField.setValueByDataField($form, 'DisableSubMisc', response.DisableSubMisc);
+                FwFormField.setValueByDataField($form, 'DisableRentalSale', response.DisableRentalSale);
+               
             }, null, null);
         } else {
             console.error(`CustomerId is undefined.`)
