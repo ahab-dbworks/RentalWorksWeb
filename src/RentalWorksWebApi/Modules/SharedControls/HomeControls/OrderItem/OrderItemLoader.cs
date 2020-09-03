@@ -954,8 +954,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     DateTime orderPickTime = dt.GetValue(0, "picktime").ToDateTime();
                     DateTime orderFromDate = dt.GetValue(0, "estrentfrom").ToDateTime();
                     DateTime orderFromTime = dt.GetValue(0, "estfromtime").ToDateTime();
-                    DateTime orderToDate   = dt.GetValue(0, "estrentto").ToDateTime();
-                    DateTime orderToTime   = dt.GetValue(0, "esttotime").ToDateTime();
+                    DateTime orderToDate = dt.GetValue(0, "estrentto").ToDateTime();
+                    DateTime orderToTime = dt.GetValue(0, "esttotime").ToDateTime();
 
                     _orderAvailFromDateTime = null;
                     _orderAvailToDateTime = null;
@@ -1094,21 +1094,61 @@ namespace WebApi.Modules.HomeControls.OrderItem
 
                             DateTime itemAvailFromDateTime = _orderAvailFromDateTime.GetValueOrDefault(DateTime.MinValue);
                             DateTime itemAvailToDateTime = _orderAvailToDateTime.GetValueOrDefault(DateTime.MinValue);
-                            if ((itemPickDate != DateTime.MinValue) && (itemPickDate <= itemFromDate))
+                            //if ((itemPickDate != DateTime.MinValue) && (itemPickDate <= itemFromDate))
+                            //{
+                            //    itemAvailFromDateTime = itemPickDate.AddHours(itemPickTime.Hour);
+                            //}
+                            //else
+                            //{
+                            //    itemAvailFromDateTime = itemFromDate.AddHours(itemFromTime.Hour);
+                            //}
+                            //itemAvailToDateTime = itemToDate.AddHours(itemToTime.Hour);
+                            //
+                            //if (!itemAvailabilityByHour)
+                            //{
+                            //    itemAvailFromDateTime = itemAvailFromDateTime.Date;
+                            //    itemAvailToDateTime = itemAvailToDateTime.Date;
+                            //}
+
+                            if (itemAvailabilityByHour)
                             {
-                                itemAvailFromDateTime = itemPickDate.AddHours(itemPickTime.Hour);
+                                if ((!itemPickDate.Equals(DateTime.MinValue)) && (itemPickDate <= itemFromDate))
+                                {
+                                    itemAvailFromDateTime = itemPickDate.AddHours(itemPickTime.Hour);
+                                }
+                                else
+                                {
+                                    if (itemFromDate.Equals(DateTime.MinValue))
+                                    {
+                                        itemAvailFromDateTime = itemFromDate;
+                                    }
+                                    else
+                                    {
+                                        itemAvailFromDateTime = itemFromDate.AddHours(itemFromTime.Hour);
+                                    }
+                                }
+                                if (itemToDate.Equals(DateTime.MinValue))
+                                {
+                                    itemAvailToDateTime = itemToDate;
+                                }
+                                else
+                                {
+                                    itemAvailToDateTime = itemToDate.AddHours(itemToTime.Hour);
+                                }
                             }
                             else
                             {
-                                itemAvailFromDateTime = itemFromDate.AddHours(itemFromTime.Hour);
+                                if ((!itemPickDate.Equals(DateTime.MinValue)) && (itemPickDate <= itemFromDate))
+                                {
+                                    itemAvailFromDateTime = itemPickDate;
+                                }
+                                else
+                                {
+                                    itemAvailFromDateTime = itemFromDate;
+                                }
+                                itemAvailToDateTime = itemToDate;
                             }
-                            itemAvailToDateTime = itemToDate.AddHours(itemToTime.Hour);
 
-                            if (!itemAvailabilityByHour)
-                            {
-                                itemAvailFromDateTime = itemAvailFromDateTime.Date;
-                                itemAvailToDateTime = itemAvailToDateTime.Date;
-                            }
 
                             if (itemAvailFromDateTime.Equals(DateTime.MinValue))
                             {
@@ -1121,7 +1161,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                             }
 
                             if (_orderType.Equals(RwConstants.ORDER_TYPE_TRANSFER))
-                            { 
+                            {
                                 itemAvailToDateTime = InventoryAvailabilityFunc.TransferAvailabilityToDateTime;
                             }
 
