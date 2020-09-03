@@ -110,6 +110,7 @@ class DealInvoiceDetailReport extends FwWebApiReport {
     constructor() {
         super('DealInvoiceDetailReport', 'api/v1/dealinvoicedetailreport', dealInvoiceDetailTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

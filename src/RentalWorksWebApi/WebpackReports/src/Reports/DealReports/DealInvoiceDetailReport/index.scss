@@ -1,6 +1,14 @@
 ﻿/*DealInvoiceDetailReport*/
-tbody[data-rowtype="detail"]:nth-of-type(odd) td:not(.no-border) {
-    background-color: #DCDCDC;
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
+        background-color: #DCDCDC;
+    }
+
+    th.sub-header {
+        text-align: left;
+        border-bottom: 2px solid black;
+        padding-left: 3px;
+    }
 }
 
 thead {
