@@ -86,6 +86,8 @@ class InventoryPurchaseUtility {
         FwFormField.setValueByDataField($form, 'PurchaseDate', today);
         FwFormField.setValueByDataField($form, 'ReceiveDate', today);
         FwFormField.setValueByDataField($form, 'CurrencyId', office.defaultcurrencyid, office.defaultcurrencycode);
+        FwFormField.setValueByDataField($form, 'DefaultCurrencyId', office.defaultcurrencyid, office.defaultcurrencycode);
+        this.applyCurrencySymbol($form, $form.find('[data-datafield="UnitCost"], [data-datafield="ConvertedUnitCost"]'), office.defaultcurrencysymbol);
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
@@ -140,7 +142,7 @@ class InventoryPurchaseUtility {
         });
 
         $form.find('[data-datafield="PurchaseVendorId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'CurrencyId', FwBrowse.getValueByDataField(null, $tr, 'DefaultCurrencyId'), FwBrowse.getValueByDataField(null, $tr, 'DefaultCurrencyCode'));
+            FwFormField.setValueByDataField($form, 'CurrencyId', FwBrowse.getValueByDataField(null, $tr, 'DefaultCurrencyId'), FwBrowse.getValueByDataField(null, $tr, 'DefaultCurrencyCode'), true);
         });
 
         $form.find('[data-datafield="ManufacturerVendorId"]').data('onchange', $tr => {
@@ -214,6 +216,19 @@ class InventoryPurchaseUtility {
                     }, ex => FwFunc.showError(ex), $form);
             }
         });
+
+
+        $form.find('[data-datafield="CurrencyId"]').data('onchange', $tr => {
+            const defaultCurrencyId = JSON.parse(sessionStorage.getItem('location')).defaultcurrencyid;
+            const currencyId = FwBrowse.getValueByDataField($form, $tr, 'CurrencyId');
+            const currencySymbol = FwBrowse.getValueByDataField($form, $tr, 'CurrencySymbol');
+            if (currencyId != defaultCurrencyId) {
+                this.applyCurrencySymbol($form, $form.find('[data-datafield="UnitCost"]'), currencySymbol);
+                $form.find('.default-currency').show();
+            } else {
+                $form.find('.default-currency').hide();
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
@@ -273,6 +288,25 @@ class InventoryPurchaseUtility {
         $browse.on('dblclick', 'tr.viewmode', e => {
             $browse.find('[data-type="DeleteMenuBarButton"]').click();
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    applyCurrencySymbol($form: JQuery, $fields: JQuery, currencySymbol: string) {
+        for (let i = 0; i < $fields.length; i++) {
+            let $field = jQuery($fields[i]);
+            $field.attr('data-currencysymboldisplay', currencySymbol);
+
+            $field
+                .find('.fwformfield-value')
+                .inputmask('currency', {
+                    prefix: currencySymbol + ' ',
+                    placeholder: "0.00",
+                    min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
+                    max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),
+                    digits: ((typeof $field.attr('data-digits') !== 'undefined') ? $field.attr('data-digits') : 2),
+                    radixPoint: '.',
+                    groupSeparator: ','
+                });
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
