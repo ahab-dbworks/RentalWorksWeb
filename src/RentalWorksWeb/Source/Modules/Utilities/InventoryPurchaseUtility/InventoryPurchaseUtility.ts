@@ -331,7 +331,10 @@ class InventoryPurchaseUtility {
     //----------------------------------------------------------------------------------------------
     calculateUnitCost($form: JQuery) {
         const cost = parseFloat(FwFormField.getValueByDataField($form, 'UnitCost'));
-        const exchangeRate = parseFloat(FwFormField.getValueByDataField($form, 'ExchangeRate'));
+        var exchangeRate = parseFloat(FwFormField.getValueByDataField($form, 'ExchangeRate'));
+        if (exchangeRate == 0) {
+            exchangeRate = 1;
+        }
         const convertedUnitCost = cost * exchangeRate;
         FwFormField.setValueByDataField($form, 'ConvertedUnitCost', convertedUnitCost);
     }

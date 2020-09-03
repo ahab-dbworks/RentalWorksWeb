@@ -1,6 +1,8 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
 using System;
+using FwStandard.BusinessLogic;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 
 namespace WebApi.Modules.Inventory.Purchase
 {
@@ -14,6 +16,8 @@ namespace WebApi.Modules.Inventory.Purchase
         {
             dataRecords.Add(purchase);
             dataLoader = purchaseLoader;
+
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "91jOR5fwCDtvJ", IsPrimaryKey: true)]
@@ -165,6 +169,24 @@ namespace WebApi.Modules.Inventory.Purchase
         //    bool isValid = true; 
         //    return isValid; 
         //} 
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                CurrencyExchangeRate = 1;
+                WarehouseLogic warehouse = new WarehouseLogic();
+                warehouse.SetDependencies(AppConfig, UserSession);
+                warehouse.WarehouseId = WarehouseId;
+                if (warehouse.LoadAsync<WarehouseLogic>().Result)
+                {
+                    if (!CurrencyId.Equals(warehouse.CurrencyId))
+                    {
+                        CurrencyExchangeRate = AppFunc.GetCurrencyExchangeRate(AppConfig, warehouse.CurrencyId, CurrencyId).Result;
+                    }
+                }
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

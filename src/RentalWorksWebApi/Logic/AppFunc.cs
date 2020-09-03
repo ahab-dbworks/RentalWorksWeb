@@ -1164,5 +1164,23 @@ namespace WebApi.Logic
             return userCanModify;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<decimal> GetCurrencyExchangeRate(FwApplicationConfig appConfig, string fromCurrencyId, string toCurrencyId)
+        {
+            decimal exchangeRate = 1;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select exchangerate = dbo.getcurrencyexchangerate(@fromcurrencyid, @tocurrencyid, null)");
+                    qry.AddParameter("@fromcurrencyid", fromCurrencyId);
+                    qry.AddParameter("@tocurrencyid", toCurrencyId);
+                    await qry.ExecuteAsync();
+                    exchangeRate = qry.GetField("exchangerate").ToDecimal();
+                }
+            }
+            return exchangeRate;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }
