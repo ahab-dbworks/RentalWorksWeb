@@ -2063,26 +2063,26 @@ class Order extends OrderBase {
                   <div class="flexcolumn" style="flex:0 1 175px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OrderValueTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OrderValueTotal" data-currencysymbol="CurrencySymbol" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OrderReplacementTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OrderReplacementTotal" data-currencysymbol="CurrencySymbol" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Owned Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OwnedValueTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="OwnedValueTotal" data-currencysymbol="CurrencySymbol" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OwnedReplacementTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="OwnedReplacementTotal" data-currencysymbol="CurrencySymbol" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rental Total">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="SubValueTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value" data-datafield="SubValueTotal" data-currencysymbol="CurrencySymbol" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="SubReplacementTotal" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Replacement Cost" data-datafield="SubReplacementTotal" data-currencysymbol="CurrencySymbol" data-enabled="false"></div>
                       </div>
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Valuation">
