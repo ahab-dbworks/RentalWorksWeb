@@ -54,7 +54,7 @@
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
-        var currencySymbol = '$';
+        let currencySymbol = '$';
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if ((typeof $browse.attr('data-currencysymboldisplay') === 'string') && $browse.attr('data-currencysymboldisplay') !== '') {
@@ -66,8 +66,12 @@
         }
 
         if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
+            let digits = 2;
+            if (typeof $field.attr('data-digits') !== 'undefined') {
+                digits = $field.attr('data-digits');
+            }
             //$field.html(currencySymbol +(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2)));
-            $field.html(`<div class="fieldvalue">${currencySymbol} ${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
+            $field.html(`<div class="fieldvalue">${currencySymbol} ${(<any>window).numberWithCommas(parseFloat(originalvalue).toFixed(digits))}</div>`);
         } else {
             $field.html(`<div class="fieldvalue">${currencySymbol} 0.00</div>`);
         }
@@ -79,7 +83,7 @@
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var currencySymbol = '$';
+        let currencySymbol = '$';
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         if ((typeof $browse.attr('data-currencysymboldisplay') === 'string') && $browse.attr('data-currencysymboldisplay') !== '') {
             currencySymbol = $browse.attr('data-currencysymboldisplay');
