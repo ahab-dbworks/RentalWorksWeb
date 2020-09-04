@@ -30,12 +30,9 @@ export class FwTestUtils {
             password = myAccount.Password;
         }
         else {
-            FwLogging.logInfo(`using env variables: ${login}`);
-            FwLogging.logInfo(`About to go to ${baseUrl}/#/login`);
-            await page.goto(`${baseUrl}/#/login`);
-            //FwLogging.logInfo(`About to wait for navigation`);
-            //await page.waitForNavigation({timeout: 120000});
-            //FwLogging.logInfo(`navigation complete`);
+            let goToPage = `${baseUrl}/#/default`;
+            FwLogging.logInfo(`About to go to ${goToPage}`);
+            await page.goto(goToPage);
         }
 
         let logoSelector = `.programlogo`;

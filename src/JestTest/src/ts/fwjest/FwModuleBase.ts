@@ -710,11 +710,31 @@ export class FwModuleBase {
     //---------------------------------------------------------------------------------------
     async getDataType(fieldName: string): Promise<string> {
         let datatype;
-        const field = await page.$(`.fwformfield[data-datafield="${fieldName}"]`);
+
+        //const field = await page.$(`.fwformfield[data-datafield="${fieldName}"]`);
+        //if (field != null) {
+        //    datatype = await page.$eval(`.fwformfield[data-datafield="${fieldName}"]`, el => el.getAttribute('data-type'));
+        //} else {
+        //    const isDisplayField = await page.$(`.fwformfield[data-displayfield="${fieldName}"]`);
+        //    if (isDisplayField != null) {
+        //        datatype = 'displayfield';
+        //    }
+        //}
+
+        //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+        let fieldSelector: string = `.fwformfield[data-datafield="${fieldName}"]`;
+        if (fieldName == 'PickDate') { fieldSelector = `.fwformfield[data-dateactivitytype="PICK"]`;}
+        else if (fieldName == 'PickTime') { fieldSelector = `.fwformfield[data-timeactivitytype="PICK"]`;}
+        else if (fieldName == 'EstimatedStartDate') { fieldSelector = `.fwformfield[data-dateactivitytype="START"]`;}
+        else if (fieldName == 'EstimatedStartTime') { fieldSelector = `.fwformfield[data-timeactivitytype="START"]`;}
+        else if (fieldName == 'EstimatedStopDate') { fieldSelector = `.fwformfield[data-dateactivitytype="STOP"]`;}
+        else if (fieldName == 'EstimatedStopTime') { fieldSelector = `.fwformfield[data-timeactivitytype="STOP"]`;}
+        const field = await page.$(fieldSelector);
         if (field != null) {
-            datatype = await page.$eval(`.fwformfield[data-datafield="${fieldName}"]`, el => el.getAttribute('data-type'));
+            datatype = await page.$eval(fieldSelector, el => el.getAttribute('data-type'));
         } else {
-            const isDisplayField = await page.$(`.fwformfield[data-displayfield="${fieldName}"]`);
+            fieldSelector = `.fwformfield[data-displayfield="${fieldName}"]`;
+            const isDisplayField = await page.$(fieldSelector);
             if (isDisplayField != null) {
                 datatype = 'displayfield';
             }
@@ -745,7 +765,20 @@ export class FwModuleBase {
                     fieldToPopulate = await page.$eval(`.fwformfield[data-displayfield="${fieldToPopulate}"]`, el => el.getAttribute('data-datafield'));
                     FwLogging.logInfo(`About to populate ${fieldToPopulate} with ${valueToPopulate}`);
                 }
-                const tabId = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+                //const tabId = await page.$eval(`.fwformfield[data-datafield="${fieldToPopulate}"]`, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+
+                //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+                let fieldSelector: string = `.fwformfield[data-datafield="${fieldToPopulate}"]`;
+                if (fieldToPopulate == 'PickDate') { fieldSelector = `.fwformfield[data-dateactivitytype="PICK"]`; }
+                else if (fieldToPopulate == 'PickTime') { fieldSelector = `.fwformfield[data-timeactivitytype="PICK"]`; }
+                else if (fieldToPopulate == 'EstimatedStartDate') { fieldSelector = `.fwformfield[data-dateactivitytype="START"]`; }
+                else if (fieldToPopulate == 'EstimatedStartTime') { fieldSelector = `.fwformfield[data-timeactivitytype="START"]`; }
+                else if (fieldToPopulate == 'EstimatedStopDate') { fieldSelector = `.fwformfield[data-dateactivitytype="STOP"]`; }
+                else if (fieldToPopulate == 'EstimatedStopTime') { fieldSelector = `.fwformfield[data-timeactivitytype="STOP"]`; }
+                const tabId = await page.$eval(fieldSelector, el => el.closest('[data-type="tabpage"]').getAttribute('data-tabid'));
+
+
+
                 //FwLogging.logInfo(`Found ${key} field on tab ${tabId}`);
                 const tabIsActive = await page.$eval(`#${tabId}`, el => el.classList.contains('active'));
                 if (!tabIsActive) {
@@ -916,13 +949,62 @@ export class FwModuleBase {
                 }
             }
         }
+
+        //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+        // PickDate, EstimatedStartDate, EstimatedStopDate
+        const activitydatefields = await page.$$eval(`.fwform .fwformfield:not(.find-field)`, fields => fields.map((field) => field.getAttribute('data-dateactivitytype')));
+        for (let i = 0; i < activitydatefields.length; i++) {
+            let activitydatefield = activitydatefields[i];
+            if (activitydatefield != '') {
+                let dataField: string = '';
+                if (activitydatefield == 'PICK') { dataField = 'PickDate'; }
+                else if (activitydatefield == 'START') { dataField = 'EstimatedStartDate'; }
+                else if (activitydatefield == 'STOP') { dataField = 'EstimatedStopDate'; }
+                if (dataField != '') {
+                    let value;
+                    value = await this.getDataFieldValue(dataField);
+                    record[dataField] = value;
+                }
+            }
+        }
+
+        //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+        // PickTime, EstimatedStartTime, EstimatedStopTime
+        const activitytimefields = await page.$$eval(`.fwform .fwformfield:not(.find-field)`, fields => fields.map((field) => field.getAttribute('data-timeactivitytype')));
+        for (let i = 0; i < activitytimefields.length; i++) {
+            let activitytimefield = activitytimefields[i];
+            if (activitytimefield != '') {
+                let dataField: string = '';
+                if (activitytimefield == 'PICK') { dataField = 'PickTime'; }
+                else if (activitytimefield == 'START') { dataField = 'EstimatedStartTime'; }
+                else if (activitytimefield == 'STOP') { dataField = 'EstimatedStopTime'; }
+                if (dataField != '') {
+                    let value;
+                    value = await this.getDataFieldValue(dataField);
+                    record[dataField] = value;
+                }
+            }
+        }
+
         //FwLogging.logInfo(`Form Record: ${JSON.stringify(record)}`);
         return record;
     }
     //---------------------------------------------------------------------------------------
     async clearInputField(dataField: string): Promise<void> {
         //FwLogging.logInfo(`About to clear out the ${dataField} field.`);
-        const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+        //const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+
+        //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+        let fieldSelector: string = `.fwformfield[data-datafield="${dataField}"] input`;
+        if (dataField == 'PickDate') { fieldSelector = `.fwformfield[data-dateactivitytype="PICK"] input`; }
+        else if (dataField == 'PickTime') { fieldSelector = `.fwformfield[data-timeactivitytype="PICK"] input`; }
+        else if (dataField == 'EstimatedStartDate') { fieldSelector = `.fwformfield[data-dateactivitytype="START"] input`; }
+        else if (dataField == 'EstimatedStartTime') { fieldSelector = `.fwformfield[data-timeactivitytype="START"] input`; }
+        else if (dataField == 'EstimatedStopDate') { fieldSelector = `.fwformfield[data-dateactivitytype="STOP"] input`; }
+        else if (dataField == 'EstimatedStopTime') { fieldSelector = `.fwformfield[data-timeactivitytype="STOP"] input`; }
+        const elementHandle = await page.$(fieldSelector);
+
+
         await elementHandle.click();
         await elementHandle.focus();
         // click three times to select all
@@ -940,7 +1022,18 @@ export class FwModuleBase {
         }
         else {
             //await page.type(`.fwformfield[data-datafield="${dataField}"] input`, value);
-            const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+            //const elementHandle = await page.$(`.fwformfield[data-datafield="${dataField}"] input`);
+
+            //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+            let fieldSelector: string = `.fwformfield[data-datafield="${dataField}"] input`;
+            if (dataField == 'PickDate') { fieldSelector = `.fwformfield[data-dateactivitytype="PICK"] input`; }
+            else if (dataField == 'PickTime') { fieldSelector = `.fwformfield[data-timeactivitytype="PICK"] input`; }
+            else if (dataField == 'EstimatedStartDate') { fieldSelector = `.fwformfield[data-dateactivitytype="START"] input`; }
+            else if (dataField == 'EstimatedStartTime') { fieldSelector = `.fwformfield[data-timeactivitytype="START"] input`; }
+            else if (dataField == 'EstimatedStopDate') { fieldSelector = `.fwformfield[data-dateactivitytype="STOP"] input`; }
+            else if (dataField == 'EstimatedStopTime') { fieldSelector = `.fwformfield[data-timeactivitytype="STOP"] input`; }
+            const elementHandle = await page.$(fieldSelector);
+
             await elementHandle.click();
             await page.keyboard.sendCharacter(value);
         }
@@ -1048,7 +1141,17 @@ export class FwModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async getDataFieldValue(dataField: string): Promise<string> {
-        const selector = `div[data-datafield="${dataField}"] .fwformfield-value`;
+        //const selector = `div[data-datafield="${dataField}"] .fwformfield-value`;
+
+        //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+        let selector: string = `div[data-datafield="${dataField}"] .fwformfield-value`;
+        if (dataField == 'PickDate') { selector = `.fwformfield[data-dateactivitytype="PICK"] .fwformfield-value`; }
+        else if (dataField == 'PickTime') { selector = `.fwformfield[data-timeactivitytype="PICK"] .fwformfield-value`; }
+        else if (dataField == 'EstimatedStartDate') { selector = `.fwformfield[data-dateactivitytype="START"] .fwformfield-value`; }
+        else if (dataField == 'EstimatedStartTime') { selector = `.fwformfield[data-timeactivitytype="START"] .fwformfield-value`; }
+        else if (dataField == 'EstimatedStopDate') { selector = `.fwformfield[data-dateactivitytype="STOP"] .fwformfield-value`; }
+        else if (dataField == 'EstimatedStopTime') { selector = `.fwformfield[data-timeactivitytype="STOP"] .fwformfield-value`; }
+
         const val = await page.$eval(selector, (e: any) => {
             return e.value
         })
@@ -1056,7 +1159,18 @@ export class FwModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async getDataFieldText(dataField: string): Promise<string> {
-        const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
+        //const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
+
+        //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+        let selector: string = `div[data-datafield="${dataField}"] .fwformfield-text`;
+        if (dataField == 'PickDate') { selector = `.fwformfield[data-dateactivitytype="PICK"] .fwformfield-text`; }
+        else if (dataField == 'PickTime') { selector = `.fwformfield[data-timeactivitytype="PICK"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStartDate') { selector = `.fwformfield[data-dateactivitytype="START"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStartTime') { selector = `.fwformfield[data-timeactivitytype="START"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStopDate') { selector = `.fwformfield[data-dateactivitytype="STOP"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStopTime') { selector = `.fwformfield[data-timeactivitytype="STOP"] .fwformfield-text`; }
+
+
         const val = await page.$eval(selector, (e: any) => {
             return e.value
         })
@@ -1064,7 +1178,17 @@ export class FwModuleBase {
     }
     //---------------------------------------------------------------------------------------
     async getValueWithEvaluate(dataField: string) { //retaining this for reference for a different method of retrieving values in the browser
-        const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
+        //const selector = `div[data-datafield="${dataField}"] .fwformfield-text`;
+
+        //justin hoffman 09/04/2020 PickStartStopHack to make the Schedule section of Quote/Order work.  Needs to be done differently to work in the Testing FrameWork
+        let selector: string = `div[data-datafield="${dataField}"] .fwformfield-text`;
+        if (dataField == 'PickDate') { selector = `.fwformfield[data-dateactivitytype="PICK"] .fwformfield-text`; }
+        else if (dataField == 'PickTime') { selector = `.fwformfield[data-timeactivitytype="PICK"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStartDate') { selector = `.fwformfield[data-dateactivitytype="START"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStartTime') { selector = `.fwformfield[data-timeactivitytype="START"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStopDate') { selector = `.fwformfield[data-dateactivitytype="STOP"] .fwformfield-text`; }
+        else if (dataField == 'EstimatedStopTime') { selector = `.fwformfield[data-timeactivitytype="STOP"] .fwformfield-text`; }
+
         const value = await page.evaluate((selector) => {
             const $form = jQuery('body').find('.fwform');
             const val = $form.find(selector).val();
