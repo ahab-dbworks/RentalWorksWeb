@@ -1,3 +1,4 @@
+routes.push({ pattern: /^module\/bankaccount$/, action: function (match: RegExpExecArray) { return BankAccountController.getModuleScreen(); } });
 class BankAccount {
     Module: string = 'BankAccount';
     apiurl: string = 'api/v1/bankaccount';
