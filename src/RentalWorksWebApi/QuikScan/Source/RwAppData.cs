@@ -2644,7 +2644,7 @@ namespace RentalWorksQuikScan.Source
                     if (createcontract)
                     {
                         // create out contract
-                        createoutcontractresult = this.CreateOutContractAsync(conn, usersid, container.containeritemid, notes);
+                        createoutcontractresult = await this.CreateOutContractAsync(conn, usersid, container.containeritemid, notes);
                         result.container.outcontractid = createoutcontractresult.contractId;
                         if (changecontainertype)
                         {
