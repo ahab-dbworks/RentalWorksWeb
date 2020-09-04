@@ -72,13 +72,29 @@ abstract class FwWebApiReport {
         const urlHtmlReport = `${applicationConfig.apiurl}Reports/${this.reportName}/index.html`;
         const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
         const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
-        let companyName = '';
+        //let companyName = '';
+        //if (sessionStorage.getItem('controldefaults') !== null) {
+        //    const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        //    if (typeof controlDefaults !== 'undefined' && typeof controlDefaults.companyname === 'string') {
+        //        companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
+        //    }
+        //}
+
+        //justin hoffman 09/04/2020
+        let companyName = 'UNKNOWN COMPANY';
+        let systemName = 'UNKNOWN SYSTEM';
         if (sessionStorage.getItem('controldefaults') !== null) {
             const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
-            if (typeof controlDefaults !== 'undefined' && typeof controlDefaults.companyname === 'string') {
-                companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
+            if (typeof controlDefaults !== 'undefined') {
+                if (typeof controlDefaults.companyname === 'string') {
+                    companyName = controlDefaults.companyname;
+                }
+                if (typeof controlDefaults.systemname === 'string') {
+                    systemName = controlDefaults.systemname;
+                }
             }
         }
+
         if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
             companyName = sessionStorage.getItem('clientCode');
         }
@@ -95,6 +111,7 @@ abstract class FwWebApiReport {
                         request.renderMode = 'Html';
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
+                        request.parameters.systemName = systemName;
                         request.parameters.action = 'Preview';
                         //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
                         if (request.parameters.hasOrderNo) {
@@ -141,6 +158,7 @@ abstract class FwWebApiReport {
                         request.renderMode = 'Html';
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
+                        request.parameters.systemName = systemName;
                         request.parameters.action = 'Print/PDF';
                         //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
                         if (request.parameters.hasOrderNo) {
@@ -243,6 +261,7 @@ abstract class FwWebApiReport {
                         request.downloadPdfAsAttachment = false;
                         request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
+                        request.parameters.systemName = systemName;
                         request.parameters.action = 'Print/PDF'
                         //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
                         if (request.parameters.hasOrderNo) {
@@ -361,6 +380,7 @@ abstract class FwWebApiReport {
 
                         const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                         request.parameters.companyName = companyName;
+                        request.parameters.systemName = systemName;
                         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                             (successResponse: RenderResponse) => {
                                 try {
@@ -557,6 +577,7 @@ abstract class FwWebApiReport {
                                 }
                                 if (requestEmailPdf.parameters != null && requestEmailPdf.email.to != '') {
                                     requestEmailPdf.parameters.companyName = companyName;
+                                    requestEmailPdf.parameters.systemName = systemName;
                                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
                                         (successResponse) => {
                                             try {

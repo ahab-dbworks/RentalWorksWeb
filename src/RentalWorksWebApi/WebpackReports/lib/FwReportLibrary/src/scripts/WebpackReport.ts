@@ -48,16 +48,22 @@ export abstract class WebpackReport {
         data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
         data.System = 'UNKNOWN SYSTEM';
         data.Company = 'UNKNOWN COMPANY';
-        if (sessionStorage.getItem('controldefaults') !== null) {
-            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
-            if (typeof controlDefaults !== 'undefined') {
-                if (typeof controlDefaults.companyname === 'string') {
-                    data.Company = controlDefaults.companyname;
-                }
-                if (typeof controlDefaults.systemname === 'string') {
-                    data.System = controlDefaults.systemname;
-                }
-            }
+        //if (sessionStorage.getItem('controldefaults') !== null) {
+        //    const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        //    if (typeof controlDefaults !== 'undefined') {
+        //        if (typeof controlDefaults.companyname === 'string') {
+        //            data.Company = controlDefaults.companyname;
+        //        }
+        //        if (typeof controlDefaults.systemname === 'string') {
+        //            data.System = controlDefaults.systemname;
+        //        }
+        //    }
+        //}
+        if (parameters.companyName) {
+            data.Company = parameters.companyName;
+        }
+        if (parameters.systemName) {
+            data.System = parameters.systemName;
         }
         console.log('report data: ', data);
     }
