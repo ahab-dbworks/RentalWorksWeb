@@ -75,6 +75,7 @@ class FwAjaxClass {
                 options.xmlHttpRequest.open(options.httpMethod, options.url);
                 if (options.httpMethod === 'POST' || options.httpMethod === 'PUT') {
                     options.xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
+                    options.xmlHttpRequest.setRequestHeader('Accept', 'application/json');
                 }
                 if (typeof options.addAuthorizationHeader === 'undefined' || options.addAuthorizationHeader === true) {
                     options.xmlHttpRequest.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('apiToken'));
@@ -95,7 +96,8 @@ class FwAjaxClass {
                         }
                         if (options.forceJsonParseResponse ||
                             (options.xmlHttpRequest.getResponseHeader('content-type') !== null && options.xmlHttpRequest.getResponseHeader('content-type').indexOf('application/json') !== -1)) {
-                            return resolve(JSON.parse(options.xmlHttpRequest.response));
+                            const result = JSON.parse(options.xmlHttpRequest.response);
+                            return resolve(result);
                         }
                         return resolve(options.xmlHttpRequest.response);
                     }
