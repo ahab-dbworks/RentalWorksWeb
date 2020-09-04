@@ -922,10 +922,13 @@ namespace WebApi.Modules.Agent.Order
                 //save the new 
                 await to.SaveAsync(original: null, conn: conn);
 
+                string fromId = from.GetPrimaryKeys()[0].ToString();
+                string toId = to.GetPrimaryKeys()[0].ToString();
+
                 // copy all items
                 BrowseRequest itemBrowseRequest = new BrowseRequest();
                 itemBrowseRequest.uniqueids = new Dictionary<string, object>();
-                itemBrowseRequest.uniqueids.Add("OrderId", from.GetPrimaryKeys()[0]);
+                itemBrowseRequest.uniqueids.Add("OrderId", fromId);
                 itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
 
                 OrderItemLogic itemSelector = new OrderItemLogic();
@@ -940,7 +943,7 @@ namespace WebApi.Modules.Agent.Order
                     string oldId = i.OrderItemId;
                     string newId = "";
                     i.SetDependencies(appConfig, userSession);
-                    i.OrderId = to.GetPrimaryKeys()[0].ToString();
+                    i.OrderId = toId;
                     i.OrderItemId = "";
                     if (!string.IsNullOrEmpty(i.ParentId))
                     {
@@ -969,7 +972,7 @@ namespace WebApi.Modules.Agent.Order
                 // copy all Notes
                 BrowseRequest noteBrowseRequest = new BrowseRequest();
                 noteBrowseRequest.uniqueids = new Dictionary<string, object>();
-                noteBrowseRequest.uniqueids.Add("OrderId", from.GetPrimaryKeys()[0]);
+                noteBrowseRequest.uniqueids.Add("OrderId", fromId);
 
                 OrderNoteLogic noteSelector = new OrderNoteLogic();
                 noteSelector.SetDependencies(appConfig, userSession);
@@ -978,7 +981,7 @@ namespace WebApi.Modules.Agent.Order
                 foreach (OrderNoteLogic n in notes)
                 {
                     n.SetDependencies(appConfig, userSession);
-                    n.OrderId = to.GetPrimaryKeys()[0].ToString();
+                    n.OrderId = toId;
                     n.OrderNoteId = "";
                     await n.SaveAsync(conn: conn);
                 }
@@ -986,7 +989,7 @@ namespace WebApi.Modules.Agent.Order
                 //copy contacts
                 BrowseRequest contactBrowseRequest = new BrowseRequest();
                 contactBrowseRequest.uniqueids = new Dictionary<string, object>();
-                contactBrowseRequest.uniqueids.Add("OrderId", from.GetPrimaryKeys()[0]);
+                contactBrowseRequest.uniqueids.Add("OrderId", fromId);
 
                 OrderContactLogic contactSelector = new OrderContactLogic();
                 contactSelector.SetDependencies(appConfig, userSession);
@@ -996,10 +999,23 @@ namespace WebApi.Modules.Agent.Order
                 {
                     if (n.ContactOnOrder.GetValueOrDefault(false))  // only create the record on the New Order if assigned on Orig Order
                     {
-                        n.SetDependencies(appConfig, userSession);
-                        n.OrderId = to.GetPrimaryKeys()[0].ToString();
-                        n.OrderContactId = null;
-                        await n.SaveAsync(conn: conn);
+                        BrowseRequest contactCheckBrowseRequest = new BrowseRequest();
+                        contactCheckBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        contactCheckBrowseRequest.uniqueids.Add("OrderId", toId);
+
+                        OrderContactLogic contactCheckSelector = new OrderContactLogic();
+                        contactCheckSelector.SetDependencies(appConfig, userSession);
+                        List<OrderContactLogic> contactCheck = await contactCheckSelector.SelectAsync<OrderContactLogic>(contactCheckBrowseRequest, conn);
+
+                        bool contactExists = (contactCheck.Count > 0);
+
+                        if (!contactExists)  // only create the record on the New Order if not already on the new Order
+                        {
+                            n.SetDependencies(appConfig, userSession);
+                            n.OrderId = toId;
+                            n.OrderContactId = null;
+                            await n.SaveAsync(conn: conn);
+                        }
                     }
                 }
 
@@ -1009,7 +1025,7 @@ namespace WebApi.Modules.Agent.Order
                 // copy all documents
                 BrowseRequest documentBrowseRequest = new BrowseRequest();
                 documentBrowseRequest.uniqueids = new Dictionary<string, object>();
-                documentBrowseRequest.uniqueids.Add("UniqueId1", from.GetPrimaryKeys()[0]);
+                documentBrowseRequest.uniqueids.Add("UniqueId1", fromId);
 
                 AppDocumentLogic documentSelector = new AppDocumentLogic();
                 documentSelector.SetDependencies(appConfig, userSession);
@@ -1022,7 +1038,7 @@ namespace WebApi.Modules.Agent.Order
                     {
                         OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
                         newDoc.SetDependencies(appConfig, userSession);
-                        newDoc.OrderId = to.GetPrimaryKeys()[0].ToString();
+                        newDoc.OrderId = toId;
                         newDoc.DocumentId = "";
                         await newDoc.SaveAsync(conn: conn);
                     }
@@ -1030,7 +1046,7 @@ namespace WebApi.Modules.Agent.Order
                     {
                         QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
                         newDoc.SetDependencies(appConfig, userSession);
-                        newDoc.QuoteId = to.GetPrimaryKeys()[0].ToString();
+                        newDoc.QuoteId = toId;
                         newDoc.DocumentId = "";
                         await newDoc.SaveAsync(conn: conn);
                     }
@@ -1040,7 +1056,7 @@ namespace WebApi.Modules.Agent.Order
                         {
                             OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
                             newDoc.SetDependencies(appConfig, userSession);
-                            newDoc.OrderId = to.GetPrimaryKeys()[0].ToString();
+                            newDoc.OrderId = toId;
                             newDoc.DocumentId = "";
                             await newDoc.SaveAsync(conn: conn);
                         }
@@ -1048,7 +1064,7 @@ namespace WebApi.Modules.Agent.Order
                         {
                             QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
                             newDoc.SetDependencies(appConfig, userSession);
-                            newDoc.QuoteId = to.GetPrimaryKeys()[0].ToString();
+                            newDoc.QuoteId = toId;
                             newDoc.DocumentId = "";
                             await newDoc.SaveAsync(conn: conn);
                         }
@@ -1061,10 +1077,10 @@ namespace WebApi.Modules.Agent.Order
                     //set the original Quote to Ordered, update pointer to new OrderId
                     QuoteLogic q2 = new QuoteLogic();
                     q2.SetDependencies(appConfig, userSession);
-                    q2.QuoteId = from.GetPrimaryKeys()[0].ToString();
+                    q2.QuoteId = fromId;
                     q2.Status = RwConstants.QUOTE_STATUS_ORDERED;
                     q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
-                    q2.RelatedQuoteOrderId = to.GetPrimaryKeys()[0].ToString();
+                    q2.RelatedQuoteOrderId = toId;
                     await q2.SaveAsync(original: from, conn: conn);
                 }
                 else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
@@ -1072,7 +1088,7 @@ namespace WebApi.Modules.Agent.Order
                     //set the original Quote to Closed
                     QuoteLogic q2 = new QuoteLogic();
                     q2.SetDependencies(appConfig, userSession);
-                    q2.QuoteId = from.GetPrimaryKeys()[0].ToString();
+                    q2.QuoteId = fromId;
                     q2.Status = RwConstants.QUOTE_STATUS_CLOSED;
                     q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
                     await q2.SaveAsync(original: from, conn: conn);
