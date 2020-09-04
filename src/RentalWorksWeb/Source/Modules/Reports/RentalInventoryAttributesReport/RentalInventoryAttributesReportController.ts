@@ -53,6 +53,7 @@ class RentalInventoryAttributesReport extends FwWebApiReport {
     constructor() {
         super('RentalInventoryAttributesReport', 'api/v1/rentalinventoryattributesreport', rentalInventoryAttributesTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -96,7 +97,7 @@ class RentalInventoryAttributesReport extends FwWebApiReport {
             case 'CategoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    
+
                 }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                 break;

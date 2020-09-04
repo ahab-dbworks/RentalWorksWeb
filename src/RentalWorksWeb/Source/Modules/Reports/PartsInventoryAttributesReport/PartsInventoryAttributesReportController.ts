@@ -53,6 +53,7 @@ class PartsInventoryAttributesReport extends FwWebApiReport {
     constructor() {
         super('PartsInventoryAttributesReport', 'api/v1/partsinventoryattributesreport', partsInventoryAttributesTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

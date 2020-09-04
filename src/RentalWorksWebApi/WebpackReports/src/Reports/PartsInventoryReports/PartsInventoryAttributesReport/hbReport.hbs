@@ -1,5 +1,5 @@
 ﻿<!--Parts Inventory Attributes Report-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,29 +11,29 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th>Inventory Type</th>
-        <th>Category</th>
-        <th>Sub-Category</th>
-        <th>Attribute</th>
-        <th class="number">Value</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="InventoryType" data-valuefield="InventoryType">Inventory Type</th>
+        <th data-linkedcolumn="Category" data-valuefield="Category">Category</th>
+        <th data-linkedcolumn="SubCategory" data-valuefield="SubCategory">Sub-Category</th>
+        <th data-linkedcolumn="Attribute" data-valuefield="Attribute">Attribute</th>
+        <th data-linkedcolumn="AttributeValue" data-valuefield="AttributeValue" class="number">Value</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       <tr>
-        <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td data-value="{{InventoryType}}"></td>
-        <td data-value="{{Category}}"></td>
-        <td data-value="{{SubCategory}}"></td>
-        <td data-value="{{Attribute}}"></td>
-        <td class="number" data-value="{{AttributeValue}}"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="InventoryType" data-value="{{InventoryType}}"></td>
+        <td data-linkedcolumn="Category" data-value="{{Category}}"></td>
+        <td data-linkedcolumn="SubCategory" data-value="{{SubCategory}}"></td>
+        <td data-linkedcolumn="Attribute" data-value="{{Attribute}}"></td>
+        <td data-linkedcolumn="AttributeValue" class="number" data-value="{{AttributeValue}}"></td>
       </tr>
       {{/each}}
     </tbody>
