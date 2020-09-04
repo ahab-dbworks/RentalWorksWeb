@@ -45,7 +45,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "OrderNumberheader"}}
-      <tr data-row="sub-header" data-rowtype="{{RowType}}">
+      <tr data-row="sub-header" data-sort="true" data-rowtype="{{RowType}}">
         <th class="sub-header" data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
         <th class="sub-header" data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
         <th class="sub-header" data-linkedcolumn="EmptyTd-3" data-valuefield=""></th>
