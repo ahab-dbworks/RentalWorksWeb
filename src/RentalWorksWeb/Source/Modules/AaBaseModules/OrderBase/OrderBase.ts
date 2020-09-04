@@ -18,7 +18,7 @@ class OrderBase {
     id: string;
     apiurl: string;
     CachedOrderTypes: any = {};
-    totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax1', 'WeeklyTax2', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTax1', 'MonthlyTax2', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTax1', 'PeriodTax2', 'PeriodTotal',]
+    totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax1', 'WeeklyTax2', 'WeeklyTax', 'WeeklyTotal', 'AverageWeeklyExtendedNoDiscount', 'AverageWeeklyDiscountAmount', 'AverageWeeklyExtended', 'AverageWeeklyTax1', 'AverageWeeklyTax2', 'AverageWeeklyTax', 'AverageWeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTax1', 'MonthlyTax2', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTax1', 'PeriodTax2', 'PeriodTotal',]
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -2922,12 +2922,21 @@ class OrderBase {
         let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
         switch (rateValue) {
             case 'W':
-                subTotal = totals.WeeklyExtended;
-                discount = totals.WeeklyDiscountAmount;
-                salesTax = totals.WeeklyTax1;
-                salesTax2 = totals.WeeklyTax2;
-                grossTotal = totals.WeeklyExtendedNoDiscount;
-                total = totals.WeeklyTotal;
+                if (FwFormField.getValueByDataField($form, 'RateType') === '3WEEK') {
+                    subTotal = totals.AverageWeeklyExtended;
+                    discount = totals.AverageWeeklyDiscountAmount;
+                    salesTax = totals.AverageWeeklyTax1;
+                    salesTax2 = totals.AverageWeeklyTax2;
+                    grossTotal = totals.AverageWeeklyExtendedNoDiscount;
+                    total = totals.AverageWeeklyTotal;
+                } else {
+                    subTotal = totals.WeeklyExtended;
+                    discount = totals.WeeklyDiscountAmount;
+                    salesTax = totals.WeeklyTax1;
+                    salesTax2 = totals.WeeklyTax2;
+                    grossTotal = totals.WeeklyExtendedNoDiscount;
+                    total = totals.WeeklyTotal;
+                }
                 break;
             case 'P':
                 subTotal = totals.PeriodExtended;
