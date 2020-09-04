@@ -49,6 +49,7 @@ class RwMaster extends WebMaster {
                 children: []
             };
             if (userType == 'USER') {
+                menuBilling.children.push(Constants.Modules.Billing.children.BankAccount);
                 menuBilling.children.push(Constants.Modules.Billing.children.Billing);
                 menuBilling.children.push(Constants.Modules.Billing.children.BillingWorksheet);
                 menuBilling.children.push(Constants.Modules.Billing.children.Invoice);

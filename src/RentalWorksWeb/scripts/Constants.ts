@@ -51,6 +51,7 @@ var Constants = {
             caption: 'Billing',
             nodetype: 'Category',
             children: {
+                BankAccount:      { id: 'xJzM0aYJ70srp', caption: 'Bank Account',      nav: 'module/bankaccount',      nodetype: 'Module' },
                 Billing:          { id: '67cZ8IUbw53c',  caption: 'Billing',           nav: 'module/billing',          nodetype: 'Module' },
                 BillingMessage:   { id: 'U0HFTNmYWt3a7', caption: 'Billing Message',   nav: 'module/billingmessage',   nodetype: 'Module' },
                 BillingWorksheet: { id: '2BTZbIXJy4tdI', caption: 'Billing Worksheet', nav: 'module/billingworksheet', nodetype: 'Module' },
