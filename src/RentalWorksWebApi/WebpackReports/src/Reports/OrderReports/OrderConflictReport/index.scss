@@ -1,14 +1,13 @@
 ﻿/*OrderConflictReport*/
-tbody[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
-    background-color: #DCDCDC;
-}
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
+        background-color: #DCDCDC;
+    }
 
-thead {
-    th {
-        border-bottom: 2px solid #000000;
-        font-weight: bold;
-        padding: 3px;
-        white-space: nowrap;
+    th.sub-header {
+        text-align: left;
+        border-bottom: 2px solid black;
+        padding-left: 3px;
     }
 }
 

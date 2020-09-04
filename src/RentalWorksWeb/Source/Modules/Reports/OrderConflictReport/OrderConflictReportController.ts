@@ -104,6 +104,7 @@ class OrderConflictReport extends FwWebApiReport {
     constructor() {
         super('OrderConflictReport', 'api/v1/orderconflictreport', orderConflictTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

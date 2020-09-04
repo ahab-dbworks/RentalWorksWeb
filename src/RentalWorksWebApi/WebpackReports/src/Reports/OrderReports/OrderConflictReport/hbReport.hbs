@@ -1,5 +1,5 @@
 ﻿<!--OrderConflictReport-->
-<div class="rpt-flexrow">
+<div data-section="header" class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,123 +11,142 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table style="border-top:2px solid black;">
-    {{#each this}}
-    {{#ifEquals RowType "Warehouseheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="header-row no-border" colspan="10">Warehouse: {{Warehouse}}</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header" data-linkedrow="detail">
+        <th data-linkedcolumn="EmptyTd-1" class="no-border" data-valuefield=""></th>
+        <th data-linkedcolumn="ICode" class="nowrap" data-valuefield="ICode"></th>
+        <th data-linkedcolumn="ItemDescription" data-valuefield="ItemDescription"></th>
+        <th data-linkedcolumn="ItemFromDate" data-valuefield="ItemFromDate"></th>
+        <th data-linkedcolumn="ItemToDate" data-valuefield="ItemToDate"></th>
+        <th data-linkedcolumn="QuantitySub" class="number" data-valuefield="QuantitySub"></th>
+        <th data-linkedcolumn="QuantityReserved" class="number" data-valuefield="QuantityReserved"></th>
+        <th data-linkedcolumn="QuantityAvailable" class="number" data-valuefield="QuantityAvailable"></th>
+        <th data-linkedcolumn="QuantityInRepair" class="number" data-valuefield="QuantityInRepair"></th>
+        <th data-linkedcolumn="ConflictType" data-valuefield="ConflictType"></th>
       </tr>
     </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Departmentheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="lower header-row no-border" colspan="10">Department: {{Department}}</th>
+    <tbody>
+      {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="header-row" colspan="10">Warehouse: {{Warehouse}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Dealheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="lower header-row no-border" colspan="10">Deal: {{Deal}}</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="lower header-row no-border" colspan="10">Department: {{Department}}</td>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "OrderNumberheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="no-border"></th>
-        <th>Order No.</th>
-        <th colspan="2">Description</th>
-        <th>From</th>
-        <th>To</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="lower header-row no-border" colspan="10">Deal: {{Deal}}</td>
       </tr>
-    </thead>
-    <tr>
-      <td class="no-border"></td>
-      <td data-value="{{OrderNumber}}"></td>
-      <td colspan="2" data-value="{{OrderDescription}}"></td>
-      <td data-value="{{OrderFromDate}}"></td>
-      <td data-value="{{OrderToDate}}"></td>
-    </tr>
-    <thead>
-      <tr>
-        <th colspan="2" class="no-border"></th>
-        <th class="nowrap">I-Code</th>
-        <th>Item Description</th>
-        <th>From</th>
-        <th>To</th>
-        <th class="number">Sub</th>
-        <th class="number">Reserved</th>
-        <th class="number">Available</th>
-        <th class="number">In Repair</th>
-        <th>Conflict Type</th>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OrderNumberheader"}}
+      <tr data-row="sub-header" data-rowtype="{{RowType}}">
+        <th class="sub-header" data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th class="sub-header" data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-3" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="OrderFromDate" data-valuefield="OrderFromDate">From</th>
+        <th class="sub-header" data-linkedcolumn="OrderToDate" data-valuefield="OrderToDate">To</th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-4" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-5" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-6" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-7" data-valuefield=""></th>
+        <th class="sub-header" data-linkedcolumn="EmptyTd-8" data-valuefield=""></th>
       </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "detail"}}
-    <tbody data-rowtype="{{RowType}}">
-      <tr class="detail">
-        <td colspan="2" class="no-border"></td>
-        <td class="nowrap" data-value="{{ICode}}"></td>
-        <td data-value="{{ItemDescription}}"></td>
-        <td data-value="{{ItemFromDate}}"></td>
-        <td data-value="{{ItemToDate}}"></td>
-        <td class="number" data-value="{{QuantitySub}}"></td>
-        <td class="number" data-value="{{QuantityReserved}}"></td>
-        <td class="number" data-value="{{QuantityAvailable}}"></td>
-        <td class="number" data-value="{{QuantityInRepair}}"></td>
-        <td data-value="{{ConflictType}}"></td>
+      <tr data-row="sub-detail">
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="EmptyTd-3" data-valuefield=""></td>
+        <td data-linkedcolumn="OrderFromDate" data-value="{{OrderFromDate}}"></td>
+        <td data-linkedcolumn="OrderToDate" data-value="{{OrderToDate}}"></td>
+        <td data-linkedcolumn="EmptyTd-4" data-value=""></td>
+        <td data-linkedcolumn="EmptyTd-5" data-value=""></td>
+        <td data-linkedcolumn="EmptyTd-6" data-value=""></td>
+        <td data-linkedcolumn="EmptyTd-7" data-value=""></td>
+        <td data-linkedcolumn="EmptyTd-8" data-value=""></td>
       </tr>
+      <tr data-row="linked-sub-header" data-sort="true" data-linkedrow="detail" data-rowtype="{{RowType}}">
+        <th class="sub-header" data-linkedcolumn="EmptyTd-1" data-valuefield="" class="no-border"></th>
+        <th class="sub-header" data-linkedcolumn="ICode" data-valuefield="ICode" class="nowrap">I-Code</th>
+        <th class="sub-header" data-linkedcolumn="ItemDescription" data-valuefield="ItemDescription">Item Description</th>
+        <th class="sub-header" data-linkedcolumn="ItemFromDate" data-valuefield="ItemFromDate">From</th>
+        <th class="sub-header" data-linkedcolumn="ItemToDate" data-valuefield="ItemToDate">To</th>
+        <th class="sub-header" data-linkedcolumn="QuantitySub" data-valuefield="QuantitySub" class="number">Sub</th>
+        <th class="sub-header" data-linkedcolumn="QuantityReserved" data-valuefield="QuantityReserved" class="number">Reserved</th>
+        <th class="sub-header" data-linkedcolumn="QuantityAvailable" data-valuefield="QuantityAvailable" class="number">Available</th>
+        <th class="sub-header" data-linkedcolumn="QuantityInRepair" data-valuefield="QuantityInRepair" class="number">In Repair</th>
+        <th class="sub-header" data-linkedcolumn="ConflictType" data-valuefield="ConflictType">Conflict Type</th>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr class="detail" data-row="detail" data-linkedrow="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="EmptyTd-1" data-value="" class="no-border"></td>
+        <td data-linkedcolumn="ICode" class="nowrap" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="ItemDescription" data-value="{{ItemDescription}}"></td>
+        <td data-linkedcolumn="ItemFromDate" data-value="{{ItemFromDate}}"></td>
+        <td data-linkedcolumn="ItemToDate" data-value="{{ItemToDate}}"></td>
+        <td data-linkedcolumn="QuantitySub" class="number" data-value="{{QuantitySub}}"></td>
+        <td data-linkedcolumn="QuantityReserved" class="number" data-value="{{QuantityReserved}}"></td>
+        <td data-linkedcolumn="QuantityAvailable" class="number" data-value="{{QuantityAvailable}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="number" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="ConflictType" data-value="{{ConflictType}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OrderNumberfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{OrderNumber}}:&nbsp;</td>
+        <td data-linkedcolumn="QuantitySub" class="total-val" data-value="{{QuantitySub}}"></td>
+        <td data-linkedcolumn="QuantityReserved" class="total-val" data-value="{{QuantityReserved}}"></td>
+        <td data-linkedcolumn="QuantityAvailable" class="total-val" data-value="{{QuantityAvailable}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="ConflictType" data-value=""></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Deal}}:&nbsp;</td>
+        <td data-linkedcolumn="QuantitySub" class="total-val" data-value="{{QuantitySub}}"></td>
+        <td data-linkedcolumn="QuantityReserved" class="total-val" data-value="{{QuantityReserved}}"></td>
+        <td data-linkedcolumn="QuantityAvailable" class="total-val" data-value="{{QuantityAvailable}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="ConflictType" data-value=""></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Department}}:&nbsp;</td>
+        <td data-linkedcolumn="QuantitySub" class="total-val" data-value="{{QuantitySub}}"></td>
+        <td data-linkedcolumn="QuantityReserved" class="total-val" data-value="{{QuantityReserved}}"></td>
+        <td data-linkedcolumn="QuantityAvailable" class="total-val" data-value="{{QuantityAvailable}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="ConflictType" data-value=""></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td data-linkedcolumn="QuantitySub" class="total-val" data-value="{{QuantitySub}}"></td>
+        <td data-linkedcolumn="QuantityReserved" class="total-val" data-value="{{QuantityReserved}}"></td>
+        <td data-linkedcolumn="QuantityAvailable" class="total-val" data-value="{{QuantityAvailable}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="ConflictType" data-value=""></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="QuantitySub" class="total-val" data-value="{{QuantitySub}}"></td>
+        <td data-linkedcolumn="QuantityReserved" class="total-val" data-value="{{QuantityReserved}}"></td>
+        <td data-linkedcolumn="QuantityAvailable" class="total-val" data-value="{{QuantityAvailable}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="ConflictType" data-value=""></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
     </tbody>
-    {{/ifEquals}}
-    {{#ifEquals RowType "OrderNumberfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">{{OrderNumber}}:&nbsp;</td>
-      <td class="total-val" data-value="{{QuantitySub}}"></td>
-      <td class="total-val" data-value="{{QuantityReserved}}"></td>
-      <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-      <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Dealfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">{{Deal}}:&nbsp;</td>
-      <td class="total-val" data-value="{{QuantitySub}}"></td>
-      <td class="total-val" data-value="{{QuantityReserved}}"></td>
-      <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-      <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Departmentfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">{{Department}}:&nbsp;</td>
-      <td class="total-val" data-value="{{QuantitySub}}"></td>
-      <td class="total-val" data-value="{{QuantityReserved}}"></td>
-      <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-      <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Warehousefooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
-      <td class="total-val" data-value="{{QuantitySub}}"></td>
-      <td class="total-val" data-value="{{QuantityReserved}}"></td>
-      <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-      <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "grandtotal"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
-      <td class="total-val" data-value="{{QuantitySub}}"></td>
-      <td class="total-val" data-value="{{QuantityReserved}}"></td>
-      <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-      <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{/each}}
   </table>
 </div>
