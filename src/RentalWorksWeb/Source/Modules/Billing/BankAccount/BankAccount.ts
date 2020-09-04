@@ -49,6 +49,11 @@ class BankAccount {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
+        });
+
+
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
@@ -56,11 +61,18 @@ class BankAccount {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        if (mode === 'NEW') {
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', office.defaultcurrencyid, office.defaultcurrencycode);
+        }
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="BankAccountId"] input').val(uniqueids.BankAccountId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;

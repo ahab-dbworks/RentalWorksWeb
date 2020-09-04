@@ -7,7 +7,7 @@ namespace WebApi.Modules.Home.BankAccount
     public class BankAccountRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "accountid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
+        [FwSqlDataField(column: "accountid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
         public int? BankAccountId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "accountname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]

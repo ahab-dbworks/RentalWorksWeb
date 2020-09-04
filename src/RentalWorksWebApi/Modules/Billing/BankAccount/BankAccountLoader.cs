@@ -9,7 +9,7 @@ namespace WebApi.Modules.Home.BankAccount
     public class BankAccountLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "accountid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
+        [FwSqlDataField(column: "accountid", modeltype: FwDataTypes.Integer, isPrimaryKey: true, identity: true)]
         public int? BankAccountId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "accountname", modeltype: FwDataTypes.Text)]
@@ -47,6 +47,7 @@ namespace WebApi.Modules.Home.BankAccount
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
+            AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }

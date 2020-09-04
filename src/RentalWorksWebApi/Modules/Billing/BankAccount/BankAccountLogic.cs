@@ -16,7 +16,7 @@ namespace WebApi.Modules.Home.BankAccount
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "xOD2Bb5p4NDko", IsPrimaryKey: true)]
         public int? BankAccountId { get { return bankAccount.BankAccountId; } set { bankAccount.BankAccountId = value; } }
-        [FwLogicProperty(Id: "XODxXclqGlT22")]
+        [FwLogicProperty(Id: "XODxXclqGlT22", IsRecordTitle: true)]
         public string AccountName { get { return bankAccount.AccountName; } set { bankAccount.AccountName = value; } }
         [FwLogicProperty(Id: "xpCEc8HboxilG")]
         public string CheckNumber { get { return bankAccount.CheckNumber; } set { bankAccount.CheckNumber = value; } }
