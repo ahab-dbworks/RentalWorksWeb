@@ -877,7 +877,10 @@ class FwSettingsClass {
                         FwBrowse.databind($browse)
                             .then(() => {
                                 FwBrowse.downloadExcelWorkbook($browse, controller);
-                            })
+                                const $appendedBrowse = $this.find('[data-control="FwBrowse"]');
+                                // delete hidden browse
+                                $appendedBrowse.remove();
+                            });
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -891,6 +894,9 @@ class FwSettingsClass {
                     $browse.css('display', 'none');
                     try {
                         FwBrowse.importExcelFromBrowse($browse, controller);
+                        const $appendedBrowse = $this.find('[data-control="FwBrowse"]');
+                        // delete hidden browse
+                        $appendedBrowse.remove();
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
