@@ -303,13 +303,13 @@ class TransferOrder {
     openPickListBrowse($form) {
         const $browse = PickListController.openBrowse();
         $browse.data('ondatabind', request => {
-            request.activeviewfields = { LocationId: ["ALL"] };
+            request.activeviewfields = { WarehouseId: ["ALL"] };
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'TransferId')
             }
         });
         // activeviewfields has been hardcoded to 'ALL' so filter is hidden for this submodule
-        $browse.find('.buttonbar .ddviewbtn.Location').hide();
+        $browse.find('.buttonbar .ddviewbtn.Warehouse').hide();
 
         return $browse;
     };
