@@ -1,13 +1,25 @@
 ﻿class FwBrowseColumn_moneyClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-        if (typeof dt.ColumnIndex[$field.attr('data-currencysymbol')] === 'number') {
-            var currencySymbol = dtRow[dt.ColumnIndex[$field.attr('data-currencysymbol')]];
-            if (currencySymbol === '') {
-                currencySymbol = '$';
-            }
-            $field.attr('data-currencysymboldisplay', currencySymbol);
+        //if (typeof dt.ColumnIndex[$field.attr('data-currencysymbol')] === 'number') {
+        //    var currencySymbol = dtRow[dt.ColumnIndex[$field.attr('data-currencysymbol')]];
+        //    if (currencySymbol === '') {
+        //        currencySymbol = '$';
+        //    }
+        //    $field.attr('data-currencysymboldisplay', currencySymbol);
+        //}
+
+        let currencySymbol: string = '';
+        if (typeof dt.ColumnIndex[$field.attr('data-currencysymbol')] === 'number') {    // developer has explicitly assigned the data-currencysymbol attribute, defining the name of the field that has the correct currency symbol to render
+            currencySymbol = dtRow[dt.ColumnIndex[$field.attr('data-currencysymbol')]];
         }
+        else if (typeof dt.ColumnIndex['CurrencySymbol'] === 'number') {                 // developer has not explicitly assigned the data-currencysymbol attribute, but a field called CurrencySymbol exists
+            currencySymbol = dtRow[dt.ColumnIndex['CurrencySymbol']];
+        }
+        if (currencySymbol === '') {
+            currencySymbol = '$';
+        }
+        $field.attr('data-currencysymboldisplay', currencySymbol);
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
