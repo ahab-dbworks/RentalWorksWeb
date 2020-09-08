@@ -247,7 +247,8 @@ namespace WebApi.Modules.Billing.Billing
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string TotalColor
         {
-            get { return getTotalColor(BilledHiatus); }
+            //            get { return getTotalColor(BilledHiatus); }
+            get { return getTotalColor(BilledHiatus.GetValueOrDefault(false), CurrencyId, OfficeLocationDefaultCurrencyId); }
         }
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
@@ -273,7 +274,7 @@ namespace WebApi.Modules.Billing.Billing
                         row[dt.GetColumnNo("BillingStopDateColor")] = getBillingStopDateColor(row[dt.GetColumnNo("BillingPeriodEndDate")].ToString(), row[dt.GetColumnNo("BillingStopDate")].ToString());
                         row[dt.GetColumnNo("OrderDateColor")] = getOrderDateColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BillingNotes")].ToString()));
                         row[dt.GetColumnNo("PurchaseOrderNumberColor")] = getPurchaseOrderNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsFlatPo")].ToString()), FwConvert.ToBoolean(row[dt.GetColumnNo("PendingPo")].ToString()));
-                        row[dt.GetColumnNo("TotalColor")] = getTotalColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BilledHiatus")].ToString()));
+                        row[dt.GetColumnNo("TotalColor")] = getTotalColor(FwConvert.ToBoolean(row[dt.GetColumnNo("BilledHiatus")].ToString()), row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
                     }
                 }
             }
@@ -341,12 +342,19 @@ namespace WebApi.Modules.Billing.Billing
             return color;
         }
         //------------------------------------------------------------------------------------ 
-        protected string getTotalColor(bool? billedHiatus)
+        protected string getTotalColor(bool? billedHiatus, string currencyId, string officeLocationCurrencyId)
         {
             string color = null;
             if (billedHiatus.GetValueOrDefault(false))
             {
-                color = "#00B95C";
+                color = RwGlobals.INVOICE_HIATUS_COLOR;
+            }
+            else
+            {
+                if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationCurrencyId)))
+                {
+                    color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+                }
             }
             return color;
         }

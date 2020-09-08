@@ -78,6 +78,7 @@ namespace WebApi.Modules.Billing.Billing
             legend.Add("PO Pending", RwGlobals.ORDER_PENDING_PO_COLOR);
             legend.Add("L&D", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
             legend.Add("Hiatus", "#00B95C");
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
 
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
