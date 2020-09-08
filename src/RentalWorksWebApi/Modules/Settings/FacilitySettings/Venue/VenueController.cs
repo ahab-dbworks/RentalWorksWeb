@@ -82,7 +82,7 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/order/validatetaxoption/browse 
+        // POST api/v1/venue/validatetaxoption/browse 
         [HttpPost("validatetaxoption/browse")]
         [FwControllerMethod(Id: "O55aALVZz9Ft7", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOptionBrowseAsync([FromBody] BrowseRequest browseRequest)
