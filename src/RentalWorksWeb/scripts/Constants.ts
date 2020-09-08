@@ -523,11 +523,11 @@ var Constants = {
                     id:      'Settings.LaborSettings',
                     nodetype: 'Category',
                     children: {
-                        Crew:               { id: '7myCbtZNx85m', caption: 'Crew',                 nav: 'settings/laborsettings/crew',               nodetype: 'Module', description: '' },
-                        CrewScheduleStatus: { id: 'c0X4YfdKCp06', caption: 'Crew Schedule Status', nav: 'settings/laborsettings/crewschedulestatus', nodetype: 'Module', description: '' },
-                        CrewStatus:         { id: 'uW0hAqUv6mDL', caption: 'Crew Status',          nav: 'settings/laborsettings/crewstatus',         nodetype: 'Module', description: '' },
+                        Crew:               { id: '7myCbtZNx85m', caption: 'Crew',                 nav: 'settings/laborsettings/crew',               nodetype: 'Module', description: 'Define Crew personell, indicate which positions and default rates for each crew position.' },
+                        CrewScheduleStatus: { id: 'c0X4YfdKCp06', caption: 'Crew Schedule Status', nav: 'settings/laborsettings/crewschedulestatus', nodetype: 'Module', description: 'List of statuses for each Crew assignment.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
+                        CrewStatus:         { id: 'uW0hAqUv6mDL', caption: 'Crew Status',          nav: 'settings/laborsettings/crewstatus',         nodetype: 'Module', description: 'List of statuses for each Crew person.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
                         LaborCategory:      { id: 'nJIiZsDNxc83', caption: 'Labor Category',       nav: 'settings/laborsettings/laborcategory',      nodetype: 'Module', description: '' },
-                        LaborPosition:      { id: 'ZKb7ET3WoPs2', caption: 'Crew Position',        nav: 'settings/laborsettings/laborposition',      nodetype: 'Module', description: '' },
+                        LaborPosition:      { id: 'ZKb7ET3WoPs2', caption: 'Crew Position',        nav: 'settings/laborsettings/laborposition',      nodetype: 'Module', description: 'List of Positions (job functions) and default rates for each.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
                         LaborRate:          { id: 'GRs9mNWBxRw4', caption: 'Labor Rate',           nav: 'settings/laborsettings/laborrate',          nodetype: 'Module', description: '' },
                         LaborType:          { id: 'FGjikpXt4iRf', caption: 'Labor Type',           nav: 'settings/laborsettings/labortype',          nodetype: 'Module', description: '' },
                     }
