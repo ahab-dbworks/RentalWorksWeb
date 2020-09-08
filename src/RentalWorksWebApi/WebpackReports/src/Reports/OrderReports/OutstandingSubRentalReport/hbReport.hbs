@@ -1,5 +1,5 @@
 ﻿<!--Outstanding Sub-Rental Report-->
-<div class="rpt-flexrow" style="width:1555px;">
+<div data-section="header" class="rpt-flexrow" style="width:1555px;">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,86 +11,101 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;width:1555px;">
   <table>
-    <thead>
-      <tr>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th>Vendor</th>
-        <th>PO No.</th>
-        <th>Deal</th>
-        <th>Order No.</th>
-        <th>Order Description</th>
-        <th colspan="2">Estimated Rental Period</th>
-        <th class="number">Ordered</th>
-        <th class="number">Staged</th>
-        <th class="number">Out</th>
-        <th class="number">Holding</th>
-        <th class="number">Available</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Vendor" data-valuefield="Vendor">Vendor</th>
+        <th data-linkedcolumn="PurchaseOrderNumber" data-valuefield="PurchaseOrderNumber">PO No.</th>
+        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Order Description</th>
+        <th data-linkedcolumn="PurchaseOrderFromDate" data-valuefield="PurchaseOrderFromDate">From</th>
+        <th data-linkedcolumn="PurchaseOrderToDate" data-valuefield="PurchaseOrderToDate">To</th>
+        <th data-linkedcolumn="QuantityOrdered" data-valuefield="QuantityOrdered" class="number">Ordered</th>
+        <th data-linkedcolumn="QuantityStaged" data-valuefield="QuantityStaged" class="number">Staged</th>
+        <th data-linkedcolumn="QuantityOut" data-valuefield="QuantityOut" class="number">Out</th>
+        <th data-linkedcolumn="QuantityHolding" data-valuefield="QuantityHolding" class="number">Holding</th>
+        <th data-linkedcolumn="QuantityAvailable" data-valuefield="QuantityAvailable" class="number">Available</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype={{RowType}}>
         <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td class="nowrap" data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td data-value="{{Vendor}}"></td>
-        <td data-value="{{PurchaseOrderNumber}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{OrderDescription}}"></td>
-        <td data-value="{{PurchaseOrderFromDate}}"></td>
-        <td data-value="{{PurchaseOrderToDate}}"></td>
-        <td class="number" data-value="{{QuantityOrdered}}"></td>
-        <td class="number" data-value="{{QuantityStaged}}"></td>
-        <td class="number" data-value="{{QuantityOut}}"></td>
-        <td class="number" data-value="{{QuantityHolding}}"></td>
-        <td class="number" data-value="{{QuantityAvailable}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="9" class="total-name">{{Category}}:&nbsp;</td>
-        <td class="total-val" data-value="{{QuantityOrdered}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityHolding}}"></td>
-        <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="9" class="total-name">{{InventoryType}}:&nbsp;</td>
-        <td class="total-val" data-value="{{QuantityOrdered}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityHolding}}"></td>
-        <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="9" class="total-name">{{Warehouse}}:&nbsp;</td>
-        <td class="total-val" data-value="{{QuantityOrdered}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityHolding}}"></td>
-        <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="9" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{QuantityOrdered}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityHolding}}"></td>
-        <td class="total-val" data-value="{{QuantityAvailable}}"></td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" class="nowrap" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Vendor" data-value="{{Vendor}}"></td>
+        <td data-linkedcolumn="PurchaseOrderNumber" data-value="{{PurchaseOrderNumber}}"></td>
+        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="PurchaseOrderFromDate" data-value="{{PurchaseOrderFromDate}}"></td>
+        <td data-linkedcolumn="PurchaseOrderToDate" data-value="{{PurchaseOrderToDate}}"></td>
+        <td class="number" data-linkedcolumn="QuantityOrdered" data-value="{{QuantityOrdered}}"></td>
+        <td class="number" data-linkedcolumn="QuantityStaged" data-value="{{QuantityStaged}}"></td>
+        <td class="number" data-linkedcolumn="QuantityOut" data-value="{{QuantityOut}}"></td>
+        <td class="number" data-linkedcolumn="QuantityHolding" data-value="{{QuantityHolding}}"></td>
+        <td class="number" data-linkedcolumn="QuantityAvailable" data-value="{{QuantityAvailable}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="9" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="QuantityOrdered" data-value="{{QuantityOrdered}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityStaged" data-value="{{QuantityStaged}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityOut" data-value="{{QuantityOut}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityHolding" data-value="{{QuantityHolding}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityAvailable" data-value="{{QuantityAvailable}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="9" class="total-name">{{InventoryType}}:&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="QuantityOrdered" data-value="{{QuantityOrdered}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityStaged" data-value="{{QuantityStaged}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityOut" data-value="{{QuantityOut}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityHolding" data-value="{{QuantityHolding}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityAvailable" data-value="{{QuantityAvailable}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="9" class="total-name">{{Category}}:&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="QuantityOrdered" data-value="{{QuantityOrdered}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityStaged" data-value="{{QuantityStaged}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityOut" data-value="{{QuantityOut}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityHolding" data-value="{{QuantityHolding}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityAvailable" data-value="{{QuantityAvailable}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="9" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-linkedcolumn="QuantityOrdered" data-value="{{QuantityOrdered}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityStaged" data-value="{{QuantityStaged}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityOut" data-value="{{QuantityOut}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityHolding" data-value="{{QuantityHolding}}"></td>
+        <td class="total-val" data-linkedcolumn="QuantityAvailable" data-value="{{QuantityAvailable}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

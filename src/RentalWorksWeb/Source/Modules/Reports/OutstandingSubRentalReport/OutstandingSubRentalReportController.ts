@@ -61,6 +61,7 @@ class OutstandingSubRentalReport extends FwWebApiReport {
     constructor() {
         super('OutstandingSubRentalReport', 'api/v1/outstandingsubrentalreport', outstandingSubRentalReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
