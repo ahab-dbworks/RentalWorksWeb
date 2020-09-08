@@ -96,7 +96,7 @@ class Billing {
                           <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="UserId" data-displayfield="User" data-validationname="UserValidation"></div>
                           <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Orders with a Pending PO" data-datafield="ShowOrdersWithPendingPO"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="If Order is Complete, show even if beyond Bill As of Date" data-datafield="BillIfComplete"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Completed Orders even if their Billing Cycle is not yet complete" data-datafield="BillIfComplete"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Multiple Billing Periods on One Invoice" data-datafield="CombinePeriods"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Invoice Totals while searching" data-datafield="IncludeTotals"></div>
                         </div>
