@@ -110,6 +110,7 @@ class Billing {
         FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
         $popup = FwPopup.renderPopup($popup, { 'ismodal': true });
         FwFormField.setValueByDataField($popup, 'ShowOrdersWithPendingPO', "T");
+        FwFormField.setValueByDataField($popup, 'BillIfComplete', "T");
         FwPopup.showPopup($popup);
 
         $browse.data('onscreenunload', () => { FwPopup.destroyPopup($popup); });
