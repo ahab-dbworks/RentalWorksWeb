@@ -53,6 +53,7 @@ class RwMaster extends WebMaster {
                 menuBilling.children.push(Constants.Modules.Billing.children.Billing);
                 menuBilling.children.push(Constants.Modules.Billing.children.BillingWorksheet);
                 menuBilling.children.push(Constants.Modules.Billing.children.Invoice);
+                menuBilling.children.push(Constants.Modules.Billing.children.Payment);
                 if (controlDefaults.enablereceipts) {
                     menuBilling.children.push(Constants.Modules.Billing.children.Receipt);
                 }

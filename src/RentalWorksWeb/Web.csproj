@@ -565,6 +565,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\BankAccount\BankAccount.ts" />
+    <TypeScriptCompile Include="Source\Modules\Billing\Payment\Payment.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CountQuantityInventory\CountQuantityInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
@@ -761,6 +762,8 @@
     <Content Include="Source\Modules\Billing\BillingWorksheet\BillingWorksheetForm.htm" />
     <Content Include="Source\Modules\Billing\BankAccount\BankAccountBrowse.htm" />
     <Content Include="Source\Modules\Billing\BankAccount\BankAccountForm.htm" />
+    <Content Include="Source\Modules\Billing\Payment\PaymentBrowse.htm" />
+    <Content Include="Source\Modules\Billing\Payment\PaymentForm.htm" />
     <Content Include="Source\Modules\Home\InventoryPurchaseSession\InventoryPurchaseSessionBrowse.htm" />
     <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentBrowse.htm" />
     <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentForm.htm" />
