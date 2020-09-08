@@ -85,6 +85,13 @@ class Venue {
             }
         });
 
+        //Populate tax info fields with validation
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+        });
+
         //$form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
         //    try {
         //        const spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
@@ -162,7 +169,7 @@ class Venue {
         //});
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
+    afterLoad($form: any, response: any) {
         const $floorGrid = $form.find('[data-name="FloorGrid"]');
         FwBrowse.search($floorGrid);
 
@@ -171,12 +178,62 @@ class Venue {
 
         //const $spaceRateGrid = $form.find('[data-name="SpaceRateGrid"]');
         //FwBrowse.search($spaceRateGrid);
+
+        this.applyTaxOptions($form, response);
+    }
+    //----------------------------------------------------------------------------------------------
+    applyTaxOptions($form: JQuery, response: any) {
+        const $tax1Fields = $form.find('[data-taxfield="1"]');
+
+        const updateCaption = ($fields, taxName, count) => {
+            for (let i = 0; i < $fields.length; i++) {
+                const $field = jQuery($fields[i]);
+                const taxType = $field.attr('data-taxtype');
+                if (typeof taxType != 'undefined') {
+                    const taxRateName = `${taxType}TaxRate${count}`;
+                    const taxRatePercentage = response[taxRateName];
+                    if (typeof taxRatePercentage == 'number') {
+                        const caption = taxName + ` (${taxRatePercentage.toFixed(3) + '%'})`;
+                        $field.find('.fwformfield-caption').text(caption);
+                    }
+                }
+            }
+
+            const $billingTabTaxFields = $form.find(`[data-datafield="RentalTaxRate${count}"], [data-datafield="SalesTaxRate${count}"], [data-datafield="LaborTaxRate${count}"]`);
+            for (let i = 0; i < $billingTabTaxFields.length; i++) {
+                const $field = jQuery($billingTabTaxFields[i]);
+                const taxType = $field.attr('data-taxtype');
+                if (typeof taxType != 'undefined') {
+                    const newCaption = `${taxType} ${taxName}`;
+                    $field.find('.fwformfield-caption').text(newCaption);
+                }
+                $field.show();
+            }
+        }
+
+        const tax1Name = response.Tax1Name;
+        if (tax1Name != "") {
+            updateCaption($tax1Fields, tax1Name, 1);
+        }
+
+        const $tax2Fields = $form.find('[data-taxfield="2"]');
+        //const tax2Name = response.Tax2Name;
+        const tax2Name: string = 'NY';
+        if (tax2Name != "") {
+            $tax2Fields.show();
+            updateCaption($tax2Fields, tax2Name, 2);
+        } else {
+            $tax2Fields.hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'OfficeLocationId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
                 break;
         }
     }
