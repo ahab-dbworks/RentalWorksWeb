@@ -40,7 +40,7 @@ jQuery(async () => {
     }
     if (applicationConfig.debugMode) {
         setTimeout(async () => {
-            await start();
+            await startAsync();
         }, 1000);
     } else {
         await startAsync();

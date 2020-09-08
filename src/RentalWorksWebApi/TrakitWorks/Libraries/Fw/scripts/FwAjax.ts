@@ -16,10 +16,22 @@ class FwAjaxRequest<T> {
     requestId?: string = FwAjax.generateUID();
     xmlHttpRequest?: XMLHttpRequest = new XMLHttpRequest();
     cancelable?: boolean = false;
+    setWebApiUrl?(relativeUrl: string) {
+        let baseUrl = <string>applicationConfig.apiurl;
+        while (baseUrl.lastIndexOf('/') === baseUrl.length - 1) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+        }
+        while (relativeUrl.indexOf('/') === 0) {
+            relativeUrl = relativeUrl.substring(1, relativeUrl.length);
+        }
+        this.url = baseUrl + '/' + relativeUrl;
+    }
+    logoutOnAuthFailure?: boolean = true;
+    forceJsonParseResponse?= false;
 }
 
 interface IRequest {
-   [key: string]: FwAjaxRequest<any>;
+    [key: string]: FwAjaxRequest<any>;
 }
 
 class FwAjaxRejectReason {
@@ -35,7 +47,7 @@ class FwAjaxClass {
     requests: IRequest = {};
     //----------------------------------------------------------------------------------------------
     async callWebApi<TRequest, TResponse>(options: FwAjaxRequest<TRequest>): Promise<TResponse> {
-        return new Promise<TResponse>(async(resolve, reject) => {
+        return new Promise<TResponse>(async (resolve, reject) => {
             try {
                 if (typeof options.timeout === 'undefined' || options.timeout === null) {
                     options.timeout = 15000;
@@ -63,6 +75,7 @@ class FwAjaxClass {
                 options.xmlHttpRequest.open(options.httpMethod, options.url);
                 if (options.httpMethod === 'POST' || options.httpMethod === 'PUT') {
                     options.xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
+                    options.xmlHttpRequest.setRequestHeader('Accept', 'application/json');
                 }
                 if (typeof options.addAuthorizationHeader === 'undefined' || options.addAuthorizationHeader === true) {
                     options.xmlHttpRequest.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('apiToken'));
@@ -72,26 +85,25 @@ class FwAjaxClass {
                 }
                 options.xmlHttpRequest.onload = () => {
                     if (typeof FwAjax.requests[options.requestId] !== 'undefined') {
-                        if (options.xmlHttpRequest.status == 200) {
-                            this.hideLoader(options);
-                            return resolve(JSON.parse(options.xmlHttpRequest.response));
+                        this.hideLoader(options);
+                        if (options.xmlHttpRequest.status === 500) {
+                            return this.rejectFwApiException<TRequest>(options, reject);
                         }
-                        else {
-                            this.hideLoader(options);
-                            let rejectReason = new FwAjaxRejectReason();
-                            rejectReason.reason = 'HttpStatusCode';
-                            rejectReason.statusCode = options.xmlHttpRequest.status;
-                            rejectReason.statusText = options.xmlHttpRequest.statusText;
-                            rejectReason.message = `${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
-                            return reject(rejectReason);
+                        if ((options.xmlHttpRequest.status === 401 || options.xmlHttpRequest.status === 403) &&
+                            (options.logoutOnAuthFailure === undefined || options.logoutOnAuthFailure === true)) {
+                            sessionStorage.clear();
+                            window.location.reload(true);
                         }
+                        if (options.forceJsonParseResponse ||
+                            (options.xmlHttpRequest.getResponseHeader('content-type') !== null && options.xmlHttpRequest.getResponseHeader('content-type').indexOf('application/json') !== -1)) {
+                            const result = JSON.parse(options.xmlHttpRequest.response);
+                            return resolve(result);
+                        }
+                        return resolve(options.xmlHttpRequest.response);
                     }
                 };
                 options.xmlHttpRequest.ontimeout = () => {
-                    if (options.$elementToBlock !== null) {
-                        this.hideLoader(options);
-                    }
-                    //reject(`Request timeout expired\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
+                    this.hideLoader(options);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Timeout';
                     rejectReason.message = `Request timeout expired\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
@@ -106,15 +118,11 @@ class FwAjaxClass {
                 }
                 options.xmlHttpRequest.onerror = () => {
                     this.hideLoader(options);
-                    //reject(`${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
-                    let rejectReason = new FwAjaxRejectReason();
-                    rejectReason.reason = 'Exception';
-                    rejectReason.message = `${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
-                    return reject(rejectReason);
+                    return this.rejectFwApiException<TRequest>(options, reject);
                 };
                 if (options.httpMethod === 'GET') {
                     options.xmlHttpRequest.send();
-                } else if (options.httpMethod === 'POST') {
+                } else {
                     if (options.data != null) {
                         options.xmlHttpRequest.send(JSON.stringify(options.data));
                     } else {
@@ -122,12 +130,28 @@ class FwAjaxClass {
                     }
                 }
             } catch (ex) {
+                this.hideLoader(options);
                 let rejectReason = new FwAjaxRejectReason();
                 rejectReason.reason = 'Exception';
                 rejectReason.exception = ex;
                 return reject(rejectReason);
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    private rejectFwApiException<TRequest>(options: FwAjaxRequest<TRequest>, reject: (reason: any) => void) {
+        let rejectReason = new FwAjaxRejectReason();
+        rejectReason.reason = 'HttpStatusCode';
+        rejectReason.statusCode = options.xmlHttpRequest.status;
+        rejectReason.statusText = options.xmlHttpRequest.statusText;
+        if (options.xmlHttpRequest.responseText.indexOf('{') === 0) {
+            var apiException = JSON.parse(options.xmlHttpRequest.responseText);
+            rejectReason.message = apiException.Message;
+            console.error(`${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\nGET: ${options.url}\n\n${apiException.StackTrace}`);
+        } else {
+            rejectReason.message = `${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
+        }
+        return reject(rejectReason);
     }
     //----------------------------------------------------------------------------------------------
     abortRequest(requestid) {
@@ -146,29 +170,28 @@ class FwAjaxClass {
     //----------------------------------------------------------------------------------------------
     showLoader(options: FwAjaxRequest<any>) {
         FwAjax.requests[options.requestId] = options;
-        if (options.$elementToBlock !== null) {
-            var isdesktop = jQuery('html').hasClass('desktop');
-            var ismobile = jQuery('html').hasClass('mobile');
-            if (isdesktop || (ismobile && (options.$elementToBlock !== null))) {
-                if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
-                    if (options.$elementToBlock.hasClass('fwformfield') && options.$elementToBlock.attr('data-type') !== undefined && options.$elementToBlock.attr('data-type') === 'validation') {
-                        // hide validation search button and show spinner
-                        options.$elementToBlock.find('.btnvalidate').hide();
-                        options.$elementToBlock.find('.validation-loader').show();
-                    } else {
-                        options.$elementToBlock.data('ajaxoverlay', this.showPleaseWaitOverlay(options));
-                    }
+        var isdesktop = jQuery('html').hasClass('desktop');
+        var ismobile = jQuery('html').hasClass('mobile');
+        if (isdesktop || (ismobile && (options.$elementToBlock !== null))) {
+            if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
+                if (options.$elementToBlock.hasClass('fwformfield') && options.$elementToBlock.attr('data-type') !== undefined && options.$elementToBlock.attr('data-type') === 'validation') {
+                    // hide validation search button and show spinner
+                    options.$elementToBlock.find('.btnvalidate').hide();
+                    options.$elementToBlock.find('.validation-loader').show();
+                } else {
+                    options.$elementToBlock.data('ajaxoverlay', this.showPleaseWaitOverlay(options));
                 }
-            } else if (ismobile) {
-                var maxZIndex;
-                jQuery('#index-loadingInner').hide();
-                maxZIndex = FwFunc.getMaxZ('*');
-                jQuery('#index-loading').css('z-index', maxZIndex).show();
-                options.$elementToBlock.data('ajaxloadingTimeout', setTimeout(function () {
-                    options.$elementToBlock.data('ajaxloadingTimeout', null);
-                    jQuery('#index-loadingInner').stop().fadeIn(50);
-                }, 0));
             }
+        } else if (ismobile) {
+            var maxZIndex;
+            jQuery('#index-loadingInner').hide();
+            maxZIndex = FwFunc.getMaxZ('*');
+            jQuery('#index-loading').css('z-index', maxZIndex).show();
+            const $elementToBlock = (options.$elementToBlock !== null) ? options.$elementToBlock : jQuery('body');
+            $elementToBlock.data('ajaxloadingTimeout', setTimeout(function () {
+                $elementToBlock.data('ajaxloadingTimeout', null);
+                jQuery('#index-loadingInner').stop().fadeIn(50);
+            }, 0));
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -187,8 +210,10 @@ class FwAjaxClass {
                 }
             }
         } else if (ismobile) {
-            if (options.$elementToBlock.data('ajaxloadingTimeout')) {
-                clearTimeout(options.$elementToBlock.data('ajaxloadingTimeout'));
+            if ((typeof options.$elementToBlock === 'object') && (options.$elementToBlock !== null)) {
+                if (options.$elementToBlock.data('ajaxloadingTimeout')) {
+                    clearTimeout(options.$elementToBlock.data('ajaxloadingTimeout'));
+                }
             }
             jQuery('#index-loadingInner').stop().fadeOut(50, function () {
                 jQuery('#index-loading').css('z-index', 0).hide();
@@ -241,62 +266,6 @@ class FwAjaxClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-//    showLoader() {
-//        var style = document.createElement('style');
-//        style.id = "ajaxStyles";
-//        style.innerHTML = `
-//html, body {
-//    min-height:100% !important;
-//}
-//.loader-container {
-//    position: absolute;
-//    top: 0;
-//    right: 0;
-//    left: 0;
-//    bottom: 0;
-//    display: flex;
-//    align-items: center;
-//    justify-content: center;
-//}
-
-//.loader {
-//    border: 16px solid #f3f3f3; /* Light grey */
-//    border-top: 16px solid #3498db; /* Blue */
-//    border-radius: 50%;
-//    width: 120px;
-//    height: 120px;
-//    animation: spin 2s linear infinite;
-//}
-
-//@keyframes spin {
-//    0% {
-//        transform: rotate(0deg);
-//    }
-
-//    100% {
-//        transform: rotate(360deg);
-//    }
-//}
-//        `;
-//        document.body.appendChild(style); // append in body
-//        //document.head.appendChild(style); // append in head
-
-//        let loaderContainer = document.createElement('div');
-//        loaderContainer.classList.add('loader-container');
-//        var loader = document.createElement('div');
-//        loader.classList.add('loader');
-//        loaderContainer.appendChild(loader);
-//        var bodys = document.getElementsByTagName('body');
-//        bodys[0].appendChild(loaderContainer);
-//    }
-
-//    hideLoader() {
-//        let loaders = document.getElementsByClassName('loader-container');
-//        for (let i = 0; i < loaders.length; i++) {
-//            loaders[i].remove();
-//        }
-//        document.getElementById('ajaxStyles').remove();
-//    }
 }
 
 var FwAjax = new FwAjaxClass();

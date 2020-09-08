@@ -183,7 +183,7 @@
                         response.options.scales.xAxes[0].ticks.maxRotation = 70;
                     }
 
-                    Chart.helpers.each(Chart.instances, function (instance) {
+                    (<any>Chart).helpers.each((<any>Chart).instances, function (instance) {
                         if (instance.chart.canvas.id === widgetData.userWidgetId) { instance.chart.destroy() }
                     })
 
@@ -259,7 +259,7 @@
                             response = self.formatAxis(response, fullscreenAxisNumberFormatId);
                             response = self.formatData(response, fullscreenDataNumberFormatId);
 
-                            Chart.helpers.each(Chart.instances, function (instance) {
+                            (<any>Chart).helpers.each((<any>Chart).instances, function (instance) {
                                 if (instance.chart.canvas.id === widgetData.apiname + 'fullscreen') { instance.chart.destroy() }
                             })
 
@@ -365,7 +365,7 @@
                     response.options.scales.xAxes[0].ticks.maxRotation = 70;
                 }
 
-                Chart.helpers.each(Chart.instances, function (instance) {
+                (<any>Chart).helpers.each((<any>Chart).instances, function (instance) {
                     if (instance.chart.canvas.id === widgetData.userWidgetId) { instance.chart.destroy() }
                 })
 

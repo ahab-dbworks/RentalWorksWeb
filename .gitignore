@@ -55,8 +55,6 @@
 /src/RentalWorksWeb/app_head.htm
 /src/RentalWorksWeb/app_startupscript.js
 /src/RentalWorksWeb/App_Data/Temp/
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 /src/RentalWorksWeb/node_modules/**/*
 /src/RentalWorksWeb/scripts/_references.js
 /src/RentalWorksWeb/scripts/Constants.js.map
@@ -126,8 +124,6 @@
 /src/RentalWorksWebApi/TrakitWorks/scripts/Program.js.map
 /src/RentalWorksWebApi/TrakitWorks/scripts/RwMaster.js
 /src/RentalWorksWebApi/TrakitWorks/scripts/RwMaster.js.map
-/src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwReport.js.map
-/src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 
 /SecurityTreeBuilder/obj/
 /SecurityTreeBuilder/bin/
@@ -208,6 +204,8 @@
 **/Fw/scripts/FwApplicationConfig.js.map
 **/Fw/scripts/FwControls/FwMenu.js
 **/Fw/scripts/FwControls/FwMenu.js.map
+**/Fw/scripts/FwOktaSignIn.js.map
+**/Fw/scripts/FwOktaSignIn.js
 **/Fw/scripts/FwServices.js
 **/Fw/scripts/FwServices.js.map
 **/Fw/scripts/FwFunc.js
@@ -232,3 +230,4 @@
 /src/JestTest/*.pdf
 /src/JestTest/*.jpg
 /src/JestTest/output/**
+

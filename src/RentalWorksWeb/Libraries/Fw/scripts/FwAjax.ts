@@ -27,6 +27,7 @@ class FwAjaxRequest<T> {
         this.url = baseUrl + '/' + relativeUrl;
     }
     logoutOnAuthFailure?: boolean = true;
+    forceJsonParseResponse?= false;
 }
 
 interface IRequest {
@@ -74,6 +75,7 @@ class FwAjaxClass {
                 options.xmlHttpRequest.open(options.httpMethod, options.url);
                 if (options.httpMethod === 'POST' || options.httpMethod === 'PUT') {
                     options.xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
+                    options.xmlHttpRequest.setRequestHeader('Accept', 'application/json');
                 }
                 if (typeof options.addAuthorizationHeader === 'undefined' || options.addAuthorizationHeader === true) {
                     options.xmlHttpRequest.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('apiToken'));
@@ -92,16 +94,16 @@ class FwAjaxClass {
                             sessionStorage.clear();
                             window.location.reload(true);
                         }
-                        if (options.xmlHttpRequest.getResponseHeader('content-type').indexOf('application/json') !== -1) {
-                            return resolve(JSON.parse(options.xmlHttpRequest.response));
+                        if (options.forceJsonParseResponse ||
+                            (options.xmlHttpRequest.getResponseHeader('content-type') !== null && options.xmlHttpRequest.getResponseHeader('content-type').indexOf('application/json') !== -1)) {
+                            const result = JSON.parse(options.xmlHttpRequest.response);
+                            return resolve(result);
                         }
                         return resolve(options.xmlHttpRequest.response);
                     }
                 };
                 options.xmlHttpRequest.ontimeout = () => {
-                    if (options.$elementToBlock !== null) {
-                        this.hideLoader(options);
-                    }
+                    this.hideLoader(options);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Timeout';
                     rejectReason.message = `Request timeout expired\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
@@ -128,6 +130,7 @@ class FwAjaxClass {
                     }
                 }
             } catch (ex) {
+                this.hideLoader(options);
                 let rejectReason = new FwAjaxRejectReason();
                 rejectReason.reason = 'Exception';
                 rejectReason.exception = ex;

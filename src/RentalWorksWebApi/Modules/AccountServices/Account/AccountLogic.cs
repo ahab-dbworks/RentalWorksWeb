@@ -9,6 +9,7 @@ namespace WebApi.Modules.AccountServices.Account
         //------------------------------------------------------------------------------------------------------
         public async Task<ResetPasswordResponse> ValidatePassword(ResetPasswordRequest request)
         {
+            await Task.CompletedTask;
             ResetPasswordResponse response = new ResetPasswordResponse();
 
             //using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))

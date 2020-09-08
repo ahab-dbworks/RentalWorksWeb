@@ -2,6 +2,7 @@
     appbaseurl = '';
     fwvirtualdirectory = '';
     appvirtualdirectory = '';
+    demoMode = false;
     debugMode = false;
     designMode = false;
     ajaxTimeoutSeconds = 300;
