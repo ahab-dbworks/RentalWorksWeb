@@ -145,6 +145,8 @@
             }
         });
 
+        $form.find('[data-datafield="FavoriteSearch"] input').attr('placeholder', 'Search');
+
         this.events($form);
 
         return $form;
@@ -212,6 +214,14 @@
             };
         });
 
+        //favorites search
+        $form.find('[data-datafield="FavoriteSearch"]').on('change', e => {
+            this.searchFavorites($form);
+        });
+
+        $form.find('.favorite-search i').on('click', e => {
+            this.searchFavorites($form);
+        });
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
@@ -276,6 +286,25 @@
         FwFormField.setValueByDataField($form, 'NewPassword', '');
 
     }
+    //----------------------------------------------------------------------------------------------
+    searchFavorites($form: JQuery) {
+        const searchValue = FwFormField.getValueByDataField($form, 'FavoriteSearch').toUpperCase();
+        const $favoritesList = $form.find('.available-modules');
+        if (searchValue != '') {
+            const $modules = $favoritesList.find('li');
+            for (let i = 0; i < $modules.length; i++) {
+                const $module = jQuery($modules[i]);
+                const text = $module.find('label').text().toUpperCase();
+                if (text.indexOf(searchValue) != -1) {
+                    $module.show();
+                } else {
+                    $module.hide();
+                }
+            }
+        } else {
+            $favoritesList.find('li').show();
+        }
+    };
     //----------------------------------------------------------------------------------------------
 }
 var UserProfileController = new UserProfile();
