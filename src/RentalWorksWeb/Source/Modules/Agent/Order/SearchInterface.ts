@@ -1793,6 +1793,7 @@ class SearchInterface {
                 if (type === 'Order' || type === 'Quote' || type === 'PurchaseOrder') {
                     FwAppData.apiMethod(true, 'GET', `api/v1/${type}/${id}`, request, FwServices.defaultTimeout,
                         response => {
+                            FwFormField.setValueByDataField($form, 'Status', response.Status);
                             if (response.HasLaborItem) {
                                 FwFormField.setValueByDataField($form, 'Labor', true, null, true);
                                 FwTabs.setTabColor($form.find('.labortab'), '#FFFF8d');
