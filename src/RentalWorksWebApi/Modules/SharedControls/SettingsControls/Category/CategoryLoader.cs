@@ -184,6 +184,9 @@ namespace WebApi.Modules.Settings.Category
         [FwSqlDataField(column: "subcategorycount", modeltype: FwDataTypes.Integer)]
         public int? SubCategoryCount { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inventorycount", modeltype: FwDataTypes.Integer)]
+        public int? InventoryCount { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

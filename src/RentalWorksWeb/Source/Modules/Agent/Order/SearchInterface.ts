@@ -1067,8 +1067,9 @@ class SearchInterface {
                 }
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, typeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    let categoryIdIndex = response.ColumnIndex.CategoryId;
-                    let categoryIndex   = response.ColumnIndex.Category;
+                    let categoryIdIndex     = response.ColumnIndex.CategoryId;
+                    let categoryIndex       = response.ColumnIndex.Category;
+                    let inventoryCountIndex = response.ColumnIndex.InventoryCount;
 
                     $popup.find('#category, #subCategory').empty();
                     $popup.find('#inventory').empty();
@@ -1076,7 +1077,7 @@ class SearchInterface {
                     let categories: any = [];
                     let categoryColumn  = $popup.find('#category');
                     for (let i = 0; i < response.Rows.length; i++) {
-                        if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
+                        if (categories.indexOf(response.Rows[i][categoryIndex]) == -1 && (response.Rows[i][inventoryCountIndex] != 0)) {
                             categories.push(response.Rows[i][categoryIndex]);
                             categoryColumn.append(`<ul data-value="${response.Rows[i][categoryIdIndex]}" data-caption="${response.Rows[i][categoryIndex]}">
                                                      <span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>
