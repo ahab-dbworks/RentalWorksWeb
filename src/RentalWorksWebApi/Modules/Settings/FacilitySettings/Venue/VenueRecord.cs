@@ -19,9 +19,9 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         //[FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Orderlocation { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string TaxOptionId { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string TaxOptionId { get; set; }
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "createbyusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string CreatebyusersId { get; set; }
         ////------------------------------------------------------------------------------------ 

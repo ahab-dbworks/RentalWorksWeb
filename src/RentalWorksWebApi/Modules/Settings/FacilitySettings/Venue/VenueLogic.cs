@@ -86,8 +86,35 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         [FwLogicProperty(Id: "Mhmx7EErYZqq")]
         public string WebAddress { get { return venue.WebAddress; } set { venue.WebAddress = value; } }
 
-        //[FwLogicProperty(Id:"1SpwBUyjOywi")]
-        //public string TaxoptionId { get { return building.TaxoptionId; } set { building.TaxoptionId = value; } }
+        [FwLogicProperty(Id: "R8WrudSmA8Pwc")]
+        public string TaxOptionId { get { return venue.TaxOptionId; } set { venue.TaxOptionId = value; } }
+
+        [FwLogicProperty(Id: "0ZFgq6IYVIMjt", IsReadOnly: true)]
+        public string TaxOption { get; set; }
+
+        [FwLogicProperty(Id: "KdXiVhXGzYcEG", IsReadOnly: true)]
+        public string Tax1Name { get; set; }
+
+        [FwLogicProperty(Id: "sbI6dCjLRXFQw", IsReadOnly: true)]
+        public string Tax2Name { get; set; }
+
+        [FwLogicProperty(Id: "8n83a5Q37JeC8", IsReadOnly: true)]
+        public decimal? RentalTaxRate1 { get; set; }
+
+        [FwLogicProperty(Id: "cQo7DBhtCWUIR", IsReadOnly: true)]
+        public decimal? SalesTaxRate1 { get; set; }
+
+        [FwLogicProperty(Id: "2DSmVe6EKdKFI", IsReadOnly: true)]
+        public decimal? LaborTaxRate1 { get; set; }
+
+        [FwLogicProperty(Id: "yVpfV7KZo3eRp", IsReadOnly: true)]
+        public decimal? RentalTaxRate2 { get; set; }
+
+        [FwLogicProperty(Id: "NKu6CsmQ2xC3v", IsReadOnly: true)]
+        public decimal? SalesTaxRate2 { get; set; }
+
+        [FwLogicProperty(Id: "iOwZXwiWo2ued", IsReadOnly: true)]
+        public decimal? LaborTaxRate2 { get; set; }
 
         [FwLogicProperty(Id: "yJi4WTATpF07V")]
         public string PrimaryContactId { get { return contact.ContactId; } set { contact.ContactId = value; } }
