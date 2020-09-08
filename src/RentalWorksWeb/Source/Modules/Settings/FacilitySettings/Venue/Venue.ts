@@ -217,8 +217,7 @@ class Venue {
         }
 
         const $tax2Fields = $form.find('[data-taxfield="2"]');
-        //const tax2Name = response.Tax2Name;
-        const tax2Name: string = 'NY';
+        const tax2Name = response.Tax2Name;
         if (tax2Name != "") {
             $tax2Fields.show();
             updateCaption($tax2Fields, tax2Name, 2);
