@@ -213,7 +213,7 @@ namespace WebApi.Logic
                     qry.Add("delete ");
                     if (rowCount != null)
                     {
-                        qry.Add(" top " + rowCount.ToString());
+                        qry.Add(" top (" + rowCount.ToString() + ")");
                     }
                     qry.Add(" from " + tablename);
                     qry.Add(" where ");
