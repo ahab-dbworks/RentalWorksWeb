@@ -149,6 +149,9 @@ namespace WebApi.Modules.Settings.Category
         [FwLogicProperty(Id:"ty0QlkZhFI0F", IsReadOnly:true)]
         public int? SubCategoryCount { get; set; }
 
+        [FwLogicProperty(Id: "Dzf8h8EpXtaY", IsReadOnly: true)]
+        public int? InventoryCount { get; set; }
+
         [FwLogicProperty(Id:"gSwcQCCRAgFA")]
         public bool? Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
 
