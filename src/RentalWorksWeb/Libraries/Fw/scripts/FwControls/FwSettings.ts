@@ -788,11 +788,17 @@ class FwSettingsClass {
                 if (showNew) {
                     html.push(`         <div class="flexrow new-row-menu" data-caption="${title}"><i class="material-icons">add</i>New Item</div>`);
                 }
-                html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+                html.push('          <div class="dropdown-item pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
 
                 if (hasDownloadExcel) {
-                    html.push('          <div class="download-excel flexrow"><i class="material-icons">cloud_download</i>Download Excel</div>');
-                    html.push('          <div class="upload-excel flexrow"><i class="material-icons">cloud_upload</i>Upload Excel</div>');
+                    html.push('          <div class="dropdown-item download-excel flexrow"><i class="material-icons">cloud_download</i>Download Excel</div>');
+                    const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+                    if (isWebAdmin === 'true') {
+                        const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                        if (userEmail.endsWith('dbworks.com')) {
+                            html.push('          <div class="dropdown-item upload-excel flexrow"><i class="material-icons">cloud_upload</i>Upload Excel</div>');
+                        }
+                    }
                 }
 
                 html.push('        </div>');
