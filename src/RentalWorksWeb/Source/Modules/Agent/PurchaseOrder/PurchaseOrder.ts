@@ -46,7 +46,7 @@ class PurchaseOrder implements IModule {
 
         // Agent DropDownMenu
         const $allAgents = FwMenu.generateDropDownViewBtn('All', true, "ALL");
-        const $myAgent = FwMenu.generateDropDownViewBtn('My Agent Orders', false, "AGENT");
+        const $myAgent = FwMenu.generateDropDownViewBtn('My Agent Purchase Orders', false, "AGENT");
 
         const viewAgentItems: Array<JQuery> = [];
         viewAgentItems.push($allAgents, $myAgent);

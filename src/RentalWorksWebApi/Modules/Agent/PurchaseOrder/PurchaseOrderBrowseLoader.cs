@@ -6,6 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using WebApi;
 using WebApi.Logic;
+using System.Text;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -212,6 +213,35 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 {
                     select.AddWhere(" ((warehouseid = @assigningwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = t.orderid and mi.warehouseid = @assigningwhid))");
                     select.AddParameter("@assigningwhid", assigningWarehouseId);
+                }
+            }
+
+
+            //ALL, AGENT
+            if ((request != null) && (request.activeviewfields != null))
+            {
+                if (request.activeviewfields.ContainsKey("My"))
+                {
+                    StringBuilder myWhere = new StringBuilder();
+                    List<string> myValues = request.activeviewfields["My"];
+                    foreach (string myValue in myValues)
+                    {
+                        if (myValue.ToUpper().Equals(RwConstants.MY_AGENT_ACTIVE_VIEW_VALUE))
+                        {
+                            if (myWhere.Length > 0)
+                            {
+                                myWhere.AppendLine("or");
+                            }
+                            myWhere.AppendLine("agentid = @myusersid");
+                        }
+                    }
+                    if (myWhere.Length > 0)
+                    {
+                        myWhere.Insert(0, "(");
+                        myWhere.AppendLine(")");
+                        select.AddWhere(myWhere.ToString());
+                        select.AddParameter("@myusersid", this.UserSession.UsersId);
+                    }
                 }
             }
 
