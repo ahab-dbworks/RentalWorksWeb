@@ -182,7 +182,7 @@ namespace WebApi.Modules.Inventory.Purchase
                 {
                     if (!CurrencyId.Equals(warehouse.CurrencyId))
                     {
-                        CurrencyExchangeRate = AppFunc.GetCurrencyExchangeRate(AppConfig, warehouse.CurrencyId, CurrencyId).Result;
+                        CurrencyExchangeRate = AppFunc.GetCurrencyExchangeRate(AppConfig, CurrencyId, warehouse.CurrencyId).Result;
                     }
                 }
             }

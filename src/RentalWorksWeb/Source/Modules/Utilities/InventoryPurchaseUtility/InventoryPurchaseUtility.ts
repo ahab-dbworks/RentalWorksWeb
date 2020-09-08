@@ -226,17 +226,20 @@ class InventoryPurchaseUtility {
             if ((currencyId != '') && (currencyId != defaultCurrencyId)) {
                 const request: any = {};
                 request.uniqueids = {
-                    FromCurrencyId: defaultCurrencyId,
-                    ToCurrencyId: currencyId
+                    FromCurrencyId: currencyId,
+                    ToCurrencyId: defaultCurrencyId
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/currencyexchangerate/browse`, request, FwServices.defaultTimeout,
                     response => {
                         if (response.Rows.length > 0) {
-                            const currencySymbol = response.Rows[0][response.ColumnIndex.ToCurrencySymbol];
+                            const currencySymbol = response.Rows[0][response.ColumnIndex.FromCurrencySymbol];
                             const exchangeRate = response.Rows[0][response.ColumnIndex.ExchangeRate];
                             this.applyCurrencySymbol($form, $form.find('[data-datafield="UnitCost"]'), currencySymbol);
                             FwFormField.setValueByDataField($form, 'ExchangeRate', exchangeRate);
                             this.calculateUnitCost($form);
+                        }
+                        else {
+                            FwFunc.showError('Cannot determine currency exchange rate.');
                         }
                     }, ex => FwFunc.showError(ex), $form);
                 $form.find('.default-currency').show();
