@@ -1922,7 +1922,7 @@ class FwBrowseClass {
             if (isWebAdmin === 'true') {
                 const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
                 if (userEmail.endsWith('dbworks.com')) {
-                    FwMenu.addSubMenuItem(options.$groupExport, 'Upload Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
+                    FwMenu.addSubMenuItem(options.$groupExport, 'Upload Excel Workbook (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
                         try {
                             FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
                         } catch (ex) {
@@ -4189,7 +4189,7 @@ class FwBrowseClass {
                 FwConfirmation.destroyConfirmation($confirmation);
             });
             // ----------
-            function renderColumnPopup($confirmation, controller) {
+            const renderColumnPopup = ($confirmation, controller) => {
                 FwAppData.apiMethod(true, 'GET', `${(<any>window[controller]).apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     const fieldsAllCheckedUnsorted = [];
                     const fieldsNoneCheckedUnsorted = [];
