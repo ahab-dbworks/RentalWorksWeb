@@ -136,13 +136,25 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "ml.taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "curr.currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "curr.currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "curr.currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "curr.currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         //public bool? Inactive { get; set; }
         ////------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                  " outer apply(select top 1 mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.hourlyrate, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.defaultcost, mw.hourlycost, mw.dailycost, mw.weeklycost, mw.monthlycost, mw.cost, mw.price, mw.replacementcost, mw.qcrequired" +
+                  " outer apply(select top 1 mw.warehouseid, mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.hourlyrate, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.defaultcost, mw.hourlycost, mw.dailycost, mw.weeklycost, mw.monthlycost, mw.cost, mw.price, mw.replacementcost, mw.qcrequired" +
                   "              from  masterwh mw with(nolock)" +
                   "              where mw.masterid    = t.masterid" +
                   "              and   mw.warehouseid = @warehouseid) mw" +
@@ -153,9 +165,13 @@ namespace WebApi.Modules.HomeControls.Inventory
                   " outer apply(select top 1 ml.taxable" +
                   "              from  masterlocation ml with(nolock)" +
                   "              where ml.masterid   = t.masterid" +
-                  "              and   ml.locationid = @locationid) ml";
+                  "              and   ml.locationid = @locationid) ml" +
+                  " outer apply(select top 1 currencyid = w.currencyid, currency = c.currency, currencycode = c.code, currencysymbol = c.currencysymbol" +
+                  "              from  warehouse w with (nolock)" +
+                  "                         join currency c on (w.currencyid = c.currencyid)" +
+                  "              where mw.warehouseid = w.warehouseid) curr";
 
-            base.SetBaseSelectQuery(select, qry, customFields, request);
+      base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
 
             select.AddWhere("(availfor = @availfor)");

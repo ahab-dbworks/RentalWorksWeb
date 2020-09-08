@@ -212,6 +212,19 @@ namespace WebApi.Modules.HomeControls.Master
         [FwLogicProperty(Id: "PWvuFO2ZHerDR", IsReadOnly: true)]
         public string AccumulatedDepreciationExpenseAccountDescription { get; set; }
 
+
+        //------------------------------------------------------------------------------------
+        //[FwLogicProperty(Id: "8TQztJYFBndb4")]
+        //public string CurrencyId { get; set; }
+        //[FwLogicProperty(Id: "M9sn5VZeUxEIz")]
+        //public string CurrencyCode { get; set; }
+        //[FwLogicProperty(Id: "rVptB67EX3ccW")]
+        //public string Currency { get; set; }
+        //[FwLogicProperty(Id: "dGaxRrSGVcoWH")]
+        //public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
+
+
         [FwLogicProperty(Id: "DlarQ9MMkOEe")]
         public bool? Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
 
