@@ -196,6 +196,9 @@ class RetiredHistory {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Retired By" data-datafield="RetiredByUserId" data-validationname="UserValidation" data-displayfield="RetiredBy" data-enabled="false" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Retired Reason" data-datafield="RetiredReasonId" data-validationname="RetiredReasonValidation" data-displayfield="RetiredReason" data-enabled="false" style="flex:1 1 200px;"></div>
+                        </div>
+                        <div class="flexrow">
                           <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Retired Qty" data-datafield="RetiredQuantity" data-enabled="false" style="flex:0 1 75px;"></div>
                           <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Unretired Qty" data-datafield="UnretiredQuantity" data-enabled="false" style="flex:0 1 75px;"></div>
                         </div>
