@@ -1922,7 +1922,7 @@ class FwBrowseClass {
             if (isWebAdmin === 'true') {
                 const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
                 if (userEmail.endsWith('dbworks.com')) {
-                    FwMenu.addSubMenuItem(options.$groupExport, 'Import from Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
+                    FwMenu.addSubMenuItem(options.$groupExport, 'Upload Excel (*.xlsx, *.csv)', '', (e: JQuery.ClickEvent) => {
                         try {
                             FwBrowse.importExcelFromBrowse(options.$browse, `${gridName}Controller`);
                         } catch (ex) {
