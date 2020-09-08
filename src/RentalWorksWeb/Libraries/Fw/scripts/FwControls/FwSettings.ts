@@ -788,12 +788,18 @@ class FwSettingsClass {
                 if (showNew) {
                     html.push(`         <div class="flexrow new-row-menu" data-caption="${title}"><i class="material-icons">add</i>New Item</div>`);
                 }
-                html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+                html.push('          <div class="dropdown-item pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
 
-                //if (hasDownloadExcel) {
-                //    html.push('          <div class="download-excel flexrow"><i class="material-icons">cloud_download</i>Download Excel</div>');
-                //    html.push('          <div class="upload-excel flexrow"><i class="material-icons">cloud_upload</i>Upload Excel</div>');
-                //}
+                if (hasDownloadExcel) {
+                    html.push('          <div class="dropdown-item download-excel flexrow"><i class="material-icons">cloud_download</i>Download Excel</div>');
+                    const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+                    if (isWebAdmin === 'true') {
+                        const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                        if (userEmail.endsWith('dbworks.com')) {
+                            html.push('          <div class="dropdown-item upload-excel flexrow"><i class="material-icons">cloud_upload</i>Upload Excel</div>');
+                        }
+                    }
+                }
 
                 html.push('        </div>');
                 html.push('        </div>');
@@ -866,35 +872,41 @@ class FwSettingsClass {
                     }
                     program.popOutTab('#/module/' + moduleName);
                 });
-
-                //$settingsPageModules.on('click', '.download-excel', e => {
-                //    try {
-                //        e.stopPropagation();
-                //        const $this = jQuery(e.currentTarget);
-                //        const $browse = window[`${moduleName}Controller`].openBrowse();
-                //        $this.append($browse);
-                //        $browse.css('display', 'none');
-                //        FwBrowse.databind($browse)
-                //            .then(() => {
-                //                FwBrowse.downloadExcelWorkbook($browse, controller);
-                //            })
-                //    } catch (ex) {
-                //        FwFunc.showError(ex);
-                //    }
-                //});
-
-                //$settingsPageModules.on('click', '.upload-excel', e => {
-                //    e.stopPropagation();
-                //    const $this = jQuery(e.currentTarget);
-                //    const $browse = window[`${moduleName}Controller`].openBrowse();
-                //    $this.append($browse);
-                //    $browse.css('display', 'none');
-                //    try {
-                //        FwBrowse.importExcelFromBrowse($browse, controller);
-                //    } catch (ex) {
-                //        FwFunc.showError(ex);
-                //    }
-                //});
+                // Download Excel
+                $settingsPageModules.on('click', '.download-excel', e => {
+                    try {
+                        e.stopPropagation();
+                        const $this = jQuery(e.currentTarget);
+                        const $browse = window[`${moduleName}Controller`].openBrowse();
+                        $this.append($browse);
+                        $browse.css('display', 'none');
+                        FwBrowse.databind($browse)
+                            .then(() => {
+                                FwBrowse.downloadExcelWorkbook($browse, controller);
+                                const $appendedBrowse = $this.find('[data-control="FwBrowse"]');
+                                // delete hidden browse
+                                $appendedBrowse.remove();
+                            });
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                // Import Excel
+                $settingsPageModules.on('click', '.upload-excel', e => {
+                    e.stopPropagation();
+                    const $this = jQuery(e.currentTarget);
+                    const $browse = window[`${moduleName}Controller`].openBrowse();
+                    $this.append($browse);
+                    $browse.css('display', 'none');
+                    try {
+                        FwBrowse.importExcelFromBrowse($browse, controller);
+                        const $appendedBrowse = $this.find('[data-control="FwBrowse"]');
+                        // delete hidden browse
+                        $appendedBrowse.remove();
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
                 $settingsPageModules
                     .on('click', '.panel-heading', e => {

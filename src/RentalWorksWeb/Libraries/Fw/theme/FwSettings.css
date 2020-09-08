@@ -36,6 +36,7 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title .highlighted { color:yellow; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content { float:right; display: none; position:absolute; right:90px; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); border-radius:4px; z-index: 1; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content div.flexcolumn div.flexrow { color: black; font-size:16px; padding: 6px 18px; text-decoration: none; display: block; cursor:pointer;} 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content div.flexcolumn .dropdown-item:hover { background-color:#ece8e8;border-radius:4px; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading small .highlighted {color:yellow;} 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;}
 
@@ -154,3 +155,5 @@
 .fwreports div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body div.container ul.nav-pills { list-style: none; }
 .fwreports div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body div.container ul.nav-pills a { color: #fff; background-color: #6B5B95; position: relative; display: block; padding: 10px 15px; border-radius: 4px; }
 .fwreports div.well div.panel-group div.panel-primary div.panel-body div.panel-record div.panel-body div.container div.tab-content label { display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: 700; margin-right:15px; margin-left:15px; }
+
+.fwreports div.well div.panel-group div.panel-primary .dropdown-content .dropdown-item:hover { background-color:#ece8e8; }
