@@ -4568,7 +4568,22 @@ class FwBrowseClass {
             const $fwformfields = $form.data('fields');
             FwFormField.enable($fwformfields);
             $form.find('[data-required="true"]').attr('data-required', 'false');
+
+            //add "None" option to togglebuttons
             $form.find('[data-type="togglebuttons"] input[type="radio"]').prop('checked', false);
+            const $toggleButtonCtrls = $form.find('[data-type="togglebuttons"]');
+            for (let i = 0; i < $toggleButtonCtrls.length; i++) {
+                const $toggleBtn = jQuery($toggleButtonCtrls[i]);
+                const $toggleOptions = $toggleBtn.find('label');
+                if ($toggleOptions.length > 0) {
+                    const $noneBtn = jQuery($toggleOptions[0]).clone(false);
+                    $noneBtn.find('input').attr('value', 'NONE')
+                    $noneBtn.find('input').prop('checked', true);
+                    $noneBtn.find('span').text('None');
+                    $noneBtn.insertBefore($toggleOptions[0]);
+                }
+            }
+
             $form.find('[data-type="money"] .fwformfield-value').inputmask('numeric');
 
             $form.find('.submodule[data-type="tab"]').hide();
