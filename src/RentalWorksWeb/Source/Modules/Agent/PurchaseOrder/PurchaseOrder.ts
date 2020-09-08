@@ -43,6 +43,14 @@ class PurchaseOrder implements IModule {
         const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+
+        // Agent DropDownMenu
+        const $allAgents = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $myAgent = FwMenu.generateDropDownViewBtn('My Agent Orders', false, "AGENT");
+
+        const viewAgentItems: Array<JQuery> = [];
+        viewAgentItems.push($allAgents, $myAgent);
+        FwMenu.addViewBtn(options.$menu, 'My', viewAgentItems, true, "My");
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
