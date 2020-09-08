@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.TaxSettings.TaxOption;
 
 namespace WebApi.Modules.Settings.FacilitySettings.Venue
 {
@@ -79,6 +80,14 @@ namespace WebApi.Modules.Settings.FacilitySettings.Venue
         public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/order/validatetaxoption/browse 
+        [HttpPost("validatetaxoption/browse")]
+        [FwControllerMethod(Id: "O55aALVZz9Ft7", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOptionBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }
