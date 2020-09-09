@@ -936,7 +936,7 @@ class SearchInterface {
                     }
                 }, null, $searchpopup);
         } else {
-            FwAppData.apiMethod(true, 'POST', `api/v1/usersearchsettings/`, request, FwServices.defaultTimeout,
+            FwAppData.apiMethod(true, 'POST', `api/v1/usersearchsettings`, request, FwServices.defaultTimeout,
                 response => {
                     if (typeof saveonly == 'boolean' && saveonly) {
                         //do nothing
