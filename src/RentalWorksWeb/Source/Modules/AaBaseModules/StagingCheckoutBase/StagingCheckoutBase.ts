@@ -61,6 +61,11 @@ abstract class StagingCheckoutBase {
             $form.attr('data-showsuspendedsessions', 'false');
         }
 
+        const controller = $form.attr('data-controller');
+        if (typeof window[controller]['afterOpenForm'] === 'function') {
+            window[controller]['afterOpenForm']($form);
+        }
+
         $form.find(`div[data-datafield="${this.Type}Id"] input`).focus();
         this.getSuspendedSessions($form);
         this.events($form);
@@ -114,6 +119,12 @@ abstract class StagingCheckoutBase {
                 request.uniqueids = {
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId')
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                if (this.Module === 'FillContainer') {
+                    $browse.find('[data-datafield="Quantity"]').attr('data-caption', 'In Container');
+                    $browse.attr('data-caption', 'Container Items');
+                }
             }
         });
 
@@ -188,6 +199,11 @@ abstract class StagingCheckoutBase {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
                 };
                 request.orderby = 'ItemOrder';
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                if (this.Module === 'FillContainer') {
+                    $browse.find('[data-datafield="QuantityStagedAndOut"]').attr('data-caption', 'Staged & In Container');
+                }
             }
         });
     };
@@ -1455,18 +1471,21 @@ abstract class StagingCheckoutBase {
         let typeHTML;
         let statusBtnCaption;
         let createBtnCaption;
+        let backToBtnCaption;
         switch (this.Module) {
             case 'StagingCheckout':
                 tabCaption = 'Staging';
                 typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>`;
                 statusBtnCaption = 'Order Status';
                 createBtnCaption = 'Create Contract';
+                backToBtnCaption = '<< Back to Staging';
                 break;
             case 'TransferOut':
                 tabCaption = this.caption;
                 typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>`;
                 statusBtnCaption = 'Transfer Status';
                 createBtnCaption = 'Create Manifest';
+                backToBtnCaption = '<< Back to Staging';
                 break;
             case 'FillContainer':
                 tabCaption = this.caption;
@@ -1476,6 +1495,7 @@ abstract class StagingCheckoutBase {
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Order Id" data-datafield="OrderId" style="display:none;"></div>`;
                 statusBtnCaption = 'Container Status';
                 createBtnCaption = 'Fill Container';
+                backToBtnCaption = '<< Back to Fill Container';
                 break;
         }
 
@@ -1553,7 +1573,7 @@ abstract class StagingCheckoutBase {
                             <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 145px; margin-left:8px; text-align:center;">${statusBtnCaption}</div>
                             <div class="createcontract" data-type="btnmenu" style="flex:0 1 201px;margin-right:7px;" data-caption="${createBtnCaption}"></div>
                           </div>
-                          <div class="fwformcontrol abort-checkout-contract" data-type="button" style="max-width:157px;display:none;"><< Back to Staging</div>
+                          <div class="fwformcontrol abort-checkout-contract" data-type="button" style="max-width:fit-content;display:none;">${backToBtnCaption}</div>
                         </div>
                         <div class="flexcolumn partial-contract" style="max-width:125px;justify-content:center;">
                           <button type="submit" class="dbl-angle right-arrow"><img src="theme/images/icons/integration/dbl-angle-right.svg" alt="Add" /></button>
