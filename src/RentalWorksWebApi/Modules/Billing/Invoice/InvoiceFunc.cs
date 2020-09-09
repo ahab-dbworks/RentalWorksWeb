@@ -16,8 +16,8 @@ namespace WebApi.Modules.Billing.Invoice
         public decimal? UsageDays { get; set; }
         public string Notes { get; set; }
         public bool? TaxOnly { get; set; }
-        public DateTime CreditFromDate { get; set; }
-        public DateTime CreditToDate { get; set; }
+        public DateTime? CreditFromDate { get; set; }
+        public DateTime? CreditToDate { get; set; }
         public string CreditMethod { get; set; }
         public bool? AdjustCost { get; set; }
     }
@@ -76,8 +76,8 @@ namespace WebApi.Modules.Billing.Invoice
                     qry.AddParameter("@usagedays", SqlDbType.NVarChar, ParameterDirection.Input, request.UsageDays);
                     qry.AddParameter("@notes", SqlDbType.NVarChar, ParameterDirection.Input, request.Notes);
                     qry.AddParameter("@taxonly", SqlDbType.NVarChar, ParameterDirection.Input, request.TaxOnly);
-                    qry.AddParameter("@creditfromdate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditFromDate);
-                    qry.AddParameter("@credittodate", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditToDate);
+                    qry.AddParameter("@creditfromdate", SqlDbType.Date, ParameterDirection.Input, request.CreditFromDate);
+                    qry.AddParameter("@credittodate", SqlDbType.Date, ParameterDirection.Input, request.CreditToDate);
                     qry.AddParameter("@creditmethod", SqlDbType.NVarChar, ParameterDirection.Input, request.CreditMethod);
                     qry.AddParameter("@adjustcost", SqlDbType.NVarChar, ParameterDirection.Input, request.AdjustCost);
                     qry.AddParameter("@creditid", SqlDbType.NVarChar, ParameterDirection.Output);
