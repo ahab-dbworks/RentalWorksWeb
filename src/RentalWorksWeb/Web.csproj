@@ -1131,6 +1131,7 @@
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
+    <Content Include="Source\Validations\BankAccountValidation\BankAccountValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectNumberValidation\ProjectNumberValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectCommissioningValidation\ProjectCommissioningValidationBrowse.htm" />
