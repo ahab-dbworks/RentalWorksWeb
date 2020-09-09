@@ -189,6 +189,7 @@ IF "%commitandftp%"=="y" (
     echo cd Update>>%ftpcommandfilename%
     echo cd %productname%Web>>%ftpcommandfilename%
     echo cd %shortversionno%>>%ftpcommandfilename%
+    echo cd preview>>%ftpcommandfilename%
     echo put %pdffilename%>>%ftpcommandfilename%
     echo put %zipfilename%>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%
