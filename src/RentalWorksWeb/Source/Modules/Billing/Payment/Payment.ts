@@ -99,9 +99,6 @@ class Payment {
             FwFormField.setValueByDataField($form, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'PaymentDate', today);
-            FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
-            FwFormField.enable($form.find('div[data-datafield="DealId"]'));
-            FwFormField.enable($form.find('div[data-datafield="CustomerId"]'));
             FwFormField.enable($form.find('div[data-datafield="PaymentDate"]'));
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
@@ -122,17 +119,6 @@ class Payment {
                 if (paymentTypeType !== '' && paymentTypeType === 'REFUND CHECK') {
                     this.loadPaymentCreditGrid($form);
                 } else {
-                    this.loadPaymentInvoiceGrid($form);
-                }
-                const $submoduleCreditBrowse = this.openCreditBrowse($form);
-                $form.find('.credits-page').html($submoduleCreditBrowse);
-                FwFormField.setValue($form, '.deal-cust-validate', '');
-            });
-
-            $form.find('div[data-datafield="PaymentBy"]').change(() => {
-
-                this.paymentByRadioBehavior($form);
-                if (FwFormField.getValueByDataField($form, 'DealId') !== '' && FwFormField.getValueByDataField($form, 'CustomerId') !== '') {
                     this.loadPaymentInvoiceGrid($form);
                 }
             });
@@ -211,9 +197,7 @@ class Payment {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
-        FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
-        FwFormField.disable($form.find('div[data-datafield="DealId"]'));
-        FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
+
         let observer;
         // Listen for DOM element creation for Overpayment workflow for new Payments
         if ($form.attr('data-mode') === 'NEW') {
@@ -315,20 +299,12 @@ class Payment {
         //}
 
         if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
-            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
             FwFormField.disable($form.find('div[data-datafield="PaymentTypeId"]'));
             FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
             $form.find('div[data-datafield="CheckNumber"]').hide();
-            if (paymentBy === 'DEAL') {
-                FwFormField.disable($form.find('div[data-validationname="DealCreditValidation"]'));
-                $form.find('div[data-validationname="DealCreditValidation"]').show();
-            } else {
-                FwFormField.disable($form.find('div[data-validationname="CustomerCreditValidation"]'));
-                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
-            }
+           
         }
         // Click Event on tabs to load grids/browses
-        this.paymentByRadioBehavior($form);
         if (paymentTypeType === 'REFUND CHECK') {
             this.loadPaymentCreditGrid($form);
         } else {
@@ -337,11 +313,6 @@ class Payment {
         const formCurrencySymbol = FwFormField.getValueByDataField($form, 'CurrencySymbol');
         this.currencySymbol = formCurrencySymbol || '';
         this.events($form);
-        // Credit submodule
-        setTimeout(() => {
-            const $submoduleCreditBrowse = this.openCreditBrowse($form);
-            $form.find('.credits-page').append($submoduleCreditBrowse);
-        }, 100)
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -357,21 +328,6 @@ class Payment {
                 this.currencySymbol = currencySymbol;
             }
             this.paymentTypes($form);
-        });
-        // ----------
-        $form.find('div.credits-tab').on('click', e => {
-            //Disable clicking  tab w/o a Deal / Customer
-            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
-            let dealCustomer;
-            if (paymentBy === 'DEAL') {
-                dealCustomer = FwFormField.getValueByDataField($form, 'DealId');
-            } else if (paymentBy === 'CUSTOMER') {
-                dealCustomer = FwFormField.getValueByDataField($form, 'CustomerId');
-            }
-            if (dealCustomer === '') {
-                e.stopPropagation();
-                FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
-            }
         });
         // ----------
         $form.find('div[data-datafield="CustomerDepositId"]').data('onchange', $tr => {
@@ -402,52 +358,52 @@ class Payment {
     }
     //----------------------------------------------------------------------------------------------
     spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
-        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
+        //const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
 
-        if (isOverDepletingMemo) {
-            $form.find('div[data-datafield="CheckNumber"]').hide();
-            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
+        //if (isOverDepletingMemo) {
+        //    $form.find('div[data-datafield="CheckNumber"]').hide();
+        //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
 
-            if (paymentBy === 'DEAL') {
-                $form.find('div[data-validationname="DealCreditValidation"]').show();
-                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-                $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
-                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-            } else {
-                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
-                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-                $form.find('div[data-validationname="DealCreditValidation"]').hide();
-                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-            }
+        //    if (paymentBy === 'DEAL') {
+        //        $form.find('div[data-validationname="DealCreditValidation"]').show();
+        //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+        //        $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
+        //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
+        //    } else {
+        //        $form.find('div[data-validationname="CustomerCreditValidation"]').show();
+        //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+        //        $form.find('div[data-validationname="DealCreditValidation"]').hide();
+        //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
+        //    }
 
-            $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount Remaining');
-            FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
+        //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount Remaining');
+        //    FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
 
-            if (paymentTypeType === 'DEPLETING DEPOSIT') {
-                $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
-            }
-            if (paymentTypeType === 'CREDIT MEMO') {
-                $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Credit Reference');
-            }
-            if (paymentTypeType === 'OVERPAYMENT') {
-                $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Overpayment Reference');
-            }
-        }
-        else {
-            $form.find('.deal-cust-validate').hide();
-            $form.find('.deal-cust-validate').attr('data-required', 'false');
-            $form.find('.deal-cust-validate').attr('data-enabled', 'false');
-            $form.find('div[data-datafield="CheckNumber"]').show();
-            $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
+        //    if (paymentTypeType === 'DEPLETING DEPOSIT') {
+        //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
+        //    }
+        //    if (paymentTypeType === 'CREDIT MEMO') {
+        //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Credit Reference');
+        //    }
+        //    if (paymentTypeType === 'OVERPAYMENT') {
+        //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Overpayment Reference');
+        //    }
+        //}
+        //else {
+        //    $form.find('.deal-cust-validate').hide();
+        //    $form.find('.deal-cust-validate').attr('data-required', 'false');
+        //    $form.find('.deal-cust-validate').attr('data-enabled', 'false');
+        //    $form.find('div[data-datafield="CheckNumber"]').show();
+        //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
 
-            $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount To Apply');
-            FwFormField.enable($form.find('div[data-datafield="PaymentAmount"]'));
-        }
-        // Adust Amount Remaining field value for chosen payment value
-        $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
-            //FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
-            //this.loadPaymentInvoiceGrid($form);
-        });
+        //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount To Apply');
+        //    FwFormField.enable($form.find('div[data-datafield="PaymentAmount"]'));
+        //}
+        //// Adust Amount Remaining field value for chosen payment value
+        //$form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
+        //    //FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
+        //    //this.loadPaymentInvoiceGrid($form);
+        //});
     }
     //----------------------------------------------------------------------------------------------
     refundCheck($form: JQuery) {
@@ -458,8 +414,7 @@ class Payment {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-        const dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+
         let payType;
         if (paymentTypeType === 'DEPLETING DEPOSIT') {
             payType = 'D';
@@ -474,24 +429,6 @@ class Payment {
         request.uniqueids = { RemainingOnly: true };
 
         switch (datafield) {
-            case 'DealDepositId':
-                if (payType !== "") {
-                    request.uniqueids.RecType = payType;
-                }
-                if (dealId !== '') {
-                    request.uniqueids.DealId = dealId;
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedealdeposit`);
-                break;
-            case 'CustomerDepositId':
-                if (payType !== "") {
-                    request.uniqueids.RecType = payType;
-                }
-                if (customerId !== '') {
-                    request.uniqueids.CustomerId = customerId;
-                }
-                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomerdeposit`);
-                break;
             case 'AppliedById':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateappliedby`);
                 break;
@@ -556,36 +493,6 @@ class Payment {
             // automate save
             $form.find('.btn[data-type="SaveMenuBarButton"]').click();
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    openCreditBrowse($form) {
-        let $browse;
-        const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
-        let dealCustomerId;
-        let dealCustomer;
-        if (paymentBy === 'DEAL') {
-            dealCustomerId = FwFormField.getValueByDataField($form, 'DealId');
-            dealCustomer = $form.find('div[data-datafield="DealId"]').attr('data-datafield');
-            $browse = DealCreditController.openBrowse();
-            $browse.data('ondatabind', request => {
-                request.uniqueids = { DealId: dealCustomerId }
-                request.activeviewfields = DealCreditController.ActiveViewFields;
-            });
-        } else if (paymentBy === 'CUSTOMER') {
-            dealCustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            dealCustomer = $form.find('div[data-datafield="CustomerId"]').attr('data-datafield');
-            $browse = CustomerCreditController.openBrowse();
-            $browse.data('ondatabind', request => {
-                request.uniqueids = { CustomerId: dealCustomerId }
-                request.activeviewfields = CustomerCreditController.ActiveViewFields;
-            });
-        }
-
-        FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($control, dt) => {
-            this.calculateCreditTotals($form, dealCustomer, dealCustomerId);
-        });
-        FwBrowse.databind($browse);
-        return $browse;
     }
     //----------------------------------------------------------------------------------------------
     calculateCreditTotals($form, datafield, id) {
@@ -782,12 +689,7 @@ class Payment {
             if (currencyId) {
                 request.uniqueids.CurrencyId = currencyId;
             }
-            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
-            if (paymentBy === 'DEAL') {
-                request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
-            } else if (paymentBy === 'CUSTOMER') {
-                request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            }
+
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
                 const htmlRows: Array<string> = [];
@@ -1025,15 +927,8 @@ class Payment {
                 PaymentId: paymentId,
             }
 
-            const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
             let validationName;
-            if (paymentBy === 'DEAL') {
-                request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
-                validationName = 'DealCredit';
-            } else if (paymentBy === 'CUSTOMER') {
-                request.uniqueids.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                validationName = 'CustomerCredit';
-            }
+
             if (currencyId) {
                 request.uniqueids.CurrencyId = currencyId;
             }
@@ -1160,44 +1055,7 @@ class Payment {
         } else {
             console.error(`input ${number} is not a string`)
         }
-    }
-    //----------------------------------------------------------------------------------------------
-    paymentByRadioBehavior($form: JQuery): void {
-        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-
-        let isOverDepletingMemo = false;
-        if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
-            isOverDepletingMemo = true;
-        }
-        if (FwFormField.getValueByDataField($form, 'PaymentBy') === 'DEAL') {
-            $form.find('div[data-datafield="CustomerId"]').hide();
-            $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'false');
-            FwFormField.setValueByDataField($form, 'CustomerId', '');
-            $form.find('div[data-datafield="DealId"]').show();
-            $form.find('div[data-datafield="DealId"]').attr('data-required', 'true');
-            if (isOverDepletingMemo && ($form.attr('data-mode') === 'NEW')) {
-                FwFormField.setValue($form, '.deal-cust-validate', '');
-                $form.find('div[data-validationname="DealCreditValidation"]').show();
-                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-                $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
-                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-            }
-
-        } else {
-            $form.find('div[data-datafield="DealId"]').hide();
-            $form.find('div[data-datafield="DealId"]').attr('data-required', 'false');
-            FwFormField.setValueByDataField($form, 'DealId', '');
-            $form.find('div[data-datafield="CustomerId"]').show();
-            $form.find('div[data-datafield="CustomerId"]').attr('data-required', 'true');
-            if (isOverDepletingMemo && ($form.attr('data-mode') === 'NEW')) {
-                FwFormField.setValue($form, '.deal-cust-validate', '');
-                $form.find('div[data-validationname="CustomerCreditValidation"]').show();
-                $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-                $form.find('div[data-validationname="DealCreditValidation"]').hide();
-                $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-            }
-        }
-    }
+    }   
     //----------------------------------------------------------------------------------------------
     overrideDelete($browse) {
         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
