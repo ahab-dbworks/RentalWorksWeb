@@ -59,7 +59,6 @@ namespace WebApi.Modules.Administrator.User
 
         [FwLogicProperty(Id: "zxsHyG4ois")]
         public string Password
-
         {
             get { return "?????????"; }
             set
@@ -70,6 +69,8 @@ namespace WebApi.Modules.Administrator.User
                 }
                 user.Password = value;
                 user.PasswordUpdatedDateTime = FwConvert.ToUSShortDate(DateTime.Today);
+
+                webUser.WebPassword = value;
             }
         }
         [FwLogicProperty(Id: "FXQ5AbMN8T")]
