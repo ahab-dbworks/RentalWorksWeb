@@ -4577,13 +4577,28 @@ class FwBrowseClass {
                 const $toggleOptions = $toggleBtn.find('label');
                 if ($toggleOptions.length > 0) {
                     const $noneBtn = jQuery($toggleOptions[0]).clone(false);
-                    $noneBtn.find('input').attr('value', 'NONE')
+                    $noneBtn.find('input').attr('value', '')
                     $noneBtn.find('input').prop('checked', true);
                     $noneBtn.find('span').text('None');
                     $noneBtn.insertBefore($toggleOptions[0]);
                 }
             }
 
+            //change checkboxes to togglebuttons
+            const $checkboxCtrls = $form.find('[data-type="checkbox"]');
+            for (let i = 0; i < $checkboxCtrls.length; i++) {
+                const $checkbox = jQuery($checkboxCtrls[i]);
+                const datafield = $checkbox.attr('data-datafield');
+                $checkbox.attr('data-name', FwApplication.prototype.uniqueId(10));
+                $checkbox.attr('data-type', 'togglebuttons');
+                $checkbox.find('.fwformfield-control').empty();
+                jQuery(`<div class="fwformfield-caption">${$checkbox.attr('data-caption')}</div>`).insertBefore($checkbox.find('.fwformfield-control'));
+                FwFormField.loadItems($form.find(`div[data-datafield="${datafield}"]`), [
+                    { value: '', caption: 'None', checked: true },
+                    { value: 'true', caption: 'Checked' },
+                    { value: 'false', caption: 'Unchecked' }
+                ]);
+            }
             $form.find('[data-type="money"] .fwformfield-value').inputmask('numeric');
 
             $form.find('.submodule[data-type="tab"]').hide();
