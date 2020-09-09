@@ -2,6 +2,8 @@ using FwStandard.AppManager;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.MasterItem;
 using WebApi;
+using WebApi.Modules.Inventory.RentalInventory;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.HomeControls.InventoryContainerItem
 {
@@ -51,7 +53,7 @@ namespace WebApi.Modules.HomeControls.InventoryContainerItem
         [FwLogicProperty(Id:"LwuxXYr1z9ha")]
         public string InventoryId { get { return masterItem.InventoryId; } set { masterItem.InventoryId = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxx")]
+        [FwLogicProperty(Id: "vSAwjAxYqH0NA")]
         public string RecType { get { return masterItem.RecType; } set { masterItem.RecType = value; } }
 
         [FwLogicProperty(Id:"MZz6DHCiiZvO", IsReadOnly:true)]
@@ -64,5 +66,33 @@ namespace WebApi.Modules.HomeControls.InventoryContainerItem
         public string DateStamp { get { return masterItem.DateStamp; } set { masterItem.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    RentalInventoryLogic inv = new RentalInventoryLogic();
+                    inv.SetDependencies(AppConfig, UserSession);
+                    inv.InventoryId = InventoryId;
+                    if (inv.LoadAsync<RentalInventoryLogic>().Result)
+                    {
+                        if (inv.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot add a Container within a Container.";
+                        }
+                    }
+                    else
+                    {
+                        isValid = false;
+                        validateMsg = "Invalid Rental InventoryId (" + InventoryId + ")";
+                    }
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

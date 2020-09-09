@@ -15,6 +15,11 @@ class FillContainer extends StagingCheckoutBase {
         FwMenu.addFormMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
+    afterOpenForm($form: JQuery) {
+        $form.find('[data-datafield="QuantitySub"]').hide();
+        $form.find('[data-datafield="QuantityOut"] .fwformfield-caption').text('In Container');
+    }
+    //----------------------------------------------------------------------------------------------
     events($form: any): void {
         super.events($form);
 

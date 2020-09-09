@@ -5,6 +5,7 @@ class CheckOutPendingItemGrid {
     //----------------------------------------------------------------------------------------------
     //justin 10/29/2019. Concept copied from QuikActivityGrid.  Thanks Jason!
     generateRow($control, $generatedtr) {
+        const controller = $control.closest('.fwform').attr('data-controller');
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType'); // should only be "R" or "S"
             let inventoryControllerValidation: string = "";
@@ -18,23 +19,25 @@ class CheckOutPendingItemGrid {
             }
             $tr.find('[data-browsedisplayfield="ICode"]').attr('data-validationname', inventoryControllerValidation);
 
-            const $browsecontextmenu = $tr.find('.browsecontextmenu');
-            $browsecontextmenu.data('contextmenuoptions', $tr => {
-                FwContextMenu.addMenuItem($browsecontextmenu, `Decrease Quantity Ordered`, () => {
-                    try {
-                        this.decreaseQuantity($control, $tr);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
+            if (controller != 'FillContainerController') {
+                const $browsecontextmenu = $tr.find('.browsecontextmenu');
+                $browsecontextmenu.data('contextmenuoptions', $tr => {
+                    FwContextMenu.addMenuItem($browsecontextmenu, `Decrease Quantity Ordered`, () => {
+                        try {
+                            this.decreaseQuantity($control, $tr);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                    FwContextMenu.addMenuItem($browsecontextmenu, `Substitute Items`, () => {
+                        try {
+                            this.substituteItems($control, $tr);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
                 });
-                FwContextMenu.addMenuItem($browsecontextmenu, `Substitute Items`, () => {
-                    try {
-                        this.substituteItems($control, $tr);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            });
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
