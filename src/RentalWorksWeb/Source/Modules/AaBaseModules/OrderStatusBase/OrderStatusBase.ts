@@ -225,6 +225,11 @@
                 if (this.Type === 'PurchaseOrder') {
                     $browse.find('div[data-datafield="OutDateTime"]').attr('data-caption', 'Receive Date/Time');
                     $browse.find('div[data-datafield="OutContractId"]').attr('data-caption', 'Receive Contract');
+                };
+                if (this.Type === 'ContainerItem') {
+                    $browse.find('[data-datafield="OutDateTime"]').attr('data-caption', 'In Container Date/Time');
+                    $browse.find('[data-datafield="InDateTime"]').attr('data-caption', 'Removed from Container Date/Time');
+                    $browse.find(`[data-datafield="InContractId"], [data-datafield="OutContractId"]`).parent('div').remove();
                 }
             }
         });
