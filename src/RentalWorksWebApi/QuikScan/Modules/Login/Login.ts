@@ -75,69 +75,15 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                                 throw new Error(getJwtTokenResponse.exception);
                             }
                         } else {
-                            //-------------------------
-                            var getAuthTokenRequest = new FwAjaxRequest();
-                            //getAuthTokenRequest.$elementToBlock = screen.$view;
-                            getAuthTokenRequest.httpMethod = "POST";
-                            getAuthTokenRequest.setWebApiUrl('/api/v1/mobile?path=/account/getauthtoken');
-                            getAuthTokenRequest.data = {
-                                email: $email.val(),
-                                password: $password.val()
-                            };
-                            var getAuthTokenResponse = await FwAjax.callWebApi<any, any>(getAuthTokenRequest);
-                            if (getAuthTokenResponse.errNo !== 0) {
-                                throw new Error(getAuthTokenResponse.errMsg);
-                            }
-                            if (typeof getAuthTokenResponse.exception !== 'undefined') {
-                                if (applicationConfig.debugMode) {
-                                    throw new Error(getAuthTokenResponse.exception + getAuthTokenResponse.stacktrace);
-                                } else {
-                                    throw new Error(getAuthTokenResponse.exception);
-                                }
-                            }
-                            sessionStorage.setItem('fullname', getAuthTokenResponse.webUser.fullname);
-                            sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
-                            sessionStorage.setItem('serverVersion', getAuthTokenResponse.serverVersion);
-                            sessionStorage.setItem('clientcode', getAuthTokenResponse.clientcode);
-                            sessionStorage.setItem('iscrew', getAuthTokenResponse.webUser.iscrew);
-                            sessionStorage.setItem('applicationOptions', JSON.stringify(getAuthTokenResponse.applicationOptions));
-                            sessionStorage.setItem('stagingSuspendedSessionsEnabled', getAuthTokenResponse.stagingSuspendedSessionsEnabled);
-                            sessionStorage.setItem('applicationtree', JSON.stringify(getAuthTokenResponse.applicationtree));
-                            var barcodeskipprefixes = '';
-                            if (typeof getAuthTokenResponse.barcodeskipprefixes === 'object') {
-                                for (var i = 0; i < getAuthTokenResponse.barcodeskipprefixes.Rows.length; i++) {
-                                    var prefix = getAuthTokenResponse.barcodeskipprefixes.Rows[i][0];
-                                    if (barcodeskipprefixes.length > 0) {
-                                        barcodeskipprefixes += ',';
-                                    }
-                                    barcodeskipprefixes += prefix;
-                                }
-                                sessionStorage.setItem('skipBarcodePrefixes', barcodeskipprefixes);
-                            }
-                            sessionStorage.setItem('userType', getAuthTokenResponse.webUser.usertype);
-                            if (getAuthTokenResponse.webUser.usertype === 'USER') {
-                                sessionStorage.setItem('users_enablecreatecontract', (getAuthTokenResponse.user.enablecreatecontract === 'T') ? 'T' : 'F');
-                                sessionStorage.setItem('users_qsallowapplyallqtyitems', (getAuthTokenResponse.user.qsallowapplyallqtyitems === 'T') ? 'T' : 'F');
-                            }
-                            if (getAuthTokenResponse.clientcode === 'MARVEL') {
-                                localStorage.setItem('currentCulture', 'marvel');
-                                RwLanguages.currentCulture = localStorage.getItem('currentCulture');
-                            } else {
-                                localStorage.setItem('currentCulture', 'enUs');
-                            }
-                            //sessionStorage.setItem('siteName', getAuthTokenResponse.site.name);
-                            //-------------------------
-
                             // get session info
                             var getSessionRequest = new FwAjaxRequest();
-                            //getSessionRequest.$elementToBlock = screen.$view;
                             getSessionRequest.httpMethod = "GET";
                             getSessionRequest.setWebApiUrl('/api/v1/account/session?applicationid={' + FwApplicationTree.currentApplicationId + '}');
                             var getSessionResponse = await FwAjax.callWebApi<any, any>(getSessionRequest);
                             sessionStorage.setItem('email', getSessionResponse.webUser.email);
                             sessionStorage.setItem('fullname', getSessionResponse.webUser.fullname);
-                            sessionStorage.setItem('name', getSessionResponse.webUser.name);  //justin 05/06/2018
-                            sessionStorage.setItem('usersid', getSessionResponse.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+                            sessionStorage.setItem('name', getSessionResponse.webUser.name);
+                            sessionStorage.setItem('usersid', getSessionResponse.webUser.usersid);
                             sessionStorage.setItem('browsedefaultrows', getSessionResponse.webUser.browsedefaultrows);
                             sessionStorage.setItem('applicationtheme', getSessionResponse.webUser.applicationtheme);
                             sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
@@ -152,9 +98,38 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                             sessionStorage.setItem('department', JSON.stringify(getSessionResponse.department));
                             sessionStorage.setItem('webusersid', getSessionResponse.webUser.webusersid);
                             sessionStorage.setItem('userid', JSON.stringify(getSessionResponse.webUser));
+                            sessionStorage.setItem('systemSettings', JSON.stringify(getSessionResponse.systemSettings));
                             if (getSessionResponse.webUser.usertype == 'CONTACT') {
                                 sessionStorage.setItem('deal', JSON.stringify(getSessionResponse.deal));
                             }
+                            let stagingSuspendedSessionEnabled = false;
+                            if (getSessionResponse.systemSettings.QuikScanStageBySession !== undefined) {
+                                stagingSuspendedSessionEnabled = getSessionResponse.systemSettings.QuikScanStageBySession;
+                            }
+                            sessionStorage.setItem('stagingSuspendedSessionsEnabled', stagingSuspendedSessionEnabled.toString());
+
+                            var barcodeskipprefixes = '';
+                            if (typeof getSessionResponse.systemSettings.BarcodeSkipPrefixes === 'object') {
+                                for (var i = 0; i < getSessionResponse.systemSettings.BarcodeSkipPrefixes.Rows.length; i++) {
+                                    var prefix = getSessionResponse.systemSettings.BarcodeSkipPrefixes.Rows[i][0];
+                                    if (barcodeskipprefixes.length > 0) {
+                                        barcodeskipprefixes += ',';
+                                    }
+                                    barcodeskipprefixes += prefix;
+                                }
+                                sessionStorage.setItem('skipBarcodePrefixes', barcodeskipprefixes);
+                            }
+                            if (getSessionResponse.webUser.usertype === 'USER') {
+                                sessionStorage.setItem('users_enablecreatecontract', getSessionResponse.webUser.enablecreatecontract);
+                                sessionStorage.setItem('users_qsallowapplyallqtyitems', getSessionResponse.webUser.qsallowapplyallqtyitems);
+                            }
+                            if (getSessionResponse.clientCode === 'MARVEL') {
+                                localStorage.setItem('currentCulture', 'marvel');
+                                RwLanguages.currentCulture = localStorage.getItem('currentCulture');
+                            } else {
+                                localStorage.setItem('currentCulture', 'enUs');
+                            }
+
                             program.navigate('home/home');
                         }
                     } else {

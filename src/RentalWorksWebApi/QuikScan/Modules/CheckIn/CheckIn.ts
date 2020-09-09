@@ -276,7 +276,7 @@
                     isVisible: function () {
                         var isVisible = false;
                         if (sessionStorage.getItem('users_enablecreatecontract') !== null) {
-                            isVisible = (sessionStorage.getItem('users_enablecreatecontract') === 'T');
+                            isVisible = (sessionStorage.getItem('users_enablecreatecontract') === 'true');
                         }
                         return isVisible;
                     },
@@ -453,7 +453,7 @@
                 }
             },
             afterLoad: function(plugin, response) {
-                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') {
+                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'true') {
                     $checkincontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
                 } else {
                     $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');

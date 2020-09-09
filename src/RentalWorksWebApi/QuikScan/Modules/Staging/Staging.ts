@@ -192,7 +192,7 @@ class StagingControllerClass {
                     isVisible: function () {
                         var isVisible = false;
                         if (sessionStorage.getItem('users_enablecreatecontract') !== null) {
-                            isVisible = (sessionStorage.getItem('users_enablecreatecontract') === 'T');
+                            isVisible = (sessionStorage.getItem('users_enablecreatecontract') === 'true');
                         }
                         return isVisible;
                     },
@@ -554,7 +554,7 @@ class StagingControllerClass {
                 }
             },
             afterLoad: function (plugin, response) {
-                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T') {
+                if (sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'true') {
                     screen.$modulecontrol.fwmobilemodulecontrol('showButton', '#applyallqtyitems');
                 } else {
                     screen.$modulecontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
@@ -735,7 +735,7 @@ class StagingControllerClass {
             },
             afterLoad: function (plugin, response) {
                 jQuery('#staging-stagedList-pnlCreateContract')
-                    .toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'T') && (response.searchresults.Rows.length > 0)));
+                    .toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'true') && (response.searchresults.Rows.length > 0)));
             }
         });
 
@@ -2057,7 +2057,7 @@ class StagingControllerClass {
                 ul.push(screen.getRowCountItem(dt.Rows.length));
                 jQuery('#staging-stagedList-ul').html(ul.join('')) ;
                 jQuery('#staging-stagedList-pnlCreateContract')
-                    .toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'T') && (dt.Rows.length > 0)));
+                    .toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'true') && (dt.Rows.length > 0)));
             } catch(ex) {
                 FwFunc.showError(ex);
             }

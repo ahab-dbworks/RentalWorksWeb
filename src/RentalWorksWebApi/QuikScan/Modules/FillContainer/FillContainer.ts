@@ -57,7 +57,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     screen       = {};
     screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
     FwControl.renderRuntimeControls(screen.$view.find('.fwcontrol'));
-    screen.$view.find('#fillcontainer-pendingitems-pnladdallqtyitems').toggle(sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T');
+    screen.$view.find('#fillcontainer-pendingitems-pnladdallqtyitems').toggle(sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'true');
 
     screen.$view.find('.containerdesc').data('beforegetmany', (request: GetManyRequest): void => {
         //// Add WarehouseId filter to ContainerDescription validation request
@@ -167,7 +167,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         }
     });
 
-    screen.hascreatecontainer = (applicationConfig.designMode) || ((properties.mode === 'fillcontainer') && (sessionStorage.users_enablecreatecontract === 'T'));
+    screen.hascreatecontainer = (applicationConfig.designMode) || ((properties.mode === 'fillcontainer') && (sessionStorage.users_enablecreatecontract === 'true'));
     screen.$btncreatecontainer = FwMobileMasterController.addFormControl(screen, 'Create Container', 'right', '&#xE5CC;', false, function () { //continue
         try {
             var request = {

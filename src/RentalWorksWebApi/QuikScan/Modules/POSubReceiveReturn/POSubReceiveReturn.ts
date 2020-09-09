@@ -384,7 +384,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
             colIndex = dt.ColumnIndex;
             ul = [];
             if (dt.Rows.length > 0) {
-                screen.$btncreatecontract.toggle(sessionStorage.users_enablecreatecontract === 'T');
+                screen.$btncreatecontract.toggle(sessionStorage.users_enablecreatecontract === 'true');
             }
             for (var i = 0; i < dt.Rows.length; i++) {
                 masteritemid  = dt.Rows[i][colIndex.masteritemid];

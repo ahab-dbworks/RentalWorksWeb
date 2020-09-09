@@ -57,5 +57,30 @@ namespace WebApi.Modules.AccountServices.Account
             return response;
         }
         //------------------------------------------------------------------------------------------------------
+        public async Task<SystemSettingsResponse> GetSystemSettingsAsync()
+        {
+            SystemSettingsResponse response = new SystemSettingsResponse();
+
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select quikscanstagebysession = dbo.quikscanstagebysession()");
+                    await qry.ExecuteAsync();
+                    response.QuikScanStageBySession = qry.GetField("quikscanstagebysession").ToBoolean();
+                }
+
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddColumn("barcodeskip", false);
+                    qry.Add("select barcodeskip");
+                    qry.Add("from  barcodeskip with (nolock)");
+                    response.BarcodeSkipPrefixes = await qry.QueryToFwJsonTableAsync();
+                }
+            }
+
+            return response;
+        }
+        //------------------------------------------------------------------------------------------------------
     }
 }

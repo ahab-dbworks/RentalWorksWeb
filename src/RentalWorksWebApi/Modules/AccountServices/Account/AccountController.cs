@@ -34,6 +34,7 @@ namespace WebApi.Modules.AccountServices.Account
             public dynamic applicationOptions { get; set; } = null;
             public string clientcode { get; set; } = string.Empty;
             public string serverVersion { get; set; } = string.Empty;
+            public SystemSettingsResponse  systemSettings{ get; set; } = null;
         }
         //---------------------------------------------------------------------------------------------
         // GET api/v1/account/sessioninfo
@@ -41,6 +42,7 @@ namespace WebApi.Modules.AccountServices.Account
         [FwControllerMethod(Id: "hC5MXcjWFqjb", ValidateSecurityGroup:false)]
         public async Task<ActionResult<GetSessionResponse>> GetSession([FromQuery]string applicationId)
         {
+            AccountLogic account = FwBusinessLogic.CreateBusinessLogic<AccountLogic>(this.AppConfig, this.UserSession);
             var response = new GetSessionResponse();
             var waitList = new List<Task>();
             Task<AppFunc.SessionDeal> taskSessionDeal = null;
@@ -68,8 +70,11 @@ namespace WebApi.Modules.AccountServices.Account
                 taskApplicationOptions = FwSqlData.GetApplicationOptionsAsync(this.AppConfig.DatabaseSettings);
                 waitList.Add(taskApplicationOptions);
             }
-            // wait for all the queries to finish
+            
+            var taskSystemSettings = account.GetSystemSettingsAsync();
+            waitList.Add(taskSystemSettings);
 
+            // wait for all the queries to finish
             Task.WaitAll(waitList.ToArray());
 
             if (this.UserSession.UserType == "CONTACT")
@@ -92,6 +97,7 @@ namespace WebApi.Modules.AccountServices.Account
             {
                 response.applicationOptions = taskApplicationOptions.Result;
             }
+            response.systemSettings = taskSystemSettings.Result;
 
             // get the application version
             bool returnedVersion = false;

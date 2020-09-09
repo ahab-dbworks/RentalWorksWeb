@@ -846,6 +846,9 @@ namespace WebApi.Logic
             public string miscinventorydepartment { get; set; } = string.Empty;
             public string spaceinventorydepartmentid { get; set; } = string.Empty;
             public string spaceinventorydepartment { get; set; } = string.Empty;
+            public bool iscrew { get; set; } = false;
+            public bool enablecreatecontract { get; set; } = false;
+            public bool qsallowapplyallqtyitems { get; set; } = false;
         }
         public static async Task<SessionUser> GetSessionUserAsync(FwApplicationConfig appConfig, FwUserSession userSession)
         {
@@ -856,7 +859,8 @@ namespace WebApi.Logic
                 {
                     qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department, webadministrator, firstdayofweek, ");
                     qry.Add("       rentalinventorydepartmentid, rentalinventorydepartment, salesinventorydepartmentid, salesinventorydepartment, partsinventorydepartmentid, partsinventorydepartment, transportationinvdepartmentid, ");
-                    qry.Add("       transportationinvdepartment, laborinventorydepartmentid, laborinventorydepartment, miscinventorydepartmentid, miscinventorydepartment, spaceinventorydepartmentid, spaceinventorydepartment");
+                    qry.Add("       transportationinvdepartment, laborinventorydepartmentid, laborinventorydepartment, miscinventorydepartmentid, miscinventorydepartment, spaceinventorydepartmentid, spaceinventorydepartment, iscrew, enablecreatecontract,");
+                    qry.Add("       qsallowapplyallqtyitems");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
                     qry.AddParameter("@webusersid", userSession.WebUsersId);
@@ -900,6 +904,9 @@ namespace WebApi.Logic
                     response.miscinventorydepartment = qry.GetField("miscinventorydepartment").ToString().TrimEnd();
                     response.spaceinventorydepartmentid = qry.GetField("spaceinventorydepartmentid").ToString().TrimEnd();
                     response.spaceinventorydepartment = qry.GetField("spaceinventorydepartment").ToString().TrimEnd();
+                    response.iscrew = qry.GetField("iscrew").ToBoolean();
+                    response.enablecreatecontract = qry.GetField("enablecreatecontract").ToBoolean();
+                    response.qsallowapplyallqtyitems = qry.GetField("qsallowapplyallqtyitems").ToBoolean();
 
                 }
             }
