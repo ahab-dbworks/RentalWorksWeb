@@ -94,6 +94,7 @@
                     }
                     if (this.Type === 'ContainerItem') {
                         FwFormField.setValueByDataField($form, 'ContainerStatus', response.ContainerStatus);
+                        FwFormField.setValueByDataField($form, 'Warehouse', response.Warehouse);
                     }
                     //const rental = response.Rental;
                     //const sales = response.Sales;
@@ -200,6 +201,12 @@
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)   //jh - need this.Type here because this Form has descendants
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                if (this.Type === 'ContainerItem') {
+                    $browse.find('[data-datafield="StillOutQuantity"]').attr('data-caption', 'In Container');
+                    $browse.find(`[data-datafield="InQuantity"], [data-datafield="OutWarehouseCode"], [data-datafield="InWarehouseCode"]`).parent('div').remove();
+                }
             }
         });
         //----------------------------------------------------------------------------------------------
