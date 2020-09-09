@@ -19,16 +19,16 @@ class CheckOutPendingItemGrid {
             }
             $tr.find('[data-browsedisplayfield="ICode"]').attr('data-validationname', inventoryControllerValidation);
 
-            const $browsecontextmenu = $tr.find('.browsecontextmenu');
-            $browsecontextmenu.data('contextmenuoptions', $tr => {
-                FwContextMenu.addMenuItem($browsecontextmenu, `Decrease Quantity Ordered`, () => {
-                    try {
-                        this.decreaseQuantity($control, $tr);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                if (controller != 'FillContainerController') {
+            if (controller != 'FillContainerController') {
+                const $browsecontextmenu = $tr.find('.browsecontextmenu');
+                $browsecontextmenu.data('contextmenuoptions', $tr => {
+                    FwContextMenu.addMenuItem($browsecontextmenu, `Decrease Quantity Ordered`, () => {
+                        try {
+                            this.decreaseQuantity($control, $tr);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
                     FwContextMenu.addMenuItem($browsecontextmenu, `Substitute Items`, () => {
                         try {
                             this.substituteItems($control, $tr);
@@ -36,8 +36,8 @@ class CheckOutPendingItemGrid {
                             FwFunc.showError(ex);
                         }
                     });
-                }
-            });
+                });
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
