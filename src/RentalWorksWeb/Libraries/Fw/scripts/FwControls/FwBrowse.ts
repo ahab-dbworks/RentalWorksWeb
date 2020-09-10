@@ -4579,7 +4579,7 @@ class FwBrowseClass {
                     const $noneBtn = jQuery($toggleOptions[0]).clone(false);
                     $noneBtn.find('input').attr('value', '')
                     $noneBtn.find('input').prop('checked', true);
-                    $noneBtn.find('span').text('None');
+                    $noneBtn.find('span').text('No Change');
                     $noneBtn.insertBefore($toggleOptions[0]);
                 }
             }
@@ -4594,7 +4594,7 @@ class FwBrowseClass {
                 $checkbox.find('.fwformfield-control').empty();
                 jQuery(`<div class="fwformfield-caption">${$checkbox.attr('data-caption')}</div>`).insertBefore($checkbox.find('.fwformfield-control'));
                 FwFormField.loadItems($form.find(`div[data-datafield="${datafield}"]`), [
-                    { value: '', caption: 'None', checked: true },
+                    { value: '', caption: 'No Change', checked: true },
                     { value: 'true', caption: 'Checked' },
                     { value: 'false', caption: 'Unchecked' }
                 ]);
@@ -4613,9 +4613,14 @@ class FwBrowseClass {
             $form.on('change', '.fwformfield', e => {
                 const modifiedFields = $form.data('modifiedfields');
                 const $fwformfield = jQuery(e.currentTarget);
+                const dataType = $fwformfield.attr('data-type');
                 const datafield = $fwformfield.attr('data-datafield');
                 const value = FwFormField.getValue2($fwformfield);
-                modifiedFields[datafield] = value;
+                if (dataType == 'togglebuttons' && value == '') {
+                    delete modifiedFields[datafield];
+                } else {
+                    modifiedFields[datafield] = value;
+                }
                 $form.data('modifiedfields', modifiedFields);
             });
 
