@@ -840,15 +840,15 @@ class OrderItemGrid {
         $generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', e => {
             calculateExtended('Extended');
             const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
-            if (itemClass == 'K' || itemClass == 'C') {
-                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'QuantityOrdered');
+            if (itemClass == 'K' || itemClass == 'C' || itemClass == 'N') {
+                this.updateAccessoryQuantities($control, $generatedtr, e, 'QuantityOrdered');
             }
         });
 
         $generatedtr.find('div[data-browsedatafield="SubQuantity"]').on('change', 'input.value', e => {
             const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
-            if (itemClass == 'K' || itemClass == 'C') {
-                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'SubQuantity');
+            if (itemClass == 'K' || itemClass == 'C' || itemClass == 'N') {
+                this.updateAccessoryQuantities($control, $generatedtr, e, 'SubQuantity');
             }
         });
 
@@ -872,8 +872,8 @@ class OrderItemGrid {
         $generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', e => {
             calculateExtended('Extended');
             const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
-            if (itemClass == 'K' || itemClass == 'C') {
-                this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DaysPerWeek');
+            if (itemClass == 'K' || itemClass == 'C' || itemClass == 'N') {
+                this.updateAccessoryQuantities($control, $generatedtr, e, 'DaysPerWeek');
             }
         });
         $generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', e => {
@@ -888,8 +888,8 @@ class OrderItemGrid {
             } else {
                 calculateExtended('Extended', 'DiscountPercent');
                 const itemClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
-                if (itemClass == 'K' || itemClass == 'C') {
-                    this.updateCompleteKitAccessoryRows($control, $generatedtr, e, 'DiscountPercentDisplay');
+                if (itemClass == 'K' || itemClass == 'C' || itemClass == 'N') {
+                    this.updateAccessoryQuantities($control, $generatedtr, e, 'DiscountPercentDisplay');
                 }
             }
         });
@@ -1208,10 +1208,10 @@ class OrderItemGrid {
         }
     };
     //----------------------------------------------------------------------------------------------
-    updateCompleteKitAccessoryRows($grid: JQuery, $tr: JQuery, event: any, field: string) {
+    updateAccessoryQuantities($grid: JQuery, $tr: JQuery, event: any, field: string) {
         const index = jQuery(event.currentTarget).parents('tr').index();
         const id = FwBrowse.getValueByDataField($grid, $tr, 'OrderItemId');
-        const completeKitAccClasses: any = ['KI', 'KO', 'CI', 'CO'];
+        const completeKitAccClasses: any = ['KI', 'KO', 'CI', 'CO', 'NI'];
         const rowCount = FwBrowse.getRowCount($grid);
         for (let i = index + 1; i < rowCount; i++) {
             const $nextRow = FwBrowse.selectRowByIndex($grid, i);
