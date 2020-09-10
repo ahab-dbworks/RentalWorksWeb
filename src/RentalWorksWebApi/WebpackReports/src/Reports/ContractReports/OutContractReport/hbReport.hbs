@@ -1,38 +1,33 @@
 ﻿<!-- Out Contract Report -->
-<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+<div data-section="header" class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
-    <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
-      {{#if Logosrc}}
-      <div style="height:100px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
-      {{else}}
-      <div></div>
-      {{/if}}
-      <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
-      <span class="header-left">{{OfficeLocationAddress1}}</span>
-      <span class="header-left">{{OfficeLocationAddress2}}</span>
-      <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
-      <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+    <div class="rpt-flexcolumn" style="flex:0 0 33%;padding-bottom:5px;">
+      <div class="rpt-nested-flexrow">
+        <div style="height:100px;"><img data-visible="{{#if Logosrc}}true{{/ifEquals}}" class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+      </div>
+      <div class="rpt-nested-flexrow"><span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span></div>
+      <div class="rpt-nested-flexrow"><span class="header-left">{{OfficeLocationAddress1}}</span></div>
+      <div class="rpt-nested-flexrow"><span class="header-left">{{OfficeLocationAddress2}}</span></div>
+      <div class="rpt-nested-flexrow"><span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span></div>
+      <div class="rpt-nested-flexrow"><span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span></div>
     </div>
-    <div class="rpt-flexcolumn" style="flex:0 0 40%;">
-      <span class="sub-title" style="font-size:20px;">{{Department}}</span>
-      <span class="title blue">{{Report}}</span>
+    <div class="rpt-flexcolumn" style="flex:0 0 33%;padding-bottom:5px;">
+      <div class="rpt-nested-flexrow"><span class="sub-title" style="font-size:20px;">{{Department}}</span></div>
+      <div class="rpt-nested-flexrow"><span class="title blue">{{Report}}</span></div>
     </div>
-    <!-- Order Number & Date -->
-    <div class="rpt-flexcolumn" style="flex:0 0 30%;">
-      <table>
-        <tr>
-          <td style="width:40%;font-size:18px;font-weight:700;text-align:right;">No:</td>
-          <td style="width:60%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{ContractNumber}}</td>
-        </tr>
-        <tr>
-          <td style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
-          <td style="width:60%;font-size:18px;text-align:center;">{{ContractDate}}</td>
-        </tr>
-        <tr>
-          <td style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Time:</td>
-          <td style="width:60%;font-size:18px;text-align:center;">{{ContractTime}}</td>
-        </tr>
-      </table>
+    <div class="rpt-flexcolumn" style="flex:0 0 33%;padding-bottom:5px;">
+      <div class="rpt-nested-flexrow">
+        <span style="width:40%;font-size:18px;font-weight:700;text-align:right;">No: </span>
+        <span style="width:60%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{ContractNumber}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Date: </span>
+        <span style="width:60%;font-size:18px;text-align:center;">{{ContractDate}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Time: </span>
+        <span style="width:60%;font-size:18px;text-align:center;">{{ContractTime}}</span>
+      </div>
     </div>
   </div>
 </div>

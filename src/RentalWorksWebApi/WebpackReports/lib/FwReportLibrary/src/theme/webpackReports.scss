@@ -40,6 +40,12 @@ body {
     width: 1110px;
 }
 
+// Report specific flex row for headers (without width)
+.rpt-nested-flexrow {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
 .rpt-flexrow > * {
     flex: 1 1 0;
     min-width: 16em;

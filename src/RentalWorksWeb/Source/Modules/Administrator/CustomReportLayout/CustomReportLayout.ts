@@ -55,6 +55,10 @@ class CustomReportLayout {
         this.loadModules($form);
         this.events($form);
         this.designerEvents($form);
+
+        //temp 
+        FwFormField.setValueByDataField($form, 'BaseReport', 'OutContractReport', null, true);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -350,6 +354,7 @@ class CustomReportLayout {
                                                <div class="header-wrapper"></div>
                                            </div>`);
                         $section.contents().filter(function () { return (this.nodeType == 3) }).remove(); //removes text nodes (handlebars)
+                        this.addReportHeaderSorting($form, $section);
                         $wrapper.find('.header-wrapper').append($section);
                         break;
                     case 'table':
@@ -422,8 +427,43 @@ class CustomReportLayout {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                 $table.find('.highlight').removeClass('highlight');
                 $table.find(`[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
-            }
+            },
+            animation: 100
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    addReportHeaderSorting($form: JQuery, $section: JQuery) {
+        const $elements = $section.find('.rpt-flexcolumn');
+        for (let i = 0; i < $elements.length; i++) {
+            const $element = jQuery($elements[i]);
+            $element.css('border', '1px dotted #e9ebec');
+            Sortable.create($element[0], {
+                group: 'column',
+                onStart: e => {
+                },
+                onEnd: e => {
+                },
+                delay: 500,
+                animation: 100,
+                dragoverBubble: true
+            });
+            const $nestedElements = $section.find('.rpt-nested-flexrow');
+            for (let j = 0; j < $nestedElements.length; j++) {
+                const $nestedElement = jQuery($nestedElements[j]);
+                $nestedElement.css('border', '1px dotted #dcdcdc');
+                Sortable.create($nestedElement[0], {
+                    group: 'nested',
+                    onStart: e => {
+                    },
+                    onEnd: e => {
+                    },
+                    delay: 500,
+                    animation: 100,
+                    fallbackOnBody: true,
+                    dragoverBubble: true
+                });
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $table: JQuery, $tr: JQuery, $th?) {

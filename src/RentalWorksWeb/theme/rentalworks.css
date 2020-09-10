@@ -741,6 +741,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 /* Custom Report Header Section (note: copied from webpackreports.scss) */
 #reportDesigner .header-wrapper .rpt-flexrow {display: flex;flex-wrap: nowrap;justify-content: space-between;width: 1110px;}
+#reportDesigner .header-wrapper .rpt-nested-flexrow {display: flex;flex-wrap: nowrap;min-height: 2em;}
 #reportDesigner .header-wrapper .rpt-flexrow > * {flex: 1 1 0;min-width: 16em;}
 #reportDesigner .header-wrapper .rpt-flexcolumn {display: flex;flex-direction: column;}
 #reportDesigner .header-wrapper .rpt-title {align-self: center;font-size: 17px;font-weight: bold;}
