@@ -2036,6 +2036,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (SalesShowPickTime == true) { showFields.Add("PickTime"); }
                 if (SalesShowFromDate == true) { showFields.Add("FromDate"); }
                 if (SalesShowFromTime == true) { showFields.Add("FromTime"); }
+                if (SalesShowManufacturerPartNumber== true) { showFields.Add("ManufacturerPartNumber"); }
                 if (SalesShowSubQuantity == true) { showFields.Add("SubQuantity"); }
                 if (SalesShowAvailableQuantity == true) { showFields.Add("AvailableQuantity"); }
                 if (SalesShowAvailableQuantityAllWarehouses == true) { showFields.Add("AvailableAllWarehousesQuantity"); }

@@ -274,6 +274,9 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
         [FwLogicProperty(Id:"Z5qMTIl2vimA")]
         public int? SubSaleDescriptionWidth { get { return subSaleOrderTypeFields.DescriptionWidth; } set { subSaleOrderTypeFields.DescriptionWidth = value; } }
 
+        [FwLogicProperty(Id: "Wu6Zggo9srG8Q")]
+        public bool? SubSaleShowManufacturerPartNumber { get { return subSaleOrderTypeFields.ShowManufacturerPartNumber; } set { subSaleOrderTypeFields.ShowManufacturerPartNumber = value; } }
+
         //[FwLogicProperty(Id:"c3Nm7W01kTtl")]
         //public bool? SubSaleShowPickDate { get { return subSaleOrderTypeFields.ShowPickDate; } set { subSaleOrderTypeFields.ShowPickDate = value; } }
 
@@ -1746,6 +1749,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
                 showFields.Add("QuantityOrdered");
                 //if (SubSaleShowFromDate == true) { showFields.Add("FromDate"); }
                 //if (SubSaleShowFromTime == true) { showFields.Add("FromTime"); }
+                if (SubSaleShowManufacturerPartNumber == true) { showFields.Add("ManufacturerPartNumber"); }
                 if (SubSaleShowUnit == true) { showFields.Add("Unit"); }
                 if (SubSaleShowRate == true) { showFields.Add("Rate"); }
                 if (SubSaleShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }
@@ -1860,6 +1864,7 @@ namespace WebApi.Modules.Settings.PoSettings.PoType
                 if (PurchaseShowDescription == true) { showFields.Add("Description"); }
                 if ((!(PurchaseShowICode == true)) && (!(PurchaseShowDescription == true))) { showFields.Add("ICode"); }
                 showFields.Add("QuantityOrdered");
+                if (PurchaseShowManufacturerPartNumber == true) { showFields.Add("ManufacturerPartNumber"); }
                 if (PurchaseShowUnit == true) { showFields.Add("Unit"); }
                 if (PurchaseShowRate == true) { showFields.Add("Rate"); }
                 if (PurchaseShowDiscountPercent == true) { showFields.Add("DiscountPercent"); }

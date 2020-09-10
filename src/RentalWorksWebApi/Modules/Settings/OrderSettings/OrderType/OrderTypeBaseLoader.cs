@@ -1539,6 +1539,9 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         [FwSqlDataField(column: "subsalesshowrepairno", modeltype: FwDataTypes.Boolean)]
         public bool? SubSaleShowRepairOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subsalesshowmfgpartno", modeltype: FwDataTypes.Boolean)]
+        public bool? SubSaleShowManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subsalesshowmasterno", modeltype: FwDataTypes.Boolean)]
         public bool? SubSaleShowICode { get; set; }
         //------------------------------------------------------------------------------------ 
