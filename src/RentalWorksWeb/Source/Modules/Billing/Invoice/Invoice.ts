@@ -1267,12 +1267,12 @@ class Invoice {
             const salesTax2 = totals.Tax2;
             const total = totals.LineTotalWithTax;
 
-            FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="SubTotal"]`), subTotal);
-            FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Discount"]`), discount);
-            FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Tax"]`), salesTax);
-            FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Tax2"]`), salesTax2);
-            FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="GrossTotal"]`), grossTotal);
-            FwFormField.setValue2($form.find(`.${gridType}totals [data-totalfield="Total"]`), total);
+            FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="SubTotal"]`), subTotal);
+            FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Discount"]`), discount);
+            FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Tax"]`), salesTax);
+            FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Tax2"]`), salesTax2);
+            FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="GrossTotal"]`), grossTotal);
+            FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Total"]`), total);
         }
     };
     //----------------------------------------------------------------------------------------------
