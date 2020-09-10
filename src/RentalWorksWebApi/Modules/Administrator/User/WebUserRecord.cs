@@ -10,6 +10,10 @@ namespace WebApi.Modules.Administrator.User
     [FwSqlTable("webusers")]
     public class WebUserRecord : AppDataReadWriteRecord
     {
+        public WebUserRecord() : base()
+        {
+            BeforeSave += OnBeforeSaveUser;
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0, isPrimaryKey: true)]
         public string WebUserId { get; set; } = "";
@@ -116,6 +120,14 @@ namespace WebApi.Modules.Administrator.User
         public async Task<bool> SaveFavoritesJsonAsync(string Note)
         {
             return await AppFunc.SaveNoteAsync(AppConfig, UserSession, WebUserId, RwConstants.WEBUSER_NOTE_TYPE_FAVORITES, "", Note);
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeSaveUser(object sender, BeforeSaveDataRecordEventArgs e)
+        {
+            if (WebPassword != null)
+            {
+                WebPassword = AppFunc.EncryptAsync(AppConfig, WebPassword.ToUpper()).Result;
+            }
         }
         //-------------------------------------------------------------------------------------------------------
 

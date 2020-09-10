@@ -159,7 +159,17 @@ namespace WebApi.Modules.Agent.Contact
         public string UserId { get { return user.UserId; } set { user.UserId = value; } }
 
         [FwLogicProperty(Id:"8j5hfJNXnujE")]
-        public string WebPassword { get { return user.Password; } set { user.Password = value;  webUser.WebPassword = value; } }
+        public string Password
+        {
+            get { return "?????????"; }
+            set
+            {
+                user.Password = value;
+                user.PasswordUpdatedDateTime = FwConvert.ToUSShortDate(DateTime.Today);
+
+                webUser.WebPassword = value;
+            }
+        }
 
         [FwLogicProperty(Id:"5sJJi29pSLA7")]
         public bool? ChangePasswordAtNextLogin { get { return user.UserMustChangePassword; } set { user.UserMustChangePassword = value; } }
@@ -231,14 +241,20 @@ namespace WebApi.Modules.Agent.Contact
         public void OnBeforeSaveContactLogic(object sender, BeforeSaveEventArgs e)
         {
             ContactRecordType = "CONTACT";
-            if (!string.IsNullOrEmpty(this.WebPassword))
+
+            ContactLogic orig = null;
+            if (e.Original != null)
             {
-                // Encyrypt the WebPassword if the user supplies a new one
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                orig = ((ContactLogic)e.Original);
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (orig != null)
                 {
-                    this.WebPassword = FwSqlData.EncryptAsync(conn, this.AppConfig.DatabaseSettings, this.WebPassword.ToUpper()).Result;
+                    UserId = orig.UserId;
+                    WebUserId = orig.WebUserId;
                 }
-                this.PasswordLastUpdated = FwConvert.ToUtcIso8601DateTime(DateTime.UtcNow);
             }
         }
         //------------------------------------------------------------------------------------
@@ -246,17 +262,6 @@ namespace WebApi.Modules.Agent.Contact
         {
             //#jhtodo - replace with Logical loads, or move these references to SQL tablename and fieldnames to the Record classes.
 
-            // get the usersid
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
-                if (row.ContainsKey("usersid"))
-                {
-                    user.UserId = row["usersid"].ToString().TrimEnd();
-                    e.SaveMode = TDataRecordSaveMode.smUpdate;
-                    e.PerformSave = false;
-                }
-            }
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
             {
                 //fields are required for a user
@@ -278,16 +283,6 @@ namespace WebApi.Modules.Agent.Contact
 
             //#jhtodo - replace with Logical loads, or move these references to SQL tablename and fieldnames to the Record classes.
 
-            // get the webusersid
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
-                if (row.ContainsKey("webusersid"))
-                {
-                    webUser.WebUserId = row["webusersid"].ToString().TrimEnd();
-                    e.SaveMode = TDataRecordSaveMode.smUpdate;
-                }
-            }
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 webUser.ApplicationTheme = "theme-material";

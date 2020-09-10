@@ -516,7 +516,7 @@ class Contact {
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Password" style="flex:0 1 500px;">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Web Password" data-datafield="WebPassword" style="flex:1 1 300px;"></div>
+                        <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Web Password" data-datafield="Password" style="flex:1 1 300px;"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="User must change password at next login" data-datafield="ChangePasswordAtNextLogin" style="flex:1 1 300px;"></div>
