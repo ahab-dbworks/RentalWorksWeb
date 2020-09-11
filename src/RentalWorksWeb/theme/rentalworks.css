@@ -713,6 +713,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #controlProperties .propertyContainer div input:disabled {background-color: whitesmoke; border-color: inherit;border-style: solid;}
 #controlProperties .show-advanced-properties {color:blue; text-decoration:underline;cursor:pointer;}
 #controlProperties .propertyContainer div.properties.adv-property {display:none;}
+#controlProperties .header-fields-drag {display:flex; flex-direction:column;overflow:auto;max-height:50vh;}
+#controlProperties .header-fields-drag span {cursor:pointer;}
+#controlProperties .header-fields-drag span:nth-child(odd) {background-color: #f1f1f1}
 
 /* Custom Reports */
 #reportDesigner .highlight { background-color:#d1efd2 !important;border:2px solid #4caf5040 !important;}
@@ -751,8 +754,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 .modulefields div {cursor:pointer;}
 .modulefields div:nth-child(odd) {background-color: #f1f1f1;}
-.add-header-fields div div {cursor:pointer;}
-.add-header-fields div div:nth-child(odd) {background-color: #f1f1f1;}
+
 
 /* Availability Conflicts */
 #availabilityTable table {border-collapse:collapse;}

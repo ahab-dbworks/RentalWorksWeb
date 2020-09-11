@@ -177,6 +177,8 @@ class CustomReportLayout {
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
         modulefields.empty();
+        const $headerFields = $form.find('.header-fields-drag');
+        $headerFields.empty();
         FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/emptyobject`, null, FwServices.defaultTimeout,
             response => {
                 let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
@@ -219,19 +221,19 @@ class CustomReportLayout {
 
                 for (let i = 0; i < allValidFields.length; i++) {
                     modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].value}</div>`);
+                    $headerFields.append(`<span>${allValidFields[i].value}</span>`);
                     if (allValidFields[i].hasOwnProperty("NestedItems")) {
                         for (const key of Object.keys(allValidFields[i].NestedItems)) {
                             if (key != '_Custom') {
                                 modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].value}" style="text-indent:1em;">${key}</div>`);
+                                $headerFields.append(`<span data-parentfield="${allValidFields[i].value}" style="text-indent:1em;">${key}</span>`);
                             }
                         }
                     }
                 }
 
                 //add draggable fields to designer
-                const $draggableFields = modulefields.clone(false);
-                this.addNestedSorting($draggableFields, true);
-                $form.find('.add-header-fields').empty().append($draggableFields.removeClass('modulefields'));
+                this.addNestedSorting($form, $headerFields, true);
 
                 FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
 
@@ -447,7 +449,8 @@ class CustomReportLayout {
                     //
                 },
                 onEnd: e => {
-                    //
+                    const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
+                    this.updateReportHeader($form, $reportHeaderSection);
                 },
                 delay: 500,
                 animation: 100,
@@ -455,11 +458,11 @@ class CustomReportLayout {
             });
 
             const $nestedElements = $section.find('.rpt-nested-flexrow');
-            this.addNestedSorting($nestedElements, false);
+            this.addNestedSorting($form, $nestedElements, false);
         }
     }
     //----------------------------------------------------------------------------------------------
-    addNestedSorting($nestedElements: JQuery, clone?: boolean) {
+    addNestedSorting($form: JQuery, $nestedElements: JQuery, clone?: boolean) {
         for (let j = 0; j < $nestedElements.length; j++) {
             const $nestedElement = jQuery($nestedElements[j]);
             const group: any = { name: 'nested' };
@@ -474,7 +477,11 @@ class CustomReportLayout {
                     //
                 },
                 onEnd: e => {
-                    //
+                    if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
+                        jQuery(e.item).text(`{{${jQuery(e.item).text()}}}`);
+                    }
+                    const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
+                    this.updateReportHeader($form, $reportHeaderSection);
                 },
                 delay: 500,
                 animation: 100,
@@ -482,6 +489,13 @@ class CustomReportLayout {
                 dragoverBubble: true
             });
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    updateReportHeader($form: JQuery, $headerSection: JQuery) {
+        const headerFor = $headerSection.attr('data-headerfor') || '';
+        $form.data('updatetype', 'reportheader');
+        $form.data('reportheaderfor', headerFor);
+        this.updateHTML($form, null, null);
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $table: JQuery, $tr: JQuery, $th?) {
@@ -840,11 +854,9 @@ class CustomReportLayout {
             if (typeof $reportHeaderSection != 'undefined') {
                 const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
                 if ($reportHeaderSection.find('.rpt-flexcolumn').length > 0) {
+                    this.addNestedSorting($form, $emptyRow, false);
                     jQuery($reportHeaderSection.find('.rpt-flexcolumn')[0]).append($emptyRow);
-                    const headerFor = $reportHeaderSection.attr('data-headerfor') || '';
-                    $form.data('updatetype', 'reportheader');
-                    $form.data('reportheaderfor', headerFor);
-                    this.updateHTML($form, $table, $row, $column);
+                    this.updateReportHeader($form, $reportHeaderSection);
                 }
             }
         });
