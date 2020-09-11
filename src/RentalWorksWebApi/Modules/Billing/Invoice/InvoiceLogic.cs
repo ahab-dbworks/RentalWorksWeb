@@ -21,8 +21,8 @@ namespace WebApi.Modules.Billing.Invoice
 
         InvoiceLoader invoiceLoader = new InvoiceLoader();
         InvoiceBrowseLoader invoiceBrowseLoader = new InvoiceBrowseLoader();
-        
-        private bool _changeRatesToNewCurrency = false;
+
+        //private bool _changeRatesToNewCurrency = false;
 
 
         public InvoiceLogic()
@@ -368,11 +368,11 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "9OnrVe14Xe2p")]
         public string CurrencyId { get { return invoice.CurrencyId; } set { invoice.CurrencyId = value; } }
 
-        [FwLogicProperty(Id: "ihzRrucizOXx4")]
-        public bool? UpdateAllRatesToNewCurrency { get; set; }
-
-        [FwLogicProperty(Id: "AKYJJxvbfAsBQ", IsNotAudited: true)]
-        public string ConfirmUpdateAllRatesToNewCurrency { get; set; }
+        //[FwLogicProperty(Id: "ihzRrucizOXx4")]
+        //public bool? UpdateAllRatesToNewCurrency { get; set; }
+        //
+        //[FwLogicProperty(Id: "AKYJJxvbfAsBQ", IsNotAudited: true)]
+        //public string ConfirmUpdateAllRatesToNewCurrency { get; set; }
 
         [FwLogicProperty(Id: "sCSkPb8mzrS6", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
@@ -442,7 +442,7 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "Q0zV0j5lCSBHd", IsReadOnly: true)]
         public bool? HasLossAndDamageItem { get; set; }
 
-        
+
 
         [FwLogicProperty(Id: "4NGkESxWvfM5c")]
         public decimal? RentalTotal { get { return invoice.RentalTotal; } set { invoice.RentalTotal = value; } }
@@ -487,7 +487,7 @@ namespace WebApi.Modules.Billing.Invoice
         {
             bool isValid = true;
 
-            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
             }
             else
@@ -498,10 +498,19 @@ namespace WebApi.Modules.Billing.Invoice
                     lOrig = ((InvoiceLogic)original);
                 }
 
+                // cannot change Currency if this Invoice is associated to an Order
+                if (isValid)
+                {
+                    if ((CurrencyId != null) && (!CurrencyId.Equals(lOrig.CurrencyId)) && (!string.IsNullOrEmpty(lOrig.OrderId)))
+                    {
+                        isValid = false;
+                        validateMsg = "Cannot modify the Currency of this " + BusinessLogicModuleName + ".  Instead void the " + BusinessLogicModuleName + ", correct the Order, and create a new " + BusinessLogicModuleName + ".";
+                    }
+                }
+
                 // no changes allowed at all if processed, closed, or void
                 if (isValid)
                 {
-                    string origStatus = lOrig.Status ?? Status ?? "";
                     if (lOrig.Status.Equals(RwConstants.INVOICE_STATUS_PROCESSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_VOID))
                     {
                         isValid = false;
@@ -546,13 +555,13 @@ namespace WebApi.Modules.Billing.Invoice
                     TaxId = orig.TaxId;
                     BillToAddressId = orig.BillToAddressId;
 
-                    if ((!string.IsNullOrEmpty(CurrencyId)) && (!CurrencyId.Equals(orig.CurrencyId)))
-                    {
-                        if ((!string.IsNullOrEmpty(ConfirmUpdateAllRatesToNewCurrency)) && (ConfirmUpdateAllRatesToNewCurrency.ToUpper().Equals(RwConstants.UPDATE_RATES_CONFIRMATION)))
-                        {
-                            _changeRatesToNewCurrency = true;
-                        }
-                    }
+                    //if ((!string.IsNullOrEmpty(CurrencyId)) && (!CurrencyId.Equals(orig.CurrencyId)))
+                    //{
+                    //    if ((!string.IsNullOrEmpty(ConfirmUpdateAllRatesToNewCurrency)) && (ConfirmUpdateAllRatesToNewCurrency.ToUpper().Equals(RwConstants.UPDATE_RATES_CONFIRMATION)))
+                    //    {
+                    //        _changeRatesToNewCurrency = true;
+                    //    }
+                    //}
                 }
             }
         }
@@ -610,13 +619,13 @@ namespace WebApi.Modules.Billing.Invoice
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if (_changeRatesToNewCurrency)
-                {
-                    //TSpStatusResponse resetCurrencyRatesResponse = InvoiceFunc.ResetOrderCurrencyRates(AppConfig, UserSession, InvoiceId, e.SqlConnection).Result;
-                    //if (!response.success)  // need an error message here
-                    //{
-                    //}
-                }
+                //if (_changeRatesToNewCurrency)
+                //{
+                //    //TSpStatusResponse resetCurrencyRatesResponse = InvoiceFunc.ResetOrderCurrencyRates(AppConfig, UserSession, InvoiceId, e.SqlConnection).Result;
+                //    //if (!response.success)  // need an error message here
+                //    //{
+                //    //}
+                //}
             }
 
 
