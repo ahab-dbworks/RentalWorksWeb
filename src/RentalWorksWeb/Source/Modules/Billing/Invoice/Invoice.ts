@@ -612,10 +612,10 @@ class Invoice {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 };
-                request.totalfields = ["Revenue", "Cost"];
+                request.totalfields = ["InvoiceRevenue", "Cost"];
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="Revenue"]'), dt.Totals.Reveue);
+                FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="InvoiceRevenue"]'), dt.Totals.InvoiceRevenue);
                 FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="Cost"]'), dt.Totals.Cost);            },
         });
         // ----------
