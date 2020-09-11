@@ -191,6 +191,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string PeriodExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString8Digits)]
+        public string PeriodTaxNoCurrency{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string PeriodTax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtax1", modeltype: FwDataTypes.DecimalString8Digits)]
@@ -261,7 +264,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "WeeklyTax", "WeeklyTax1", "WeeklyTax2", "WeeklyTaxSubTotal", "WeeklyExtendedWithTax", "WeeklyExtendedWithTaxSubTotal",
                                                  "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
                                                  "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal","MonthlyTax", "MonthlyTax1", "MonthlyTax2", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
-                                                 "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTax", "PeriodTax1", "PeriodTax2", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
+                                                 "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTaxNoCurrency", "PeriodTax", "PeriodTax1", "PeriodTax2", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
@@ -299,7 +302,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         {
                             decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                             string stringValue = d.ToString("N", numberFormat);
-                            if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")))
+                            if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")) && (!fieldName.Equals("PeriodTaxNoCurrency")))
                             {
                                 stringValue = currencySymbol + " " + stringValue;
                             }

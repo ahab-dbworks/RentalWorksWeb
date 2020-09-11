@@ -421,7 +421,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -661,7 +661,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="5" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -926,7 +926,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="6" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -1149,7 +1149,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -1388,7 +1388,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -1628,7 +1628,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -1859,7 +1859,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -2074,7 +2074,7 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td colspan="2"></td>
       <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
@@ -2105,7 +2105,7 @@
   {{#each Items}}
   {{#ifEquals RowType "grandtotal"}}
   <table class="grandTotalRow">
-    {{#ifNotEquals Tax 0}}
+    {{#ifNotEquals TaxNoCurrency 0}}
     <tr>
       <td style="min-width:638px;"></td>
       <td style="min-width:300px;text-align:right;padding-top:12px;padding-right:10px;font-weight:bold;">SUB TOTAL</td>

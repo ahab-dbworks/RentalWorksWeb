@@ -120,33 +120,17 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        // to be removed
-        [FwSqlDataField(column: "taxrate", modeltype: FwDataTypes.DecimalString3Digits)]
-        public string TaxRate { get; set; }
-        // to be removed
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxrate1", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate1 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        // to be removed
         [FwSqlDataField(column: "tax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string Tax { get; set; }
-        // to be removed
         //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.DecimalString8Digits)]
+        public string TaxNoCurrency { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tax1", modeltype: FwDataTypes.DecimalString8Digits)]
         public string Tax1 { get; set; }
@@ -193,8 +177,8 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 //--------------------------------------------------------------------------------- 
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "Tax", "Tax1", "Tax2", "TaxSubTotal", "ExtendedWithTax", "TotalExtended", "TotalExtendedWithTax" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate", "TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "TaxNoCurrency", "Tax", "Tax1", "Tax2", "TaxSubTotal", "ExtendedWithTax", "TotalExtended", "TotalExtendedWithTax" };
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] {"TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -231,7 +215,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         {
                             decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                             string stringValue = d.ToString("N", numberFormat);
-                            if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")))
+                            if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")) && (!fieldName.Equals("TaxNoCurrency")))
                             {
                                 stringValue = currencySymbol + " " + stringValue;
                             }
@@ -974,6 +958,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "tax2referenceno", modeltype: FwDataTypes.Text)]
         public string Tax2ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "hastax", modeltype: FwDataTypes.Boolean)]
+        public bool? HasTax { get; set; }
         //------------------------------------------------------------------------------------
 
 
