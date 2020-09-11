@@ -44,6 +44,7 @@ body {
 .rpt-nested-flexrow {
     display: flex;
     flex-wrap: nowrap;
+    min-height: 2em;
 }
 
 .rpt-flexrow > * {

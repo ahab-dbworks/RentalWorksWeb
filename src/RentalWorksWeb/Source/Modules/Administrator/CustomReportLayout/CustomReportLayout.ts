@@ -228,6 +228,11 @@ class CustomReportLayout {
                     }
                 }
 
+                //add draggable fields to designer
+                const $draggableFields = modulefields.clone(false);
+                this.addNestedSorting($draggableFields, true);
+                $form.find('.add-header-fields').empty().append($draggableFields.removeClass('modulefields'));
+
                 FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
 
             }, ex => FwFunc.showError(ex), $form);
@@ -436,33 +441,46 @@ class CustomReportLayout {
         const $elements = $section.find('.rpt-flexcolumn');
         for (let i = 0; i < $elements.length; i++) {
             const $element = jQuery($elements[i]);
-            $element.css('border', '1px dotted #e9ebec');
             Sortable.create($element[0], {
                 group: 'column',
                 onStart: e => {
+                    //
                 },
                 onEnd: e => {
+                    //
                 },
                 delay: 500,
                 animation: 100,
                 dragoverBubble: true
             });
+
             const $nestedElements = $section.find('.rpt-nested-flexrow');
-            for (let j = 0; j < $nestedElements.length; j++) {
-                const $nestedElement = jQuery($nestedElements[j]);
-                $nestedElement.css('border', '1px dotted #dcdcdc');
-                Sortable.create($nestedElement[0], {
-                    group: 'nested',
-                    onStart: e => {
-                    },
-                    onEnd: e => {
-                    },
-                    delay: 500,
-                    animation: 100,
-                    fallbackOnBody: true,
-                    dragoverBubble: true
-                });
-            }
+            this.addNestedSorting($nestedElements, false);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    addNestedSorting($nestedElements: JQuery, clone?: boolean) {
+        for (let j = 0; j < $nestedElements.length; j++) {
+            const $nestedElement = jQuery($nestedElements[j]);
+            const group: any = { name: 'nested' };
+            if (clone) {
+                group.pull = 'clone';
+                group.put = false;
+            };
+
+            Sortable.create($nestedElement[0], {
+                group: group,
+                onStart: e => {
+                    //
+                },
+                onEnd: e => {
+                    //
+                },
+                delay: 500,
+                animation: 100,
+                fallbackOnBody: true,
+                dragoverBubble: true
+            });
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -571,7 +589,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery) {
-        let $table, $row, $column, $headerField;
+        let $table, $row, $column, $headerField, $reportHeaderSection;
         const $addColumn = $form.find('.addColumn');
         const $addRow = $form.find('.addRow');
 
@@ -684,7 +702,7 @@ class CustomReportLayout {
             }
         });
 
-        //add header column
+        //add table header column
         $addColumn.on('click', e => {
             const newId = program.uniqueId(8);
             $column = jQuery(`<th data-linkedcolumn="${newId}" class="new-column"></th>`);
@@ -705,7 +723,7 @@ class CustomReportLayout {
             this.showHideControlProperties($form, 'table');
         });
 
-        //add rows
+        //add table header rows
         $addRow.on('click', e => {
             $row = this.addNewHeaderRow($form);
             $form.data('updatetype', 'addrow');
@@ -730,7 +748,7 @@ class CustomReportLayout {
             }
         });
 
-        //delete row
+        //delete table row
         $form.on('click', '.delete-row', e => {
             if (typeof $column !== 'undefined') {
                 $row = $column.parents('tr');
@@ -813,10 +831,30 @@ class CustomReportLayout {
             $form.data('updatetype', 'footerrow');
         });
 
+
+        //  Report Header Events
+        //-----------------------------------------------------------------------------------------------
+
+        //Add empty report header row
+        $form.on('click', '.add-empty-row', e => {
+            if (typeof $reportHeaderSection != 'undefined') {
+                const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
+                if ($reportHeaderSection.find('.rpt-flexcolumn').length > 0) {
+                    jQuery($reportHeaderSection.find('.rpt-flexcolumn')[0]).append($emptyRow);
+                    const headerFor = $reportHeaderSection.attr('data-headerfor') || '';
+                    $form.data('updatetype', 'reportheader');
+                    $form.data('reportheaderfor', headerFor);
+                    this.updateHTML($form, $table, $row, $column);
+                }
+            }
+        });
+
         $form.on('click', '#reportDesigner .header-wrapper', e => {
+            const $this = jQuery(e.currentTarget);
             $form.find('#reportDesigner .selected').removeClass('selected');
-            jQuery(e.currentTarget).addClass('selected');
-            this.showHideControlProperties($form, 'hide');
+            $this.addClass('selected');
+            $reportHeaderSection = $this.find('[data-section="header"]');
+            this.showHideControlProperties($form, 'headerwrapper');
         });
 
         $form.on('click', '#reportDesigner .header-wrapper span', e => {
@@ -915,6 +953,7 @@ class CustomReportLayout {
     showHideControlProperties($form: JQuery, section: string) {
         const $controlProperties = $form.find('#controlProperties');
         switch (section) {
+            case 'headerwrapper':
             case 'header':
                 $controlProperties.children(`:not('.header-controls')`).hide();
                 $controlProperties.children('.header-controls').show();
