@@ -647,8 +647,24 @@
       </div>
       <!--REVENUE TAB -->
       <div data-type="tabpage" id="invoicerevenuetabpage" class="tabpage" data-tabid="invoicerevenuetab">
-        <div class="flexrow rwGrid">
-          <div data-control="FwGrid" data-grid="InvoiceRevenueGrid" data-securitycaption="Revenue"></div>
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:1 1 650px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Revenue">
+              <div class="flexrow">
+                <div data-control="FwGrid" data-grid="InvoiceRevenueGrid"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flexcolumn revenue-totals" style="flex:0 0 250px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Revenue Totals">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Revenue" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Revenue" style="flex:1 1 100px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Cost" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Cost" style="flex:1 1 75px;"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <!--RECEIPTS TAB -->

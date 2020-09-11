@@ -536,19 +536,6 @@ class Invoice {
             }
         });
         // ----------
-        //const $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
-        //const $invoiceNoteGridControl = FwBrowse.loadGridFromTemplate('InvoiceNoteGrid');
-        //$invoiceNoteGrid.empty().append($invoiceNoteGridControl);
-        //$invoiceNoteGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        InvoiceId: $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val()
-        //    }
-        //});
-        //$invoiceNoteGridControl.data('beforesave', function (request) {
-        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-        //})
-        //FwBrowse.init($invoiceNoteGridControl);
-        //FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'InvoiceNoteGrid',
             gridSecurityId: 'PjT15E4lWmo7',
@@ -565,21 +552,6 @@ class Invoice {
         });
         // ----------
         const glTotalFields = ["Debit", "Credit"];
-        //const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
-        //const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
-        //$glDistributionGrid.empty().append($glDistributionGridControl);
-        //$glDistributionGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
-        //    };
-        //    request.totalfields = glTotalFields;
-        //});
-        //FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', ($glDistributionGridControl, dt) => {
-        //    FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
-        //    FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
-        //});
-        //FwBrowse.init($glDistributionGridControl);
-        //FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'GlDistributionGrid',
             gridSecurityId: '5xgHiF8dduf',
@@ -612,23 +584,6 @@ class Invoice {
             },
         });
         // ----------
-        //const $manualGlGrid = $form.find('div[data-grid="ManualGlTransactionsGrid"]');
-        //const $manualGlGridControl = FwBrowse.loadGridFromTemplate('ManualGlTransactionsGrid');
-        //$manualGlGrid.empty().append($manualGlGridControl);
-        //$manualGlGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
-        //    };
-        //    request.totalfields = ["Amount"];
-        //});
-        //FwBrowse.addEventHandler($manualGlGridControl, 'afterdatabindcallback', ($manualGlGridControl, dt) => {
-        //    FwFormField.setValue2($form.find('.manualgl-totals [data-totalfield="Amount"]'), dt.Totals.Amount);
-        //});
-        //$manualGlGridControl.data('beforesave', request => {
-        //    request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-        //});
-        //FwBrowse.init($manualGlGridControl);
-        //FwBrowse.renderRuntimeHtml($manualGlGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'ManualGlTransactionsGrid',
             gridSecurityId: '00B9yDUY6RQfB',
@@ -646,6 +601,22 @@ class Invoice {
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 FwFormField.setValue2($form.find('.manualgl-totals [data-totalfield="Amount"]'), dt.Totals.Amount);
             },
+        });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceRevenueGrid',
+            gridSecurityId: '2wrr1zqjxBeJ',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                };
+                request.totalfields = ["Revenue", "Cost"];
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="Revenue"]'), dt.Totals.Reveue);
+                FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="Cost"]'), dt.Totals.Cost);            },
         });
         // ----------
         //const $invoiceOrderGrid = $form.find('div[data-grid="InvoiceOrderGrid"]');
@@ -668,28 +639,6 @@ class Invoice {
                 options.hasEdit = true;
                 options.hasDelete = false;
             },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
-                };
-            },
-        });
-        // ----------
-        //const $invoiceRevenueGrid = $form.find('div[data-grid="InvoiceRevenueGrid"]');
-        //const $invoiceRevenueGridControl = FwBrowse.loadGridFromTemplate('InvoiceRevenueGrid');
-        //$invoiceRevenueGrid.empty().append($invoiceRevenueGridControl);
-        //$invoiceRevenueGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
-        //    };
-        //});
-        //FwBrowse.init($invoiceRevenueGridControl);
-        //FwBrowse.renderRuntimeHtml($invoiceRevenueGridControl);
-        FwBrowse.renderGrid({
-            nameGrid: 'InvoiceRevenueGrid',
-            gridSecurityId: '2wrr1zqjxBeJ',
-            moduleSecurityId: this.id,
-            $form: $form,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
