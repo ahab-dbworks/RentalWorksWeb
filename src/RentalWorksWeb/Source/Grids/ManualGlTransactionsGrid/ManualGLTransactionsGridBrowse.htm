@@ -1,4 +1,4 @@
-﻿<div data-name="ManualGlTransactionsGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Manual G/L Transactions" data-rendermode="template" data-showsearch="false" data-controller="ManualGlTransactionsGridController">
+<div data-name="ManualGlTransactionsGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Manual G/L Transactions" data-rendermode="template" data-showsearch="false" data-controller="ManualGlTransactionsGridController">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-datafield="Id" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
@@ -9,18 +9,18 @@
     <div class="field" data-caption="Date" data-datafield="GlDate" data-datatype="date" data-sort="desc"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Debit G/L" data-datafield="DebitGlAccountId" data-browsedisplayfield="DebitGlAccountNumber" data-datatype="validation" data-validationname="GlAccountValidation" data-sort="off"></div>
+    <div class="field" data-caption="Debit G/L" data-datafield="DebitGlAccountId" data-browsedisplayfield="DebitGlAccountNumber" data-datatype="validation" data-validationname="GlAccountValidation" data-sort="off" data-required="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Debit Description" data-datafield="DebitGlAccountDescription" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Credit G/L" data-datafield="CreditGlAccountId" data-browsedisplayfield="CreditGlAccountNumber" data-datatype="validation" data-sort="off" data-validationname="GlAccountValidation"></div>
+    <div class="field" data-caption="Credit G/L" data-datafield="CreditGlAccountId" data-browsedisplayfield="CreditGlAccountNumber" data-datatype="validation" data-sort="off" data-validationname="GlAccountValidation" data-required="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Credit Description" data-datafield="CreditGlAccountDescription" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Amount" data-datafield="Amount" data-datatype="money" data-digits="2" data-sort="off"></div>
+    <div class="field" data-caption="Amount" data-datafield="Amount" data-datatype="money" data-currencysymbol="CurrencySymbol" data-digits="2" data-sort="off"></div>
   </div>
 </div>

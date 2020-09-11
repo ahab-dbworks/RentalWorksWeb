@@ -49,10 +49,10 @@ namespace WebApi.Modules.HomeControls.GlManual
         [FwSqlDataField(column: "creditorderby", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? CreditOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "debitglaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "debitglaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string DebitGlAccountId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "creditglaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "creditglaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string CreditGlAccountId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "gldate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]

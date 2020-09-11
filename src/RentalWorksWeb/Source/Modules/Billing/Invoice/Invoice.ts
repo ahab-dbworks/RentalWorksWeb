@@ -1052,7 +1052,8 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.totals[data-type="money"]');
+        //const $totalFields = $form.find('.totals[data-type="money"]');
+        const $totalFields = $form.find('.totals[data-type="money"], .gldistribution-totals [data-type="money"], .manualgl-totals [data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
@@ -1078,7 +1079,7 @@ class Invoice {
         });
 
         //add to grids
-        const $grids = $form.find('[data-name="OrderItemGrid"]');
+        const $grids = $form.find('[data-name="InvoiceItemGrid"], [data-name="ManualGlTransactionsGrid"]');
 
         $grids.each((index, element) => {
             let $grid, currencySymbol;

@@ -1414,13 +1414,13 @@ class Deal {
                       <!-- Deal Credit section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal Credit">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-dontsavedecimal="true" data-datafield="CreditLimit" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-dontsavedecimal="true" data-datafield="CreditLimit" data-currencysymbol="CurrencySymbol" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deal A/R Balance" data-datafield="CreditBalance" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deal A/R Balance" data-datafield="CreditBalance" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Available" data-datafield="CreditAvailable" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Available" data-datafield="CreditAvailable" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Credit Application on File" data-datafield="CreditApplicationOnFile" style="flex:1 1 100px;padding-left:10px;"></div>
@@ -1434,25 +1434,25 @@ class Deal {
                       <!-- Customer Credit section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Customer Credit">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-datafield="CustomerCreditLimit" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-datafield="CustomerCreditLimit" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Available" data-datafield="CustomerCreditAvailable" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Available" data-datafield="CustomerCreditAvailable" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Customer A/R Balance" data-datafield="CustomerCreditBalance" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Customer A/R Balance" data-datafield="CustomerCreditBalance" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                       <!-- Depleting Deposit section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depleting Deposit">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit" data-datafield="DepletingDepositTotal" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit" data-datafield="DepletingDepositTotal" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Applied" data-datafield="DepletingDepositApplied" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Applied" data-datafield="DepletingDepositApplied" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="DepletingDepositRemaining" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="DepletingDepositRemaining" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                     </div>
@@ -1518,7 +1518,7 @@ class Deal {
                       <!-- Security Deposit section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Security Deposits">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Amount" data-datafield="SecurityDepositAmount" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Amount" data-datafield="SecurityDepositAmount" data-currencysymbol="CurrencySymbol" data-enabled="false" style="flex:1 1 125px;"></div>
                           <div class="fwformcontrol additems" data-type="button" style="flex:1 1 100px;margin:15px 5px 0px 5px;" data-enabled="false">Security Deposits</div>
                         </div>
                       </div>

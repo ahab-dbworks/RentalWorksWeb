@@ -399,6 +399,9 @@ namespace WebApi.Modules.Agent.Customer
         [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
         public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "securitydepositamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? SecurityDepositAmount { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

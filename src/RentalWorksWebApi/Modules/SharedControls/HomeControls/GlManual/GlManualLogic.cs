@@ -55,6 +55,14 @@ namespace WebApi.Modules.HomeControls.GlManual
         [JsonIgnore]
         [FwLogicProperty(Id: "0CdFAKQCWeOwB")]
         public bool? IsManual { get { return glManual.IsManual; } set { glManual.IsManual = value; } }
+        [FwLogicProperty(Id: "uOOS6twaEf60W", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "3dD08dQenYvnu", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "jvRDURZrj6HtC", IsReadOnly: true)]
+        public string Currency { get; set; }
+        [FwLogicProperty(Id: "ElgvTkJVlVFvW", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

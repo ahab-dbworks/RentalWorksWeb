@@ -428,6 +428,9 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "wMnkfPfFxP8dV", IsReadOnly: true)]
         public string CurrencySymbol { get; set; }
 
+        [FwLogicProperty(Id: "UhO3cQfN0gb4r", IsReadOnly: true)]
+        public decimal? SecurityDepositAmount { get; set; }
+
         [FwLogicProperty(Id: "jgUoBTFkpbw2", IsReadOnly: true)]
         public bool? Inactive { get; set; }
 

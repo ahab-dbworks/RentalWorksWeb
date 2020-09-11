@@ -31,6 +31,14 @@ namespace WebApi.Modules.Utilities.GLDistribution
         public int? OrderBy { get; set; }
         [FwLogicProperty(Id: "49nj5XXWGU3q", IsReadOnly: true)]
         public int? GroupHeadingOrder { get; set; }
+        [FwLogicProperty(Id: "ferOTbSIqUUFQ", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "IHe21kjiExsa5", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "ARwE8K1aWROxX", IsReadOnly: true)]
+        public string Currency { get; set; }
+        [FwLogicProperty(Id: "1plfykeTxnK4h", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
