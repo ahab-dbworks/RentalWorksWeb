@@ -34,7 +34,7 @@ namespace WebApi.Modules.Inventory.InventorySummaryRetiredHistory
         public string AgreementNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retireddate", modeltype: FwDataTypes.Date)]
-        public string Retireddate { get; set; }
+        public string RetiredDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retiredreason", modeltype: FwDataTypes.Text)]
         public string RetiredReason { get; set; }

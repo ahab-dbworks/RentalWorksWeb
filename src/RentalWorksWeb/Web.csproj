@@ -164,6 +164,7 @@
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
+    <Content Include="Source\Grids\InventorySummaryRetiredHistoryGrid\InventorySummaryRetiredHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\DepreciationGrid\DepreciationGridBrowse.htm" />
     <Content Include="Source\Grids\CurrencyExchangeRateGrid\CurrencyExchangeRateGridBrowse.htm" />
     <Content Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridBrowse.htm" />
@@ -347,6 +348,7 @@
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventorySummaryRetiredHistoryGrid\InventorySummaryRetiredHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DepreciationGrid\DepreciationGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CurrencyExchangeRateGrid\CurrencyExchangeRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridController.ts" />
