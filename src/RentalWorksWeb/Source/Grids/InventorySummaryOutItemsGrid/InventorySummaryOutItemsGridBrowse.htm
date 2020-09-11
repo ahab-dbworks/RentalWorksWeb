@@ -1,0 +1,38 @@
+﻿<div data-name="InventorySummaryRetiredHistoryGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Inventory Summary Retired" data-rendermode="template" data-showsearch="false" data-controller="InventorySummaryRetiredHistoryGridController" data-manualsorting="true">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-datafield="InventoryId" data-browsedatatype="key" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-browsedatatype="validation" data-formdatatype="validation" data-sort="asc" data-validationname="GeneralItemValidation"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Description" data-datafield="ItemDescription" data-browsedatatype="text" data-formdatatype="text" data-sort="asc"></div>
+  </div>
+  <div class="column" data-width="95px" data-visible="true">
+    <div class="field" data-caption="W/H" data-datafield="WarehouseId" data-browsedisplayfield="WarehouseCode" data-datatype="validation" data-validationname="WarehouseCodeValidation" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Order No" data-datafield="OrderId" data-browsedisplayfield="OrderNumber" data-browsedatatype="validation" data-sort="asc" data-validationname="OrderValidation"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Description" data-datafield="OrderDescription" data-browsedatatype="text" data-formdatatype="text" data-sort="asc"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Deal" data-datafield="DealId" data-browsedisplayfield="Deal" data-browsedatatype="validation" data-sort="asc" data-validationname="DealValidation"></div>
+  </div>
+  <div class="column" data-width="95px" data-visible="true">
+    <div class="field" data-caption="Start Date" data-datafield="EstimatedStartDate" data-datatype="date" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="95px" data-visible="true">
+    <div class="field" data-caption="End Date" data-datafield="EstimatedEndDate" data-datatype="date" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="40px" data-visible="true">
+    <div class="field" data-caption="Quantity" data-datafield="Quantity" data-datatype="number" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="PO NO" data-datafield="PurchaseOrderId" data-browsedisplayfield="PurchaseOrderNumber" data-browsedatatype="validation" data-sort="asc" data-validationname="PurchaseOrderValidation"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Vendor" data-datafield="VendorId" data-browsedisplayfield="Vendor" data-browsedatatype="validation" data-sort="asc" data-validationname="VendorValidation"></div>
+  </div>
+</div>

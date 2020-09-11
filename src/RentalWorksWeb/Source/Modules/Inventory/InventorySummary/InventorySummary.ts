@@ -54,8 +54,8 @@ class InventorySummary {
         //                               Total               Tax   SubTotal      GrossTotal                 Discount
 
         FwBrowse.renderGrid({
-            nameGrid: 'InventorySummaryOutGrid',
-            gridSelector: `div[data-grid="InventorySummaryOutGrid"]`,
+            nameGrid: 'InventorySummaryOutItemsGrid',
+            gridSelector: `div[data-grid="InventorySummaryOutItemsGrid"]`,
             gridSecurityId: '0LZv8tP11itN2',
             moduleSecurityId: this.id,
             $form: $form,
