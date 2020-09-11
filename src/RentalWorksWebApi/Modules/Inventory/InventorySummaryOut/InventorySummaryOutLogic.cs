@@ -1,15 +1,15 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Inventory.InventorySummaryStatus
+namespace WebApi.Modules.Inventory.InventorySummaryOut
 {
     [FwLogic(Id: "189C7xI3aJOGw")]
-    public class InventorySummaryStatusLogic : AppBusinessLogic
+    public class InventorySummaryOutLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        InventorySummaryStatusLoader inventorySummaryStatusLoader = new InventorySummaryStatusLoader();
-        public InventorySummaryStatusLogic()
+        InventorySummaryOutLoader inventorySummaryOutLoader = new InventorySummaryOutLoader();
+        public InventorySummaryOutLogic()
         {
-            dataLoader = inventorySummaryStatusLoader;
+            dataLoader = inventorySummaryOutLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "1BOBPUcsHjGv1", IsReadOnly: true)]

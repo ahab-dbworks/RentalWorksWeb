@@ -3,10 +3,10 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Inventory.InventorySummaryStatus
+namespace WebApi.Modules.Inventory.InventorySummaryOut
 {
     [FwSqlTable("dbo.funcinventorystatus(@masterid, @warehouseid, @includesubstitutes)")]
-    public class InventorySummaryStatusLoader : AppDataLoadRecord
+    public class InventorySummaryOutLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
