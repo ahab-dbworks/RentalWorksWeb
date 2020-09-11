@@ -89,6 +89,8 @@ namespace FwStandard.Models
         public bool? customLogin { get; set; } = null;
         public string client { get; set; } = null;
         public bool? allCaps { get; set; } = null;
+        public string appCaption { get; set; } = null; //2020-09-11 MY: Remove when TrakitWorks is its own application
+        public string appTitle { get; set; } = null;   //2020-09-11 MY: Remove when TrakitWorks is its own application
         //public bool OktaEnabled { get; set; } = false;
         //public FwOktaSignInConfig oktaSignIn { get; set; } = new FwOktaSignInConfig
         //public string oktaApiUrl = string.Empty;
