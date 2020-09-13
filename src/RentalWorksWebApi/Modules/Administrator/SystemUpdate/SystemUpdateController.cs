@@ -15,10 +15,29 @@ namespace WebApi.Modules.Administrator.SystemUpdate
     {
         public SystemUpdateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/systemupdate/versionhotfix
+        [HttpPost("versionhotfix")]
+        [FwControllerMethod(Id: "LvmqyLTsU4YFJ", ActionType: FwControllerActionTypes.View)]
+        public ActionResult<GetVersionHotfixResponse> GetVersionHotfix([FromBody] GetVersionHotfixRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                GetVersionHotfixResponse response = SystemUpdateFunc.GetVersionHotfix(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/systemupdate/availableversions
         [HttpPost("availableversions")]
         [FwControllerMethod(Id: "Q2YnR3ZeEPtlX", ActionType: FwControllerActionTypes.View)]
-        //public async Task<ActionResult<AvailableVersionsResponse>> GetAvailableVersions([FromBody] AvailableVersionsRequest request)
         public ActionResult<AvailableVersionsResponse> GetAvailableVersions([FromBody] AvailableVersionsRequest request)
         {
             if (!ModelState.IsValid)
@@ -27,7 +46,6 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             }
             try
             {
-                //AvailableVersionsResponse response = await SystemUpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
                 AvailableVersionsResponse response = SystemUpdateFunc.GetAvailableVersions(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }

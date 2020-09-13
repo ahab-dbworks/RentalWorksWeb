@@ -93,6 +93,15 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public List<BuildDocument> Documents { get; set; } = new List<BuildDocument>();
     }
 
+    public class GetVersionHotfixRequest
+    {
+        public string Version { get; set; }
+    }
+
+    public class GetVersionHotfixResponse : TSpStatusResponse
+    {
+        public string Hotfix { get; set; }
+    }
 
     public class ApplyUpdateRequest
     {
@@ -128,14 +137,46 @@ namespace WebApi.Modules.Administrator.SystemUpdate
     public static class SystemUpdateFunc
     {
         const string LOOPBACK_IP = "127.0.0.1";
+        public const string BETA_DIRECTORY = "Beta";
+        public const string QA_DIRECTORY = "QA";
+        public const string FTP_LOGIN = "update";
+        public const string FTP_PASSWORD = "update";
+        public const string FTP_SERVER = "ftp://ftp.dbworks.com";
+        public const string SYSTEM_NAME = "RentalWorksWeb";
+        //-------------------------------------------------------------------------------------------------------
+        private static DateTime GetFileDateTimeFromFtp(string fullFtpFileName) 
+        {
+            FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(fullFtpFileName);
+            ftpRequest.Method = WebRequestMethods.Ftp.GetDateTimestamp;
+            ftpRequest.Credentials = new NetworkCredential(FTP_LOGIN, FTP_PASSWORD);
+            FtpWebResponse ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+            DateTime fileDateTime = ftpResponse.LastModified.AddHours(-7);  // probably not right
+            ftpResponse.Close();
+            return fileDateTime;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private static List<string> GetFileNamesFromFtpDirectory(string ftpDirectory)
+        {
+            FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
+            ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+            ftpRequest.Credentials = new NetworkCredential(FTP_LOGIN, FTP_PASSWORD);
+            FtpWebResponse ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+            Stream responseStream = ftpResponse.GetResponseStream();
+            StreamReader reader = new StreamReader(responseStream);
+            string names = reader.ReadToEnd();
+            reader.Close();
+            ftpResponse.Close();
+
+            return names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
         //-------------------------------------------------------------------------------------------------------
         private static List<AvailableVersion> GetAvailableVersionsFromDirectory(string currentMajor, string currentMinor, string currentRelease, bool onlyIncludeNewerVersions, string subDirectoryName = "")  // Beta, QA
         {
             List<AvailableVersion> versions = new List<AvailableVersion>();
 
-            string systemName = "RentalWorksWeb";
+            string systemName = SYSTEM_NAME;
             string currentMajorMinorRelease = currentMajor + "." + currentMinor + "." + currentRelease;
-            string ftpDirectory = "ftp://ftp.dbworks.com/" + systemName + "/" + currentMajorMinorRelease;
+            string ftpDirectory = FTP_SERVER + "/" + systemName + "/" + currentMajorMinorRelease;
 
             if (!string.IsNullOrEmpty(subDirectoryName))  // Beta or QA
             {
@@ -143,25 +184,12 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             }
             string currentDirectory = ftpDirectory.Substring(ftpDirectory.LastIndexOf('/') + 1).ToLower();
 
-            FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
-            ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
-            ftpRequest.Credentials = new NetworkCredential("update", "update");
-            FtpWebResponse ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
-            Stream responseStream = ftpResponse.GetResponseStream();
-            StreamReader reader = new StreamReader(responseStream);
-            string names = reader.ReadToEnd();
-
-            reader.Close();
-            ftpResponse.Close();
-
-
-            foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
+            foreach (string name in GetFileNamesFromFtpDirectory(ftpDirectory))
             {
                 string fileName = name.ToLower();
                 if ((fileName.EndsWith("zip")) && (fileName.Contains("/" + systemName.ToLower() + "_")))
                 {
                     string version = fileName;
-                    //version = version.Replace(currentMajorMinorRelease + "/" + systemName.ToLower() + "_", "");
                     version = version.Replace(currentDirectory + "/" + systemName.ToLower() + "_", "");
                     version = version.Replace(".zip", "");
                     version = version.Replace("_", ".");
@@ -182,14 +210,8 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                     if (includeVersion)
                     {
                         // get the date of the file
-                        //string fullFtpFileName = ftpDirectory + fileName.Replace(currentMajorMinorRelease, "");
                         string fullFtpFileName = ftpDirectory + fileName.Replace(currentDirectory, "");
-                        FtpWebRequest ftpRequest2 = (FtpWebRequest)WebRequest.Create(fullFtpFileName);
-                        ftpRequest2.Method = WebRequestMethods.Ftp.GetDateTimestamp;
-                        ftpRequest2.Credentials = new NetworkCredential("update", "update");
-                        FtpWebResponse ftpResponse2 = (FtpWebResponse)ftpRequest2.GetResponse();
-                        DateTime lastModifiedDateTime = ftpResponse2.LastModified.AddHours(-7);  // probably not right
-                        ftpResponse2.Close();
+                        DateTime lastModifiedDateTime = GetFileDateTimeFromFtp(fullFtpFileName);
 
                         AvailableVersion v = new AvailableVersion();
                         v.text = $"{version} &nbsp;&nbsp;&nbsp; (Released: {lastModifiedDateTime.Date.ToString("MM/dd/yyyy")})" + (string.IsNullOrWhiteSpace(subDirectoryName) ? "" : " [" + subDirectoryName + "]");
@@ -208,119 +230,92 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             return versions;
         }
         //-------------------------------------------------------------------------------------------------------
-        //public static async Task<AvailableVersionsResponse> GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
+        private static string GetVersionHotfixFromDirectory(string major, string minor, string release, string build, string subDirectoryName = "")  // Beta, QA
+        {
+            string hotfixNumber = string.Empty;
+
+            string systemName = SYSTEM_NAME;
+            string majorMinorRelease = major + "." + minor + "." + release;
+            string ftpDirectory = FTP_SERVER + "/" + systemName + "/" + majorMinorRelease;
+
+            if (!string.IsNullOrEmpty(subDirectoryName))  // Beta or QA
+            {
+                ftpDirectory += "/" + subDirectoryName;
+            }
+
+            foreach (string f in GetFileNamesFromFtpDirectory(ftpDirectory))
+            {
+                string fileName = f.ToLower();
+                if (fileName.Contains(majorMinorRelease + "." + build + "_hotfix_"))
+                {
+                    hotfixNumber = fileName.Substring(fileName.Length - 3);  // get the last 3 characters
+                }
+            }
+
+            return hotfixNumber;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private static string[] GetMajorMinorReleaseBuildFromVersion(string version)
+        {
+
+            if (string.IsNullOrEmpty(version))
+            {
+                throw new Exception("Supply a value for CurrentVersion in the request.");
+            }
+            else if (version.Split(".").Length != 4)
+            {
+                throw new Exception("Invalid format for CurrentVersion (" + version + ").  Format must be Major.Minor.Release.Build");
+            }
+            else
+            {
+                string[] versionPieces = version.Split(".");
+
+                if ((string.IsNullOrEmpty(versionPieces[0])) || (string.IsNullOrEmpty(versionPieces[1])) || (string.IsNullOrEmpty(versionPieces[2])))
+                {
+                    throw new Exception("Invalid format for CurrentVersion (" + version + ").  Cannot determine Major, Minor, and Release.");
+                }
+                else
+                {
+                    return versionPieces;
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static AvailableVersionsResponse GetAvailableVersions(FwApplicationConfig appConfig, FwUserSession userSession, AvailableVersionsRequest request)
         {
             AvailableVersionsResponse response = new AvailableVersionsResponse();
 
-            if (string.IsNullOrEmpty(request.CurrentVersion))
+            try
             {
-                response.msg = "Supply a value for CurrentVersion in the request.";
-            }
-            else if (request.CurrentVersion.Split(".").Length != 4)
-            {
-                response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Format must be Major.Minor.Release.Build";
-            }
-            else
-            {
-                string[] versionPieces = request.CurrentVersion.Split(".");
+                string[] majorMinorReleaseBuild = GetMajorMinorReleaseBuildFromVersion(request.CurrentVersion);
 
-                if ((string.IsNullOrEmpty(versionPieces[0])) || (string.IsNullOrEmpty(versionPieces[1])) || (string.IsNullOrEmpty(versionPieces[2])))
+                response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], request.OnlyIncludeNewerVersions));
+
+                SystemSettingsLogic settings = new SystemSettingsLogic();
+                settings.SetDependencies(appConfig, userSession);
+                settings.SystemSettingsId = RwConstants.CONTROL_ID;
+                if (settings.LoadAsync<SystemSettingsLogic>().Result)
                 {
-                    response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Cannot determine Major, Minor, and Release.";
-                }
-                else
-                {
-                    try
+                    if (settings.EnableBetaUpdates.GetValueOrDefault(false))
                     {
-                        //string systemName = "RentalWorksWeb";
-                        //string currentMajorMinorRelease = versionPieces[0] + "." + versionPieces[1] + "." + versionPieces[2];
-                        //string ftpDirectory = "ftp://ftp.dbworks.com/" + systemName + "/" + currentMajorMinorRelease;
-                        //FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
-                        //ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
-                        //ftpRequest.Credentials = new NetworkCredential("update", "update");
-                        //FtpWebResponse ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
-                        //Stream responseStream = ftpResponse.GetResponseStream();
-                        //StreamReader reader = new StreamReader(responseStream);
-                        //string names = reader.ReadToEnd();
-                        //
-                        //reader.Close();
-                        //ftpResponse.Close();
-                        //
-                        //foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
-                        //{
-                        //    string fileName = name.ToLower();
-                        //    if ((fileName.EndsWith("zip")) && (fileName.Contains("/rentalworksweb_")))
-                        //    {
-                        //        string version = fileName;
-                        //        version = version.Replace(currentMajorMinorRelease + "/rentalworksweb_", "");
-                        //        version = version.Replace(".zip", "");
-                        //        version = version.Replace("_", ".");
-                        //
-                        //        //bool includeVersion = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
-                        //        bool includeVersion = true;
-                        //
-                        //        if (request.OnlyIncludeNewerVersions)
-                        //        {
-                        //            string[] thisVersionPieces = version.Split(".");
-                        //
-                        //            if (FwConvert.ToInt32(thisVersionPieces[3]) <= FwConvert.ToInt32(versionPieces[3]))
-                        //            {
-                        //                includeVersion = false;
-                        //            }
-                        //        }
-                        //
-                        //
-                        //        if (includeVersion)
-                        //        {
-                        //            // get the date of the file
-                        //            string fullFtpFileName = ftpDirectory + fileName.Replace(currentMajorMinorRelease, "");
-                        //            FtpWebRequest ftpRequest2 = (FtpWebRequest)WebRequest.Create(fullFtpFileName);
-                        //            ftpRequest2.Method = WebRequestMethods.Ftp.GetDateTimestamp;
-                        //            ftpRequest2.Credentials = new NetworkCredential("update", "update");
-                        //            FtpWebResponse ftpResponse2 = (FtpWebResponse)ftpRequest2.GetResponse();
-                        //            DateTime lastModifiedDateTime = ftpResponse2.LastModified.AddHours(-7);  // probably not right
-                        //            ftpResponse2.Close();
-                        //
-                        //            AvailableVersion v = new AvailableVersion();
-                        //            v.text = $"{version} &nbsp;&nbsp;&nbsp; (Released: {lastModifiedDateTime.Date.ToString("MM/dd/yyyy")})";
-                        //            v.value = version;
-                        //            v.Version = version;
-                        //            v.VersionDate = lastModifiedDateTime.Date;
-                        //
-                        //            response.Versions.Add(v);
-                        //        }
-                        //    }
-                        //
-                        //}
-
-                        response.Versions.AddRange(GetAvailableVersionsFromDirectory(versionPieces[0], versionPieces[1], versionPieces[2], request.OnlyIncludeNewerVersions));
-
-                        SystemSettingsLogic settings = new SystemSettingsLogic();
-                        settings.SetDependencies(appConfig, userSession);
-                        settings.SystemSettingsId = RwConstants.CONTROL_ID;
-                        if (settings.LoadAsync<SystemSettingsLogic>().Result)
-                        {
-                            if (settings.EnableBetaUpdates.GetValueOrDefault(false))
-                            {
-                                response.Versions.AddRange(GetAvailableVersionsFromDirectory(versionPieces[0], versionPieces[1], versionPieces[2], request.OnlyIncludeNewerVersions, "Beta"));
-                            }
-
-                            if (settings.EnableQaUpdates.GetValueOrDefault(false))
-                            {
-                                response.Versions.AddRange(GetAvailableVersionsFromDirectory(versionPieces[0], versionPieces[1], versionPieces[2], request.OnlyIncludeNewerVersions, "QA"));
-                            }
-                        }
-
-                        response.Versions.Sort(new AvailableVersionDateComparer());
-
-                        response.success = true;
+                        response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], request.OnlyIncludeNewerVersions, BETA_DIRECTORY));
                     }
-                    catch (Exception e)
+
+                    if (settings.EnableQaUpdates.GetValueOrDefault(false))
                     {
-                        response.msg = e.ToString();
+                        response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], request.OnlyIncludeNewerVersions, QA_DIRECTORY));
                     }
                 }
+
+                response.Versions.Sort(new AvailableVersionDateComparer());
+
+                response.success = true;
+
+            }
+            catch (Exception e)
+            {
+                response.success = false;
+                response.msg = e.Message;
             }
 
             return response;
@@ -330,80 +325,49 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         {
             BuildDocumentsResponse response = new BuildDocumentsResponse();
 
-            if (string.IsNullOrEmpty(request.CurrentVersion))
+            try
             {
-                response.msg = "Supply a value for CurrentVersion in the request.";
-            }
-            else if (request.CurrentVersion.Split(".").Length != 4)
-            {
-                response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Format must be Major.Minor.Release.Build";
-            }
-            else
-            {
-                string[] documentPieces = request.CurrentVersion.Split(".");
+                string[] majorMinorReleaseBuild = GetMajorMinorReleaseBuildFromVersion(request.CurrentVersion);
 
-                if ((string.IsNullOrEmpty(documentPieces[0])) || (string.IsNullOrEmpty(documentPieces[1])) || (string.IsNullOrEmpty(documentPieces[2])))
+                string systemName = SYSTEM_NAME;
+                string currentMajorMinorRelease = majorMinorReleaseBuild[0] + "." + majorMinorReleaseBuild[1] + "." + majorMinorReleaseBuild[2];
+                string ftpDirectory = FTP_SERVER + "/" + systemName + "/" + currentMajorMinorRelease;
+
+                foreach (string name in GetFileNamesFromFtpDirectory(ftpDirectory))
                 {
-                    response.msg = "Invalid format for CurrentVersion (" + request.CurrentVersion + ").  Cannot determine Major, Minor, and Release.";
-                }
-                else
-                {
-                    try
+                    string fileName = name.ToLower();
+                    if ((fileName.EndsWith("pdf")) && (fileName.Contains("/v" + currentMajorMinorRelease)))
                     {
-                        string systemName = "RentalWorksWeb";
-                        string currentMajorMinorRelease = documentPieces[0] + "." + documentPieces[1] + "." + documentPieces[2];
-                        string ftpDirectory = "ftp://ftp.dbworks.com/" + systemName + "/" + currentMajorMinorRelease;
-                        FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(ftpDirectory);
-                        ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
-                        ftpRequest.Credentials = new NetworkCredential("update", "update");
-                        FtpWebResponse ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
-                        Stream responseStream = ftpResponse.GetResponseStream();
-                        StreamReader reader = new StreamReader(responseStream);
-                        string names = reader.ReadToEnd();
+                        string version = fileName;
+                        version = version.Replace(currentMajorMinorRelease + "/v", "");
+                        version = version.Replace(".pdf", "");
 
-                        reader.Close();
-                        ftpResponse.Close();
+                        bool includeDocument = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
 
-                        foreach (string name in names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList())
+                        if (includeDocument)
                         {
-                            string fileName = name.ToLower();
-                            if ((fileName.EndsWith("pdf")) && (fileName.Contains("/v" + currentMajorMinorRelease)))
-                            {
-                                string version = fileName;
-                                version = version.Replace(currentMajorMinorRelease + "/v", "");
-                                version = version.Replace(".pdf", "");
+                            // get the date of the file
+                            string fullFtpFileName = ftpDirectory + fileName.Replace(currentMajorMinorRelease + "/", "/");
+                            DateTime lastModifiedDateTime = GetFileDateTimeFromFtp(fullFtpFileName);
 
-                                bool includeDocument = ((!request.OnlyIncludeNewerVersions) || (version.CompareTo(request.CurrentVersion) > 0));
-
-                                if (includeDocument)
-                                {
-                                    // get the date of the file
-                                    string fullFtpFileName = ftpDirectory + fileName.Replace(currentMajorMinorRelease + "/", "/");
-                                    FtpWebRequest ftpRequest2 = (FtpWebRequest)WebRequest.Create(fullFtpFileName);
-                                    ftpRequest2.Method = WebRequestMethods.Ftp.GetDateTimestamp;
-                                    ftpRequest2.Credentials = new NetworkCredential("update", "update");
-                                    FtpWebResponse ftpResponse2 = (FtpWebResponse)ftpRequest2.GetResponse();
-                                    DateTime lastModifiedDateTime = ftpResponse2.LastModified.AddHours(-7);  // probably not right
-                                    ftpResponse2.Close();
-
-                                    BuildDocument bd = new BuildDocument();
-                                    bd.BuildNumber = version;
-                                    bd.BuildDate = lastModifiedDateTime.Date;
-                                    response.Documents.Add(bd);
-                                    response.DocumentsList.Add(version);
-                                }
-                            }
+                            BuildDocument bd = new BuildDocument();
+                            bd.BuildNumber = version;
+                            bd.BuildDate = lastModifiedDateTime.Date;
+                            response.Documents.Add(bd);
+                            response.DocumentsList.Add(version);
                         }
-
-                        response.Documents.Sort(new BuildDocumentDateComparer());
-
-                        response.success = true;
-                    }
-                    catch (Exception e)
-                    {
-                        response.msg = e.ToString();
                     }
                 }
+
+                response.Documents.Sort(new BuildDocumentDateComparer());
+
+                response.success = true;
+
+            }
+            catch (Exception e)
+            {
+                response.success = false;
+                response.msg = e.Message;
             }
 
             return response;
@@ -413,47 +377,30 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         {
             DownloadBuildDocumentResponse response = new DownloadBuildDocumentResponse();
 
-            if (string.IsNullOrEmpty(request.Version))
+            try
             {
-                response.msg = "Supply a value for Version in the request.";
+                string[] majorMinorReleaseBuild = GetMajorMinorReleaseBuildFromVersion(request.Version);
+
+                string systemName = SYSTEM_NAME;
+                string majorMinorRelease = majorMinorReleaseBuild[0] + "." + majorMinorReleaseBuild[1] + "." + majorMinorReleaseBuild[2];
+
+                string remotePdfFileName = request.Version + ".pdf";
+                string remotePath = FTP_SERVER + "/" + systemName + "/" + majorMinorRelease + "/v" + remotePdfFileName;
+
+                string localPdfFile = request.Version.Replace('.', '_') + "_pdf";
+                string localPath = "wwwroot/temp/downloads/" + localPdfFile;
+
+                WebClient client = new WebClient();
+                client.Credentials = new NetworkCredential(FTP_LOGIN, FTP_PASSWORD);
+                client.DownloadFile(remotePath, localPath);
+
+                response.downloadUrl = $"api/v1/download/{localPdfFile}?downloadasfilename={request.Version}.pdf";
+                response.success = true;
             }
-            else if (request.Version.Split(".").Length != 4)
+            catch (Exception e)
             {
-                response.msg = "Invalid format for Version (" + request.Version + ").  Format must be Major.Minor.Release.Build";
-            }
-            else
-            {
-                string[] documentPieces = request.Version.Split(".");
-
-                if ((string.IsNullOrEmpty(documentPieces[0])) || (string.IsNullOrEmpty(documentPieces[1])) || (string.IsNullOrEmpty(documentPieces[2])))
-                {
-                    response.msg = "Invalid format for Version (" + request.Version + ").  Cannot determine Major, Minor, and Release.";
-                }
-                else
-                {
-                    try
-                    {
-                        string systemName = "RentalWorksWeb";
-                        string majorMinorRelease = documentPieces[0] + "." + documentPieces[1] + "." + documentPieces[2];
-
-                        string remotePdfFileName = request.Version + ".pdf";
-                        string remotePath = "ftp://ftp.dbworks.com/" + systemName + "/" + majorMinorRelease + "/v" + remotePdfFileName;
-
-                        string localPdfFile = request.Version.Replace('.', '_') + "_pdf";
-                        string localPath = "wwwroot/temp/downloads/" + localPdfFile;
-
-                        WebClient client = new WebClient();
-                        client.Credentials = new NetworkCredential("update", "update");
-                        client.DownloadFile(remotePath, localPath);
-
-                        response.downloadUrl = $"api/v1/download/{localPdfFile}?downloadasfilename={request.Version}.pdf";
-                        response.success = true;
-                    }
-                    catch (Exception e)
-                    {
-                        response.msg = e.ToString();
-                    }
-                }
+                response.success = false;
+                response.msg = e.Message;
             }
 
 
@@ -483,30 +430,31 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         {
             bool isUpgrade = false;
 
-            string[] fromVersionPieces = fromVersion.Split(".");
-            string[] toVersionPieces = toVersion.Split(".");
-
-            if ((fromVersionPieces.Length.Equals(4)) && (toVersionPieces.Length.Equals(4)))
+            try
             {
-                if ((!string.IsNullOrEmpty(fromVersionPieces[0])) && (!string.IsNullOrEmpty(fromVersionPieces[1])) && (!string.IsNullOrEmpty(fromVersionPieces[2])) && (!string.IsNullOrEmpty(fromVersionPieces[3]))
-                    &&
-                    (!string.IsNullOrEmpty(toVersionPieces[0])) && (!string.IsNullOrEmpty(toVersionPieces[1])) && (!string.IsNullOrEmpty(toVersionPieces[2])) && (!string.IsNullOrEmpty(toVersionPieces[3])))
+                string[] fromMajorMinorReleaseBuild = GetMajorMinorReleaseBuildFromVersion(fromVersion);
+                string[] toMajorMinorReleaseBuild = GetMajorMinorReleaseBuildFromVersion(toVersion);
+
+                if ((!string.IsNullOrEmpty(fromMajorMinorReleaseBuild[0])) && (!string.IsNullOrEmpty(fromMajorMinorReleaseBuild[1])) && (!string.IsNullOrEmpty(fromMajorMinorReleaseBuild[2])) && (!string.IsNullOrEmpty(fromMajorMinorReleaseBuild[3]))
+                       &&
+                    (!string.IsNullOrEmpty(toMajorMinorReleaseBuild[0])) && (!string.IsNullOrEmpty(toMajorMinorReleaseBuild[1])) && (!string.IsNullOrEmpty(toMajorMinorReleaseBuild[2])) && (!string.IsNullOrEmpty(toMajorMinorReleaseBuild[3])))
                 {
-                    try
+                    if (
+                        (FwConvert.ToInt32(toMajorMinorReleaseBuild[0]) > FwConvert.ToInt32(fromMajorMinorReleaseBuild[0])) ||
+                        ((FwConvert.ToInt32(toMajorMinorReleaseBuild[0]).Equals(FwConvert.ToInt32(fromMajorMinorReleaseBuild[0]))) && (FwConvert.ToInt32(toMajorMinorReleaseBuild[1]) > FwConvert.ToInt32(fromMajorMinorReleaseBuild[1]))) ||
+                        ((FwConvert.ToInt32(toMajorMinorReleaseBuild[0]).Equals(FwConvert.ToInt32(fromMajorMinorReleaseBuild[0]))) && (FwConvert.ToInt32(toMajorMinorReleaseBuild[1]).Equals(FwConvert.ToInt32(fromMajorMinorReleaseBuild[1]))) && (FwConvert.ToInt32(toMajorMinorReleaseBuild[2]) > FwConvert.ToInt32(fromMajorMinorReleaseBuild[2]))) ||
+                        ((FwConvert.ToInt32(toMajorMinorReleaseBuild[0]).Equals(FwConvert.ToInt32(fromMajorMinorReleaseBuild[0]))) && (FwConvert.ToInt32(toMajorMinorReleaseBuild[1]).Equals(FwConvert.ToInt32(fromMajorMinorReleaseBuild[1]))) && (FwConvert.ToInt32(toMajorMinorReleaseBuild[2]).Equals(FwConvert.ToInt32(fromMajorMinorReleaseBuild[2]))) && (FwConvert.ToInt32(toMajorMinorReleaseBuild[3]) > FwConvert.ToInt32(fromMajorMinorReleaseBuild[3])))
+                       )
                     {
-                        if (
-                            (FwConvert.ToInt32(toVersionPieces[0]) > FwConvert.ToInt32(fromVersionPieces[0])) ||
-                            ((FwConvert.ToInt32(toVersionPieces[0]).Equals(FwConvert.ToInt32(fromVersionPieces[0]))) && (FwConvert.ToInt32(toVersionPieces[1]) > FwConvert.ToInt32(fromVersionPieces[1]))) ||
-                            ((FwConvert.ToInt32(toVersionPieces[0]).Equals(FwConvert.ToInt32(fromVersionPieces[0]))) && (FwConvert.ToInt32(toVersionPieces[1]).Equals(FwConvert.ToInt32(fromVersionPieces[1]))) && (FwConvert.ToInt32(toVersionPieces[2]) > FwConvert.ToInt32(fromVersionPieces[2]))) ||
-                            ((FwConvert.ToInt32(toVersionPieces[0]).Equals(FwConvert.ToInt32(fromVersionPieces[0]))) && (FwConvert.ToInt32(toVersionPieces[1]).Equals(FwConvert.ToInt32(fromVersionPieces[1]))) && (FwConvert.ToInt32(toVersionPieces[2]).Equals(FwConvert.ToInt32(fromVersionPieces[2]))) && (FwConvert.ToInt32(toVersionPieces[3]) > FwConvert.ToInt32(fromVersionPieces[3])))
-                           )
-                        {
-                            isUpgrade = true;
-                        }
+                        isUpgrade = true;
                     }
-                    catch (Exception) { }  // bail out
                 }
             }
+            catch (Exception e)
+            {
+                isUpgrade = false; // bail out
+            }
+
             return isUpgrade;
         }
         //-------------------------------------------------------------------------------------------------------
@@ -592,6 +540,55 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                 await LogUpdateMessage(h, "ERROR: " + e.Message);
             }
             return success;
+        }
+        //---------------------------------------------------------------------------------------------------
+        public static GetVersionHotfixResponse GetVersionHotfix(FwApplicationConfig appConfig, FwUserSession userSession, GetVersionHotfixRequest request)
+        {
+            GetVersionHotfixResponse response = new GetVersionHotfixResponse();
+
+            try
+            {
+                string[] majorMinorReleaseBuild = GetMajorMinorReleaseBuildFromVersion(request.Version);
+
+                string hotfix = GetVersionHotfixFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], majorMinorReleaseBuild[3]);
+
+                SystemSettingsLogic settings = new SystemSettingsLogic();
+                settings.SetDependencies(appConfig, userSession);
+                settings.SystemSettingsId = RwConstants.CONTROL_ID;
+                if (settings.LoadAsync<SystemSettingsLogic>().Result)
+                {
+                    if (string.IsNullOrEmpty(hotfix))
+                    {
+                        if (settings.EnableBetaUpdates.GetValueOrDefault(false))
+                        {
+                            hotfix = GetVersionHotfixFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], majorMinorReleaseBuild[3], BETA_DIRECTORY);
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(hotfix))
+                    {
+                        if (settings.EnableQaUpdates.GetValueOrDefault(false))
+                        {
+                            hotfix = GetVersionHotfixFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], majorMinorReleaseBuild[3], QA_DIRECTORY);
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(hotfix))
+                {
+                    response.success = true;
+                    response.Hotfix = hotfix;
+                }
+
+            }
+            catch (Exception e)
+            {
+                response.success = false;
+                response.msg = e.Message;
+            }
+
+
+            return response;
         }
         //---------------------------------------------------------------------------------------------------
         public static async Task<ApplyUpdateResponse> ApplyUpdate(FwApplicationConfig appConfig, FwUserSession userSession, ApplyUpdateRequest request)
@@ -764,6 +761,41 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                     }
                 }
 
+
+                // if applying hotfixes, attempt to determine the minimum hotfix number
+                string throughHotfixNumber = "";
+                if (response.success)
+                {
+                    if (doInstallHotfixes)
+                    {
+                        await LogUpdateMessage(h, "about to check ftp for hotfix number");
+                        try
+                        {
+                            GetVersionHotfixRequest hotfixRequest = new GetVersionHotfixRequest();
+                            hotfixRequest.Version = request.ToVersion;
+                            GetVersionHotfixResponse hotfixResponse = GetVersionHotfix(appConfig, userSession, hotfixRequest);
+                            if ((hotfixResponse.success) && (!string.IsNullOrEmpty(hotfixResponse.Hotfix)))
+                            {
+                                throughHotfixNumber = hotfixResponse.Hotfix;
+                                await LogUpdateMessage(h, "hotfix number is " + throughHotfixNumber);
+                            }
+                            else
+                            {
+                                response.msg = "Cannot determine minimum Hotfix for version " + request.ToVersion;
+                                response.success = false;
+                                await LogUpdateMessage(h, "ERROR: " + response.msg);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            response.msg = e.Message;
+                            response.success = false;
+                            await LogUpdateMessage(h, "ERROR: " + response.msg);
+                            await LogUpdateMessage(h, "ERROR: " + e.Message);
+                        }
+                    }
+                }
+
                 // apply all hotfixes here
                 if (response.success)
                 {
@@ -779,6 +811,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                                 qry.CommandTimeout = 1800;  // time-out at 1,800 seconds (30 minutes)  // default is 30 (30 seconds).  0 indicates never timeout
                                 qry.CommandType = CommandType.StoredProcedure;
                                 qry.Parameters.Add("@includepreview", SqlDbType.VarChar).Value = "O";
+                                qry.Parameters.Add("@throughhotfixnumber", SqlDbType.VarChar).Value = throughHotfixNumber;
                                 hotfixConn.Open();
                                 await qry.ExecuteNonQueryAsync();
                                 hotfixConn.Close();
