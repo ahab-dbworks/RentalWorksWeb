@@ -45,6 +45,18 @@ for /f "tokens=4 delims=." %%i in ("%fullversionno%") do (
   set buildno=%%i
 )
 
+rem Get the current Hotfix number from the user, create the "hotfix" file (ie. v2019.1.2.130_Hotfix_230)
+set hotfixno=000
+set /p hotfixno="Enter the current Hotfix Number (ie. 025): "
+rem echo %hotfixno%
+rem add leading zeros up to 3 digits
+set "hotfixno=00%hotfixno%"
+set "hotfixno=%hotfixno:~-3%"
+if not exist build\ mkdir build
+set hotfixfilename=v%fullversionno%_Hotfix_%hotfixno%
+if exist %hotfixfilename% (del %hotfixfilename%)
+echo .>build\%hotfixfilename%
+
 rem Prompt the user if they want to commit and deploy to ftp
 set /p commitandftp="Do you want to commit and FTP the build? (y/n default:n): "
 IF NOT "%commitandftp%"=="y" set commitandftp=n
@@ -189,7 +201,8 @@ IF "%commitandftp%"=="y" (
     echo cd Update>>%ftpcommandfilename%
     echo cd %productname%Web>>%ftpcommandfilename%
     echo cd %shortversionno%>>%ftpcommandfilename%
-    echo cd preview>>%ftpcommandfilename%
+    echo cd QA>>%ftpcommandfilename%
+    echo put %hotfixfilename%>>%ftpcommandfilename%
     echo put %pdffilename%>>%ftpcommandfilename%
     echo put %zipfilename%>>%ftpcommandfilename%
     echo quit>>%ftpcommandfilename%

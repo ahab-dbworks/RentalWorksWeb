@@ -557,6 +557,12 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "defaultlossdamageretiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DefaultLossAndDamageRetiredReasonId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "betaupdates", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? EnableBetaUpdates { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qaupdates", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? EnableQaUpdates { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
