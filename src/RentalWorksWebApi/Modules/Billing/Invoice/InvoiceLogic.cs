@@ -8,6 +8,10 @@ using WebApi.Logic;
 using WebApi.Modules.HomeControls.Tax;
 using WebApi;
 using WebApi.Modules.HomeControls.Address;
+using WebApi.Modules.Agent.Deal;
+using FwStandard.Models;
+using System.Collections.Generic;
+using WebApi.Modules.HomeControls.CompanyTaxOption;
 
 namespace WebApi.Modules.Billing.Invoice
 {
@@ -24,6 +28,8 @@ namespace WebApi.Modules.Billing.Invoice
 
         //private bool _changeRatesToNewCurrency = false;
 
+        private DealLogic insertingDeal = null;  // this object is loaded once during "Validate" (for speed) and used downstream 
+
 
         public InvoiceLogic()
         {
@@ -37,7 +43,7 @@ namespace WebApi.Modules.Billing.Invoice
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
 
-            invoice.BeforeSave += OnBeforeSaveInvoice;
+            //invoice.BeforeSave += OnBeforeSaveInvoice;
             invoice.AfterSave += OnAfterSaveInvoice;
 
             billToAddress.BeforeSave += OnBeforeSaveBillToAddress;
@@ -489,6 +495,15 @@ namespace WebApi.Modules.Billing.Invoice
 
             if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+                if (!string.IsNullOrEmpty(DealId))
+                {
+                    // load the Deal object once here for use downstream
+                    insertingDeal = new DealLogic();
+                    insertingDeal.SetDependencies(AppConfig, UserSession);
+                    insertingDeal.DealId = DealId;
+                    bool b = insertingDeal.LoadAsync<DealLogic>().Result;
+                }
+
             }
             else
             {
@@ -529,16 +544,14 @@ namespace WebApi.Modules.Billing.Invoice
             return isValid;
         }
         //------------------------------------------------------------------------------------
-
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-
             InvoiceLogic orig = null;
             if (e.Original != null)
             {
                 orig = ((InvoiceLogic)e.Original);
             }
-
+            string taxOptionId = null;
 
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
@@ -547,6 +560,40 @@ namespace WebApi.Modules.Billing.Invoice
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 InputByUserId = UserSession.UsersId;
                 IsStandAloneInvoice = true;  // invoice created from "New" option
+
+                bool x = invoice.SetNumber(e.SqlConnection).Result;
+
+                if (string.IsNullOrEmpty(TaxOptionId))
+                {
+                    if (insertingDeal != null)
+                    {
+                        string companyId = string.Empty;
+                        if (insertingDeal.UseCustomerTax.GetValueOrDefault(false))
+                        {
+                            companyId = insertingDeal.CustomerId;
+                        }
+                        else
+                        {
+                            companyId = insertingDeal.DealId;
+                        }
+
+                        BrowseRequest companyTaxBrowseRequest = new BrowseRequest();
+                        companyTaxBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        companyTaxBrowseRequest.uniqueids.Add("CompanyId", companyId);
+                        companyTaxBrowseRequest.uniqueids.Add("LocationId", OfficeLocationId);
+
+                        CompanyTaxOptionLogic companyTaxSelector = new CompanyTaxOptionLogic();
+                        companyTaxSelector.SetDependencies(AppConfig, UserSession);
+                        List<CompanyTaxOptionLogic> companyTax = companyTaxSelector.SelectAsync<CompanyTaxOptionLogic>(companyTaxBrowseRequest).Result;
+
+                        if (companyTax.Count > 0)
+                        {
+                            TaxOptionId = companyTax[0].TaxOptionId;
+                        }
+                    }
+                }
+                taxOptionId = TaxOptionId;
+
             }
             else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
@@ -562,21 +609,28 @@ namespace WebApi.Modules.Billing.Invoice
                     //        _changeRatesToNewCurrency = true;
                     //    }
                     //}
+                    taxOptionId = TaxOptionId ?? orig.TaxOptionId;
                 }
             }
+
+            if (string.IsNullOrEmpty(taxOptionId))
+            {
+                TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;
+            }
+
         }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSaveInvoice(object sender, BeforeSaveDataRecordEventArgs e)
-        {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
-            {
-                bool x = invoice.SetNumber(e.SqlConnection).Result;
-                if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
-                {
-                    TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;
-                }
-            }
-        }
+        //public void OnBeforeSaveInvoice(object sender, BeforeSaveDataRecordEventArgs e)
+        //{
+        //    if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+        //    {
+        //        bool x = invoice.SetNumber(e.SqlConnection).Result;
+        //        if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
+        //        {
+        //            TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;
+        //        }
+        //    }
+        //}
         //------------------------------------------------------------------------------------
         public void OnBeforeSaveBillToAddress(object sender, BeforeSaveDataRecordEventArgs e)
         {
