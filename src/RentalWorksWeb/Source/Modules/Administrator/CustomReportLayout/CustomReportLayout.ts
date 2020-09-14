@@ -804,8 +804,7 @@ class CustomReportLayout {
             $form.data('updatetype', 'tableheader');
             this.setControlValues($form, $column);
             const linkedColumn = $column.attr('data-linkedColumn');
-            $form.find('#reportDesigner .highlight').removeClass('highlight');
-            $table.find(`[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight');
+            this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumn}"]`));
             this.showHideControlProperties($form, 'table');
             if ($column.parents('tr').index()) {
                 $form.find('.delete-row').parent('div').show();
@@ -819,8 +818,7 @@ class CustomReportLayout {
             e.stopPropagation();
             $column = jQuery(e.currentTarget);
             $table = $column.parents('table');
-            $form.find('#reportDesigner .highlight').removeClass('highlight');
-            $column.addClass('highlight');
+            this.highlightElement($form, $column);
             const tableName = $table.parents('.table-wrapper').attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
             FwFormField.setValueByDataField($form, 'CellStyleField', $column.attr('style') || '');
@@ -872,13 +870,31 @@ class CustomReportLayout {
         $form.on('click', '#reportDesigner .header-wrapper span', e => {
             e.stopPropagation();
             $headerField = jQuery(e.currentTarget);
-            $form.find('#reportDesigner .highlight').removeClass('highlight');
-            $headerField.addClass('highlight');
+            this.highlightElement($form, $headerField);
             this.showHideControlProperties($form, 'header');
             const value = $headerField.text();
             FwFormField.setValueByDataField($form, 'HeaderField', value);
             const styling = $headerField.attr('style') || '';
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
+        });
+
+        $form.on('click', '#reportDesigner [data-section="header"] div', e => {
+            e.stopPropagation();
+            const $this = jQuery(e.currentTarget);
+            $reportHeaderSection = $this.closest('[data-section="header"]');
+            this.highlightElement($form, $this);
+            this.showHideControlProperties($form, 'header');
+        });
+
+        //Delete header element
+        $form.on('click', '.delete-component', e => {
+            if (typeof $reportHeaderSection != 'undefined') {
+                const $element = $reportHeaderSection.find('.highlight');
+                if ($element.length > 0) {
+                    $element.remove();
+                    this.updateReportHeader($form, $reportHeaderSection);
+                }
+            }
         });
 
         $form.on('change', '[data-datafield="TableName"]', e => {
@@ -903,6 +919,13 @@ class CustomReportLayout {
         FwFormField.setValueByDataField($form, 'CaptionField', $column.text(), $column.text());
         FwFormField.setValueByDataField($form, 'ValueField', $column.attr('data-valuefield'), $column.attr('data-valuefield'));
         FwFormField.setValueByDataField($form, 'CellStyleField', $column.attr('style') || '');
+    }
+    //----------------------------------------------------------------------------------------------
+    highlightElement($form: JQuery, $elements: JQuery) {
+        $form.find('#reportDesigner .highlight').removeClass('highlight');
+        for (let i = 0; i < $elements.length; i++) {
+            jQuery($elements[i]).addClass('highlight');
+        }
     }
     //----------------------------------------------------------------------------------------------
     addNewHeaderRow($form: JQuery) {
