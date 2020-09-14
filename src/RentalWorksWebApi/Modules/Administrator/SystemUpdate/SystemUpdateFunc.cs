@@ -171,12 +171,13 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             return names.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
         //-------------------------------------------------------------------------------------------------------
-        private static List<AvailableVersion> GetAvailableVersionsFromDirectory(string currentMajor, string currentMinor, string currentRelease, bool onlyIncludeNewerVersions, string subDirectoryName = "")  // Beta, QA
+        private static List<AvailableVersion> GetAvailableVersionsFromDirectory(string currentMajor, string currentMinor, string currentRelease, string build, bool onlyIncludeNewerVersions, string subDirectoryName = "")  // Beta, QA
         {
             List<AvailableVersion> versions = new List<AvailableVersion>();
 
             string systemName = SYSTEM_NAME;
             string currentMajorMinorRelease = currentMajor + "." + currentMinor + "." + currentRelease;
+            string currentMajorMinorReleaseBuild = currentMajor + "." + currentMinor + "." + currentRelease + "." + build;
             string ftpDirectory = FTP_SERVER + "/" + systemName + "/" + currentMajorMinorRelease;
 
             if (!string.IsNullOrEmpty(subDirectoryName))  // Beta or QA
@@ -199,14 +200,14 @@ namespace WebApi.Modules.Administrator.SystemUpdate
 
                     if (onlyIncludeNewerVersions)
                     {
-                        string[] thisVersionPieces = version.Split(".");
-
-                        if (FwConvert.ToInt32(thisVersionPieces[3]) <= FwConvert.ToInt32(currentRelease))
-                        {
-                            includeVersion = false;
-                        }
+                        //string[] thisVersionPieces = version.Split(".");
+                        //
+                        //if (FwConvert.ToInt32(thisVersionPieces[3]) <= FwConvert.ToInt32(currentRelease))
+                        //{
+                        //    includeVersion = false;
+                        //}
+                        includeVersion = IsUpgrade(currentMajorMinorReleaseBuild, version);
                     }
-
 
                     if (includeVersion)
                     {
@@ -290,7 +291,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             {
                 string[] majorMinorReleaseBuild = GetMajorMinorReleaseBuildFromVersion(request.CurrentVersion);
 
-                response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], request.OnlyIncludeNewerVersions));
+                response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], majorMinorReleaseBuild[3], request.OnlyIncludeNewerVersions));
 
                 SystemSettingsLogic settings = new SystemSettingsLogic();
                 settings.SetDependencies(appConfig, userSession);
@@ -299,12 +300,12 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                 {
                     if (settings.EnableBetaUpdates.GetValueOrDefault(false))
                     {
-                        response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], request.OnlyIncludeNewerVersions, BETA_DIRECTORY));
+                        response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], majorMinorReleaseBuild[3], request.OnlyIncludeNewerVersions, BETA_DIRECTORY));
                     }
 
                     if (settings.EnableQaUpdates.GetValueOrDefault(false))
                     {
-                        response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], request.OnlyIncludeNewerVersions, QA_DIRECTORY));
+                        response.Versions.AddRange(GetAvailableVersionsFromDirectory(majorMinorReleaseBuild[0], majorMinorReleaseBuild[1], majorMinorReleaseBuild[2], majorMinorReleaseBuild[3], request.OnlyIncludeNewerVersions, QA_DIRECTORY));
                     }
                 }
 
