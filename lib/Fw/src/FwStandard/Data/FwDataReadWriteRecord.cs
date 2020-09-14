@@ -206,27 +206,37 @@ namespace FwStandard.Data
             await BeforeDeleteAsync(beforeDeleteArgs);  // may need to send the "conn" here someday
             if (beforeDeleteArgs.PerformDelete)
             {
-                if (conn == null)
+                try
                 {
-                    conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
-                }
-
-                if (InsteadOfDelete != null)
-                {
-                    InsteadOfDelete(this, insteadOfDeleteArgs);  // may need to send the "conn" here someday
-                    success = insteadOfDeleteArgs.Success;
-                }
-                else
-                {
-                    using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                    if (conn == null)
                     {
-                        int rowcount = await cmd.DeleteAsync(TableName, this);
-                        //success = (rowcount > 0);  
-                        success = true; //justin hoffman 02/03/2020 check on rowcount is not correct here.  if no error occurs, then the delete was a success
+                        conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
                     }
+
+                    if (InsteadOfDelete != null)
+                    {
+                        InsteadOfDelete(this, insteadOfDeleteArgs);  // may need to send the "conn" here someday
+                        success = insteadOfDeleteArgs.Success;
+                    }
+                    else
+                    {
+                        using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                        {
+                            int rowcount = await cmd.DeleteAsync(TableName, this);
+                            //success = (rowcount > 0);  
+                            //success = true; //justin hoffman 02/03/2020 check on rowcount is not correct here.  if no error occurs, then the delete was a success
+                        }
+                        success = true;
+                    }
+
+                    //AfterDelete?.Invoke(this, afterDeleteArgs);
+                    await AfterDeleteAsync(afterDeleteArgs);   // may need to send the "conn" here someday
                 }
-                //AfterDelete?.Invoke(this, afterDeleteArgs);
-                await AfterDeleteAsync(afterDeleteArgs);   // may need to send the "conn" here someday
+                catch (Exception e)
+                {
+                    success = false;
+                    throw e;
+                }
             }
             return success;
         }

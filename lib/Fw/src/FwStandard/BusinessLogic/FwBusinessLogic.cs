@@ -1622,6 +1622,11 @@ namespace FwStandard.BusinessLogic
                     });
                 }
             }
+            catch (Exception e)
+            {
+                success = false;
+                throw e;
+            }
             finally
             {
                 if (transactionInitializedHere)

@@ -339,6 +339,21 @@ namespace FwStandard.SqlServer
             this.RowCount = 0;
         }
         //------------------------------------------------------------------------------------
+        private void ConsoleLogError(string errorMessage)
+        {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("#######################################   ERROR   ######################################");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(errorMessage);
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("########################################################################################");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        //------------------------------------------------------------------------------------
         public void Clear()
         {
             this.qryText = new StringBuilder();
@@ -855,6 +870,11 @@ namespace FwStandard.SqlServer
                 }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
+            }
             finally
             {
                 if (this.sqlConnection.LogSql && this.LogSql)
@@ -919,6 +939,11 @@ namespace FwStandard.SqlServer
                 }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
+            }
             finally
             {
                 if (this.sqlConnection.LogSql && this.LogSql)
@@ -962,6 +987,11 @@ namespace FwStandard.SqlServer
                 }
                 reader = await this.sqlCommand.ExecuteReaderAsync();
                 this.RowCount = reader.RecordsAffected;
+            }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
             }
             finally
             {
@@ -1662,6 +1692,11 @@ namespace FwStandard.SqlServer
                     }
                 }
             }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
+            }
             finally
             {
                 if (this.sqlConnection.LogSql && this.LogSql)
@@ -1791,6 +1826,11 @@ namespace FwStandard.SqlServer
                     }
                 }
             }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
+            }
             finally
             {
                 if (closeConnection)
@@ -1911,6 +1951,11 @@ namespace FwStandard.SqlServer
                         rows.Add(row);
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
             }
             finally
             {
@@ -2229,6 +2274,11 @@ namespace FwStandard.SqlServer
                         results.Add(obj);
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
             }
             finally
             {
@@ -2609,6 +2659,11 @@ namespace FwStandard.SqlServer
                     identityProperty.SetValue(businessObject, identityValue);
                 }
             }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
+            }
             finally
             {
                 if (this.sqlConnection.LogSql && this.LogSql)
@@ -2758,6 +2813,11 @@ namespace FwStandard.SqlServer
                 }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
             }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
+            }
             finally
             {
                 if (this.sqlConnection.LogSql && this.LogSql)
@@ -2832,6 +2892,11 @@ namespace FwStandard.SqlServer
                     this.sqlLogEntry.Start();
                 }
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
+            }
+            catch (Exception e)
+            {
+                this.ConsoleLogError(e.Message);
+                throw e;
             }
             finally
             {
