@@ -616,7 +616,8 @@ class Invoice {
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="InvoiceRevenue"]'), dt.Totals.InvoiceRevenue);
-                FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="Cost"]'), dt.Totals.Cost);            },
+                FwFormField.setValue2($form.find('.revenue-totals [data-totalfield="Cost"]'), dt.Totals.Cost);
+            },
         });
         // ----------
         //const $invoiceOrderGrid = $form.find('div[data-grid="InvoiceOrderGrid"]');
@@ -1002,7 +1003,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
         //const $totalFields = $form.find('.totals[data-type="money"]');
-        const $totalFields = $form.find('.totals[data-type="money"], .gldistribution-totals [data-type="money"], .manualgl-totals [data-type="money"]');
+        const $totalFields = $form.find('.totals[data-type="money"], .gldistribution-totals [data-type="money"], .manualgl-totals [data-type="money"], .revenue-totals [data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
