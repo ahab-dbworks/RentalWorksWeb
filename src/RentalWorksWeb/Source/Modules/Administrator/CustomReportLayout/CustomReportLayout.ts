@@ -941,6 +941,7 @@ class CustomReportLayout {
             $reportHeaderSection = $headerField.closest('[data-section="header"]');
             this.highlightElement($form, $headerField);
             this.showHideControlProperties($form, 'header');
+            $form.find('[data-datafield="HeaderField"]').show();
             const value = $headerField.text();
             FwFormField.setValueByDataField($form, 'HeaderField', value);
             const styling = $headerField.attr('style') || '';
@@ -950,9 +951,13 @@ class CustomReportLayout {
         $form.on('click', '#reportDesigner [data-section="header"] div', e => {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
+            $headerField = $this;
             $reportHeaderSection = $this.closest('[data-section="header"]');
             this.highlightElement($form, $this);
             this.showHideControlProperties($form, 'header');
+            $form.find('[data-datafield="HeaderField"]').hide();
+            const styling = $headerField.attr('style') || '';
+            FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
         });
 
         //Delete header element
