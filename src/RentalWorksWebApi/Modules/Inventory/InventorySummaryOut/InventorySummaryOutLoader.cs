@@ -61,7 +61,7 @@ namespace WebApi.Modules.Inventory.InventorySummaryOut
         public string PurchaseOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderNumber{ get; set; }
+        public string PurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
@@ -71,16 +71,14 @@ namespace WebApi.Modules.Inventory.InventorySummaryOut
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
-            //DateTime paramDate = GetUniqueIdAsDate("ParamDate", request) ?? DateTime.MinValue; 
-            //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-            //select.AddParameter("@paramstring", paramString); 
-            //select.AddParameter("@paramdate", paramDate); 
-            //select.AddParameter("@paramboolean", paramBoolean); 
+
+            string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
+            select.AddParameter("@masterid", inventoryId);
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
+            select.AddParameter("@warehouseid", warehouseId);
+            select.AddParameter("@includesubstitutes", 'F');
         }
         //------------------------------------------------------------------------------------ 
     }

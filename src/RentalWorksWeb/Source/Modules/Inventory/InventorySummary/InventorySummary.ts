@@ -55,6 +55,28 @@ class InventorySummary {
                 FwNotification.renderNotification('WARNING', 'Select an Item.')
             }
         });
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    const $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    const $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
@@ -155,31 +177,6 @@ class InventorySummary {
             FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Total"]`), total);
         }
     };
-    //----------------------------------------------------------------------------------------------
-    afterLoad($form, response) {
-        //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
-            const tabname = jQuery(e.currentTarget).attr('id');
-            const lastIndexOfTab = tabname.lastIndexOf('tab');
-            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
-
-            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if ($gridControls.length > 0) {
-                for (let i = 0; i < $gridControls.length; i++) {
-                    const $gridcontrol = jQuery($gridControls[i]);
-                    FwBrowse.search($gridcontrol);
-                }
-            }
-
-            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if ($browseControls.length > 0) {
-                for (let i = 0; i < $browseControls.length; i++) {
-                    const $browseControl = jQuery($browseControls[i]);
-                    FwBrowse.search($browseControl);
-                }
-            }
-        });
-    }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
