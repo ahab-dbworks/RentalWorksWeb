@@ -43,7 +43,7 @@ export class InvoiceReport extends WebpackReport {
                                 if (notes.length) {
                                     const container: Array<string> = [];
                                     for (let i = 0; i < notes.length; i++) {
-                                        container.push(`<div><span style="font-weight:700;">${notes[i].Description}:</span><div>${notes[i].Notes}</div></div>`);
+                                        container.push(`<div><div style="font-weight:700;">${notes[i].Description}:</div><div class="note-cell">${notes[i].Notes}</div></div>`);
                                     }
                                     notesEl.innerHTML = container.join('');
                                     const notesRow = document.getElementById('notesRow');
