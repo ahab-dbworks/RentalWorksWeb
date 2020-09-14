@@ -571,7 +571,7 @@ class OrderItemGrid {
                 }
             });
         }
-        // when user clears out one ItemId field within the Used Sale grid, we must also clear out the other ItemId field (BarCode & SerialNumber)
+        // when user clears out one ItemId field within the Rental Sale grid, we must also clear out the other ItemId field (BarCode & SerialNumber)
         $generatedtr.find('div[data-browsedatafield="ItemId"]').on('change', evt => {
             const val = $generatedtr.find('.field[data-browsedatafield="ItemId"] input')
                 .val()

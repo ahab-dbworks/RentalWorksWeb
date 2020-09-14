@@ -378,7 +378,7 @@ class Quote extends OrderBase {
               <div data-type="tab" id="salestab" class="tab salestab notcombinedtab" data-tabpageid="salestabpage" data-notOnNew="true" data-inventorytype="Sales" data-caption="Sales"></div>
               <div data-type="tab" id="labortab" class="tab labortab notcombinedtab" data-tabpageid="labortabpage" data-notOnNew="true" data-inventorytype="Labor" data-caption="Labor"></div>
               <div data-type="tab" id="misctab" class="tab misctab notcombinedtab" data-tabpageid="misctabpage" data-notOnNew="true" data-inventorytype="Misc" data-caption="Miscellaneous"></div>
-              <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Used Sale"></div>
+              <div data-type="tab" id="usedsaletab" class="tab usedsaletab notcombinedtab" data-tabpageid="usedsaletabpage" data-notOnNew="true" data-caption="Rental Sale"></div>
               <div data-type="tab" id="alltab" class="tab combinedtab" data-tabpageid="alltabpage" data-notOnNew="true" data-caption="Items"></div>
               <div data-type="tab" id="billingtab" class="tab billingtab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
               <div data-type="tab" id="billingscheduletab" class="tab billingscheduletab" data-tabpageid="billingscheduletabpage" data-caption="Billing Schedule"></div>
@@ -436,7 +436,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Sales" data-datafield="DisableEditingSalesRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Miscellaneous" data-datafield="DisableEditingMiscellaneousRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Labor" data-datafield="DisableEditingLaborRate" style="float:left;width:150px;"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Used Sale" data-datafield="DisableEditingUsedSaleRate" style="float:left;width:150px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Rental Sale" data-datafield="DisableEditingUsedSaleRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Loss and Damage" data-datafield="DisableEditingLossAndDamageRate" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Is Manual Sort" data-datafield="IsManualSort"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-datafield="EnableProjects"></div>                        
@@ -458,7 +458,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield activity" data-caption="Labor" data-datafield="Labor" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Used Sale" data-datafield="RentalSale" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield anti-LD activity" data-caption="Rental Sale" data-datafield="RentalSale" style="flex:1 1 100px;"></div>
                         </div>
                         <!--
                         <div class="flexrow">
@@ -762,9 +762,9 @@ class Quote extends OrderBase {
                         </div>
                       </div>
                     </div>
-                    <!-- Used Sale Profitability -->
+                    <!-- Rental Sale Profitability -->
                     <div class="flexcolumn usedsale-pl" style="flex:0 1 200px;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Sales">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield frame" data-caption="Gross Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-framedatafield="RentalSalePrice"></div>
                         </div>
@@ -1111,19 +1111,19 @@ class Quote extends OrderBase {
                 </div>
               </div>
 
-              <!-- USED SALE TAB -->
+              <!-- RENTAL SALE TAB -->
               <div data-type="tabpage" id="usedsaletabpage" class="usedsalegrid notcombined tabpage" data-tabid="usedsaletab" data-render="false">
                 <div class="wideflexrow">
                   <div class="flexcolumn" style="flex:1 1 625px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sale Items">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Sale Items">
                       <div class="wideflexrow">
-                        <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Used Sale Items"></div>
+                        <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Rental Sale Items"></div>
                       </div>
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 0 auto;">
                     <div class="flexcolumn usedsaletotals usedsaleadjustments summarySection" style="flex:0 0 200px;padding-right:10px;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales Totals">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Sales Totals">
                         <div class="flexrow usedsaletotals">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:2 1 175px;"></div>
                         </div>
@@ -1143,7 +1143,7 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:2 1 175px;"></div>
                         </div>
                       </div>
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sales Adjustments">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Sales Adjustments">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="RS" data-datafield="UsedSaleDiscountPercent" style="flex:1 1 175px;"></div>
                         </div>

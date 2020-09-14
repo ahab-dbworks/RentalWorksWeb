@@ -178,7 +178,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "TaxNoCurrency", "Tax", "Tax1", "Tax2", "TaxSubTotal", "ExtendedWithTax", "TotalExtended", "TotalExtendedWithTax" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] {"TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();

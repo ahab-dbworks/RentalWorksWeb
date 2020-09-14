@@ -199,10 +199,11 @@
       {{/ifCond}}
       {{#ifCond OutDeliveryRequiredByDate '!==' ""}}
       <tr>
-        <td class=""><span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDate}}
-        {{#ifCond OutDeliveryRequiredbyTime '!=' "  :"}}
+        <td class="">
+          <span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDate}}
+          {{#ifCond OutDeliveryRequiredbyTime '!=' "  :"}}
           &nbsp;{{OutDeliveryRequiredbyTime}}
-        {{/ifCond}}
+          {{/ifCond}}
         </td>
       </tr>
       {{/ifCond}}
@@ -237,9 +238,10 @@
       {{/ifCond}}
       {{#ifCond InDeliveryRequiredByDate '!==' ""}}
       <tr>
-        <td class=""><span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDate}}
+        <td class="">
+          <span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDate}}
           {{#ifCond InDeliveryRequiredbyTime '!=' "  :"}}
-            &nbsp;{{InDeliveryRequiredbyTime}}
+          &nbsp;{{InDeliveryRequiredbyTime}}
           {{/ifCond}}
         </td>
       </tr>
@@ -292,13 +294,13 @@
         {{#ifCond ICode '!=' ""}}
 
         {{#ifInList ItemClass "C,K,N"}}
-          <td data-itemclass="{{ItemClass}}" style="">{{ICode}}</td><!-- Completes, Kits, Containers -->
+        <td data-itemclass="{{ItemClass}}" style="">{{ICode}}</td><!-- Completes, Kits, Containers -->
         {{else}}
-          {{#ifInList ItemClass "CI,KI,NI,CO,KO"}}
-            <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{ICode}}</td><!-- Complete, Kit, Container Accessory Items -->
-          {{else}}
-            <td data-itemclass="{{ItemClass}}">{{ICode}}</td><!-- Item -->
-          {{/ifInList}}
+        {{#ifInList ItemClass "CI,KI,NI,CO,KO"}}
+        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{ICode}}</td><!-- Complete, Kit, Container Accessory Items -->
+        {{else}}
+        <td data-itemclass="{{ItemClass}}">{{ICode}}</td><!-- Item -->
+        {{/ifInList}}
         {{/ifInList}}
 
 
@@ -426,23 +428,23 @@
         <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
         {{/ifEquals}}
         {{#ifNotEquals ItemClass "ST"}}
-          {{#ifCond ICode '!=' ""}}
-            {{#ifInList ItemClass "C,K,N"}}
-              <td colspan="5" data-itemclass="{{ItemClass}}" style="text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
-            {{else}}
-              {{#ifInList ItemClass "CI,KI,NI,CO,KO"}}
-                <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
-              {{else}} 
-                <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note Jib:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
-              {{/ifInList}}
-            {{/ifInList}}
-          {{else}}
-            {{#ifCond ItemClass '===' "T"}}
-              <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
-            {{else}}
-              <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
-            {{/ifCond}}
-          {{/ifCond}}
+        {{#ifCond ICode '!=' ""}}
+        {{#ifInList ItemClass "C,K,N"}}
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
+        {{else}}
+        {{#ifInList ItemClass "CI,KI,NI,CO,KO"}}
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
+        {{else}}
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note Jib:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
+        {{/ifInList}}
+        {{/ifInList}}
+        {{else}}
+        {{#ifCond ItemClass '===' "T"}}
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
+        {{else}}
+        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
+        {{/ifCond}}
+        {{/ifCond}}
         {{/ifNotEquals}}
         <td>&nbsp;</td>
       </tr>
@@ -450,35 +452,35 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "RecTypeDisplayfooter"}}<!-- RENTAL Totals -->
-      {{#ifNotEquals PeriodTaxNoCurrency 0}}
-        <tr>
-          <td colspan="2"></td>
-          <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
-          <td style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
-        </tr>
-        <tr>
-          <td colspan="2"></td>
-          <td colspan="4" class="tax-row">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-          <td class="tax-row" data-value="{{PeriodTax1}}"></td>
-        </tr>
-        {{#ifCond ../Tax2Name '!=' ""}}
-        <tr>
-          <td colspan="2"></td>
-          <td colspan="4" class="tax-row">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-          <td class="tax-row" data-value="{{PeriodTax2}}"></td>
-        </tr>
-        {{/ifCond}}
-      {{/ifNotEquals}}
-      <tr>
-        <td colspan="2"></td>
-        <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-        <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
-      </tr>
+    {{#ifNotEquals PeriodTaxNoCurrency 0}}
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
+      <td style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="tax-row">{{../Tax1Name}} ({{TaxRate1}}%)</td>
+      <td class="tax-row" data-value="{{PeriodTax1}}"></td>
+    </tr>
+    {{#ifCond ../Tax2Name '!=' ""}}
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="tax-row">{{../Tax2Name}} ({{TaxRate2}}%)</td>
+      <td class="tax-row" data-value="{{PeriodTax2}}"></td>
+    </tr>
+    {{/ifCond}}
+    {{/ifNotEquals}}
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
+    </tr>
     {{/ifEquals}}
     {{/each}}
   </table>
 </div>
-<!-- Used Sale Items -->
+<!-- Rental Sale Items -->
 <div class="rpt-flexrow">
   <table style="table-layout:fixed;">
     {{#each UsedSaleItems}}
@@ -655,7 +657,7 @@
         {{/ifCond}}
         {{/ifNotEquals}}
       </tr>
-      {{#if Notes}}<!-- Used Sale Item Notes -->
+      {{#if Notes}}<!-- Rental Sale Item Notes -->
       <tr>
         <td>&nbsp;</td>
         {{#ifEquals ItemClass "ST"}}

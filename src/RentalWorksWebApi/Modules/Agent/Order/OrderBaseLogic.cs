@@ -1493,7 +1493,7 @@ namespace WebApi.Modules.Agent.Order
                 if (rental && rentalsale)
                 {
                     isValid = false;
-                    validateMsg = "Cannot have both Rental and Used Sale on the same " + BusinessLogicModuleName + ".";
+                    validateMsg = "Cannot have both Rental and Rental Sale on the same " + BusinessLogicModuleName + ".";
                 }
                 if (rental && ld)
                 {
@@ -1508,7 +1508,7 @@ namespace WebApi.Modules.Agent.Order
                 if (rentalsale && ld)
                 {
                     isValid = false;
-                    validateMsg = "Cannot have both Used Sale and Loss and Damage on the same " + BusinessLogicModuleName + ".";
+                    validateMsg = "Cannot have both Rental Sale and Loss and Damage on the same " + BusinessLogicModuleName + ".";
                 }
             }
 

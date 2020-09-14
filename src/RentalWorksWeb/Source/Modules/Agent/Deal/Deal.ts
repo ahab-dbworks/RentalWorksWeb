@@ -1690,7 +1690,7 @@ class Deal {
                       <div class="flexrow" style="border-bottom:1px solid silver;">
                         <div class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Used Sale" data-datafield="DisableRentalSale" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental Sale" data-datafield="DisableRentalSale" data-enabled="false" style="flex:1 1 225px;margin-left:18px;"></div>
                           </div>
                         </div>
                       </div>

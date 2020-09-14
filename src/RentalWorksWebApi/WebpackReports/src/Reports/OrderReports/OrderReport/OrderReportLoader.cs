@@ -191,7 +191,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string PeriodExtendedSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString8Digits)]
-        public string PeriodTaxNoCurrency{ get; set; }
+        public string PeriodTaxNoCurrency { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.DecimalString8Digits)]
         public string PeriodTax { get; set; }
