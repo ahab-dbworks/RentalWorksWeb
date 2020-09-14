@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Inventory.InventorySummaryPhysicalInventory
 {
-    [FwSqlTable("dbo.funcretiredhistorysummary(@masterid, @warehouseid, @includesubstitutes)")]
+    [FwSqlTable("dbo.funcphysicalhistory(@masterid, @warehouseid, @includesubstitutes)")]
     public class InventorySummaryPhysicalInventoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -50,6 +50,7 @@ namespace WebApi.Modules.Inventory.InventorySummaryPhysicalInventory
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";

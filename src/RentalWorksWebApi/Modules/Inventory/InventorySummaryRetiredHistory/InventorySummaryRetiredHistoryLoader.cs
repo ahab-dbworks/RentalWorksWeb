@@ -86,6 +86,7 @@ namespace WebApi.Modules.Inventory.InventorySummaryRetiredHistory
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
