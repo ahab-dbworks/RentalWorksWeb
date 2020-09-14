@@ -305,7 +305,7 @@ namespace WebApi.Modules.Reports.OrderReports.PickListReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     addStringFilterToSelect("picklistid", request.PickListId, select);
-                    select.AddOrderBy("orderno, pickdate, rectypesequence, itemorder, masterno");
+                    select.AddOrderBy("orderno, pickdate, rectypesequence, departmentorderby, itemorder, masterno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
