@@ -164,6 +164,9 @@
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
+    <Content Include="Source\Grids\InventorySummaryPhysicalInventoryGrid\InventorySummaryPhysicalInventoryGridBrowse.htm" />
+    <Content Include="Source\Grids\InventorySummaryOutItemsGrid\InventorySummaryOutItemsGridBrowse.htm" />
+    <Content Include="Source\Grids\InventorySummaryRetiredHistoryGrid\InventorySummaryRetiredHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\DepreciationGrid\DepreciationGridBrowse.htm" />
     <Content Include="Source\Grids\CurrencyExchangeRateGrid\CurrencyExchangeRateGridBrowse.htm" />
     <Content Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridBrowse.htm" />
@@ -347,6 +350,9 @@
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventorySummaryPhysicalInventoryGrid\InventorySummaryPhysicalInventoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventorySummaryOutItemsGrid\InventorySummaryOutItemsGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventorySummaryRetiredHistoryGrid\InventorySummaryRetiredHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DepreciationGrid\DepreciationGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CurrencyExchangeRateGrid\CurrencyExchangeRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridController.ts" />
@@ -565,6 +571,7 @@
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\InventoryPurchaseSession\InventoryPurchaseSession.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustment.ts" />
+    <TypeScriptCompile Include="Source\Modules\Inventory\InventorySummary\InventorySummary.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OutgoingShippingLabel\OutgoingShippingLabelController.ts" />
@@ -757,6 +764,7 @@
     <Content Include="Source\Modules\Home\InventoryPurchaseSession\InventoryPurchaseSessionBrowse.htm" />
     <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentBrowse.htm" />
     <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentForm.htm" />
+    <Content Include="Source\Modules\Inventory\InventorySummary\InventorySummaryForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettingsForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccountBrowse.htm" />

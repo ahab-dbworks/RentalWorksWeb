@@ -69,6 +69,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Inventory.children.Asset,
                     Constants.Modules.Inventory.children.AvailabilityConflicts,
                     Constants.Modules.Inventory.children.CompleteQc,
+                    Constants.Modules.Inventory.children.InventorySummary,
                     Constants.Modules.Inventory.children.PartsInventory,
                     Constants.Modules.Inventory.children.PurchaseHistory,
                     Constants.Modules.Inventory.children.PhysicalInventory,
