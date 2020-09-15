@@ -48,14 +48,10 @@ for /f "tokens=4 delims=." %%i in ("%fullversionno%") do (
 rem Get the current Hotfix number from the user, create the "hotfix" file (ie. v2019.1.2.130_Hotfix_230)
 set hotfixno=000
 set /p hotfixno="Enter the current Hotfix Number (ie. 025): "
-rem echo %hotfixno%
 rem add leading zeros up to 3 digits
 set "hotfixno=00%hotfixno%"
 set "hotfixno=%hotfixno:~-3%"
-if not exist build\ mkdir build
-set hotfixfilename=v%fullversionno%_Hotfix_%hotfixno%
-if exist %hotfixfilename% (del %hotfixfilename%)
-echo .>build\%hotfixfilename%
+echo Hotfix %hotfixno%
 
 rem Prompt the user if they want to commit and deploy to ftp
 set /p commitandftp="Do you want to commit and FTP the build? (y/n default:n): "
@@ -157,6 +153,13 @@ cd %DwRentalWorksWebPath%\build
 if exist %productname%Web\ (rmdir %productname%Web /S /Q)
 if exist %productname%WebApi\ (rmdir %productname%WebApi /S /Q)
 if exist %zipfilename% (del %zipfilename%)
+
+rem create the Hotfix reference file
+cd %DwRentalWorksWebPath%
+if not exist build\ mkdir build
+set hotfixfilename=v%fullversionno%_Hotfix_%hotfixno%
+if exist %hotfixfilename% (del %hotfixfilename%)
+echo .>build\%hotfixfilename%
 
 rem build the API 
 cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
