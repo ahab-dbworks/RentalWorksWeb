@@ -154,6 +154,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string TotalExtendedWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
@@ -178,7 +184,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
             }
             dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "GrossExtended", "GrossExtendedSubTotal", "DiscountAmount", "DiscountAmountSubTotal", "Extended", "ExtendedSubTotal", "TaxNoCurrency", "Tax", "Tax1", "Tax2", "TaxSubTotal", "ExtendedWithTax", "TotalExtended", "TotalExtendedWithTax" };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyId", "OfficeLocationDefaultCurrencyId", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -192,6 +198,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                 bool isSubOrGrandTotalRow = (row[dt.GetColumnNo("RowType")].ToString().Equals("grandtotal") || row[dt.GetColumnNo("RowType")].ToString().Equals("RecTypeDisplayfooter"));
                 string currencySymbol = dt.Rows[0][dt.GetColumnNo("CurrencySymbol")].ToString();
                 string currencyCode = dt.Rows[0][dt.GetColumnNo("CurrencyCode")].ToString();
+                string currencyId = dt.Rows[0][dt.GetColumnNo("CurrencyId")].ToString();
+                string officeLocationDefaultCurrencyId = dt.Rows[0][dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString();
+                bool isForeignCurrency = ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationDefaultCurrencyId)));
 
                 foreach (var property in properties)
                 {
@@ -217,7 +226,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                             string stringValue = d.ToString("N", numberFormat);
                             if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")) && (!fieldName.Equals("TaxNoCurrency")))
                             {
-                                stringValue = currencySymbol + " " + stringValue;
+                                stringValue = (isForeignCurrency ? "(" + currencyCode + ") " : "") + currencySymbol + " " + stringValue;
                             }
                             property.SetValue(item, stringValue);
                         }
@@ -979,6 +988,12 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string OfficeLocationInvoiceMessage { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------

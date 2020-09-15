@@ -201,6 +201,12 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
@@ -226,7 +232,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
             string[] totalFields = new string[] {"WeeklyGrossExtended", "WeeklyGrossExtendedSubTotal", "WeeklyDiscountAmount", "WeeklyDiscountAmountSubTotal", "WeeklyExtended", "WeeklyExtendedSubTotal", "WeeklyTax", "WeeklyTax1", "WeeklyTax2", "WeeklyTaxSubTotal", "WeeklyExtendedWithTax", "WeeklyExtendedWithTaxSubTotal",
                                                  "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal", "MonthlyTax", "MonthlyTax1", "MonthlyTax2", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
                                                  "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTaxNoCurrency", "PeriodTax", "PeriodTax1", "PeriodTax2", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyId", "OfficeLocationDefaultCurrencyId", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
             List<T> items = new List<T>();
@@ -239,6 +245,9 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                 bool isSubOrGrandTotalRow = (row[dt.GetColumnNo("RowType")].ToString().Equals("grandtotal") || row[dt.GetColumnNo("RowType")].ToString().Equals("RecTypeDisplayfooter"));
                 string currencySymbol = dt.Rows[0][dt.GetColumnNo("CurrencySymbol")].ToString();
                 string currencyCode = dt.Rows[0][dt.GetColumnNo("CurrencyCode")].ToString();
+                string currencyId = dt.Rows[0][dt.GetColumnNo("CurrencyId")].ToString();
+                string officeLocationDefaultCurrencyId = dt.Rows[0][dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString();
+                bool isForeignCurrency = ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationDefaultCurrencyId)));
 
                 foreach (var property in properties)
                 {
@@ -264,7 +273,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                             string stringValue = d.ToString("N", numberFormat);
                             if ((isSubOrGrandTotalRow) && (!fieldName.Contains("TaxRate")) && (!fieldName.Equals("PeriodTaxNoCurrency")))
                             {
-                                stringValue = currencySymbol + " " + stringValue;
+                                stringValue = (isForeignCurrency? "(" + currencyCode + ") " : "") + currencySymbol + " " + stringValue;
                             }
                             property.SetValue(item, stringValue);
                         }
@@ -1034,7 +1043,12 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         public bool? HasTax { get; set; }
         //------------------------------------------------------------------------------------
 
-
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
