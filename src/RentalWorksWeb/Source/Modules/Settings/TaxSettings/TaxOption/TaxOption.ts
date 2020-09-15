@@ -6,20 +6,6 @@ class TaxOption {
     id: string = Constants.Modules.Settings.children.TaxSettings.children.TaxOption.id;
 
     //----------------------------------------------------------------------------------------------
-    constructor() {
-        //Sends confirmation for forcing tax rate
-        FwApplicationTree.clickEvents[Constants.Modules.Settings.children.TaxSettings.children.TaxOption.form.menuItems.ForceTaxRates.id] = e => {
-            var $form, taxOptionId;
-            try {
-                const $form = jQuery(this).closest('.fwform');
-                const taxOptionId = $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val();
-                this.forceTaxRates(taxOptionId);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        };
-    }
-    //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
@@ -45,6 +31,18 @@ class TaxOption {
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Force Tax Rates', 'lfZiNgs8GOJBE', (e: JQuery.ClickEvent) => {
+            try {
+                this.forceTaxRates(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
@@ -168,7 +166,7 @@ class TaxOption {
         }
     }
     //----------------------------------------------------------------------------------------------
-    forceTaxRates(id: any) {
+    forceTaxRates($form: JQuery) {
         const $confirmation = FwConfirmation.renderConfirmation('Force Tax Rates', '<div style="white-space:pre;">This will update all of the following records with the tax rates: \n' +
             '------------------------------------------------------------------------------------------------- \n' +
             'Prospect and Active Quotes \n' +
@@ -179,8 +177,9 @@ class TaxOption {
         const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         const $no = FwConfirmation.addButton($confirmation, 'No');
 
+        const taxOptionId = FwFormField.getValueByDataField($form, 'TaxOptionId');
         $yes.on('click', () => {
-            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/${id}/forcerates`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/${taxOptionId}/forcerates`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     FwNotification.renderNotification('SUCCESS', 'Tax Rates Forced');
                     FwConfirmation.destroyConfirmation($confirmation);
