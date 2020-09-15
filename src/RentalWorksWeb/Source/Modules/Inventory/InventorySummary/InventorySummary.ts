@@ -46,6 +46,10 @@ class InventorySummary {
         // Set Description from I-Code validation
         $form.find('[data-datafield="InventoryId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="Description"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+            const $inventorySummaryOutGrid = $form.find('div[data-name="InventorySummaryOutItemsGrid"]');
+            FwBrowse.search($inventorySummaryOutGrid);
+
+            $form.find('.out-row').show();
         });
         $form.find('div[data-type="tab"]').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId

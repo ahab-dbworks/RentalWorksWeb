@@ -2,7 +2,7 @@
   <div id="inventorysummary-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="sourcetab" class="tab" data-tabpageid="sourcetabpage" data-caption="Summary"></div>
-      <div data-type="tab" id="outtab" class="tab" data-tabpageid="outtabpage" data-caption="Out Items"></div>
+      <!--<div data-type="tab" id="outtab" class="tab" data-tabpageid="outtabpage" data-caption="Out Items"></div>-->
       <div data-type="tab" id="retiredtab" class="tab" data-tabpageid="retiredtabpage" data-caption="Retired Items"></div>
       <div data-type="tab" id="pysicalinventorytab" class="tab" data-tabpageid="pysicalinventorytabpage" data-caption="Physical Inventory"></div>
     </div>
@@ -16,10 +16,7 @@
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-required="true" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="flex:0 1 250px;"></div>
           </div>
         </div>
-      </div>
-      <!--OUT TAB-->
-      <div data-type="tabpage" id="outtabpage" class="tabpage" data-tabid="outtab">
-        <div class="wideflexrow">
+        <div class="wideflexrow out-row" style="display:none;">
           <div class="flexcolumn" style="flex:1 1 650px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Out Items">
               <div class="wideflexrow">
@@ -27,7 +24,7 @@
               </div>
             </div>
           </div>
-          <div class="flexcolumn out-totals" style="flex:0 0 auto;">
+          <!--<div class="flexcolumn out-totals" style="flex:0 0 auto;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Out Totals">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-currencysymbol="CurrencySymbol" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
@@ -48,8 +45,12 @@
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-currencysymbol="CurrencySymbol" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
+      </div>
+      <!--OUT TAB-->
+      <div data-type="tabpage" id="outtabpage" class="tabpage" data-tabid="outtab">
+
       </div>
       <!--RETIRED TAB-->
       <div data-type="tabpage" id="retiredtabpage" class="tabpage" data-tabid="retiredtab">
@@ -61,7 +62,7 @@
               </div>
             </div>
           </div>
-          <div class="flexcolumn retired-totals" style="flex:0 0 auto;">
+          <!--<div class="flexcolumn retired-totals" style="flex:0 0 auto;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Retired Totals">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-currencysymbol="CurrencySymbol" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
@@ -82,7 +83,7 @@
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-currencysymbol="CurrencySymbol" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
       <!--PHYICAL INVENTORY-->
@@ -95,7 +96,7 @@
               </div>
             </div>
           </div>
-          <div class="flexcolumn physical-totals" style="flex:0 0 auto;">
+          <!--<div class="flexcolumn physical-totals" style="flex:0 0 auto;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Physical Inventory Totals">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-currencysymbol="CurrencySymbol" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
@@ -116,10 +117,9 @@
                 <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-currencysymbol="CurrencySymbol" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
-
     </div>
   </div>
 </div>
