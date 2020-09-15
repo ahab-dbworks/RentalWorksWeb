@@ -215,25 +215,25 @@ class WebApiCompiler {
             await fs.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
-        console.log('//------------------------------------------------------------------------------------');
-        console.log(`Building RentalWorksWeb TypeScript...`);
-        //delete TypScript generated files
-        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json'), '--clean'], { stdio: 'inherit' });
-        // compile TypeScript
-        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
-            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
-        }
-        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
-            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
-        }
-        console.log(`Finished RentalWorksWeb TypeScript`);
+        //console.log('//------------------------------------------------------------------------------------');
+        //console.log(`Building RentalWorksWeb TypeScript...`);
+        ////delete TypScript generated files
+        //await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json'), '--clean'], { stdio: 'inherit' });
+        //// compile TypeScript
+        //if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        //}
+        //else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        //}
+        //console.log(`Finished RentalWorksWeb TypeScript`);
         console.log('//------------------------------------------------------------------------------------');
         console.log(`Running JSAppBuilder for RentalWorksWeb...`);
         await spawn('dotnet', [path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll'), '-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
         console.log(`Finished running JSAppBuilder for RentalWorksWeb`);
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
-            console.log('//------------------------------------------------------------------------------------');
-            console.log('Fixing urls on index page...')
+            //console.log('//------------------------------------------------------------------------------------');
+            //console.log('Fixing urls on index page...')
             const pathIndexFile = `${srcDir}/index.htm`;
             let fileText = await fs.readFile(pathIndexFile, 'utf8');
             fileText = fileText.replace(/\[appbaseurl\]/g, '/webdev/');
@@ -305,25 +305,25 @@ class WebApiCompiler {
             await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
-        console.log('//------------------------------------------------------------------------------------');
-        console.log(`Building QuikScan TypeScript...`);
-        //delete TypScript generated files
-        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json'), '--clean'], { stdio: 'inherit' });
-        // compile TypeScript
-        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
-            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json')], { stdio: 'inherit' });
-        }
-        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
-            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json')], { stdio: 'inherit' });
-        }
-        console.log(`Finished QuikScan TypeScript`);
+        //console.log('//------------------------------------------------------------------------------------');
+        //console.log(`Building QuikScan TypeScript...`);
+        ////delete TypScript generated files
+        //await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json'), '--clean'], { stdio: 'inherit' });
+        //// compile TypeScript
+        //if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json')], { stdio: 'inherit' });
+        //}
+        //else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan/tsconfig.json')], { stdio: 'inherit' });
+        //}
+        //console.log(`Finished QuikScan TypeScript`);
         console.log('//------------------------------------------------------------------------------------');
         console.log(`Running JSAppBuilder for QuikScan...`);
         await spawn('dotnet', [path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll'), '-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
         console.log(`Finished running JSAppBuilder for QuikScan`);
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
-            console.log('//------------------------------------------------------------------------------------');
-            console.log('Fixing urls on index page...')
+            //console.log('//------------------------------------------------------------------------------------');
+            //console.log('Fixing urls on index page...')
             const pathIndexFile = `${srcDir}/index.htm`;
             let fileText = await fs.readFile(pathIndexFile, 'utf8');
             fileText = fileText.replace(/\[appbaseurl\]/g, '/quikscandev/');
