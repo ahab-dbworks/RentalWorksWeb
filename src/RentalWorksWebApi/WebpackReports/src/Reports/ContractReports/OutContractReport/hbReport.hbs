@@ -5,20 +5,20 @@
       <div class="rpt-nested-flexrow">
         <div style="height:100px;"><img data-visible="{{#if Logosrc}}true{{/if}}" class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
       </div>
-      <div class="rpt-nested-flexrow"><span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span></div>
-      <div class="rpt-nested-flexrow"><span class="header-left">{{OfficeLocationAddress1}}</span></div>
-      <div class="rpt-nested-flexrow"><span class="header-left">{{OfficeLocationAddress2}}</span></div>
-      <div class="rpt-nested-flexrow"><span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span></div>
-      <div class="rpt-nested-flexrow"><span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span></div>
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;"><span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span></div>
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;"><span class="header-left">{{OfficeLocationAddress1}}</span></div>
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;"><span class="header-left">{{OfficeLocationAddress2}}</span></div>
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;"><span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span></div>
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;"><span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span></div>
     </div>
-    <div class="rpt-flexcolumn">
-      <div class="rpt-nested-flexrow"><span class="sub-title" style="font-size:20px;">{{Department}}</span></div>
-      <div class="rpt-nested-flexrow"><span class="title blue">{{Report}}</span></div>
+    <div class="rpt-flexcolumn" style="min-width:42%;">
+      <div class="rpt-nested-flexrow sub-title"><span style="font-size:20px;">{{Department}}</span></div>
+      <div class="rpt-nested-flexrow title blue"><span>{{Report}}</span></div>
     </div>
     <div class="rpt-flexcolumn">
       <div class="rpt-nested-flexrow">
-        <span style="width:40%;font-size:18px;font-weight:700;text-align:right;">No: </span>
-        <span style="width:60%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{ContractNumber}}</span>
+        <span style="width:40%;font-size:18px;font-weight:700;text-align:right;padding:10px 2px 10px 17px">No: </span>
+        <span style="width:60%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:25px;text-align:center;">{{ContractNumber}}</span>
       </div>
       <div class="rpt-nested-flexrow">
         <span style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Date: </span>
@@ -30,84 +30,62 @@
       </div>
     </div>
   </div>
-
   <div class="rpt-flexrow" style="padding-left:3px;">
-    <!-- Issued To -->
-    <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
-      <table id="issuedTo">
-        <tr>
-          <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Issued To</th>
-        </tr>
-        <tr>
-          <td class="" style="font-weight:700;">{{IssuedToCompany}}</td>
-        </tr>
-        {{#if IssuedToAttention1}}
-        <tr>
-          <td class="">{{IssuedToAttention1}}</td>
-        </tr>
-        {{/if}}
-        <tr>
-          <td class="">{{IssuedToAddress1}}</td>
-        </tr>
-        {{#if IssuedToAddress2}}
-        <tr>
-          <td class="">{{IssuedToAddress2}}</td>
-        </tr>
-        {{/if}}
-        {{#if IssuedToCity}}
-        <tr>
-          <td class="">{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</td>
-        </tr>
-        {{/if}}
-        {{#if IssuedToPhone}}
-        <tr>
-          <td class=""><span style="font-weight:700;">Phone: </span>{{IssuedToPhone}}</td>
-        </tr>
-        {{/if}}
-      </table>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow" style="text-align: left; padding: 5px; background-color: #e3f2fd;border-top: 2px solid #027cc5; padding-left: 3px;">
+        <span style="font-weight: 700;">Issued To</span>
+      </div>
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;">
+        <span style="font-weight: 700;">{{IssuedToCompany}}</span>
+      </div>
+      <div data-visible="{{#if IssuedToAttention1}}true{{/if}}" class="rpt-nested-flexrow">
+        <span>{{IssuedToAttention1}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span>{{IssuedToAddress1}}</span>
+      </div>
+      <div data-visible="{{#if IssuedToAddress2}}true{{/if}}" class="rpt-nested-flexrow">
+        <span>{{IssuedToAddress2}}</span>
+      </div>
+      <div data-visible="{{#if IssuedToCity}}true{{/if}}" class="rpt-nested-flexrow">
+        <span>{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</span>
+      </div>
+      <div data-visible="{{#if IssuedToPhone}}true{{/if}}" class="rpt-nested-flexrow">
+        <span style="font-weight:700;">Phone: </span><span>{{IssuedToPhone}}</span>
+      </div>
     </div>
-    <!-- spacer column -->
-    <div class="rpt-flexcolumn" style="flex:0 0 220px;">
-      <span style="padding:10px;"></span>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow">
+        <span style="padding:10px;"></span>
+      </div>
     </div>
-    <!-- Order details -->
-    <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-left:10px;">
-      <table class="meta-section" style="border-top:2px solid #027cc5;">
-        <tr>
-          <td style="width:100px;" class="shaded-block">Description: </td>
-          <td class="meta-content" style="vertical-align:top;">{{OrderDescription}}</td>
-        </tr>
-        <tr>
-          <td style="width:100px;" class="shaded-block">Deal: </td>
-          <td class="meta-content" style="vertical-align:top;">{{Deal}}</td>
-        </tr>
-        <tr>
-          <td style="width:100px;" class="shaded-block">Usage Dates: </td>
-          <td class="meta-content">{{UsageDates}}</td>
-        </tr>
-      </table>
-      <table class="meta-section" style="border-top:2px solid #027cc5;">
-        <tr>
-          <td style="width:100px;" class="shaded-block">Agent: </td>
-          <td class="meta-content">{{Agent}}</td>
-        </tr>
-        <tr>
-          <td style="width:100px;" class="shaded-block">Email: </td>
-          <td class="meta-content">{{AgentEmail}}</td>
-        </tr>
-        <tr>
-          <td style="width:100px;" class="shaded-block">Phone: </td>
-          <td class="meta-content">{{AgentPhoneAndExtension}}</td>
-        </tr>
-      </table>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;">
+        <span>Description: </span><span>{{OrderDescription}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span>Deal: </span><span>{{Deal}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span>Usage Dates: </span><span>{{UsageDates}}</span>
+      </div>
+      <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;">
+        <span>Agent: </span><span>{{Agent}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span>Email: </span><span>{{AgentEmail}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span>Phone: </span><span>{{AgentPhoneAndExtension}}</span>
+      </div>
     </div>
   </div>
 </div>
 <div data-section="table" class="rpt-flexrow">
   <table style="table-layout:fixed;">
-    {{#each Items}}
-    {{#ifEquals RowType "RecTypeDisplayheader"}}
     <tbody data-rowtype="{{RowType}}">
+      {{#each Items}}
+      {{#ifEquals RowType "RecTypeDisplayheader"}}
       <tr><td>&nbsp;</td></tr><!--spacer row-->
       <tr class="avoid-page-break">
         <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
