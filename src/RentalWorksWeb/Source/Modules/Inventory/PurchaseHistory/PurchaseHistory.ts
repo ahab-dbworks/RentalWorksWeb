@@ -1,5 +1,6 @@
 class PurchaseHistory {
     Module: string = 'PurchaseHistory';
+    AuditModule: string = 'Purchase';
     apiurl: string = 'api/v1/purchase';
     caption: string = Constants.Modules.Inventory.children.PurchaseHistory.caption;
     nav: string = Constants.Modules.Inventory.children.PurchaseHistory.nav;
