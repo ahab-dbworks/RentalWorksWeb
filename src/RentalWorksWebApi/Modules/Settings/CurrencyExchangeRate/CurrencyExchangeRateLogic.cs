@@ -1,5 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+
 namespace WebApi.Modules.Settings.CurrencyExchangeRate
 {
     [FwLogic(Id: "uIlu5prs2gIGn")]
@@ -41,12 +43,42 @@ namespace WebApi.Modules.Settings.CurrencyExchangeRate
         [FwLogicProperty(Id: "s4Ns6pDkcm7qr", IsReadOnly: true)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                bool sameCurrency = false;
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    if ((!string.IsNullOrEmpty(FromCurrencyId)) && (!string.IsNullOrEmpty(ToCurrencyId)) && (FromCurrencyId.Equals(ToCurrencyId)))
+                    {
+                        sameCurrency = true;
+                    }
+                }
+                else //smUpdate
+                {
+                    CurrencyExchangeRateLogic orig = (CurrencyExchangeRateLogic)original;
+                    string fromCurrencyId = FromCurrencyId;
+                    string toCurrencyId = ToCurrencyId;
+                    if (orig != null)
+                    {
+                        fromCurrencyId = fromCurrencyId ?? orig.FromCurrencyId;
+                        toCurrencyId = toCurrencyId ?? orig.ToCurrencyId;
+                    }
+                    if ((!string.IsNullOrEmpty(fromCurrencyId)) && (!string.IsNullOrEmpty(toCurrencyId)) && (fromCurrencyId.Equals(toCurrencyId)))
+                    {
+                        sameCurrency = true;
+                    }
+                }
+                if (sameCurrency)
+                {
+                    isValid = false;
+                    validateMsg = "From Currency and To Currency cannot be the same.";
+                }
+            }
+            return isValid;
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
