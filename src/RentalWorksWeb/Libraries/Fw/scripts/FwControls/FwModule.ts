@@ -437,7 +437,16 @@ class FwModule {
                                     //const sliceIndex = apiurl.lastIndexOf('/');                    // jason h - 06/19/20
                                     //const moduleName = apiurl.slice(sliceIndex + 1);               // retrieving the module name from the controller instead of slicing up the apiurl
                                     request.uniqueids = {};                                          // (for cases like the Asset module where the apiurl doesnt match the module name (Item instead of Asset))
-                                    request.uniqueids.ModuleName = moduleController.Module;
+                                    //request.uniqueids.ModuleName = moduleController.Module;
+
+                                    //justin hoffman 09/15/2020 - allow developer to override the name of the module being audited
+                                    if (moduleController.AuditModule !== null) {
+                                        request.uniqueids.ModuleName = moduleController.AuditModule;
+                                    }
+                                    else {
+                                        request.uniqueids.ModuleName = moduleController.Module;
+                                    }
+
                                     for (let i = 0; i < 2; i++) {
                                         let uniqueIdValue = jQuery($keys[i]).find('input').val();
                                         if (typeof uniqueIdValue !== 'undefined') {
