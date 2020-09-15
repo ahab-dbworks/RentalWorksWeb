@@ -123,7 +123,6 @@ class VendorInvoice {
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
             FwFormField.setValueByDataField($form, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
-            this.applyCurrencySymbolToTotalFields($form, null, location.defaultcurrencysymbol);
             $form.find('.continue').show();
         }
 
@@ -410,18 +409,15 @@ class VendorInvoice {
         this.applyCurrencySymbolToTotalFields($form, response);
     };
     //----------------------------------------------------------------------------------------------
-    applyCurrencySymbolToTotalFields($form: JQuery, response: any, newFormCurrecySymbol?: string ) {
+    applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
         const $totalFields = $form.find('.rental-totals [data-type="money"]');
+
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
             $fwformfield = jQuery(element);
-            if (typeof newFormCurrecySymbol != 'undefined') {
-                currencySymbol = newFormCurrecySymbol;
-            } else {
-                currencySymbol = response[$fwformfield.attr('data-currencysymbol')];
-                if (typeof currencySymbol == 'undefined' || currencySymbol === '') {
-                    currencySymbol = '$';
-                }
+            currencySymbol = response[$fwformfield.attr('data-currencysymbol')];
+            if (typeof currencySymbol == 'undefined' || currencySymbol === '') {
+                currencySymbol = '$';
             }
 
             $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
@@ -526,6 +522,8 @@ class VendorInvoice {
                 } else {
                     FwFormField.setValueByDataField($form, 'InvoiceDueDate', invoiceDate);
                 }
+
+                VendorInvoiceController.applyCurrencySymbolToTotalFields($form, response);
             }, null, $form);
 
             if ($form.attr('data-mode') === "NEW") {
