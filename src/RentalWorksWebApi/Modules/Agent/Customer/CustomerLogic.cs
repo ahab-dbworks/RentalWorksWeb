@@ -419,6 +419,9 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "TeczGeWVDCJJ2")]
         public string Email { get { return customer.Email; } set { customer.Email = value; } }
 
+        [FwLogicProperty(Id: "BsXTrYn6Z0Zop")]
+        public bool? MultipleCurrencies { get { return customer.MultipleCurrencies; } set { customer.MultipleCurrencies = value; } }
+
         [FwLogicProperty(Id: "aOMvI6XBscbMF")]
         public string CurrencyId { get { return customer.CurrencyId; } set { customer.CurrencyId = value; } }
 

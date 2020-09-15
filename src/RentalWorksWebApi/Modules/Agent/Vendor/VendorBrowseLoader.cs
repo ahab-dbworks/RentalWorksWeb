@@ -185,6 +185,9 @@ namespace WebApi.Modules.Agent.Vendor
         [FwSqlDataField(column: "organizationtype", modeltype: FwDataTypes.Text)]
         public string OrganizationType { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "multiplecurrencies", modeltype: FwDataTypes.Boolean)]
+        public bool? MultipleCurrencies { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string DefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------

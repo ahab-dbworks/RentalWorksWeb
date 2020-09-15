@@ -157,6 +157,9 @@ TODO:
         [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string OrganizationTypeId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "multiplecurrencies", modeltype: FwDataTypes.Boolean)]
+        public bool? MultipleCurrencies { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string DefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------

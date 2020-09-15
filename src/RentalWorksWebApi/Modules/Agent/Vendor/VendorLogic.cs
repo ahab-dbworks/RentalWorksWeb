@@ -187,6 +187,9 @@ namespace WebApi.Modules.Agent.Vendor
         [FwLogicProperty(Id: "GS36s38qXKGQj", IsReadOnly: true)]
         public string OrganizationType { get; set; }
 
+        [FwLogicProperty(Id: "BsXTrYn6Z0Zop")]
+        public bool? MultipleCurrencies { get { return vendor.MultipleCurrencies; } set { vendor.MultipleCurrencies = value; } }
+
         [FwLogicProperty(Id: "cVQmxGBAORmV")]
         public string DefaultCurrencyId { get { return vendor.DefaultCurrencyId; } set { vendor.DefaultCurrencyId = value; } }
 

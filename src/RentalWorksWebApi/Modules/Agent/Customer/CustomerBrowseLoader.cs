@@ -390,6 +390,9 @@ namespace WebApi.Modules.Agent.Customer
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
         public string Email { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "multiplecurrencies", modeltype: FwDataTypes.Boolean)]
+        public bool? MultipleCurrencies { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 

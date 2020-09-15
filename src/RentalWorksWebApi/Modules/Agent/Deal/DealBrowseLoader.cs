@@ -61,6 +61,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
         public string PaymentType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "multiplecurrencies", modeltype: FwDataTypes.Boolean)]
+        public bool? MultipleCurrencies { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
