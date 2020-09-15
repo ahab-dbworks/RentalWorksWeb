@@ -51,6 +51,15 @@ class InventorySummary {
 
             $form.find('.out-row').show();
         });
+
+        // changing Warehouse - refresh grid
+        $form.find('[data-datafield="WarehouseId"]').data('onchange', $tr => {
+            const $inventorySummaryOutGrid = $form.find('div[data-name="InventorySummaryOutItemsGrid"]');
+            FwBrowse.search($inventorySummaryOutGrid);
+            $form.find('.out-row').show();
+        });
+
+
         $form.find('div[data-type="tab"]').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
             const inventoryId = FwFormField.getValueByDataField($form, `InventoryId`);
