@@ -14,7 +14,7 @@ class VendorInvoice {
 
         FwMenu.addSubMenuItem(options.$groupOptions, `Approve`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
             try {
-                this.browseApproveVendorInvoice(options.$browse);
+                this.approveVendorInvoice(options.$browse, 'browse');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -56,7 +56,7 @@ class VendorInvoice {
 
         FwMenu.addSubMenuItem(options.$groupOptions, `Approve`, `qGQ28sAtqVz4`, (e: JQuery.ClickEvent) => {
             try {
-                this.formApproveVendorInvoice(options.$form);
+                this.approveVendorInvoice(options.$form, 'form');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -71,7 +71,7 @@ class VendorInvoice {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
@@ -559,39 +559,66 @@ class VendorInvoice {
         });
     };
     //----------------------------------------------------------------------------------------------
-    browseApproveVendorInvoice($browse: JQuery) {
-        const vendorInvoiceId: string = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
-        this.approveVendorInvoice($browse, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($browse); });
-    }
-    //----------------------------------------------------------------------------------------------
-    formApproveVendorInvoice($form: JQuery) {
-        const vendorInvoiceId: string = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
-        this.approveVendorInvoice($form, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($form); });
-    }
-    //----------------------------------------------------------------------------------------------
-    approveVendorInvoice($formToBlock: JQuery, vendorInvoiceId: string, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): void {
-        try {
-            if ((vendorInvoiceId == null) || (vendorInvoiceId == '') || (typeof vendorInvoiceId === 'undefined')) {
-                FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
-            }
-            else {
-                FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.success === true) {
-                        if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
-                            onApproveSuccess(response);
+    approveVendorInvoice($element: JQuery, state: string) {
+        const approve = ($formToBlock: JQuery, vendorInvoiceId: string, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): void => {
+            try {
+                if ((vendorInvoiceId == null) || (vendorInvoiceId == '') || (typeof vendorInvoiceId === 'undefined')) {
+                    FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
+                }
+                else {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        if (response.success === true) {
+                            if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
+                                onApproveSuccess(response);
+                            }
+                        } else {
+                            FwNotification.renderNotification('WARNING', response.msg);
+                            if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
+                                onApproveFailure(response);
+                            }
                         }
-                    } else {
-                        FwNotification.renderNotification('WARNING', response.msg);
-                        if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
-                            onApproveFailure(response);
-                        }
-                    }
-                }, null, $formToBlock);
+                    }, null, $formToBlock);
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
-        } catch (ex) {
-            FwFunc.showError(ex);
+        }
+
+        if (state === 'browse') {
+            const vendorInvoiceId: string = $element.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+            approve($element, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($element); });
+        } else if (state === 'form') {
+            const vendorInvoiceId: string = FwFormField.getValueByDataField($element, 'VendorInvoiceId');
+            approve($element, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($element); });
         }
     }
+    ////----------------------------------------------------------------------------------------------
+    //formApproveVendorInvoice($form: JQuery) {
+    //}
+    ////----------------------------------------------------------------------------------------------
+    //approveVendorInvoice($formToBlock: JQuery, vendorInvoiceId: string, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): void {
+    //    try {
+    //        if ((vendorInvoiceId == null) || (vendorInvoiceId == '') || (typeof vendorInvoiceId === 'undefined')) {
+    //            FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
+    //        }
+    //        else {
+    //            FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+    //                if (response.success === true) {
+    //                    if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
+    //                        onApproveSuccess(response);
+    //                    }
+    //                } else {
+    //                    FwNotification.renderNotification('WARNING', response.msg);
+    //                    if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
+    //                        onApproveFailure(response);
+    //                    }
+    //                }
+    //            }, null, $formToBlock);
+    //        }
+    //    } catch (ex) {
+    //        FwFunc.showError(ex);
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     browseUnapproveVendorInvoice($browse: JQuery) {
         const vendorInvoiceId: string = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
