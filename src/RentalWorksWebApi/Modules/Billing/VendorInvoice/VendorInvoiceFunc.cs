@@ -21,8 +21,15 @@ namespace WebApi.Modules.Billing.VendorInvoice
     {
     }
 
+    public class ToggleVendorInvoiceApprovedRequest
+    {
+        public string VendorInvoiceId { get; set; }
+        public bool? PushChangesToPurchaseOrder { get; set; }
+    }
+
     public class ToggleVendorInvoiceApprovedResponse : TSpStatusResponse
     {
+        public bool PromptToUpdatePurchaseOrder { get; set; } = false;
     }
 
     public static class VendorInvoiceFunc
@@ -51,22 +58,31 @@ namespace WebApi.Modules.Billing.VendorInvoice
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<ToggleVendorInvoiceApprovedResponse> ToggleVendorInvoiceApproved(FwApplicationConfig appConfig, FwUserSession userSession, string vendorInvoiceId)
+        public static async Task<ToggleVendorInvoiceApprovedResponse> ToggleVendorInvoiceApproved(FwApplicationConfig appConfig, FwUserSession userSession, ToggleVendorInvoiceApprovedRequest request)
         {
             ToggleVendorInvoiceApprovedResponse response = new ToggleVendorInvoiceApprovedResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "vendorinvoiceapproved", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, vendorInvoiceId);
+                qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorInvoiceId);
                 qry.AddParameter("@approvedusersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                //qry.AddParameter("@pushchangestopo", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                if (request.PushChangesToPurchaseOrder == null)
+                {
+                    qry.AddParameter("@pushchangestopo", SqlDbType.NVarChar, ParameterDirection.Input, "?");
+                }
+                else
+                {
+                    qry.AddParameter("@pushchangestopo", SqlDbType.NVarChar, ParameterDirection.Input, request.PushChangesToPurchaseOrder);
+                }
                 //qry.AddParameter("@approveifdealinvisnew", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                qry.AddParameter("@prompttopushchangestopo", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
+                response.PromptToUpdatePurchaseOrder = FwConvert.ToBoolean(qry.GetParameter("@prompttopushchangestopo").ToString());
             }
             return response;
         }
