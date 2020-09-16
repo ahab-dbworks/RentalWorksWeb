@@ -377,6 +377,15 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
+        public string OriginalRentalOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderdesc", modeltype: FwDataTypes.Text)]
+        public string OriginalRentalOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldordernodesc", modeltype: FwDataTypes.Text)]
+        public string OriginalRentalOrderNumberAndDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
     public class UsedSaleInvoiceItemReportLoader : InvoiceItemReportLoader

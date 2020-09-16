@@ -714,12 +714,12 @@
         {{#ifNotEquals ItemClass "ST"}}
         {{#ifCond ICode '!=' ""}}
         {{#ifCond ItemClass '===' "CI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{OriginalOrderNumber}}</td><!-- Complete Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{OriginalRentalOrderNumber}}</td><!-- Complete Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "KI"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{OriginalOrderNumber}}</td><!-- Kit Accessory -->
+        <td data-itemclass="{{ItemClass}}" style="text-indent:1em;">{{OriginalRentalOrderNumber}}</td><!-- Kit Accessory -->
         {{else}}
-        <td data-itemclass="{{ItemClass}}">{{OriginalOrderNumber}}</td><!-- Item -->
+        <td data-itemclass="{{ItemClass}}">{{OriginalRentalOrderNumber}}</td><!-- Item -->
         {{/ifCond}}
         {{/ifCond}}
         {{else}}
