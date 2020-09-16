@@ -30,6 +30,7 @@ class Contact {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
+
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
@@ -44,6 +45,17 @@ class Contact {
         } catch (ex) {
             FwFunc.showError(ex);
         }
+        //(async () => {
+        //    const hubspotContacts = await FwAjax.callWebApi<any, any>({
+        //        httpMethod: 'POST',
+        //        url: `${applicationConfig.apiurl}api/v1/hubspot/allcontacts`,
+        //        data: {
+        //            accessToken: 'CI25tqLJLhICAQEYrpWDBCCr5dcFKI_4DTIZAB7pM-oH_68b0D-jA-yqNTrrQFOuwpsOiToaAAoCQQAADIADAAgAAAABAAAAAAAAABjAABNCGQAe6TPqQvimAf4_bhLB3twg6uWFehzAqlg'
+        //        },
+        //        $elementToBlock: $browse
+        //    })
+        //    console.log(JSON.parse(hubspotContacts));
+        //})();
 
         return $browse;
     }
@@ -136,6 +148,25 @@ class Contact {
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
+        if ($form.attr('data-mode') === 'NEW') {
+            let firstname = FwFormField.getValueByDataField($form, 'FirstName');
+            let lastname = FwFormField.getValueByDataField($form, 'LastName');
+            let email = FwFormField.getValueByDataField($form, 'Email');
+            (async () => {
+                const addHubSpotContact = await FwAjax.callWebApi<any, any>({
+                    httpMethod: 'POST',
+                    url: `${applicationConfig.apiurl}api/v1/hubspot/newcontact`,
+                    data: {
+                        accessToken: 'CP32g63JLhICAQEYrpWDBCCr5dcFKI_4DTIZAGQEFpMvuiBu04uCW4F2a4t2wxgDFgA9DDoaAAoCQQAADIADAAgAAAABAAAAAAAAABjAABNCGQBkBBaT0azQitLkr3VXaeJZxPpQzFNFCLs',
+                        firstname: firstname,
+                        lastname: lastname,
+                        email: email
+                    },
+                    $elementToBlock: $form
+                })
+                console.log(JSON.parse(addHubSpotContact));
+            })();
+        }
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------

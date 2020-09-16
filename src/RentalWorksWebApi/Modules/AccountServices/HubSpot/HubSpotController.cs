@@ -21,19 +21,20 @@ namespace WebApi.Modules.AccountServices.HubSpot
         //------------------------------------------------------------------------------------ 
         // GET api/v1/hubspot/allcontacts
         [HttpPost("allcontacts")]
-        [FwControllerMethod(Id: "tXvIp7gCbP5B", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<HttpResponseMessage>> GetAsync([FromBody]GetHubSpotContactsRequest l)
+        [FwControllerMethod(Id: "tXvIp7gCbP5B", ActionType: FwControllerActionTypes.View)]
+        public async Task<ActionResult<string>> GetAsync([FromBody]GetHubSpotContactsRequest l)
         {
             var hs = FwBusinessLogic.CreateBusinessLogic<HubSpotLogic>(this.AppConfig, this.UserSession);
             return await hs.GetContactsAsync(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/emailtemplate 
-        [HttpPost]
+        [HttpPost("newcontact")]
         [FwControllerMethod(Id: "bfAAIzIssQIC", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<HubSpotLogic>> NewAsync([FromBody]HubSpotLogic l)
+        public async Task<ActionResult<string>> NewAsync([FromBody]PostHubSpotContactRequest l)
         {
-            return await DoNewAsync<HubSpotLogic>(l);
+            var hs = FwBusinessLogic.CreateBusinessLogic<HubSpotLogic>(this.AppConfig, this.UserSession);
+            return await hs.PostContactAsync(l);
         }
     }
 
