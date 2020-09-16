@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwSqlDataField(column: "mode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
         public string Mode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "resultfields", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 1000)]
+        [FwSqlDataField(column: "resultfields", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 2000)]
         public string ResultFields { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disableaccessoryautoexpand", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]

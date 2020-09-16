@@ -22,13 +22,13 @@ namespace WebApi.Modules.Settings.UserSearchSettings
             return await DoGetAsync<UserSearchSettingsLogic>(id);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/usersearchsettings 
-        [HttpPost]
-        [FwControllerMethod(Id:"F0ocsO9lqX1lP", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<UserSearchSettingsLogic>> NewAsync([FromBody]UserSearchSettingsLogic l)
-        {
-            return await DoNewAsync<UserSearchSettingsLogic>(l);
-        }
+        //// POST api/v1/usersearchsettings 
+        //[HttpPost]
+        //[FwControllerMethod(Id:"F0ocsO9lqX1lP", ActionType: FwControllerActionTypes.New)]
+        //public async Task<ActionResult<UserSearchSettingsLogic>> NewAsync([FromBody]UserSearchSettingsLogic l)
+        //{
+        //    return await DoNewAsync<UserSearchSettingsLogic>(l);
+        //}
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/usersearchsettings/A0000001
         [HttpPut("{id}")]

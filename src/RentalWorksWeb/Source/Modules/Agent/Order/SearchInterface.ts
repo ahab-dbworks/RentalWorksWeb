@@ -889,10 +889,10 @@ class SearchInterface {
             //Render options sortable column list
             if (response.ResultFields) {
                 this.setViewSettings($popup, response);
-                $popup.data('hassavedsettings', true);
+                //$popup.data('hassavedsettings', true);
             } else {
                 this.setDefaultViewSettings($popup);
-                $popup.data('hassavedsettings', false);
+                //$popup.data('hassavedsettings', false);
             }
         }, null, null);
     }
@@ -922,7 +922,7 @@ class SearchInterface {
             Mode:                        $popup.find('#itemlist').attr('data-view')
         };
 
-        if (typeof $popup.data('hassavedsettings') != 'undefined' && $popup.data('hassavedsettings') === true) {
+        //if (typeof $popup.data('hassavedsettings') != 'undefined' && $popup.data('hassavedsettings') === true) {
             FwAppData.apiMethod(true, 'PUT', `api/v1/usersearchsettings/${JSON.parse(sessionStorage.getItem('userid')).webusersid}`, request, FwServices.defaultTimeout,
                 response => {
                     if (typeof saveonly == 'boolean' && saveonly) {
@@ -935,20 +935,20 @@ class SearchInterface {
                         }
                     }
                 }, null, $searchpopup);
-        } else {
-            FwAppData.apiMethod(true, 'POST', `api/v1/usersearchsettings`, request, FwServices.defaultTimeout,
-                response => {
-                    if (typeof saveonly == 'boolean' && saveonly) {
-                        //do nothing
-                    } else {
-                        this.setViewSettings($popup, response);
-                        if (request.DisableAccessoryAutoExpand) {
-                            $popup.find('.item-accessories').css('display', 'none');
-                        }
-                    }
-                    $popup.data('hassavedsettings', true);
-                }, null, $searchpopup);
-        }
+        //} else {
+        //    FwAppData.apiMethod(true, 'POST', `api/v1/usersearchsettings`, request, FwServices.defaultTimeout,
+        //        response => {
+        //            if (typeof saveonly == 'boolean' && saveonly) {
+        //                //do nothing
+        //            } else {
+        //                this.setViewSettings($popup, response);
+        //                if (request.DisableAccessoryAutoExpand) {
+        //                    $popup.find('.item-accessories').css('display', 'none');
+        //                }
+        //            }
+        //            $popup.data('hassavedsettings', true);
+        //        }, null, $searchpopup);
+        //}
     }
     //----------------------------------------------------------------------------------------------
     setViewSettings($popup, response) {
