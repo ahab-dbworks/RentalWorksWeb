@@ -2293,7 +2293,7 @@ class OrderBase {
         });
         // ----------
         $form.find('div[data-datafield="OrderTypeId"]').on('change', event => {
-            this.renderGrids($form);
+            this.renderGrids($form); // Reinstantiating grids because of the substantial effects that the Order Type can have
             this.applyOrderTypeAndRateTypeToForm($form);
             this.getScheduleDatesByOrderType($form);
             this.applyOrderTypeDefaults($form);
@@ -4543,7 +4543,7 @@ class OrderBase {
             //$form.find('.notcombined').css('display', 'block');
             //$form.find('.generaltab').click();
         }
-        this.renderGrids($form);
+        // this.renderGrids($form);                 -- J. Pace 9/16/20 - Commenting out this invocation because it is erasing all settings attached to the grids such a Summary View, Rollup Quantities, etc.
         //const period = FwFormField.getValueByDataField($form, 'totalTypeProfitLoss');
         //this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`), period);
         //this.dynamicColumns($form);
