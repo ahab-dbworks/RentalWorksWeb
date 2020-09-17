@@ -70,6 +70,9 @@ namespace WebApi.Modules.Settings.Category
         [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
         public int? DepreciationMonths { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salvagevaluepct", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalvageValuePercent { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean)]
         public bool? OverrideProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------
