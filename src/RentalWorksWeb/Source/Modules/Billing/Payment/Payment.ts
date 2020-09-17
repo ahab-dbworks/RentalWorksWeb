@@ -679,18 +679,20 @@ class Payment {
             const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const paymentId = FwFormField.getValueByDataField($form, 'PaymentId');
             const paymentDate = FwFormField.getValueByDataField($form, 'PaymentDate');
+            const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
 
             request.uniqueids = {
                 OfficeLocationId: officeLocationId,
                 PaymentId: paymentId,
                 PaymentDate: paymentDate,
+                VendorId: vendorId,
             }
             request.orderby = 'InvoiceDate,InvoiceNumber'
             if (currencyId) {
                 request.uniqueids.CurrencyId = currencyId;
             }
 
-            FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, res => {
+            FwAppData.apiMethod(true, 'POST', 'api/v1/paymentvendorinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
                 const htmlRows: Array<string> = [];
                 $form.find('div[data-type="money"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
