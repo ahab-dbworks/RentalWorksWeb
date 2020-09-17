@@ -560,22 +560,61 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     approveVendorInvoice($element: JQuery, state: string) {
-        const approve = ($formToBlock: JQuery, vendorInvoiceId: string, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): void => {
+        var approve = ($formToBlock: JQuery, vendorInvoiceId: string, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void, request?: any): void => {
             try {
                 if ((vendorInvoiceId == null) || (vendorInvoiceId == '') || (typeof vendorInvoiceId === 'undefined')) {
                     FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
                 }
                 else {
-                    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (request) {
+                        request.VendorInvoiceId = vendorInvoiceId;
+                    } else {
+                        request = {
+                            VendorInvoiceId: vendorInvoiceId,
+                            PushChangesToPurchaseOrder: null,
+                        }
+                    }
+                    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success === true) {
                             if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
                                 onApproveSuccess(response);
                             }
-                        } else {
-                            FwNotification.renderNotification('WARNING', response.msg);
-                            if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
-                                onApproveFailure(response);
+                        } else if (response.success === false) {
+                            const promptToUpdate = response.PromptToUpdatePurchaseOrder;
+                            if (promptToUpdate) {
+                                const $confirmation = FwConfirmation.renderConfirmation('Update Vendor Invoice', '');
+                                FwConfirmation.addControls($confirmation, `<div style="text-align:center;"></div><div style="margin:10px 0 0 0;text-align:center;">Some values on this Vendor Invoice are different than the Purchase Order. Do you want to update the Quantity, Unit Cost, and Tax on Purchase Order?<div>`);
+                                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                                const $no = FwConfirmation.addButton($confirmation, 'No', false);
+                                const $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+                                $yes.on('click', e => {
+                                    FwConfirmation.destroyConfirmation($confirmation);
+                                    const request: any = { PushChangesToPurchaseOrder: true };
+                                    if (state === 'browse') {
+                                        const vendorInvoiceId: string = $element.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+                                        approve($element, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($element); }, null, request);
+                                    } else if (state === 'form') {
+                                        const vendorInvoiceId: string = FwFormField.getValueByDataField($element, 'VendorInvoiceId');
+                                        approve($element, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($element); }, null, request);
+                                    }
+                                });
+                                $no.on('click', e => {
+                                    FwConfirmation.destroyConfirmation($confirmation);
+                                    const request: any = { PushChangesToPurchaseOrder: false };
+                                    if (state === 'browse') {
+                                        const vendorInvoiceId: string = $element.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+                                        approve($element, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($element); }, null, request);
+                                    } else if (state === 'form') {
+                                        const vendorInvoiceId: string = FwFormField.getValueByDataField($element, 'VendorInvoiceId');
+                                        approve($element, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($element); }, null, request);
+                                    }
+                                });
+                            } else {
+                                FwNotification.renderNotification('WARNING', response.msg);
                             }
+                            //if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
+                            //    onApproveFailure(response);
+                            //}
                         }
                     }, null, $formToBlock);
                 }
@@ -583,7 +622,6 @@ class VendorInvoice {
                 FwFunc.showError(ex);
             }
         }
-
         if (state === 'browse') {
             const vendorInvoiceId: string = $element.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
             approve($element, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($element); });
@@ -591,6 +629,16 @@ class VendorInvoice {
             const vendorInvoiceId: string = FwFormField.getValueByDataField($element, 'VendorInvoiceId');
             approve($element, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($element); });
         }
+        var executeApprove = () => {
+            if (state === 'browse') {
+                const vendorInvoiceId: string = $element.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+                approve($element, vendorInvoiceId, function onSuccess(response) { FwBrowse.databind($element); });
+            } else if (state === 'form') {
+                const vendorInvoiceId: string = FwFormField.getValueByDataField($element, 'VendorInvoiceId');
+                approve($element, vendorInvoiceId, function onSuccess(response) { FwModule.refreshForm($element); });
+            }
+        }
+
     }
     ////----------------------------------------------------------------------------------------------
     //formApproveVendorInvoice($form: JQuery) {
