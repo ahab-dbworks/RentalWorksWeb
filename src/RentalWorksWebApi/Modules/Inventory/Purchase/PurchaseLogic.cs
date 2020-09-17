@@ -92,6 +92,10 @@ namespace WebApi.Modules.Inventory.Purchase
         public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
         [FwLogicProperty(Id: "AL8Z1pJRUUYoy", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? CostWithTaxCurrencyConvertedExtended { get; set; }
+        [FwLogicProperty(Id: "VeXAlZ0WsIRVU", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? TotalDepreciation { get; set; }
+        [FwLogicProperty(Id: "jkXHVEPwjYXCI", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? TotalBookValue { get; set; }
         [FwLogicProperty(Id: "9rSBtKlGD1vAU", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? VendorInvoiceCost { get; set; }
         [FwLogicProperty(Id: "9sqRnd9xKurn3", DisableDirectAssign: true, DisableDirectModify: true)]
