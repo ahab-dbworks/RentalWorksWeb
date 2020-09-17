@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Settings.PaymentSettings.PaymentType;
+
 namespace WebApi.Modules.Home.Payment
 {
     [Route("api/v1/[controller]")]
@@ -81,6 +83,14 @@ namespace WebApi.Modules.Home.Payment
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PaymentLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/payment/validatepaymenttype/browse
+        [HttpPost("validatepaymenttype/browse")]
+        [FwControllerMethod(Id: "Q23AH20YjFsyB", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePaymentTypeAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PaymentTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }
