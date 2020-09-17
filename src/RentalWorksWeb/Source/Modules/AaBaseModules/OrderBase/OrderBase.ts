@@ -2639,38 +2639,110 @@ class OrderBase {
             if (mode !== 'NEW') {
                 const originalVal = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
                 const newVal = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
-                const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
                 if (originalVal !== '' && originalVal !== newVal) {
-                    const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
-                    const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
-                    const currencySymbol = FwBrowse.getValueByDataField($form, $tr, 'CurrencySymbol');
-                    $updateRatesCheckbox.show().find('.checkbox-caption')
-                        .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
-                        .css('white-space', 'break-spaces');
-                    FwFormField.setValueByDataField($form, 'CurrencySymbol', currencySymbol);
+                    this.currencyChange($form, $tr);
+                    //const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
+                    //const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
+                    //const currencySymbol = FwBrowse.getValueByDataField($form, $tr, 'CurrencySymbol');
+                    //const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
+                    //$updateRatesCheckbox.show().find('.checkbox-caption')
+                    //    .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
+                    //    .css('white-space', 'break-spaces');
+                    //FwFormField.setValueByDataField($form, 'CurrencySymbol', currencySymbol);
                 } else {
                     $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]').hide();
                 }
-                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
-                $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
-                FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+                //FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                //$form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
+                //FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
             }
         });
 
         //Currency Change Text Confirmation
-        $form.on('change', '[data-datafield="UpdateAllRatesToNewCurrency"]', e => {
-            const updateAllRates = FwFormField.getValueByDataField($form, 'UpdateAllRatesToNewCurrency');
-            const $updateRatesTextConfirmation = $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]');
-            if (updateAllRates) {
+        //$form.on('change', '[data-datafield="UpdateAllRatesToNewCurrency"]', e => {
+        //    const updateAllRates = FwFormField.getValueByDataField($form, 'UpdateAllRatesToNewCurrency');
+        //    const $updateRatesTextConfirmation = $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]');
+        //    if (updateAllRates) {
+        //        $updateRatesTextConfirmation.show().find('.fwformfield-caption')
+        //            .text(`Type 'UPDATE RATES' here to confirm this change.  All Item Rates will be altered when this ${this.Module} is saved.`)
+        //            .css({ 'white-space': 'break-spaces', 'height': 'auto', 'font-size': '1em', 'color': 'red' });
+        //    } else {
+        //        FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+        //        $updateRatesTextConfirmation.hide();
+        //    }
+        //});
+    };
+    //----------------------------------------------------------------------------------------------
+    currencyChange($form: JQuery, $tr) {
+        const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
+        const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
+        const currencySymbol = FwBrowse.getValueByDataField($form, $tr, 'CurrencySymbol');
+        //const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
+        //$updateRatesCheckbox.show().find('.checkbox-caption')
+        //    .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
+        //    .css('white-space', 'break-spaces');
+        FwFormField.setValueByDataField($form, 'CurrencySymbol', currencySymbol);
+
+        const $confirmation = FwConfirmation.renderConfirmation(`Update Rates to new Currency?`, '');
+        $confirmation.find('.fwconfirmationbox').css('width', '550px');
+        const originalVal = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
+        const html = [];
+        html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Old Currency" data-datafield="OldCurrency" style="width:400px; float:left;">${originalVal}</div>`);
+        html.push(`  </div>`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Currency" data-datafield="NewCurrency" style="width:400px;float:left;">${currencyCode}</div>`);
+        html.push(`  </div>`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="UpdateAllRatesToNewCurrency">`);
+        html.push(`      <div data-value="LEAVE" data-caption="Leave all Rates and Costs as they are"> </div>`);
+        html.push(`     <div data-value="UPDATE" data-caption="Update all Rates and Costs on this ${this.Module} to ${currency} (${currencyCode})"> </div>`);
+        html.push(`   </div>`);
+        html.push(`  </div>`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ConfirmUpdateAllRatesToNewCurrency" style="display:none;flex:1 1 250px;"></div>`);
+        html.push(`  </div>`);
+        html.push(`</div>`);
+
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        const $apply = FwConfirmation.addButton($confirmation, `Apply`, false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        FwFormField.setValueByDataField($confirmation, 'OldCurrency', originalVal);
+
+        FwFormField.setValueByDataField($confirmation, 'NewCurrency', currency);
+
+        $confirmation.find(`div[data-datafield="UpdateAllRatesToNewCurrency"]`).on('change', e => {
+            const updateAllRates = FwFormField.getValueByDataField($confirmation, 'UpdateAllRatesToNewCurrency');
+            const $updateRatesTextConfirmation = $confirmation.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]');
+            if (updateAllRates === 'UPDATE') {
                 $updateRatesTextConfirmation.show().find('.fwformfield-caption')
                     .text(`Type 'UPDATE RATES' here to confirm this change.  All Item Rates will be altered when this ${this.Module} is saved.`)
                     .css({ 'white-space': 'break-spaces', 'height': 'auto', 'font-size': '1em', 'color': 'red' });
             } else {
-                FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+                FwFormField.setValueByDataField($confirmation, 'ConfirmUpdateAllRatesToNewCurrency', '');
                 $updateRatesTextConfirmation.hide();
             }
         });
-    };
+
+        $apply.on('click', e => {
+            FwConfirmation.destroyConfirmation($confirmation);
+            const confirmUpdateRates = FwFormField.getValueByDataField($confirmation, 'ConfirmUpdateAllRatesToNewCurrency');
+            if (confirmUpdateRates === 'UPDATE RATES') {
+                // ?
+            } else {
+                // reference UpdateAllRatesToNewCurrency value
+                // restore old currency
+            }
+           
+        });
+        $no.on('click', e => {
+            FwConfirmation.destroyConfirmation($confirmation);
+            // restore old currency
+
+        });
+    }
     //----------------------------------------------------------------------------------------------
     bottomLineDiscountChange($form: any, event: any) {
         // DiscountPercent for all OrderItemGrid
