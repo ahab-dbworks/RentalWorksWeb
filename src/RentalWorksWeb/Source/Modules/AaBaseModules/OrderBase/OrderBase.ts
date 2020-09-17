@@ -2684,7 +2684,7 @@ class OrderBase {
         FwFormField.setValueByDataField($form, 'CurrencySymbol', currencySymbol);
 
         const $confirmation = FwConfirmation.renderConfirmation(`Update Rates to new Currency?`, '');
-        $confirmation.find('.fwconfirmationbox').css('width', '550px');
+        $confirmation.find('.fwconfirmationbox').css('width', '515px');
         const originalVal = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
         const html = [];
         html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
