@@ -574,7 +574,7 @@ class VendorInvoice {
                             PushChangesToPurchaseOrder: null,
                         }
                     }
-                    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/`, request, FwServices.defaultTimeout, function onSuccess(response) {
                         if (response.success === true) {
                             if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
                                 onApproveSuccess(response);
