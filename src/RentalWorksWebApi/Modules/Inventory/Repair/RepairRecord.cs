@@ -49,7 +49,7 @@ namespace WebApi.Modules.Inventory.Repair
         [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "repairno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "repairno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 16)]
         public string RepairNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
