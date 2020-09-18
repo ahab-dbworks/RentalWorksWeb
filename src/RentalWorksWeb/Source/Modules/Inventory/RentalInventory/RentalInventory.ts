@@ -612,6 +612,18 @@ class RentalInventory extends InventoryBase {
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="RestockingFee"]').parent('td').hide();
 
     };
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        FwMenu.addFormMenuButtons(options);
+
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Invoice Summary', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.openInvoiceSummary(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: any): void {
         //const threeWeekPricing = JSON.parse(sessionStorage.getItem('applicationOptions')).threeweekpricing;
@@ -898,6 +910,24 @@ class RentalInventory extends InventoryBase {
             TrackedBy: "BARCODE"
         };
     };
+    //----------------------------------------------------------------------------------------------
+    openInvoiceSummary($form: any) {
+        try {
+            const mode = 'EDIT';
+            const summaryInfo: any = {};
+            summaryInfo.ICode = FwFormField.getValueByDataField($form, `ICode`);
+            summaryInfo.InventoryId = FwFormField.getValueByDataField($form, `InventoryId`);
+            summaryInfo.Description = FwFormField.getValueByDataField($form, `Description`);
+
+
+            const $inventorySummary = InventorySummaryController.openForm(mode, summaryInfo);
+            FwModule.openSubModuleTab($form, $inventorySummary);
+            const $tab = FwTabs.getTabByElement($inventorySummary);
+            $tab.find('.caption').html('Invoice Summary');
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     iCodeMask($form) {
         let inputmask = JSON.parse(sessionStorage.getItem('controldefaults')).defaulticodemask;

@@ -36,6 +36,18 @@ class InventorySummary {
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         this.events($form);
+
+        if (typeof parentmoduleinfo !== 'undefined') {
+            FwFormField.setValueByDataField($form, `InventoryId`, parentmoduleinfo.InventoryId, parentmoduleinfo.ICode);
+            FwFormField.setValueByDataField($form, `Description`, parentmoduleinfo.Description);
+            if (parentmoduleinfo.InventoryId !== '') {
+                    $form.find(`[data-datafield="InventoryId"]`).change();
+                    const $inventorySummaryOutGrid = $form.find('div[data-name="InventorySummaryOutItemsGrid"]');
+                    FwBrowse.search($inventorySummaryOutGrid);
+
+                    $form.find('.out-row').show();
+            }
+        }
         return $form;
     }
     //----------------------------------------------------------------------------------------------
