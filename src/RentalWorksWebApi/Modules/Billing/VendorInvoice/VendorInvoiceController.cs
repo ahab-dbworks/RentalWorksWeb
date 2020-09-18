@@ -87,10 +87,15 @@ namespace WebApi.Modules.Billing.VendorInvoice
             return await DoDeleteAsync<VendorInvoiceLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/vendorinvoice/toggleapproved/A0000001
-        [HttpPost("toggleapproved/{id}")]
+        //Old:
+        // POST api/v1/vendorinvoice/toggleapproved/A0000001 
+
+        //New:
+        // POST api/v1/vendorinvoice/toggleapproved 
+        //        Body: {VendorInvoiceId: "A0000001", PushChangesToPurchaseOrder: NULL/true/false}
+        [HttpPost("toggleapproved")]
         [FwControllerMethod(Id: "qGQ28sAtqVz4", ActionType: FwControllerActionTypes.Option, Caption: "Toggle Approved")]
-        public async Task<ActionResult<ToggleVendorInvoiceApprovedResponse>> ToggleApproved([FromRoute]string id)
+        public async Task<ActionResult<ToggleVendorInvoiceApprovedResponse>> ToggleApproved([FromBody] ToggleVendorInvoiceApprovedRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -98,12 +103,12 @@ namespace WebApi.Modules.Billing.VendorInvoice
             }
             try
             {
-                string[] ids = id.Split('~');
+                string[] ids = request.VendorInvoiceId.Split('~');
                 VendorInvoiceLogic l = new VendorInvoiceLogic();
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<VendorInvoiceLogic>(ids))
                 {
-                    ToggleVendorInvoiceApprovedResponse response = await l.ToggleApproved();
+                    ToggleVendorInvoiceApprovedResponse response = await VendorInvoiceFunc.ToggleVendorInvoiceApproved(AppConfig, UserSession, request);
                     return new OkObjectResult(response);
                 }
                 else

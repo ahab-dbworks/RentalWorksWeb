@@ -180,12 +180,6 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<ToggleVendorInvoiceApprovedResponse> ToggleApproved()
-        {
-            ToggleVendorInvoiceApprovedResponse response = await VendorInvoiceFunc.ToggleVendorInvoiceApproved(AppConfig, UserSession, VendorInvoiceId);
-            return response;
-        }
-        //-------------------------------------------------------------------------------------------------------    
 
     }
 }

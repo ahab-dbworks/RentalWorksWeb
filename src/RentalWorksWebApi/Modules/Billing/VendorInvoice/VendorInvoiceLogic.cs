@@ -323,11 +323,5 @@ namespace WebApi.Modules.Billing.VendorInvoice
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<ToggleVendorInvoiceApprovedResponse> ToggleApproved()
-        {
-            return await vendorInvoice.ToggleApproved();
-        }
-        //------------------------------------------------------------------------------------    
-
     }
 }
