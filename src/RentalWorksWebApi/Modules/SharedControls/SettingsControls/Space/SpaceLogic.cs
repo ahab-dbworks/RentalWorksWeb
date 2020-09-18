@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.ItemDimension;
@@ -18,6 +19,7 @@ namespace WebApi.Modules.Settings.Space
             dataRecords.Add(space);
             dataRecords.Add(primaryDimension);
             dataLoader = spaceLoader;
+            BeforeValidate += OnBeforeValidate;
         }
         //------------------------------------------------------------------------------------ 
         //[FwLogicProperty(Id:"mjmdglazt8ON")]
@@ -124,5 +126,49 @@ namespace WebApi.Modules.Settings.Space
         public bool? Inactive { get { return space.Inactive; } set { space.Inactive = value; } }
 
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeValidate(object sender, BeforeValidateEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                // FloorId should really not be blank. But I'm adding this line to prevent a failure on the Duplicate Check
+                if (string.IsNullOrEmpty(FloorId))
+                {
+                    FloorId = RwConstants.NONE;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    if ((string.IsNullOrEmpty(FloorId)) || (FloorId.Equals(RwConstants.NONE)))
+                    {
+                        isValid = false;
+                        validateMsg = "Select a Floor for this Space to belong to.";
+                    }
+                }
+                else //smUpdate
+                {
+                    SpaceLogic orig = null;
+                    string floorId = FloorId;
+                    if (original != null)
+                    {
+                        orig = (SpaceLogic)original;
+                        floorId = floorId ?? orig.FloorId;
+                    }
+                    if (string.IsNullOrEmpty(floorId))
+                    {
+                        isValid = false;
+                        validateMsg = "Select a Floor for this Space to belong to.";
+                    }
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

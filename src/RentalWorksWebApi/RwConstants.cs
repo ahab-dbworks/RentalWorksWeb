@@ -2,6 +2,10 @@ namespace WebApi
 {
     public static class RwConstants
     {
+
+        //NONE
+        public const string NONE = "NONE";
+
         //CONTROL
         public const string CONTROL_ID = "1";
 
