@@ -210,12 +210,23 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Purchase Currency" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-enabled="false" style="float:left;width:300px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCost" data-currencysymbol="CurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost with Tax" data-datafield="UnitCostWithTax" data-currencysymbol="CurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Extended Cost with Tax" data-datafield="CostWithTaxExtended" data-currencysymbol="CurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
                           </div>
                           <div class="fwcontrol fwcontainer fwform-fieldrow warehouse-currency" data-control="FwContainer" data-type="fieldrow" style="display:none;">
                             <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Warehouse Currency" data-datafield="WarehouseDefaultCurrencyId" data-displayfield="WarehouseDefaultCurrencyCode" data-enabled="false" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Exchange Rate" data-datafield="CurrencyExchangeRate" data-digits="7" data-enabled="false" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Unit Cost with Tax" data-datafield="UnitCostWithTaxCurrencyConverted" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Extended Cost with Tax" data-datafield="CostWithTaxCurrencyConvertedExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
+                          </div>
+                        </div>
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Value">
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Purchase Value" data-datafield="CostWithTaxCurrencyConvertedExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="float:left;width:200px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="TotalDepreciation" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Current Book Value" data-datafield="TotalBookValue" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValueExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
                           </div>
                         </div>
                         <div class="flexrow">

@@ -563,6 +563,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "qaupdates", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? EnableQaUpdates { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciationstartsnextmonth", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

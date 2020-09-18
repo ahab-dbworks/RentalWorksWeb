@@ -32,6 +32,8 @@ namespace WebApi.Modules.Inventory.Purchase
         public string Description { get; set; }
         [FwLogicProperty(Id: "97kpFvVlXRP9E", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public string TrackedBy { get; set; }
+        [FwLogicProperty(Id: "jfidmL2vIYN4W", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public bool? FixedAsset { get; set; }
         [FwLogicProperty(Id: "9Bhw59R2blG4p", DisableDirectAssign: true, DisableDirectModify: true)]
         public string WarehouseId { get { return purchase.WarehouseId; } set { purchase.WarehouseId = value; } }
         [FwLogicProperty(Id: "9btDjHkpwrLJ5", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
@@ -92,6 +94,16 @@ namespace WebApi.Modules.Inventory.Purchase
         public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
         [FwLogicProperty(Id: "AL8Z1pJRUUYoy", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? CostWithTaxCurrencyConvertedExtended { get; set; }
+        [FwLogicProperty(Id: "VeXAlZ0WsIRVU", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? TotalDepreciation { get; set; }
+        [FwLogicProperty(Id: "jkXHVEPwjYXCI", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? TotalBookValue { get; set; }
+        [FwLogicProperty(Id: "qlwC3b4TYJYXi", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? SalvageValue { get; set; }
+        [FwLogicProperty(Id: "000pZayYThmOC", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? SalvageValueExtended { get; set; }
+        [FwLogicProperty(Id: "qkxj4m6zWWJBR", IsReadOnly: true)]
+        public int? DepreciationMonths { get; set; }
         [FwLogicProperty(Id: "9rSBtKlGD1vAU", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? VendorInvoiceCost { get; set; }
         [FwLogicProperty(Id: "9sqRnd9xKurn3", DisableDirectAssign: true, DisableDirectModify: true)]

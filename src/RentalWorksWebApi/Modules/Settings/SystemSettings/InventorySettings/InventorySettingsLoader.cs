@@ -55,6 +55,9 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwSqlDataField(column: "defaultlossdamageretiredreason", modeltype: FwDataTypes.Text)]
         public string DefaultLossAndDamageRetiredReason { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciationstartsnextmonth", modeltype: FwDataTypes.Boolean)]
+        public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

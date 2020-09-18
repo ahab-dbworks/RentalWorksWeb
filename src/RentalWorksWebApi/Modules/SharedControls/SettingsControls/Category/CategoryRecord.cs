@@ -75,6 +75,9 @@ transworksvehicle
         [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
         public int? DepreciationMonths { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salvagevaluepct", modeltype: FwDataTypes.Decimal, precision: 6, scale: 2)]
+        public decimal? SalvageValuePercent { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean)]
         public bool? OverrideProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------
