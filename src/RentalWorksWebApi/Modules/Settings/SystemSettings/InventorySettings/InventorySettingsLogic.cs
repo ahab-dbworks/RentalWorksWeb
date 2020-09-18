@@ -64,6 +64,9 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "g2a8lhg3PRpoS", IsReadOnly: true)]
         public string DefaultLossAndDamageRetiredReason { get; set; }
 
+        [FwLogicProperty(Id: "PY0Na99fW6CMj")]
+        public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get { return sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived; } set { sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived = value; } }
+
         [FwLogicProperty(Id: "E0PTF3DZXRoNX")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

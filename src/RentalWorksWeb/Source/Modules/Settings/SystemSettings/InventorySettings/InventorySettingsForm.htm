@@ -5,6 +5,7 @@
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="pricingtab" class="tab" data-tabpageid="pricingtabpage" data-caption="Pricing"></div>
       <div data-type="tab" id="retireunretiretab" class="tab" data-tabpageid="retireunretiretabpage" data-caption="Retire / Unretire"></div>
+      <div data-type="tab" id="depreciationtab" class="tab" data-tabpageid="depreciationtabpage" data-caption="Depreciation"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -72,6 +73,24 @@
               <div class="flexcolumn" style="flex:1 1 100px;">
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Loss and Damage Retired Reason" data-datafield="DefaultLossAndDamageRetiredReasonId" data-displayfield="DefaultLossAndDamageRetiredReason" data-validationname="RetiredReasonValidation" data-required="true" style="float:left;max-width:400px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="depreciationtabpage" class="tabpage" data-tabid="depreciationtab">
+        <div class="formpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset Depreciation">
+              <div class="flexrow">
+                <div class="flexcolumn" style="flex:1 1 250px;">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Start depreciating Fixed Assets the last day of the month AFTER they are received" data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived" style="float:left;width:200px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div><br />(If unchecked, then Fixed Assets will start depreciating the last day of the month they are received.)</div>
+                  </div>
                 </div>
               </div>
             </div>
