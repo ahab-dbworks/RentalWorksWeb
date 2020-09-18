@@ -1,8 +1,8 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using System.Collections.Generic;
 
 namespace WebApi.Modules.Inventory.Asset
@@ -96,6 +96,49 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "pocost", modeltype: FwDataTypes.Decimal)]
         public decimal? PurchaseCost { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "purchasecurrencyid", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencycode", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrency", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencyexchangerate", modeltype: FwDataTypes.Decimal)]
+        public decimal? PurchaseCurrencyExchangeRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencyid", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencycode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrency", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+        [FwSqlDataField(column: "purchamtcurrconv", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCostCurrencyConverted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtaxcurrconv", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totaldepreciation", modeltype: FwDataTypes.Decimal)]
+        public decimal? Depreciation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "bookvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? BookValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 

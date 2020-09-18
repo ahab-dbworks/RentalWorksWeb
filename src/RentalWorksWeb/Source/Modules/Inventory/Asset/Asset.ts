@@ -715,37 +715,73 @@ class RwAsset {
               <!-- Purchase tab -->
               <div data-type="tabpage" id="purchasetabpage" class="tabpage" data-tabid="purchasetab">
                 <div class="flexpage">
-                  <div class="flexrow" style="width:650px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase">
-                      <div class="flexrow">
-                        <div class="flexcolumn" style="flex:1 1 650px;">
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="flex:1 1 100px;"></div>
-                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="flex:1 1 100px;"></div>
-                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="PurchaseCost" data-enabled="false" style="flex:1 1 75px;"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="PurchaseVendorId" data-enabled="false" data-displayfield="PurchaseVendor" data-validationname="VendorValidation" style="flex:1 1 300px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 150px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Outside PO Number" data-datafield="OutsidePurchaseOrderNumber" data-enabled="true" style="flex:1 1 150px;"></div>
-                          </div>
-                        </div>
-                      </div>
-                        <div class="flexrow">
-                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div class="flexrow" style="width:1300px;">
+
+                     <!-- Purchase column -->
+                     <div class="flexcolumn" style="flex:1 1 300px;">
+                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase">
+                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="flex:1 1 100px;"></div>
+                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="flex:1 1 100px;"></div>
+                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="PurchaseVendorId" data-enabled="false" data-displayfield="PurchaseVendor" data-validationname="VendorValidation" style="flex:1 1 300px;"></div>
+                         <div class="flexrow">
+                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 150px;"></div>
+                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Outside PO Number" data-datafield="OutsidePurchaseOrderNumber" data-enabled="false" style="flex:1 1 150px;"></div>
+                         </div>
+                       </div>
+                     </div>
+
+                     <!-- Vendor Invoice grid column -->
+                     <div class="flexcolumn" style="flex:1 1 650px;">
+                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor Invoices">
+                         <div class="flexrow">
                            <div data-control="FwGrid" data-grid="PurchaseVendorInvoiceItemGrid" data-securitycaption="Purchase Vendor Invoice Item"></div>
                          </div>
                        </div>
-                      <div class="flexrow">
-                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
+                     </div>
+
+                     <!-- Vendor Invoice totals column -->
+                     <div class="flexcolumn" style="flex:1 1 150px;">
+                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice Totals">
                          <div class="flexrow">
                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="VendorInvoiceTotalQuantity" data-enabled="false" style="flex:1 1 100px;"></div>
+                         </div>
+                         <div class="flexrow">
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Extended" data-datafield="VendorInvoiceTotalExtended" data-enabled="false" style="flex:1 1 100px;"></div>
                          </div>
-                        </div>
                        </div>
-                    </div>
+                     </div>
+
                   </div>
+
+                  <div class="flexrow" style="width:1300px;">
+
+                     <!-- Cost/Value column -->
+                     <div class="flexcolumn" style="flex:1 1 1300px;">
+                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Cost / Value">
+                         <div class="flexrow">
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="Depreciation" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Book Value" data-datafield="BookValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                         </div>
+                       </div>
+                     </div>
+
+                  </div>
+
+                  <div class="flexrow" style="width:1300px;">
+
+                     <!-- Depreciation grid -->
+                     <div class="flexcolumn" style="flex:1 1 1300px;">
+                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
+                         <div class="flexrow">
+                         </div>
+                       </div>
+                     </div>
+
+                  </div>
+
+
                 </div>
               </div>
               <!-- Attribute tab -->

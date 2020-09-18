@@ -293,6 +293,45 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "4aZwjeTyLTyT", IsReadOnly: true)]
         public string PurchaseInvoiceDate { get; set; }
 
+        [FwLogicProperty(Id: "kL7V4L0AgJ8jN", IsReadOnly: true)]
+        public string PurchaseCurrencyId { get; set; }
+
+        [FwLogicProperty(Id: "XSD4LWoYkeLl4", IsReadOnly: true)]
+        public string PurchaseCurrencyCode { get; set; }
+
+        [FwLogicProperty(Id: "C3IZEBwwbKCU7", IsReadOnly: true)]
+        public string PurchaseCurrency { get; set; }
+
+        [FwLogicProperty(Id: "al1GpDerAeWEc", IsReadOnly: true)]
+        public string PurchaseCurrencySymbol { get; set; }
+
+        [FwLogicProperty(Id: "7XzRosV5kTIPv", IsReadOnly: true)]
+        public string WarehouseCurrencyId { get; set; }
+
+        [FwLogicProperty(Id: "likh3RZp082sh", IsReadOnly: true)]
+        public string WarehouseCurrencyCode { get; set; }
+        
+        [FwLogicProperty(Id: "Jy5qEwSxYjEyi", IsReadOnly: true)]
+        public string WarehouseCurrency { get; set; }
+        
+        [FwLogicProperty(Id: "DZf211cehwaTQ", IsReadOnly: true)]
+        public string WarehouseCurrencySymbol { get; set; }
+
+        [FwLogicProperty(Id: "itaUv87Fv7Auv", IsReadOnly: true)]
+        public decimal? PurchaseCurrencyExchangeRate { get; set; }
+
+        [FwLogicProperty(Id: "gTc527SfDc8nn", IsReadOnly: true)]
+        public decimal? UnitCostCurrencyConverted { get; set; }
+
+        [FwLogicProperty(Id: "06NuSh9OT08Qu", IsReadOnly: true)]
+        public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
+
+        [FwLogicProperty(Id: "ZMLnlOGiZ0bCV", IsReadOnly: true)]
+        public decimal? Depreciation { get; set; }
+
+        [FwLogicProperty(Id: "atfovujBaIYlg", IsReadOnly: true)]
+        public decimal? BookValue { get; set; }
+
         [FwLogicProperty(Id: "Wg7oOOaORNvJ", IsReadOnly: true)]
         public string ConsignorId { get; set; }
 
