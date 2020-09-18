@@ -923,7 +923,7 @@ class RentalInventory extends InventoryBase {
             const $inventorySummary = InventorySummaryController.openForm(mode, summaryInfo);
             FwModule.openSubModuleTab($form, $inventorySummary);
             const $tab = FwTabs.getTabByElement($inventorySummary);
-            $tab.find('.caption').html('Invoice Summary');
+            $tab.find('.caption').html('Inventory Summary');
         } catch (ex) {
             FwFunc.showError(ex);
         }
