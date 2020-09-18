@@ -536,7 +536,7 @@ abstract class ContractBase {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
+    afterLoad($form: any, response: any) {
         const $contractSummaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
         FwBrowse.search($contractSummaryGrid);
         const $contractRentalGrid = $form.find('.rentaldetailgrid [data-name="ContractDetailGrid"]');
@@ -547,6 +547,15 @@ abstract class ContractBase {
         FwBrowse.search($contractExchangeItemGrid);
 
         if (this.Module == 'Contract') {
+            //Expose a read-only field containing billing date change reason
+            const lastBillingDateChangeReason = response.LastBillingDateChangeReason;
+            if (lastBillingDateChangeReason !== '') {
+                $form.find('div[data-datafield="LastBillingDateChangeReason"]').show();
+            } else {
+                $form.find('div[data-datafield="LastBillingDateChangeReason"]').hide();
+            }
+
+
             this.BillingDate = FwFormField.getValueByDataField($form, 'BillingDate');
             const type = FwFormField.getValueByDataField($form, 'ContractType');
             const $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
@@ -841,6 +850,9 @@ abstract class ContractBase {
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="BillingDateAdjusted" data-datafield="BillingDateAdjusted" style="float:left;width:250px;display:none;"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="DealValidation" data-displayfield="Deal" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" style="float:left;width:250px;display:none;" data-enabled="false"></div>
                   </div>
+                 <div class="flexrow">
+                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Billing Date Change Reason" data-datafield="LastBillingDateChangeReason" style="flex:1 1 575px;display:none;" data-enabled="false"></div>
+                 </div>
                 </div>
                 <div class="flexrow date-change-reason" style="max-width:800px;display:none;padding-left:10px;">
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Date Change Reason" data-datafield="BillingDateChangeReason" style="float:left;width:250px;" data-enabled="true"></div>
