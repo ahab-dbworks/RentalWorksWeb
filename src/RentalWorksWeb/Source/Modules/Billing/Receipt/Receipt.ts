@@ -344,7 +344,7 @@ class Receipt {
         // Credit submodule
         setTimeout(() => {
             const $submoduleCreditBrowse = this.openCreditBrowse($form);
-            $form.find('.credits-page').append($submoduleCreditBrowse);
+            $form.find('.credits-page').html($submoduleCreditBrowse);
         }, 100)
     }
     //----------------------------------------------------------------------------------------------
