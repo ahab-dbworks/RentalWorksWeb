@@ -209,7 +209,7 @@ class InventorySummary {
             case 'InventoryId':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid,
-                    //TrackedBy: 'QUANTITY',
+                    Classification: 'I,A',
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
         }

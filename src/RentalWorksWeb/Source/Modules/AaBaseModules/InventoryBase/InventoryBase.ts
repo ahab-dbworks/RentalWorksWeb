@@ -1248,7 +1248,7 @@ abstract class InventoryBase {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        //Disable "Create Complete" if classification isn't Item or Accessory
+        //Disable "Create Complete" and "Inventory Summary" if classification isn't Item or Accessory
         const classification = FwFormField.getValueByDataField($form, 'Classification');
         if (classification !== 'A' && classification !== 'I') {
             $form.find('.fwform-menu .submenu-btn').css({ 'pointer-events': 'none', 'color': 'lightgray' });
