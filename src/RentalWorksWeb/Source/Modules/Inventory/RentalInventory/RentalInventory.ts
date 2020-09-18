@@ -616,9 +616,9 @@ class RentalInventory extends InventoryBase {
     addFormMenuItems(options: IAddFormMenuOptions): void {
         FwMenu.addFormMenuButtons(options);
 
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Invoice Summary', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Inventory Summary', '', (e: JQuery.ClickEvent) => {
             try {
-                this.openInvoiceSummary(options.$form);
+                this.openInventorySummary(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -911,7 +911,7 @@ class RentalInventory extends InventoryBase {
         };
     };
     //----------------------------------------------------------------------------------------------
-    openInvoiceSummary($form: any) {
+    openInventorySummary($form: any) {
         try {
             const mode = 'EDIT';
             const summaryInfo: any = {};
