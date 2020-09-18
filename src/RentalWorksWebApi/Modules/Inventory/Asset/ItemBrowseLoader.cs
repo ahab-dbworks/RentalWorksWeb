@@ -138,6 +138,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "bookvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? BookValue { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salvagevalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalvageValue { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }

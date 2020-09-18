@@ -225,6 +225,7 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Purchase Value" data-datafield="CostWithTaxCurrencyConvertedExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:300px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="TotalDepreciation" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Book Value" data-datafield="TotalBookValue" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValueExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
                           </div>
                         </div>
                         <div class="flexrow">

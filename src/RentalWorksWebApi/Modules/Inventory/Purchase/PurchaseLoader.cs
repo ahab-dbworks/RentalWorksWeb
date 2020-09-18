@@ -133,6 +133,13 @@ namespace WebApi.Modules.Inventory.Purchase
         public decimal? TotalBookValue { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "salvagevalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalvageValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salvagevalueextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalvageValueExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         [FwSqlDataField(column: "invcost", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorInvoiceCost { get; set; }

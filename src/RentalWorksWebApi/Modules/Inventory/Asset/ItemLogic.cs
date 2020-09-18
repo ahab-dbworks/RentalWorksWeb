@@ -332,6 +332,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "atfovujBaIYlg", IsReadOnly: true)]
         public decimal? BookValue { get; set; }
 
+        [FwLogicProperty(Id: "Y6XKmG7bAlPTu", IsReadOnly: true)]
+        public decimal? SalvageValue { get; set; }
+
         [FwLogicProperty(Id: "Wg7oOOaORNvJ", IsReadOnly: true)]
         public string ConsignorId { get; set; }
 
