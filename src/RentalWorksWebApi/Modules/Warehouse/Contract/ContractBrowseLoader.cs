@@ -100,6 +100,9 @@ namespace WebApi.Modules.Warehouse.Contract
         [FwSqlDataField(column: "billingdate", modeltype: FwDataTypes.Date)]
         public string BillingDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingdatereason", modeltype: FwDataTypes.Text)]
+        public string LastBillingDateChangeReason { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasadjustedrentaldate", modeltype: FwDataTypes.Boolean)]
         public bool? BillingDateAdjusted { get; set; }
         //------------------------------------------------------------------------------------ 

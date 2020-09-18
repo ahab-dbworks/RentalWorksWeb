@@ -138,6 +138,9 @@ namespace WebApi.Modules.Warehouse.Contract
         [FwLogicProperty(Id: "E6hatAiI8fe18", IsReadOnly: true)]
         public string BillingDateChangeReason { get; set; }
 
+        [FwLogicProperty(Id: "pSxwPd43FjmbO", IsReadOnly: true)]
+        public string LastBillingDateChangeReason { get; set; }
+
         [FwLogicProperty(Id: "apwnKePW27b2", IsReadOnly: true)]
         public bool? BillingDateAdjusted { get; set; }
 
