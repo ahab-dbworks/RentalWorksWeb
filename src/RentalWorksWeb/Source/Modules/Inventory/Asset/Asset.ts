@@ -299,7 +299,8 @@ class RwAsset {
             //    request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
             //}
         });
-        // ----------
+
+        // Contract History Grid
         FwBrowse.renderGrid({
             nameGrid: 'ContractHistoryGrid',
             gridSecurityId: 'fY1Au6CjXlodD',
@@ -311,6 +312,30 @@ class RwAsset {
                 };
             }
         });
+
+
+        //Depreciation Grid
+        FwBrowse.renderGrid({
+            nameGrid: 'DepreciationGrid',
+            gridSecurityId: 'Wi9NxgGglKjTN',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.PurchaseId = FwFormField.getValueByDataField($form, 'PurchaseId');
+            }
+        });
+
+
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -760,8 +785,9 @@ class RwAsset {
                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Cost / Value">
                          <div class="flexrow">
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                           <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="float:left;width:75px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="Depreciation" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
-                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Book Value" data-datafield="BookValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Current Book Value" data-datafield="BookValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                          </div>
                        </div>
@@ -775,6 +801,7 @@ class RwAsset {
                      <div class="flexcolumn" style="flex:1 1 1300px;">
                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
                          <div class="flexrow">
+                            <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
                          </div>
                        </div>
                      </div>

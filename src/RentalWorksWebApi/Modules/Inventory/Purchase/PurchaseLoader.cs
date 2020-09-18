@@ -34,6 +34,9 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
+        public bool? FixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -138,6 +141,10 @@ namespace WebApi.Modules.Inventory.Purchase
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salvagevalueextended", modeltype: FwDataTypes.Decimal)]
         public decimal? SalvageValueExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
+        public int? DepreciationMonths { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
