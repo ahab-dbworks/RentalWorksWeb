@@ -110,7 +110,7 @@ class PurchaseHistory {
                 request.uniqueids = {
                     PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId'),
                 };
-            }, 
+            },
             beforeSave: (request: any) => {
                 request.PurchaseId = FwFormField.getValueByDataField($form, 'PurchaseId');
             }
@@ -121,9 +121,17 @@ class PurchaseHistory {
         const $depreciationGrid = $form.find('[data-name="DepreciationGrid"]');
         FwBrowse.search($depreciationGrid);
         this.showHideWarhouseRow($form);
+
+
+        const isFixedAsset = FwFormField.getValueByDataField($form, 'FixedAsset');
+        if (!isFixedAsset) {
+            $form.find('.fixed-asset').hide();
+        } else {
+            $form.find('.fixed-asset').show();
+        }
     };
     //---------------------------------------------------------------------------------------------
-     showHideWarhouseRow($form) {
+    showHideWarhouseRow($form) {
         const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
         const warehouseCurrencyId = FwFormField.getValueByDataField($form, 'WarehouseDefaultCurrencyId');
         if (currencyId !== '' && currencyId !== warehouseCurrencyId) {
@@ -220,8 +228,9 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="(converted) Extended Cost with Tax" data-datafield="CostWithTaxCurrencyConvertedExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:250px;"></div>
                           </div>
                         </div>
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Value">
+                        <div class="fwcontrol fwcontainer fwform-section fixed-asset" data-control="FwContainer" data-type="section" data-caption="Value">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FixedAsset" data-datafield="FixedAsset" style="display:none;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Purchase Value" data-datafield="CostWithTaxCurrencyConvertedExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
                             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="float:left;width:200px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="TotalDepreciation" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
@@ -229,7 +238,7 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValueExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
                           </div>
                         </div>
-                        <div class="flexrow">
+                        <div class="flexrow fixed-asset">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
                             <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
                           </div>

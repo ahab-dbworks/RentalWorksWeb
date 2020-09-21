@@ -441,6 +441,13 @@ class RwAsset {
             getUniqueid2Value: () => ''
         });
 
+        const isFixedAsset = FwFormField.getValueByDataField($form, 'FixedAsset');
+        if (!isFixedAsset) {
+            $form.find('.fixed-asset').hide();
+        } else {
+            $form.find('.fixed-asset').show();
+        }
+
     };
     //---------------------------------------------------------------------------------------------
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
@@ -779,12 +786,12 @@ class RwAsset {
 
                   </div>
 
-                  <div class="flexrow" style="width:1300px;">
-
+                  <div class="flexrow fixed-asset" style="width:1300px;">
                      <!-- Cost/Value column -->
                      <div class="flexcolumn" style="flex:1 1 1300px;">
                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Cost / Value">
                          <div class="flexrow">
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FixedAsset" data-datafield="FixedAsset" style="display:none;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Purchase Currency" data-datafield="PurchaseCurrencyCode" data-enabled="false" style="flex:1 1 50px;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse Currency" data-datafield="WarehouseCurrencyCode" data-enabled="false" style="flex:1 1 50px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
@@ -795,11 +802,9 @@ class RwAsset {
                          </div>
                        </div>
                      </div>
-
                   </div>
 
-                  <div class="flexrow" style="width:1300px;">
-
+                  <div class="flexrow fixed-asset" style="width:1300px;">
                      <!-- Depreciation grid -->
                      <div class="flexcolumn" style="flex:1 1 1300px;">
                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
@@ -808,7 +813,6 @@ class RwAsset {
                          </div>
                        </div>
                      </div>
-
                   </div>
 
 
