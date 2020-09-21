@@ -39,9 +39,6 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text)]
         public string ManufacturerUrl { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean)]
-        public bool? ExcludeFromReturnOnAsset { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "donotprintimage", modeltype: FwDataTypes.Boolean)]
         public bool? ExcludeImageFromQuoteOrderPrint { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -427,9 +424,6 @@ namespace WebApi.Modules.HomeControls.Inventory
 
         [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean)]
         public bool? IsHazardousMaterial { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
-        public bool? IsFixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "masterakatext", modeltype: FwDataTypes.Text)]

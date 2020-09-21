@@ -375,8 +375,6 @@ namespace WebApi.Modules.HomeControls.Inventory
 
         [FwLogicProperty(Id: "kYIqdwYcTpEXx")]
         public bool? IsHazardousMaterial { get { return master.IsHazardousMaterial; } set { master.IsHazardousMaterial = value; } }
-        [FwLogicProperty(Id: "En3Gom0JH00QP")]
-        public bool? IsFixedAsset { get { return master.IsFixedAsset; } set { master.IsFixedAsset = value; } }
 
 
         [FwLogicProperty(Id: "YMbiQMc91vTlT", IsReadOnly: true)]

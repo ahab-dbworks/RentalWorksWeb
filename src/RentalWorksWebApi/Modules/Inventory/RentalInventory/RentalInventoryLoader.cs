@@ -11,6 +11,14 @@ namespace WebApi.Modules.Inventory.RentalInventory
     public class RentalInventoryLoader : InventoryLoader
     {
 
+        [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean)]
+        public bool? ExcludeFromReturnOnAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
+        public bool? IsFixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         //set/wall
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "openingid", modeltype: FwDataTypes.Text)]

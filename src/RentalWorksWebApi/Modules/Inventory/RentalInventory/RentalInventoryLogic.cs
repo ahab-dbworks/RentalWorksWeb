@@ -26,6 +26,9 @@ namespace WebApi.Modules.Inventory.RentalInventory
         [FwLogicProperty(Id: "EMtstFgQO6Apj")]
         public bool? ExcludeFromReturnOnAsset { get { return master.ExcludeFromReturnOnAsset; } set { master.ExcludeFromReturnOnAsset = value; } }
 
+        [FwLogicProperty(Id: "En3Gom0JH00QP")]
+        public bool? IsFixedAsset { get { return master.IsFixedAsset; } set { master.IsFixedAsset = value; } }
+
 
         //set/wall
         //------------------------------------------------------------------------------------ 
@@ -107,15 +110,40 @@ namespace WebApi.Modules.Inventory.RentalInventory
                 lOrig = ((RentalInventoryLogic)original);
             }
 
-            if (!string.IsNullOrEmpty(ContainerId))
+            if (isValid)
             {
-                isValid = false;
-                validateMsg = "Cannot specify a Container Id when saving Rental Inventory.";
+                if (!string.IsNullOrEmpty(ContainerId))
+                {
+                    isValid = false;
+                    validateMsg = "Cannot specify a Container Id when saving Rental Inventory.";
+                }
             }
 
-            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            if (isValid)
             {
-                if (lOrig != null)
+                bool isFixedAsset = false;
+                string classification = string.Empty;
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    isFixedAsset = IsFixedAsset.GetValueOrDefault(false);
+                    classification = Classification;
+                }
+                else if ((saveMode.Equals(TDataRecordSaveMode.smUpdate)) && (lOrig != null))
+                {
+                    isFixedAsset = IsFixedAsset ?? lOrig.IsFixedAsset.GetValueOrDefault(false);
+                    classification = Classification ?? lOrig.Classification;
+                }
+
+                if ((isFixedAsset) && (!(classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ITEM) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY))))
+                {
+                    isValid = false;
+                    validateMsg = "Only Items or Accessories can be Fixed Assets.";
+                }
+            }
+
+            if (isValid)
+            {
+                if ((saveMode.Equals(TDataRecordSaveMode.smUpdate)) && (lOrig != null))
                 {
                     if (ContainerScannableInventoryId != null)  //attempting to change the scannable i-code
                     {
@@ -133,7 +161,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
                             if (hasContainerBarCodes)
                             {
                                 isValid = false;
-                                validateMsg = "Cannot change the Scannable Item on this Container because Container Bar Codes exist."; 
+                                validateMsg = "Cannot change the Scannable Item on this Container because Container Bar Codes exist.";
                             }
                         }
                     }
