@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Logic;
+using WebApi.Modules.Settings.FacilitySettings.Building;
+using System;
+
 namespace WebApi.Modules.Settings.Space
 {
     [Route("api/v1/[controller]")]
@@ -69,6 +73,25 @@ namespace WebApi.Modules.Settings.Space
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<SpaceLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/space/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "a17bQxwXR1Rry", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<SortItemsResponse>> SortSpacesAsync([FromBody]SortSpacesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await BuildingFunc.SortSpaces(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

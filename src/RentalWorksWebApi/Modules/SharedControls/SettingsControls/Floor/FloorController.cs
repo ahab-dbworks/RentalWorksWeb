@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Logic;
+using WebApi.Modules.Settings.FacilitySettings.Building;
+using System;
+
 namespace WebApi.Modules.Settings.Floor
 {
     [Route("api/v1/[controller]")]
@@ -69,6 +73,25 @@ namespace WebApi.Modules.Settings.Floor
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<FloorLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/floor/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "wValjlNn7U9RI", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<SortItemsResponse>> SortFloorsAsync([FromBody]SortFloorsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await BuildingFunc.SortFloors(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

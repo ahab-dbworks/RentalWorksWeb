@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Logic;
+using WebApi.Modules.Settings.FacilitySettings.Building;
+using System;
+
 namespace WebApi.Modules.Settings.SpaceRate
 {
     [Route("api/v1/[controller]")]
@@ -69,6 +73,25 @@ namespace WebApi.Modules.Settings.SpaceRate
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<SpaceRateLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/spacerate/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "j8iHRdbkImSw9", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<SortItemsResponse>> SortSpaceRatesAsync([FromBody]SortSpaceRatesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await BuildingFunc.SortSpaceRates(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
