@@ -411,13 +411,29 @@ class Customer {
     //}
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
-            FwFormField.enable($form.find('.discount-validation'));
+        //if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
+        //    FwFormField.enable($form.find('.discount-validation'));
+        //}
+        let useDiscountTemplate: boolean = FwFormField.getValueByDataField($form, 'UseDiscountTemplate');
+        if (useDiscountTemplate != undefined) {
+            if (useDiscountTemplate) {
+                FwFormField.enable($form.find('.discount-validation'));
+            }
         }
-        if (FwFormField.getValue($form, 'div[data-datafield="CreditUnlimited"]') === true) {
-            FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
+        //if (FwFormField.getValue($form, 'div[data-datafield="CreditUnlimited"]') === true) {
+        //    FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
+        //} else {
+        //    FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
+        //}
+
+        let creditUnlimited: boolean = FwFormField.getValueByDataField($form, 'CreditUnlimited');
+        if (creditUnlimited != undefined) {
+            if (creditUnlimited) {
+                FwFormField.disable($form.find('div[data-datafield="CreditLimit"]'));
+            }
+            else {
+                FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
+            }
         }
 
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
@@ -464,11 +480,19 @@ class Customer {
             getUniqueid2Value: () => ''
         });
 
-        const taxable = FwFormField.getValueByDataField($form, 'Taxable');
-        if (taxable === 'true') {
-            FwFormField.disable($form.find('.non-taxable'));
-        } else {
-            FwFormField.enable($form.find('.non-taxable'));
+        //const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+        //if (taxable === 'true') {
+        //    FwFormField.disable($form.find('.non-taxable'));
+        //} else {
+        //    FwFormField.enable($form.find('.non-taxable'));
+        //}
+        let taxable: boolean = FwFormField.getValueByDataField($form, 'Taxable');
+        if (taxable != undefined) {
+            if (taxable) {
+                FwFormField.disable($form.find('.non-taxable'));
+            } else {
+                FwFormField.enable($form.find('.non-taxable'));
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -509,12 +533,23 @@ class Customer {
             this.toggleOptionsTabIfExcludeQuote($form, isChecked);
         });
         $form.find('div[data-datafield="Taxable"]').on('change', () => {
-            const taxable = FwFormField.getValueByDataField($form, 'Taxable');
-            if (taxable === 'true') {
-                FwFormField.disable($form.find('.non-taxable'));
-            } else {
-                FwFormField.enable($form.find('.non-taxable'));
+            //const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+            //if (taxable === 'true') {
+            //    FwFormField.disable($form.find('.non-taxable'));
+            //} else {
+            //    FwFormField.enable($form.find('.non-taxable'));
+            //}
+
+            let taxable: boolean = FwFormField.getValueByDataField($form, 'Taxable');
+            if (taxable != undefined) {
+                if (taxable) {
+                    FwFormField.disable($form.find('.non-taxable'));
+                } else {
+                    FwFormField.enable($form.find('.non-taxable'));
+                }
             }
+
+
         });
     }
     //----------------------------------------------------------------------------------------------
