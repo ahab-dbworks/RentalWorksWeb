@@ -1029,7 +1029,7 @@ abstract class InventoryBase {
     setupNewMode($form: any) {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
-        $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
+        $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
             //const $this = jQuery(this);
             //const classification = $this.val();
             const classification = FwFormField.getValueByDataField($form, 'Classification');

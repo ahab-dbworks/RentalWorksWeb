@@ -717,6 +717,19 @@ class RentalInventory extends InventoryBase {
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });
+
+        this.classificationSetFixedAsset($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    classificationSetFixedAsset($form) {
+        const classification = FwFormField.getValueByDataField($form, 'Classification');
+
+        if (classification !== 'I' && classification !== 'A') {
+            FwFormField.disable($form.find('div[data-datafield="IsFixedAsset"]'));
+            FwFormField.setValueByDataField($form, 'IsFixedAsset', false);
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="IsFixedAsset"]'));
+        }
     }
     //----------------------------------------------------------------------------------------------
     QCRequiredWarehouse($form: JQuery, QcRequired: boolean) {
@@ -974,6 +987,10 @@ class RentalInventory extends InventoryBase {
                     FwFormField.enable($form.find('div[data-datafield="ManifestShippingContainer"]'));
                 }
             });
+
+        $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
+            this.classificationSetFixedAsset($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
 }
