@@ -655,7 +655,9 @@ class Order extends OrderBase {
         this.checkMessages($form, 'order', orderId);
         if (!FwFormField.getValueByDataField($form, 'CombineActivity')) {
             // show / hide tabs
-            if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }
+            if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) {
+                lossDamageTab.hide();
+            }
         }
 
         //if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {      //the LossAndDamage checkbox availability is taken care of in OrderBase.
