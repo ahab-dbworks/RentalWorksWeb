@@ -66,17 +66,19 @@
                     LocationId: location.locationid
                 };
                 FwAppData.apiMethod(true, 'POST', `${this.apiurl}/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    alert(response.BatchId);
+                    //alert(response.BatchId);
                     //submit batchid to export endpoint & show progress meter
                     //when that is successful, updated text and show print button
-                    if ((response.success === true) && (response.Batch !== null)) {
+                    //if ((response.success === true) && (response.Batch !== null)) {
+                    if (response.success === true) {
                         var batch = response.Batch;
                         var batchId = batch.BatchId;
                         var batchNumber = batch.BatchNumber
                         FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
                         exportBatch();
                     } else {
-                        FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
+                        //FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
+                        FwNotification.renderNotification('WARNING', response.msg);
                     }
                 }, null, $form, userId);
             })

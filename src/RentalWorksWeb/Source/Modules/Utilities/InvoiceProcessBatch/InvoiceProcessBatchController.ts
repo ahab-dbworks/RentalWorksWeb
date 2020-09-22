@@ -102,7 +102,8 @@
                         FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
                         exportBatch();
                     } else {
-                        FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
+                        //FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
+                        FwNotification.renderNotification('WARNING', response.msg);
                     }
                 }, null, $form, userId);
 

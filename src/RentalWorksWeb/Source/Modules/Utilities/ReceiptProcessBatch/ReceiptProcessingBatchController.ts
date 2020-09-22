@@ -98,7 +98,8 @@
                 };
 
                 FwAppData.apiMethod(true, 'POST', `${this.apiurl}/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.Batch !== null) {
+                    //if (response.Batch !== null) {
+                    if (response.success === true) {
                         var batch = response.Batch;
                         var batchId = batch.BatchId;
                         var batchNumber = batch.BatchNumber
@@ -106,7 +107,8 @@
                         FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
                         exportBatch();
                     } else {
-                        FwNotification.renderNotification('WARNING', 'There are no Receipts to process.');
+                        //FwNotification.renderNotification('WARNING', 'There are no Receipts to process.');
+                        FwNotification.renderNotification('WARNING', response.msg);
                     }
                 }, null, $form, userId);
             })

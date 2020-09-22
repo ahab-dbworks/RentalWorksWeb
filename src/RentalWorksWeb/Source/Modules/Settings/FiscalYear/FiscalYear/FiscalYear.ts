@@ -40,16 +40,36 @@ class FiscalYear {
     }
 
     renderGrids($form: any) {
-        const $fiscalYearGrid = $form.find('div[data-grid="FiscalMonthGrid"]');
-        const $fiscalYearControl = FwBrowse.loadGridFromTemplate('FiscalMonthGrid');
-        $fiscalYearGrid.empty().append($fiscalYearControl);
-        $fiscalYearControl.data('ondatabind', request => {
-            request.uniqueids = {
-                FiscalYearId: FwFormField.getValueByDataField($form, 'FiscalYearId')
-            }
+        //const $fiscalYearGrid = $form.find('div[data-grid="FiscalMonthGrid"]');
+        //const $fiscalYearControl = FwBrowse.loadGridFromTemplate('FiscalMonthGrid');
+        //$fiscalYearGrid.empty().append($fiscalYearControl);
+        //$fiscalYearControl.data('ondatabind', request => {
+        //    request.uniqueids = {
+        //        FiscalYearId: FwFormField.getValueByDataField($form, 'FiscalYearId')
+        //    }
+        //});
+        //FwBrowse.init($fiscalYearControl);
+        //FwBrowse.renderRuntimeHtml($fiscalYearControl);
+
+
+        FwBrowse.renderGrid({
+            nameGrid: 'FiscalMonthGrid',
+            gridSecurityId: 'wt6RLPk0GOrm',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = true;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    FiscalYearId: FwFormField.getValueByDataField($form, 'FiscalYearId')
+                };
+            },
         });
-        FwBrowse.init($fiscalYearControl);
-        FwBrowse.renderRuntimeHtml($fiscalYearControl);
+
+
     }
 
     loadForm(uniqueids: any) {

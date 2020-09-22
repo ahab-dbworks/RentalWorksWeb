@@ -7,19 +7,9 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Logic;
 
 namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
 {
-    public class VendorInvoiceProcessBatchRequest
-    {
-        public string LocationId { get; set; }
-    }
-
-    public class VendorInvoiceProcessBatchResponse : TSpStatusResponse
-    {
-        public string BatchId { get; set; }
-    }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
     [FwController(Id: "gRjYvLD2qZ6NR")]

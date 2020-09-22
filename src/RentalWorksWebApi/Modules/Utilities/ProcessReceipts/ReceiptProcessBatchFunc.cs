@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi;
+using WebApi.Modules.Settings.FiscalYear;
 
 namespace WebApi.Modules.Utilities.ReceiptProcessBatch
 {
@@ -44,29 +45,59 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
         {
             string batchId = "";
             ReceiptProcessBatchResponse response = new ReceiptProcessBatchResponse();
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+
+            if (request.FromDate <= request.ToDate)
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "createarchargebatchweb", appConfig.DatabaseSettings.QueryTimeout))
+                bool inClosedDate = false;
+                DateTime theDate = request.FromDate;
+                while ((theDate < request.ToDate) && (!inClosedDate))
                 {
-                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
-                    qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.NVarChar, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync();
-                    batchId = qry.GetParameter("@chgbatchid").ToString();
-                    response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                    response.msg = qry.GetParameter("@msg").ToString();
+                    if (await FiscalFunc.DateIsInClosedMonth(appConfig, userSession, theDate))
+                    {
+                        inClosedDate = true;
+                        response.success = false;
+                        response.msg = "Receipts cannot be Processed to a Closed month.";
+                    }
+                    theDate = theDate.AddDays(1);
+                }
+
+                if (inClosedDate)
+                {
+                    response.success = false;
+                    response.msg = "Receipts cannot be Processed to a Closed month.";
+                }
+                else
+                {
+                    using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                    {
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, "createarchargebatchweb", appConfig.DatabaseSettings.QueryTimeout))
+                        {
+                            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                            qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
+                            qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
+                            qry.AddParameter("@todate", SqlDbType.NVarChar, ParameterDirection.Input, request.ToDate);
+                            qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
+                            qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                            await qry.ExecuteNonQueryAsync();
+                            batchId = qry.GetParameter("@chgbatchid").ToString();
+                            response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                            response.msg = qry.GetParameter("@msg").ToString();
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(batchId))
+                    {
+                        response.Batch = new ReceiptProcessBatchLogic();
+                        response.Batch.SetDependencies(appConfig, userSession);
+                        response.Batch.BatchId = batchId;
+                        await response.Batch.LoadAsync<ReceiptProcessBatchLogic>();
+                    }
                 }
             }
-            if (!string.IsNullOrEmpty(batchId))
+            else
             {
-                response.Batch = new ReceiptProcessBatchLogic();
-                response.Batch.SetDependencies(appConfig, userSession);
-                response.Batch.BatchId = batchId;
-                await response.Batch.LoadAsync<ReceiptProcessBatchLogic>();
+                response.success = false;
+                response.msg = "Invalid date range.";
             }
             return response;
         }
