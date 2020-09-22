@@ -26,6 +26,19 @@ namespace WebApi.Modules.Utilities.GLDistribution
     {
     }
 
+
+    public class PostGlForDepreciationRequest
+    {
+        public int? DepreciationId { get; set; }
+    }
+
+    public class PostGlForDepreciationResponse : TSpStatusResponse
+    {
+        public int GlId { get; set; }
+        public string InternalChar { get; set; }
+    }
+
+
     public static class GLDistributionFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -83,5 +96,26 @@ namespace WebApi.Modules.Utilities.GLDistribution
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<PostGlForDepreciationResponse> PostGlForDepreciation(FwApplicationConfig appConfig, FwUserSession userSession, PostGlForDepreciationRequest request)
+        {
+            PostGlForDepreciationResponse response = new PostGlForDepreciationResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "postglfordepreciation", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@depreciationid", SqlDbType.NVarChar, ParameterDirection.Input, request.DepreciationId);
+                qry.AddParameter("@glid", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@internalchar", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.success = true;
+                response.GlId = qry.GetParameter("@glid").ToInt32();
+                response.InternalChar = qry.GetParameter("@internalchar").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+        
+
     }
 }

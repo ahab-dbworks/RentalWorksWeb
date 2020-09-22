@@ -67,21 +67,21 @@ namespace WebApi.Modules.HomeControls.Depreciation
             return await DoNewAsync<DepreciationLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // PUT api/v1/depreciation/A0000001 
-        [HttpPut("{id}")]
-        [FwControllerMethod(Id: "wjmBdCvjE2rFD", ActionType: FwControllerActionTypes.Edit)]
-        public async Task<ActionResult<DepreciationLogic>> EditAsync([FromRoute] string id, [FromBody]DepreciationLogic l)
-        {
-            return await DoEditAsync<DepreciationLogic>(l);
-        }
-        //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/depreciation/A0000001 
-        [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "WjN3F9KILJIgc", ActionType: FwControllerActionTypes.Delete)]
-        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync<DepreciationLogic>(id);
-        }
-        //------------------------------------------------------------------------------------ 
+        //// PUT api/v1/depreciation/A0000001 
+        //[HttpPut("{id}")]
+        //[FwControllerMethod(Id: "wjmBdCvjE2rFD", ActionType: FwControllerActionTypes.Edit)]
+        //public async Task<ActionResult<DepreciationLogic>> EditAsync([FromRoute] string id, [FromBody]DepreciationLogic l)
+        //{
+        //    return await DoEditAsync<DepreciationLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/depreciation/A0000001 
+        //[HttpDelete("{id}")]
+        //[FwControllerMethod(Id: "WjN3F9KILJIgc", ActionType: FwControllerActionTypes.Delete)]
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync<DepreciationLogic>(id);
+        //}
+        ////------------------------------------------------------------------------------------ 
     }
 }

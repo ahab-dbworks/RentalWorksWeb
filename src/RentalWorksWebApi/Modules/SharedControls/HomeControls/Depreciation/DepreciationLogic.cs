@@ -1,6 +1,11 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using WebApi.Modules.Utilities.GLDistribution;
+using WebApi.Modules.HomeControls.GlManual;
+using System;
+using FwStandard.SqlServer;
+using WebApi.Modules.Settings.FiscalYear;
 
 namespace WebApi.Modules.HomeControls.Depreciation
 {
@@ -16,6 +21,7 @@ namespace WebApi.Modules.HomeControls.Depreciation
             dataLoader = depreciationLoader;
 
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
             BeforeDelete += OnBeforeDelete;
 
         }
@@ -60,22 +66,54 @@ namespace WebApi.Modules.HomeControls.Depreciation
         public string DepreciationExtendedColor { get; set; }
 
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        { 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
             bool isValid = true;
 
-            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            if (isValid)
             {
-                DepreciationLogic orig = (DepreciationLogic)original;
-                if (!orig.IsAdjustment.GetValueOrDefault(false))
+                if (!saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
                     isValid = false;
                     validateMsg = "Cannot edit a " + BusinessLogicModuleName + " record.  Add an Adjustment entry instead.";
                 }
             }
 
-            return isValid; 
-        } 
+            if (isValid)
+            {
+                if (string.IsNullOrEmpty(DebitGlAccountId) || string.IsNullOrEmpty(CreditGlAccountId))
+                {
+                    isValid = false;
+                    validateMsg = "Debit and Credit G/L Accounts are required.";
+                }
+            }
+
+            if (isValid)
+            {
+                if (!string.IsNullOrEmpty(DepreciationDate))
+                {
+                    if (FwConvert.ToDateTime(DepreciationDate) > DateTime.Today)
+                    {
+                        isValid = false;
+                        validateMsg = "Depreciation cannot be dated in the future.";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                if (!string.IsNullOrEmpty(DepreciationDate))
+                {
+                    if (FiscalFunc.DateIsInClosedMonth(AppConfig, UserSession, FwConvert.ToDateTime(DepreciationDate)).Result)
+                    {
+                        isValid = false;
+                        validateMsg = "Depreciation cannot be added to a Closed month.";
+                    }
+                }
+            }
+
+            return isValid;
+        }
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
@@ -85,13 +123,27 @@ namespace WebApi.Modules.HomeControls.Depreciation
             }
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            PostGlForDepreciationRequest request = new PostGlForDepreciationRequest();
+            request.DepreciationId = DepreciationId;
+            PostGlForDepreciationResponse response = GLDistributionFunc.PostGlForDepreciation(AppConfig, UserSession, request).Result;
+            if ((response.GlId != 0) && ((!string.IsNullOrEmpty(DebitGlAccountId)) || (!string.IsNullOrEmpty(CreditGlAccountId))))
+            {
+                GlManualLogic gl = new GlManualLogic();
+                gl.SetDependencies(AppConfig, UserSession);
+                gl.Id = response.GlId;
+                gl.InternalChar = response.InternalChar;
+                gl.DebitGlAccountId = DebitGlAccountId;
+                gl.CreditGlAccountId = CreditGlAccountId;
+                int x = gl.SaveAsync(conn: e.SqlConnection).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
         {
-            if (!IsAdjustment.GetValueOrDefault(false))
-            {
-                e.PerformDelete = false;
-                e.ErrorMessage = "Cannot delete a " + BusinessLogicModuleName + " record.  Add an Adjustment entry instead.";
-            }
+            e.PerformDelete = false;
+            e.ErrorMessage = "Cannot delete a " + BusinessLogicModuleName + " record.  Add an Adjustment entry instead.";
         }
         //------------------------------------------------------------------------------------ 
     }

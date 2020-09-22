@@ -322,8 +322,8 @@ class RwAsset {
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
-                options.hasEdit = true;
-                options.hasDelete = true;
+                options.hasEdit = false;
+                options.hasDelete = false;
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
