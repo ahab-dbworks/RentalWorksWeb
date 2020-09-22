@@ -438,7 +438,7 @@
         validationName = $control.attr('data-peekForm') || validationName;
         const $validationbrowse = jQuery(jQuery(`#tmpl-validations-${validationName}ValidationBrowse`).html());
         const peekForm = $validationbrowse.attr('data-peekForm');      // for validations without a form, this attr can be added to point to an alternate form to open in peek - J. Pace
-        validationDatafield = validationDatafield || $validationbrowse.find('div[data-browsedatatype="key"]').data('datafield');
+        validationDatafield = $validationbrowse.find('div[data-browsedatatype="key"]').data('datafield');
 
         try {
             if (validationId !== '' && validationId !== undefined) {
