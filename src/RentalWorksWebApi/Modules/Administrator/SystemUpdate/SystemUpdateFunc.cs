@@ -452,7 +452,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 isUpgrade = false; // bail out
             }
