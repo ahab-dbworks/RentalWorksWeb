@@ -36,14 +36,15 @@ class Invoice {
         const location = JSON.parse(sessionStorage.getItem('location'));
         const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
         const $approved = FwMenu.generateDropDownViewBtn('Approved', false, "APPROVED");
-        const $newapproved = FwMenu.generateDropDownViewBtn('New & Approved', false, "NEWAPPROVED");
+        //const $newapproved = FwMenu.generateDropDownViewBtn('New & Approved', false, "NEWAPPROVED");
         const $processed = FwMenu.generateDropDownViewBtn('Processed', false, "PROCESSED");
         const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
         const $void = FwMenu.generateDropDownViewBtn('Void', false, "VOID");
         const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
 
         const viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all, $new, $approved, $newapproved, $processed, $closed, $void);
+        //viewSubitems.push($all, $new, $approved, $newapproved, $processed, $closed, $void);
+        viewSubitems.push($all, $new, $approved, $processed, $closed, $void);
         FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
         //Location Filter
