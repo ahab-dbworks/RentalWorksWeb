@@ -1150,16 +1150,16 @@ class OrderBase {
             });
         }
         // ----------
-        const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
-        if ($form.attr('data-mode') === 'NEW') {
-            for (let i = 0; i < itemGrids.length; i++) {
-                itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
-                    .off()
-                    .on('click', () => {
-                        this.saveForm($form, { closetab: false });
-                    })
-            }
-        }
+        //const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
+        //if ($form.attr('data-mode') === 'NEW') {
+        //    for (let i = 0; i < itemGrids.length; i++) {
+        //        itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
+        //            .off()
+        //            .on('click', () => {
+        //                this.saveForm($form, { closetab: false });
+        //            })
+        //    }
+        //}
 
 
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
