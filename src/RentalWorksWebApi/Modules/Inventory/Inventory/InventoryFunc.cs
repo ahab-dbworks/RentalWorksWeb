@@ -100,6 +100,17 @@ namespace WebApi.Modules.Inventory.Inventory
     {
     }
 
+    public class InventoryWarehouseSpecificPackageRequest
+    {
+        public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
+        public bool IsWarehouseSpecific { get; set; }
+    }
+
+    public class InventoryWarehouseSpecificPackageResponse : TSpStatusResponse
+    {
+    }
+
 
     public class ApplyPendingRateUpdateModificationsRequest
     {
@@ -316,6 +327,32 @@ namespace WebApi.Modules.Inventory.Inventory
                 iw2.QcRequired = request.QcRequired;
                 await iw2.SaveAsync(original: iw);
                 response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<InventoryWarehouseSpecificPackageResponse> SetWarehouseSpecificPackage(FwApplicationConfig appConfig, FwUserSession userSession, InventoryWarehouseSpecificPackageRequest request)
+        {
+            InventoryWarehouseSpecificPackageResponse response = new InventoryWarehouseSpecificPackageResponse();
+
+            InventoryWarehouseLogic l = new InventoryWarehouseLogic();
+            l.SetDependencies(appConfig, userSession);
+            l.InventoryId = request.InventoryId;
+            l.WarehouseId = request.WarehouseId;
+            if (await l.LoadAsync<InventoryWarehouseLogic>())
+            {
+                InventoryWarehouseLogic lNew = l.MakeCopy<InventoryWarehouseLogic>();
+                lNew.SetDependencies(appConfig, userSession);
+                lNew.IsWarehouseSpecific = request.IsWarehouseSpecific;
+                await l.SaveAsync(original: l);
+                response.success = true;
+            }
+            else
+            {
+                //return NotFound();
+                response.success = false;
+                response.msg = "Invalid Inventory Warehouse object.";
             }
 
             return response;

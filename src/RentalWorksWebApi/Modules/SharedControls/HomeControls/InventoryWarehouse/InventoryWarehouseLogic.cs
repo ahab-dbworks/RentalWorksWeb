@@ -154,6 +154,8 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouse
         [FwLogicProperty(Id: "x1svhuYzTnIih", IsReadOnly: true)]
         public decimal? ReplacementCostMarkupPercent { get; set; }
 
+        [FwLogicProperty(Id: "0JP83GDuGaPQX")]
+        public bool? IsWarehouseSpecific { get { return masterWarehouse.IsWarehouseSpecific; } set { masterWarehouse.IsWarehouseSpecific = value; } }
 
 
         //------------------------------------------------------------------------------------
