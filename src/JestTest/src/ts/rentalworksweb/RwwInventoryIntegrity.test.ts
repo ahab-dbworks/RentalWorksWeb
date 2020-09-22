@@ -287,7 +287,7 @@ export class InventoryIntegrityTest extends BaseTest {
                     ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
                     Rank: 1,
                     TrackedBy: "QUANTITY",
-                    IsFixedAsset: false,
+                    //IsFixedAsset: false,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken Q",
@@ -303,7 +303,7 @@ export class InventoryIntegrityTest extends BaseTest {
                     ManufacturerPartNumber: TestUtils.randomAlphanumeric(8),
                     Rank: 1,
                     TrackedBy: "BARCODE",
-                    IsFixedAsset: false,
+                    //IsFixedAsset: false,
                 },
                 seekObject: {
                     Description: "GlobalScope.TestToken~1.TestToken BC",
