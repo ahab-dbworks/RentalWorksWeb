@@ -25,6 +25,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
         //------------------------------------------------------------------------------------ 
         public OrderItemLoader()
         {
+            BeforeBrowse += OnBeforeBrowse;
             AfterBrowse += OnAfterBrowse;
         }
         //------------------------------------------------------------------------------------ 
@@ -903,7 +904,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
             bool summaryMode = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
             bool subs = false;
             bool rollup = GetUniqueIdAsBoolean("Rollup", request).GetValueOrDefault(false);
-            _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
+            //_shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", request).GetValueOrDefault(false);
             _noAvailabilityCheck = GetUniqueIdAsBoolean("NoAvailabilityCheck", request).GetValueOrDefault(false);
 
             if (string.IsNullOrEmpty(orderId))
@@ -1050,6 +1051,16 @@ namespace WebApi.Modules.HomeControls.OrderItem
         private string getSubQuantityColor(string poItemId)
         {
             return (string.IsNullOrEmpty(poItemId) ? null : RwGlobals.SUB_COLOR);
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeBrowse(object sender, BeforeBrowseEventArgs e)
+        {
+            _shortagesOnly = GetUniqueIdAsBoolean("ShortagesOnly", e.Request).GetValueOrDefault(false);
+
+            if (_shortagesOnly)
+            {
+                e.Request.pagesize = 1000;
+            }
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
@@ -1279,12 +1290,19 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     {
                         if (dt.Rows.Count > 0)
                         {
+                            int removedRows = 0;
                             for (int r = dt.Rows.Count - 1; r >= 0; r--)
                             {
                                 if (FwConvert.ToInt32(dt.Rows[r][dt.GetColumnNo("AvailableQuantity")]) >= 0)
                                 {
                                     dt.Rows.RemoveAt(r);
+                                    removedRows++;
                                 }
+                            }
+                            if (removedRows > 0)
+                            {
+                                dt.TotalRows = dt.TotalRows - removedRows;
+                                dt.TotalPages = (int)Math.Ceiling((double)dt.TotalRows / (double)dt.PageSize);
                             }
                         }
                     }
