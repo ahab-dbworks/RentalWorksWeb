@@ -1160,6 +1160,7 @@
     <Content Include="Source\Validations\RateValidation\RateValidationBrowse.htm" />
     <Content Include="Source\Validations\RentalInventoryDescriptionValidation\RentalInventoryDescriptionValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairValidation\RepairValidationBrowse.htm" />
+    <Content Include="Source\Validations\RetiredHistoryValidation\RetiredHistoryValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptProcessBatchValidation\ReceiptProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptValidation\ReceiptValidationBrowse.htm" />
