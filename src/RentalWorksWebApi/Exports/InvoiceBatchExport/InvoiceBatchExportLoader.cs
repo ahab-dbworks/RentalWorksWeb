@@ -43,6 +43,11 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             public decimal? Credit { get; set; }
             public decimal? Amount { get; set; }
             public int? OrderBy { get; set; }
+            public string OrderNumber { get; set; }
+            public string OrderDescription { get; set; }
+            public string Currency { get; set; }
+            public string CurrencyCode { get; set; }
+            public string CurrencySymbol { get; set; }
         }
 
 
@@ -268,6 +273,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                                debit = sum(debit), credit = sum(credit),
                                glaccountid, groupheading, orderby,
                                groupheadingorder
+       currencyid, currency, currencycode, currencysymbol
  from dbo.funcglforinvoice(@invoiceid, null, null)
  where manual <> 'T'
  group by gldate, glno, glacctdesc, glaccountid, groupheading, groupheadingorder, orderby
@@ -288,6 +294,11 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                             t.Credit = FwConvert.ToDecimal(row[dt.GetColumnNo("credit")].ToString());
                             t.Amount = (t.Debit - t.Credit);
                             t.OrderBy = FwConvert.ToInt32(row[dt.GetColumnNo("orderby")].ToString());
+                            t.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
+                            t.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
+                            t.Currency = row[dt.GetColumnNo("currency")].ToString();
+                            t.CurrencyCode = row[dt.GetColumnNo("currencycode")].ToString();
+                            t.CurrencySymbol = row[dt.GetColumnNo("currencysymbol")].ToString();
                             i.GLTransactions.Add(t);
                         }
                     }
