@@ -1,0 +1,98 @@
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Controllers;
+using System.Threading.Tasks;
+using System;
+using FwStandard.Reporting;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
+using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
+using FwStandard.AppManager;
+using static FwCore.Controllers.FwDataController;
+using WebApi.Data;
+namespace WebApi.Modules.Reports.FixedAssetBookValue
+{
+    public class FixedAssetBookValueRequest : AppReportRequest
+    {
+        public DateTime AsOfDate { get; set; }
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public string WarehouseId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
+    }
+    [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "reports-v1")]
+    [FwController(Id: "03HEFOHpPOEm")]
+    public class FixedAssetBookValueController : AppReportController
+    {
+        //------------------------------------------------------------------------------------ 
+        public FixedAssetBookValueController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(FixedAssetBookValueLoader); }
+        //------------------------------------------------------------------------------------ 
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "FixedAssetBookValue"; }
+        //------------------------------------------------------------------------------------ 
+        protected override string GetReportFriendlyName() { return "Fixed Asset Book Value Report"; }
+        //------------------------------------------------------------------------------------ 
+        protected override PdfOptions GetPdfOptions()
+        {
+            // Configures Chromium for printing. Some of these properties are better to set in the @page section in CSS. 
+            PdfOptions pdfOptions = new PdfOptions();
+            pdfOptions.DisplayHeaderFooter = true;
+            return pdfOptions;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected override string GetUniqueId(FwReportRenderRequest request)
+        {
+            //return request.parameters["xxxxid"].ToString().TrimEnd(); 
+            return "FixedAssetBookValue";
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/fixedassetbookvalue/render 
+        [HttpPost("render")]
+        [FwControllerMethod(Id: "03l3cKzBccaE")]
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
+        {
+            if (!this.ModelState.IsValid) return BadRequest();
+            ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
+            return actionResult;
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/fixedassetbookvalue/exportexcelxlsx 
+        [HttpPost("exportexcelxlsx")]
+        [FwControllerMethod(Id: "03RUUhOM3zCS")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]FixedAssetBookValueRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/fixedassetbookvalue/runreport 
+        [HttpPost("runreport")]
+        [FwControllerMethod(Id: "03rxOpXegZ39")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]FixedAssetBookValueRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                FixedAssetBookValueLoader l = new FixedAssetBookValueLoader();
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                FwJsonDataTable dt = await l.RunReportAsync(request);
+                l.HideDetailColumnsInSummaryDataTable(request, dt);
+                return new OkObjectResult(dt);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}
