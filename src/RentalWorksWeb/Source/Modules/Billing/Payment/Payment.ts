@@ -87,11 +87,6 @@ class Payment {
         let $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        $form.find(`.credit-amounts`).hide();
-        // Hidden fields used for Overpayment and Depleting Deposit actions in NEW Records ( this.createDepletingDeposit, etc. )
-        FwFormField.setValueByDataField($form, 'CreateOverpayment', false);
-        FwFormField.setValueByDataField($form, 'CreateDepletingDeposit', false);
-
         if (mode === 'NEW') {
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
@@ -104,7 +99,7 @@ class Payment {
             const name = sessionStorage.getItem('name');
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
             // Deal and Customer fields
-            $form.find('.deal-customer').data('onchange', $tr => {
+            $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
                 const currencyId = $tr.find('.field[data-formdatafield="CurrencyId"]').attr('data-originalvalue');
                 const currencySymbol = $tr.find('.field[data-formdatafield="CurrencySymbol"]').attr('data-originalvalue');
                 if (currencySymbol) {
@@ -114,74 +109,15 @@ class Payment {
                     FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="CurrencyCode"]').attr('data-originalvalue'));
                 }
 
-                $form.find('span.credit-amounts').hide();
-                const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-                if (paymentTypeType !== '' && paymentTypeType === 'REFUND CHECK') {
-                    this.loadPaymentCreditGrid($form);
-                } else {
-                    this.loadPaymentInvoiceGrid($form);
-                }
+                this.loadPaymentVendorInvoiceGrid($form);
             });
         }
         $form.find('div[data-datafield="PaymentAmount"] input').inputmask({ alias: "currency", prefix: '' }); // temp until we fix FW money prefix to render based on country
         this.events($form);
 
-        //$form.find('.braintree-btn').click(() => {
-        //    let braintreeScipt = `<script>
-        //      let button = document.querySelector('#braintree-btn');
-
-        //      braintree.dropin.create({
-        //        authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',
-        //        container: '#dropin-container'
-        //      }, function (createErr, instance) {
-        //        button.addEventListener('click', function () {
-        //          instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
-        //            // When the user clicks on the 'Submit payment' button this code will send the
-        //            // encrypted payment information in a variable called a payment method nonce
-        //            $.ajax({
-        //              type: 'POST',
-        //              url: '/checkout',
-        //              data: {'paymentMethodNonce': payload.nonce}
-        //            }).done(function(result) {
-        //              // Tear down the Drop-in UI
-        //              instance.teardown(function (teardownErr) {
-        //                if (teardownErr) {
-        //                  console.error('Could not tear down Drop-in UI!');
-        //                } else {
-        //                  console.info('Drop-in UI has been torn down!');
-        //                  // Remove the 'Submit payment' button
-        //                  button.remove();
-        //                }
-        //              });
-
-        //              if (result.success) {
-        //                $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-        //              } else {
-        //                console.log(result);
-        //                $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-        //              }
-        //            });
-        //          });
-        //        });
-        //      });
-        //    </script>`;
-
-        //    //let braintreeScipt = `<script> let button = document.querySelector('#braintree-btn'); braintree.dropin.create({authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',container: '#dropin-container'}, function (createErr, instance) {button.addEventListener('click', function () {instance.requestPaymentMethod(function (err, payload) {});});});</script>`;
-        //    $form.find('.braintree-row').prepend(braintreeScipt);
-        //    //let $popup = FwPopup.renderPopup(jQuery(braintreeScipt), { ismodal: true });
-        //    //FwPopup.showPopup($popup);
-        //})
-
         // Adds receipt invoice or credit datatable to request
         $form.data('beforesave', request => {
-            const invoiceRowHtml = $form.find('.invoice-row');
-            const creditRowHtml = $form.find('.credits-row');
-
-            if (invoiceRowHtml.attr('data-visible') === 'true') {
-                request.InvoiceDataList = this.getFormTableData($form);
-            } else if (creditRowHtml.attr('data-visible') === 'true') {
-                request.CreditDataList = this.getCreditFormTableData($form);
-            }
+            request.InvoiceDataList = this.getFormTableData($form);
         });
 
         return $form;
@@ -197,26 +133,6 @@ class Payment {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
-
-        let observer;
-        // Listen for DOM element creation for Overpayment workflow for new Payments
-        if ($form.attr('data-mode') === 'NEW') {
-            const app = document.getElementById('application');
-            observer = new MutationObserver(() => {
-                const message = jQuery(app).find('.advisory .fwconfirmationbox .body .message').text();
-                if (message.startsWith("Amount to Apply exceeds the Invoice Amounts provided")) {
-                    this.createOverPayment($form);
-                }
-                else if (message.startsWith("No Invoice Amounts have been provided")) {
-                    this.createDepletingDeposit($form);
-                }
-            });
-            // Start observing the target node for configured mutations
-            observer.observe(app, { attributes: true, childList: true, subtree: true });
-        }
-        if (observer) {
-            setTimeout(() => { observer.disconnect(); }, 3000);
-        }
     }
     //----------------------------------------------------------------------------------------------
     deleteRecord($browse): void {
@@ -289,45 +205,27 @@ class Payment {
                 }
             }
         });
-        // hide / show payment section for credit cards
-        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-        //justin 10/25/2019 disabling this for now to avoid confusion. Terry was thinking he had to click the Make Payment button to save a Payment
-        //if (paymentTypeType === 'CREDIT CARD') {
-        //    $form.find('.braintree-row').show();
-        //} else {
-        //    $form.find('.braintree-row').hide();
-        //}
 
-        if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
-            FwFormField.disable($form.find('div[data-datafield="PaymentTypeId"]'));
-            FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
-            $form.find('div[data-datafield="CheckNumber"]').hide();
-           
-        }
-        // Click Event on tabs to load grids/browses
-        if (paymentTypeType === 'REFUND CHECK') {
-            this.loadPaymentCreditGrid($form);
-        } else {
-            this.loadPaymentInvoiceGrid($form);
-        }
+        this.loadPaymentVendorInvoiceGrid($form);
+
         const formCurrencySymbol = FwFormField.getValueByDataField($form, 'CurrencySymbol');
         this.currencySymbol = formCurrencySymbol || '';
         this.events($form);
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        // ----------
-        $form.find('div[data-datafield="PaymentTypeId"]').data('onchange', $tr => {
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
-            this.paymentTypes($form);
-        });
+        //// ----------
+        //$form.find('div[data-datafield="PaymentTypeId"]').data('onchange', $tr => {
+        //    FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
+        //    this.paymentTypes($form);
+        //});
         // ----------
         $form.find('div[data-datafield="CurrencyId"]').data('onchange', $tr => {
             const currencySymbol = $tr.find('.field[data-formdatafield="CurrencySymbol"]').attr('data-originalvalue');
             if (currencySymbol) {
                 this.currencySymbol = currencySymbol;
             }
-            this.paymentTypes($form);
+            this.loadPaymentVendorInvoiceGrid($form);
         });
         // ----------
         $form.find('div[data-datafield="CustomerDepositId"]').data('onchange', $tr => {
@@ -340,93 +238,77 @@ class Payment {
             }
         });
     }
-    paymentTypes($form) {
-        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-        //justin 10/25/2019 disabling this for now to avoid confusion. Terry was thinking he had to click the Make Payment button to save a Payment
-        //paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
+    ////----------------------------------------------------------------------------------------------
+    //paymentTypes($form) {
+    //    const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
 
-        let isOverDepletingMemo = false;
-        if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
-            isOverDepletingMemo = true;
-        }
-        this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
-        if (paymentTypeType === 'REFUND CHECK') {
-            this.loadPaymentCreditGrid($form);
-        } else {
-            this.loadPaymentInvoiceGrid($form);
-        }
-    }
+
+    //    let isOverDepletingMemo = false;
+    //    if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
+    //        isOverDepletingMemo = true;
+    //    }
+    //    this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
+
+    //        this.loadPaymentVendorInvoiceGrid($form);
+
+    //}
+    ////----------------------------------------------------------------------------------------------
+    //spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
+    //const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
+
+    //if (isOverDepletingMemo) {
+    //    $form.find('div[data-datafield="CheckNumber"]').hide();
+    //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
+
+    //    if (paymentBy === 'DEAL') {
+    //        $form.find('div[data-validationname="DealCreditValidation"]').show();
+    //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+    //        $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
+    //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
+    //    } else {
+    //        $form.find('div[data-validationname="CustomerCreditValidation"]').show();
+    //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
+    //        $form.find('div[data-validationname="DealCreditValidation"]').hide();
+    //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
+    //    }
+
+    //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount Remaining');
+    //    FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
+
+    //    if (paymentTypeType === 'DEPLETING DEPOSIT') {
+    //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
+    //    }
+    //    if (paymentTypeType === 'CREDIT MEMO') {
+    //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Credit Reference');
+    //    }
+    //    if (paymentTypeType === 'OVERPAYMENT') {
+    //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Overpayment Reference');
+    //    }
+    //}
+    //else {
+    //    $form.find('.deal-cust-validate').hide();
+    //    $form.find('.deal-cust-validate').attr('data-required', 'false');
+    //    $form.find('.deal-cust-validate').attr('data-enabled', 'false');
+    //    $form.find('div[data-datafield="CheckNumber"]').show();
+    //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
+
+    //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount To Apply');
+    //    FwFormField.enable($form.find('div[data-datafield="PaymentAmount"]'));
+    //}
+    //// Adust Amount Remaining field value for chosen payment value
+    //$form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
+    //    //FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
+    //    //this.loadPaymentInvoiceGrid($form);
+    //});
+    //}
     //----------------------------------------------------------------------------------------------
-    spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
-        //const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
-
-        //if (isOverDepletingMemo) {
-        //    $form.find('div[data-datafield="CheckNumber"]').hide();
-        //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
-
-        //    if (paymentBy === 'DEAL') {
-        //        $form.find('div[data-validationname="DealCreditValidation"]').show();
-        //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-        //        $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
-        //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-        //    } else {
-        //        $form.find('div[data-validationname="CustomerCreditValidation"]').show();
-        //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-        //        $form.find('div[data-validationname="DealCreditValidation"]').hide();
-        //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-        //    }
-
-        //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount Remaining');
-        //    FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
-
-        //    if (paymentTypeType === 'DEPLETING DEPOSIT') {
-        //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
-        //    }
-        //    if (paymentTypeType === 'CREDIT MEMO') {
-        //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Credit Reference');
-        //    }
-        //    if (paymentTypeType === 'OVERPAYMENT') {
-        //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Overpayment Reference');
-        //    }
-        //}
-        //else {
-        //    $form.find('.deal-cust-validate').hide();
-        //    $form.find('.deal-cust-validate').attr('data-required', 'false');
-        //    $form.find('.deal-cust-validate').attr('data-enabled', 'false');
-        //    $form.find('div[data-datafield="CheckNumber"]').show();
-        //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
-
-        //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount To Apply');
-        //    FwFormField.enable($form.find('div[data-datafield="PaymentAmount"]'));
-        //}
-        //// Adust Amount Remaining field value for chosen payment value
-        //$form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
-        //    //FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
-        //    //this.loadPaymentInvoiceGrid($form);
-        //});
-    }
-    //----------------------------------------------------------------------------------------------
-    refundCheck($form: JQuery) {
-        // hide invoice grid - disable algo
-        // show credits grid
-        // after save or if not NEW, disable credit grid
-    }
+    // refundCheck($form: JQuery) {
+    // hide invoice grid - disable algo
+    // show credits grid
+    // after save or if not NEW, disable credit grid
+    // }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-
-        let payType;
-        if (paymentTypeType === 'DEPLETING DEPOSIT') {
-            payType = 'D';
-        }
-        if (paymentTypeType === 'CREDIT MEMO') {
-            payType = 'C';
-        }
-        if (paymentTypeType === 'OVERPAYMENT') {
-            payType = 'O';
-        }
-
-        request.uniqueids = { RemainingOnly: true };
 
         switch (datafield) {
             case 'AppliedById':
@@ -436,63 +318,6 @@ class Payment {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymenttype`);
                 break;
         };
-    }
-    //----------------------------------------------------------------------------------------------
-    createOverPayment($form) {
-        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
-
-        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val()
-        const $confirmation = FwConfirmation.renderConfirmation(`Overpayment of ${unappliedTotal}`, '');
-        $confirmation.find('.fwconfirmationbox').css('width', '490px');
-
-        const html: Array<string> = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Save this Payment with ${unappliedTotal} Overpayment?</div>`);
-        html.push('  </div>');
-        html.push('</div>');
-
-        FwConfirmation.addControls($confirmation, html.join(''));
-        const $yes = FwConfirmation.addButton($confirmation, 'Save', false);
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        $yes.focus();
-        $yes.on('click', () => {
-            FwConfirmation.destroyConfirmation($confirmation);
-            // add datafield with flag for server
-            FwFormField.setValueByDataField($form, 'CreateOverpayment', true);
-            // automate save
-            $form.find('.btn[data-type="SaveMenuBarButton"]').click();
-        });
-    }
-    //----------------------------------------------------------------------------------------------
-    createDepletingDeposit($form) {
-        jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();
-
-        const unappliedTotal = $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val();
-        let dialogText = `Depleting Deposit of ${unappliedTotal}`;
-        if (unappliedTotal === '') {
-            dialogText = 'Depleting Deposit'
-        }
-        const $confirmation = FwConfirmation.renderConfirmation(dialogText, '');
-        $confirmation.find('.fwconfirmationbox').css('width', '490px');
-
-        const html: Array<string> = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Create ${dialogText}?</div>`);
-        html.push('  </div>');
-        html.push('</div>');
-        FwConfirmation.addControls($confirmation, html.join(''));
-        const $yes = FwConfirmation.addButton($confirmation, 'Save', false);
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        $yes.focus();
-        $yes.on('click', () => {
-            FwConfirmation.destroyConfirmation($confirmation);
-            // add datafield with flag for server
-            FwFormField.setValueByDataField($form, 'CreateDepletingDeposit', true);
-            // automate save
-            $form.find('.btn[data-type="SaveMenuBarButton"]').click();
-        });
     }
     //----------------------------------------------------------------------------------------------
     calculateCreditTotals($form, datafield, id) {
@@ -530,15 +355,11 @@ class Payment {
 
     }
     //----------------------------------------------------------------------------------------------
-    loadPaymentInvoiceGrid($form: JQuery): void {
+    loadPaymentVendorInvoiceGrid($form: JQuery): void {
         const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId')
-        $form.find('.credits-row').hide();
-        $form.find('.credits-row').attr('data-visible', 'false');
-        $form.find('.invoice-row').show();
-        $form.find('.invoice-row').attr('data-visible', 'true');
 
         if ($form.attr('data-mode') === 'NEW') {
-            $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
+            $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
         const calculateInvoiceTotals = ($form, event?) => {
             let amountValBefore;
@@ -687,19 +508,20 @@ class Payment {
                 PaymentDate: paymentDate,
                 VendorId: vendorId,
             }
-            request.orderby = 'InvoiceDate,InvoiceNumber'
+            request.orderby = 'VendorInvoiceDate'
             if (currencyId) {
                 request.uniqueids.CurrencyId = currencyId;
             }
 
             FwAppData.apiMethod(true, 'POST', 'api/v1/paymentvendorinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
+                console.log('RES', res)
                 const htmlRows: Array<string> = [];
                 $form.find('div[data-type="money"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
                 $form.find('div[data-datafield="PaymentAmount"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoicePaymentId" style="display:none;">${rows[i][res.ColumnIndex.InvoicePaymentId]}</td><td data-validationname="Invoice" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
+                        htmlRows.push(`<tr class="row"><td data-validationname="Vendor" data-datafield="${rows[i][res.ColumnIndex.VendorId]}" data-displayfield="${rows[i][res.ColumnIndex.Vendor]}" class="text">${rows[i][res.ColumnIndex.Vendor]}<i class="material-icons btnpeek">more_horiz</i></td><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text VendorInvoiceId" style="display:none;">${rows[i][res.ColumnIndex.VendorInvoiceId]}</td><td class="text VendorInvoicePaymentId" style="display:none;">${rows[i][res.ColumnIndex.VendorInvoicePaymentId]}</td><td data-validationname="Invoice" data-datafield="${rows[i][res.ColumnIndex.VendorInvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.VendorInvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.VendorInvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.VendorInvoiceDate]}</td><td data-validationname="PurchaseOrder" data-datafield="${rows[i][res.ColumnIndex.PurchaseOrderId]}" data-displayfield="${rows[i][res.ColumnIndex.PurchaseOrderDescription]}" class="text">${rows[i][res.ColumnIndex.PurchaseOrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.PurchaseOrderDescription]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield pay-amount invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
                     }
                     $form.find('.table-rows').html('');
                     $form.find('.table-rows').html(htmlRows.join(''));
@@ -796,260 +618,6 @@ class Payment {
         return InvoiceDataList;
     }
     //----------------------------------------------------------------------------------------------
-    loadPaymentCreditGrid($form: JQuery): void {
-        const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
-        $form.find('.invoice-row').hide();
-        $form.find('.invoice-row').attr('data-visible', 'false');
-        $form.find('.credits-row').show();
-        $form.find('.credits-row').attr('data-visible', 'true');
-        let isNew = false;
-        if ($form.attr('data-mode') === 'NEW') {
-            $form.find('.credit-table-rows').html('<tr class="credit-empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
-            isNew = true;
-        }
-        const calculateInvoiceCreditTotals = ($form, event?) => {
-            let amountValBefore;
-            if (event != undefined) {
-                const $this = jQuery(event.currentTarget);
-                amountValBefore = $this.data('payAmountOnFocus');
-                if (amountValBefore) {
-                    amountValBefore = this.parseNum(amountValBefore);
-                    //console.log('amountValBeforeinTOTAL', amountValBefore)
-                }
-            }
-
-            let remainingTotal = new Decimal(0);
-            let amountTotal = new Decimal(0);
-            let recurse = false;
-
-            const $remainingFields = $form.find('td[data-creditfield="CreditRemaining"]');
-            const $amountFields = $form.find('td[data-creditfield="CreditAmount"] input');
-            const amountToApply = +this.parseNum(FwFormField.getValueByDataField($form, 'PaymentAmount'));
-            let unappliedTotalPrior = this.parseNum($form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val()).trim();
-            if (unappliedTotalPrior === '') { unappliedTotalPrior = '0.00'; }
-            for (let i = 0; i < $amountFields.length; i++) {
-                // ----- Bottom line totaling
-                let amountValOnLine = this.parseNum($amountFields.eq(i).val());
-                if (amountValOnLine === '') { amountValOnLine = '0.00'; } // possibly unecessary
-                // Amount Column
-                amountTotal = amountTotal.plus(amountValOnLine);
-                // Remaining Column
-                let remainingValOnLine = this.parseNum($remainingFields.eq(i).text());
-                remainingTotal = remainingTotal.plus(remainingValOnLine);
-
-                // ----- Line Totaling for Applied and Due fields
-                if (event) {
-                    const element = jQuery(event.currentTarget);
-                    // Button
-                    if (element.attr('data-type') === 'button') {
-                        if (+(element.attr('row-index')) === i) {
-                            let amountInput = this.parseNum($amountFields.eq(i).val());
-                            if (amountInput === '') { amountInput = '0.00'; }
-                            let amountTotal = new Decimal(0);
-                            amountTotal = amountTotal.plus(amountInput);
-                            let remainingTotal = new Decimal(0);
-                            const remainingValOnLine = this.parseNum($remainingFields.eq(i).text());
-                            remainingTotal = remainingTotal.plus(remainingValOnLine);
-                            let unappliedTotalPriorDecimal = new Decimal(0);
-                            unappliedTotalPriorDecimal = unappliedTotalPriorDecimal.plus(unappliedTotalPrior);
-                            let amountVal;
-
-                            //console.log('unappliedTotalPrior', unappliedTotalPrior)
-                            //console.log('amountInput', amountInput)
-                            //console.log('amountTotal', amountTotal)
-                            //console.log('remainingValOnLine', remainingValOnLine)
-                            //console.log('remainingTotal', remainingTotal)
-                            //console.log('unappliedTotalPriorDecimal', unappliedTotalPriorDecimal)
-
-                            // If Unapplied Amount >= "Due"  increase the "Amount" value by the "Due" value on the line
-                            if (unappliedTotalPriorDecimal.greaterThanOrEqualTo(remainingTotal)) {
-                                amountVal = remainingTotal.plus(amountTotal);
-                                //console.log('amountVal', amountVal);
-
-                                $amountFields.eq(i).val(amountVal.toFixed(2));
-                            }
-                            // If Unapplied Amount < "Due"  increase the "Amount" value by the Unapplied Amount value on the line
-                            if (unappliedTotalPriorDecimal.lessThan(remainingTotal)) {
-                                amountVal = amountTotal.plus(unappliedTotalPriorDecimal);
-                                //console.log('amountVal', amountVal);
-
-                                $amountFields.eq(i).val(amountVal.toFixed(2));
-                            }
-                            let amountDifference = new Decimal(0);
-                            amountDifference = amountVal.minus(amountTotal);
-
-                            let remainingLineTotal = new Decimal(0);
-                            remainingLineTotal = remainingLineTotal.plus(remainingValOnLine).minus(amountDifference);
-
-                            let remaining = remainingLineTotal.toFixed(2);
-                            remaining = remaining.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                            $remainingFields.eq(i).text(`${this.currencySymbol}${remaining}`);
-                            recurse = true;
-                            break;
-                        }
-                    }
-                    // Amount input field
-                    const currentAmountField = $amountFields.eq(i);
-                    if (element.is(currentAmountField)) {
-                        let amountInput = this.parseNum($amountFields.eq(i).val());
-                        if (amountInput === '') {
-                            amountInput = '0.00';
-                        }
-                        let amountTotal = new Decimal(0);
-                        amountTotal = amountTotal.plus(amountInput);
-                        let amountDifference = new Decimal(0);
-                        amountDifference = amountTotal.minus(amountValBefore)
-
-                        let remainingLineTotal = new Decimal(0);
-                        remainingLineTotal = remainingLineTotal.plus(remainingValOnLine).minus(amountDifference);
-                        let remaining = remainingLineTotal.toFixed(2);
-                        remaining = remaining.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-                        $remainingFields.eq(i).text(`${this.currencySymbol}${remaining}`);
-                        recurse = true;
-                        break;
-                    }
-                }
-            }
-            if (recurse) {
-                calculateInvoiceCreditTotals($form);
-                return;
-            }
-            const amount: any = amountTotal.toFixed(2);
-            const unappliedTotal = amountToApply - amount;
-
-            $form.find(`div[data-totalfield="UnappliedCreditTotal"] input`).val(unappliedTotal);
-            $form.find(`div[data-totalfield="CreditAmountTotal"] input`).val(amount);
-        }
-        const getInvoiceCreditData = ($form, currencyId?) => {
-            const request: any = {};
-            const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
-            const paymentId = FwFormField.getValueByDataField($form, 'PaymentId');
-            request.uniqueids = {
-                LocationId: officeLocationId,
-                PaymentId: paymentId,
-            }
-
-            let validationName;
-
-            if (currencyId) {
-                request.uniqueids.CurrencyId = currencyId;
-            }
-            request.orderby = 'PaymentDate,CheckNumber'
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/receiptcredit/browse`, request, FwServices.defaultTimeout, res => {
-
-                const rows = res.Rows;
-                const htmlRows: Array<string> = [];
-                $form.find('div[data-type="money"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
-                $form.find('div[data-datafield="PaymentAmount"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
-                if (rows.length) {
-                    for (let i = 0; i < rows.length; i++) {
-                        let buttonPeek;
-                        const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
-
-                        //const isValidationWithPeek = (Constants.validationsWithPeeks.indexOf('PaymentType') > -1); // could be used later on to be more exact for other peek in the "grid"
-                        if (isWebAdmin === 'true') {
-                            buttonPeek = '<i class="material-icons btnpeek">more_horiz</i>';
-                        }
-                        else if (isWebAdmin === 'false') {
-                            buttonPeek = '';
-                        }
-                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.PaymentDate]}</td><td data-validationname="Deal" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text" data-creditfield="PaymentId" style="display:none;">${rows[i][res.ColumnIndex.PaymentId]}</td><td class="text" data-creditfield="CreditPaymentId" style="display:none;">${rows[i][res.ColumnIndex.CreditPaymentId]}</td><td data-validationname="PaymentType" data-datafield="${rows[i][res.ColumnIndex.PaymentTypeId]}" data-displayfield="${rows[i][res.ColumnIndex.PaymentType]}" class="text">${rows[i][res.ColumnIndex.PaymentType]}${buttonPeek}</td><td data-validationname="${validationName}" data-datafield="${rows[i][res.ColumnIndex.PaymentId]}" data-displayfield="${rows[i][res.ColumnIndex.CheckNumber]}" class="text"><span style="padding: 0px 2px 1px 2px;border:1px solid black;border-radius:2px;background-color:${rows[i][res.ColumnIndex.RecTypeColor]};">${rows[i][res.ColumnIndex.CheckNumber]}</span><i class="material-icons btnpeek">more_horiz</i></td><td style="text-align:right;" data-creditfield="CreditRemaining" class="decimal">${rows[i][res.ColumnIndex.Remaining]}</td><td data-enabled="true" data-isuniqueid="false" data-datafield="CreditAmount" data-creditfield="CreditAmount" class="decimal fwformfield"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" row-index="${i}" value="${isNew ? "0.00" : rows[i][res.ColumnIndex.Amount]}"></td><td><div class="fwformcontrol credit-apply-btn" row-index="${i}" data-type="button" style="height:27px;padding:.3rem;line-height:13px;font-size:14px;">Apply All</div></td></tr>`);
-                    }
-
-
-                    $form.find('.credit-table-rows').html('');
-                    $form.find('.credit-table-rows').html(htmlRows.join(''));
-                    $form.find('[data-creditfield="CreditAmount"] input').inputmask({ alias: "currency", prefix: this.currencySymbol });
-                    $form.find('[data-creditfield="CreditRemaining"]:not(input)').inputmask({ alias: "currency", prefix: this.currencySymbol });
-                    (function () {
-                        const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
-                        for (let i = 0; i < $amountFields.length; i++) {
-                            const amount: any = $amountFields.eq(i).val();
-                            if (amount === '0.00' || amount === '') {
-                                $amountFields.eq(i).css('background-color', 'white');
-                            } else {
-                                $amountFields.eq(i).css('background-color', '#F4FFCC');
-                            }
-                        }
-                        calculateInvoiceCreditTotals($form);
-                    })();
-                    // Amount column listener
-                    $form.find('[data-creditfield="CreditAmount"] input').on('change', ev => {
-                        ev.stopPropagation();
-                        const el = jQuery(ev.currentTarget);
-                        let val = el.val();
-                        if (el.hasClass('decimal')) {
-                            if (val === '0.00' || val === '') {
-                                el.css('background-color', 'white');
-                                val = '0.00';
-                            } else {
-                                el.css('background-color', '#F4FFCC');
-                            }
-                        }
-                        calculateInvoiceCreditTotals($form, ev);
-                        el.data('payAmountOnFocus', val); // reset line before total in case user doesnt leave input and changes again
-                        //console.log('payAmountOnChange', el.data('payAmountOnFocus'))
-                    });
-                    // Store intial amount value for calculations after change
-                    $form.find('[data-creditfield="CreditAmount"] input').on('focus', ev => {
-                        ev.stopPropagation();
-                        const el = jQuery(ev.currentTarget);
-                        let val = el.val();
-                        if (val === '') {
-                            val = '0.00'
-                        }
-                        el.data('payAmountOnFocus', val);
-                        //console.log('payAmountOnFocusOUTSIDE', el.data('payAmountOnFocus'))
-                    });
-                    // Amount to Apply listener
-                    $form.find('.amount-to-apply input').on('change', ev => {
-                        ev.stopPropagation();
-                        calculateInvoiceCreditTotals($form);
-                    });
-
-                    $form.find('.credit-apply-btn').click((ev: JQuery.ClickEvent) => {
-                        calculateInvoiceCreditTotals($form, ev);
-                    });
-                    // btnpeek
-                    $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
-                        try {
-                            const $td = jQuery(this).parent();
-                            FwValidation.validationPeek($form, $td.attr('data-validationname'), $td.attr('data-datafield'), $td.attr('data-datafield'), $form, $td.attr('data-displayfield'));
-                        } catch (ex) {
-                            FwFunc.showError(ex)
-                        }
-                        e.stopPropagation();
-                    });
-                }
-            }, null, $form);
-        }
-        getInvoiceCreditData($form, currencyId);
-    }
-    //----------------------------------------------------------------------------------------------
-    getCreditFormTableData($form: JQuery): any {
-        const $creditPaymentIds = $form.find('[data-creditfield="CreditPaymentId"]');
-        const $paymentIds = $form.find('[data-creditfield="PaymentId"]');
-
-        const $amountFields = $form.find('[data-creditfield="CreditAmount"] input');
-        const CreditDataList: any = [];
-        for (let i = 0; i < $paymentIds.length; i++) {
-            const creditId = $paymentIds.eq(i).text();
-            const paymentCreditId = $creditPaymentIds.eq(i).text();
-            let amount: any = $amountFields.eq(i).val();
-            amount = this.parseNum(amount);
-
-            const fields: any = {}
-            if (paymentCreditId !== '') {
-                fields.CreditPaymentId = paymentCreditId;
-            }
-            fields.CreditId = creditId;
-            fields.Amount = +amount;
-            CreditDataList.push(fields);
-        }
-
-        return CreditDataList;
-    }//----------------------------------------------------------------------------------------------
     parseNum(number: string) {
         // remove all non-digit characters except for a period
         if (typeof number === 'string') {
@@ -1057,7 +625,7 @@ class Payment {
         } else {
             console.error(`input ${number} is not a string`)
         }
-    }   
+    }
     //----------------------------------------------------------------------------------------------
     overrideDelete($browse) {
         jQuery('#application').find('.advisory .fwconfirmationbox .fwconfirmation-button').click();

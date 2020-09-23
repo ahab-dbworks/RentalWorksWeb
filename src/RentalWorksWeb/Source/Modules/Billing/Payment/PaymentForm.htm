@@ -49,11 +49,6 @@
             </div>
 
           </div>
-          <!--Hidden fields for Overpayment and Depleting Deposits actions-->
-          <div class="flexrow" style="display:none">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="CreateOverpayment" style="flex:1 1 225px;display:none;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="CreateDepletingDeposit" style="flex:1 1 225px;display:none;"></div>
-          </div>
           <div class="flexrow invoice-row" style="max-width:1600px;">
             <div class="flexrow" style="flex:0 1 1700px;max-width:1600px;">
               <div class="flexcolumn" style="flex:1 1 1300px;">
@@ -61,8 +56,9 @@
                   <div class="flexrow tablewrapper" style="text-align:center;border:1px solid #1f1f1f;height:auto;margin:15px 0px 0px 5px;max-width:1396px;">
                     <table class="form-table">
                       <tr class="header">
+                        <th class="text nowrap">Vendor</th>
                         <th class="text nowrap">Deal</th>
-                        <th class="text" style="display:none;" data-headerfield="InvoiceId">InvoiceId</th>
+                        <th class="text" style="display:none;" data-headerfield="VendorInvoiceId">VendorInvoiceId</th>
                         <th class="text">Invoice No.</th>
                         <th class="text">Invoice Date</th>
                         <th class="text">Order No.</th>
@@ -75,6 +71,7 @@
                       </tr>
                       <tbody class="table-rows">
                         <tr class="empty-row" style="height:33px;">
+                          <td></td>
                           <td></td>
                           <td></td>
                           <td></td>
@@ -114,62 +111,7 @@
               </div>
             </div>
           </div>
-          <div class="flexrow credits-row" style="max-width:1600px;display:none;">
-            <div class="flexrow" style="flex:0 1 1700px;max-width:1600px;">
-              <div class="flexcolumn" style="flex:1 1 1300px;">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Credits">
-                  <div class="flexrow tablewrapper" style="text-align:center;border:1px solid #1f1f1f;height:auto;margin:15px 0px 0px 5px;max-width:1396px;">
-                    <table class="form-table">
-                      <tr class="header">
-                        <th class="text">Date</th>
-                        <th class="text" style="display:none;" data-headerfield="PaymentId">PaymentId</th>
-                        <th class="text">Deal</th>
-                        <th class="text">Payment Type</th>
-                        <th class="text">Ref/Check No.</th>
-                        <th class="decimal" style="width:97px;">Remaining</th>
-                        <th class="decimal" style="width:97px;" data-headerfield="Amount">Amount</th>
-                        <th style="width:43px;"></th>
-                      </tr>
-                      <tbody class="credit-table-rows">
-                        <tr class="credit-empty-row" style="height:33px;">
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="flexcolumn" style="flex:0 0 175px;">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Refund Totals">
-                  <div class="flexrow">
-                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Applied Amount" data-datafield="" data-enabled="false" data-totalfield="CreditAmountTotal" style="flex:1 1 150px;"></div>
-                  </div>
-                  <div class="flexrow">
-                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Unapplied Amount" data-datafield="" data-enabled="false" data-totalfield="UnappliedCreditTotal" style="flex:1 1 150px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--<div style="display:none;max-width:800px;" class="flexrow braintree-row">
-            <div class="flexcolumn">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Payment">
-                <div class="flexrow">
-                  <div id="dropin-container"></div>
-                </div>
-                <div class="flexrow">
-                  <div id="braintree-btn" class="braintree-btn fwformcontrol" data-type="button" style="flex:0 1 114px; margin-left:8px;">Make Payment</div>
-                </div>
-              </div>
-            </div>
-          </div>-->
+
           <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Payment Memo">
               <div class="flexrow">
