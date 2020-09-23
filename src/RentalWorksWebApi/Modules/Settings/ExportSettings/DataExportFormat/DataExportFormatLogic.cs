@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
@@ -43,17 +44,46 @@ namespace WebApi.Modules.Settings.ExportSettings.DataExportFormat
         public string DateStamp { get { return dataExportFormat.DateStamp; } set { dataExportFormat.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
-        //{
-        //    bool isValid = true;
-        //    if (isValid)
-        //    {
-        //        PropertyInfo property = typeof(CustomReportLayoutLogic).GetProperty(nameof(CustomReportLayoutLogic.AssignTo));
-        //        string[] acceptableValues = { RwConstants.CUSTOM_REPORT_LAYOUT_ASSIGN_TO_ALL, RwConstants.CUSTOM_REPORT_LAYOUT_ASSIGN_TO_GROUPS, RwConstants.CUSTOM_REPORT_LAYOUT_ASSIGN_TO_USERS };
-        //        isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
-        //    }
-        //    return isValid;
-        //}
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (isValid)
+            {
+                if (FileName != null)
+                {
+                    string[] illegalChars = { "\\", "/", ":", "*", "?", "\"", "<", ">", "|" };
+                    bool containsIllegalChar = false;
+                    foreach (string illegalChar in illegalChars)
+                    {
+                        if (FileName.Contains(illegalChar))
+                        {
+                            containsIllegalChar = true;
+                            break;
+                        }
+                    }
+                    if (containsIllegalChar)
+                    {
+                        isValid = false;
+                        validateMsg = "The file name cannot contain \\ / : * ? \" < > | characters.";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                if (FileName != null)
+                {
+                    if ((!FileName.Contains(".")) || (FileName.EndsWith(".")))
+                    {
+                        isValid = false;
+                        validateMsg = "The file name must have an extension (some exmples are .txt or .csv or .iif).";
+                    }
+                }
+            }
+
+            return isValid;
+        }
         //------------------------------------------------------------------------------------
     }
 }

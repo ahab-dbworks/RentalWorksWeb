@@ -229,28 +229,28 @@ class DataExportFormat {
             FwFormField.setValueByDataField($form, 'FileName', filename + textToInject);
         });
 
-        //restrict characters
-        $form.on('change', '[data-datafield="FileName"] input', e => {
-            e.stopPropagation();
-            const filename = FwFormField.getValueByDataField($form, 'FileName');
-            const illegalChars = ["\\", "/", ":", "*", "?", "\"", "<", ">", "|"];
-            let value = 0;
-            illegalChars.forEach((char) => {
-                value = value + filename.includes(char);
-            });
-
-            if (value > 0) {
-                $form.find('[data-datafield="FileName"]').addClass('error');
-                $form.find('[data-datafield="FileName"] input').select();
-                $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
-                FwNotification.renderNotification("WARNING", "The file name cannot contain \\ / : * ? \" < > | characters.");
-            } else {
-                if ($form.attr('data-modified') == "true") {
-                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-                }
-                $form.find('[data-datafield="FileName"]').removeClass('error');
-            }
-        });
+        ////restrict characters
+        //$form.on('change', '[data-datafield="FileName"] input', e => {
+        //    e.stopPropagation();
+        //    const filename = FwFormField.getValueByDataField($form, 'FileName');
+        //    const illegalChars = ["\\", "/", ":", "*", "?", "\"", "<", ">", "|"];
+        //    let value = 0;
+        //    illegalChars.forEach((char) => {
+        //        value = value + filename.includes(char);
+        //    });
+        //
+        //    if (value > 0) {
+        //        $form.find('[data-datafield="FileName"]').addClass('error');
+        //        $form.find('[data-datafield="FileName"] input').select();
+        //        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+        //        FwNotification.renderNotification("WARNING", "The file name cannot contain \\ / : * ? \" < > | characters.");
+        //    } else {
+        //        if ($form.attr('data-modified') == "true") {
+        //            $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+        //        }
+        //        $form.find('[data-datafield="FileName"]').removeClass('error');
+        //    }
+        //});
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
