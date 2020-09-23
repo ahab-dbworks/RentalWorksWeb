@@ -28,7 +28,7 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return await hs.GetContactsAsync(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/emailtemplate 
+        // POST api/v1/hubspot/newcontact 
         [HttpPost("newcontact")]
         [FwControllerMethod(Id: "bfAAIzIssQIC", ActionType: FwControllerActionTypes.New)]
         public async Task<ActionResult<string>> NewAsync([FromBody]PostHubSpotContactRequest l)

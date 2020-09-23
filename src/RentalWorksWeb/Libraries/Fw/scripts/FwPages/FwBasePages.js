@@ -286,3 +286,71 @@ FwBasePages.getPasswordRecoveryScreen = function() {
 
 };
 //---------------------------------------------------------------------------------
+FwBasePages.getHubSpotInstallScreen = function (viewModel) {
+    var html = [];
+    html.push('<div class="default-page">');
+    html.push('  <div class="default-container">');
+    html.push('    <div class="programlogo">');
+    html.push('      <img id="programlogo" src="" alt="program logo" />')
+    html.push('    </div>');
+    html.push('    <div class="default-buttons">');
+    html.push('      <div class="default-button btnHubSpot">Install HubSpot</div>');
+    html.push('    </div>');
+    html.push('  </div>');
+    html.push('  <div id="master-footer">');
+    html.push('    <div id="copyright">© {{valueYear}} <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div>');
+    html.push('    <div id="version">v{{valueVersion}}</div>');
+    html.push('  </div>');
+    html.push('</div>');
+
+    html = html.join('');
+    html = Mustache.render(html, viewModel);
+
+    var screen = {};
+    screen.$view = jQuery(html);
+
+    screen.$view.on('click', '#dbworkslink', function () {
+        try {
+            window.location.href = 'http://www.dbworks.com';
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
+
+    program.setApplicationTheme('theme-material');
+
+    return screen;
+};
+//---------------------------------------------------------------------------------
+FwBasePages.getHubSpotOauthCallback = function (viewModel) {
+    var html = [];
+    html.push('<div class="default-page">');
+    html.push('  <div class="default-container">');
+    html.push('    <div class="programlogo">');
+    html.push('      <img id="programlogo" src="" alt="program logo" />')
+    html.push('    </div>');
+    html.push('  </div>');
+    html.push('  <div id="master-footer">');
+    html.push('    <div id="copyright">© {{valueYear}} <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div>');
+    html.push('    <div id="version">v{{valueVersion}}</div>');
+    html.push('  </div>');
+    html.push('</div>');
+
+    html = html.join('');
+    html = Mustache.render(html, viewModel);
+
+    var screen = {};
+    screen.$view = jQuery(html);
+
+    screen.$view.on('click', '#dbworkslink', function () {
+        try {
+            window.location.href = 'http://www.dbworks.com';
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
+
+    program.setApplicationTheme('theme-material');
+
+    return screen;
+};

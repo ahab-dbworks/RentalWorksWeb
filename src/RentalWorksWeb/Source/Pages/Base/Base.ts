@@ -8,7 +8,6 @@ class Base {
         };
         const screen = FwBasePages.getDefaultScreen(viewModel);
         document.title = Constants.appCaption;
-
         screen.$view
             .on('click', '.btnLogin', function () {
                 try {
@@ -162,6 +161,43 @@ class Base {
         screen.viewModel = viewModel;
         screen.properties = properties;
         return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    getHubSpotInstallScreen() {
+        let viewModel = {};
+        let properties = {};
+        let screen: any = {};
+        let installUrl = "https://app.hubspot.com/oauth/authorize?scope=contacts&redirect_uri=http://localhost:57949/webdev/#/hubspotoauth&client_id=dca2d2a7-e71e-4311-b8bc-c49083f03194";
+
+        screen = FwBasePages.getHubSpotInstallScreen(viewModel);
+        screen.viewModel = viewModel;
+        screen.properties = properties;
+
+        let installBtn = screen.$view.find('.btnHubSpot');
+
+        installBtn.click(() => {
+            window.location.href = installUrl;
+        })
+
+        return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    getHubSpotOauthCallbackScreen() {
+        let viewModel = {};
+        let properties = {};
+        let screen: any = {};
+        // get query param code to send in a request to exchange for an auth token
+        let callBackParams = new URLSearchParams(window.location.search);
+        let callBackCode = callBackParams.get('code');
+
+        console.log(callBackCode);
+
+        screen = FwBasePages.getHubSpotOauthCallback(viewModel);
+        screen.viewModel = viewModel;
+        screen.properties = properties;
+
+
+        return program.navigate('default');
     }
     //----------------------------------------------------------------------------------------------
     getChangePasswordScreen() {
