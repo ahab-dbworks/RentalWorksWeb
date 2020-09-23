@@ -1,6 +1,7 @@
 using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using WebApi.Data;
 
@@ -42,6 +43,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             public decimal? Debit { get; set; }
             public decimal? Credit { get; set; }
             public decimal? Amount { get; set; }
+            public string AmountWithCurrencySymbol { get; set; }
             public int? OrderBy { get; set; }
             public string OrderNumber { get; set; }
             public string OrderDescription { get; set; }
@@ -267,21 +269,15 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                         qry.Add("select *                                       ");
                         qry.Add(" from  dbo.funcinvoiceglweb(@invoiceid) gl     ");
                         qry.Add("order by gl.orderby                            ");
-
-                        /*
-                        select gldate, glno, glacctdesc,
-                               debit = sum(debit), credit = sum(credit),
-                               glaccountid, groupheading, orderby,
-                               groupheadingorder
-       currencyid, currency, currencycode, currencysymbol
- from dbo.funcglforinvoice(@invoiceid, null, null)
- where manual <> 'T'
- group by gldate, glno, glacctdesc, glaccountid, groupheading, groupheadingorder, orderby
- */
-
-
                         qry.AddParameter("@invoiceid", i.InvoiceId);
                         FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat.NumberGroupSeparator = "";
+                        numberFormat.NumberDecimalSeparator = ".";
+                        numberFormat.NumberDecimalDigits = 2;
+
 
                         foreach (List<object> row in dt.Rows)
                         {
@@ -299,6 +295,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                             t.Currency = row[dt.GetColumnNo("currency")].ToString();
                             t.CurrencyCode = row[dt.GetColumnNo("currencycode")].ToString();
                             t.CurrencySymbol = row[dt.GetColumnNo("currencysymbol")].ToString();
+                            t.AmountWithCurrencySymbol = (t.Amount < 0 ? "-" : "") + t.CurrencySymbol + Math.Abs(t.Amount.GetValueOrDefault(0)).ToString("N", numberFormat);
                             i.GLTransactions.Add(t);
                         }
                     }
