@@ -201,7 +201,7 @@ namespace WebApi.Modules.Administrator.Control
         public int? Availconflictlogdays { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowdeletebatchedreceipt", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? AllowDeleteExportedBeceipts { get; set; }
+        public bool? AllowDeleteExportedReceipts { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "posecondapprovalwithoutfirst", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Posecondapprovalwithoutfirst { get; set; }
@@ -565,6 +565,12 @@ namespace WebApi.Modules.Administrator.Control
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "depreciationstartsnextmonth", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enablepayments", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? EnablePayments { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowdeletebatchedpayment", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AllowDeleteExportedPayments { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

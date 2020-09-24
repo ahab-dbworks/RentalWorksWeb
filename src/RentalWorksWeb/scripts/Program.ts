@@ -265,6 +265,7 @@ class Program extends FwApplication {
                     defaultlossanddamageretiredreasonid: responseGetInventorySettings.DefaultLossAndDamageRetiredReasonId,
                     defaultlossanddamageretiredreason:   responseGetInventorySettings.DefaultLossAndDamageRetiredReason,
                     enablereceipts:                      responseGetSystemSettings.EnableReceipts,
+                    enablepayments:                      responseGetSystemSettings.EnablePayments,
                     sharedealsacrossofficelocations:     responseGetSystemSettings.ShareDealsAcrossOfficeLocations,
                     systemname:                          responseGetSystemSettings.SystemName,
                     companyname:                         responseGetSystemSettings.CompanyName,

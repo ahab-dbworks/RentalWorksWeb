@@ -32,7 +32,7 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         public int? LastVendorNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowdeletebatchedreceipt", modeltype: FwDataTypes.Boolean)]
-        public bool? AllowDeleteExportedBeceipts { get; set; }
+        public bool? AllowDeleteExportedReceipts { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enablereceipts", modeltype: FwDataTypes.Boolean)]
         public bool? EnableReceipts { get; set; }
@@ -42,6 +42,12 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qaupdates", modeltype: FwDataTypes.Boolean)]
         public bool? EnableQaUpdates { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enablepayments", modeltype: FwDataTypes.Boolean)]
+        public bool? EnablePayments { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowdeletebatchedpayment", modeltype: FwDataTypes.Boolean)]
+        public bool? AllowDeleteExportedPayments { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

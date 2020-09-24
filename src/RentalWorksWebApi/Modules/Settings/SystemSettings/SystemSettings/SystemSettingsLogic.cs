@@ -46,7 +46,7 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         public int? LastVendorNumber { get { return sysControl.LastVendorNumber; } set { sysControl.LastVendorNumber = value; } }
 
         [FwLogicProperty(Id: "mxRFY4F28GOiA")]
-        public bool? AllowDeleteExportedBeceipts { get { return sysControl.AllowDeleteExportedBeceipts; } set { sysControl.AllowDeleteExportedBeceipts = value; } }
+        public bool? AllowDeleteExportedReceipts { get { return sysControl.AllowDeleteExportedReceipts; } set { sysControl.AllowDeleteExportedReceipts = value; } }
 
         [FwLogicProperty(Id: "XrAtztYJOWSQs")]
         public bool? EnableReceipts { get { return sysControl.EnableReceipts; } set { sysControl.EnableReceipts = value; } }
@@ -56,6 +56,13 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
 
         [FwLogicProperty(Id: "3OYrAZDic1nMx")]
         public bool? EnableQaUpdates { get { return sysControl.EnableQaUpdates; } set { sysControl.EnableQaUpdates = value; } }
+
+        [FwLogicProperty(Id: "dImRdF8DPGzQ")]
+        public bool? EnablePayments { get { return sysControl.EnablePayments; } set { sysControl.EnablePayments = value; } }
+
+        [FwLogicProperty(Id: "LNSlJiSGmnjG")]
+        public bool? AllowDeleteExportedPayments { get { return sysControl.AllowDeleteExportedPayments; } set { sysControl.AllowDeleteExportedPayments = value; } }
+
 
         [FwLogicProperty(Id: "54tMuScs2fSPS")]
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }

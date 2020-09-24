@@ -867,7 +867,7 @@ namespace WebApi.Modules.Billing.Receipt
                 s.SetDependencies(AppConfig, UserSession);
                 s.SystemSettingsId = RwConstants.CONTROL_ID;
                 bool b = s.LoadAsync<SystemSettingsLogic>().Result;
-                if (s.AllowDeleteExportedBeceipts.GetValueOrDefault(false))
+                if (s.AllowDeleteExportedReceipts.GetValueOrDefault(false))
                 {
                     e.PerformDelete = false;
                     e.ErrorMessage = $"Receipt has already been exported.  Are you sure you want to delete?";
