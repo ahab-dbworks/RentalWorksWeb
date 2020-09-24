@@ -100,13 +100,13 @@ class Payment {
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
             // Deal and Customer fields
             $form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
-                const currencyId = $tr.find('.field[data-formdatafield="CurrencyId"]').attr('data-originalvalue');
-                const currencySymbol = $tr.find('.field[data-formdatafield="CurrencySymbol"]').attr('data-originalvalue');
+                const currencyId = $tr.find('.field[data-formdatafield="DefaultCurrencyId"]').attr('data-originalvalue');
+                const currencySymbol = $tr.find('.field[data-formdatafield="DefaultCurrencySymbol"]').attr('data-originalvalue');
                 if (currencySymbol) {
                     this.currencySymbol = currencySymbol;
                 }
-                if (currencyId) { // default currency to deal or Customer but only if one is indicated
-                    FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="CurrencyCode"]').attr('data-originalvalue'));
+                if (currencyId) { // default currency to Vendor but only if one is indicated
+                    FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
                 }
 
                 this.loadPaymentVendorInvoiceGrid($form);
@@ -184,6 +184,7 @@ class Payment {
             $form.find('.invoice-row').hide();
         }
         FwFormField.disable($form.find('div[data-datafield="CurrencyId"]'));
+        // tab clicks
         $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');
@@ -226,16 +227,6 @@ class Payment {
                 this.currencySymbol = currencySymbol;
             }
             this.loadPaymentVendorInvoiceGrid($form);
-        });
-        // ----------
-        $form.find('div[data-datafield="CustomerDepositId"]').data('onchange', $tr => {
-            const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
-            const customerCreditRemaining = FwBrowse.getValueByDataField(null, $tr, 'Remaining');
-            if (paymentTypeType === 'DEPLETING DEPOSIT') {
-                FwFormField.setValueByDataField($form, 'PaymentAmount', customerCreditRemaining);
-                $form.find('div[data-datafield="PaymentAmount"] input').change();
-            }
         });
     }
     ////----------------------------------------------------------------------------------------------
@@ -320,40 +311,40 @@ class Payment {
         };
     }
     //----------------------------------------------------------------------------------------------
-    calculateCreditTotals($form, datafield, id) {
-        const officeLocation = FwFormField.getValueByDataField($form, 'LocationId')
-        let query: string;
-        if (datafield === 'DealId') {
-            query = `remainingdepositamounts?CustomerId=&DealId=${id}&OfficeLocationId=${officeLocation}`
-        } else {
-            query = `remainingdepositamounts?CustomerId=${id}&DealId=&OfficeLocationId=${officeLocation}`
-        }
+    //calculateCreditTotals($form, datafield, id) {
+    //    const officeLocation = FwFormField.getValueByDataField($form, 'LocationId')
+    //    let query: string;
+    //    if (datafield === 'DealId') {
+    //        query = `remainingdepositamounts?CustomerId=&DealId=${id}&OfficeLocationId=${officeLocation}`
+    //    } else {
+    //        query = `remainingdepositamounts?CustomerId=${id}&DealId=&OfficeLocationId=${officeLocation}`
+    //    }
 
-        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/${query}`, null, FwServices.defaultTimeout, response => {
-            if (response.Overpayments !== 0) {
-                $form.find(`span[data-creditfield="Overpayments"]`).text(`Overpayments: ${this.currencySymbol}${response.OverpaymentsFormatted}`);
-                $form.find(`span[data-creditfield="Overpayments"]`).show();
-            } else {
-                $form.find(`span[data-creditfield="Overpayments"]`).hide();
-            }
-            if (response.CreditMemos !== 0) {
-                $form.find(`span[data-creditfield="CreditMemos"]`).text(`Credit Memos: ${this.currencySymbol}${response.CreditMemosFormatted}`);
-                $form.find(`span[data-creditfield="CreditMemos"]`).show();
-            } else {
-                $form.find(`span[data-creditfield="CreditMemos"]`).hide();
-            }
-            if (response.DepletingDeposits !== 0) {
-                $form.find(`span[data-creditfield="DepletingDeposits"]`).text(`Depleting Deposits: ${this.currencySymbol}${response.DepletingDepositsFormatted}`);
-                $form.find(`span[data-creditfield="DepletingDeposits"]`).show();
-            } else {
-                $form.find(`span[data-creditfield="DepletingDeposits"]`).hide();
-            }
+    //    FwAppData.apiMethod(true, 'GET', `${this.apiurl}/${query}`, null, FwServices.defaultTimeout, response => {
+    //        if (response.Overpayments !== 0) {
+    //            $form.find(`span[data-creditfield="Overpayments"]`).text(`Overpayments: ${this.currencySymbol}${response.OverpaymentsFormatted}`);
+    //            $form.find(`span[data-creditfield="Overpayments"]`).show();
+    //        } else {
+    //            $form.find(`span[data-creditfield="Overpayments"]`).hide();
+    //        }
+    //        if (response.CreditMemos !== 0) {
+    //            $form.find(`span[data-creditfield="CreditMemos"]`).text(`Credit Memos: ${this.currencySymbol}${response.CreditMemosFormatted}`);
+    //            $form.find(`span[data-creditfield="CreditMemos"]`).show();
+    //        } else {
+    //            $form.find(`span[data-creditfield="CreditMemos"]`).hide();
+    //        }
+    //        if (response.DepletingDeposits !== 0) {
+    //            $form.find(`span[data-creditfield="DepletingDeposits"]`).text(`Depleting Deposits: ${this.currencySymbol}${response.DepletingDepositsFormatted}`);
+    //            $form.find(`span[data-creditfield="DepletingDeposits"]`).show();
+    //        } else {
+    //            $form.find(`span[data-creditfield="DepletingDeposits"]`).hide();
+    //        }
 
-        }, function onError(response) {
-            FwFunc.showError(response);
-        }, null)
+    //    }, function onError(response) {
+    //        FwFunc.showError(response);
+    //    }, null)
 
-    }
+    //}
     //----------------------------------------------------------------------------------------------
     loadPaymentVendorInvoiceGrid($form: JQuery): void {
         const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId')
@@ -598,24 +589,24 @@ class Payment {
         if (invoiceRowHtml.attr('data-visible') === 'true') {
 
         }
-        const $invoiceIdFields = $form.find('.InvoiceId');
-        const $invoicePaymentIds = $form.find('.InvoicePaymentId');
+        const $vendorInvoiceIdFields = $form.find('.VendorInvoiceId');
+        const $vendorInvoicePaymentIds = $form.find('.VendorInvoicePaymentId');
         const $amountFields = $form.find('.invoice-amount input');
-        const InvoiceDataList: any = [];
-        for (let i = 0; i < $invoiceIdFields.length; i++) {
-            const invoiceId = $invoiceIdFields.eq(i).text();
-            const invoicePaymentId = $invoicePaymentIds.eq(i).text();
+        const VendorInvoiceDataList: any = [];
+        for (let i = 0; i < $vendorInvoiceIdFields.length; i++) {
+            const vendorInvoiceId = $vendorInvoiceIdFields.eq(i).text();
+            const vendorInvoicePaymentId = $vendorInvoicePaymentIds.eq(i).text();
             let amount: any = $amountFields.eq(i).val();
             amount = this.parseNum(amount);
 
             const fields: any = {}
-            fields.InvoicePaymentId = invoicePaymentId;
-            fields.InvoiceId = invoiceId;
+            fields.VendorInvoicePaymentId = vendorInvoicePaymentId;
+            fields.VendorInvoiceId = vendorInvoiceId;
             fields.Amount = +amount;
-            InvoiceDataList.push(fields);
+            VendorInvoiceDataList.push(fields);
         }
 
-        return InvoiceDataList;
+        return VendorInvoiceDataList;
     }
     //----------------------------------------------------------------------------------------------
     parseNum(number: string) {
