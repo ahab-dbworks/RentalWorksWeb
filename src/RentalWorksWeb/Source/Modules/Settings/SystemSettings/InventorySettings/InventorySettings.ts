@@ -43,6 +43,30 @@ class InventorySettings {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         this.events($form);
+
+
+        //Toggle Buttons
+        FwFormField.loadItems($form.find('div[data-datafield="RentalQuantityInventoryValueMethod"]'), [
+            { value: 'FIFO', caption: 'First In, First Out' },
+            { value: 'LIFO', caption: 'Last In, First Out' },
+            { value: 'AVERAGEVALUE', caption: 'Average Value' },
+            { value: 'UNITVALUE', caption: 'Inventory Unit Value only' }
+        ]);
+
+        FwFormField.loadItems($form.find('div[data-datafield="SalesQuantityInventoryValueMethod"]'), [
+            { value: 'FIFO', caption: 'First In, First Out' },
+            { value: 'LIFO', caption: 'Last In, First Out' },
+            { value: 'AVERAGEVALUE', caption: 'Average Value' },
+            { value: 'UNITVALUE', caption: 'Inventory Unit Value only' }
+        ]);
+
+        FwFormField.loadItems($form.find('div[data-datafield="PartsQuantityInventoryValueMethod"]'), [
+            { value: 'FIFO', caption: 'First In, First Out' },
+            { value: 'LIFO', caption: 'Last In, First Out' },
+            { value: 'AVERAGEVALUE', caption: 'Average Value' },
+            { value: 'UNITVALUE', caption: 'Inventory Unit Value only' }
+        ]);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -77,6 +101,57 @@ class InventorySettings {
                 FwFormField.enable($form.find('[data-datafield="ICodePrefix"]'));
             }
         });
+
+        $form.find('[data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived"] input').on('change', e => {
+            const originalVal = ($form.find('[data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived"]').attr('data-originalvalue') === "true");
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived"]'));
+
+            if (originalVal == newVal) {
+                $form.find('.depreciationwarning').hide();
+            }
+            else {
+                $form.find('.depreciationwarning').show();
+            }
+        });
+
+        $form.find('[data-datafield="RentalQuantityInventoryValueMethod"]').on('change', e => {
+            const originalVal = $form.find('[data-datafield="RentalQuantityInventoryValueMethod"]').attr('data-originalvalue');
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="RentalQuantityInventoryValueMethod"]'));
+
+            if (originalVal == newVal) {
+                $form.find('.rentalvaluewarning').hide();
+            }
+            else {
+                $form.find('.rentalvaluewarning').show();
+            }
+        });
+
+        $form.find('[data-datafield="SalesQuantityInventoryValueMethod"]').on('change', e => {
+            const originalVal = $form.find('[data-datafield="SalesQuantityInventoryValueMethod"]').attr('data-originalvalue');
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="SalesQuantityInventoryValueMethod"]'));
+
+            if (originalVal == newVal) {
+                $form.find('.salesvaluewarning').hide();
+            }
+            else {
+                $form.find('.salesvaluewarning').show();
+            }
+        });
+
+        $form.find('[data-datafield="PartsQuantityInventoryValueMethod"]').on('change', e => {
+            const originalVal = $form.find('[data-datafield="PartsQuantityInventoryValueMethod"]').attr('data-originalvalue');
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="PartsQuantityInventoryValueMethod"]'));
+
+            if (originalVal == newVal) {
+                $form.find('.partsvaluewarning').hide();
+            }
+            else {
+                $form.find('.partsvaluewarning').show();
+            }
+        });
+
+
+
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {

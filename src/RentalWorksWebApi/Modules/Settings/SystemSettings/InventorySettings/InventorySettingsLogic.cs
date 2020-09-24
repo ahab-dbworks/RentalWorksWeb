@@ -67,6 +67,15 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "PY0Na99fW6CMj")]
         public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get { return sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived; } set { sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived = value; } }
 
+        [FwLogicProperty(Id: "l5fLvzCpHrDf")]
+        public string RentalQuantityInventoryValueMethod { get { return sysControl.RentalQuantityInventoryValueMethod; } set { sysControl.RentalQuantityInventoryValueMethod = value; } }
+
+        [FwLogicProperty(Id: "P3zXTZxunprL")]
+        public string SalesQuantityInventoryValueMethod { get { return sysControl.SalesQuantityInventoryValueMethod; } set { sysControl.SalesQuantityInventoryValueMethod = value; } }
+
+        [FwLogicProperty(Id: "LwSmXksF727e")]
+        public string PartsQuantityInventoryValueMethod { get { return sysControl.PartsQuantityInventoryValueMethod; } set { sysControl.PartsQuantityInventoryValueMethod = value; } }
+
         [FwLogicProperty(Id: "E0PTF3DZXRoNX")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
@@ -74,11 +83,57 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         {
             bool isValid = true;
 
-            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 isValid = false;
                 validateMsg = "Cannot add new records to " + this.BusinessLogicModuleName;
             }
+            else // dmUpdate
+            {
+                InventorySettingsLogic orig = (InventorySettingsLogic)original;
+
+                if (RentalQuantityInventoryValueMethod != null)
+                {
+                    if (!RentalQuantityInventoryValueMethod.Equals(orig.RentalQuantityInventoryValueMethod))
+                    {
+                        bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_RENT }).Result;
+                        if (purchasesExist)
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot change the Rental Quantity Inventory Valuation Method once Rental Inventory has been purchased.";
+                        }
+                    }
+                }
+
+
+                if (SalesQuantityInventoryValueMethod != null)
+                {
+                    if (!SalesQuantityInventoryValueMethod.Equals(orig.SalesQuantityInventoryValueMethod))
+                    {
+                        bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_SALE }).Result;
+                        if (purchasesExist)
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot change the Sales Quantity Inventory Valuation Method once Sales Inventory has been purchased.";
+                        }
+                    }
+                }
+
+                if (PartsQuantityInventoryValueMethod != null)
+                {
+                    if (!PartsQuantityInventoryValueMethod.Equals(orig.PartsQuantityInventoryValueMethod))
+                    {
+                        bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_PARTS }).Result;
+                        if (purchasesExist)
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot change the Parts Quantity Inventory Valuation Method once Parts Inventory has been purchased.";
+                        }
+                    }
+                }
+
+            }
+
 
             return isValid;
         }

@@ -572,6 +572,15 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "allowdeletebatchedpayment", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? AllowDeleteExportedPayments { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assetcostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string RentalQuantityInventoryValueMethod { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string SalesQuantityInventoryValueMethod { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partscostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string PartsQuantityInventoryValueMethod { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

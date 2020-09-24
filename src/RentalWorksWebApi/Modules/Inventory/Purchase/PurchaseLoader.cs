@@ -34,6 +34,9 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
+        public string AvailableFor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? FixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -269,6 +272,7 @@ namespace WebApi.Modules.Inventory.Purchase
             select.Parse();
             addFilterToSelect("InventoryId", "masterid", select, request); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+            addFilterToSelect("AvailableFor", "availfor", select, request); 
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)

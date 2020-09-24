@@ -32,6 +32,8 @@ namespace WebApi.Modules.Inventory.Purchase
         public string Description { get; set; }
         [FwLogicProperty(Id: "97kpFvVlXRP9E", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public string TrackedBy { get; set; }
+        [FwLogicProperty(Id: "zu0C3TdN7iLA", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
+        public string AvailableFor { get; set; }
         [FwLogicProperty(Id: "jfidmL2vIYN4W", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public bool? FixedAsset { get; set; }
         [FwLogicProperty(Id: "9Bhw59R2blG4p", DisableDirectAssign: true, DisableDirectModify: true)]

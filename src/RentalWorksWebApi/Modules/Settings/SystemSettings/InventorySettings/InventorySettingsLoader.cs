@@ -58,6 +58,15 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwSqlDataField(column: "depreciationstartsnextmonth", modeltype: FwDataTypes.Boolean)]
         public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assetcostcalculation", modeltype: FwDataTypes.Text)]
+        public string RentalQuantityInventoryValueMethod { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salescostcalculation", modeltype: FwDataTypes.Text)]
+        public string SalesQuantityInventoryValueMethod { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partscostcalculation", modeltype: FwDataTypes.Text)]
+        public string PartsQuantityInventoryValueMethod { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
