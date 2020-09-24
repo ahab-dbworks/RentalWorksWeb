@@ -1133,6 +1133,7 @@
     <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\BankAccountValidation\BankAccountValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
+    <Content Include="Source\Validations\VendorInvoiceValidation\VendorInvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectNumberValidation\ProjectNumberValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectCommissioningValidation\ProjectCommissioningValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectDepositValidation\ProjectDepositValidationBrowse.htm" />
