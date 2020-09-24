@@ -62,6 +62,7 @@ namespace WebApi.Modules.Utilities.GLDistribution
             string invoiceId = GetUniqueIdAsString("InvoiceId", request) ?? "";
             string receiptId = GetUniqueIdAsString("ReceiptId", request) ?? ""; 
             string vendorInvoiceId = GetUniqueIdAsString("VendorInvoiceId", request) ?? "";
+            string paymentId = GetUniqueIdAsString("PaymentId", request) ?? "";
             _previewing = GetMiscFieldAsBoolean("Preview", request) ?? false;
 
             if (_previewing)
@@ -93,6 +94,10 @@ namespace WebApi.Modules.Utilities.GLDistribution
             {
                 OverrideTableName = "dbo.funcvendorinvoiceglweb(@vendorinvoiceid)";
             }
+            else if (!paymentId.Equals(string.Empty))
+            {
+                OverrideTableName = "dbo.funcpaymentglweb(@paymentid)";
+            }
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
@@ -108,6 +113,10 @@ namespace WebApi.Modules.Utilities.GLDistribution
             if (!vendorInvoiceId.Equals(string.Empty))
             {
                 select.AddParameter("@vendorinvoiceid", vendorInvoiceId);
+            }
+            if (!paymentId.Equals(string.Empty))
+            {
+                select.AddParameter("@paymentid", paymentId);
             }
         }
         //------------------------------------------------------------------------------------ 

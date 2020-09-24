@@ -5,6 +5,8 @@ using FwStandard.BusinessLogic;
 using WebApi.Modules.Settings.SystemSettings.SystemSettings;
 using WebApi.Modules.HomeControls.VendorInvoicePayment;
 using FwStandard.Models;
+using FwStandard.SqlServer;
+using WebApi.Modules.Billing.VendorInvoice;
 
 namespace WebApi.Modules.Billing.Payment
 {
@@ -101,6 +103,189 @@ namespace WebApi.Modules.Billing.Payment
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
+
+            PaymentLogic orig = null;
+            decimal vendorInvoiceAmountTotal = 0;
+            //decimal creditAmountTotal = 0;
+            decimal paymentAmount = 0;
+
+
+            if (original != null)
+            {
+                orig = (PaymentLogic)original;
+
+                if (VendorId != null)
+                {
+                    if (orig.VendorId == null)
+                    {
+                        orig.VendorId = "";
+                    }
+                    if (!VendorId.Equals(orig.VendorId))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the Vendor on this {BusinessLogicModuleName}.";
+                    }
+                }
+
+                if (RecType != null)
+                {
+                    if (orig.RecType == null)
+                    {
+                        orig.RecType = "";
+                    }
+                    if (!RecType.Equals(orig.RecType))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the RecType on this {BusinessLogicModuleName}.";
+                    }
+                }
+
+                //if (PaymentTypeId != null)
+                //{
+                //    if (orig.PaymentTypeId == null)
+                //    {
+                //        orig.PaymentTypeId = "";
+                //        orig.PaymentTypeType = "";
+                //    }
+                //
+                //    PaymentTypeLogic ptl = new PaymentTypeLogic();
+                //    ptl.SetDependencies(AppConfig, UserSession);
+                //    ptl.PaymentTypeId = PaymentTypeId;
+                //    bool b = ptl.LoadAsync<PaymentTypeLogic>().Result;
+                //
+                //    if (!ptl.PaymentTypeType.Equals(orig.PaymentTypeType))
+                //    {
+                //        isValid = false;
+                //        validateMsg = $"Cannot change the Payment Type on this {BusinessLogicModuleName}.";
+                //    }
+                //}
+            }
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    if (!string.IsNullOrEmpty(orig.ChargeBatchId))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot modify this {BusinessLogicModuleName} because it has already been exported.";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                {
+                    paymentAmount = PaymentAmount.GetValueOrDefault(0);
+                }
+                else
+                {
+                    if (PaymentAmount == null)
+                    {
+                        paymentAmount = orig.PaymentAmount.GetValueOrDefault(0);
+                    }
+                    else
+                    {
+                        paymentAmount = PaymentAmount.GetValueOrDefault(0);
+                    }
+                }
+
+                if (paymentAmount < 0)
+                {
+                    isValid = false;
+                    validateMsg = "Payment amount cannot be negative.";
+                }
+            }
+
+            if (isValid)
+            {
+                if (VendorInvoiceDataList != null)
+                {
+                    foreach (PaymentVendorInvoice i in VendorInvoiceDataList)
+                    {
+                        if (i.Amount < 0)
+                        {
+                            isValid = false;
+                            validateMsg = "Amount to Apply cannot be negative.";
+                        }
+                    }
+                }
+            }
+
+            // validate the data in the InvoiceDataList
+            if (isValid)
+            {
+                vendorInvoiceAmountTotal = 0;
+                if (VendorInvoiceDataList != null)
+                {
+                    if (VendorInvoiceDataList != null)
+                    {
+                        foreach (PaymentVendorInvoice i in VendorInvoiceDataList)
+                        {
+                            vendorInvoiceAmountTotal += i.Amount;
+                        }
+                    }
+                }
+                if ((paymentAmount != 0) && (vendorInvoiceAmountTotal == 0))
+                {
+                    isValid = false;
+                    validateMsg = "No Vendor Invoice Amounts have been provided.";
+                }
+                else if (paymentAmount != vendorInvoiceAmountTotal)
+                {
+                    isValid = false;
+                    validateMsg = "Payment Amount does not match the Vendor Invoice amounts.";
+                }
+
+            }
+
+            // validate that no Vendor Invoice is being overpaid here
+            if (isValid)
+            {
+                if (VendorInvoiceDataList != null)
+                {
+                    foreach (PaymentVendorInvoice pvi in VendorInvoiceDataList)
+                    {
+                        decimal invoiceTotal = 0;
+                        VendorInvoiceLogic viL = new VendorInvoiceLogic();
+                        viL.SetDependencies(AppConfig, UserSession);
+                        viL.VendorInvoiceId = pvi.VendorInvoiceId;
+                        bool b = viL.LoadAsync<VendorInvoiceLogic>().Result;
+                        invoiceTotal = viL.InvoiceTotal.GetValueOrDefault(0);
+
+                        BrowseRequest br = new BrowseRequest();
+                        br.uniqueids = new Dictionary<string, object>();
+                        br.uniqueids.Add("VendorInvoiceId", pvi.VendorInvoiceId);
+                        VendorInvoicePaymentLogic vipl = new VendorInvoicePaymentLogic();
+                        vipl.SetDependencies(AppConfig, UserSession);
+                        FwJsonDataTable dt = vipl.BrowseAsync(br).Result;
+
+                        //determine the total receipts applied against this invoice so far, not counting this current Receipt
+                        decimal totalViPayments = 0;
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string pmtId = row[dt.GetColumnNo("PaymentId")].ToString();
+                            decimal amount = FwConvert.ToDecimal(row[dt.GetColumnNo("Amount")].ToString());
+                            if (!pmtId.Equals(PaymentId))  // exclude this current Payment
+                            {
+                                totalViPayments += amount;
+                            }
+                        }
+
+                        //add the amount of this current Receipt
+                        totalViPayments += pvi.Amount;
+
+                        if (totalViPayments > invoiceTotal)
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot apply more than the Total for Vendor Invoice " + viL.InvoiceNumber + " (PO: " + viL.PurchaseOrderNumber + ").";
+                        }
+                    }
+                }
+            }
+
+
             return isValid;
         }
         //------------------------------------------------------------------------------------ 
@@ -188,7 +373,7 @@ namespace WebApi.Modules.Billing.Payment
                             vipNew.Amount = pvi.Amount;
                             vipNew.SetDependencies(AppConfig, UserSession);
                             int saveCount = vipNew.SaveAsync(null, conn: e.SqlConnection).Result;
-                            pvi.VendorInvoicePaymentId = vipNew.VendorInvoicePaymentId.ToString(); 
+                            pvi.VendorInvoicePaymentId = vipNew.VendorInvoicePaymentId.ToString();
                         }
                         vendorInvoiceAmountTotal += pvi.Amount;
                     }

@@ -7,6 +7,7 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
+using WebApi.Modules.Utilities.GLDistribution;
 
 namespace WebApi.Modules.Billing.Payment
 {
@@ -91,6 +92,14 @@ namespace WebApi.Modules.Billing.Payment
         public async Task<ActionResult<FwJsonDataTable>> ValidatePaymentTypeAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<PaymentTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/payment/gldistribution/browse 
+        [HttpPost("gldistribution/browse")]
+        [FwControllerMethod(Id: "QCTR5CetaVbu", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> GLDistribution_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GLDistributionLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }

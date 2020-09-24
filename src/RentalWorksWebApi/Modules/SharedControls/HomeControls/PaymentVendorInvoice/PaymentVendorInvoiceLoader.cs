@@ -10,8 +10,8 @@ namespace WebApi.Modules.Billing.PaymentVendorInvoice
     public class PaymentVendorInvoiceLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
-        public int? VendorInvoicePaymentId { get; set; }
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text)]
+        public string VendorInvoicePaymentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorinvoiceid", modeltype: FwDataTypes.Text)]
         public string VendorInvoiceId { get; set; }

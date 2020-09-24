@@ -13,7 +13,7 @@ namespace WebApi.Modules.Billing.PaymentVendorInvoice
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "zRZQDmEUF9FPF", IsPrimaryKey: true, IsReadOnly: true)]
-        public int? VendorInvoicePaymentId { get; set; }
+        public string VendorInvoicePaymentId { get; set; } = "";
         [FwLogicProperty(Id: "ZSbEiHeVWNXwK", IsReadOnly: true)]
         public string VendorInvoiceId { get; set; }
         [FwLogicProperty(Id: "ZSL85hY7QtFCu", IsReadOnly: true)]

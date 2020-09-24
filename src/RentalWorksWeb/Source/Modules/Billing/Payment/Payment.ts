@@ -117,7 +117,7 @@ class Payment {
 
         // Adds receipt invoice or credit datatable to request
         $form.data('beforesave', request => {
-            request.InvoiceDataList = this.getFormTableData($form);
+            request.VendorInvoiceDataList = this.getFormTableData($form);
         });
 
         return $form;
