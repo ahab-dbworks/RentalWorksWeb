@@ -197,6 +197,9 @@ namespace WebApi.Modules.Agent.Vendor
         [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
         public string DefaultCurrency { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string DefaultCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "remitatt1", modeltype: FwDataTypes.Text)]
         public string RemitAttention1 { get; set; }
         //------------------------------------------------------------------------------------
