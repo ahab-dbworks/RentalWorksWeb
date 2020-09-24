@@ -19,7 +19,7 @@ namespace WebApi.Modules.Home.Payment
         [FwLogicProperty(Id: "YCsK3PiyvQWgC")]
         public string PaymentDate { get { return payment.PaymentDate; } set { payment.PaymentDate = value; } }
         [FwLogicProperty(Id: "YDDO3FCMvkhD8")]
-        public string OfficeLocationId { get { return payment.OfficeLocationId; } set { payment.OfficeLocationId = value; } }
+        public string LocationId { get { return payment.LocationId; } set { payment.LocationId = value; } }
         [FwLogicProperty(Id: "YDfcZ3tuykY31")]
         public string DepartmentId { get { return payment.DepartmentId; } set { payment.DepartmentId = value; } }
         [FwLogicProperty(Id: "YDnknCM97UjHd", IsReadOnly: true)]
@@ -47,8 +47,8 @@ namespace WebApi.Modules.Home.Payment
         [FwLogicProperty(Id: "yHP8QjxTjE1Cn", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
         [FwLogicProperty(Id: "yhr3OKDaRjTHK", IsReadOnly: true)]
-        public bool? CurrencySymbol { get; set; }
-        [FwLogicProperty(Id: "Yhtdr097snj6H")]
+        public string CurrencySymbol { get; set; }
+        [FwLogicProperty(Id: "Yhtdr097snj6H", IsRecordTitle: true)]
         public string CheckNumber { get { return payment.CheckNumber; } set { payment.CheckNumber = value; } }
         [FwLogicProperty(Id: "yiS2CuKG1E0Ps")]
         public string PaymentDocumentNumber { get { return payment.PaymentDocumentNumber; } set { payment.PaymentDocumentNumber = value; } }

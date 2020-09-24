@@ -49,11 +49,15 @@ class RwMaster extends WebMaster {
                 children: []
             };
             if (userType == 'USER') {
-                menuBilling.children.push(Constants.Modules.Billing.children.BankAccount);
+                if (controlDefaults.enablepayments) {
+                    menuBilling.children.push(Constants.Modules.Billing.children.BankAccount);
+                }
                 menuBilling.children.push(Constants.Modules.Billing.children.Billing);
                 menuBilling.children.push(Constants.Modules.Billing.children.BillingWorksheet);
                 menuBilling.children.push(Constants.Modules.Billing.children.Invoice);
-                menuBilling.children.push(Constants.Modules.Billing.children.Payment);
+                if (controlDefaults.enablepayments) {
+                    menuBilling.children.push(Constants.Modules.Billing.children.Payment);
+                }
                 if (controlDefaults.enablereceipts) {
                     menuBilling.children.push(Constants.Modules.Billing.children.Receipt);
                 }

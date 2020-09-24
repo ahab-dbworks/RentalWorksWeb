@@ -9,14 +9,14 @@ namespace WebApi.Modules.Home.Payment
     public class PaymentLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "paymentid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "paymentid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string PaymentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paymentdate", modeltype: FwDataTypes.Date)]
         public string PaymentDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-        public string OfficeLocationId { get; set; }
+        public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
@@ -57,8 +57,8 @@ namespace WebApi.Modules.Home.Payment
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Boolean)]
-        public bool? CurrencySymbol { get; set; }
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text)]
         public string CheckNumber { get; set; }
