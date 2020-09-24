@@ -77,6 +77,9 @@
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Receipts (if unchecked, Invoices will go straight to CLOSED status during 'Process Invoices')" data-datafield="EnableReceipts"></div>
                     </div>
                   </div>
+                  <div class="flexrow receiptwarning" style="display:none;">
+                    <div style="color:red;font-size:.8em">Warning: Disabling the Receipts module may leave existing Invoices in PROCESSED status.  Contact Database Works to get these to go to CLOSED status.</div>
+                  </div>
                 </div>
               </div>
               <div class="flexrow">
@@ -102,6 +105,9 @@
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Payments (if unchecked, Vendor Invoices will go straight to CLOSED status during 'Process Vendor Invoices')" data-datafield="EnablePayments"></div>
                     </div>
+                  </div>
+                  <div class="flexrow paymentwarning" style="display:none;">
+                    <div style="color:red;font-size:.8em">Warning: Disabling the Payments module may leave existing Vendor Invoices in PROCESSED status.  Contact Database Works to get these to go to CLOSED status.</div>
                   </div>
                 </div>
               </div>

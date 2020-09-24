@@ -70,6 +70,26 @@ class SystemSettings {
                 FwFormField.enable($form.find('[data-datafield="LastVendorNumber"]'));
             }
         });
+
+        $form.find('[data-datafield="EnableReceipts"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('.receiptwarning').hide();
+            }
+            else {
+                $form.find('.receiptwarning').show();
+            }
+        });
+
+        $form.find('[data-datafield="EnablePayments"] input').on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                $form.find('.paymentwarning').hide();
+            }
+            else {
+                $form.find('.paymentwarning').show();
+            }
+        });
+
+
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
