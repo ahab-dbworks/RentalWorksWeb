@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.PaymentVendorInvoice
+namespace WebApi.Modules.Billing.PaymentVendorInvoice
 {
     [FwLogic(Id: "zrTtuUPLGpbv5")]
     public class PaymentVendorInvoiceLogic : AppBusinessLogic

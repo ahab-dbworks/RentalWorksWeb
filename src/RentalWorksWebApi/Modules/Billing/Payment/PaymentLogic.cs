@@ -1,7 +1,23 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.Payment
+using System.Collections.Generic;
+using FwStandard.BusinessLogic;
+using WebApi.Modules.Settings.SystemSettings.SystemSettings;
+using WebApi.Modules.HomeControls.VendorInvoicePayment;
+using FwStandard.Models;
+
+namespace WebApi.Modules.Billing.Payment
 {
+
+
+    public class PaymentVendorInvoice
+    {
+        public string VendorInvoicePaymentId { get; set; }
+        public string VendorInvoiceId { get; set; }
+        public decimal Amount { get; set; }
+    }
+
+
     [FwLogic(Id: "YAxLRif4rWXiK")]
     public class PaymentLogic : AppBusinessLogic
     {
@@ -12,6 +28,12 @@ namespace WebApi.Modules.Home.Payment
         {
             dataRecords.Add(payment);
             dataLoader = paymentLoader;
+
+            AfterSave += OnAfterSave;
+            BeforeDelete += OnBeforeDelete;
+            ForceSave = true;
+            UseTransactionToSave = true;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "yCrCqskyzZl0e", IsPrimaryKey: true)]
@@ -53,7 +75,7 @@ namespace WebApi.Modules.Home.Payment
         [FwLogicProperty(Id: "yiS2CuKG1E0Ps")]
         public string PaymentDocumentNumber { get { return payment.PaymentDocumentNumber; } set { payment.PaymentDocumentNumber = value; } }
         [FwLogicProperty(Id: "yiuQU9Tm5XQT1")]
-        public decimal? Amount { get { return payment.Amount; } set { payment.Amount = value; } }
+        public decimal? PaymentAmount { get { return payment.PaymentAmount; } set { payment.PaymentAmount = value; } }
         [FwLogicProperty(Id: "yjGOxisrRWI9r")]
         public string AppliedById { get { return payment.AppliedById; } set { payment.AppliedById = value; } }
         [FwLogicProperty(Id: "yjPQpg5eexOnS", IsReadOnly: true)]
@@ -70,13 +92,136 @@ namespace WebApi.Modules.Home.Payment
         public string ChargeBatchId { get; set; }
         [FwLogicProperty(Id: "yKxooboo3mWAw", IsReadOnly: true)]
         public string ChargeBatchNumber { get; set; }
+
+        // this field accepts the requested Vendor Invoices and Amounts from the user when saving a new or modified Payment
+        [FwLogicProperty(Id: "jNR5EbfK2dfR", IsNotAudited: true)]
+        public List<PaymentVendorInvoice> VendorInvoiceDataList { get; set; }
+
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            return isValid;
+        }
         //------------------------------------------------------------------------------------ 
+        //Here we want to first ask the database for the previous list of Vendor Invoices and Amounts related to this Payment.
+        //We then compare that list with the list provided by the user and perform updates back to the database.
+        //All of this is done within the same databas transaction as the insert/update of the Payment.  Any failures will rollback everything
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            PaymentLogic orig = null;
+            decimal vendorInvoiceAmountTotal = 0;
+            decimal paymentAmount = 0;
+
+            if (e.Original != null)
+            {
+                orig = (PaymentLogic)e.Original;
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                paymentAmount = PaymentAmount.GetValueOrDefault(0);
+            }
+            else
+            {
+                if (PaymentAmount == null)
+                {
+                    paymentAmount = orig.PaymentAmount.GetValueOrDefault(0);
+                }
+                else
+                {
+                    paymentAmount = PaymentAmount.GetValueOrDefault(0);
+                }
+            }
+
+
+            {
+                // here we are applying the payment amount to indicated Vendor Invoices
+                List<VendorInvoicePaymentLogic> previousVipData = new List<VendorInvoicePaymentLogic>();
+
+                if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    // ask the database for the previous list of Invoices and Amounts related to this Payment
+                    VendorInvoicePaymentLogic irLoader = new VendorInvoicePaymentLogic();
+                    irLoader.SetDependencies(AppConfig, UserSession);
+                    irLoader.PaymentId = PaymentId;
+                    BrowseRequest request = new BrowseRequest();
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                    uniqueIds.Add("PaymentId", PaymentId);
+                    request.uniqueids = uniqueIds;
+                    previousVipData = irLoader.SelectAsync<VendorInvoicePaymentLogic>(request).Result;  // here is the list with the previous data
+                }
+
+
+                // iterate through the PREVIOUS list.  compare each entry with the ones provided by the user.  If the amount is changed, we need to save the modifications to the database
+                if (VendorInvoiceDataList != null)
+                {
+                    foreach (VendorInvoicePaymentLogic vipPrev in previousVipData)
+                    {
+                        foreach (PaymentVendorInvoice pviNew in VendorInvoiceDataList)  // iterate through the list provided by the user
+                        {
+                            if (vipPrev.VendorInvoicePaymentId.ToString().Equals(pviNew.VendorInvoicePaymentId)) // find the record that matches this VendorInvoicePaymentId
+                            {
+                                if (!vipPrev.Amount.Equals(pviNew.Amount))
+                                {
+                                    VendorInvoicePaymentLogic irNew = vipPrev.MakeCopy<VendorInvoicePaymentLogic>();
+                                    irNew.Amount = pviNew.Amount;
+                                    irNew.SetDependencies(AppConfig, UserSession);
+                                    int saveCount = irNew.SaveAsync(vipPrev, conn: e.SqlConnection).Result;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // iterate through the NEW list.  anything without an VendorInvoicePaymentId is new, we need to save these
+                if (VendorInvoiceDataList != null)
+                {
+                    foreach (PaymentVendorInvoice pvi in VendorInvoiceDataList)
+                    {
+                        if ((string.IsNullOrEmpty(pvi.VendorInvoicePaymentId)) && (pvi.Amount != 0))
+                        {
+                            VendorInvoicePaymentLogic vipNew = new VendorInvoicePaymentLogic();
+                            vipNew.SetDependencies(AppConfig, UserSession);
+                            vipNew.PaymentId = PaymentId;
+                            vipNew.VendorInvoiceId = pvi.VendorInvoiceId;
+                            vipNew.Amount = pvi.Amount;
+                            vipNew.SetDependencies(AppConfig, UserSession);
+                            int saveCount = vipNew.SaveAsync(null, conn: e.SqlConnection).Result;
+                            pvi.VendorInvoicePaymentId = vipNew.VendorInvoicePaymentId.ToString(); 
+                        }
+                        vendorInvoiceAmountTotal += pvi.Amount;
+                    }
+                }
+            }
+
+
+            //explicitly delete and insert any G/L transactions related to this Payment
+            bool b = PaymentFunc.PostGlForPayment(AppConfig, UserSession, PaymentId, conn: e.SqlConnection).Result;
+
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ChargeBatchId))
+            {
+                SystemSettingsLogic s = new SystemSettingsLogic();
+                s.SetDependencies(AppConfig, UserSession);
+                s.SystemSettingsId = RwConstants.CONTROL_ID;
+                bool b = s.LoadAsync<SystemSettingsLogic>().Result;
+                if (s.AllowDeleteExportedPayments.GetValueOrDefault(false))
+                {
+                    e.PerformDelete = false;
+                    e.ErrorMessage = $"Payment has already been exported.  Are you sure you want to delete?";
+                }
+                else
+                {
+                    e.PerformDelete = false;
+                    e.ErrorMessage = $"Cannot delete this Payment because it has already been exported.";
+                }
+
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

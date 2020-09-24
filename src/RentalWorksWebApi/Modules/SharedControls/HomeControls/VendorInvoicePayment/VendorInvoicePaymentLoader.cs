@@ -9,6 +9,9 @@ namespace WebApi.Modules.HomeControls.VendorInvoicePayment
     public class VendorInvoicePaymentLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
+        public int? VendorInvoicePaymentId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorinvoiceid", modeltype: FwDataTypes.Text)]
         public string VendorInvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -53,6 +56,7 @@ namespace WebApi.Modules.HomeControls.VendorInvoicePayment
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            addFilterToSelect("PaymentId", "paymentid", select, request);
             addFilterToSelect("VendorInvoiceId", "vendorinvoiceid", select, request);
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 

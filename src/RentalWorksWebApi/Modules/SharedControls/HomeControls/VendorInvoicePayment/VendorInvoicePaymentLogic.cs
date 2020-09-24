@@ -6,18 +6,22 @@ namespace WebApi.Modules.HomeControls.VendorInvoicePayment
     public class VendorInvoicePaymentLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
+        VendorInvoicePaymentRecord vendorInvoicePayment = new VendorInvoicePaymentRecord();
         VendorInvoicePaymentLoader vendorInvoicePaymentLoader = new VendorInvoicePaymentLoader();
         public VendorInvoicePaymentLogic()
         {
+            dataRecords.Add(vendorInvoicePayment);
             dataLoader = vendorInvoicePaymentLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "ZLmPdpgQM3Hw", IsPrimaryKey: true)]
+        public int? VendorInvoicePaymentId { get { return vendorInvoicePayment.VendorInvoicePaymentId; } set { vendorInvoicePayment.VendorInvoicePaymentId = value; } }
         [FwLogicProperty(Id: "VIt18X0ws98U", IsReadOnly: true)]
-        public string VendorInvoiceId { get; set; }
+        public string VendorInvoiceId { get { return vendorInvoicePayment.VendorInvoiceId; } set { vendorInvoicePayment.VendorInvoiceId = value; } }
         [FwLogicProperty(Id: "Dvhbcg4afUkR", IsReadOnly: true)]
-        public string PaymentId { get; set; }
+        public string PaymentId { get { return vendorInvoicePayment.PaymentId; } set { vendorInvoicePayment.PaymentId = value; } }
         [FwLogicProperty(Id: "UGuP0TQglVMp", IsReadOnly: true)]
-        public decimal? Amount { get; set; }
+        public decimal? Amount { get { return vendorInvoicePayment.Amount; } set { vendorInvoicePayment.Amount = value; } }
         [FwLogicProperty(Id: "2dgCcqwYO3S", IsReadOnly: true)]
         public string PaymentDate { get; set; }
         [FwLogicProperty(Id: "vsdVdQXOF595D", IsReadOnly: true)]

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using FwStandard.AppManager;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 
-namespace WebApi.Modules.Home.Payment
+namespace WebApi.Modules.Billing.Payment
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

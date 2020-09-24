@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PaymentVendorInvoice
+namespace WebApi.Modules.Billing.PaymentVendorInvoice
 {
     [FwSqlTable("dbo.funcpaymentvendorinvoiceweb(@locationid, @paymentid, @paymentdate)")]
     public class PaymentVendorInvoiceLoader : AppDataLoadRecord
