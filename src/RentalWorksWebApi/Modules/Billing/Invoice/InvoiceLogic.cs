@@ -505,7 +505,7 @@ namespace WebApi.Modules.Billing.Invoice
                 }
 
             }
-            else
+            else //smUpdate
             {
                 InvoiceLogic lOrig = null;
                 if (original != null)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.Tax;
 using WebApi;
+using WebApi.Modules.Agent.PurchaseOrder;
 
 namespace WebApi.Modules.Billing.VendorInvoice
 {
@@ -18,6 +19,11 @@ namespace WebApi.Modules.Billing.VendorInvoice
 
         VendorInvoiceLoader vendorInvoiceLoader = new VendorInvoiceLoader();
         VendorInvoiceBrowseLoader vendorInvoiceBrowseLoader = new VendorInvoiceBrowseLoader();
+
+        private PurchaseOrderLogic insertingPurchaseOrder = null;  // this object is loaded once during "Validate" (for speed) and used downstream 
+
+
+        //------------------------------------------------------------------------------------ 
         public VendorInvoiceLogic()
         {
             dataRecords.Add(vendorInvoice);
@@ -250,19 +256,87 @@ namespace WebApi.Modules.Billing.VendorInvoice
         {
             bool isValid = true;
 
-            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+
+                if (!string.IsNullOrEmpty(PurchaseOrderId))
+                {
+                    // load the PurchaseOrder object once here for use downstream
+                    insertingPurchaseOrder = new PurchaseOrderLogic();
+                    insertingPurchaseOrder.SetDependencies(AppConfig, UserSession);
+                    insertingPurchaseOrder.PurchaseOrderId = PurchaseOrderId;
+                    bool b = insertingPurchaseOrder.LoadAsync<PurchaseOrderLogic>().Result;
+                }
+
+                // Currency must match the PO
+                if (isValid)
+                {
+                    if (string.IsNullOrEmpty(CurrencyId))
+                    {
+                        CurrencyId = insertingPurchaseOrder.CurrencyId;
+                    }
+                    if (!CurrencyId.Equals(insertingPurchaseOrder.CurrencyId))
+                    {
+                        isValid = false;
+                        validateMsg = "Cannot modify the Currency of this " + BusinessLogicModuleName + ".  Instead, correct the Purchase Order and create a new " + BusinessLogicModuleName + ".";
+                    }
+                }
+
+                // default the Tax Option from the PO if none provided
+                if (isValid)
+                {
+                    if (string.IsNullOrEmpty(TaxOptionId))
+                    {
+                        TaxOptionId = insertingPurchaseOrder.TaxOptionId;
+                    }
+                }
+
+            }
+            else //smUpdate
+            {
+                VendorInvoiceLogic lOrig = null;
                 if (original != null)
                 {
-                    VendorInvoiceLogic orig = (VendorInvoiceLogic)original;
+                    lOrig = (VendorInvoiceLogic)original;
+                }
 
-                    if (((orig.PurchaseOrderId != null) && (PurchaseOrderId != null) && (!orig.PurchaseOrderId.Equals(PurchaseOrderId))) || ((orig.PurchaseOrderId == null) && (PurchaseOrderId != null)))
+                if (isValid)
+                {
+                    if (lOrig != null)
                     {
-                        validateMsg = "Cannot change the Purchase Order for an existing Vendor Invoice.";
+                        if (((PurchaseOrderId != null) && (lOrig.PurchaseOrderId != null) && (!lOrig.PurchaseOrderId.Equals(PurchaseOrderId))) || ((lOrig.PurchaseOrderId == null) && (PurchaseOrderId != null)))
+                        {
+                            validateMsg = "Cannot change the Purchase Order for an existing Vendor Invoice.";
+                            isValid = false;
+                        }
+                    }
+                }
+
+                // cannot change Currency if this Vendor Invoice is associated to a Purchase Order
+                if (isValid)
+                {
+                    if (lOrig != null)
+                    {
+                        if ((CurrencyId != null) && (!CurrencyId.Equals(lOrig.CurrencyId)) && (!string.IsNullOrEmpty(lOrig.PurchaseOrderId)))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot modify the Currency of this " + BusinessLogicModuleName + ".  Instead, delete this " + BusinessLogicModuleName + ", correct the Purchase Order, and create a new " + BusinessLogicModuleName + ".";
+                        }
+                    }
+                }
+
+                // no changes allowed at all if processed or closed
+                if (isValid)
+                {
+                    if (lOrig.Status.Equals(RwConstants.VENDOR_INVOICE_STATUS_PROCESSED) || lOrig.Status.Equals(RwConstants.VENDOR_INVOICE_STATUS_CLOSED))
+                    {
                         isValid = false;
+                        validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
                     }
                 }
             }
+
+
 
             return isValid;
         }

@@ -295,7 +295,6 @@ namespace WebApi
         public const string VENDOR_INVOICE_STATUS_PROCESSED = "PROCESSED";
         public const string VENDOR_INVOICE_STATUS_CLOSED = "CLOSED";
 
-
         //RECEIPT
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
         public const string RECEIPT_PAYMENT_BY_CUSTOMER = "CUSTOMER";

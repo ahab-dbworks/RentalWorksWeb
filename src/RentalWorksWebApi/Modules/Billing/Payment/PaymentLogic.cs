@@ -7,6 +7,7 @@ using WebApi.Modules.HomeControls.VendorInvoicePayment;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using WebApi.Modules.Billing.VendorInvoice;
+using WebApi.Modules.Home.BankAccount;
 
 namespace WebApi.Modules.Billing.Payment
 {
@@ -127,6 +128,19 @@ namespace WebApi.Modules.Billing.Payment
                     }
                 }
 
+                if (BankAccountId != null)
+                {
+                    if (orig.BankAccountId == null)
+                    {
+                        orig.BankAccountId = 0;
+                    }
+                    if (!BankAccountId.Equals(orig.BankAccountId))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the Account on this {BusinessLogicModuleName}.";
+                    }
+                }
+
                 if (RecType != null)
                 {
                     if (orig.RecType == null)
@@ -159,6 +173,33 @@ namespace WebApi.Modules.Billing.Payment
                 //        validateMsg = $"Cannot change the Payment Type on this {BusinessLogicModuleName}.";
                 //    }
                 //}
+            }
+
+            // make sure the currency of this payment matches the currency of the Account
+            if (isValid)
+            {
+                string currencyId = CurrencyId;
+                int? bankAccountId = BankAccountId;
+                if ((currencyId == null) && (orig != null))
+                {
+                    currencyId = orig.CurrencyId;
+                }
+
+                if ((bankAccountId == null) && (orig != null))
+                {
+                    bankAccountId = orig.BankAccountId;
+                }
+
+                BankAccountLogic bankAccount = new BankAccountLogic();
+                bankAccount.SetDependencies(AppConfig, UserSession);
+                bankAccount.BankAccountId = bankAccountId;
+                bool b = bankAccount.LoadAsync<BankAccountLogic>().Result;
+
+                if (!currencyId.Equals(bankAccount.CurrencyId))
+                {
+                    isValid = false;
+                    validateMsg = $"Currency of this {BusinessLogicModuleName} does not match the Currency of the Account.";
+                }
             }
 
             if (isValid)
