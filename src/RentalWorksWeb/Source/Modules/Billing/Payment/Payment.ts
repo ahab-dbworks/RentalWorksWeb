@@ -103,7 +103,7 @@ class Payment {
                 const currencyId = $tr.find('.field[data-formdatafield="DefaultCurrencyId"]').attr('data-originalvalue');
                 const currencySymbol = $tr.find('.field[data-formdatafield="DefaultCurrencySymbol"]').attr('data-originalvalue');
                 if (currencySymbol) {
-                    this.currencySymbol = currencySymbol;
+                    this.currencySymbol = `${currencySymbol} `;
                 }
                 if (currencyId) { // default currency to Vendor but only if one is indicated
                     FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="DefaultCurrencyCode"]').attr('data-originalvalue'));
@@ -210,94 +210,20 @@ class Payment {
         this.loadPaymentVendorInvoiceGrid($form);
 
         const formCurrencySymbol = FwFormField.getValueByDataField($form, 'CurrencySymbol');
-        this.currencySymbol = formCurrencySymbol || '';
+        this.currencySymbol = `${formCurrencySymbol} ` || '';
         this.events($form);
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        //// ----------
-        //$form.find('div[data-datafield="PaymentTypeId"]').data('onchange', $tr => {
-        //    FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
-        //    this.paymentTypes($form);
-        //});
         // ----------
         $form.find('div[data-datafield="CurrencyId"]').data('onchange', $tr => {
             const currencySymbol = $tr.find('.field[data-formdatafield="CurrencySymbol"]').attr('data-originalvalue');
             if (currencySymbol) {
-                this.currencySymbol = currencySymbol;
+                this.currencySymbol = `${currencySymbol} `;
             }
             this.loadPaymentVendorInvoiceGrid($form);
         });
     }
-    ////----------------------------------------------------------------------------------------------
-    //paymentTypes($form) {
-    //    const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-
-
-    //    let isOverDepletingMemo = false;
-    //    if (paymentTypeType === 'DEPLETING DEPOSIT' || paymentTypeType === 'CREDIT MEMO' || paymentTypeType === 'OVERPAYMENT') {
-    //        isOverDepletingMemo = true;
-    //    }
-    //    this.spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo);
-
-    //        this.loadPaymentVendorInvoiceGrid($form);
-
-    //}
-    ////----------------------------------------------------------------------------------------------
-    //spendPaymentTypes($form, paymentTypeType, isOverDepletingMemo) {
-    //const paymentBy = FwFormField.getValueByDataField($form, 'PaymentBy');
-
-    //if (isOverDepletingMemo) {
-    //    $form.find('div[data-datafield="CheckNumber"]').hide();
-    //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'false');
-
-    //    if (paymentBy === 'DEAL') {
-    //        $form.find('div[data-validationname="DealCreditValidation"]').show();
-    //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-    //        $form.find('div[data-validationname="CustomerCreditValidation"]').hide();
-    //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-    //    } else {
-    //        $form.find('div[data-validationname="CustomerCreditValidation"]').show();
-    //        $form.find('div[data-validationname="CustomerCreditValidation"]').attr('data-required', 'true').attr('data-enabled', 'true');
-    //        $form.find('div[data-validationname="DealCreditValidation"]').hide();
-    //        $form.find('div[data-validationname="DealCreditValidation"]').attr('data-required', 'false').attr('data-enabled', 'false');
-    //    }
-
-    //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount Remaining');
-    //    FwFormField.disable($form.find('div[data-datafield="PaymentAmount"]'));
-
-    //    if (paymentTypeType === 'DEPLETING DEPOSIT') {
-    //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Deposit Reference');
-    //    }
-    //    if (paymentTypeType === 'CREDIT MEMO') {
-    //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Credit Reference');
-    //    }
-    //    if (paymentTypeType === 'OVERPAYMENT') {
-    //        $form.find('div[data-datafield="OverPaymentId"] .fwformfield-caption').text('Overpayment Reference');
-    //    }
-    //}
-    //else {
-    //    $form.find('.deal-cust-validate').hide();
-    //    $form.find('.deal-cust-validate').attr('data-required', 'false');
-    //    $form.find('.deal-cust-validate').attr('data-enabled', 'false');
-    //    $form.find('div[data-datafield="CheckNumber"]').show();
-    //    $form.find('div[data-datafield="CheckNumber"]').attr('data-required', 'true');
-
-    //    $form.find('div[data-datafield="PaymentAmount"] .fwformfield-caption').text('Amount To Apply');
-    //    FwFormField.enable($form.find('div[data-datafield="PaymentAmount"]'));
-    //}
-    //// Adust Amount Remaining field value for chosen payment value
-    //$form.find('div[data-datafield="VendorId"]').data('onchange', $tr => {
-    //    //FwFormField.setValue($form, 'div[data-datafield="PaymentAmount"]', $tr.find('.field[data-formdatafield="Remaining"]').attr('data-originalvalue'));
-    //    //this.loadPaymentInvoiceGrid($form);
-    //});
-    //}
-    //----------------------------------------------------------------------------------------------
-    // refundCheck($form: JQuery) {
-    // hide invoice grid - disable algo
-    // show credits grid
-    // after save or if not NEW, disable credit grid
-    // }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
 
@@ -310,41 +236,6 @@ class Payment {
                 break;
         };
     }
-    //----------------------------------------------------------------------------------------------
-    //calculateCreditTotals($form, datafield, id) {
-    //    const officeLocation = FwFormField.getValueByDataField($form, 'LocationId')
-    //    let query: string;
-    //    if (datafield === 'DealId') {
-    //        query = `remainingdepositamounts?CustomerId=&DealId=${id}&OfficeLocationId=${officeLocation}`
-    //    } else {
-    //        query = `remainingdepositamounts?CustomerId=${id}&DealId=&OfficeLocationId=${officeLocation}`
-    //    }
-
-    //    FwAppData.apiMethod(true, 'GET', `${this.apiurl}/${query}`, null, FwServices.defaultTimeout, response => {
-    //        if (response.Overpayments !== 0) {
-    //            $form.find(`span[data-creditfield="Overpayments"]`).text(`Overpayments: ${this.currencySymbol}${response.OverpaymentsFormatted}`);
-    //            $form.find(`span[data-creditfield="Overpayments"]`).show();
-    //        } else {
-    //            $form.find(`span[data-creditfield="Overpayments"]`).hide();
-    //        }
-    //        if (response.CreditMemos !== 0) {
-    //            $form.find(`span[data-creditfield="CreditMemos"]`).text(`Credit Memos: ${this.currencySymbol}${response.CreditMemosFormatted}`);
-    //            $form.find(`span[data-creditfield="CreditMemos"]`).show();
-    //        } else {
-    //            $form.find(`span[data-creditfield="CreditMemos"]`).hide();
-    //        }
-    //        if (response.DepletingDeposits !== 0) {
-    //            $form.find(`span[data-creditfield="DepletingDeposits"]`).text(`Depleting Deposits: ${this.currencySymbol}${response.DepletingDepositsFormatted}`);
-    //            $form.find(`span[data-creditfield="DepletingDeposits"]`).show();
-    //        } else {
-    //            $form.find(`span[data-creditfield="DepletingDeposits"]`).hide();
-    //        }
-
-    //    }, function onError(response) {
-    //        FwFunc.showError(response);
-    //    }, null)
-
-    //}
     //----------------------------------------------------------------------------------------------
     loadPaymentVendorInvoiceGrid($form: JQuery): void {
         const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId')

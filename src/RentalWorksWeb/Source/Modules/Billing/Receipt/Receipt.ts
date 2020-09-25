@@ -111,7 +111,7 @@ class Receipt {
                 const currencyId = $tr.find('.field[data-formdatafield="CurrencyId"]').attr('data-originalvalue');
                 const currencySymbol = $tr.find('.field[data-formdatafield="CurrencySymbol"]').attr('data-originalvalue');
                 if (currencySymbol) {
-                    this.currencySymbol = currencySymbol;
+                    this.currencySymbol = `${currencySymbol} `;
                 }
                 if (currencyId) { // default currency to deal or Customer but only if one is indicated
                     FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, $tr.find('.field[data-formdatafield="CurrencyCode"]').attr('data-originalvalue'));
@@ -339,7 +339,7 @@ class Receipt {
             this.loadReceiptInvoiceGrid($form);
         }
         const formCurrencySymbol = FwFormField.getValueByDataField($form, 'CurrencySymbol');
-        this.currencySymbol = formCurrencySymbol || '';
+        this.currencySymbol = `${formCurrencySymbol} ` || '';
         this.events($form);
         // Credit submodule
         setTimeout(() => {
@@ -358,7 +358,7 @@ class Receipt {
         $form.find('div[data-datafield="CurrencyId"]').data('onchange', $tr => {
             const currencySymbol = $tr.find('.field[data-formdatafield="CurrencySymbol"]').attr('data-originalvalue');
             if (currencySymbol) {
-                this.currencySymbol = currencySymbol;
+                this.currencySymbol = `${currencySymbol} `;
             }
             this.paymentTypes($form);
         });
