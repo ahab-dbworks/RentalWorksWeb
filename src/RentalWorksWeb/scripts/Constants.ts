@@ -57,6 +57,7 @@ var Constants = {
                 BillingWorksheet: { id: '2BTZbIXJy4tdI', caption: 'Billing Worksheet', nav: 'module/billingworksheet', nodetype: 'Module' },
                 Invoice:          { id: 'cZ9Z8aGEiDDw',  caption: 'Invoice',           nav: 'module/invoice',          nodetype: 'Module' },
                 Receipt:          { id: 'q4PPGLusbFw',   caption: 'Receipts',          nav: 'module/receipt',          nodetype: 'Module' },
+                Payment:          { id: 'Y7YC6NpLqX8kx', caption: 'Payments',          nav: 'module/payment',          nodetype: 'Module' },
                 VendorInvoice:    { id: 'Fq9aOe0yWfY',   caption: 'Vendor Invoice',    nav: 'module/vendorinvoice',    nodetype: 'Module' },
             }
         },

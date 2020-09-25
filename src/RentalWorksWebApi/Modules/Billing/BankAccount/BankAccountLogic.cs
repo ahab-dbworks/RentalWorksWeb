@@ -1,5 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+
 namespace WebApi.Modules.Home.BankAccount
 {
     [FwLogic(Id: "xNv1wTFLxsDXn")]
@@ -37,12 +39,29 @@ namespace WebApi.Modules.Home.BankAccount
         [FwLogicProperty(Id: "xSGPbo4VSmjkz")]
         public string DateStamp { get { return bankAccount.DateStamp; } set { bankAccount.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            //prevent user from changing currency if payments/transactions exist
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    if ((CurrencyId != null) && (!CurrencyId.Equals(((BankAccountLogic)original).CurrencyId)))
+                    {
+                        if (AppFunc.DataExistsAsync(AppConfig, "payment", new string[] { "accountid" }, new string[] { BankAccountId.ToString() }).Result)
+                        {
+                            isValid = false;
+                            validateMsg = $"Cannot change the Currency for this {BusinessLogicModuleName} because payments/transactions exist.";
+                        }
+                    }
+                }
+            }
+
+            return isValid;
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.Payment
+using WebApi.Modules.Settings.PaymentSettings.PaymentType;
+using WebApi.Modules.Utilities.GLDistribution;
+
+namespace WebApi.Modules.Billing.Payment
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -81,6 +84,22 @@ namespace WebApi.Modules.Home.Payment
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<PaymentLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/payment/validatepaymenttype/browse
+        [HttpPost("validatepaymenttype/browse")]
+        [FwControllerMethod(Id: "Q23AH20YjFsyB", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePaymentTypeAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<PaymentTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/payment/gldistribution/browse 
+        [HttpPost("gldistribution/browse")]
+        [FwControllerMethod(Id: "QCTR5CetaVbu", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> GLDistribution_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GLDistributionLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }

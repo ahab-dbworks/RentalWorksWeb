@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Payment
+namespace WebApi.Modules.Billing.Payment
 {
     [FwSqlTable("payment")]
     public class PaymentRecord : AppDataReadWriteRecord
@@ -14,9 +14,9 @@ namespace WebApi.Modules.Home.Payment
         public string PaymentDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
-        public string OfficeLocationId { get; set; }
+        public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
@@ -29,7 +29,7 @@ namespace WebApi.Modules.Home.Payment
         public string CheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "amount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Amount { get; set; }
+        public decimal? PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "appliedbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string AppliedById { get; set; }
