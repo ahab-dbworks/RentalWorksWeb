@@ -113,14 +113,17 @@ class PurchaseHistory {
             },
             beforeSave: (request: any) => {
                 request.PurchaseId = FwFormField.getValueByDataField($form, 'PurchaseId');
-            }
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.updateDepreciationFormValues($form);
+            },
         });
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         const $depreciationGrid = $form.find('[data-name="DepreciationGrid"]');
         FwBrowse.search($depreciationGrid);
-        this.showHideWarhouseRow($form);
+        this.showHideWarehouseRow($form);
 
 
         const isFixedAsset = FwFormField.getValueByDataField($form, 'FixedAsset');
@@ -131,7 +134,7 @@ class PurchaseHistory {
         }
     };
     //---------------------------------------------------------------------------------------------
-    showHideWarhouseRow($form) {
+    showHideWarehouseRow($form) {
         const currencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
         const warehouseCurrencyId = FwFormField.getValueByDataField($form, 'WarehouseDefaultCurrencyId');
         if (currencyId !== '' && currencyId !== warehouseCurrencyId) {
@@ -139,6 +142,15 @@ class PurchaseHistory {
         } else {
             $form.find('.warehouse-currency').hide();
         }
+    }
+    //---------------------------------------------------------------------------------------------
+    updateDepreciationFormValues($form) {
+        //method used to update form values after grid row save
+        const purchaseId = FwFormField.getValueByDataField($form, 'PurchaseId');
+        FwAppData.apiMethod(true, 'GET', `api/v1/purchase/${purchaseId}`, null, FwServices.defaultTimeout, res => {
+            FwFormField.setValueByDataField($form, 'TotalDepreciation', res.TotalDepreciation);
+            FwFormField.setValueByDataField($form, 'TotalBookValue', res.TotalBookValue);
+        }, null, $form);
     }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {

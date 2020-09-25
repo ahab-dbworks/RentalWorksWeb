@@ -313,7 +313,6 @@ class RwAsset {
             }
         });
 
-
         //Depreciation Grid
         FwBrowse.renderGrid({
             nameGrid: 'DepreciationGrid',
@@ -332,10 +331,11 @@ class RwAsset {
             },
             beforeSave: (request: any) => {
                 request.PurchaseId = FwFormField.getValueByDataField($form, 'PurchaseId');
-            }
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                this.updateDepreciationFormValues($form);
+            },
         });
-
-
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -481,6 +481,15 @@ class RwAsset {
         FwModule.openSubModuleTab($form, $inventoryRetireForm);
         const $tab = FwTabs.getTabByElement($inventoryRetireForm);
         $tab.find('.caption').html('Retire Asset');
+    }
+    //---------------------------------------------------------------------------------------------
+    updateDepreciationFormValues($form) {
+        //method used to update form values after grid row save
+        const itemId = FwFormField.getValueByDataField($form, 'ItemId');
+        FwAppData.apiMethod(true, 'GET', `api/v1/item/${itemId}`, null, FwServices.defaultTimeout, res => {
+            FwFormField.setValueByDataField($form, 'Depreciation', res.Depreciation);
+            FwFormField.setValueByDataField($form, 'BookValue', res.BookValue);
+        }, null, $form);
     }
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {

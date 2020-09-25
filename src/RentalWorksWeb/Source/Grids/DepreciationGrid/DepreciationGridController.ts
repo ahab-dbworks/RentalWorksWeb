@@ -2,8 +2,6 @@
     Module: string = 'DepreciationGrid';
     apiurl: string = 'api/v1/depreciation';
 
-
-
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="DebitGlAccountId"]').data('onchange', $tr => {
             $generatedtr.find('.field[data-browsedatafield="GlAccountDescription"] input').val($tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
@@ -12,7 +10,6 @@
             $generatedtr.find('.field[data-browsedatafield="CreditGlAccountDescription"] input').val($tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
     }
-
 
     addLegend($control) {
         try {
