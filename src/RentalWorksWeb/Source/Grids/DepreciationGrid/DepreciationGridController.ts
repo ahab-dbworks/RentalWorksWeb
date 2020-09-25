@@ -4,12 +4,10 @@
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="DebitGlAccountId"]').data('onchange', $tr => {
-            //$generatedtr.find('.field[data-browsedatafield="DebitGlAccountDescription"] input').val($tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-            FwBrowse.setFieldValue($control, $generatedtr, 'DebitGlAccountDescription', { value: $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue') });
+            $generatedtr.find('.field[data-browsedatafield="DebitGlAccountDescription"]').text($tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
         $generatedtr.find('div[data-browsedatafield="CreditGlAccountId"]').data('onchange', $tr => {
-            //$generatedtr.find('.field[data-browsedatafield="CreditGlAccountDescription"] input').val($tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-            FwBrowse.setFieldValue($control, $generatedtr, 'CreditGlAccountDescription', { value: $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue') });
+            $generatedtr.find('.field[data-browsedatafield="CreditGlAccountDescription"]').text($tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
     }
 
