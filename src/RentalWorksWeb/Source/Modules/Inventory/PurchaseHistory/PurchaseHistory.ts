@@ -103,7 +103,7 @@ class PurchaseHistory {
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
-                options.hasEdit = false;
+                options.hasEdit = true;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
