@@ -67,7 +67,7 @@ namespace WebApi.Modules.Billing.Payment
         public string PaymentDocumentNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "amount", modeltype: FwDataTypes.Decimal)]
-        public decimal? Amount { get; set; }
+        public decimal? PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "appliedbyid", modeltype: FwDataTypes.Text)]
         public string AppliedById { get; set; }
