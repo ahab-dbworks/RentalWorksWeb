@@ -259,7 +259,7 @@ export class Department extends SettingsModule {
             DisableEditingSalesRate: false,
             DisableEditingMiscellaneousRate: false,
             DisableEditingLaborRate: false,
-            DisableEditingUsedSaleRate: false,
+            DisableEditingRentalSaleRate: false,
             DisableEditingLossAndDamageRate: false,
             SalesBillingRule: "BILLINGDATE",
             LockLineItemsWhenCustomDiscountUsed: false,

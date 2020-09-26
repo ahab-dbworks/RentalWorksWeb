@@ -1226,7 +1226,6 @@ class PurchaseOrder implements IModule {
         let $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         let $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
         let $subSalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
-        let $usedSaleGrid = $form.find('.purchasegrid [data-name="OrderItemGrid"]');
         let $subLaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]');
         let $subMiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]');
         let rateType = FwFormField.getValueByDataField($form, 'RateType');

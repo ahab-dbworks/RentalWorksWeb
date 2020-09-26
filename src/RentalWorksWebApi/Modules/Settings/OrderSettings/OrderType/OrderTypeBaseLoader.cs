@@ -166,7 +166,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         public bool? AllowRoundTripRentals { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "selectrentalsaleprice", modeltype: FwDataTypes.Text)]
-        public string DefaultUsedSalePrice { get; set; }
+        public string DefaultRentalSalePrice { get; set; }
         //------------------------------------------------------------------------------------ 
 
 

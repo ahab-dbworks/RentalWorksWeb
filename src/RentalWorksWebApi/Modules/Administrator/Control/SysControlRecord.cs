@@ -426,7 +426,7 @@ namespace WebApi.Modules.Administrator.Control
         public int? Noavailcolor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "manuallyretireusedsales", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Manuallyretireusedsales { get; set; }
+        public bool? ManuallyRetireRentalSales { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastpopulatepomasteraccruals", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string Lastpopulatepomasteraccruals { get; set; }

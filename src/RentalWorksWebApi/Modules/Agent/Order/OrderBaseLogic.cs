@@ -1184,7 +1184,7 @@ namespace WebApi.Modules.Agent.Order
         public bool? DisableEditingLaborRate { get; set; }
 
         [FwLogicProperty(Id: "YtkQnTGNZkDa", IsReadOnly: true)]
-        public bool? DisableEditingUsedSaleRate { get; set; }
+        public bool? DisableEditingRentalSaleRate { get; set; }
 
         [FwLogicProperty(Id: "q3zqI75ytlCZ", IsReadOnly: true)]
         public bool? DisableEditingLossAndDamageRate { get; set; }
@@ -1200,7 +1200,7 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "Vm9BEBQZ1Wt9D", IsReadOnly: true)]
         public decimal? MiscellaneousExtendedTotal { get; set; }
         [FwLogicProperty(Id: "OwPNPM2xfi30C", IsReadOnly: true)]
-        public decimal? UsedSaleExtendedTotal { get; set; }
+        public decimal? RentalSaleExtendedTotal { get; set; }
         [FwLogicProperty(Id: "Nv6r2tREyvp1p", IsReadOnly: true)]
         public decimal? LossAndDamageExtendedTotal { get; set; }
 
