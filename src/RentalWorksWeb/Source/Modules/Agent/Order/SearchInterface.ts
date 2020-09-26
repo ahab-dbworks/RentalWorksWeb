@@ -228,6 +228,7 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'ToDate', today);
                 FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($popup, 'PoTypeId', response.DefaultPurchasePoTypeId, response.DefaultPurchasePoType);
+                    FwFormField.setValueByDataField($popup, 'CurrencyId', response.DefaultCurrencyId, response.DefaultCurrencyCode);
                 }, ex => FwFunc.showError(ex), null);
                 FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($popup, 'OrderTypeId', response.DefaultOrderTypeId, response.DefaultOrderType);
@@ -381,6 +382,7 @@ class SearchInterface {
                                     <div data-control="FwFormField" data-type="validation" class="deal-fields fwcontrol fwformfield" data-caption="Rate" data-datafield="RateType" data-displayfield="RateType" data-validationname="RateTypeValidation" data-validationpeek="false" data-required="true" style="flex:1 1 175px;"></div>
                                     <div data-control="FwFormField" data-type="validation" class="po-hide deal-fields fwcontrol fwformfield" data-caption="Type" data-datafield="OrderTypeId" data-displayfield="OrderType" data-validationname="OrderTypeValidation" data-required="true" style="flex:1 1 175px;"></div>                                 
                                     <div data-control="FwFormField" data-type="validation" class="po-show fwcontrol fwformfield" data-caption="Type" data-datafield="PoTypeId" data-displayfield="PoType" data-validationname="POTypeValidation" data-required="true" style="display:none;flex:1 1 175px;"></div>                                 
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-validationname="CurrencyValidation" data-required="false" style="flex:1 1 275px; display:none;"></div>                               
                                 </div>
                                 <div class="flexrow">
                                     <div data-control="FwFormField" data-type="validation" class="transfer-show fwcontrol fwformfield" data-caption="From Warehouse" data-datafield="FromWarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-required="true" style="display:none; flex:1 1 175px;"></div>
@@ -480,6 +482,7 @@ class SearchInterface {
                         request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
                         request.EstimatedStopDate  = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
                         request.EstimatedStopTime  = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                        request.CurrencyId         = FwFormField.getValue2($addToTab.find('[data-datafield="CurrencyId"]'));
                         break;
                     case 'Order':
                         controller                 = 'OrderController';
@@ -492,6 +495,7 @@ class SearchInterface {
                         request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
                         request.EstimatedStopDate  = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
                         request.EstimatedStopTime  = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                        request.CurrencyId         = FwFormField.getValue2($addToTab.find('[data-datafield="CurrencyId"]'));
                         break;
                     case 'Purchase':
                         addToType                  = PurchaseOrderController.Module;
@@ -505,6 +509,7 @@ class SearchInterface {
                         request.EstimatedStartTime = FwFormField.getValue2($addToTab.find('[data-datafield="FromTime"]'));
                         request.EstimatedStopDate  = FwFormField.getValue2($addToTab.find('[data-datafield="ToDate"]'));
                         request.EstimatedStopTime  = FwFormField.getValue2($addToTab.find('[data-datafield="ToTime"]'));
+                        request.CurrencyId         = FwFormField.getValue2($addToTab.find('[data-datafield="CurrencyId"]'));
                         break;
                     case 'Transfer':
                         controller              = 'TransferOrderController';
