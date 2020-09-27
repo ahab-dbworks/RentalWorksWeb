@@ -1969,16 +1969,16 @@ class PurchaseOrder implements IModule {
     //----------------------------------------------------------------------------------------------
     disableCheckboxesOnLoad($form: any): void {
         // If a record has xxx items, user cannot uncheck corresponding activity checkbox
-        if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasRentalItem') && FwFormField.getValueByDataField($form, 'Rental')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         }
-        if (FwFormField.getValueByDataField($form, 'HasSalesItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasSalesItem') && FwFormField.getValueByDataField($form, 'Sales')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
         }
-        if (FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasMiscellaneousItem') && FwFormField.getValueByDataField($form, 'Miscellaneous')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
         }
-        if (FwFormField.getValueByDataField($form, 'HasLaborItem')) {
+        if (FwFormField.getValueByDataField($form, 'HasLaborItem') && FwFormField.getValueByDataField($form, 'Labor')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
         }
         //if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {              // These fields are being served but no corresponding tab or checkbox at the moment
