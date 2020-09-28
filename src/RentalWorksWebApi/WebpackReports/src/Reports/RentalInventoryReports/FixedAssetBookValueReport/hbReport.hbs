@@ -1,0 +1,109 @@
+﻿<!--Fixed Asset Book Value Report-->
+<div data-section="header" class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">As Of: {{AsOfDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Rank" data-valuefield="Rank">Rank</th>
+        <th data-linkedcolumn="TrackedBy" data-valuefield="TrackedBy">Tracked By</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="Quantity">Qty.</th>
+        <th data-linkedcolumn="BarCode" data-valuefield="BarCode">Bar Code</th>
+        <th data-linkedcolumn="Received" data-valuefield="Received">Received</th>
+        <th data-linkedcolumn="PurchaseAmount" data-valuefield="PurchaseAmount" class="number">Purchase Amount</th>
+        <th data-linkedcolumn="Depreciation" data-valuefield="Depreciation" class="number">Depreciation</th>
+        <th data-linkedcolumn="BookValue" data-valuefield="BookValue" class="number">Book Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="10" class="header-row">Purchase Warehouse: {{Warehouse}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="10" class="header-row">Inventory Type: {{InventoryType}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="10" class="header-row">Category: {{Category}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "SubCategoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="10" class="header-row">Sub Category: {{SubCategory}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Rank" data-value="{{Rank}}"></td>
+        <td data-linkedcolumn="TrackedBy" data-value="{{TrackedBy}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{PurchaseQuantity}}"></td>
+        <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
+        <td data-linkedcolumn="Received" data-value="{{ReceiveDate}}"></td>
+        <td data-linkedcolumn="PurchaseAmount" class="number" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="Depreciation" class="number" data-value="{{TotalDepreciation}}"></td>
+        <td data-linkedcolumn="BookValue" class="number" data-value="{{BookValue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{Category}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
+        <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
+        <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
+        <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">Grand Total&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
+        <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>

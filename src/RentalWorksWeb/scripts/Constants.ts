@@ -262,6 +262,7 @@ var Constants = {
                     caption: 'Rental Inventory Reports',
                     nodetype: 'Category',
                     children: {
+                        FixedAssetBookValueReport:                { id: '03HEFOHpPOEm',  caption: 'Fixed Asset Book Value',                  nav: 'reports/fixedassetbookvaluereport',                nodetype: 'Module', description: 'List all Fixed Asset Inventory items and get a current or historical Book Value.' },
                         RentalInventoryActivityByDateReport:      { id: 'nh7dhdTKT9U0Q', caption: 'Rental Inventory Activity By Date',       nav: 'reports/rentalinventoryactivitybydatereport',      nodetype: 'Module', description: 'List all Rental Inventory Out and In Activity over a specific date range.' },
                         RentalInventoryAttributesReport:          { id: 'CgvKJwiD2ew',   caption: 'Rental Inventory Attributes',             nav: 'reports/rentalinventoryattributesreport',          nodetype: 'Module', description: 'List all Rental Inventory with their Attributes and Values.' },
                         RentalInventoryAvailabilityReport:        { id: 'LQj6R2GQBfLfS', caption: 'Rental Inventory Availability',           nav: 'reports/rentalinventoryavailabilityreport',        nodetype: 'Module', description: 'List all Rental Inventory with projected Availability for up to 30 days.' },

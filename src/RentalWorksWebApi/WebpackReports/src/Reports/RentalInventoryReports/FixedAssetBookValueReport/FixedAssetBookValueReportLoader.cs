@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.FixedAssetBookValue
 {
     [FwSqlTable("dbo.funcfixedassetbookvaluerptweb(@asofdate)")]
-    public class FixedAssetBookValueLoader : AppReportLoader
+    public class FixedAssetBookValueReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -32,8 +32,8 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
-        public bool? Rank { get; set; }
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
@@ -108,6 +108,7 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
+                    select.AddParameter("@asofdate", request.AsOfDate);
                     select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
@@ -115,7 +116,7 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
                     select.AddWhereIn("masterid", request.InventoryId);
                     select.AddWhereIn("rank", request.Ranks);
                     select.AddWhereIn("trackedby", request.TrackedBys);
-                    select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, barcode, mfgserial");
+                    select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, barcode");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }

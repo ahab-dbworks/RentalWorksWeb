@@ -28,10 +28,10 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "03HEFOHpPOEm")]
-    public class FixedAssetBookValueController : AppReportController
+    public class FixedAssetBookValueReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public FixedAssetBookValueController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(FixedAssetBookValueLoader); }
+        public FixedAssetBookValueReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(FixedAssetBookValueReportLoader); }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "FixedAssetBookValue"; }
         //------------------------------------------------------------------------------------ 
@@ -82,7 +82,7 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
             }
             try
             {
-                FixedAssetBookValueLoader l = new FixedAssetBookValueLoader();
+                FixedAssetBookValueReportLoader l = new FixedAssetBookValueReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 l.HideDetailColumnsInSummaryDataTable(request, dt);
