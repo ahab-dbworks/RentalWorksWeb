@@ -168,8 +168,11 @@ class Program extends FwApplication {
                 userid.reportsnavexpanded = `${responseGetUserSettings.ReportsNavigationMenuVisible}`;
                 userid.settingsnavexpanded = `${responseGetUserSettings.SettingsNavigationMenuVisible}`;
                 userid.mainmenupinned = responseGetUserSettings.MainMenuPinned;
+                userid.locale = responseGetUserSettings.Locale;
                 userid.defaultquikactivitysetting = responseGetUserSettings.QuikActivitySetting;
                 sessionStorage.setItem('userid', JSON.stringify(userid));
+
+                FwLocale.setLocale(userid.locale);
 
                 // Include department's default activity selection in sessionStorage for use in Quote / Order
                 const department = JSON.parse(sessionStorage.getItem('department'));
