@@ -114,7 +114,7 @@ html.theme-material .fwbrowse table tbody tr td.cellColor::after {content: "";po
 html.theme-material .fwbrowse table tbody tr.editmode td .cellgradient {padding-left: 0px !important;}
 html.theme-material .fwbrowse table tbody tr td {vertical-align:top;text-align:left;-webkit-touch-callout: none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 html.theme-material .fwbrowse table tbody tr td.column {border-top:1px solid transparent;border-spacing:0;padding:0;}
-html.theme-material .fwbrowse table tbody tr td .field {box-sizing:border-box;height:100%;line-height:100%;white-space:nowrap;text-overflow:ellipsis;vertical-align:middle;display: flex;align-items: center;font-size:.8em;}
+html.theme-material .fwbrowse table tbody tr td .field {box-sizing:border-box;height:100%;line-height:100%;/*white-space:nowrap;*/text-overflow:ellipsis;vertical-align:middle;display: flex;align-items: center;font-size:.8em;}
 html.theme-material .fwbrowse table tbody tr td .field[data-widerow="true"] {height:unset;line-height:unset;min-height:50%}
 html.theme-material .fwbrowse table tbody tr.viewmode td .field {cursor:default;padding:0 .3em;}
 html.theme-material .fwbrowse table tbody tr.viewmode td .sk-fading-circle {width: 30px;height: 30px;position: relative;display:none;}
