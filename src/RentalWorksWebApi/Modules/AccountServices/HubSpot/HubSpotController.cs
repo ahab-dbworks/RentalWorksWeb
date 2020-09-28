@@ -36,6 +36,15 @@ namespace WebApi.Modules.AccountServices.HubSpot
             var hs = FwBusinessLogic.CreateBusinessLogic<HubSpotLogic>(this.AppConfig, this.UserSession);
             return await hs.PostContactAsync(l);
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/hubspot/gettokens 
+        [HttpPost("gettokens")]
+        [FwControllerMethod(Id: "D6Jh3OAuOSTL", ActionType: FwControllerActionTypes.New)]
+        public async Task<ActionResult<string>> PostAsync([FromBody]GetHubSpotTokensRequest l)
+        {
+            var hs = FwBusinessLogic.CreateBusinessLogic<HubSpotLogic>(this.AppConfig, this.UserSession);
+            return await hs.GetTokensAsync(l);
+        }
     }
 
 }

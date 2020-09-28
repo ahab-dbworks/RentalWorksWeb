@@ -6,6 +6,7 @@ class Base {
             valueYear: new Date().getFullYear(),
             valueVersion: applicationConfig.version
         };
+        console.log('default screen');
         const screen = FwBasePages.getDefaultScreen(viewModel);
         document.title = Constants.appCaption;
         screen.$view
@@ -167,7 +168,7 @@ class Base {
         let viewModel = {};
         let properties = {};
         let screen: any = {};
-        let installUrl = "https://app.hubspot.com/oauth/authorize?scope=contacts&redirect_uri=http://localhost:57949/webdev/#/hubspotoauth&client_id=dca2d2a7-e71e-4311-b8bc-c49083f03194";
+        let installUrl = "https://app.hubspot.com/oauth/authorize?client_id=7fd2d81a-ae52-4a60-af93-caa4d1fd5848&redirect_uri=http://localhost:57949/webdev&scope=contacts";
 
         screen = FwBasePages.getHubSpotInstallScreen(viewModel);
         screen.viewModel = viewModel;
@@ -190,7 +191,7 @@ class Base {
         let callBackParams = new URLSearchParams(window.location.search);
         let callBackCode = callBackParams.get('code');
 
-        console.log(callBackCode);
+        console.log(callBackCode, 'code');
 
         screen = FwBasePages.getHubSpotOauthCallback(viewModel);
         screen.viewModel = viewModel;

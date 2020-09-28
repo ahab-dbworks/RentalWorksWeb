@@ -298,7 +298,6 @@ var program: Program = new Program();
 //---------------------------------------------------------------------------------
 jQuery(function () {
     jQuery('html').css('background-color', 'initial');
-
     if (sessionStorage.getItem('app') !== null && sessionStorage.getItem('app') !== 'rentalworks') {
         program.navigate('logoff');
         return;
