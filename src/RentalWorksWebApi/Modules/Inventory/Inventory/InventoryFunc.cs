@@ -194,9 +194,11 @@ namespace WebApi.Modules.Inventory.Inventory
             qry.AddParameter("@newtrackedby", SqlDbType.NVarChar, ParameterDirection.Input, request.NewTrackedBy);
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
             qry.AddParameter("@success", SqlDbType.NVarChar, ParameterDirection.Output);
+            qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
             qry.AddParameter("@barcodescreated", SqlDbType.Int, ParameterDirection.Output);
             await qry.ExecuteNonQueryAsync();
             response.success = FwConvert.ToBoolean(qry.GetParameter("@success").ToString());
+            response.msg = qry.GetParameter("@msg").ToString();
             response.BarCodesCreated = FwConvert.ToInt32(qry.GetParameter("@barcodescreated").ToString());
             return response;
         }

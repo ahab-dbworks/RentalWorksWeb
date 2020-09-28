@@ -291,7 +291,7 @@ namespace WebApi.Modules.HomeControls.Master
             }
             if (doSaveNote)
             {
-                bool saved = master.SaveNoteASync(Note).Result;
+                bool saved = master.SaveNoteASync(Note, e.SqlConnection).Result;
                 if (saved)
                 {
                     e.RecordsAffected++;

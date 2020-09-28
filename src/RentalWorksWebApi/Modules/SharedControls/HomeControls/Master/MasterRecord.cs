@@ -482,9 +482,9 @@ namespace WebApi.Modules.HomeControls.Master
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> SaveNoteASync(string Note)
+        public async Task<bool> SaveNoteASync(string Note, FwSqlConnection conn = null)
         {
-            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, MasterId, "", "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, MasterId, "", "", Note, conn);
         }
         //-------------------------------------------------------------------------------------------------------
         public async Task<bool> SaveWardrobeDetailedDescription(string description, FwSqlConnection conn)

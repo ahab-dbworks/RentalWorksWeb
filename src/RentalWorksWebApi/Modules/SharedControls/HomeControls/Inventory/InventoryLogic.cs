@@ -5,8 +5,8 @@ using WebApi.Modules.HomeControls.Master;
 //using WebApi.Logic;
 //using static FwStandard.Data.FwDataReadWriteRecord;
 using System.Reflection;
-using WebApi;
-using FwStandard.SqlServer;
+//using WebApi;
+//using FwStandard.SqlServer;
 using WebApi.Logic;
 using WebApi.Modules.Inventory.Inventory;
 
@@ -18,7 +18,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         //------------------------------------------------------------------------------------ 
         protected ItemDimensionRecord primaryDimension = new ItemDimensionRecord();
         protected ItemDimensionRecord secondaryDimension = new ItemDimensionRecord();
-        InventoryBrowseLoader inventoryBrowseLoader = new InventoryBrowseLoader();
+        //InventoryBrowseLoader inventoryBrowseLoader = new InventoryBrowseLoader();
         private bool _changingTrackedBy = false;
 
         public InventoryLogic() : base()
@@ -27,6 +27,7 @@ namespace WebApi.Modules.HomeControls.Inventory
             dataRecords.Add(secondaryDimension);
             //browseLoader = inventoryBrowseLoader;
             BeforeSave += OnBeforeSave;
+            UseTransactionToSave = true;
         }
         //------------------------------------------------------------------------------------ 
 
@@ -564,9 +565,10 @@ namespace WebApi.Modules.HomeControls.Inventory
                     request.OldTrackedBy = orig.TrackedBy;
                     request.NewTrackedBy = TrackedBy;
                     ChangeInventoryTrackedByResponse response = InventoryFunc.ChangeInventoryTrackedBy(AppConfig, UserSession, request, e.SqlConnection).Result;
-                    if (!response.success)  // need an error message here
+                    if (!response.success)  
                     {
-                        bool b = AppFunc.UpdateDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { InventoryId }, new string[] { "trackedby" }, new string[] { orig.TrackedBy }).Result;
+                        throw new System.Exception(response.msg);
+                        //bool b = AppFunc.UpdateDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { InventoryId }, new string[] { "trackedby" }, new string[] { orig.TrackedBy }).Result;
                     }
                 }
             }
