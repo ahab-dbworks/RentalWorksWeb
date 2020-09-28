@@ -267,7 +267,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                     {
                         FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
                         qry.Add("select *                                       ");
-                        qry.Add(" from  dbo.funcinvoiceglweb(@invoiceid) gl     ");
+                        qry.Add(" from  dbo.funcinvoiceglexport(@invoiceid) gl  ");
                         qry.Add("order by gl.orderby                            ");
                         qry.AddParameter("@invoiceid", i.InvoiceId);
                         FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
