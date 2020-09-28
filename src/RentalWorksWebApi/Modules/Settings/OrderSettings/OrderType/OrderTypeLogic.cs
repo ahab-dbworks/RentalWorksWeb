@@ -1777,7 +1777,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
 
         [FwLogicProperty(Id:"lfbvkk44e1D5")]
-        public string DefaultUsedSalePrice { get { return orderType.Selectrentalsaleprice; } set { orderType.Selectrentalsaleprice = value; } }
+        public string DefaultRentalSalePrice { get { return orderType.SelectRentalSalePrice; } set { orderType.SelectRentalSalePrice = value; } }
 
 
 

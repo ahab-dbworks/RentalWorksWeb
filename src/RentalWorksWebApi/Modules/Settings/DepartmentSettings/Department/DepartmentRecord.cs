@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         public bool? DefaultActivityTransportation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activityrentalsale", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
-        public bool? DefaultActivityUsedSale { get; set; }
+        public bool? DefaultActivityRentalSale { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disableeditraterental", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? DisableEditingRentalRate { get; set; }
@@ -54,7 +54,7 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         public bool? DisableEditingLaborRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disableeditrateusedsale", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
-        public bool? DisableEditingUsedSaleRate { get; set; }
+        public bool? DisableEditingRentalSaleRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disableeditrateld", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? DisableEditingLossAndDamageRate { get; set; }

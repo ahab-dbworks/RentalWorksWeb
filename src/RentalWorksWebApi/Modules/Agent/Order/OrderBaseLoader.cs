@@ -905,7 +905,7 @@ namespace WebApi.Modules.Agent.Order
         public bool? DisableEditingLaborRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentdisableeditrateusedsale", modeltype: FwDataTypes.Boolean)]
-        public bool? DisableEditingUsedSaleRate { get; set; }
+        public bool? DisableEditingRentalSaleRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentdisableeditrateld", modeltype: FwDataTypes.Boolean)]
         public bool? DisableEditingLossAndDamageRate { get; set; }
@@ -920,7 +920,7 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "miscextended", modeltype: FwDataTypes.Decimal)]
         public decimal? MiscellaneousExtendedTotal { get; set; }
         [FwSqlDataField(column: "rentalsaleextended", modeltype: FwDataTypes.Decimal)]
-        public decimal? UsedSaleExtendedTotal { get; set; }
+        public decimal? RentalSaleExtendedTotal { get; set; }
         [FwSqlDataField(column: "ldextended", modeltype: FwDataTypes.Decimal)]
         public decimal? LossAndDamageExtendedTotal { get; set; }
 

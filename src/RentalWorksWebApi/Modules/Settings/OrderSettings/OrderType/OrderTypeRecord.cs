@@ -185,7 +185,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         public bool? Roundtriprentals { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "selectrentalsaleprice", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
-        public string Selectrentalsaleprice { get; set; }
+        public string SelectRentalSalePrice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string RentalOrderTypeFieldsId { get; set; }
