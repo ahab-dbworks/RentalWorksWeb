@@ -285,7 +285,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                 bool isSubOrGrandTotalRow = (row[dt.GetColumnNo("RowType")].ToString().Equals("grandtotal") || row[dt.GetColumnNo("RowType")].ToString().Equals("RecTypeDisplayfooter"));
                 string currencySymbol = dt.Rows[0][dt.GetColumnNo("CurrencySymbol")].ToString();
                 string currencyCode = dt.Rows[0][dt.GetColumnNo("CurrencyCode")].ToString();
-                string currencyId = dt.Rows[0][dt.GetColumnNo("CurrencyId")].ToString(); 
+                string currencyId = dt.Rows[0][dt.GetColumnNo("CurrencyId")].ToString();
                 string officeLocationDefaultCurrencyId = dt.Rows[0][dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString();
                 bool isForeignCurrency = ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationDefaultCurrencyId)));
 
@@ -492,7 +492,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
     //------------------------------------------------------------------------------------ 
 
 
-    public class OrderNoteReportLoader : AppReportLoader
+    public class OrderNoteReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -544,7 +544,81 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         }
         //------------------------------------------------------------------------------------ 
     }
+    [FwSqlTable("orderhiatuswebview")]
+    public class OrderHiatusReportLoader : AppDataLoadRecord
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "startdate", modeltype: FwDataTypes.Date)]
+        public string StartDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enddate", modeltype: FwDataTypes.Date)]
+        public string EndDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<List<T>> LoadItems<T>(OrderReportRequest request)
+        {
+            //FwJsonDataTable dt = null;
+            //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            //{
+            //    using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintnotes", this.AppConfig.DatabaseSettings.ReportTimeout))
+            //    {
+            //        qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
+            //        AddPropertiesAsQueryColumns(qry);
+            //        dt = await qry.QueryToFwJsonTableAsync(false, 0);
+            //    }
+            //    //--------------------------------------------------------------------------------- 
+            //}
 
+
+
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                select.UseOptionRecompile = true;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
+                {
+                    SetBaseSelectQuery(select, qry);
+
+                    select.Parse();
+                    select.AddWhere("(orderid = @orderid)");
+                    select.AddParameter("@orderid", request.OrderId);
+                    select.AddOrderBy("startdate, enddate");
+
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                }
+            }
+
+
+            dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
+
+            List<T> items = new List<T>();
+            foreach (List<object> row in dt.Rows)
+            {
+                T item = (T)Activator.CreateInstance(typeof(T));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        object value = row[dt.GetColumnNo(fieldName)];
+                        property.SetValue(item, (value ?? "").ToString());
+                    }
+                }
+                items.Add(item);
+            }
+
+            return items;
+
+
+        }
+        //------------------------------------------------------------------------------------ 
+    }
 
 
 
@@ -1201,6 +1275,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<OrderNoteReportLoader> Notes { get; set; } = new List<OrderNoteReportLoader>(new OrderNoteReportLoader[] { new OrderNoteReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<OrderHiatusReportLoader> HiatusDates { get; set; } = new List<OrderHiatusReportLoader>(new OrderHiatusReportLoader[] { new OrderHiatusReportLoader() });
 
 
 
@@ -1266,7 +1341,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     NotesItems.SetDependencies(AppConfig, UserSession);
                     taskNotesOrderItems = NotesItems.LoadItems<OrderNoteReportLoader>(request);
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems, taskNotesOrderItems });
+                    //hiatus dates
+                    Task<List<OrderHiatusReportLoader>> taskHiatusDates;
+                    OrderHiatusReportLoader HiatusDateItems = new OrderHiatusReportLoader();
+                    HiatusDateItems.SetDependencies(AppConfig, UserSession);
+                    taskHiatusDates = HiatusDateItems.LoadItems<OrderHiatusReportLoader>(request);
+
+
+
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems, taskNotesOrderItems, taskHiatusDates });
 
                     Order = taskOrder.Result;
 
@@ -1280,6 +1363,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.UsedSaleItems = taskUsedSaleOrderItems.Result;
                         Order.LossAndDamageItems = taskLossAndDamageOrderItems.Result;
                         Order.Notes = taskNotesOrderItems.Result;
+                        Order.HiatusDates = taskHiatusDates.Result;
 
                         //activity dates and times
                         BrowseRequest activityDatesAndTimesRequest = new BrowseRequest();
