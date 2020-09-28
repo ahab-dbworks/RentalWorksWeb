@@ -955,14 +955,23 @@ class Invoice {
         }
 
         // Hide tab behavior
-        if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { $form.find('[data-type="tab"][data-caption="Facilities"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { $form.find('[data-type="tab"][data-caption="Meter"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { $form.find('.lossdamagetab[data-type="tab"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { $form.find('[data-type="tab"][data-caption="Facilities"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { $form.find('[data-type="tab"][data-caption="Meter"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
+        //if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { $form.find('.lossdamagetab[data-type="tab"]').hide() }
+
+        if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { this.hideTab($form, 'rentaltab'); }
+        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { this.hideTab($form, 'salestab');  }
+        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { this.hideTab($form, 'labortab');  }
+        if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { this.hideTab($form, 'facilitiestab');  }
+        if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { this.hideTab($form, 'metertab');  }
+        if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { this.hideTab($form, 'transportationtab');  }
+        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { this.hideTab($form, 'rentalsaletab');  }
+        if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { this.hideTab($form, 'lossdamagetab');  }
 
         const $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
         const $invoiceItemGridSales = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
@@ -1731,6 +1740,18 @@ class Invoice {
         } catch (ex) {
             FwFunc.showError(ex);
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    getTab($form: JQuery, tabClass: string): JQuery<HTMLElement> {
+        return $form.find(`[data-type="tab"].${tabClass}`);
+    }
+    //----------------------------------------------------------------------------------------------
+    showTab($form: JQuery, tabClass: string) {
+        this.getTab($form, tabClass).show();
+    }
+    //----------------------------------------------------------------------------------------------
+    hideTab($form: JQuery, tabClass: string) {
+        this.getTab($form, tabClass).hide();
     }
     //----------------------------------------------------------------------------------------------
 }
