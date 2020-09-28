@@ -92,7 +92,12 @@ class ValueOfOutRentalInventoryReport extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
-        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }, { value: "RFID", text: "RFID", selected: "T" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
+            { value: "BARCODE", text: "Barcode", selected: "T" },
+            { value: "QUANTITY", text: "Quantity", selected: "T" },
+            { value: "SERIALNO", text: "Serial Number", selected: "T" },
+            { value: "RFID", text: "RFID", selected: "T" },
+        ]);
         FwFormField.loadItems($form.find('div[data-datafield="OwnerShips"]'), [{ value: "OWNED", text: "Owned", selected: "T" }, { value: "CONSIGNED", text: "Consigned", selected: "T" }]);
     }
     //----------------------------------------------------------------------------------------------

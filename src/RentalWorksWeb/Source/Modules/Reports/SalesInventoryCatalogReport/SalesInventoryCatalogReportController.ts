@@ -114,7 +114,11 @@ class SalesInventoryCatalogReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
         FwFormField.loadItems($form.find('div[data-datafield="Classifications"]'), [{ value: "I", text: "Item", selected: "T" }, { value: "A", text: "Accessory", selected: "T" }, { value: "C", text: "Complete", selected: "T" }, { value: "K", text: "Kit", selected: "T" }, { value: "N", text: "Container", selected: "T" }, { value: "M", text: "Miscellaneous", selected: "F" }]);
-        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
+            { value: "BARCODE", text: "Barcode", selected: "T" },
+            { value: "QUANTITY", text: "Quantity", selected: "T" },
+            { value: "SERIALNO", text: "Serial Number", selected: "T" },
+        ]);
         FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
     }
     //----------------------------------------------------------------------------------------------

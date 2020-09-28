@@ -130,10 +130,10 @@ class RentalInventoryMovementReport extends FwWebApiReport {
             { value: "G", text: "G", selected: "T" }
         ]);
         FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
-            { value: "BARCODE", text: "Bar Code", selected: "T" },
+            { value: "BARCODE", text: "Barcode", selected: "T" },
             { value: "QUANTITY", text: "Quantity", selected: "T" },
-            { value: "SERIALNO", text: "Serial No.", selected: "T" },
-            { value: "RFID", text: "RFID", selected: "F" }
+            { value: "SERIALNO", text: "Serial Number", selected: "T" },
+            { value: "RFID", text: "RFID", selected: "T" },
         ]);
     }
     //----------------------------------------------------------------------------------------------

@@ -100,7 +100,12 @@ class RentalInventoryMasterReport extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
-        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }, { value: "RFID", text: "RFID", selected: "T" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
+            { value: "BARCODE", text: "Barcode", selected: "T" },
+            { value: "QUANTITY", text: "Quantity", selected: "T" },
+            { value: "SERIALNO", text: "Serial Number", selected: "T" },
+            { value: "RFID", text: "RFID", selected: "T" },
+        ]);
         FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
         FwFormField.loadItems($form.find('div[data-datafield="OwnerShips"]'), [{ value: "OWNED", text: "Owned", selected: "T" }, { value: "CONSIGNED", text: "Consigned", selected: "T" }]);
     }

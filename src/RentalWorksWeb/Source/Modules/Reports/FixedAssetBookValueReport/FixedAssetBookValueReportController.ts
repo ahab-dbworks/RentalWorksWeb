@@ -106,7 +106,12 @@ class FixedAssetBookValueReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
-        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
+            { value: "BARCODE", text: "Barcode", selected: "T" },
+            { value: "QUANTITY", text: "Quantity", selected: "T" },
+            { value: "SERIALNO", text: "Serial Number", selected: "T" },
+            { value: "RFID", text: "RFID", selected: "T" },
+        ]);
         FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [
             { value: "A", text: "A", selected: "T" },
             { value: "B", text: "B", selected: "T" },
