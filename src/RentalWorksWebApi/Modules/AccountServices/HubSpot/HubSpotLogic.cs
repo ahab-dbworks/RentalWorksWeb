@@ -18,10 +18,10 @@ namespace WebApi.Modules.AccountServices.HubSpot
 {
     public class HubSpotLogic : AppBusinessLogic
     {
-        public async Task<HubSpotTokensResponse> GetTokensAsync([FromBody]GetHubSpotTokensRequest request)
+        public async Task<GetWriteTokensResponse> GetTokensAsync([FromBody]GetHubSpotTokensRequest request)
         {
+            GetWriteTokensResponse response = new GetWriteTokensResponse();
             var client = new HttpClient();
-            
             SecuritySettingsLoader securitySettings = new SecuritySettingsLoader();
             var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
             var currentSecuritySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
@@ -42,18 +42,19 @@ namespace WebApi.Modules.AccountServices.HubSpot
             req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
 
-            var response = await client.SendAsync(req);
-            response.EnsureSuccessStatusCode();
+            var httpResponse = await client.SendAsync(req);
+            httpResponse.EnsureSuccessStatusCode();
 
-            var responseBody = await response.Content.ReadAsStringAsync();
+            var responseBody = await httpResponse.Content.ReadAsStringAsync();
             var jsonTokens = JsonConvert.DeserializeObject<HubSpotTokensResponse>(responseBody);
             //write tokens to dbo.control
             securitySettings.hubspotaccesstoken = jsonTokens.access_token;
             securitySettings.hubspotrefreshtoken = jsonTokens.refresh_token;
 
             var saveSettingsResponse = await ssl.SaveSettingsAsync<SecuritySettingsLoader>("1", securitySettings);
+            response.message = saveSettingsResponse.Message;
 
-            return saveSettingsResponse;
+            return response;
 
         }
         //---------------------------------------------------------------------------------------------
@@ -122,6 +123,10 @@ namespace WebApi.Modules.AccountServices.HubSpot
     {
         public string access_token { get; set; } = string.Empty;
         public string refresh_token { get; set; } = string.Empty;
+    }
+    public class GetWriteTokensResponse
+    {
+        public string message { get; set; } = string.Empty;
     }
     public class GetHubSpotContactsRequest
     {

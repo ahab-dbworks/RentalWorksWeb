@@ -6,7 +6,6 @@ class Base {
             valueYear: new Date().getFullYear(),
             valueVersion: applicationConfig.version
         };
-        console.log('default screen');
         const screen = FwBasePages.getDefaultScreen(viewModel);
         document.title = Constants.appCaption;
         screen.$view

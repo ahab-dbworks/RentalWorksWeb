@@ -484,8 +484,10 @@ class FwApplication {
                         authorizationCode: callBackCode
                     }
                 });
-                console.log(JSON.parse(securityTokens));
+                console.log(securityTokens);
                 //remove callback code after using
+                window.history.replaceState({},document.title,"/" + "webdev" + "/" + "#" + "/" + "home")
+
             })();
         }
         if (FwAppData.verifyHasAuthToken()) {
