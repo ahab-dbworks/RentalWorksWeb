@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using FwStandard.Modules.Administrator.SecuritySettings;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -11,6 +12,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.AccountServices.HubSpot
 {
@@ -19,11 +21,16 @@ namespace WebApi.Modules.AccountServices.HubSpot
         public async Task<HubSpotTokensResponse> GetTokensAsync([FromBody]GetHubSpotTokensRequest request)
         {
             var client = new HttpClient();
-            HubSpotTokensFormData body = new HubSpotTokensFormData();
+            
+            SecuritySettingsLoader securitySettings = new SecuritySettingsLoader();
+            var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
+            var currentSecuritySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
+            securitySettings = currentSecuritySettings;
 
             var url = "https://api.hubapi.com/oauth/v1/token";
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
+            HubSpotTokensFormData body = new HubSpotTokensFormData();
             body.properties = new Dictionary<string, string>();
             body.properties.Add("client_id", "7fd2d81a-ae52-4a60-af93-caa4d1fd5848");
             body.properties.Add("client_secret", "3fa85657-d67b-4965-bd47-929ba0604dc6");
@@ -34,8 +41,6 @@ namespace WebApi.Modules.AccountServices.HubSpot
             var req = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(body.properties) };
             req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-            //var jsonBody = JsonSerializer.Serialize(body);
-            //var formContent = new FormUrlEncodedContent(body.properties);
 
             var response = await client.SendAsync(req);
             response.EnsureSuccessStatusCode();
@@ -43,8 +48,12 @@ namespace WebApi.Modules.AccountServices.HubSpot
             var responseBody = await response.Content.ReadAsStringAsync();
             var jsonTokens = JsonConvert.DeserializeObject<HubSpotTokensResponse>(responseBody);
             //write tokens to dbo.control
+            securitySettings.hubspotaccesstoken = jsonTokens.access_token;
+            securitySettings.hubspotrefreshtoken = jsonTokens.refresh_token;
 
-            return jsonTokens;
+            var saveSettingsResponse = await ssl.SaveSettingsAsync<SecuritySettingsLoader>("1", securitySettings);
+
+            return saveSettingsResponse;
 
         }
         //---------------------------------------------------------------------------------------------
