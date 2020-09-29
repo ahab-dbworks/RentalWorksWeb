@@ -485,6 +485,7 @@ class FwApplication {
                     }
                 });
                 console.log(JSON.parse(securityTokens));
+                //remove callback code after using
             })();
         }
         if (FwAppData.verifyHasAuthToken()) {

@@ -10,12 +10,13 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace WebApi.Modules.AccountServices.HubSpot
 {
     public class HubSpotLogic : AppBusinessLogic
     {
-        public async Task<string> GetTokensAsync([FromBody]GetHubSpotTokensRequest request)
+        public async Task<HubSpotTokensResponse> GetTokensAsync([FromBody]GetHubSpotTokensRequest request)
         {
             var client = new HttpClient();
             HubSpotTokensFormData body = new HubSpotTokensFormData();
@@ -40,8 +41,10 @@ namespace WebApi.Modules.AccountServices.HubSpot
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
+            var jsonTokens = JsonConvert.DeserializeObject<HubSpotTokensResponse>(responseBody);
+            //write tokens to dbo.control
 
-            return responseBody;
+            return jsonTokens;
 
         }
         //---------------------------------------------------------------------------------------------
@@ -81,7 +84,7 @@ namespace WebApi.Modules.AccountServices.HubSpot
             body.properties.Add("email", request.email);
 
 
-            var jsonBody = JsonSerializer.Serialize(body);
+            var jsonBody = System.Text.Json.JsonSerializer.Serialize(body);
             var stringContent = new StringContent(jsonBody, Encoding.UTF32, "application/json");
 
             var url = "/crm/v3/objects/contacts";
@@ -105,6 +108,11 @@ namespace WebApi.Modules.AccountServices.HubSpot
     public class HubSpotTokensFormData
     {
         public Dictionary<string, string> properties { get; set; }
+    }
+    public class HubSpotTokensResponse
+    {
+        public string access_token { get; set; } = string.Empty;
+        public string refresh_token { get; set; } = string.Empty;
     }
     public class GetHubSpotContactsRequest
     {
