@@ -577,6 +577,10 @@ class Deal {
                 FwFormField.enable($form.find('div[data-datafield="CreditLimit"]'));
             }
         });
+        //Record uses Multiple Currencies
+        $form.find('div[data-datafield="MultipleCurrencies"]').on('change', () => {
+            this.multipleCurrencies($form);
+        });
         // If user changes customer, update corresponding address fields in other tabs
         $form.find('div[data-datafield="CustomerId"]').data('onchange', e => {
             this.customerChange($form);
@@ -1129,6 +1133,19 @@ class Deal {
         }
     }
     //----------------------------------------------------------------------------------------------
+    multipleCurrencies($form) {
+        const multipleCurrencies = FwFormField.getValueByDataField($form, 'MultipleCurrencies');
+
+        if (multipleCurrencies) {
+            FwFormField.setValueByDataField($form, 'CurrencyId', '', '');
+            FwFormField.disable($form.find('div[data-datafield="CurrencyId"]'));
+            $form.find('div[data-datafield="CurrencyId"]').attr('data-required', 'false');
+        } else {
+            $form.find('div[data-datafield="CurrencyId"]').attr('data-required', 'true');
+            FwFormField.enable($form.find('div[data-datafield="CurrencyId"]'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController" data-hasinactive="true">
@@ -1349,6 +1366,7 @@ class Deal {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-required="true" style="flex:1 1 250px;"></div>
+                          <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Deal uses multiple Currencies. Use the Office Location default Currency when creating new Purchase Orders" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Assess Finance Charge on Overdue Amount" data-datafield="AssessFinanceCharge" style="flex:1 1 275px;"></div>
