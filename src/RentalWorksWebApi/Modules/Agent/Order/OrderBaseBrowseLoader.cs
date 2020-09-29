@@ -197,6 +197,12 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "projectdesc", modeltype: FwDataTypes.Text)]
         public string Project { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date)]
+        public string BillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
+        public string BillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {
