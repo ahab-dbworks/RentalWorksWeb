@@ -9,6 +9,7 @@ using WebApi.Modules.HomeControls.Inventory;
 using WebApi.Modules.Inventory.Asset;
 using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.Purchase;
+using WebApi.Modules.Inventory.RentalInventory;
 
 namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
 {
@@ -32,6 +33,15 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
     }
 
     public class UpdateInventoryPurchaseSessionResponse : TSpStatusResponse { }
+
+    public class ApplyDepreciationRequest
+    {
+        public string PurchaseId { get; set; }
+    }
+
+    public class ApplyDepreciationResponse : TSpStatusResponse { }
+
+
 
     public class InventoryPurchaseAssignBarCodesRequest : TSpStatusResponse
     {
@@ -194,6 +204,19 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
             return response;
         }
         //------------------------------------------------------------------------------------------------------- 
+        public static async Task<ApplyDepreciationResponse> ApplyDepreciation(FwApplicationConfig appConfig, FwUserSession userSession, ApplyDepreciationRequest request, FwSqlConnection conn = null)
+        {
+            ApplyDepreciationResponse response = new ApplyDepreciationResponse();
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "applydepreciation", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@purchaseid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseId);
+            await qry.ExecuteNonQueryAsync();
+            return response;
+        }
+        //------------------------------------------------------------------------------------------------------- 
         public static async Task<InventoryPurchaseCompleteSessionResponse> CompleteSession(FwApplicationConfig appConfig, FwUserSession userSession, InventoryPurchaseCompleteSessionRequest request)
         {
 
@@ -233,16 +256,16 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                 }
             }
 
-            string[] inventoryData = await AppFunc.GetStringDataAsync(appConfig, "master", new string[] { "masterid" }, new string[] { request.InventoryId }, new string[] { "availfor", "class", "trackedby" });
-            string availableFor = inventoryData[0];
-            string classification = inventoryData[1];
-            string trackedBy = inventoryData[2];
-            List<BarCodeSerial> barCodeSerials = new List<BarCodeSerial>();
+            RentalInventoryLogic rentalInventory = new RentalInventoryLogic();
+            rentalInventory.SetDependencies(appConfig, userSession);
+            rentalInventory.InventoryId = request.InventoryId;
+            await rentalInventory.LoadAsync<RentalInventoryLogic>();
 
+            List<BarCodeSerial> barCodeSerials = new List<BarCodeSerial>();
 
             if (isValidRequest)
             {
-                if (!(availableFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT)))
+                if (!(rentalInventory.AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT)))
                 {
                     isValidRequest = false;
                     response.msg = "Only Rental Inventory can be purchased here.";
@@ -251,7 +274,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
 
             if (isValidRequest)
             {
-                if (!(classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ITEM) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY)))
+                if (!(rentalInventory.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ITEM) || rentalInventory.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY)))
                 {
                     isValidRequest = false;
                     response.msg = "Only Items and Accessories can be purchased here.";
@@ -260,7 +283,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
 
             if (isValidRequest)
             {
-                if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_BAR_CODE) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_RFID))
+                if (rentalInventory.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_BAR_CODE) || rentalInventory.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_RFID))
                 {
                     using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                     {
@@ -299,7 +322,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                         }
                     }
                 }
-                else if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_SERIAL_NO))
+                else if (rentalInventory.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_SERIAL_NO))
                 {
                     using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                     {
@@ -337,7 +360,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                         }
                     }
                 }
-                else if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_QUANTITY))
+                else if (rentalInventory.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_QUANTITY))
                 {
                     isValidRequest = true;
                 }
@@ -353,7 +376,7 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                         await conn.GetConnection().OpenAsync();
                         conn.BeginTransaction();
 
-                        if (trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_BAR_CODE) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_SERIAL_NO) || trackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_RFID))
+                        if (rentalInventory.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_BAR_CODE) || rentalInventory.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_SERIAL_NO) || rentalInventory.TrackedBy.Equals(RwConstants.INVENTORY_TRACKED_BY_RFID))
                         {
                             foreach (BarCodeSerial barCodeSerial in barCodeSerials)
                             {
@@ -412,6 +435,13 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                                 response.PurchaseId.Add(purchase.PurchaseId);
                                 response.ItemId.Add(item.ItemId);
                                 response.QuantityAdded++;
+
+                                if (rentalInventory.IsFixedAsset.GetValueOrDefault(false) && (purchase.ReceiveDate < DateTime.Today))
+                                {
+                                    ApplyDepreciationRequest depreciationRequest = new ApplyDepreciationRequest();
+                                    depreciationRequest.PurchaseId = purchase.PurchaseId;
+                                    ApplyDepreciationResponse depreciationReponse = await ApplyDepreciation(appConfig, userSession, depreciationRequest, conn);
+                                }
                             }
 
                         }
@@ -458,6 +488,12 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                             response.PurchaseId.Add(purchase.PurchaseId);
                             response.QuantityAdded += request.Quantity;
 
+                            if (rentalInventory.IsFixedAsset.GetValueOrDefault(false) && (purchase.ReceiveDate < DateTime.Today))
+                            {
+                                ApplyDepreciationRequest depreciationRequest = new ApplyDepreciationRequest();
+                                depreciationRequest.PurchaseId = purchase.PurchaseId;
+                                ApplyDepreciationResponse depreciationReponse = await ApplyDepreciation(appConfig, userSession, depreciationRequest, conn);
+                            }
                         }
 
                         conn.CommitTransaction();
