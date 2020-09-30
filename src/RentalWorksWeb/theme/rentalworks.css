@@ -707,6 +707,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #designerContent [data-control="FwBrowse"] td.column:not(.tdselectrow):not(.browsecontextmenucell) .field *{pointer-events: none;}
 #designerContent [data-type="tabpage"] div.fwformfield * {pointer-events: none;}
 #designerContent .dsgn-show-hidden {display:block !important; border:1px dashed red !important;}
+#designerContent .dsgn-show-hidden-browse {display:table-cell !important; border:1px dashed red !important;}
 
 #controlProperties .propertyContainer div.properties {width: 100%;display: flex;padding-bottom: 3px;}
 #controlProperties .propertyContainer div.properties div {width: 50%;font-size: .9em;text-indent:5px;}

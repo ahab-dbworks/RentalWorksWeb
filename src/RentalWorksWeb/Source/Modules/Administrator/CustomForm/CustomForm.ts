@@ -72,7 +72,7 @@ class CustomForm {
 
         if (FwApplicationTree.isVisibleInSecurityTree('ddXtKGS07Iko')) {
             const $saveButton = $form.find('[data-type="SaveMenuBarButton"]');
-            $saveButton.removeClass('disabled').show(); 
+            $saveButton.removeClass('disabled').show();
             $saveButton.off('click');
             $saveButton.on('click', e => {
                 this.saveForm($form, { closetab: false });
@@ -173,7 +173,7 @@ class CustomForm {
             } else {
                 customForms = [newCustomForm];
             }
-           
+
             sessionStorage.setItem('customForms', JSON.stringify(customForms));
             $form.removeData('selfassign');
             const controller = $form.find('[data-datafield="BaseForm"] option:selected').data('controllername');
@@ -182,6 +182,8 @@ class CustomForm {
                 program.navigate(nav);
             }
         }
+
+        this.displayHiddenElements($form);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -400,7 +402,7 @@ class CustomForm {
         });
         const allModules = modules.concat(grids);
         FwApplicationTree.sortModules(allModules);
-         let $moduleSelect = $form.find('.modules');
+        let $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.codeMirrorEvents($form);
@@ -598,7 +600,7 @@ class CustomForm {
                         }
                     }
                     self.find('.fieldcaption').css(`background-color`, `#f9f9f9`);
-                    self.css('display', 'table-cell');
+                    //self.css('display', 'table-cell');
                     self.find('.caption').css('color', 'red');
                 }
             }
@@ -632,21 +634,21 @@ class CustomForm {
             function addDatafields() {
                 const validFields = $form.data('validdatafields');
                 if (typeof validFields === 'object') {
-                let datafieldOptions = $form.find('#controlProperties .propval .datafields');
-                for (let z = 0; z < datafieldOptions.length; z++) {
-                    let field = jQuery(datafieldOptions[z]);
-                    field.append(`<option value="" disabled>Select field</option>`)
-                   
-                    for (let i = 0; i < validFields.length; i++) {
-                        let $this = validFields[i];
-                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
-                    }
-                    let value = jQuery(field).attr('value');
-                    if (value) {
-                        jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
-                    } else {
-                        jQuery(field).find(`option[disabled]`).prop('selected', true);
-                    };
+                    let datafieldOptions = $form.find('#controlProperties .propval .datafields');
+                    for (let z = 0; z < datafieldOptions.length; z++) {
+                        let field = jQuery(datafieldOptions[z]);
+                        field.append(`<option value="" disabled>Select field</option>`)
+
+                        for (let i = 0; i < validFields.length; i++) {
+                            let $this = validFields[i];
+                            field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
+                        }
+                        let value = jQuery(field).attr('value');
+                        if (value) {
+                            jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
+                        } else {
+                            jQuery(field).find(`option[disabled]`).prop('selected', true);
+                        };
                     }
                 }
             };
@@ -703,7 +705,7 @@ class CustomForm {
                 } else {
                     caption = 'Delete Component';
                 }
-                
+
                 const btn = `<div style="text-align:center;margin-top: 1em;">
                                 <div class="fwformcontrol deleteObject" data-type="button">${caption}</div>
                              </div>`;
@@ -1631,13 +1633,22 @@ class CustomForm {
     }
     //----------------------------------------------------------------------------------------------
     displayHiddenElements($form: JQuery) {
+        let $hiddenElements, showClassName;
+        const moduleType = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
         const showHidden = FwFormField.getValueByDataField($form, 'ShowHidden');
         const $designer = $form.find('#designerContent');
-        const $hiddenElements = jQuery($designer).find('div[data-datafield][style*="display:none"], div.flexrow[style*="display:none"], div.flexcolumn[style*="display:none"], div.flexrow[style*="display:none"] div[data-datafield], div.flexcolumn[style*="display:none"] div[data-datafield]');
-        if (showHidden) {
-            $hiddenElements.addClass('dsgn-show-hidden');
+        if (moduleType === 'Form') {
+            showClassName = 'dsgn-show-hidden';
+            $hiddenElements = jQuery($designer).find('div[data-datafield][style*="display:none"], div.flexrow[style*="display:none"], div.flexcolumn[style*="display:none"], div.flexrow[style*="display:none"] div[data-datafield], div.flexcolumn[style*="display:none"] div[data-datafield]');
         } else {
-            $hiddenElements.removeClass('dsgn-show-hidden');
+            showClassName = 'dsgn-show-hidden-browse';
+            $hiddenElements = jQuery($designer).find('td[data-visible="false"]');
+        }
+
+        if (showHidden) {
+            $hiddenElements.addClass(showClassName);
+        } else {
+            $hiddenElements.removeClass(showClassName);
         }
     }
     //----------------------------------------------------------------------------------------------
