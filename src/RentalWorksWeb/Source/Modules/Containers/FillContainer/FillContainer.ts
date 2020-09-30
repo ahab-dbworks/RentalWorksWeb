@@ -125,6 +125,7 @@ class FillContainer extends StagingCheckoutBase {
                                 //FwFormField.setValueByDataField($form, 'OrderId', response.OrderId);
                                 FwFormField.setValueByDataField($form, 'OrderId', response.ContainerItemId);
                                 FwFormField.setValueByDataField($form, 'ContainerItemId', response.ContainerItemId, barcode, true);
+                                FwFormField.setValueByDataField($form, 'ContainerNumber', response.ContainerNumber);
                             }
                         } else {
                             $errorMsg.html(`<div><span>${response.msg}</span></div>`);

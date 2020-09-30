@@ -1491,6 +1491,7 @@ abstract class StagingCheckoutBase {
                 tabCaption = this.caption;
                 //typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
                 typeHTML = `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Scannable Container Item" data-datafield="BarCode" style="flex:0 1 175px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Container Number" data-datafield="ContainerNumber" data-enabled="false" style="flex:1 1 75px;"></div>
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="display:none;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Order Id" data-datafield="OrderId" style="display:none;"></div>`;
                 statusBtnCaption = 'Container Status';

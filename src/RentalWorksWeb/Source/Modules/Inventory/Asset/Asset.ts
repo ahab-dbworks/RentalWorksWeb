@@ -630,6 +630,7 @@ class RwAsset {
                   <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="ContainerStatus" style="float:left;width:200px;" data-enabled="false" ></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status Date" data-datafield="ContainerStatusDate" style="float:left;width:200px;" data-enabled="false" ></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Number" data-datafield="ContainerNumber" style="float:left;width:150px;"></div>
                   </div>
                   <div class="formrow" style="margin-top:1em;">
                     <div class="fwformcontrol containerstatus" data-type="button">Container Status</div>
