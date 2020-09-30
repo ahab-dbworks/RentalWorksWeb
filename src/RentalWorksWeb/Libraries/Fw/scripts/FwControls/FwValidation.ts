@@ -219,10 +219,10 @@
                 $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('background-color', '') });
                 jQuery(document).off('keydown');
 
-                const $rows = $validationbrowse.find('table > tbody > tr');
-                if ($rows.length !== 1) {
-                    preserveFocus($validationbrowse);
-                }
+                //const $rows = $validationbrowse.find('table > tbody > tr');  // Jason H - 09-30-20 This was preventing the ENTER and TAB keys from advancing focus to the next field
+                //if ($rows.length !== 1) {
+                //    preserveFocus($validationbrowse);
+                //}
             } catch (ex) {
                 FwFunc.showError(ex);
             }
