@@ -2638,24 +2638,11 @@ class OrderBase {
         $form.find('[data-datafield="CurrencyId"]').data('onchange', $tr => {
             const mode = $form.attr('data-mode');
             if (mode !== 'NEW') {
-                const originalVal = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
-                const newVal = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
-                if (originalVal !== '' && originalVal !== newVal) {
+                const originalCurrencyId = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
+                const newCurrencyId = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
+                if (originalCurrencyId !== '' && originalCurrencyId !== newCurrencyId) {
                     this.currencyChange($form, $tr);
-                    //const currency = FwBrowse.getValueByDataField($form, $tr, 'Currency');
-                    //const currencyCode = FwBrowse.getValueByDataField($form, $tr, 'CurrencyCode');
-                    //const currencySymbol = FwBrowse.getValueByDataField($form, $tr, 'CurrencySymbol');
-                    //const $updateRatesCheckbox = $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]');
-                    //$updateRatesCheckbox.show().find('.checkbox-caption')
-                    //    .text(`Update Rates for all items on this ${this.Module} to ${currency} (${currencyCode})?`)
-                    //    .css('white-space', 'break-spaces');
-                    //FwFormField.setValueByDataField($form, 'CurrencySymbol', currencySymbol);
-                } else {
-                    $form.find('[data-datafield="UpdateAllRatesToNewCurrency"]').hide();
-                }
-                //FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
-                //$form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]').hide();
-                //FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+                } 
             }
         });
         // store original currency values for reverting
@@ -2666,20 +2653,6 @@ class OrderBase {
                 $form.find('[data-datafield="CurrencyId"]').attr('data-originaltext', currency);
             }
         });
-
-        //Currency Change Text Confirmation
-        //$form.on('change', '[data-datafield="UpdateAllRatesToNewCurrency"]', e => {
-        //    const updateAllRates = FwFormField.getValueByDataField($form, 'UpdateAllRatesToNewCurrency');
-        //    const $updateRatesTextConfirmation = $form.find('[data-datafield="ConfirmUpdateAllRatesToNewCurrency"]');
-        //    if (updateAllRates) {
-        //        $updateRatesTextConfirmation.show().find('.fwformfield-caption')
-        //            .text(`Type 'UPDATE RATES' here to confirm this change.  All Item Rates will be altered when this ${this.Module} is saved.`)
-        //            .css({ 'white-space': 'break-spaces', 'height': 'auto', 'font-size': '1em', 'color': 'red' });
-        //    } else {
-        //        FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
-        //        $updateRatesTextConfirmation.hide();
-        //    }
-        //});
     };
     //----------------------------------------------------------------------------------------------
     currencyChange($form: JQuery, $tr) {
