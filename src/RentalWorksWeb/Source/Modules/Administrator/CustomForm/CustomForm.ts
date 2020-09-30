@@ -1175,7 +1175,12 @@ class CustomForm {
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
                                     break;
                                 case 'data-caption':
-                                    jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
+                                    if (jQuery(originalHtml).attr('data-type') === 'section') {
+                                        jQuery(originalHtml).attr('data-caption', value);
+                                        jQuery(originalHtml).find('.fwform-section-title').text(value);
+                                    } else {
+                                        jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
+                                    }
                                     break;
                                 case 'data-type':
                                     jQuery(originalHtml).attr('data-type', value);
