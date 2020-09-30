@@ -1749,9 +1749,11 @@ class Order extends OrderBase {
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="CurrencySymbol" style="display:none;"></div>
-                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-required="true" data-displayfield="Currency" style="flex:1 1 250px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Currency" style="display:none;"></div>
+                        <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyCodeValidation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-required="true" data-displayfield="CurrencyCode" style="flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="UpdateAllRatesToNewCurrency" style="display:none; flex:1 1 250px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ConfirmUpdateAllRatesToNewCurrency" style="display:none;flex:1 1 250px;"></div>
                       </div>
                       <div class="flexrow">

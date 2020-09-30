@@ -812,7 +812,7 @@ class Customer {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTermsId" data-displayfield="PaymentTerms" data-validationname="PaymentTermsValidation" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-required="true" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyCodeValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-required="true" style="flex:1 1 250px;"></div>
                           <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Customer uses multiple Currencies. The Office Location default Currency will be used when creating new Quotes/Orders." style="flex:1 1 200px;"></div>
                         </div>
                       </div>
