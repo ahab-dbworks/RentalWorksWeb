@@ -2462,13 +2462,6 @@ class PurchaseOrder implements IModule {
                 $updateRatesTextConfirmation.hide();
             }
         });
-        //Deal change
-        $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
-            const office = JSON.parse(sessionStorage.getItem('location'));
-            const currencyId = FwBrowse.getValueByDataField(null, $tr, 'CurrencyId') || office.defaultcurrencyid;
-            const currencyCode = FwBrowse.getValueByDataField(null, $tr, 'CurrencyCode') || office.defaultcurrencycode;
-            FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
-        });
     };
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
