@@ -3557,7 +3557,7 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    cancelUncancelOrder($form: any) {
+    cancelUncancel($form: any) {
         let $confirmation, $yes, $no;
         const module = this.Module;
         const id = FwFormField.getValueByDataField($form, `${module}Id`);
@@ -3610,7 +3610,7 @@ class OrderBase {
 
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
-            $yes.text('Canceling...');
+            //$yes.text('Canceling...');
             $yes.off('click');
             const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
             const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
@@ -3621,11 +3621,11 @@ class OrderBase {
                 FwModule.refreshForm($form);
             }, function onError(response) {
                 $yes.on('click', cancelOrder);
-                $yes.text('Cancel');
+                //$yes.text('Cancel');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form);
+                //FwModule.refreshForm($form);
             }, $realConfirm);
         };
 
@@ -3634,7 +3634,7 @@ class OrderBase {
 
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
-            $yes.text('Retrieving...');
+            //$yes.text('Retrieving...');
             $yes.off('click');
 
             FwAppData.apiMethod(true, 'POST', `api/v1/${module}/uncancel/${id}`, request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -3643,14 +3643,112 @@ class OrderBase {
                 FwModule.refreshForm($form);
             }, function onError(response) {
                 $yes.on('click', uncancelOrder);
-                $yes.text('Cancel');
+                //$yes.text('Cancel');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
-                FwModule.refreshForm($form);
+                //FwModule.refreshForm($form);
             }, $form);
         };
     };
+    //----------------------------------------------------------------------------------------------
+    browseCancelOption($browse: JQuery) {
+        try {
+            const module = this.Module;
+            let $confirmation, $yes, $no;
+            let orderId = $browse.find(`.selected [data-browsedatafield="${module}Id"]`).attr('data-originalvalue');
+            let orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+
+
+            if (orderId != null) {
+                if (orderStatus === "CANCELLED") {
+                    $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                    let html = [];
+                    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                    html.push(`    <div>Would you like to un-cancel this ${module}?</div>`);
+                    html.push('  </div>');
+                    html.push('</div>');
+
+                    FwConfirmation.addControls($confirmation, html.join(''));
+                    $yes = FwConfirmation.addButton($confirmation, `Un-Cancel ${module}`, false);
+                    $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                    $yes.on('click', uncancelOrder);
+                }
+                else {
+                    $confirmation = FwConfirmation.renderConfirmation('Cancel', '');
+                    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                    let html = [];
+                    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+                    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                    html.push(`    <div>Would you like to cancel this ${module}?</div>`);
+                    html.push('  </div>');
+                    html.push('</div>');
+
+                    FwConfirmation.addControls($confirmation, html.join(''));
+                    $yes = FwConfirmation.addButton($confirmation, `Cancel ${module}`, false);
+                    $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                    $yes.on('click', cancelOrder);
+                }
+
+                function cancelOrder() {
+                    let request: any = {};
+
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    //$yes.text('Canceling...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/${module}/cancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', `${module} Successfully Cancelled`);
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', cancelOrder);
+                        //$yes.text('Cancel Order');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        //FwBrowse.databind($browse);
+                    }, $browse);
+                };
+
+                function uncancelOrder() {
+                    let request: any = {};
+
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    //$yes.text('Retrieving...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/${module}/uncancel/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', `${module} Successfully Retrieved`);
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', uncancelOrder);
+                        //$yes.text('Cancel');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        //FwBrowse.databind($browse);
+                    }, $browse);
+                };
+            } else {
+                if (module === 'Order') {
+                    FwNotification.renderNotification('WARNING', 'Select an Order to perform this action.');
+                } else if (module === 'Quote') {
+                    FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');
+                }
+            }
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     checkMessages($form, module, id) {
         if (id) {
