@@ -2406,6 +2406,7 @@ class OrderBase {
         $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
             const dealId = FwFormField.getValueByDataField($form, 'DealId');
             const type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
+
             const office = JSON.parse(sessionStorage.getItem('location'));
             const currencyId = FwBrowse.getValueByDataField(null, $tr, 'CurrencyId') || office.defaultcurrencyid;
             const currencyCode = FwBrowse.getValueByDataField(null, $tr, 'CurrencyCode') || office.defaultcurrencycode;
@@ -2414,7 +2415,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', currencyId, currencyCode);
+            FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
@@ -2743,10 +2744,7 @@ class OrderBase {
             } else if (updateAllRates === 'LEAVE') {
                 // leave rates as is
                 FwConfirmation.destroyConfirmation($confirmation);
-                FwNotification.renderNotification('INFO', 'Rates have been reset to original value.');
-                const originalCurrency = $form.find('[data-datafield="CurrencyId"]').attr('data-originaltext');
-                const originalCurrencyId = $form.find('[data-datafield="CurrencyId"]').attr('data-originalvalue');
-                FwFormField.setValueByDataField($form, 'CurrencyId', originalCurrencyId, originalCurrency);
+                FwNotification.renderNotification('SUCCESS', 'Rates will be updated after save.');
             }
         });
         // cancel
