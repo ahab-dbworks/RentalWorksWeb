@@ -523,6 +523,12 @@ class Deal {
                 }
             }
         });
+
+        // Disable currency field if MultipleCurrencies is checked
+        if (FwFormField.getValueByDataField($form, 'MultipleCurrencies') === true) {
+            FwFormField.disableDataField($form, 'CurrencyId');
+        }
+
     }
     //----------------------------------------------------------------------------------------------
     openContractBrowse($form) {
@@ -1140,6 +1146,7 @@ class Deal {
             FwFormField.setValueByDataField($form, 'CurrencyId', '', '');
             FwFormField.disable($form.find('div[data-datafield="CurrencyId"]'));
             $form.find('div[data-datafield="CurrencyId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="CurrencyId"]').removeClass('error');
         } else {
             $form.find('div[data-datafield="CurrencyId"]').attr('data-required', 'true');
             FwFormField.enable($form.find('div[data-datafield="CurrencyId"]'));
@@ -1366,7 +1373,7 @@ class Deal {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-required="true" style="flex:1 1 250px;"></div>
-                          <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Deal uses multiple Currencies. Use the Office Location default Currency when creating new Purchase Orders" style="flex:1 1 200px;"></div>
+                          <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Deal uses multiple Currencies. The Office Location default Currency will be used when creating new Quotes/Orders." style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Assess Finance Charge on Overdue Amount" data-datafield="AssessFinanceCharge" style="flex:1 1 275px;"></div>

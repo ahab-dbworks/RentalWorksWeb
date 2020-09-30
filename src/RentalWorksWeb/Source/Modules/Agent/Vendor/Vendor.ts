@@ -205,6 +205,13 @@ class Vendor {
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });
+
+        // Disable currency field if MultipleCurrencies is checked
+        if (FwFormField.getValueByDataField($form, 'MultipleCurrencies') === true) {
+            FwFormField.disableDataField($form, 'DefaultCurrencyId');
+        }
+
+
     }
     //---------------------------------------------------------------------------------
     setupEvents($form: JQuery): void {
@@ -452,6 +459,7 @@ class Vendor {
             FwFormField.setValueByDataField($form, 'DefaultCurrency', '');
             FwFormField.disable($form.find('div[data-datafield="DefaultCurrencyId"]'));
             $form.find('div[data-datafield="DefaultCurrencyId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="DefaultCurrencyId"]').removeClass('error');
         } else {
             $form.find('div[data-datafield="DefaultCurrencyId"]').attr('data-required', 'true');
             FwFormField.enable($form.find('div[data-datafield="DefaultCurrencyId"]'));
@@ -685,7 +693,7 @@ class Vendor {
                       </div>>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="DefaultCurrencyId" data-displayfield="DefaultCurrencyCode" data-validationname="CurrencyValidation" data-required="true" style="flex:1 1 275px;"></div>
-                        <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Vendor uses multiple Currencies. Use the Office Location default Currency when creating new Purchase Orders" style="flex:1 1 200px;"></div>
+                        <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Vendor uses multiple Currencies. The Office Location default Currency will be used when creating new Purchase Orders." style="flex:1 1 200px;"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DefaultCurrency" data-enabled="false" style="flex:1 1 275px;"></div>
