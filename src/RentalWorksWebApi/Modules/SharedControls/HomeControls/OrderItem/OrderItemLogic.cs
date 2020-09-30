@@ -1282,7 +1282,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         OrderItemId = OrderFunc.InsertPackage(AppConfig, UserSession, this).Result;
                         e.PerformSave = false;  // all framework save functions will be skipped
                     }
-                    if ((!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS)) && (!(inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_LABOR) || inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_MISC))))
+                    if ((!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS)) && (!inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS_ITEM)) && (!(inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_LABOR) || inventoryAvailFor.Equals(RwConstants.RATE_AVAILABLE_FOR_MISC))))
                     {
                         Description = inventoryDescription; // don't let user change the description on a new row, unless MISC, or unless Misc/Labor
                     }
@@ -1295,7 +1295,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     // don't let user change the description on existing row, unless MISC, GROUPHEADING, TEXT, or SUBTOTAL, or unless Misc/Labor
                     if (orig != null)
                     {
-                        if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
+                        if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS_ITEM) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
                         {
                             if (!inventoryId.Equals(orig.InventoryId))
                             {

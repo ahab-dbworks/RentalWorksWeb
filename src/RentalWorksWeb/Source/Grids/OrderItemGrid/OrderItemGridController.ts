@@ -320,6 +320,7 @@ class OrderItemGrid {
 
             //Option to open up Complete/Kit grid to add items
             let itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+            let inventoryClass = FwBrowse.getValueByDataField($control, $tr, 'InventoryClass');
             const $browsecontextmenu = $tr.find('.browsecontextmenu');
             const classList: any = ['C', 'CI', 'CO', 'K', 'KI', 'KO'];
 
@@ -396,7 +397,7 @@ class OrderItemGrid {
             const validDescriptionValidationTypes: any = ['R', 'RS', 'S', 'P', 'M', 'L'];
             const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
             if (validDescriptionValidationTypes.includes(recType)) {
-                if (validTextItemClasses.includes(itemClass)) {
+                if (validTextItemClasses.includes(itemClass) || inventoryClass === 'M') {
                     $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
                 } else {
                     $tr.find('[data-browsedatafield="Description"]').data('changedisplayfield', $validationbrowse => {
@@ -624,7 +625,6 @@ class OrderItemGrid {
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
 
                 if (controller == 'OrderController' || controller == 'QuoteController' || controller == 'PurchaseOrderController') {
-                    //if (recType == 'R' || recType == 'S') {
                     let allowFreeFormText = false;;
                     if (recType == 'L' || recType == 'M') {
                         allowFreeFormText = true;
@@ -632,15 +632,11 @@ class OrderItemGrid {
                         allowFreeFormText = FwBrowse.getValueByDataField($control, $tr, 'Classification') == 'M' ? true : false;
                     }
                     if (allowFreeFormText) {
-                        $generatedtr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
-                        $generatedtr.find('[data-browsedatafield="Description"] input.value').remove();
-                        $generatedtr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
-                        $generatedtr.find('[data-browsedatafield="Description"] .btnpeek').hide();
-                        $generatedtr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
-                        $generatedtr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
+                        this.toggleFreeText($generatedtr);
                     }
-                    //}
                 }
+            } else if (FwBrowse.getValueByDataField($control, $tr, 'Classification') == 'M') {
+                this.toggleFreeText($generatedtr);
             }
 
             if (recType != 'RS' && (controller === 'QuoteController' || controller === 'OrderController')) {
@@ -1967,6 +1963,15 @@ class OrderItemGrid {
                 }
                 FwBrowse.databind($control);
             }, ex => FwFunc.showError(ex), $control);
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleFreeText($tr:JQuery) {
+        $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
+        $tr.find('[data-browsedatafield="Description"] input.value').remove();
+        $tr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
+        $tr.find('[data-browsedatafield="Description"] .btnpeek').hide();
+        $tr.find('[data-browsedatafield="Description"] .btnvalidate').hide();
+        $tr.find('[data-browsedatafield="Description"] .sk-fading-circle validation-loader').hide();
     }
     //----------------------------------------------------------------------------------------------
     renderCompleteKitGridPopup($control: JQuery, $tr: JQuery, itemClass: string): void {

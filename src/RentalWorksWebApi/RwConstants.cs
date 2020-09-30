@@ -194,6 +194,7 @@ namespace WebApi
         public const string ITEMCLASS_CONTAINER_ITEM = "NI";
         public const string ITEMCLASS_CONTAINER_OPTION = "NO";
         public const string ITEMCLASS_MISCELLANEOUS = "M";
+        public const string ITEMCLASS_MISCELLANEOUS_ITEM = "MI";
         public const string ITEMCLASS_SUFFIX_ITEM = "I";
         public const string ITEMCLASS_SUFFIX_OPTION = "O";
 
