@@ -44,8 +44,6 @@ class Vendor {
         this.events($form);
 
         if (mode == 'NEW') {
-            this.toggleRequiredFields($form);
-
             const officeLocation = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValueByDataField($form, 'DefaultSubRentDaysPerWeek', 0);
@@ -154,7 +152,10 @@ class Vendor {
         //const $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         //FwBrowse.search($companyContactGrid);
 
-        this.setupEvents($form);
+        this.togglePanels($form, FwFormField.getValueByDataField($form, 'VendorNameType'));
+        this.toggleRequiredFields($form);
+
+
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
@@ -207,11 +208,6 @@ class Vendor {
         });
     }
     //---------------------------------------------------------------------------------
-    setupEvents($form: JQuery): void {
-        this.toggleRequiredFields($form.find('.tabpages'));
-        this.togglePanels($form, FwFormField.getValueByDataField($form, 'VendorNameType'));
-    }
-    //---------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.on('click', '.vendertyperadio input[type=radio]', (e) => {
             var $tab: JQuery = this.getTab(jQuery(e.currentTarget));
@@ -255,23 +251,14 @@ class Vendor {
         }
     }
     //---------------------------------------------------------------------------------
-    toggleRequiredFields($tab: JQuery): void {
-        var $person = $tab.find('#person_panel'), $company = $tab.find('#company_panel'), personRequired = null, companyRequired = null;
+    toggleRequiredFields($form: JQuery): void {
+        var $person = $form.find('#person_panel'), $company = $form.find('#company_panel')
+        let personRequired: string = $person.is(':hidden') ? 'false' : 'true';
+        let companyRequired: string = $company.is(':hidden') ? 'false' : 'true';
 
-        $person.is(':hidden') ? personRequired = 'false' : personRequired = 'true';
-        $company.is(':hidden') ? companyRequired = 'false' : companyRequired = 'true';
-
-        $person.each((i, e) => {
-            var $field = jQuery(e).find('.fwformfield');
-            if ($person.is(':hidden')) $field.removeClass('error');
-            $field.attr('data-required', personRequired);
-        });
-
-        $company.each((i, e) => {
-            var $field = jQuery(e).find('.fwformfield');
-            if ($company.is(':hidden')) $field.removeClass('error');
-            $field.attr('data-required', companyRequired);
-        });
+        FwFormField.getDataField($form, 'FirstName').attr('data-required', personRequired);
+        FwFormField.getDataField($form, 'LastName').attr('data-required', personRequired);
+        FwFormField.getDataField($form, 'Vendor').attr('data-required', companyRequired);
     }
     //---------------------------------------------------------------------------------
     updateExternalInputsWithGridValues($tr: JQuery): void {
