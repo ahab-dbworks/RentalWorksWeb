@@ -35,7 +35,7 @@ namespace WebApi.Modules.AccountServices.Account
                     qry.Add("update users");
                     qry.Add("   set password = dbo.encrypt(@password), mustchangepwflg = 'F', pwupdated = @today");
                     qry.Add(" where usersid = @usersid");
-                    qry.AddParameter("@password", request.Password);
+                    qry.AddParameter("@password", request.Password.ToUpper());
                     qry.AddParameter("@today",    FwDateTime.Now.GetSqlDate());
                     qry.AddParameter("@usersid",  this.UserSession.UsersId);
                     await qry.ExecuteAsync();
@@ -47,7 +47,7 @@ namespace WebApi.Modules.AccountServices.Account
                     qry.Add("update webusers");
                     qry.Add("   set webpassword = dbo.encrypt(@password)");
                     qry.Add(" where webusersid = @webusersid");
-                    qry.AddParameter("@password",   request.Password);
+                    qry.AddParameter("@password",   request.Password.ToUpper());
                     qry.AddParameter("@webusersid", this.UserSession.WebUsersId);
                     await qry.ExecuteAsync();
                     response.Status = 0;
