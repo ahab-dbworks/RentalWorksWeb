@@ -2694,10 +2694,10 @@ class OrderBase {
         const html = [];
         html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
         html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Old Currency" data-datafield="OldCurrency" style="width:400px; float:left;">${originalcurrency}</div>`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Old Currency" data-datafield="OldCurrency" data-enabled="false" style="width:400px; float:left;">${originalcurrency}</div>`);
         html.push(`  </div>`);
         html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Currency" data-datafield="NewCurrency" style="width:400px;float:left;">${currencyCode}</div>`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Currency" data-datafield="NewCurrency" data-enabled="false" style="width:400px;float:left;">${currencyCode}</div>`);
         html.push(`  </div>`);
         html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
         html.push(`   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="UpdateAllRatesToNewCurrency">`);
