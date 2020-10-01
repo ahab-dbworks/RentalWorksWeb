@@ -131,12 +131,12 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Boolean)]
         public bool? IncludePrepFeesInRentalRate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date)]
-        public string BillingStartDate { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
-        public string BillingEndDate { get; set; }
-        //------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date)]
+        //public string BillingStartDate { get; set; }
+        ////------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
+        //public string BillingEndDate { get; set; }
+        ////------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billingweeks", modeltype: FwDataTypes.Decimal)]
         public decimal? BillingWeeks { get; set; }
         //------------------------------------------------------------------------------------
@@ -316,24 +316,24 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "presentationlayer", modeltype: FwDataTypes.Text)]
         public string PresentationLayer { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "markettypeid", modeltype: FwDataTypes.Text)]
-        public string MarketTypeId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "markettype", modeltype: FwDataTypes.Text)]
-        public string MarketType { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "marketsegmentid", modeltype: FwDataTypes.Text)]
-        public string MarketSegmentId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "marketsegment", modeltype: FwDataTypes.Text)]
-        public string MarketSegment { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "marketsegmentjobid", modeltype: FwDataTypes.Text)]
-        public string MarketSegmentJobId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "marketsegmentjob", modeltype: FwDataTypes.Text)]
-        public string MarketSegmentJob { get; set; }
-        //------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "markettypeid", modeltype: FwDataTypes.Text)]
+        //public string MarketTypeId { get; set; }
+        ////------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "markettype", modeltype: FwDataTypes.Text)]
+        //public string MarketType { get; set; }
+        ////------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "marketsegmentid", modeltype: FwDataTypes.Text)]
+        //public string MarketSegmentId { get; set; }
+        ////------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "marketsegment", modeltype: FwDataTypes.Text)]
+        //public string MarketSegment { get; set; }
+        ////------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "marketsegmentjobid", modeltype: FwDataTypes.Text)]
+        //public string MarketSegmentJobId { get; set; }
+        ////------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "marketsegmentjob", modeltype: FwDataTypes.Text)]
+        //public string MarketSegmentJob { get; set; }
+        ////------------------------------------------------------------------------------------
 
 
 

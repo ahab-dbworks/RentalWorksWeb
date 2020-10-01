@@ -285,7 +285,7 @@ namespace WebApi.Modules.HomeControls.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         private string getVarianceColor(decimal? variance)
         {
-            return (variance < 0 ? RwGlobals.NEGATIVE_VARIANCE_COLOR : null);
+            return (variance.GetValueOrDefault(0) < 0 ? RwGlobals.NEGATIVE_VARIANCE_COLOR : null);
         }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)

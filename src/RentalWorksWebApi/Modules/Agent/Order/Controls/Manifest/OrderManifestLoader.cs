@@ -217,50 +217,50 @@ namespace WebApi.Modules.Agent.OrderManifest
             }
         }
         //------------------------------------------------------------------------------------
-        protected string getShippingContainerColor(bool? ManifestShippingContainer)
+        protected string getShippingContainerColor(bool? manifestShippingContainer)
         {
             string color = null;
-            if (ManifestShippingContainer == true)
+            if (manifestShippingContainer.GetValueOrDefault(false))
             {
                 color = "#ffeb3b";
             }
             return color;
         }
         //------------------------------------------------------------------------------------
-        protected string getStandAloneItemColor(bool? ManifestStandAloneItem)
+        protected string getStandAloneItemColor(bool? manifestStandAloneItem)
         {
             string color = null;
-            if (ManifestStandAloneItem == true)
+            if (manifestStandAloneItem.GetValueOrDefault(false))
             {
                 color = "#2196f3";
             }
             return color;
         }
         //------------------------------------------------------------------------------------
-        protected string getTotalItemWeight(int? WeightLbs, int? WeightOz)
+        protected string getTotalItemWeight(int? weightLbs, int? weightOz)
         {
             string totalweight = null;
-            if (WeightLbs != 0)
+            if (weightLbs != 0)
             {
-                totalweight = WeightLbs.ToString() + " Lbs";
+                totalweight = weightLbs.ToString() + " Lbs";
             }
-            if (WeightOz != 0)
+            if (weightOz != 0)
             {
-                totalweight += " " + WeightOz.ToString() + " Oz";
+                totalweight += " " + weightOz.ToString() + " Oz";
             }
             return totalweight;
         }
         //------------------------------------------------------------------------------------
-        protected string getTotalExtendedItemWeight(int? ExtendedWeightLbs, int? ExtendedWeightOz)
+        protected string getTotalExtendedItemWeight(int? extendedWeightLbs, int? extendedWeightOz)
         {
             string totalweight = null;
-            if (ExtendedWeightLbs != 0)
+            if (extendedWeightLbs != 0)
             {
-                totalweight = ExtendedWeightLbs.ToString() + " Lbs";
+                totalweight = extendedWeightLbs.ToString() + " Lbs";
             }
-            if (ExtendedWeightOz != 0)
+            if (extendedWeightOz != 0)
             {
-                totalweight += " " + ExtendedWeightOz.ToString() + " Oz";
+                totalweight += " " + extendedWeightOz.ToString() + " Oz";
             }
             return totalweight;
         }

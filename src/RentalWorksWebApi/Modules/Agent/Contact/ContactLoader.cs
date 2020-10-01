@@ -207,9 +207,12 @@ namespace WebApi.Modules.Agent.Contact
         private string getFirstNameColor(string contactRecordType)
         {
             string firstNameColor = null;
-            if (contactRecordType.Equals(RwConstants.CONTACT_RECORD_TYPE_CREW))
+            if (contactRecordType != null)
             {
-                firstNameColor = RwGlobals.CONTACT_TYPE_CREW_COLOR;
+                if (contactRecordType.Equals(RwConstants.CONTACT_RECORD_TYPE_CREW))
+                {
+                    firstNameColor = RwGlobals.CONTACT_TYPE_CREW_COLOR;
+                }
             }
             return firstNameColor;
         }

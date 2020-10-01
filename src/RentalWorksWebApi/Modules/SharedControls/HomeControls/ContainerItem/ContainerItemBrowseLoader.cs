@@ -1,8 +1,8 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using System.Collections.Generic;
 using WebApi;
 
@@ -111,7 +111,20 @@ namespace WebApi.Modules.HomeControls.ContainerItem
         //------------------------------------------------------------------------------------ 
         private string determineContainerStatusColor(string containerStatus)
         {
-            return (containerStatus.Equals(RwConstants.CONTAINER_STATUS_READY) ? RwGlobals.CONTAINER_READY_COLOR : (containerStatus.Equals(RwConstants.CONTAINER_STATUS_INCOMPLETE) ? RwGlobals.CONTAINER_INCOMPLETE_COLOR : null));
+            //return (containerStatus.Equals(RwConstants.CONTAINER_STATUS_READY) ? RwGlobals.CONTAINER_READY_COLOR : (containerStatus.Equals(RwConstants.CONTAINER_STATUS_INCOMPLETE) ? RwGlobals.CONTAINER_INCOMPLETE_COLOR : null));
+            string containerStatusColor = null;
+            if (containerStatus != null)
+            {
+                if (containerStatus.Equals(RwConstants.CONTAINER_STATUS_READY))
+                {
+                    containerStatusColor = RwGlobals.CONTAINER_READY_COLOR;
+                }
+                else if (containerStatus.Equals(RwConstants.CONTAINER_STATUS_INCOMPLETE))
+                {
+                    containerStatusColor = RwGlobals.CONTAINER_INCOMPLETE_COLOR;
+                }
+            }
+            return containerStatusColor;
         }
         //------------------------------------------------------------------------------------    
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)

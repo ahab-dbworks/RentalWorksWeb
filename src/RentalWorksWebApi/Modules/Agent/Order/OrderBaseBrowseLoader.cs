@@ -203,6 +203,24 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "markettypeid", modeltype: FwDataTypes.Text)]
+        public string MarketTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "markettype", modeltype: FwDataTypes.Text)]
+        public string MarketType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "marketsegmentid", modeltype: FwDataTypes.Text)]
+        public string MarketSegmentId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "marketsegment", modeltype: FwDataTypes.Text)]
+        public string MarketSegment { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "marketsegmentjobid", modeltype: FwDataTypes.Text)]
+        public string MarketSegmentJobId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "marketsegmentjob", modeltype: FwDataTypes.Text)]
+        public string MarketSegmentJob { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {
@@ -465,17 +483,20 @@ namespace WebApi.Modules.Agent.Order
         protected string getNumberColor(string orderType, string status, string estimatedStopDate)
         {
             string color = null;
-            if ((orderType.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (status.Equals(RwConstants.QUOTE_STATUS_ORDERED)))
+            if ((orderType != null) && (status != null))
             {
-                color = RwGlobals.QUOTE_ORDER_LOCKED_COLOR;
-            }
-            else if ((orderType.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (status.Equals(RwConstants.QUOTE_STATUS_RESERVED)))
-            {
-                color = RwGlobals.QUOTE_RESERVED_COLOR;
-            }
-            else if ((orderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && (status.Equals(RwConstants.ORDER_STATUS_ACTIVE)) && (FwConvert.ToDateTime(estimatedStopDate) < DateTime.Today))
-            {
-                color = RwGlobals.ORDER_LATE_COLOR;
+                if ((orderType.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (status.Equals(RwConstants.QUOTE_STATUS_ORDERED)))
+                {
+                    color = RwGlobals.QUOTE_ORDER_LOCKED_COLOR;
+                }
+                else if ((orderType.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (status.Equals(RwConstants.QUOTE_STATUS_RESERVED)))
+                {
+                    color = RwGlobals.QUOTE_RESERVED_COLOR;
+                }
+                else if ((orderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && (status.Equals(RwConstants.ORDER_STATUS_ACTIVE)) && (FwConvert.ToDateTime(estimatedStopDate) < DateTime.Today))
+                {
+                    color = RwGlobals.ORDER_LATE_COLOR;
+                }
             }
             return color;
         }
@@ -517,13 +538,16 @@ namespace WebApi.Modules.Agent.Order
         protected string getStatusColor(string orderType, string status, string dealStatusType, string customerStatusType)
         {
             string color = null;
-            if (orderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (status.Equals(RwConstants.QUOTE_STATUS_REQUEST)))
+            if ((orderType != null) && (status != null) && (dealStatusType != null) && (customerStatusType != null))
             {
-                color = RwGlobals.QUOTE_REQUEST_COLOR;
-            }
-            else if (status.Equals(RwConstants.QUOTE_STATUS_HOLD) || status.Equals(RwConstants.ORDER_STATUS_HOLD) || dealStatusType.Equals(RwConstants.DEAL_STATUS_TYPE_HOLD) || customerStatusType.Equals(RwConstants.CUSTOMER_STATUS_TYPE_HOLD))
-            {
-                color = RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR;
+                if (orderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (status.Equals(RwConstants.QUOTE_STATUS_REQUEST)))
+                {
+                    color = RwGlobals.QUOTE_REQUEST_COLOR;
+                }
+                else if (status.Equals(RwConstants.QUOTE_STATUS_HOLD) || status.Equals(RwConstants.ORDER_STATUS_HOLD) || dealStatusType.Equals(RwConstants.DEAL_STATUS_TYPE_HOLD) || customerStatusType.Equals(RwConstants.CUSTOMER_STATUS_TYPE_HOLD))
+                {
+                    color = RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR;
+                }
             }
             return color;
         }

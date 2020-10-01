@@ -574,23 +574,26 @@ namespace WebApi.Logic
         public static string GetCompanyTypeColor(string companyType)
         {
             string companyTypeColor = null;
-            switch (companyType)
+            if (companyType != null)
             {
-                case RwConstants.COMPANY_TYPE_LEAD:
-                    companyTypeColor = RwGlobals.COMPANY_TYPE_LEAD_COLOR;
-                    break;
-                case RwConstants.COMPANY_TYPE_PROSPECT:
-                    companyTypeColor = RwGlobals.COMPANY_TYPE_PROSPECT_COLOR;
-                    break;
-                case RwConstants.COMPANY_TYPE_CUSTOMER:
-                    companyTypeColor = RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR;
-                    break;
-                case RwConstants.COMPANY_TYPE_DEAL:
-                    companyTypeColor = RwGlobals.COMPANY_TYPE_DEAL_COLOR;
-                    break;
-                case RwConstants.COMPANY_TYPE_VENDOR:
-                    companyTypeColor = RwGlobals.COMPANY_TYPE_VENDOR_COLOR;
-                    break;
+                switch (companyType)
+                {
+                    case RwConstants.COMPANY_TYPE_LEAD:
+                        companyTypeColor = RwGlobals.COMPANY_TYPE_LEAD_COLOR;
+                        break;
+                    case RwConstants.COMPANY_TYPE_PROSPECT:
+                        companyTypeColor = RwGlobals.COMPANY_TYPE_PROSPECT_COLOR;
+                        break;
+                    case RwConstants.COMPANY_TYPE_CUSTOMER:
+                        companyTypeColor = RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR;
+                        break;
+                    case RwConstants.COMPANY_TYPE_DEAL:
+                        companyTypeColor = RwGlobals.COMPANY_TYPE_DEAL_COLOR;
+                        break;
+                    case RwConstants.COMPANY_TYPE_VENDOR:
+                        companyTypeColor = RwGlobals.COMPANY_TYPE_VENDOR_COLOR;
+                        break;
+                }
             }
             return companyTypeColor;
         }
@@ -598,26 +601,29 @@ namespace WebApi.Logic
         public static string GetItemClassICodeColor(string itemClass)
         {
             string iCodeColor = null;
-            switch (itemClass)
+            if (itemClass != null)
             {
-                case RwConstants.ITEMCLASS_COMPLETE:
-                case RwConstants.ITEMCLASS_COMPLETE_ITEM:
-                case RwConstants.ITEMCLASS_COMPLETE_OPTION:
-                    iCodeColor = RwGlobals.COMPLETE_COLOR;
-                    break;
-                case RwConstants.ITEMCLASS_KIT:
-                case RwConstants.ITEMCLASS_KIT_ITEM:
-                case RwConstants.ITEMCLASS_KIT_OPTION:
-                    iCodeColor = RwGlobals.KIT_COLOR;
-                    break;
-                case RwConstants.ITEMCLASS_CONTAINER:
-                case RwConstants.ITEMCLASS_CONTAINER_ITEM:
-                case RwConstants.ITEMCLASS_CONTAINER_OPTION:
-                    iCodeColor = RwGlobals.CONTAINER_COLOR;
-                    break;
-                case RwConstants.ITEMCLASS_MISCELLANEOUS:
-                    iCodeColor = RwGlobals.MISCELLANEOUS_COLOR;
-                    break;
+                switch (itemClass)
+                {
+                    case RwConstants.ITEMCLASS_COMPLETE:
+                    case RwConstants.ITEMCLASS_COMPLETE_ITEM:
+                    case RwConstants.ITEMCLASS_COMPLETE_OPTION:
+                        iCodeColor = RwGlobals.COMPLETE_COLOR;
+                        break;
+                    case RwConstants.ITEMCLASS_KIT:
+                    case RwConstants.ITEMCLASS_KIT_ITEM:
+                    case RwConstants.ITEMCLASS_KIT_OPTION:
+                        iCodeColor = RwGlobals.KIT_COLOR;
+                        break;
+                    case RwConstants.ITEMCLASS_CONTAINER:
+                    case RwConstants.ITEMCLASS_CONTAINER_ITEM:
+                    case RwConstants.ITEMCLASS_CONTAINER_OPTION:
+                        iCodeColor = RwGlobals.CONTAINER_COLOR;
+                        break;
+                    case RwConstants.ITEMCLASS_MISCELLANEOUS:
+                        iCodeColor = RwGlobals.MISCELLANEOUS_COLOR;
+                        break;
+                }
             }
             return iCodeColor;
         }
@@ -625,17 +631,20 @@ namespace WebApi.Logic
         public static string GetItemClassDescriptionColor(string itemClass)
         {
             string descriptionColor = null;
-            switch (itemClass)
+            if (itemClass != null)
             {
-                case RwConstants.ITEMCLASS_COMPLETE:
-                    descriptionColor = RwGlobals.COMPLETE_COLOR;
-                    break;
-                case RwConstants.ITEMCLASS_KIT:
-                    descriptionColor = RwGlobals.KIT_COLOR;
-                    break;
-                case RwConstants.ITEMCLASS_CONTAINER:
-                    descriptionColor = RwGlobals.CONTAINER_COLOR;
-                    break;
+                switch (itemClass)
+                {
+                    case RwConstants.ITEMCLASS_COMPLETE:
+                        descriptionColor = RwGlobals.COMPLETE_COLOR;
+                        break;
+                    case RwConstants.ITEMCLASS_KIT:
+                        descriptionColor = RwGlobals.KIT_COLOR;
+                        break;
+                    case RwConstants.ITEMCLASS_CONTAINER:
+                        descriptionColor = RwGlobals.CONTAINER_COLOR;
+                        break;
+                }
             }
             return descriptionColor;
         }
@@ -643,14 +652,17 @@ namespace WebApi.Logic
         public static string GetInventoryRecTypeColor(string recType)
         {
             string recTypeColor = null;
-            switch (recType)
+            if (recType != null)
             {
-                case RwConstants.INVENTORY_AVAILABLE_FOR_SALE:
-                    recTypeColor = RwGlobals.INVENTORY_AVAILABLE_FOR_SALE_COLOR;
-                    break;
-                case RwConstants.INVENTORY_AVAILABLE_FOR_PARTS:
-                    recTypeColor = RwGlobals.INVENTORY_AVAILABLE_FOR_PARTS_COLOR;
-                    break;
+                switch (recType)
+                {
+                    case RwConstants.INVENTORY_AVAILABLE_FOR_SALE:
+                        recTypeColor = RwGlobals.INVENTORY_AVAILABLE_FOR_SALE_COLOR;
+                        break;
+                    case RwConstants.INVENTORY_AVAILABLE_FOR_PARTS:
+                        recTypeColor = RwGlobals.INVENTORY_AVAILABLE_FOR_PARTS_COLOR;
+                        break;
+                }
             }
             return recTypeColor;
         }
@@ -658,23 +670,26 @@ namespace WebApi.Logic
         public static string GetInventoryRecTypeDisplay(string recType)
         {
             string recTypeDisplay = recType;
-            switch (recType)
+            if (recType != null)
             {
-                case RwConstants.RECTYPE_RENTAL:
-                    recTypeDisplay = RwConstants.RECTYPE_RENTAL_DESCRIPTION;
-                    break;
-                case RwConstants.RECTYPE_SALE:
-                    recTypeDisplay = RwConstants.RECTYPE_SALE_DESCRIPTION;
-                    break;
-                case RwConstants.RECTYPE_PARTS:
-                    recTypeDisplay = RwConstants.RECTYPE_PARTS_DESCRIPTION;
-                    break;
-                case RwConstants.RECTYPE_LABOR:
-                    recTypeDisplay = RwConstants.RECTYPE_LABOR_DESCRIPTION;
-                    break;
-                case RwConstants.RECTYPE_MISCELLANEOUS:
-                    recTypeDisplay = RwConstants.RECTYPE_MISC_DESCRIPTION;
-                    break;
+                switch (recType)
+                {
+                    case RwConstants.RECTYPE_RENTAL:
+                        recTypeDisplay = RwConstants.RECTYPE_RENTAL_DESCRIPTION;
+                        break;
+                    case RwConstants.RECTYPE_SALE:
+                        recTypeDisplay = RwConstants.RECTYPE_SALE_DESCRIPTION;
+                        break;
+                    case RwConstants.RECTYPE_PARTS:
+                        recTypeDisplay = RwConstants.RECTYPE_PARTS_DESCRIPTION;
+                        break;
+                    case RwConstants.RECTYPE_LABOR:
+                        recTypeDisplay = RwConstants.RECTYPE_LABOR_DESCRIPTION;
+                        break;
+                    case RwConstants.RECTYPE_MISCELLANEOUS:
+                        recTypeDisplay = RwConstants.RECTYPE_MISC_DESCRIPTION;
+                        break;
+                }
             }
             return recTypeDisplay;
         }
@@ -682,26 +697,29 @@ namespace WebApi.Logic
         public static string GetReceiptRecTypeColor(string recType)
         {
             string recTypeColor = null;
-            switch (recType)
+            if (recType != null)
             {
-                case RwConstants.RECEIPT_RECTYPE_OVERPAYMENT:
-                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_OVERPAYMENT_COLOR;
-                    break;
-                case RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT:
-                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR;
-                    break;
-                case RwConstants.RECEIPT_RECTYPE_REFUND:
-                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_REFUND_CHECK_COLOR;
-                    break;
-                case RwConstants.RECEIPT_RECTYPE_NSF_ADJUSTMENT:
-                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR;
-                    break;
-                case RwConstants.RECEIPT_RECTYPE_WRITE_OFF:
-                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_WRITE_OFF_COLOR;
-                    break;
-                case RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO:
-                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR;
-                    break;
+                switch (recType)
+                {
+                    case RwConstants.RECEIPT_RECTYPE_OVERPAYMENT:
+                        recTypeColor = RwGlobals.RECEIPT_RECTYPE_OVERPAYMENT_COLOR;
+                        break;
+                    case RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT:
+                        recTypeColor = RwGlobals.RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR;
+                        break;
+                    case RwConstants.RECEIPT_RECTYPE_REFUND:
+                        recTypeColor = RwGlobals.RECEIPT_RECTYPE_REFUND_CHECK_COLOR;
+                        break;
+                    case RwConstants.RECEIPT_RECTYPE_NSF_ADJUSTMENT:
+                        recTypeColor = RwGlobals.RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR;
+                        break;
+                    case RwConstants.RECEIPT_RECTYPE_WRITE_OFF:
+                        recTypeColor = RwGlobals.RECEIPT_RECTYPE_WRITE_OFF_COLOR;
+                        break;
+                    case RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO:
+                        recTypeColor = RwGlobals.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR;
+                        break;
+                }
             }
             return recTypeColor;
         }

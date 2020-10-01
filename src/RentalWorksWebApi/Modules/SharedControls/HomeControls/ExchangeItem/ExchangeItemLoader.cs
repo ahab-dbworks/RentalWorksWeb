@@ -170,9 +170,12 @@ namespace WebApi.Modules.HomeControls.ExchangeItem
         private string getBarCodeColor(string exchangeItemStatus)
         {
             string barCodeColor = null;
-            if (exchangeItemStatus.Equals(RwConstants.EXCHANGE_PENDING_ITEM_STATUS))
+            if (exchangeItemStatus != null)
             {
-                barCodeColor = RwGlobals.PENDING_EXCHANGE_COLOR;
+                if (exchangeItemStatus.Equals(RwConstants.EXCHANGE_PENDING_ITEM_STATUS))
+                {
+                    barCodeColor = RwGlobals.PENDING_EXCHANGE_COLOR;
+                }
             }
             return barCodeColor;
         }

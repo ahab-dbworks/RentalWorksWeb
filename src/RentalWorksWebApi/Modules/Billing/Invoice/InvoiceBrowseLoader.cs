@@ -256,7 +256,7 @@ namespace WebApi.Modules.Billing.Invoice
         private string getInvoiceNumberColor(string invoiceType, bool adjusted)
         {
             string color = null;
-            if (invoiceType.Equals(RwConstants.INVOICE_TYPE_CREDIT))
+            if ((invoiceType != null) && (invoiceType.Equals(RwConstants.INVOICE_TYPE_CREDIT)))
             {
                 color = RwGlobals.INVOICE_CREDIT_COLOR;
             }
@@ -270,7 +270,7 @@ namespace WebApi.Modules.Billing.Invoice
         private string getStatusColor(string invoiceType)
         {
             string color = null;
-            if (invoiceType.Equals(RwConstants.INVOICE_TYPE_ESTIMATE))
+            if ((invoiceType != null) && (invoiceType.Equals(RwConstants.INVOICE_TYPE_ESTIMATE)))
             {
                 color = RwGlobals.INVOICE_ESTIMATE_COLOR;
             }

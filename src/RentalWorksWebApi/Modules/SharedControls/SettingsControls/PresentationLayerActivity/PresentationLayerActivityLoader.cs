@@ -63,9 +63,12 @@ namespace WebApi.Modules.Settings.PresentationLayerActivity
         private string getActivityColor(string recType)
         {
             string activityColor = null;
-            if (recType.Equals(RwConstants.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED))
+            if (recType != null)
             {
-                activityColor = RwGlobals.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR;
+                if (recType.Equals(RwConstants.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED))
+                {
+                    activityColor = RwGlobals.PRESENTATION_LAYER_ACTIVITY_REC_TYPE_USER_DEFINED_COLOR;
+                }
             }
             return activityColor;
         }

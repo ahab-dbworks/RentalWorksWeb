@@ -307,7 +307,7 @@ namespace WebApi.Modules.Billing.Billing
         protected string getBillingStopDateColor(string billingPeriodEndDate, string billingStopDate)
         {
             string color = null;
-            if (!string.IsNullOrEmpty(billingPeriodEndDate))
+            if ((!string.IsNullOrEmpty(billingPeriodEndDate)) && (!string.IsNullOrEmpty(billingStopDate)))
             {
                 if (FwConvert.ToDateTime(billingPeriodEndDate) < FwConvert.ToDateTime(billingStopDate))
                 {
