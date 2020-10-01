@@ -327,7 +327,7 @@ abstract class ContractBase {
                     if (contractType === 'OUT') {
                         let returnToInventory = FwFormField.getValueByDataField($confirmation, 'ReturnToInventory');
                         returnToInventory = returnToInventory === 'T' ? true : false;
-                        request.ReturnToInventory = returnToInventory;
+                        voiditemsrequest.ReturnToInventory = returnToInventory;
                     }
 
                     FwAppData.apiMethod(true, 'POST', `api/v1/contractitemdetail/voiditems`, voiditemsrequest, FwServices.defaultTimeout,
