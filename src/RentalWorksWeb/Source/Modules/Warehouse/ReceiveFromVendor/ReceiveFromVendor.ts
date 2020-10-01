@@ -205,13 +205,10 @@ class ReceiveFromVendor {
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            let automaticallyCreateCheckOut = FwFormField.getValueByDataField($form, 'AutomaticallyCreateCheckOut');
-            let requestBody: any = {};
-            if (automaticallyCreateCheckOut == 'T') {
-                requestBody = {
-                    CreateOutContracts: true
-                }
-            }
+            let automaticallyCreateCheckOut: boolean = FwFormField.getValueByDataField($form, 'AutomaticallyCreateCheckOut');
+            let requestBody: any = {
+                CreateOutContracts: automaticallyCreateCheckOut
+            };
             if (contractId) {
                 FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completecontract/` + contractId, requestBody, FwServices.defaultTimeout, response => {
                     try {
