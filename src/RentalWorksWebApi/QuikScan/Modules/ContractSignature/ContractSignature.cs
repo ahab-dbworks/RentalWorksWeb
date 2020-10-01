@@ -145,7 +145,7 @@ namespace RentalWorksQuikScan.Modules
 
                     qryUpdateContract = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
                     qryUpdateContract.Add("update contract");
-                    qryUpdateContract.Add("   set responsiblepersonid = @responsiblepersonid,");
+                    qryUpdateContract.Add("   set responsiblepersonid = @responsiblepersonid");
                     qryUpdateContract.Add(" where contractId          = @contractId");
                     qryUpdateContract.AddParameter("@responsiblepersonid", responsiblePersonId);
                     qryUpdateContract.AddParameter("@contractId", result.contractId);
