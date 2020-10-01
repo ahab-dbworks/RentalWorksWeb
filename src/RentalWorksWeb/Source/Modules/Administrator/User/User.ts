@@ -198,10 +198,10 @@ class User {
 
         //FirstDayOfWeek set to sessionStorage
         const userid = JSON.parse(sessionStorage.getItem('userid'));
-        userid.firstdayofweek = +FwFormField.getValueByDataField($form, 'FirstDayOfWeek');
-        sessionStorage.setItem('userid', JSON.stringify(userid));
-
         if (FwFormField.getValueByDataField($form, 'UserId') === userid.usersid) {
+            userid.firstdayofweek = +FwFormField.getValueByDataField($form, 'FirstDayOfWeek');
+            sessionStorage.setItem('userid', JSON.stringify(userid));
+
             const homePage: any = {
                 guid: FwFormField.getValueByDataField($form, 'HomeMenuGuid'),
                 path: FwFormField.getValueByDataField($form, 'HomeMenuPath'),
