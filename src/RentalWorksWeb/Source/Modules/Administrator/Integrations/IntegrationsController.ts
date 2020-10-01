@@ -26,8 +26,42 @@ class Integrations implements IModule {
     openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
+        (async () => {
+            const isHubSpotConnected = await FwAjax.callWebApi<any, any>({
+                httpMethod: 'POST',
+                url: `${applicationConfig.apiurl}api/v1/integrations/hashubspotrefreshtoken`,
+            }); 
+            this.events($form, isHubSpotConnected.hasRefreshToken);
+        })()
+        
         return $form;
+    }
+    //---------------------------------------------------------------------------------
+    events($form: JQuery, ishubspotconnected: boolean) {
+        let installUrl = "https://app.hubspot.com/oauth/authorize?client_id=7fd2d81a-ae52-4a60-af93-caa4d1fd5848&redirect_uri=http://localhost:57949/webdev&scope=contacts";
+        let installBtn = $form.find('.hubspot-btn');
+
+        ishubspotconnected ? installBtn.text('Disconnect') && installBtn.css('background-color', 'red') : installBtn.text('Connect');
+
+        if (installBtn.text() === 'Connect') {
+            installBtn.click(() => {
+                window.location.href = installUrl;
+            });
+        } else {
+            installBtn.click(async () => {
+                const deleteHubSpotTokens = await FwAjax.callWebApi<any, any>({
+                    httpMethod: 'POST',
+                    url: `${applicationConfig.apiurl}api/v1/integrations/deletehubspottokens`,
+                }); 
+                if (deleteHubSpotTokens.message = "Success") {
+                    installBtn.text('Connect');
+                }
+            });
+        }
+    }
+    //---------------------------------------------------------------------------------
+    afterLoad($form) {
+        
     }
     //---------------------------------------------------------------------------------
     //loadForm() {

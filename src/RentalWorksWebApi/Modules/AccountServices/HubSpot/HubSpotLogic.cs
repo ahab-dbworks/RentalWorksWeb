@@ -106,10 +106,36 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return responseBody;
         }
         //---------------------------------------------------------------------------------------------
-        //private async static void WriteTokensAsync()
-        //{
+        public async Task<DeleteHubSpotTokens> DeleteTokensAsync()
+        {
+            DeleteHubSpotTokens response = new DeleteHubSpotTokens();
+            var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
+            var currentSecuritySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
+            currentSecuritySettings.hubspotaccesstoken = "";
+            currentSecuritySettings.hubspotrefreshtoken = "";
 
-        //}
+            await ssl.SaveSettingsAsync<SecuritySettingsLoader>("1", currentSecuritySettings);
+
+            response.message = "Success";
+            return response;
+        }
+        //---------------------------------------------------------------------------------------------
+
+        public async Task<GetHubSpotRefreshTokenBool> GetRefreshTokenBoolAsync()
+        {
+            GetHubSpotRefreshTokenBool response = new GetHubSpotRefreshTokenBool();
+            var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
+            var currentSecuritySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
+
+            if (!string.IsNullOrEmpty(currentSecuritySettings.hubspotrefreshtoken))
+            {
+                response.hasRefreshToken = true;
+            } else
+            {
+                response.hasRefreshToken = false;
+            }
+            return response;
+        }
     }
     public class GetHubSpotTokensRequest
     {
@@ -149,5 +175,13 @@ namespace WebApi.Modules.AccountServices.HubSpot
         public string firstname { get; set; }
         public string lastname { get; set; }
         public string email { get; set; }
+    }
+    public class GetHubSpotRefreshTokenBool
+    {
+        public bool hasRefreshToken { get; set; }
+    }
+    public class DeleteHubSpotTokens
+    {
+        public string message { get; set; }
     }
 }
