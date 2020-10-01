@@ -206,6 +206,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Administrator.children.EmailHistory,
                     Constants.Modules.Administrator.children.EmailTemplate,
                     Constants.Modules.Administrator.children.Group,
+                    Constants.Modules.Administrator.children.Integrations,
                     //Constants.Modules.Administrator.children.Reports,
                     //Constants.Modules.Administrator.children.Settings,
                     Constants.Modules.Administrator.children.SystemUpdate,
