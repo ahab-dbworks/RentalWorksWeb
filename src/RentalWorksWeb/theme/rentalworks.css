@@ -778,7 +778,8 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 .activity {border-bottom: 1px solid #BDBDBD;margin: 0px 10px 0px 10px;}
 
-html.theme-material .fwbrowse[data-name="SuspendedSession"] .tablewrapper { overflow: auto;max-height: calc(100vh - 140px); }
+html.theme-material .fwbrowse[data-name="SuspendedSession"] .tablewrapper { overflow: auto;max-height: calc(100vh - 240px); max-width: calc(100vw - 200px);}
+html.theme-material .fwbrowse[data-name="InventoryPurchaseSession"] .tablewrapper { overflow: auto; max-height: calc(100vh - 240px); max-width: calc(100vw - 200px);} 
 
 /*toolbar and dashboard sortable*/
 .selected-modules[data-type="checkboxlist"] {display:flex; flex-direction:column;flex-grow:1;}
