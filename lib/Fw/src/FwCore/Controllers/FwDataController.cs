@@ -189,36 +189,15 @@ namespace FwCore.Controllers
                 }
 
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
-                if (id.Equals("emptyobject")) //justin 10/23/2018 temporary solution for listing Fields on Custom Forms and Duplicate Rules.  Will be replaced with a front-end solution to traverse the Security Tree (once ready)
+                string[] ids = id.Split('~');
+                bool found = await l.LoadAsync<T>(ids);
+                if ((!found) && return404IfGetNotFound)
                 {
-                    l.IsEmptyObject = true;
-
-                    // need to remove "RecordTitle" from the object in this context
-
-                    if ((l._Custom.CustomFields != null) && (l._Custom.CustomFields.Count > 0))
-                    {
-                        FwCustomValues customValues = new FwCustomValues();
-                        foreach (FwCustomField customField in l._Custom.CustomFields)
-                        {
-                            customValues.AddCustomValue(customField.FieldName, null, customField.FieldType);
-                        }
-                        l._Custom = customValues;
-                    }
-
-                    return new OkObjectResult(l);
+                    return NotFound();
                 }
                 else
                 {
-                    string[] ids = id.Split('~');
-                    bool found = await l.LoadAsync<T>(ids);
-                    if ((!found) && return404IfGetNotFound)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        return new OkObjectResult(l);
-                    }
+                    return new OkObjectResult(l);
                 }
             }
             catch (Exception ex)
@@ -266,6 +245,59 @@ namespace FwCore.Controllers
         public virtual async Task<IActionResult> GetEmptyObjectAsync()
         {
             return await DoGetEmptyObjectAsync();
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<IActionResult> DoGetEmptyBrowseObjectAsync(Type type = null)
+        {
+            try
+            {
+                if (type == null)
+                {
+                    type = logicType;
+                }
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                l.IsEmptyObject = true;
+
+                await Task.CompletedTask;
+
+                if (l.HasBrowseLoader)
+                {
+                    if ((l._Custom.CustomFields != null) && (l._Custom.CustomFields.Count > 0))
+                    {
+                        FwCustomValues customValues = new FwCustomValues();
+                        foreach (FwCustomField customField in l._Custom.CustomFields)
+                        {
+                            customValues.AddCustomValue(customField.FieldName, null, customField.FieldType);
+                        }
+                        l._Custom = customValues;
+                    }
+
+                    FwDataRecord emptyLoadRecord = l.GetEmptyBrowseLoaderRecord();
+                    emptyLoadRecord._Custom = l._Custom;
+
+                    return new OkObjectResult(emptyLoadRecord);
+                }
+                else
+                {
+                    return await DoGetEmptyObjectAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // GET api/v1/{module}/emptybrowseobject
+        /// <summary>
+        /// Get an empty browse object
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("emptybrowseobject")]
+        [FwControllerMethod("", FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public virtual async Task<IActionResult> GetEmptyBrowseObjectAsync()
+        {
+            return await DoGetEmptyBrowseObjectAsync();
         }
         //------------------------------------------------------------------------------------
         protected virtual async Task<IActionResult> DoGetKeyFieldNamesAsync(Type type = null)

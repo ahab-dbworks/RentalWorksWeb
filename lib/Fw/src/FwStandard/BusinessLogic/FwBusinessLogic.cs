@@ -241,6 +241,17 @@ namespace FwStandard.BusinessLogic
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
 
+
+        [JsonIgnore]
+        public bool HasBrowseLoader
+        {
+            get { return (browseLoader != null); }
+        }
+        public FwDataRecord GetEmptyBrowseLoaderRecord()
+        {
+            return browseLoader; 
+        }
+
         public event EventHandler<BeforeSaveEventArgs> BeforeSave;
         public event EventHandler<InsteadOfSaveEventArgs> InsteadOfSave;
         public event EventHandler<AfterSaveEventArgs> AfterSave;

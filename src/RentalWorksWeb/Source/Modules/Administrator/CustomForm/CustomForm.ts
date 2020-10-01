@@ -309,7 +309,7 @@ class CustomForm {
             case 'Grid':
             case 'Browse':
                 if (apiurl !== "undefined") {
-                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptybrowseobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         let columnNames = Object.keys(response);
                         let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                         let allValidFields: any = [];
