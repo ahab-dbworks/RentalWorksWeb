@@ -20,8 +20,25 @@ namespace WebApi.Modules.Agent.Order
         //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
         //public string OrderNumberColor { get; set; }
-        ////------------------------------------------------------------------------------------ 
-
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderedby", modeltype: FwDataTypes.Text)]
+        public string OrderedBy { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbytitle", modeltype: FwDataTypes.Text)]
+        public string OrderedByTitle { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyphone", modeltype: FwDataTypes.Text)]
+        public string OrderedByPhone { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyext", modeltype: FwDataTypes.Text)]
+        public string OrderedByExtension { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
+        public string OrderedByPhoneAndExtension { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyemail", modeltype: FwDataTypes.Text)]
+        public string OrderedByEmail { get; set; }
+        //------------------------------------------------------------------------------------
 
         //note: when adding field here, be sure to also add them to the OrderLoader class
 

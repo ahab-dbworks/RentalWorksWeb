@@ -25,6 +25,24 @@ namespace WebApi.Modules.Agent.Quote
         [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer)]
         public int? VersionNumber { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedby", modeltype: FwDataTypes.Text)]
+        public string QuotedFor { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbytitle", modeltype: FwDataTypes.Text)]
+        public string QuotedForTitle { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyphone", modeltype: FwDataTypes.Text)]
+        public string QuotedForPhone { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyext", modeltype: FwDataTypes.Text)]
+        public string QuotedForExtension { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
+        public string QuotedForPhoneAndExtension { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyemail", modeltype: FwDataTypes.Text)]
+        public string QuotedForEmail { get; set; }
+        //------------------------------------------------------------------------------------
 
         //note: when adding field here, be sure to also add them to the QuoteLoader class
 
