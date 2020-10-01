@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/createpicklist$/, action: function (match: RegExpExecArray) { return CreatePickListController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/createpicklist$/, action: function (match: RegExpExecArray) { return CreatePickListController.getModuleScreen(); } });
 
 class CreatePickList {
     Module: string = 'CreatePickList';
@@ -47,6 +47,14 @@ class CreatePickList {
         FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo.OrderId);
         $form.find('.defaultoptions input').prop('checked', true);
         this.events($form);
+
+        FwAppData.apiMethod(true, 'GET', 'api/v1/utilityfunctions/newsessionid', null, FwServices.defaultTimeout, function onSuccess(response) {
+            $form.data("sessionid", response.SessionId);
+            const $itemGridControl = $form.find('[data-name="PickListUtilityGrid"]');
+            FwBrowse.search($itemGridControl);
+        }, null, null);
+
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -64,7 +72,7 @@ class CreatePickList {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
-                    SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                    SessionId: $form.data('sessionid')
                 };
             }
         });
@@ -77,8 +85,8 @@ class CreatePickList {
                 const request: any = {};
                 request.miscfields = miscfields;
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
-                    , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`) //jason - placeholder until we can support multiple orders
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                    SessionId: $form.data('sessionid')
                 };
 
                 const $tabpage = $form.parent();
@@ -118,8 +126,8 @@ class CreatePickList {
 
             $pickListUtilityGridControl.data('ondatabind', request => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
-                    , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                    SessionId: $form.data('sessionid')
                 };
                 request.miscfields = miscfields;
             })
@@ -129,8 +137,8 @@ class CreatePickList {
         $form.on('click', '.selectall', () => {
             const request: any = {};
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
-                , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                SessionId: $form.data('sessionid')
             };
             FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectall', request, FwServices.defaultTimeout, response => {
                 try {
@@ -145,8 +153,8 @@ class CreatePickList {
         $form.on('click', '.selectnone', () => {
             const request: any = {};
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
-                , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                SessionId: $form.data('sessionid')
             };
             FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectnone', request, FwServices.defaultTimeout, response => {
                 try {

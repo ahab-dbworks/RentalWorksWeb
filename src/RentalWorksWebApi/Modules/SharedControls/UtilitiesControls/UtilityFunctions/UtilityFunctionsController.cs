@@ -13,6 +13,12 @@ using System.Net;
 
 namespace WebApi.Modules.UtilitiesControls.UtilityFunctions
 {
+
+    public class NewSessionIdResponse
+    { 
+        public string SessionId { get; set; }
+    }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
     [FwController(Id:"PNUWZqaFb8W0r")]
@@ -38,19 +44,17 @@ namespace WebApi.Modules.UtilitiesControls.UtilityFunctions
         // GET api/v1/utilityfunctions/newsessionid
         [HttpGet("newsessionid")]
         [FwControllerMethod(Id:"cDT0iXnq4OCgX")]
-        public async Task<ActionResult<string>> NewSessionId()
+        public async Task<ActionResult<NewSessionIdResponse>> NewSessionId()
         {
             try
             {
-                return new OkObjectResult(await AppFunc.GetNextIdAsync(AppConfig));
+                NewSessionIdResponse response = new NewSessionIdResponse();
+                response.SessionId = await AppFunc.GetNextIdAsync(AppConfig);
+                return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
