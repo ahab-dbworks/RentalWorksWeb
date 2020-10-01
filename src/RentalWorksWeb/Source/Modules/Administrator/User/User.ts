@@ -201,13 +201,15 @@ class User {
         userid.firstdayofweek = +FwFormField.getValueByDataField($form, 'FirstDayOfWeek');
         sessionStorage.setItem('userid', JSON.stringify(userid));
 
-        const homePage: any = {
-            guid: FwFormField.getValueByDataField($form, 'HomeMenuGuid'),
-            path: FwFormField.getValueByDataField($form, 'HomeMenuPath'),
-        };
-        sessionStorage.setItem('homePage', JSON.stringify(homePage));
-        sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
-        sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
+        if (FwFormField.getValueByDataField($form, 'UserId') === userid.usersid) {
+            const homePage: any = {
+                guid: FwFormField.getValueByDataField($form, 'HomeMenuGuid'),
+                path: FwFormField.getValueByDataField($form, 'HomeMenuPath'),
+            };
+            sessionStorage.setItem('homePage', JSON.stringify(homePage));
+            sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
+            sessionStorage.setItem('applicationtheme', FwFormField.getValueByDataField($form, 'ApplicationTheme'));
+        }
 
         SoundController.soundsToUrl($form);
 
