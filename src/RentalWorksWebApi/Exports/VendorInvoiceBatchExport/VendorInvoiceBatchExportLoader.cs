@@ -23,6 +23,7 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
             public string ICode { get; set; }
             public string Description { get; set; }
             public string DescriptionWithoutDoubleQuotes { get; set; }
+            public string DescriptionWithoutCommas { get; set; }
             public decimal? Quantity { get; set; }
             public decimal? QuantityNegative { get; set; }
             public decimal? UnitCost { get; set; }
@@ -55,6 +56,7 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
             public string PaymentTerms { get; set; }
             public string PaymentTermsCode { get; set; }
             public List<VendorInvoiceItem> Items = new List<VendorInvoiceItem>(new VendorInvoiceItem[] { new VendorInvoiceItem() });
+            public int ItemCount { get; set; }
         }
 
 
@@ -150,6 +152,7 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
                             ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
                             ii.Description = row[dt.GetColumnNo("description")].ToString();
                             ii.DescriptionWithoutDoubleQuotes = ii.Description.Replace("\"", "");
+                            ii.DescriptionWithoutCommas = ii.Description.Replace(",", "");
                             ii.Quantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
                             ii.QuantityNegative = (-1) * ii.Quantity;
                             ii.UnitCost = FwConvert.ToDecimal(row[dt.GetColumnNo("cost")].ToString());
@@ -164,6 +167,7 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
                             i.Items.Add(ii);
                         }
                     }
+                    i.ItemCount = i.Items.Count;
                 }
             }
 
