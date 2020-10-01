@@ -58,7 +58,10 @@ class SearchInterface {
                                 <div data-type="button" class="fwformcontrol refresh-availability" style="display:none;">Refresh Availability</div>
                               </div>
                               <div style="display:flex;flex: 0 0 auto;padding: .4em 0;">
-                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Search by Description" data-datafield="SearchBox" style="flex: 1 1 400px;"></div>
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Search by Description" data-datafield="SearchBox" style="flex: 0 1 650px;"></div>
+                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield fwformcontrol" data-caption="Search by Attribute" data-datafield="AttributeId" data-validationname="AttributeValidation" style="flex: 0 1 250px; padding-top:5px;"></div>
+                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield fwformcontrol attr-val" data-caption="Value" data-datafield="AttributeValueId" data-validationname="InventoryAttributeValidation" style="flex: 0 1 250px; padding-top:5px;"></div>
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol attr-val" data-caption="Value Range" data-datafield="AttributeValueRange" style="flex: 0 1 250px; padding-top:5px; display:none;"></div>
                               </div>
                               <div style="display:flex;flex:1 1 0;">
                                 <div class="flexcolumn" style="flex:0 0 230px;display:flex;flex-direction:column;position:relative;">
@@ -1628,6 +1631,26 @@ class SearchInterface {
             $item.data('warehousetext', warehouseText);
             this.renderAvailabilityPopup($item);
         });
+
+        //Search By Attribute
+        $popup.find('[data-datafield="AttributeId"]').data('onchange', $tr => {
+            const isNumericOnly = FwBrowse.getValueByDataField($popup, $tr, 'NumericOnly');
+            const $attrValField = $popup.find('[data-datafield="AttributeValueId"]');
+            const $attrRangeField = $popup.find('[data-datafield="AttributeValueRange"]');
+            if (isNumericOnly == 'true') {
+                FwFormField.setValueByDataField($popup, 'AttributeValueId', '', '', false);
+                $attrRangeField.show();
+                $attrValField.hide();
+            } else {
+                FwFormField.setValueByDataField($popup, 'AttributeValueRange', '', '', false);
+                $attrRangeField.hide();
+                $attrValField.show();
+            }
+        });
+
+        $popup.find('.attr-val').on('change', e => {
+            this.getInventory($popup);
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderAvailabilityPopup($item: JQuery) {
@@ -1867,6 +1890,8 @@ class SearchInterface {
             SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
             SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined,
             CurrencyId:                    FwFormField.getValueByDataField($popup, 'CurrencyId') || undefined
+            //AttributeId:                 FwFormField.getValueByDataField($popup, 'AttributeId') || undefined,
+            //AttributeValueId:              FwFormField.getValue2($popup.find('.attr-val:visible')) || undefined
         }
 
         let type = $popup.find('#itemsearch').attr('data-moduletype');
