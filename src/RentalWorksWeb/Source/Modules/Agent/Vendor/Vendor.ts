@@ -206,6 +206,13 @@ class Vendor {
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });
+
+        // Disable currency field if MultipleCurrencies is checked
+        if (FwFormField.getValueByDataField($form, 'MultipleCurrencies') === true) {
+            FwFormField.disableDataField($form, 'DefaultCurrencyId');
+        }
+
+
     }
     //---------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -214,6 +221,10 @@ class Vendor {
             var value: string = jQuery(e.currentTarget).val().toString();
             this.togglePanels($tab, value);
             this.toggleRequiredFields($tab);
+        });
+        //Record uses Multiple Currencies
+        $form.find('div[data-datafield="MultipleCurrencies"]').on('change', () => {
+            this.multipleCurrencies($form);
         });
 
         $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
@@ -424,6 +435,20 @@ class Vendor {
             }
             $sharedColumnTds.css('text-align', 'center');
             $grid.find('thead').prepend($thead);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    multipleCurrencies($form) {
+        const multipleCurrencies = FwFormField.getValueByDataField($form, 'MultipleCurrencies');
+
+        if (multipleCurrencies) {
+            FwFormField.setValueByDataField($form, 'DefaultCurrencyId', '', '');
+            FwFormField.disable($form.find('div[data-datafield="DefaultCurrencyId"]'));
+            $form.find('div[data-datafield="DefaultCurrencyId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="DefaultCurrencyId"]').removeClass('error');
+        } else {
+            $form.find('div[data-datafield="DefaultCurrencyId"]').attr('data-required', 'true');
+            FwFormField.enable($form.find('div[data-datafield="DefaultCurrencyId"]'));
         }
     }
     //---------------------------------------------------------------------------------
@@ -653,13 +678,14 @@ class Vendor {
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default PO Class" data-datafield="DefaultPoClassificationId" data-displayfield="DefaultPoClassification" data-validationname="POClassificationValidation" style="flex:1 1 275px;"></div>
                       </div>>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="DefaultCurrencyId" data-displayfield="DefaultCurrencyCode" data-validationname="CurrencyValidation" data-required="true" style="flex:1 1 275px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="DefaultCurrencyId" data-displayfield="DefaultCurrencyCode" data-validationname="CurrencyCodeValidation" data-required="true" style="flex:1 1 275px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DefaultCurrency" data-enabled="false" style="flex:1 1 275px;"></div>
+                        <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Vendor uses multiple Currencies. The Office Location default Currency will be used when creating new Purchase Orders." style="flex:1 1 200px;"></div>
                       </div>
                     </div>
                   </div>
+       
                   <!-- Address section -->
                   <div class="flexcolumn" style="flex:0 1 325px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Remit To Address">
@@ -687,6 +713,10 @@ class Vendor {
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Payee No" data-datafield="RemitPayeeNo" style="flex:1 1 150px;"></div>
                       </div>
                     </div>
+                  </div>
+
+                  <!-- External ID section -->
+                  <div class="flexcolumn" style="flex:0 1 325px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="External ID">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor External ID" data-datafield="ExternalId" style="flex:1 1 275px;"></div>

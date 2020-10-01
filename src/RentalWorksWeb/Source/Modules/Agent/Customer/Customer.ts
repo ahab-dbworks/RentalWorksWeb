@@ -494,6 +494,12 @@ class Customer {
                 FwFormField.enable($form.find('.non-taxable'));
             }
         }
+
+        // Disable currency field if MultipleCurrencies is checked
+        if (FwFormField.getValueByDataField($form, 'MultipleCurrencies') === true) {
+            FwFormField.disableDataField($form, 'CurrencyId');
+        }
+
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -503,6 +509,10 @@ class Customer {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
+        });
+        //Record uses Multiple Currencies
+        $form.find('div[data-datafield="MultipleCurrencies"]').on('change', () => {
+            this.multipleCurrencies($form);
         });
         //Billing Address Type Change
         $form.find('div[data-datafield="BillingAddressType"]').on('change', () => {
@@ -802,7 +812,8 @@ class Customer {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTermsId" data-displayfield="PaymentTerms" data-validationname="PaymentTermsValidation" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-required="true" style="flex:1 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyCodeValidation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-required="true" style="flex:1 1 250px;"></div>
+                          <div data-datafield="MultipleCurrencies" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Customer uses multiple Currencies. The Office Location default Currency will be used when creating new Quotes/Orders." style="flex:1 1 200px;"></div>
                         </div>
                       </div>
                       <!-- Discount Template section -->
@@ -1160,6 +1171,20 @@ class Customer {
 
             </div>
           </div>`;
+    }
+    //----------------------------------------------------------------------------------------------
+    multipleCurrencies($form) {
+        const multipleCurrencies = FwFormField.getValueByDataField($form, 'MultipleCurrencies');
+
+        if (multipleCurrencies) {
+            FwFormField.setValueByDataField($form, 'CurrencyId', '', '');
+            FwFormField.disable($form.find('div[data-datafield="CurrencyId"]'));
+            $form.find('div[data-datafield="CurrencyId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="CurrencyId"]').removeClass('error');
+        } else {
+            $form.find('div[data-datafield="CurrencyId"]').attr('data-required', 'true');
+            FwFormField.enable($form.find('div[data-datafield="CurrencyId"]'));
+        }
     }
     //----------------------------------------------------------------------------------------------
     addressTypeChange($form) {

@@ -414,6 +414,9 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "ydSxNcC99OMv", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "lGKP0IUQfzukh", IsReadOnly: true)]
+        public string Currency { get; set; }
+
         [FwLogicProperty(Id: "wRjO6jhxLOP3B", IsReadOnly: true)]
         public string CurrencySymbol { get; set; }
 

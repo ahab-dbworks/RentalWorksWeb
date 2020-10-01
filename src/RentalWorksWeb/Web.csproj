@@ -531,6 +531,7 @@
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
+    <TypeScriptCompile Include="Source\Modules\AaBaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Account\UserProfile\UserProfile.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DataHealth\DataHealth.ts" />
@@ -1134,6 +1135,7 @@
     <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\BankAccountValidation\BankAccountValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
+    <Content Include="Source\Validations\CurrencyCodeValidation\CurrencyCodeValidationBrowse.htm" />
     <Content Include="Source\Validations\VendorInvoiceValidation\VendorInvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectNumberValidation\ProjectNumberValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectCommissioningValidation\ProjectCommissioningValidationBrowse.htm" />

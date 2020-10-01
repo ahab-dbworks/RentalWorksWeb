@@ -1394,7 +1394,7 @@ abstract class InventoryBase {
             html.push('  <div class="flexrow">');
             html.push('  <div class="flexcolumn">');
             html.push('    <div class="flexrow">');
-            html.push('      <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyValidation" class= "fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" style="flex:1 1 250px;" ></div>');
+            html.push('      <div data-control="FwFormField" data-type="validation" data-validationname="CurrencyCodeValidation" class= "fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" style="flex:1 1 250px;" ></div>');
             html.push('  </div>')
             html.push('  </div>');
             html.push('  </div>');
