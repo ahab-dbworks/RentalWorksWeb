@@ -563,7 +563,7 @@ abstract class FwWebApiReport {
                             try {
                                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                                 const requestEmailPdf: any = this.getRenderRequest($form);
-                                let body = FwFormField.getValueByDataField($confirmation, 'body').replace(/\n/g, '<br />') + '<p>' + signature + '</p>';
+                                let body = '<pre>' + FwFormField.getValueByDataField($confirmation, 'body') + '</pre>' + '<p>' + signature + '</p>';
                                 requestEmailPdf.renderMode = 'Email';
                                 requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
                                 requestEmailPdf.email.to = FwFormField.getValueByDataField($confirmation, 'tousers');
