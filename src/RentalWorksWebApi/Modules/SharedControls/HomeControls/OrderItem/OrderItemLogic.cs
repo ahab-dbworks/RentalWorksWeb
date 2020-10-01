@@ -1295,7 +1295,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     // don't let user change the description on existing row, unless MISC, GROUPHEADING, TEXT, or SUBTOTAL, or unless Misc/Labor
                     if (orig != null)
                     {
-                        if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS_ITEM) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
+                        if (!(orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS_ITEM) || inventoryClass.Equals(RwConstants.ITEMCLASS_MISCELLANEOUS) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_GROUP_HEADING) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_TEXT) || orig.ItemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL) || orig.RecType.Equals(RwConstants.RECTYPE_LABOR) || orig.RecType.Equals(RwConstants.RECTYPE_MISCELLANEOUS)))
                         {
                             if (!inventoryId.Equals(orig.InventoryId))
                             {
