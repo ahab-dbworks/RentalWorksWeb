@@ -232,30 +232,30 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "exporttaxaslineitem", modeltype: FwDataTypes.Boolean)]
         public bool? ExportTaxAsLineItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasRentalItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasmeteritem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasMeterItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hassaleitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasSalesItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "haslaboritem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasLaborItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasmiscitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasMiscellaneousItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasspaceitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasFacilityItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasvehicleitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasTransportationItem { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
-        public bool? HasRentalSaleItem { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasRentalItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "hasmeteritem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasMeterItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "hassaleitem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasSalesItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "haslaboritem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasLaborItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "hasmiscitem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasMiscellaneousItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "hasspaceitem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasFacilityItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "hasvehicleitem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasTransportationItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
+        //public bool? HasRentalSaleItem { get; set; }
+        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "haslditem", modeltype: FwDataTypes.Boolean)]
         //public bool? HasLossAndDamageItem { get; set; }
         ////------------------------------------------------------------------------------------ 
