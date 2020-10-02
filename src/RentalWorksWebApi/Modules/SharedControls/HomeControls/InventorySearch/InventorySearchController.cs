@@ -14,50 +14,53 @@ namespace WebApi.Modules.HomeControls.InventorySearch
     //------------------------------------------------------------------------------------ 
     public class InventorySearchGetTotalRequest
     {
-        public string SessionId;
-        public string OrderId;
+        public string SessionId { get; set; }
+        public string OrderId { get; set; }
     }
-    public class InventorySearchGetTotalResponse: TSpStatusResponse
+    public class InventorySearchGetTotalResponse : TSpStatusResponse
     {
-        public decimal? TotalQuantityInSession;
+        public decimal? TotalQuantityInSession { get; set; }
     }
 
     //------------------------------------------------------------------------------------ 
     public class InventorySearchRequest
     {
-        public string SessionId;
-        public string OrderId;
-        public string AvailableFor;
-        public string WarehouseId;
-        public string CurrencyId;
-        public string InventoryTypeId;
-        public string CategoryId;
-        public string SubCategoryId;
-        public string Classification;
-        public string SearchText;
-        public bool? ShowAvailability;
-        public DateTime FromDate;
-        public string FromTime;
-        public DateTime ToDate;
-        public string ToTime;
-        public bool? ShowImages;
-        public bool? HideInventoryWithZeroQuantity;
-        public string SortBy;
+        public string SessionId { get; set; }
+        public string OrderId { get; set; }
+        public string AvailableFor { get; set; }
+        public string WarehouseId { get; set; }
+        public string CurrencyId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string Classification { get; set; }
+        public string SearchText { get; set; }
+        public string AttributeId { get; set; }
+        public string AttributeValueId { get; set; }
+        public string AttributeValueRange { get; set; }
+        public bool? ShowAvailability { get; set; }
+        public DateTime FromDate { get; set; }
+        public string FromTime { get; set; }
+        public DateTime ToDate { get; set; }
+        public string ToTime { get; set; }
+        public bool? ShowImages { get; set; }
+        public bool? HideInventoryWithZeroQuantity { get; set; }
+        public string SortBy { get; set; }
     }
     //------------------------------------------------------------------------------------ 
     public class InventorySearchAccessoriesRequest
     {
-        public string SessionId;
-        public string OrderId;
-        public string ParentId;
-        public string GrandParentId;
-        public string WarehouseId;
-        public bool? ShowAvailability;
-        public DateTime FromDate;
-        public string FromTime;
-        public DateTime ToDate;
-        public string ToTime;
-        public bool? ShowImages;
+        public string SessionId { get; set; }
+        public string OrderId { get; set; }
+        public string ParentId { get; set; }
+        public string GrandParentId { get; set; }
+        public string WarehouseId { get; set; }
+        public bool? ShowAvailability { get; set; }
+        public DateTime FromDate { get; set; }
+        public string FromTime { get; set; }
+        public DateTime ToDate { get; set; }
+        public string ToTime { get; set; }
+        public bool? ShowImages { get; set; }
     }
     //------------------------------------------------------------------------------------ 
     public abstract class InventorySearchAddToRequest
@@ -65,13 +68,13 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         public string SessionId { get; set; }
     }
     //------------------------------------------------------------------------------------ 
-    public class InventorySearchAddToOrderRequest: InventorySearchAddToRequest
+    public class InventorySearchAddToOrderRequest : InventorySearchAddToRequest
     {
         public string OrderId { get; set; }
         public int? InsertAtIndex { get; set; }
     }
     //------------------------------------------------------------------------------------ 
-    public class InventorySearchAddToCompleteKitContainerRequest: InventorySearchAddToRequest
+    public class InventorySearchAddToCompleteKitContainerRequest : InventorySearchAddToRequest
     {
         public string InventoryId { get; set; }
     }
@@ -80,7 +83,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"i4xC0FYgT9qo")]
+    [FwController(Id: "i4xC0FYgT9qo")]
     public class InventorySearchController : AppDataController
     {
         //------------------------------------------------------------------------------------ 
@@ -88,7 +91,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/search
         [HttpPost("search")]
-        [FwControllerMethod(Id:"obY8YJeiKDfb")]
+        [FwControllerMethod(Id: "obY8YJeiKDfb")]
         public async Task<ActionResult<FwJsonDataTable>> SearchAsync([FromBody]InventorySearchRequest searchRequest)
         {
             if (!ModelState.IsValid)
@@ -110,7 +113,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/accessories
         [HttpPost("accessories")]
-        [FwControllerMethod(Id:"h6KcF18iVMSP")]
+        [FwControllerMethod(Id: "h6KcF18iVMSP")]
         public async Task<ActionResult<FwJsonDataTable>> SearchAccessoriesAsync([FromBody]InventorySearchAccessoriesRequest searchRequest)
         {
             if (!ModelState.IsValid)
@@ -132,7 +135,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         //------------------------------------------------------------------------------------         
         // POST api/v1/inventorysearch 
         [HttpPost]
-        [FwControllerMethod(Id:"pIzlx22ziLGg", ActionType: FwControllerActionTypes.New)]
+        [FwControllerMethod(Id: "pIzlx22ziLGg", ActionType: FwControllerActionTypes.New)]
         public async Task<ActionResult<InventorySearchLogic>> PostAsync([FromBody]InventorySearchLogic l)
         {
             return await DoPostAsync<InventorySearchLogic>(l);
@@ -148,7 +151,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/gettotal
         [HttpGet("gettotal/{sessionid}")]
-        [FwControllerMethod(Id:"Sn1Xo2Zd4M")]
+        [FwControllerMethod(Id: "Sn1Xo2Zd4M")]
         public async Task<ActionResult<InventorySearchGetTotalResponse>> GetTotal([FromRoute]string sessionId)
         {
             if (!ModelState.IsValid)
@@ -168,7 +171,7 @@ namespace WebApi.Modules.HomeControls.InventorySearch
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/addtoorder 
         [HttpPost("addtoorder")]
-        [FwControllerMethod(Id:"bB1lEAjR2sZy")]
+        [FwControllerMethod(Id: "bB1lEAjR2sZy")]
         public async Task<ActionResult<bool>> AddToOrder([FromBody]InventorySearchAddToOrderRequest request)
         {
             if (!ModelState.IsValid)
