@@ -140,6 +140,8 @@ class SearchInterface {
 
         FwControl.renderRuntimeControls($popup.find('#searchpopup .fwcontrol'));
 
+        $popup.find('[data-datafield="AttributeValueId"]').data('beforevalidate', this.beforeValidate);
+
         if ($form) {
             const $grid = $form.find('[data-name="OrderItemGrid"]:visible');
             if ($grid.length > 0) { 
@@ -1889,9 +1891,10 @@ class SearchInterface {
             CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
             SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
             SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined,
-            CurrencyId:                    FwFormField.getValueByDataField($popup, 'CurrencyId') || undefined
-            //AttributeId:                 FwFormField.getValueByDataField($popup, 'AttributeId') || undefined,
-            //AttributeValueId:              FwFormField.getValue2($popup.find('.attr-val:visible')) || undefined
+            CurrencyId:                    FwFormField.getValueByDataField($popup, 'CurrencyId') || undefined,
+            AttributeId:                   FwFormField.getValueByDataField($popup, 'AttributeId') || undefined,
+            AttributeValueId:              FwFormField.getValueByDataField($popup, 'AttributeValueId') || undefined,
+            AttributeValueRange:           FwFormField.getValueByDataField($popup, 'AttributeValueRange') || undefined
         }
 
         let type = $popup.find('#itemsearch').attr('data-moduletype');
@@ -2179,6 +2182,12 @@ class SearchInterface {
         }
 
         return fromDateAndTime;
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($validationbrowse: JQuery, $popup: JQuery, request: any, datafield: string, $tr: JQuery) {
+        request.uniqueids = {
+            AttributeId: FwFormField.getValueByDataField($popup, 'AttributeId')
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
