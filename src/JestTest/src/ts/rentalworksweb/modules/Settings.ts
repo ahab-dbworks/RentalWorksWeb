@@ -3956,7 +3956,7 @@ export class PaymentType extends SettingsModule {
         this.defaultNewRecordToExpect = {
             PaymentType: "",
             ShortName: "",
-            PaymentTypeType: "CASH",
+            PaymentTypeType: "ACH",
             Inactive: false,
         }
         this.newRecordsToCreate = [
