@@ -32,7 +32,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/usersearchsettings/A0000001
         [HttpPut("{id}")]
-        [FwControllerMethod(Id: "QJjEcnRd7LCSr", ActionType: FwControllerActionTypes.Edit)]
+        [FwControllerMethod(Id: "QJjEcnRd7LCSr", ActionType: FwControllerActionTypes.Edit, ValidateSecurityGroup: false)]
         public async Task<ActionResult<UserSearchSettingsLogic>> EditAsync([FromRoute] string id, [FromBody]UserSearchSettingsLogic l)
         {
             return await DoEditAsync<UserSearchSettingsLogic>(l);
