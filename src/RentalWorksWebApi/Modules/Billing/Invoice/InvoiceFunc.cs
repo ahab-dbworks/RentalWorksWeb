@@ -34,7 +34,7 @@ namespace WebApi.Modules.Billing.Invoice
     public static class InvoiceFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusResponse> VoidInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
+        private static async Task<TSpStatusResponse> _deleteOrVoidInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId, bool doVoid)
         {
             TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Billing.Invoice
                 FwSqlCommand qry = new FwSqlCommand(conn, "deleteinvoice", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, invoiceId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@void", SqlDbType.NVarChar, ParameterDirection.Input, "T");
+                qry.AddParameter("@void", SqlDbType.NVarChar, ParameterDirection.Input, doVoid);
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
@@ -52,6 +52,16 @@ namespace WebApi.Modules.Billing.Invoice
                 //response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> DeleteInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
+        {
+            return await _deleteOrVoidInvoice(appConfig, userSession, invoiceId, doVoid: false);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> VoidInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
+        {
+            return await _deleteOrVoidInvoice(appConfig, userSession, invoiceId, doVoid: true);
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<CreditInvoiceReponse> CreateInvoiceCredit(FwApplicationConfig appConfig, FwUserSession userSession, CreditInvoiceRequest request)

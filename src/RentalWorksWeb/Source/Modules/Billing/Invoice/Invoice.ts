@@ -8,7 +8,8 @@ class Invoice {
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
-        options.hasDelete = false;
+        let allowdeleteinvoices = JSON.parse(sessionStorage.getItem('controldefaults')).allowdeleteinvoices;
+        options.hasDelete = allowdeleteinvoices;
         FwMenu.addBrowseMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, `Void`, `xEo3YJ6FHSYE`, (e: JQuery.ClickEvent) => {

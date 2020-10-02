@@ -63,6 +63,9 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwLogicProperty(Id: "LNSlJiSGmnjG")]
         public bool? AllowDeleteExportedPayments { get { return sysControl.AllowDeleteExportedPayments; } set { sysControl.AllowDeleteExportedPayments = value; } }
 
+        [FwLogicProperty(Id: "XuNW5diLKlWu")]
+        public bool? AllowDeleteInvoices { get { return sysControl.AllowDeleteInvoices; } set { sysControl.AllowDeleteInvoices = value; } }
+
 
         [FwLogicProperty(Id: "54tMuScs2fSPS")]
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }

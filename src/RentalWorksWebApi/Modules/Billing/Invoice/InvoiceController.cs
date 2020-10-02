@@ -98,14 +98,14 @@ namespace WebApi.Modules.Billing.Invoice
             return await DoEditAsync<InvoiceLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// DELETE api/v1/invoice/A0000001 
-        //[HttpDelete("{id}")]
-        //[FwControllerMethod(Id:"TPgslKxFR6", ActionType: FwControllerActionTypes.Delete)]
-        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        //{
-        //    return await <InvoiceLogic>DoDeleteAsync(id);
-        //}
-        ////------------------------------------------------------------------------------------ 
+        // DELETE api/v1/invoice/A0000001 
+        [HttpDelete("{id}")]
+        [FwControllerMethod(Id:"TPgslKxFR6", ActionType: FwControllerActionTypes.Delete)]
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        {
+            return await DoDeleteAsync<InvoiceLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/A0000001/void
         [HttpPost("{id}/void")]
         [FwControllerMethod(Id: "xEo3YJ6FHSYE", FwControllerActionTypes.Option, Caption: "Void")]

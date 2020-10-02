@@ -49,6 +49,9 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwSqlDataField(column: "allowdeletebatchedpayment", modeltype: FwDataTypes.Boolean)]
         public bool? AllowDeleteExportedPayments { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowdeleteinvoice", modeltype: FwDataTypes.Boolean)]
+        public bool? AllowDeleteInvoices { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

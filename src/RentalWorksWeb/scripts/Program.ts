@@ -273,7 +273,8 @@ class Program extends FwApplication {
                     userassignedvendornumber:            responseGetSystemSettings.IsVendorNumberAssignedByUser,
                     userassignedcustomernumber:          userassignedcustnum,
                     userassigneddealnumber:              userassigneddealnum,
-                    multiwarehouse:                      (responseGetWarehouses.Rows.length > 1),
+                    multiwarehouse: (responseGetWarehouses.Rows.length > 1),
+                    allowdeleteinvoices:                 responseGetSystemSettings.AllowDeleteInvoices,
                 }
                 sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 

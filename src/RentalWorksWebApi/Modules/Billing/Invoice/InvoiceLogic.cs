@@ -51,6 +51,8 @@ namespace WebApi.Modules.Billing.Invoice
 
             ForceSave = true;
 
+            InsteadOfDelete += OnInsteadOfDelete;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "oPBmsLfmVQDA", IsPrimaryKey: true)]
@@ -712,6 +714,11 @@ namespace WebApi.Modules.Billing.Invoice
             return await invoice.Unapprove();
         }
         //------------------------------------------------------------------------------------    
-
+        public void OnInsteadOfDelete(object sender, InsteadOfDeleteEventArgs e)
+        {
+            TSpStatusResponse response = InvoiceFunc.DeleteInvoice(AppConfig, UserSession, InvoiceId).Result;
+            e.Success = response.success;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

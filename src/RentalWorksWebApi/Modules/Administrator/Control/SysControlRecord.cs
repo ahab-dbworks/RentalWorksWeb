@@ -581,6 +581,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "partscostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string PartsQuantityInventoryValueMethod { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowdeleteinvoice", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AllowDeleteInvoices { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
