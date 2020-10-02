@@ -61,99 +61,93 @@
     </div>
     <div class="rpt-flexcolumn">
       <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;">
-        <span>Description: </span><span>{{OrderDescription}}</span>
+        <span class="shaded-block" style="width:100px;">Description: </span><span class="meta-content">{{OrderDescription}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span>Deal: </span><span>{{Deal}}</span>
+        <span class="shaded-block" style="width:100px;">Deal: </span><span class="meta-content">{{Deal}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span>Usage Dates: </span><span>{{UsageDates}}</span>
+        <span class="shaded-block" style="width:100px;">Usage Dates: </span><span class="meta-content">{{UsageDates}}</span>
       </div>
       <div class="rpt-nested-flexrow" style="border-top:2px solid #027cc5;">
-        <span>Agent: </span><span>{{Agent}}</span>
+        <span class="shaded-block" style="width:100px;">Agent: </span><span class="meta-content">{{Agent}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span>Email: </span><span>{{AgentEmail}}</span>
+        <span class="shaded-block" style="width:100px;">Email: </span><span class="meta-content">{{AgentEmail}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span>Phone: </span><span>{{AgentPhoneAndExtension}}</span>
+        <span class="shaded-block" style="width:100px;">Phone: </span><span class="meta-content">{{AgentPhoneAndExtension}}</span>
       </div>
     </div>
   </div>
 </div>
 <div data-section="table" class="rpt-flexrow">
   <table style="table-layout:fixed;">
-    <tbody data-rowtype="{{RowType}}">
+    <thead id="columnHeader">
+      <tr data-row="main-header" data-linkedrow="detail">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode"></th>
+        <th data-linkedcolumn="Description" data-valuefield="Description"></th>
+        <th data-linkedcolumn="QuantityOrdered" data-valuefield="QuantityOrdered"></th>
+        <th data-linkedcolumn="TotalQuantity" data-valuefield="TotalQuantity"></th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity"></th>
+      </tr>
+    </thead>
+    <tbody>
       {{#each Items}}
       {{#ifEquals RowType "RecTypeDisplayheader"}}
-      <tr><td>&nbsp;</td></tr><!--spacer row-->
-      <tr class="avoid-page-break">
+      <tr data-row="header"><td colspan="5">&nbsp;</td></tr><!--spacer row-->
+      <tr data-row="header" class="avoid-page-break">
         <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
       </tr>
-      <tr class="rectype-header">
-        <td style="min-width:100px">I-Code</td>
-        <td style="min-width:600px">Description</td>
-        <td class="number" style="min-width:100px">Ordered</td>
-        <td class="number" style="min-width:100px">Total Out</td>
-        <td class="number" style="min-width:100px">Out</td>
+      <tr data-row="linked-sub-header" data-sort="true" data-linkedrow="detail">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="QuantityOrdered" data-valuefield="QuantityOrdered">QuantityOrdered</th>
+        <th data-linkedcolumn="TotalQuantity" data-valuefield="TotalQuantity">Total Out</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity">Out</th>
       </tr>
-    </tbody>
-    <tbody>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-rowtype="{{RowType}}" class="description-row">
-        <td class="nowrap">{{ICode}}</td>
-        <td>{{Description}}</td>
-        <td class="number">{{QuantityOrdered}}</td>
-        <td class="number">{{TotalQuantity}}</td>
-        <td class="number">{{Quantity}}</td>
+      <tr data-row="detail" data-rowtype="{{RowType}}" class="description-row">
+        <td data-linkedcolumn="ICode" class="nowrap" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
+        <td data-linkedcolumn="TotalQuantity" class="number" data-value="{{TotalQuantity}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
       </tr>
-      <tr data-rowtype="{{RowType}}" class="barcode-row">
+      {{#if ../IncludeBarCodes}}
+      <tr data-row="sub-detail" data-sort="true" class="barcode-row" data-visible="{{#if BarCodes}}true{{/if}}">
         <td></td>
-        <td>
-          {{#if ../IncludeBarCodes}}
-          {{#if BarCodes}}
-          <div>
-            <b>Bar Codes:</b> {{BarCodes}}
-          </div>
-          {{/if}}
-          {{/if}}
-
-          {{#if ../IncludeSerialNumbers}}
-          {{#if SerialNumbers}}
-          <div>
-            <b>Serial Numbers:</b> {{SerialNumbers}}
-          </div>
-          {{/if}}
-          {{/if}}
-
-          {{#if ../IncludeRfids}}
-          {{#if Rfids}}
-          <div>
-            <b>RFIDs:</b> {{Rfids}}
-          </div>
-          {{/if}}
-          {{/if}}
-
-          {{#if ../IncludeManufacturerPartNumbers}}
-          {{#if ManufacturerPartNumbers}}
-          <div>
-            <b>Part Numbers:</b> {{ManufacturerPartNumbers}}
-          </div>
-          {{/if}}
-          {{/if}}
-
-          {{#if Notes}}
-          <div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div>
-          {{/if}}
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td colspan="4"><b>Bar Codes:</b> {{BarCodes}}</td>
       </tr>
-      <tr>
-        <td colspan="5"></td>
+      {{/if}}
+
+      {{#if ../IncludeSerialNumbers}}
+      <tr data-row="sub-detail" data-sort="true" class="serial-row" data-visible="{{#if SerialNumbers}}true{{/if}}">
+        <td></td>
+        <td colspan="4"><b>Serial Numbers:</b> {{SerialNumbers}}</td>
       </tr>
+      {{/if}}
+
+      {{#if ../IncludeRfids}}
+      <tr data-row="sub-detail" data-sort="true" class="rfid-row" data-visible="{{#if Rfids}}true{{/if}}">
+        <td></td>
+        <td colspan="4"><b>RFIDs:</b> {{Rfids}}</td>
+      </tr>
+      {{/if}}
+
+      {{#if ../IncludeManufacturerPartNumbers}}
+      <tr data-row="sub-detail" data-sort="true" class="partno-row" data-visible="{{#if ManufacturerPartNumbers}}true{{/if}}">
+        <td></td>
+        <td colspan="4"><b>Part Numbers:</b> {{ManufacturerPartNumbers}}</td>
+      </tr>
+      {{/if}}
+
+      {{#if Notes}}
+       <tr data-row="sub-detail" data-sort="true" class="note-row" data-visible="{{#if Notes}}true{{/if}}">
+        <td colspan="5"><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></td>
+      </tr>
+      {{/if}}
       {{/ifEquals}}
       {{/each}}
     </tbody>
