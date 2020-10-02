@@ -932,6 +932,7 @@ var Constants = {
         InventoryWarehouseCompletePricingGrid:  { id: 'g8sCuKjUVrW1',  caption: 'Warehouse Pricing' },
         InventoryWarehouseKitPricingGrid:       { id: 'g8sCuKjUVrW1',  caption: 'Warehouse Pricing' },
         InventoryWarehouseStagingGrid:          { id: 'g8sCuKjUVrW1',  caption: 'Inventory Warehouse Staging' },
+        InvoiceBatchGrid:                       { id: '0NB2O1dDY0Y6',  caption: 'Invoice Batch' },
         InvoiceItemGrid:                        { id: '5xgHiF8dduf',   caption: 'Invoice Item',
             menuItems: {
                 ToggleOrderItemView: { id: '{46D27E42-9C66-42F5-922C-CAE617856F63}' }

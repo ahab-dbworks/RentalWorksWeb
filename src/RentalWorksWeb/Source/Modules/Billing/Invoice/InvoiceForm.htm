@@ -16,6 +16,7 @@
       <div data-type="tab" id="chargestab" class="tab chargestab" data-tabpageid="chargestabpage" data-caption="Charges"></div>
       <div data-type="tab" id="invoiceordertab" class="tab hide-new invoiceordertab" data-tabpageid="invoiceordertabpage" data-caption="Order"></div>
       <div data-type="tab" id="gldistributiontab" class="tab gldistributiontab" data-tabpageid="gldistributiontabpage" data-caption="G/L Distribution"></div>
+      <div data-type="tab" id="exporttab" class="tab exporttab" data-tabpageid="exporttabpage" data-caption="Export"></div>
       <div data-type="tab" id="invoicerevenuetab" class="tab invoicerevenuetab" data-tabpageid="invoicerevenuetabpage" data-caption="Revenue"></div>
       <div data-type="tab" id="receipttab" class="tab receipttab receipt-tab" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
       <!--<div data-type="tab" id="addresstab" class="tab" data-tabpageid="addresstabpage" data-caption="Address"></div>-->
@@ -643,6 +644,12 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+       <!-- EXPORT TAB -->
+      <div data-type="tabpage" id="exporttabpage" class="tabpage" data-tabid="exporttab">
+        <div class="flexrow">
+          <div data-control="FwGrid" data-grid="InvoiceBatchGrid" data-securitycaption="Charge Batch"></div>
         </div>
       </div>
       <!--REVENUE TAB -->

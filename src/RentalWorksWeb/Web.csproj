@@ -209,6 +209,7 @@
     <Content Include="Source\Grids\PhysicalInventoryQuantityInventoryGrid\PhysicalInventoryQuantityInventoryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderSubItemGrid\OrderSubItemGridBrowse.htm" />
     <Content Include="Source\Grids\CurrencyMissingGrid\CurrencyMissingGridBrowse.htm" />
+    <Content Include="Source\Grids\InvoiceBatchGrid\InvoiceBatchGridBrowse.htm" />
     <Content Include="Source\Grids\WebAlertLogGrid\WebAlertLogGridBrowse.htm" />
     <Content Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridBrowse.htm" />
@@ -392,6 +393,7 @@
     <TypeScriptCompile Include="Source\Grids\PhysicalInventoryQuantityInventoryGrid\PhysicalInventoryQuantityInventoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderSubItemGrid\OrderSubItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CurrencyMissingGrid\CurrencyMissingGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InvoiceBatchGrid\InvoiceBatchGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WebAlertLogGrid\WebAlertLogGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridController.ts" />

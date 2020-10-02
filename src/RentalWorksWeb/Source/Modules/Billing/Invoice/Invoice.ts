@@ -864,6 +864,21 @@ class Invoice {
                 this.calculateInvoiceItemGridTotals($form, 'partsadjustment', dt.Totals, true);
             },
         });
+
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceBatchGrid',
+            gridSelector: 'div[data-grid="InvoiceBatchGrid"]',
+            gridSecurityId: '0NB2O1dDY0Y6',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                };
+            }
+        });
+
         // ----------
         //jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         //jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
