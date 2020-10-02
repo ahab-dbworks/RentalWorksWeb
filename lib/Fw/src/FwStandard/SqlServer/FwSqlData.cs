@@ -32,7 +32,16 @@ namespace FwStandard.SqlServer
                     qry.Add("   and ((email     = @username) or");
                     qry.Add("        (loginname = @username))");
                     qry.AddParameter("@username", username);
-                    userauthdata = await qry.QueryToDynamicObject2Async();
+                    await qry.ExecuteAsync();
+                    if (qry.RowCount > 0)
+                    {
+                        userauthdata              = new ExpandoObject();
+                        userauthdata.webusersid   = qry.GetField("webusersid").ToString().TrimEnd();
+                        userauthdata.usersid      = qry.GetField("usersid").ToString().TrimEnd();
+                        userauthdata.password     = qry.GetField("password").ToString();
+                        userauthdata.failedlogins = qry.GetField("failedlogins").ToInt32();
+                        userauthdata.usertype     = qry.GetField("usertype").ToString().TrimEnd();
+                    }
                 }
 
                 if (userauthdata != null)
