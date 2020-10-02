@@ -270,6 +270,9 @@ namespace WebApi.Modules.HomeControls.InventorySearch
                     qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@classification", SqlDbType.NVarChar, ParameterDirection.Input, request.Classification);
                     qry.AddParameter("@searchtext", SqlDbType.NVarChar, ParameterDirection.Input, request.SearchText);
+                    qry.AddParameter("@attributeid", SqlDbType.NVarChar, ParameterDirection.Input, request.AttributeId);
+                    qry.AddParameter("@attributevalueid", SqlDbType.NVarChar, ParameterDirection.Input, request.AttributeValueId);
+                    qry.AddParameter("@attributevaluerange", SqlDbType.NVarChar, ParameterDirection.Input, request.AttributeValueRange);
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {
                         qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);

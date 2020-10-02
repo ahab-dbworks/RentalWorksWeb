@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.InventorySettings.Attribute
@@ -40,6 +41,30 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
         public string DateStamp { get { return attribute.DateStamp; } set { attribute.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-    }
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
 
+            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                AttributeLogic orig = (AttributeLogic)original;
+
+                if (NumericOnly != null)
+                {
+                    if (NumericOnly.GetValueOrDefault(false) && !orig.NumericOnly.GetValueOrDefault(false))
+                    {
+                        bool attributeValuesExist = AppFunc.DataExistsAsync(AppConfig, "attributevalue", new string[] { "attributeid" }, new string[] { AttributeId }).Result;
+                        if (attributeValuesExist)
+                        {
+                            isValid = false;
+                            validateMsg = $"This {BusinessLogicModuleName} cannot be changed to 'Numeric Only' because Attribute Values have already been defined.";
+                        }
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------    
+    }
 }
