@@ -12,6 +12,7 @@ using WebApi.Modules.Agent.Deal;
 using FwStandard.Models;
 using System.Collections.Generic;
 using WebApi.Modules.HomeControls.CompanyTaxOption;
+using WebApi.Modules.Settings.SystemSettings.SystemSettings;
 
 namespace WebApi.Modules.Billing.Invoice
 {
@@ -51,6 +52,7 @@ namespace WebApi.Modules.Billing.Invoice
 
             ForceSave = true;
 
+            BeforeDelete += OnBeforeDelete;
             InsteadOfDelete += OnInsteadOfDelete;
 
         }
@@ -714,6 +716,27 @@ namespace WebApi.Modules.Billing.Invoice
             return await invoice.Unapprove();
         }
         //------------------------------------------------------------------------------------    
+        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            if (Status.Equals(RwConstants.INVOICE_STATUS_PROCESSED) || Status.Equals(RwConstants.INVOICE_STATUS_CLOSED))
+            {
+                e.PerformDelete = false;
+                e.ErrorMessage = $"Invoice has already been processed.  It cannot be deleted.";
+            }
+            else
+            {
+                SystemSettingsLogic s = new SystemSettingsLogic();
+                s.SetDependencies(AppConfig, UserSession);
+                s.SystemSettingsId = RwConstants.CONTROL_ID;
+                bool b = s.LoadAsync<SystemSettingsLogic>().Result;
+                if (!s.AllowDeleteInvoices.GetValueOrDefault(false))
+                {
+                    e.PerformDelete = false;
+                    e.ErrorMessage = $"Invoices cannot be deleted.";
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public void OnInsteadOfDelete(object sender, InsteadOfDeleteEventArgs e)
         {
             TSpStatusResponse response = InvoiceFunc.DeleteInvoice(AppConfig, UserSession, InvoiceId).Result;
