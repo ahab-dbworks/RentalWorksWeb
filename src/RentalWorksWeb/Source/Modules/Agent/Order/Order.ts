@@ -110,6 +110,14 @@ class Order extends OrderBase {
             }
         });
 
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Create Estimate', 'ERYplRONWhE1', (e: JQuery.ClickEvent) => {
+            try {
+                this.createEstimate(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
         FwMenu.addSubMenuItem(options.$groupOptions, 'On Hold', 'ChTLbGO95bgpJ', (e: JQuery.ClickEvent) => {
             try {
                 this.OrderOnHold(options.$form);

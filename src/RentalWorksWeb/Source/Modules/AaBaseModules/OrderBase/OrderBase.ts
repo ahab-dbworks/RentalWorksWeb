@@ -2742,7 +2742,7 @@ class OrderBase {
                 const newCurrencyId = FwFormField.getValue2($form.find('[data-datafield="CurrencyId"]'));
                 if (originalCurrencyId !== '' && originalCurrencyId !== newCurrencyId) {
                     this.currencyChange($form, $tr);
-                } 
+                }
             }
         });
     };
@@ -3710,6 +3710,92 @@ class OrderBase {
             }, $form);
         };
     };
+    //----------------------------------------------------------------------------------------------
+    createEstimate($form: JQuery) {
+        const module = this.Module;
+        const $confirmation = FwConfirmation.renderConfirmation('Create Estimate', '');
+        //$confirmation.find('.fwconfirmationbox').css('width', '550px');
+        const html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="flexrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealNumber" data-enabled="false" style="flex: 0 1 150px;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DealDescription" data-enabled="false"></div>');
+        html.push('  </div>');
+        html.push('  <div class="flexrow">');
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="${module}" data-datafield="OrderNumber" data-enabled="false" style="flex: 0 1 150px;"></div>`);
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="OrderDescription" data-enabled="false"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Dates">');
+        html.push('     <div class="flexrow">');
+        html.push('         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Billing Cycle" data-datafield="BillingCycle" data-enabled="false"></div>');
+        html.push('     </div>');
+        html.push('     <div class="flexrow">');
+        html.push('         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="BillingStartDate"></div>');
+        html.push('         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="End" data-datafield="BillingEndDate" data-enabled="false"></div>');
+        html.push('     </div>');
+        html.push('     <div class="flexrow">');
+        html.push('         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items not yet Checked Out" data-datafield="IncludeItems"></div>');
+        html.push('     </div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        const id = FwFormField.getValueByDataField($form, `${module}Id`);
+
+        FwAppData.apiMethod(true, 'GET', `api/v1/${module}/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwFormField.setValueByDataField($confirmation, 'DealNumber', response.DealNumber);
+            FwFormField.setValueByDataField($confirmation, 'DealDescription', response.Deal);
+            FwFormField.setValueByDataField($confirmation, 'OrderNumber', response.OrderNumber);
+            FwFormField.setValueByDataField($confirmation, 'OrderDescription', response.Description);
+            FwFormField.setValueByDataField($confirmation, 'BillingCycle', response.BillingCycle);
+
+            const billingCycleType = response.BillingCycleType;
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/billing/getorderbillingdates/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwFormField.setValueByDataField($confirmation, 'BillingStartDate', moment(response.PeriodStart).format('MM-DD-YYYY'));
+                FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(response.PeriodEnd).format('MM-DD-YYYY'));
+
+                const disableStartDateTypes = ['IMMEDIATE', 'ATCLOSE', 'EVENTS'];
+                if (disableStartDateTypes.includes(billingCycleType)) {
+                    FwFormField.disable($confirmation.find('[data-datafield="BillingStartDate"]'));
+                } else {
+                    let startDate = response.PeriodStart;
+                    switch (billingCycleType) {
+                        case 'WEEKLY':
+                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).add(7, 'days').format('MM-DD-YYYY'));
+                            break;
+                        case 'BIWEEKLY':
+                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).add(14, 'days').format('MM-DD-YYYY'));
+                            break;
+                        case 'MONTHLY':
+                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).add(1, 'month').subtract(1, 'days').format('MM-DD-YYYY'));
+                            break;
+                        case 'CALMONTH':
+                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).endOf('month').format('MM-DD-YYYY'));
+                            break;
+                        case 'EPISODIC': //Will need a new validation that is not yet defined.
+                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', '');
+                            break;
+                    }
+                }
+            }, function onError(response) { FwFunc.showError(response) }, $confirmation.find('.fwconfirmationbox'));
+        }, function onError(response) { FwFunc.showError(response) }, $confirmation.find('.fwconfirmationbox'));
+
+        const $ok = FwConfirmation.addButton($confirmation, 'Ok', false);
+        FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $ok.on('click', e => {
+            FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoiceestimate/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Created.');
+                FwConfirmation.destroyConfirmation($confirmation);
+                const uniqueids: any = {};
+                uniqueids.InvoiceId = response.InvoiceId;
+                let $form = InvoiceController.loadForm(uniqueids);
+                FwModule.openModuleTab($form, "", true, 'FORM', true);
+            }, function onError(response) { FwFunc.showError(response) }, $confirmation.find('.fwconfirmationbox'));
+        });
+    }
     //----------------------------------------------------------------------------------------------
     browseCancelOption($browse: JQuery) {
         try {

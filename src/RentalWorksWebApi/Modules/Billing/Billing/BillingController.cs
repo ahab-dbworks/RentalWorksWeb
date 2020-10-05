@@ -112,6 +112,46 @@ namespace WebApi.Modules.Billing.Billing
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/billing/getorderbillingdates/A0000001
+        [HttpPost("getorderbillingdates/{id}")]
+        [FwControllerMethod(Id: "7cYsDFUlNYVZ", ActionType: FwControllerActionTypes.Option, Caption: "Get Order Billing Dates")]
+        public async Task<ActionResult<GetOrderBillingDatesResponse>> GetOrderBillingDates([FromRoute] string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                GetOrderBillingDatesResponse response = await BillingFunc.GetOrderBillingDates(AppConfig, UserSession, id);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/billing/createinvoiceestimate/A0000001 
+        [HttpPost("createinvoiceestimate/{id}")]
+        [FwControllerMethod(Id: "ERYplRONWhE1", ActionType: FwControllerActionTypes.Option, Caption: "Create Invoice Estimate")]
+        public async Task<ActionResult<CreateInvoiceEstimateResponse>> CreateInvoiceEstimate([FromRoute] string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CreateInvoiceEstimateResponse response = await BillingFunc.CreateInvoiceEstimate(AppConfig, UserSession, id);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/billing/validateofficelocation/browse 
         [HttpPost("validateofficelocation/browse")]
         [FwControllerMethod(Id: "MulMGf46Tq7w", ActionType: FwControllerActionTypes.Browse)]

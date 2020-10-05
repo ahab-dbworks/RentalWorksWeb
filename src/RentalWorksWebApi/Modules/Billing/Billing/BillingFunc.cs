@@ -43,6 +43,17 @@ namespace WebApi.Modules.Billing.Billing
         public string InvoiceCreationBatchId { get; set; } = "";
     }
 
+    public class GetOrderBillingDatesResponse : TSpStatusResponse
+    {
+        public DateTime PeriodStart { get; set; }
+        public DateTime PeriodEnd { get; set; }
+    }
+
+    public class CreateInvoiceEstimateResponse : TSpStatusResponse
+    {
+        public string InvoiceId { get; set; }
+    }
+
     public static class BillingFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -116,6 +127,61 @@ namespace WebApi.Modules.Billing.Billing
             await qry.ExecuteNonQueryAsync();
             worksheetNo = qry.GetParameter("@worksheetno").ToString().TrimEnd();
             return worksheetNo;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<GetOrderBillingDatesResponse> GetOrderBillingDates(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            GetOrderBillingDatesResponse response = new GetOrderBillingDatesResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getorderbillingdates", appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@skipnocharge", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                    qry.AddParameter("@billschedid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@periodstart", SqlDbType.Date, ParameterDirection.Output);
+                    qry.AddParameter("@periodend", SqlDbType.Date, ParameterDirection.Output);
+                    qry.AddParameter("@billperiodstart", SqlDbType.Date, ParameterDirection.Output);
+                    qry.AddParameter("@billperiodend", SqlDbType.Date, ParameterDirection.Output);
+                    qry.AddParameter("@billingearly", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@billinglate", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@newratetype", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.PeriodStart = qry.GetParameter("@periodstart").ToDateTime();
+                    response.PeriodEnd = qry.GetParameter("@periodend").ToDateTime();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<CreateInvoiceEstimateResponse> CreateInvoiceEstimate(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            CreateInvoiceEstimateResponse response = new CreateInvoiceEstimateResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "createinvoice", appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@invoicetype", SqlDbType.NVarChar, ParameterDirection.Input, "ESTIMATE");
+                    qry.AddParameter("@periodstart", SqlDbType.Date, ParameterDirection.Input, null);
+                    qry.AddParameter("@periodend", SqlDbType.Date, ParameterDirection.Input, null);
+                    qry.AddParameter("@forcedates", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@invoicebatchid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@nocharge", SqlDbType.NVarChar, ParameterDirection.Input, "?");
+                    qry.AddParameter("@billperiodevent", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@summaryinvoicegroup", SqlDbType.Int, ParameterDirection.Input, 0);
+                    qry.AddParameter("@excludebilledpreview", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                    qry.AddParameter("@includenotyetout", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                    qry.AddParameter("@worksheetid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+
+                    qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.InvoiceId = qry.GetParameter("@invoiceid").ToString();
+                }
+            }
+            return response;
         }
         //-------------------------------------------------------------------------------------------------------
     }
