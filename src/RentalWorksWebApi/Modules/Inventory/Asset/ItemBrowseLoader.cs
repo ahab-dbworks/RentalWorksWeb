@@ -562,11 +562,53 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "currentorderestrentto", modeltype: FwDataTypes.Date)]
         public string CurrentOrderToDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderagent", modeltype: FwDataTypes.Text)]
+        public string CurrentOrderAgent { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lotno", modeltype: FwDataTypes.Text)]
         public string LotNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
-        public string Agent { get; set; }
+        [FwSqlDataField(column: "lastorderid", modeltype: FwDataTypes.Text)]
+        public string LastOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastorderno", modeltype: FwDataTypes.Text)]
+        public string LastOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastorderdesc", modeltype: FwDataTypes.Text)]
+        public string LastOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastdealid", modeltype: FwDataTypes.Text)]
+        public string LastDealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastdeal", modeltype: FwDataTypes.Text)]
+        public string LastDeal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastdealno", modeltype: FwDataTypes.Text)]
+        public string LastDealNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastoutcontractid", modeltype: FwDataTypes.Text)]
+        public string LastOutContractId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastoutcontractno", modeltype: FwDataTypes.Text)]
+        public string LastOutContractNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastoutusersid", modeltype: FwDataTypes.Text)]
+        public string LastOutUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastoutusersname", modeltype: FwDataTypes.Text)]
+        public string LastOutUserName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastincontractid", modeltype: FwDataTypes.Text)]
+        public string LastInContractId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastincontractno", modeltype: FwDataTypes.Text)]
+        public string LastInContractNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastinusersid", modeltype: FwDataTypes.Text)]
+        public string LastInUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastinusersname", modeltype: FwDataTypes.Text)]
+        public string LastInUserName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }

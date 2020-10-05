@@ -47,10 +47,10 @@ namespace WebApi.Modules.Inventory.Asset
         public virtual string ItemId { get { return item.ItemId; } set { item.ItemId = value; itemStatus.ItemId = value; } }
 
         [FwLogicProperty(Id: "uG5tES8ozJya", DisableDirectModify: true)]
-        public string InventoryId { get { return item.InventoryId; } set { item.InventoryId = value; } }  
+        public string InventoryId { get { return item.InventoryId; } set { item.InventoryId = value; } }
 
         [FwLogicProperty(Id: "jn7nmgq7DJqm", DisableDirectModify: true)]
-        public string WarehouseId { get { return itemStatus.WarehouseId; } set { itemStatus.WarehouseId = value; } }  
+        public string WarehouseId { get { return itemStatus.WarehouseId; } set { itemStatus.WarehouseId = value; } }
 
         [FwLogicProperty(Id: "wuEvyxJgqENx", IsReadOnly: true)]
         public string ICode { get; set; }
@@ -310,10 +310,10 @@ namespace WebApi.Modules.Inventory.Asset
 
         [FwLogicProperty(Id: "likh3RZp082sh", IsReadOnly: true)]
         public string WarehouseCurrencyCode { get; set; }
-        
+
         [FwLogicProperty(Id: "Jy5qEwSxYjEyi", IsReadOnly: true)]
         public string WarehouseCurrency { get; set; }
-        
+
         [FwLogicProperty(Id: "DZf211cehwaTQ", IsReadOnly: true)]
         public string WarehouseCurrencySymbol { get; set; }
 
@@ -385,9 +385,6 @@ namespace WebApi.Modules.Inventory.Asset
 
         [FwLogicProperty(Id: "CmK0ij8S7Zxp", IsReadOnly: true)]
         public string ResponsiblePersonId { get; set; }
-
-        [FwLogicProperty(Id: "yJshigV0Lw4Wu", IsReadOnly: true)]
-        public string Agent { get; set; }
 
         [FwLogicProperty(Id: "CmK0ij8S7Zxp", IsReadOnly: true)]
         public string ResponsiblePerson { get; set; }
@@ -576,13 +573,53 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "Wdh8QYoEVZJ8", IsReadOnly: true)]
         public string CurrentOrderToDate { get; set; }
 
+        [FwLogicProperty(Id: "yJshigV0Lw4Wu", IsReadOnly: true)]
+        public string CurrentOrderAgent { get; set; }
+
         [FwLogicProperty(Id: "2lYpo5LZMFofe", IsReadOnly: true)]
         public string LotNumber { get { return item.LotNumber; } set { item.LotNumber = value; } }
 
+        [FwLogicProperty(Id: "ErU0msGtdAiB", IsReadOnly: true)]
+        public string LastOrderId { get; set; }
+
+        [FwLogicProperty(Id: "QPdy1kkGsN2t", IsReadOnly: true)]
+        public string LastOrderNumber { get; set; }
+
+        [FwLogicProperty(Id: "kw3W7vVfuNBi", IsReadOnly: true)]
+        public string LastDealId { get; set; }
+
+        [FwLogicProperty(Id: "wIQIrTiC0N43", IsReadOnly: true)]
+        public string LastDeal { get; set; }
+
+        [FwLogicProperty(Id: "oAB6RwqCsM0Y", IsReadOnly: true)]
+        public string LastDealNumber { get; set; }
+
+        [FwLogicProperty(Id: "cI6sHh1aZo7w", IsReadOnly: true)]
+        public string LastOutContractId { get; set; }
+
+        [FwLogicProperty(Id: "fGtXTD9V9Q8y", IsReadOnly: true)]
+        public string LastOutContractNumber { get; set; }
+
+        [FwLogicProperty(Id: "UTfKskpTqzbC", IsReadOnly: true)]
+        public string LastOutUserId { get; set; }
+
+        [FwLogicProperty(Id: "Hr7Ifsl7SRvT", IsReadOnly: true)]
+        public string LastOutUserName { get; set; }
+
+        [FwLogicProperty(Id: "oq8jeWqKirwE", IsReadOnly: true)]
+        public string LastInContractId { get; set; }
+
+        [FwLogicProperty(Id: "FjLB7b5agp8Y", IsReadOnly: true)]
+        public string LastInContractNumber { get; set; }
+
+        [FwLogicProperty(Id: "of8Ur3VcBl0P", IsReadOnly: true)]
+        public string LastInUserId { get; set; }
+
+        [FwLogicProperty(Id: "BywcI4jP2BJ4", IsReadOnly: true)]
+        public string LastInUserName { get; set; }
+
         [FwLogicProperty(Id: "SvyWFcSXLQqq")]
         public bool? Inactive { get; set; }
-
-
 
         [FwLogicProperty(Id: "7YZwUCRVQ7v8")]
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
