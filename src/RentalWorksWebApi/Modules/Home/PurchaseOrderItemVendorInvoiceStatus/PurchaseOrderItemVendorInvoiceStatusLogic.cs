@@ -34,8 +34,6 @@ namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
         public string Description { get; set; }
         [FwLogicProperty(Id: "227pFN8mJXD7", IsReadOnly: true)]
         public string TrackedBy { get; set; }
-        [FwLogicProperty(Id: "24WZ7CsNfvpY", IsReadOnly: true)]
-        public string Description { get; set; }
         [FwLogicProperty(Id: "25VMQvPFNSOi", IsReadOnly: true)]
         public decimal? QuantityOrdered { get; set; }
         [FwLogicProperty(Id: "280j87UKIfO9", IsReadOnly: true)]
