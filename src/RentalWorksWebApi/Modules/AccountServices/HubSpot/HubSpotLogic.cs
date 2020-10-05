@@ -77,6 +77,49 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return responseBody;
         }
         //---------------------------------------------------------------------------------------------
+        public async Task<dynamic> GetContactsWithinPeriodAsync([FromBody]GetHubSpotContactsWithinPeriodRequest request)
+        {
+            //if access token is expired get a new one with refresh token.
+            var client = new HttpClient();
+
+            HubSpotSearchFiltersProperties filterProperties = new HubSpotSearchFiltersProperties();
+            filterProperties.propertyName = "firstname";
+            filterProperties.value = "Tom";
+            filterProperties.@operator = "NEQ";
+
+            HubSpotSearchFiltersProperties[] FiltersArray = new HubSpotSearchFiltersProperties[] { filterProperties };
+            string[] filterString = new string[] { "filters" };
+
+            HubSpotSearchDataBody body = new HubSpotSearchDataBody();
+            body.properties = new Dictionary<string[], HubSpotSearchFiltersProperties[]>();
+            body.properties.Add(filterString, FiltersArray);
+
+            var url = "https://api.hubapi.com/crm/v3/objects/contacts/search";
+
+            var jsonBody = System.Text.Json.JsonSerializer.Serialize(body.properties);
+            var stringContent = new StringContent(jsonBody, Encoding.UTF32, "application/json");
+
+            var httpResponse = await client.PostAsync(url, stringContent);
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseBody = await httpResponse.Content.ReadAsStringAsync();
+
+            return responseBody;
+            //time supplied in hubspot filter call must be epoch time
+            // body example for filtered contacts request 
+            //{
+            //    "filterGroups": [{"filters": [{"value": "1600977557", "propertyName": "createdate", "operator": "LT"}]}],
+            //"limit": 0,
+            //"after": 0
+            // }
+        }
+        //---------------------------------------------------------------------------------------------
+        //public async Task<string> SyncContactsAsync([FromBody]GetHubSpotContactsRequest request)
+        //{
+        //    //be sure to log hubspot contacts_id in source_id on dbo.contact, we use this to see if the duplicate is a new contact or the same. 
+        //    //check against email addresses to verify duplicates, i.e there could be many john smiths in one system.
+        //}
+        //---------------------------------------------------------------------------------------------
         public async Task<string> PostContactAsync([FromBody]PostHubSpotContactRequest request)
         {
             HubSpotContactPostRequest body = new HubSpotContactPostRequest();
@@ -120,7 +163,38 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return response;
         }
         //---------------------------------------------------------------------------------------------
+        public async Task<RenewAccessTokenResponse> RenewAccessTokenAsync([FromBody]RenewAccessTokenRequest request)
+        {
+            var client = new HttpClient();
+            RenewAccessTokenResponse response = new RenewAccessTokenResponse();
+            HubSpotTokensFormData body = new HubSpotTokensFormData();
+            var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
+            var securitySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
 
+            body.properties = new Dictionary<string, string>();
+            body.properties.Add("client_id", "7fd2d81a-ae52-4a60-af93-caa4d1fd5848");
+            body.properties.Add("client_secret", "3fa85657-d67b-4965-bd47-929ba0604dc6");
+            body.properties.Add("grant_type", "refresh_token");
+            body.properties.Add("refresh_token", request.refreshToken);
+
+            var url = "https://api.hubapi.com/oauth/v1/token";
+            var req = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(body.properties) };
+            req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            var httpResponse = await client.SendAsync(req);
+            httpResponse.EnsureSuccessStatusCode();
+
+            var responseBody = await httpResponse.Content.ReadAsStringAsync();
+            var jsonTokens = JsonConvert.DeserializeObject<HubSpotTokensResponse>(responseBody);
+
+            securitySettings.hubspotaccesstoken = jsonTokens.access_token;
+            await ssl.SaveSettingsAsync<SecuritySettingsLoader>("1", securitySettings);
+
+            response.message = "Success";
+
+            return response;
+        }
+        //---------------------------------------------------------------------------------------------
         public async Task<GetHubSpotRefreshTokenBool> GetRefreshTokenBoolAsync()
         {
             GetHubSpotRefreshTokenBool response = new GetHubSpotRefreshTokenBool();
@@ -172,9 +246,9 @@ namespace WebApi.Modules.AccountServices.HubSpot
 
     public class HubSpotContactProperties
     {
-        public string firstname { get; set; }
-        public string lastname { get; set; }
-        public string email { get; set; }
+        public string firstname { get; set; } = string.Empty;
+        public string lastname { get; set; } = string.Empty;
+        public string email { get; set; } = string.Empty;
     }
     public class GetHubSpotRefreshTokenBool
     {
@@ -182,6 +256,33 @@ namespace WebApi.Modules.AccountServices.HubSpot
     }
     public class DeleteHubSpotTokens
     {
-        public string message { get; set; }
+        public string message { get; set; } = string.Empty;
+    }
+    public class RenewAccessTokenResponse
+    {
+        public string message { get; set; } = string.Empty; 
+    }
+    public class RenewAccessTokenRequest
+    {
+        public string refreshToken { get; set; } = string.Empty;
+    }
+    public class GetHubSpotContactsWithinPeriodRequest
+    {
+        public string accessToken { get; set; } = string.Empty;
+        public int? lastSyncEpoch { get; set; }
+    }
+    public class HubSpotSearchFilters
+    {
+        public HubSpotSearchFiltersProperties[] filters { get; set; }
+    }
+    public class HubSpotSearchFiltersProperties
+    {
+        public string value { get; set; }
+        public string propertyName { get; set; }
+        public string @operator { get; set;}
+    }
+    public class HubSpotSearchDataBody
+    {
+        public Dictionary<string[], HubSpotSearchFiltersProperties[]> properties { get; set; }
     }
 }
