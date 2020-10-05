@@ -233,6 +233,28 @@ class RentalInventory extends InventoryBase {
                 request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
+        // InventoryWarehouseSpecificGrid
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryWarehouseSpecificGrid',
+            gridSecurityId: 'HUmVUurETwRho',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            }
+        });
 
         //Inventory Availability Grid
         FwBrowse.renderGrid({
