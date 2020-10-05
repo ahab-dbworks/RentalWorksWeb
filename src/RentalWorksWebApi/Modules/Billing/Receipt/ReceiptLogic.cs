@@ -627,6 +627,10 @@ namespace WebApi.Modules.Billing.Receipt
                             validateMsg = "Cannot refund more than the Remaining amount for Credit " + rL.CheckNumber + ".";
                         }
                     }
+
+                    //justin hoffman 10/05/2020 save as a negative number
+                    PaymentAmount = (-1) * System.Math.Abs(PaymentAmount.GetValueOrDefault(0));
+
                 }
             }
 
