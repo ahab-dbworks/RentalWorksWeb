@@ -3734,7 +3734,7 @@ class OrderBase {
         html.push('         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="End" data-datafield="BillingEndDate" data-enabled="false"></div>');
         html.push('     </div>');
         html.push('     <div class="flexrow">');
-        html.push('         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items not yet Checked Out" data-datafield="IncludeItems"></div>');
+        html.push('         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items not yet Checked Out" data-datafield="IncludeNotYetOut"></div>');
         html.push('     </div>');
         html.push('  </div>');
         html.push('</div>');
@@ -3791,7 +3791,8 @@ class OrderBase {
             const request: any = {
                 OrderId: id,
                 PeriodStart: startDate,
-                PeriodEnd: endDate
+                PeriodEnd: endDate,
+                IncludeNotYetOut: FwFormField.getValueByDataField($confirmation, 'IncludeNotYetOut')
             };
             FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoiceestimate`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Created.');

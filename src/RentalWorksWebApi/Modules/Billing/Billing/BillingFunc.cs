@@ -53,6 +53,7 @@ namespace WebApi.Modules.Billing.Billing
         public string OrderId { get; set; }
         public DateTime PeriodStart { get; set; }
         public DateTime PeriodEnd { get; set; }
+        public bool? IncludeNotYetOut { get; set; }
     }
 
     public class CreateInvoiceEstimateResponse : TSpStatusResponse
@@ -178,10 +179,9 @@ namespace WebApi.Modules.Billing.Billing
                     qry.AddParameter("@billperiodevent", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@summaryinvoicegroup", SqlDbType.Int, ParameterDirection.Input, 0);
                     qry.AddParameter("@excludebilledpreview", SqlDbType.NVarChar, ParameterDirection.Input, "F");
-                    qry.AddParameter("@includenotyetout", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                    qry.AddParameter("@includenotyetout", SqlDbType.NVarChar, ParameterDirection.Input, request.IncludeNotYetOut);
                     qry.AddParameter("@worksheetid", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, "");
-
                     qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.InvoiceId = qry.GetParameter("@invoiceid").ToString();
