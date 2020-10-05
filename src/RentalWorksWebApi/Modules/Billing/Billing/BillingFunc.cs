@@ -49,6 +49,12 @@ namespace WebApi.Modules.Billing.Billing
         public DateTime PeriodEnd { get; set; }
     }
 
+    public class CreateInvoiceEstimateRequest {
+        public string OrderId { get; set; }
+        public DateTime PeriodStart { get; set; }
+        public DateTime PeriodEnd { get; set; }
+    }
+
     public class CreateInvoiceEstimateResponse : TSpStatusResponse
     {
         public string InvoiceId { get; set; }
@@ -154,17 +160,17 @@ namespace WebApi.Modules.Billing.Billing
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<CreateInvoiceEstimateResponse> CreateInvoiceEstimate(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<CreateInvoiceEstimateResponse> CreateInvoiceEstimate(FwApplicationConfig appConfig, FwUserSession userSession, CreateInvoiceEstimateRequest request)
         {
             CreateInvoiceEstimateResponse response = new CreateInvoiceEstimateResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "createinvoice", appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@invoicetype", SqlDbType.NVarChar, ParameterDirection.Input, "ESTIMATE");
-                    qry.AddParameter("@periodstart", SqlDbType.Date, ParameterDirection.Input, null);
-                    qry.AddParameter("@periodend", SqlDbType.Date, ParameterDirection.Input, null);
+                    qry.AddParameter("@periodstart", SqlDbType.Date, ParameterDirection.Input, request.PeriodStart);
+                    qry.AddParameter("@periodend", SqlDbType.Date, ParameterDirection.Input, request.PeriodEnd);
                     qry.AddParameter("@forcedates", SqlDbType.NVarChar, ParameterDirection.Input, "F");
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@invoicebatchid", SqlDbType.NVarChar, ParameterDirection.Input, "");

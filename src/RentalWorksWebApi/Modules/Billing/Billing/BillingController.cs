@@ -132,10 +132,10 @@ namespace WebApi.Modules.Billing.Billing
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/billing/createinvoiceestimate/A0000001 
-        [HttpPost("createinvoiceestimate/{id}")]
+        // POST api/v1/billing/createinvoiceestimate 
+        [HttpPost("createinvoiceestimate")]
         [FwControllerMethod(Id: "ERYplRONWhE1", ActionType: FwControllerActionTypes.Option, Caption: "Create Invoice Estimate")]
-        public async Task<ActionResult<CreateInvoiceEstimateResponse>> CreateInvoiceEstimate([FromRoute] string id)
+        public async Task<ActionResult<CreateInvoiceEstimateResponse>> CreateInvoiceEstimate([FromBody] CreateInvoiceEstimateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace WebApi.Modules.Billing.Billing
             }
             try
             {
-                CreateInvoiceEstimateResponse response = await BillingFunc.CreateInvoiceEstimate(AppConfig, UserSession, id);
+                CreateInvoiceEstimateResponse response = await BillingFunc.CreateInvoiceEstimate(AppConfig, UserSession, request);
                 return response;
             }
             catch (Exception ex)

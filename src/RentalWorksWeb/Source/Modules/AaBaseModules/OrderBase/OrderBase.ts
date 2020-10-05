@@ -3742,6 +3742,7 @@ class OrderBase {
         FwConfirmation.addControls($confirmation, html.join(''));
 
         const id = FwFormField.getValueByDataField($form, `${module}Id`);
+        let startDate, endDate;
 
         FwAppData.apiMethod(true, 'GET', `api/v1/${module}/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
             FwFormField.setValueByDataField($confirmation, 'DealNumber', response.DealNumber);
@@ -3760,24 +3761,25 @@ class OrderBase {
                 if (disableStartDateTypes.includes(billingCycleType)) {
                     FwFormField.disable($confirmation.find('[data-datafield="BillingStartDate"]'));
                 } else {
-                    let startDate = response.PeriodStart;
+                    startDate = response.PeriodStart;
                     switch (billingCycleType) {
                         case 'WEEKLY':
-                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).add(7, 'days').format('MM-DD-YYYY'));
+                            endDate = moment(startDate).add(7, 'days').format('MM-DD-YYYY');
                             break;
                         case 'BIWEEKLY':
-                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).add(14, 'days').format('MM-DD-YYYY'));
+                            endDate = moment(startDate).add(14, 'days').format('MM-DD-YYYY');
                             break;
                         case 'MONTHLY':
-                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).add(1, 'month').subtract(1, 'days').format('MM-DD-YYYY'));
+                            endDate = moment(startDate).add(1, 'month').subtract(1, 'days').format('MM-DD-YYYY');
                             break;
                         case 'CALMONTH':
-                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(startDate).endOf('month').format('MM-DD-YYYY'));
+                            endDate = moment(startDate).endOf('month').format('MM-DD-YYYY');
                             break;
-                        case 'EPISODIC': //Will need a new validation that is not yet defined.
-                            FwFormField.setValueByDataField($confirmation, 'BillingEndDate', '');
+                        case 'EPISODIC': 
+                            //Will need a new validation that is not yet defined.
                             break;
                     }
+                    FwFormField.setValueByDataField($confirmation, 'BillingEndDate', endDate);
                 }
             }, function onError(response) { FwFunc.showError(response) }, $confirmation.find('.fwconfirmationbox'));
         }, function onError(response) { FwFunc.showError(response) }, $confirmation.find('.fwconfirmationbox'));
@@ -3786,7 +3788,12 @@ class OrderBase {
         FwConfirmation.addButton($confirmation, 'Cancel');
 
         $ok.on('click', e => {
-            FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoiceestimate/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            const request: any = {
+                OrderId: id,
+                PeriodStart: startDate,
+                PeriodEnd: endDate
+            };
+            FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoiceestimate`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Created.');
                 FwConfirmation.destroyConfirmation($confirmation);
                 const uniqueids: any = {};
