@@ -617,7 +617,7 @@ class RentalInventory extends InventoryBase {
 
         super.addFormMenuItems(options);
 
-        FwMenu.addFormMenuButtons(options);
+        //FwMenu.addFormMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, 'Inventory Summary', '', (e: JQuery.ClickEvent) => {
             try {
