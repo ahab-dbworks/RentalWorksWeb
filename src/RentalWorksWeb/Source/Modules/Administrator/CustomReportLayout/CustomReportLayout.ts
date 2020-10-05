@@ -504,11 +504,13 @@ class CustomReportLayout {
                     //
                 },
                 onEnd: e => {
-                    if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
-                        jQuery(e.item).text(`{{${jQuery(e.item).text()}}}`);
+                    if (jQuery(e.item).parent().hasClass('rpt-nested-flexrow')) {
+                        if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
+                            jQuery(e.item).text(`{{${jQuery(e.item).text()}}}`);
+                        }
+                        const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
+                        this.updateReportHeader($form, $reportHeaderSection);
                     }
-                    const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
-                    this.updateReportHeader($form, $reportHeaderSection);
                 },
                 delay: 500,
                 animation: 100,
