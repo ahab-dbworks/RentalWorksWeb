@@ -1016,6 +1016,48 @@ class RentalInventory extends InventoryBase {
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
             this.classificationSetFixedAsset($form);
         });
+        // evt for InventoryWarehouseSpecificGrid
+        $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                const $inventoryCompleteGrid = $form.find('[data-name="InventorySequenceTypeGrid"]');
+                const warehouseId = $inventoryCompleteGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
+                $inventoryCompleteGrid.data('ondatabind', request => {
+                    request.uniqueids = {
+                        PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                        WarehouseId: warehouseId,
+                    };
+                });
+
+                FwBrowse.search($inventoryCompleteGrid)
+                    .then(() => {
+                       
+                    });
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+                var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+
+                var $spaceGridControl: any;
+                $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
+                $spaceGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        BuildingId: buildingId,
+                        FloorId: floorId
+                    }
+                })
+                $spaceGridControl.data('beforesave', function (request) {
+                    request.BuildingId = buildingId;
+                    request.FloorId = floorId;
+                });
+                FwBrowse.search($spaceGridControl);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
 }
