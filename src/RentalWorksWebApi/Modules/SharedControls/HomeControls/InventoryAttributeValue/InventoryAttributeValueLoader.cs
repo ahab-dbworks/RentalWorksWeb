@@ -10,6 +10,11 @@ namespace WebApi.Modules.HomeControls.InventoryAttributeValue
     public class InventoryAttributeValueLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        public InventoryAttributeValueLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemattributeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventoryAttributeValueId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
@@ -45,5 +50,23 @@ namespace WebApi.Modules.HomeControls.InventoryAttributeValue
             addFilterToSelect("InventoryId", "uniqueid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        if (FwConvert.ToBoolean(row[dt.GetColumnNo("NumericOnly")].ToString()))
+                        {
+                            row[dt.GetColumnNo("AttributeValue")] = FwConvert.ToDecimal(row[dt.GetColumnNo("NumericValue")].ToString());
+                        }
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

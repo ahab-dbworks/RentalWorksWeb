@@ -40,9 +40,8 @@ namespace WebApi.Modules.Settings.InventorySettings.Attribute
             select.Parse();
             if (GetUniqueIdAsBoolean("HasValues", request).GetValueOrDefault(false))
             {
-                select.AddWhere("(valuecount > 0)");
+                select.AddWhere("(numericonly = 'T' or valuecount > 0)");
             }
-
         }
         //------------------------------------------------------------------------------------    
     }
