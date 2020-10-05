@@ -86,6 +86,14 @@ namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
         public string BillingStartDate { get; set; }
         [FwLogicProperty(Id: "2keOFtvbyJpW", IsReadOnly: true)]
         public string BillingEndDate { get; set; }
+        [FwLogicProperty(Id: "bzv8mVumiTf2", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "KPgTxzbDwJa7", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "aKTbY7Lzfdjb", IsReadOnly: true)]
+        public string Currency { get; set; }
+        [FwLogicProperty(Id: "uiryc29YJWct", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
