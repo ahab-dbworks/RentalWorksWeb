@@ -233,28 +233,7 @@ class RentalInventory extends InventoryBase {
                 request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
-        // InventoryWarehouseSpecificGrid
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryWarehouseSpecificGrid',
-            gridSecurityId: 'HUmVUurETwRho',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = true;
-                options.hasEdit = true;
-                options.hasDelete = true;
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-            }
-        });
+
 
         //Inventory Availability Grid
         FwBrowse.renderGrid({
@@ -485,11 +464,35 @@ class RentalInventory extends InventoryBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: warehouse.warehouseid
+                    //WarehouseId: warehouse.warehouseid
                 };
             },
             beforeSave: (request: any) => {
                 request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId')
+            }
+        });
+
+        // InventoryWarehouseSpecificGrid for Completes
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryWarehouseSpecificGrid',
+            gridSelector: 'div[data-grid="InventoryWarehouseSpecificGrid"].complete',
+            gridSecurityId: 'HUmVUurETwRho',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             }
         });
 
@@ -535,13 +538,36 @@ class RentalInventory extends InventoryBase {
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: warehouse.warehouseid
+                    //WarehouseId: warehouse.warehouseid
                 };
             },
             beforeSave: (request: any) => {
                 request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+            }
+        });
+        // InventoryWarehouseSpecificGrid for Kits
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryWarehouseSpecificGrid',
+            gridSelector: 'div[data-grid="InventoryWarehouseSpecificGrid"].kit',
+            gridSecurityId: 'HUmVUurETwRho',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             }
         });
 
@@ -609,7 +635,6 @@ class RentalInventory extends InventoryBase {
             }
         });
         // ----------
-
 
         FwBrowse.renderGrid({
             nameGrid: 'ContractHistoryGrid',
@@ -1016,6 +1041,24 @@ class RentalInventory extends InventoryBase {
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
             this.classificationSetFixedAsset($form);
         });
+        // WarehouseSpecificPackage checkbox
+        $form.find('div[data-datafield="WarehouseSpecificPackage"] .fwformfield-value').on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            let $grid;
+            const $fwFormfield = $this.closest('div[data-control="FwFormField"]');
+            if ($fwFormfield.hasClass('complete')) {
+                $grid = $form.find('[data-grid="InventoryWarehouseSpecificGrid"].complete');
+            } else if ($fwFormfield.hasClass('kit')) {
+                $grid = $form.find('[data-grid="InventoryWarehouseSpecificGrid"].kit');
+            }
+            if ($this.prop('checked') === false) {
+                FwFormField.disable($grid);
+                $grid.find('div[data-type="NewButton"]').hide();
+            } else {
+                FwFormField.enable($grid);
+                $grid.find('div[data-type="NewButton"]').show();
+            }
+        });
         // evt for InventoryWarehouseSpecificGrid
         $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
@@ -1028,17 +1071,21 @@ class RentalInventory extends InventoryBase {
                 const warehouseId = $grid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
                 $grid.data('ondatabind', request => {
                     request.uniqueids = {
+                        PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
                         WarehouseId: warehouseId,
                     };
                 });
-
+                $grid.data('beforesave', request => {
+                    request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
+                    request.WarehouseId = warehouseId;
+                });
                 FwBrowse.search($grid)
-                  
+
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-
+        // click evt for resetting complete or kit grid back to all warehouses
         $form.find('.standard-definition').on('click', e => {
             const $this = jQuery(e.currentTarget);
             let $grid;
@@ -1049,34 +1096,14 @@ class RentalInventory extends InventoryBase {
             }
             $grid.data('ondatabind', request => {
                 request.uniqueids = {
-                    WarehouseId: '',
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
                 };
+            });
+            $grid.data('beforesave', request => {
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
             });
 
             FwBrowse.search($grid)
-        });
-
-        $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-            try {
-                var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-                var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
-
-                var $spaceGridControl: any;
-                $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
-                $spaceGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        BuildingId: buildingId,
-                        FloorId: floorId
-                    }
-                })
-                $spaceGridControl.data('beforesave', function (request) {
-                    request.BuildingId = buildingId;
-                    request.FloorId = floorId;
-                });
-                FwBrowse.search($spaceGridControl);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
         });
     }
     //----------------------------------------------------------------------------------------------
