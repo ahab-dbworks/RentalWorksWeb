@@ -50,6 +50,28 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
             public string Currency { get; set; }
             public string CurrencyCode { get; set; }
             public string CurrencySymbol { get; set; }
+            public bool IsAccountsReceivable { get; set; }
+            public bool IsTax { get; set; }
+        }
+
+        public class IncomeTotal
+        {
+            public string AccountId { get; set; }
+            public string AccountNumber { get; set; }
+            public string AccountDescription { get; set; }
+            public decimal? Amount { get; set; }
+            public string AmountWithCurrencySymbol { get; set; }
+            public string OrderNumber { get; set; }
+            public string OrderDescription { get; set; }
+            public string Currency { get; set; }
+            public string CurrencyCode { get; set; }
+            public string CurrencySymbol { get; set; }
+            public decimal? Tax { get; set; }
+            public string TaxWithCurrencySymbol { get; set; }
+            public string TaxOption { get; set; }
+            public string TaxCode { get; set; }
+            public string TaxDescription { get; set; }
+            //public string TaxVendor { get; set; }
         }
 
 
@@ -118,6 +140,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
 
             public List<InvoiceItem> Items = new List<InvoiceItem>(new InvoiceItem[] { new InvoiceItem() });
             public List<InvoiceTax> Taxes = new List<InvoiceTax>(new InvoiceTax[] { new InvoiceTax() });
+            public List<IncomeTotal> IncomeTotals = new List<IncomeTotal>(new IncomeTotal[] { new IncomeTotal() });
             public List<GLTransaction> GLTransactions = new List<GLTransaction>(new GLTransaction[] { new GLTransaction() });
 
         }
@@ -296,7 +319,48 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                             t.CurrencyCode = row[dt.GetColumnNo("currencycode")].ToString();
                             t.CurrencySymbol = row[dt.GetColumnNo("currencysymbol")].ToString();
                             t.AmountWithCurrencySymbol = (t.Amount < 0 ? "-" : "") + t.CurrencySymbol + Math.Abs(t.Amount.GetValueOrDefault(0)).ToString("N", numberFormat);
+                            t.IsAccountsReceivable = FwConvert.ToBoolean(row[dt.GetColumnNo("isaccountsreceivable")].ToString());
+                            t.IsTax = FwConvert.ToBoolean(row[dt.GetColumnNo("istax")].ToString());
                             i.GLTransactions.Add(t);
+                        }
+                    }
+
+                    i.IncomeTotals.Clear();
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.Add("select *                                          ");
+                        qry.Add(" from  dbo.funcinvoiceincometotals(@invoiceid) t  ");
+                        // order by?
+                        qry.AddParameter("@invoiceid", i.InvoiceId);
+                        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat.NumberGroupSeparator = "";
+                        numberFormat.NumberDecimalSeparator = ".";
+                        numberFormat.NumberDecimalDigits = 2;
+
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            IncomeTotal t = new IncomeTotal();
+                            t.AccountId = row[dt.GetColumnNo("glaccountid")].ToString();
+                            t.AccountNumber = row[dt.GetColumnNo("glno")].ToString();
+                            t.AccountDescription = row[dt.GetColumnNo("glacctdesc")].ToString();
+                            t.Amount = FwConvert.ToDecimal(row[dt.GetColumnNo("amount")].ToString());
+                            t.Tax= FwConvert.ToDecimal(row[dt.GetColumnNo("tax")].ToString());
+                            t.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
+                            t.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
+                            t.Currency = row[dt.GetColumnNo("currency")].ToString();
+                            t.CurrencyCode = row[dt.GetColumnNo("currencycode")].ToString();
+                            t.CurrencySymbol = row[dt.GetColumnNo("currencysymbol")].ToString();
+                            t.AmountWithCurrencySymbol = (t.Amount < 0 ? "-" : "") + t.CurrencySymbol + Math.Abs(t.Amount.GetValueOrDefault(0)).ToString("N", numberFormat);
+                            t.TaxWithCurrencySymbol = (t.Tax < 0 ? "-" : "") + t.CurrencySymbol + Math.Abs(t.Tax.GetValueOrDefault(0)).ToString("N", numberFormat);
+                            t.TaxOption = row[dt.GetColumnNo("taxoption")].ToString();
+                            t.TaxCode = row[dt.GetColumnNo("taxexportcode")].ToString();
+                            t.TaxDescription = row[dt.GetColumnNo("taxexportdescription")].ToString();
+                            i.IncomeTotals.Add(t);
                         }
                     }
 
