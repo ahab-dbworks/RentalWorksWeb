@@ -1019,23 +1019,43 @@ class RentalInventory extends InventoryBase {
         // evt for InventoryWarehouseSpecificGrid
         $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
-                const $inventoryCompleteGrid = $form.find('[data-name="InventorySequenceTypeGrid"]');
-                const warehouseId = $inventoryCompleteGrid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
-                $inventoryCompleteGrid.data('ondatabind', request => {
+                let $grid;
+                if ($control.hasClass('complete')) {
+                    $grid = $form.find('[data-name="InventoryCompleteGrid"]');
+                } else if ($control.hasClass('kit')) {
+                    $grid = $form.find('[data-name="InventoryKitGrid"]');
+                }
+                const warehouseId = $grid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
+                $grid.data('ondatabind', request => {
                     request.uniqueids = {
-                        PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
                         WarehouseId: warehouseId,
                     };
                 });
 
-                FwBrowse.search($inventoryCompleteGrid)
-                    .then(() => {
-                       
-                    });
+                FwBrowse.search($grid)
+                  
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
+
+        $form.find('.standard-definition').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            let $grid;
+            if ($this.hasClass('complete')) {
+                $grid = $form.find('[data-name="InventoryCompleteGrid"]');
+            } else if ($this.hasClass('kit')) {
+                $grid = $form.find('[data-name="InventoryKitGrid"]');
+            }
+            $grid.data('ondatabind', request => {
+                request.uniqueids = {
+                    WarehouseId: '',
+                };
+            });
+
+            FwBrowse.search($grid)
+        });
+
         $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
