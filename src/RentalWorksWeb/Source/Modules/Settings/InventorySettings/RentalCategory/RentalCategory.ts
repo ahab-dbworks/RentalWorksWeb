@@ -2,8 +2,8 @@ class RentalCategory {
     Module: string = 'RentalCategory';
     apiurl: string = 'api/v1/rentalcategory';
     caption: string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.caption;
-    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.nav;
-    id:      string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.id;
+    nav: string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.nav;
+    id: string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -22,6 +22,16 @@ class RentalCategory {
         };
 
         return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasMultiRowEditing = true;
+        FwMenu.addBrowseMenuButtons(options);
+    }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasMultiEdit = true;
+        FwMenu.addFormMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
