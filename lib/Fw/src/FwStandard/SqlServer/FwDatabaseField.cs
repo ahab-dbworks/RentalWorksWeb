@@ -28,43 +28,52 @@ namespace FwStandard.SqlServer
         public string ToShortDateString()
         {
             string str = string.Empty;
-            FwDateTime dateTime;
-
+            DateTime dateTime;
             if (FieldValue is DateTime)
             {
                 dateTime = (DateTime)FieldValue;
+                str = dateTime.ToString("yyyy-MM-dd");
             }
             else if ((FieldValue is String) && (!string.IsNullOrEmpty((string)FieldValue)))
             {
-                dateTime = (string)FieldValue;
+                dateTime = DateTime.Parse((string)FieldValue);
+                str = dateTime.ToString("yyyy-MM-dd");
             }
-            else
-            {
-                dateTime = DateTime.MinValue;
-            }
-            if (dateTime != DateTime.MinValue)
-            {
-                str = dateTime.ToDateTime().ToString("yyyy-MM-dd");
-            }
-
             return str;
         }
         //--------------------------------------------------------------------------------
-        public string ToLongDateString()
+        public string ToShortTimeString()
         {
             string str = string.Empty;
-            FwDateTime dateTime;
+            DateTime dateTime;
             if (FieldValue is DateTime)
             {
-                dateTime = (DateTime)FieldValue;   
-                str = dateTime.ToDateTime().ToString("D", new System.Globalization.CultureInfo(CultureInfo.CurrentCulture.Name));
+                dateTime = (DateTime)FieldValue;
+                str = dateTime.ToString("HH:mm:ss");
             }
             else if ((FieldValue is String) && (!string.IsNullOrEmpty((string)FieldValue)))
             {
-                dateTime = (string)FieldValue;
-                str = dateTime.ToDateTime().ToString("D", new System.Globalization.CultureInfo(CultureInfo.CurrentCulture.Name));
+                dateTime = DateTime.Parse((string)FieldValue);
+                str = dateTime.ToString("HH:mm:ss");
             }
-
+            return str;
+        }
+        //--------------------------------------------------------------------------------
+        public string ToShortDateTimeString()
+        {
+            string result = this.ToShortDateString() + " " + this.ToShortTimeString();
+            return result;
+        }
+        //--------------------------------------------------------------------------------
+        public string ToDateTimeOffsetString()
+        {
+            string str = string.Empty;
+            DateTimeOffset dateTime;
+            if (FieldValue is DateTimeOffset)
+            {
+                dateTime = (DateTimeOffset)FieldValue;
+                str = dateTime.ToString("o");
+            }
             return str;
         }
         //--------------------------------------------------------------------------------
@@ -74,79 +83,10 @@ namespace FwStandard.SqlServer
             DateTime dateTime;
             if (FieldValue is DateTime)
             {
-                dateTime = (DateTime)FieldValue;   
-                str = dateTime.ToString("u", new System.Globalization.CultureInfo(CultureInfo.CurrentCulture.Name));
-            }
-            return str;
-        }
-        //--------------------------------------------------------------------------------
-        public string ToDateTimeStringIso8601()
-        {
-            string str = string.Empty;
-            DateTime dateTime;
-            if (FieldValue is DateTime)
-            {
-                dateTime = (DateTime)FieldValue;   
-                str = dateTime.ToString("s", System.Globalization.CultureInfo.InvariantCulture);
-            }
-            return str;
-        }
-        //--------------------------------------------------------------------------------
-        public string ToShortTimeString()
-        {
-            string str = string.Empty;
-            FwDateTime dateTime;
-            if (FieldValue is DateTime)
-            {
                 dateTime = (DateTime)FieldValue;
-                //str = dateTime.ToDateTime().ToString("t", new System.Globalization.CultureInfo(Thread.CurrentThread.CurrentCulture.Name));
-                // need to globalize the times correctly
-                str = dateTime.ToDateTime().ToString("HH:mm:ss");
-            }
-            else if ((FieldValue is String) && (!string.IsNullOrEmpty((string)FieldValue)))
-            {
-                dateTime = (string)FieldValue;
-                //str = dateTime.ToDateTime().ToString("t", new System.Globalization.CultureInfo(Thread.CurrentThread.CurrentCulture.Name));
-                // need to globalize the times correctly
-                str = dateTime.ToDateTime().ToString("HH:mm:ss");
+                str = dateTime.ToString("u");
             }
             return str;
-        }
-        //--------------------------------------------------------------------------------
-        public string ToShortDateTimeString()
-        {
-            string result;
-            result = this.ToShortDateString() + " " + this.ToShortTimeString();
-            return result;
-        }
-        //--------------------------------------------------------------------------------
-        public string ToLongTimeString()
-        {
-            string str = string.Empty;
-            FwDateTime dateTime;
-            if (FieldValue is DateTime)
-            {
-                dateTime = (DateTime)FieldValue;   
-                str = dateTime.ToDateTime().ToString("T", new System.Globalization.CultureInfo(CultureInfo.CurrentCulture.Name));
-            }
-            else if ((FieldValue is String) && (!string.IsNullOrEmpty((string)FieldValue)))
-            {
-                dateTime = (string)FieldValue;
-                str = dateTime.ToDateTime().ToString("T", new System.Globalization.CultureInfo(CultureInfo.CurrentCulture.Name));
-            }
-            return str;
-        }
-        //--------------------------------------------------------------------------------
-        public string ToAMPMString()
-        {
-            string str = "AM";
-            DateTime dateTime;
-            if (FieldValue is DateTime)
-            {
-                dateTime = (DateTime)FieldValue;   
-                str = dateTime.ToString("tt").Trim();
-            }
-            return str;       
         }
         //--------------------------------------------------------------------------------
         public bool ToBoolean()
