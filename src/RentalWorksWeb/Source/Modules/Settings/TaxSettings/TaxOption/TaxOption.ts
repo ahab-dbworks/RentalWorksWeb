@@ -50,7 +50,6 @@ class TaxOption {
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            //this.canadaOnlyConfiguration($form, 'U');
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'TaxCountryId', location.countryid, location.country);
 
@@ -107,8 +106,6 @@ class TaxOption {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        //const country = FwFormField.getValueByDataField($form, 'TaxCountry');
-        //this.canadaOnlyConfiguration($form, country);
         this.configureTaxOnTax($form);
 
         $form.find('.exempttype').each((i, e) => {
@@ -117,10 +114,6 @@ class TaxOption {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        //$form.on('change', '[data-datafield="TaxCountry"] input[type="radio"]:checked', (e) => {
-        //    this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val().toString());
-        //});
-
         $form.on('change', '.exempttype', (e) => {
             var isChecked = jQuery(e.currentTarget).find('input[type="checkbox"]').is(':checked'),
                 exemptTypeClass = jQuery(e.currentTarget).data('exempttypetxtclass');
@@ -140,17 +133,6 @@ class TaxOption {
             FwFormField.disable($form.find('div[data-datafield="TaxOnTaxAccountId"]'));
         }
     }
-    //----------------------------------------------------------------------------------------------
-    //canadaOnlyConfiguration($form: JQuery, country: string): void {
-    //    if (country === 'U') {
-    //        $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').hide();
-    //        FwFormField.setValueByDataField($form, 'TaxAccountId2', '');
-    //        $form.find('.ustaxratespanel').show();
-    //    } else {
-    //        $form.find('.ustaxratespanel').hide();
-    //        $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').show();
-    //    }
-    //}
     //----------------------------------------------------------------------------------------------
     toggleDisableUSTaxRates($form: JQuery, isChecked: boolean, exemptTypeClass: string): void {
         if (!isChecked) {
