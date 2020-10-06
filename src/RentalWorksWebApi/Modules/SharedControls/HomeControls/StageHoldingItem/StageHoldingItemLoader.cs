@@ -83,6 +83,7 @@ namespace WebApi.Modules.HomeControls.StageHoldingItem
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
 
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
@@ -91,6 +92,7 @@ namespace WebApi.Modules.HomeControls.StageHoldingItem
                 {
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     AddPropertiesAsQueryColumns(qry);
