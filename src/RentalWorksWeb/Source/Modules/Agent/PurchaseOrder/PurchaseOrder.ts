@@ -1212,10 +1212,10 @@ class PurchaseOrder implements IModule {
                 request.uniqueids = {
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
                 };
-                //request.totalfields = this.totalFields;
+                request.totalfields = ['Rate', 'ReceivedCost', 'TotalInvoiced', 'CostRemaining'];
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                //this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
+                this.calculateInvoiceStatusGridTotals($form, dt.Totals);
             }
         });
 
@@ -1574,7 +1574,7 @@ class PurchaseOrder implements IModule {
     };
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.totals[data-type="money"], .frame[data-type="money"]');
+        const $totalFields = $form.find('.totals[data-type="money"], .frame[data-type="money"], .invoicetotals[data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
@@ -2175,6 +2175,13 @@ class PurchaseOrder implements IModule {
         FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Tax2"]`), salesTax2);
         FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="GrossTotal"]`), grossTotal);
         FwFormField.setValue2($form.find(`.${gridType}-totals [data-totalfield="Total"]`), total);
+    };
+    //----------------------------------------------------------------------------------------------
+    calculateInvoiceStatusGridTotals($form: any, totals: any): void {
+        FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="SubTotal"]`), totals.Rate);
+        FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="SubTotal"]`), totals.ReceivedCost);
+        FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="SubTotal"]`), totals.TotalInvoiced);
+        FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="SubTotal"]`), totals.CostRemaining);
     };
     //----------------------------------------------------------------------------------------------
     applyRateType($form: JQuery) {
