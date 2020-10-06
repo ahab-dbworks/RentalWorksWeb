@@ -229,6 +229,15 @@ class InventoryPurchaseUtility {
                     FromCurrencyId: currencyId,
                     ToCurrencyId: defaultCurrencyId
                 }
+                // newest one on top
+                request.orderby = "AsOfDate desc";  
+                request.pageno = 1;
+                request.pagesize = 1;
+                request.searchfieldoperators = ["<>"];
+                request.searchfields = ["Inactive"];
+                request.searchfieldvalues = ["T"];
+
+
                 FwAppData.apiMethod(true, 'POST', `api/v1/currencyexchangerate/browse`, request, FwServices.defaultTimeout,
                     response => {
                         if (response.Rows.length > 0) {
