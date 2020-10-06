@@ -163,6 +163,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingweeks", modeltype: FwDataTypes.Decimal)]
+        public decimal? BillingWeeks { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billingmonths", modeltype: FwDataTypes.Decimal)]
+        public decimal? BillingMonths { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
         public string BillingCycleId { get; set; }
         //------------------------------------------------------------------------------------

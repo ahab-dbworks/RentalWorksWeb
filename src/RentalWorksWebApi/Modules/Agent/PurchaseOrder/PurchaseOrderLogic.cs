@@ -240,6 +240,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwLogicProperty(Id: "Bzgy8WpYM2zf")]
         public string BillingEndDate { get { return purchaseOrder.BillingEndDate; } set { purchaseOrder.BillingEndDate = value; } }
 
+        [FwLogicProperty(Id: "Ln3Q2qwd4L3r", IsReadOnly: true)]
+        public decimal? BillingWeeks { get; set; }
+
+        [FwLogicProperty(Id: "iS6KJYLduxcP", IsReadOnly: true)]
+        public decimal? BillingMonths { get; set; }
+
         [FwLogicProperty(Id: "Qkr2CvGb90kyC", IsReadOnly: true)]
         public decimal? InvoicedAmount { get; set; }
 
