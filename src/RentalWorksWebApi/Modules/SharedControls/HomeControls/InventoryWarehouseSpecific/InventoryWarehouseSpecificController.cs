@@ -73,6 +73,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouseSpecific
         }
         //------------------------------------------------------------------------------------
         // PUT api/v1/inventorywarehousespecific/A0000001
+        // this method is temporary. Can be removed once Mike addresses Issue#3150
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "NP5UXdk98OcTi", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<InventoryWarehouseSpecificLogic>> EditAsync([FromRoute] string id, [FromBody] InventoryWarehouseSpecificLogic l)

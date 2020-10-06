@@ -345,7 +345,7 @@ namespace WebApi.Modules.Inventory.Inventory
                 InventoryWarehouseLogic lNew = l.MakeCopy<InventoryWarehouseLogic>();
                 lNew.SetDependencies(appConfig, userSession);
                 lNew.IsWarehouseSpecific = request.IsWarehouseSpecific;
-                await l.SaveAsync(original: l);
+                await lNew.SaveAsync(original: l);
                 response.success = true;
             }
             else

@@ -486,13 +486,11 @@ class RentalInventory extends InventoryBase {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
             },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             }
         });
 
@@ -561,13 +559,11 @@ class RentalInventory extends InventoryBase {
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
                 };
             },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             }
         });
 
