@@ -1571,6 +1571,16 @@ class PurchaseOrder implements IModule {
         $form.find('[data-datafield="Currency"]').attr('data-originaltext', FwFormField.getValueByDataField($form, 'Currency'));
         $form.find('[data-datafield="CurrencyId"]').attr('data-originaltext', FwFormField.getTextByDataField($form, 'CurrencyId'));
 
+        //Billing Options - Display Weeks/Months field based on RateType
+        const rateType = FwFormField.getValueByDataField($form, 'RateType');
+        if (rateType === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
+        } else {
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
+        }
+
     };
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
@@ -2464,6 +2474,18 @@ class PurchaseOrder implements IModule {
             }
         });
 
+        // BillingDate Change
+        $form.find('.billing_start_date').on('changeDate', event => {
+            OrderBaseController.adjustWeekorMonthBillingField($form, event);
+        });
+        // BillingDate Change
+        $form.find('.billing_end_date').on('changeDate', event => {
+            OrderBaseController.adjustWeekorMonthBillingField($form, event);
+        });
+        // Billing Weeks or Month field change
+        $form.find('.week_or_month_field').on('change', event => {
+            OrderBaseController.adjustBillingEndDate($form, event);
+        });
     };
     //----------------------------------------------------------------------------------------------
     currencyChange($form: JQuery, $tr) {
