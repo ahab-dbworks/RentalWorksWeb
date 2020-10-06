@@ -826,7 +826,7 @@ class OrderBase {
             },
         });
         // ----------
-        let $orderItemGridUsedSale: JQuery;
+        let $orderItemGridRentalSale: JQuery;
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.rentalsalegrid div[data-grid="OrderItemGrid"]',
@@ -958,8 +958,8 @@ class OrderBase {
             },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $fwgrid.addClass('RS');
-                $orderItemGridUsedSale = $fwgrid;
-                $orderItemGridUsedSale.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
+                $orderItemGridRentalSale = $fwgrid;
+                $orderItemGridRentalSale.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateOrderItemGridTotals($form, 'rentalsale', dt.Totals);
@@ -2413,7 +2413,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingSalesRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingSalesRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingLaborRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLaborRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingMiscellaneousRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingMiscellaneousRate"]').attr('data-originalvalue')));
-            FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingRentalSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingRentalSaleRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
             if ($form.attr('data-mode') === 'NEW') {
                 const defaultActivities: any = {};
@@ -2421,7 +2421,7 @@ class OrderBase {
                 defaultActivities['Sales'] = $tr.find('.field[data-browsedatafield="DefaultActivitySales"]').attr('data-originalvalue');
                 defaultActivities['Labor'] = $tr.find('.field[data-browsedatafield="DefaultActivityLabor"]').attr('data-originalvalue');
                 defaultActivities['Miscellaneous'] = $tr.find('.field[data-browsedatafield="DefaultActivityMiscellaneous"]').attr('data-originalvalue');
-                defaultActivities['RentalSale'] = $tr.find('.field[data-browsedatafield="DefaultActivityUsedSale"]').attr('data-originalvalue');
+                defaultActivities['RentalSale'] = $tr.find('.field[data-browsedatafield="DefaultActivityRentalSale"]').attr('data-originalvalue');
 
                 for (let key in defaultActivities) {
                     FwFormField.setValueByDataField($form, `${key}`, defaultActivities[key] === 'true');
@@ -2868,8 +2868,8 @@ class OrderBase {
         }
         if (recType === 'RS') {
             $orderItemGrid = $form.find('.rentalsalegrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'UsedSaleTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="UsedSaleTotalIncludesTax"]'));
+            FwFormField.setValueByDataField($form, 'RentalSaleTotal', '');
+            FwFormField.disable($form.find('div[data-datafield="RentalSaleTotalIncludesTax"]'));
         }
         if (recType === '') {
             $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
@@ -2971,15 +2971,15 @@ class OrderBase {
         }
         if (recType === 'RS') {
             $orderItemGrid = $form.find('.rentalsalegrid  [data-name="OrderItemGrid"]');
-            total = FwFormField.getValueByDataField($form, 'UsedSaleTotal');
-            includeTaxInTotal = FwFormField.getValueByDataField($form, 'UsedSaleTotalIncludesTax');
+            total = FwFormField.getValueByDataField($form, 'RentalSaleTotal');
+            includeTaxInTotal = FwFormField.getValueByDataField($form, 'RentalSaleTotalIncludesTax');
             if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'UsedSaleDiscountPercent', '');
+                FwFormField.setValueByDataField($form, 'RentalSaleDiscountPercent', '');
             }
             if (total === '0.00') {
-                FwFormField.disable($form.find('div[data-datafield="UsedSaleTotalIncludesTax"]'));
+                FwFormField.disable($form.find('div[data-datafield="RentalSaleTotalIncludesTax"]'));
             } else {
-                FwFormField.enable($form.find('div[data-datafield="UsedSaleTotalIncludesTax"]'));
+                FwFormField.enable($form.find('div[data-datafield="RentalSaleTotalIncludesTax"]'));
             }
         }
         if (recType === '') {
@@ -4055,7 +4055,7 @@ class OrderBase {
                 const hiddenMisc = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.MiscShowFields))
-                const hiddenUsedSale = fieldNames.filter(function (field) {
+                const hiddenRentalSale = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.RentalSaleShowFields))
                 const hiddenLossDamage = fieldNames.filter(function (field) {
@@ -4071,7 +4071,7 @@ class OrderBase {
                     hiddenSales: hiddenSales,
                     hiddenLabor: hiddenLabor,
                     hiddenMisc: hiddenMisc,
-                    hiddenUsedSale: hiddenUsedSale,
+                    hiddenRentalSale: hiddenRentalSale,
                     hiddenLossDamage: hiddenLossDamage,
                     hiddenCombined: hiddenCombined
                 }
@@ -4180,10 +4180,10 @@ class OrderBase {
             jQuery($miscGrid.find(`[data-mappedfield="${orderTypeData.hiddenMisc[i]}"]`)).parent().hide();
             //jQuery($miscGrid.find(`[data-mappedfield="${orderTypeData.hiddenMisc[i]}"]`)).parent().remove();
         }
-        const $usedSaleGrid = $form.find('.rentalsalegrid [data-name="OrderItemGrid"]');
-        for (let i = 0; i < orderTypeData.hiddenUsedSale.length; i++) {
-            jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenUsedSale[i]}"]`)).parent().hide();
-            //jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenUsedSale[i]}"]`)).parent().remove();
+        const $rentalSaleGrid = $form.find('.rentalsalegrid [data-name="OrderItemGrid"]');
+        for (let i = 0; i < orderTypeData.hiddenRentalSale.length; i++) {
+            jQuery($rentalSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentalSale[i]}"]`)).parent().hide();
+            //jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentalSale[i]}"]`)).parent().remove();
         }
 
         // loss and damage (order only)
@@ -4310,7 +4310,7 @@ class OrderBase {
         if (FwFormField.getValueByDataField($form, 'DisableEditingMiscellaneousRate')) {
             $miscGrid.find('.rates').attr('data-formreadonly', true);
         }
-        if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
+        if (FwFormField.getValueByDataField($form, 'DisableEditingRentalSaleRate')) {
             $rentalSaleGrid.find('.rates').attr('data-formreadonly', true);
         }
         if ($lossDamageGrid !== undefined) {
@@ -4516,13 +4516,13 @@ class OrderBase {
         // Enable/Disable checkboxes and show/hide Profit & Loss sections
         const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
         const salesVal = FwFormField.getValueByDataField($form, 'Sales');
-        const usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+        const rentalSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
         const laborVal = FwFormField.getValueByDataField($form, 'Labor');
         const miscVal = FwFormField.getValueByDataField($form, 'Miscellaneous');
         let lossDamageVal;
-        if (rentalVal === true || salesVal === true || usedSaleVal === true) {
+        if (rentalVal === true || salesVal === true || rentalSaleVal === true) {
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
-        } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
+        } else if (rentalVal === false && salesVal === false && rentalSaleVal === false) {
             FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
         }
         if (this.Module === 'Order') {
@@ -4554,7 +4554,7 @@ class OrderBase {
         salesVal ? $form.find('.sales-pl').show() : $form.find('.sales-pl').hide();
         laborVal ? $form.find('.labor-pl').show() : $form.find('.labor-pl').hide();
         miscVal ? $form.find('.misc-pl').show() : $form.find('.misc-pl').hide();
-        usedSaleVal ? $form.find('.rentalsale-pl').show() : $form.find('.rentalsale-pl').hide();
+        rentalSaleVal ? $form.find('.rentalsale-pl').show() : $form.find('.rentalsale-pl').hide();
 
         // disable all controls on the form based on Quote/Order status
         const status = FwFormField.getValueByDataField($form, 'Status');
