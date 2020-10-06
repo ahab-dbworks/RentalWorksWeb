@@ -45,8 +45,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryUnusedIte
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity { get; set; }
+        [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer)]
+        public int? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
         public string RentalItemId { get; set; }
@@ -81,8 +81,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryUnusedIte
         [FwSqlDataField(column: "lastusedordertranid", modeltype: FwDataTypes.Integer)]
         public int? LastUsedOrderTransferId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "lastusedinternalchar", modeltype: FwDataTypes.Boolean)]
-        public bool? LastUsedInternalChar { get; set; }
+        [FwSqlDataField(column: "lastusedinternalchar", modeltype: FwDataTypes.Text)]
+        public string LastUsedInternalChar { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastuseddate", modeltype: FwDataTypes.Date)]
         public string LastUsedDate { get; set; }
