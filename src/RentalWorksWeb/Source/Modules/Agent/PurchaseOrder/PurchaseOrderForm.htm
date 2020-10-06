@@ -19,6 +19,7 @@
       <div data-type="tab" id="projecttab" class="tab projecttab" data-tabpageid="projecttabpage" data-caption="Project"></div>
       <div data-type="tab" id="paymentscheduletab" class="tab paymentscheduletab" data-tabpageid="paymentscheduletabpage" data-caption="Payment Schedule"></div>
       <div data-type="tab" id="summarytab" class="tab profitlosstab summarytab" data-tabpageid="summarytabpage" data-caption="Summary"></div>
+      <div data-type="tab" id="vendorinvoicestatustab" class="tab vendorinvoicestatustab" data-tabpageid="vendorinvoicestatustabpage" data-caption="Vendor Invoice Status"></div>
       <div data-type="tab" id="vendorinvoicetab" class="tab vendorinvoicetab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
       <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
       <div data-type="tab" id="activitytab" class="tab activitytab" data-tabpageid="activitytabpage" data-caption="Activities"></div>
@@ -1244,6 +1245,49 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- VENDOR INVOICE STATUS TAB-->
+      <div data-type="tabpage" id="vendorinvoicestatustabpage" class="tabpage submodule vendorinvoicestatus rwSubModule" data-tabid="vendorinvoicestatustab">
+        <div class="wideflexrow">
+          <div data-control="FwGrid" data-grid="PurchaseOrderItemVendorInvoiceStatusGrid" data-securitycaption="Invoice Status"></div>
+        </div>
+        <div class="wideflexrow">
+          <!--<div data-control="FwGrid" data-grid="" data-securitycaption=""></div>-->
+          <!--<div class="flexcolumn" style="flex:0 0 200px;padding-right:10px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
+              <div class="flexrow invoice-totals">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
+              </div>
+              <div class="flexrow parts-totals">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 100px;"></div>
+              </div>
+              <div class="flexrow parts-totals">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+              </div>
+              <div class="flexrow parts-totals">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Tax" data-taxtype="Sales" style="flex:1 1 75px;"></div>
+              </div>
+              <div class="flexrow parts-totals">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax 2" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Tax2" data-taxtype="Sales" style="flex:1 1 75px; display:none;"></div>
+              </div>
+              <div class="flexrow parts-totals">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Parts Adjustments">
+              <div class="flexrow parts-adjustments">
+                <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom-line-discount" data-caption="Disc. %" data-rectype="P" data-datafield="PartsDiscountPercent" style="flex:1 1 50px;"></div>
+              </div>
+              <div class="flexrow parts-adjustments">
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals parts-order-item-total bottom-line-total-tax" data-caption="Total" data-currencysymbol="CurrencySymbol" data-rectype="P" data-datafield="PartsTotal" style="flex:1 1 100px;"></div>
+              </div>
+              <div class="flexrow parts-adjustments">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield parts-total-wtax bottom-line-total-tax" data-caption="w/ Tax" data-rectype="P" data-datafield="PartsTotalIncludesTax" style="flex:1 1 75px;margin-top:10px;"></div>
+              </div>
+            </div>
+          </div>-->
         </div>
       </div>
 

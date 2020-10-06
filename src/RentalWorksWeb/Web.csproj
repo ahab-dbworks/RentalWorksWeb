@@ -171,6 +171,7 @@
     <Content Include="Source\Grids\CurrencyExchangeRateGrid\CurrencyExchangeRateGridBrowse.htm" />
     <Content Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridBrowse.htm" />
     <Content Include="Source\Grids\DepartmentInventoryTypeGrid\DepartmentInventoryTypeGridBrowse.htm" />
+    <Content Include="Source\Grids\PurchaseOrderItemVendorInvoiceStatusGrid\PurchaseOrderItemVendorInvoiceStatusGridBrowse.htm" />
     <Content Include="Source\Grids\OrderHiatusDiscountGrid\OrderHiatusDiscountGridBrowse.htm" />
     <Content Include="Source\Grids\CheckOutSubstituteSessionItemGrid\CheckOutSubstituteSessionItemGridBrowse.htm" />
     <Content Include="Source\Grids\OrderBillingScheduleGrid\OrderBillingScheduleGridBrowse.htm" />
@@ -358,6 +359,7 @@
     <TypeScriptCompile Include="Source\Grids\CurrencyExchangeRateGrid\CurrencyExchangeRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealHiatusDiscountGrid\DealHiatusDiscountGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DepartmentInventoryTypeGrid\DepartmentInventoryTypeGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\PurchaseOrderItemVendorInvoiceStatusGrid\PurchaseOrderItemVendorInvoiceStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderHiatusDiscountGrid\OrderHiatusDiscountGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckOutSubstituteSessionItemGrid\CheckOutSubstituteSessionItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderBillingScheduleGrid\OrderBillingScheduleGridController.ts" />

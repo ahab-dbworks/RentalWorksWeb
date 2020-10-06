@@ -1202,6 +1202,24 @@ class PurchaseOrder implements IModule {
             },
         });
         // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'PurchaseOrderItemVendorInvoiceStatusGrid',
+            gridSelector: 'div[data-grid="PurchaseOrderItemVendorInvoiceStatusGrid"]',
+            gridSecurityId: '1u1xfN9Ur5g8',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                };
+                //request.totalfields = this.totalFields;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                //this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
+            }
+        });
+
+        // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
