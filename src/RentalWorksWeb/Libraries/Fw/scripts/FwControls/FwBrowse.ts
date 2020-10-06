@@ -1883,7 +1883,7 @@ class FwBrowseClass {
                     let $form = options.$browse.closest('.fwform');
                     let mode = $form.attr('data-mode');
                     if (options.$browse.attr('data-enabled') !== 'false') {
-                        if ((mode === 'EDIT') || ($new.closest('.fwconfirmation').length > 0)) {
+                        if ((mode === 'EDIT') || ($new.closest('.fwconfirmation').length > 0) || options.$browse.attr('data-overridedisablegrid') === 'true') {
                             if (options.$browse.hasClass('sort-mode')) {
                                 FwNotification.renderNotification('WARNING', 'Please exit sort mode before adding new records.');
                             } else {

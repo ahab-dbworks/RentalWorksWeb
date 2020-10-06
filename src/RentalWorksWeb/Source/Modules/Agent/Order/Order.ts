@@ -747,6 +747,12 @@ class Order extends OrderBase {
             uniqueid2Name: '',
             getUniqueid2Value: () => ''
         });
+
+        //Enable document grid on CLOSED Orders
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'CLOSED') {
+            $form.find('[data-name="OrderDocumentGrid"]').attr('data-overridedisablegrid', 'true');
+        }
     }
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {

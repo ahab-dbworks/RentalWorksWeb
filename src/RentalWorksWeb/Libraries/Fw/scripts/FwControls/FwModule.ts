@@ -1483,7 +1483,9 @@ class FwModule {
         const $grids = $form.data('grids');
         $grids.each(function (index, element) {
             const $grid = jQuery(element).find('div[data-control="FwBrowse"][data-type="Grid"]');
-            FwBrowse.disableGrid($grid);
+            if ($grid.attr('data-overridedisablegrid') != 'true') {
+                FwBrowse.disableGrid($grid);
+            }
         });
 
         const $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');

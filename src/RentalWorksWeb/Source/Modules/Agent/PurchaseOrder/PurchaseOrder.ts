@@ -1381,6 +1381,10 @@ class PurchaseOrder implements IModule {
 
         const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'VOID' || status === 'CLOSED' || status === 'SNAPSHOT') {
+            if (status === 'CLOSED') {
+                $form.find('[data-name="PurchaseOrderDocumentGrid"]').attr('data-overridedisablegrid', 'true');
+            }
+
             FwModule.setFormReadOnly($form);
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
 
