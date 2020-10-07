@@ -491,7 +491,10 @@ class RentalInventory extends InventoryBase {
             },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.addClass('complete');
+            },
         });
 
         //Inventory Warehouse Staging Grid
@@ -564,7 +567,10 @@ class RentalInventory extends InventoryBase {
             },
             beforeSave: (request: any) => {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $fwgrid.addClass('kit');
+            },
         });
 
         //Wardrobe Inventory Color Grid
@@ -1064,7 +1070,8 @@ class RentalInventory extends InventoryBase {
                 } else if ($control.hasClass('kit')) {
                     $grid = $form.find('[data-name="InventoryKitGrid"]');
                 }
-                const warehouseId = $grid.find('tbody tr.selected').find('td .field').attr('data-originalvalue');
+                const warehouseId = $tr.find('.field[data-browsedatatype="key"]').attr('data-originalvalue');
+
                 $grid.data('ondatabind', request => {
                     request.uniqueids = {
                         PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
