@@ -771,7 +771,7 @@ class RwAsset {
                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="VendorInvoiceTotalQuantity" data-enabled="false" style="flex:1 1 100px;"></div>
                          </div>
                          <div class="flexrow">
-                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Extended" data-datafield="VendorInvoiceTotalExtended" data-enabled="false" style="flex:1 1 100px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Extended" data-datafield="VendorInvoiceTotalExtended" data-currencysymbol="PurchaseCurrencySymbol" data-enabled="false" style="flex:1 1 100px;"></div>
                          </div>
                        </div>
                      </div>
