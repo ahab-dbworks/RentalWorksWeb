@@ -76,7 +76,7 @@ class RentalCategory {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        $form.find('[data-datafield="CatalogCategory"] .fwformfield-value').on('change', function () {
+        $form.find('[data-datafield="CatalogCategory"]').on('change', function () {
             const $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('.designer'))
@@ -88,6 +88,11 @@ class RentalCategory {
         })
 
         this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
+
+        FwFormField.loadItems($form.find('div[data-datafield="BarCodeType"]'), [
+            { value: '1', caption: 'Small', checked: true },
+            { value: '2', caption: 'Large' }
+        ]);
 
         this.events($form);
         return $form;

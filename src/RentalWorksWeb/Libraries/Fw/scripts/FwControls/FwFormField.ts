@@ -340,13 +340,15 @@ class FwFormFieldClass {
         $controls.each(function (index, element) {
             var $control, data_type;
             $control = jQuery(element);
-            $control.attr('data-enabled', 'true');
-            $control.find('.fwformfield-value').prop('disabled', false);
-            data_type = $control.attr('data-type');
-            if (typeof data_type === 'string') {
-                if ((typeof window['FwFormField_' + data_type] === 'object') &&
-                    (typeof window['FwFormField_' + data_type].enable === 'function')) {
-                    window['FwFormField_' + data_type].enable($control);
+            if ($control.attr('data-preventenable') != 'true') {
+                $control.attr('data-enabled', 'true');
+                $control.find('.fwformfield-value').prop('disabled', false);
+                data_type = $control.attr('data-type');
+                if (typeof data_type === 'string') {
+                    if ((typeof window['FwFormField_' + data_type] === 'object') &&
+                        (typeof window['FwFormField_' + data_type].enable === 'function')) {
+                        window['FwFormField_' + data_type].enable($control);
+                    }
                 }
             }
         });

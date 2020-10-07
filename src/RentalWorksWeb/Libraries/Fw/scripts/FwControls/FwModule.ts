@@ -50,7 +50,7 @@ class FwModule {
                             </div>
                           </div>`);
             const $closeTabButton = jQuery(iconHtml.join(''));
-            $tabControl.find('.closetabbutton:first').append($closeTabButton);
+            $tabControl.find('.closetabbutton:first').append($closeTabButton); 
         } else {
             $tabControl.find('.closetabbutton').html('');
         }

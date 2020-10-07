@@ -4624,7 +4624,7 @@ class FwBrowseClass {
                 $form.data('modifiedfields', modifiedFields);
             });
 
-            FwModule.openModuleTab($form, `Edit ${module}s`, true, 'FORM', true);
+            FwModule.openModuleTab($form, `Edit ${$form.data('caption')} (${$selectedRows.length})`, true, 'FORM', true);
         } catch (ex) {
             FwFunc.showError(ex);
         }
