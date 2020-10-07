@@ -22,16 +22,16 @@ namespace WebApi.Modules.AccountServices.HubSpot
         {
             GetWriteTokensResponse response = new GetWriteTokensResponse();
             var client = new HttpClient();
-            SecuritySettingsLoader securitySettings = new SecuritySettingsLoader();
             var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
             var currentSecuritySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
-            securitySettings = currentSecuritySettings;
+            SecuritySettingsLoader securitySettings = currentSecuritySettings;
 
             var url = "https://api.hubapi.com/oauth/v1/token";
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
             HubSpotTokensFormData body = new HubSpotTokensFormData();
             body.properties = new Dictionary<string, string>();
+            //move HubSpot meta data to a config file 
             body.properties.Add("client_id", "7fd2d81a-ae52-4a60-af93-caa4d1fd5848");
             body.properties.Add("client_secret", "3fa85657-d67b-4965-bd47-929ba0604dc6");
             body.properties.Add("redirect_uri", "http://localhost:57949/webdev");

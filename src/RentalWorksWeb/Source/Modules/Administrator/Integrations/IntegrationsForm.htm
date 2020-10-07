@@ -9,8 +9,20 @@
                 <div class="flexpage">
                     <div class="flexcolumn" style="max-width:800px;">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Integrations">
-                            <div class="flexrow">
-                                <div class="integrations-card"><img src="theme/images/icons/integration/hubspot.svg" alt="HubSpot" /><div class="integrations-buttons"><div class="integrations-button hubspot-btn"></div></div></div>
+                            <div class="integrations-card flexrow">
+                                <div class="flexcolumn">
+                                        <img src="theme/images/icons/integration/hubspot.svg" alt="HubSpot" />
+                                </div>
+                                <div class="integrations-buttons flexcolumn">
+                                <div class="flexrow">
+                                    <div class="integrations-button hubspot-btn"></div>
+                                </div>
+                                    <div class="flexrow">
+                                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Interval Data Syncing" data-datafield="IntervalSyncing" style="flex:1 1 125px;"></div>
+                                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Interval (Hours)" data-datafield="IntervalHours" data-enabled="false" style="flex:0 1 125px;"></div>
+                                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Interval (Minutes)" data-datafield="IntervalMinutes" data-enabled="false" style="flex:0 1 125px;"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
