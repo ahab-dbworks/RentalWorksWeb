@@ -284,6 +284,11 @@
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
+    {{#ifNotSameAsPrevious ../RentalItems index Category}}
+    <b>{{Category}}</b>
+    {{/ifNotSameAsPrevious}}
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr data-isbold="{{Bold}}">
         <!-- I-Code -->
