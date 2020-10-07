@@ -36,6 +36,13 @@ namespace WebApi.Modules.Agent.Order
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
 
         //------------------------------------------------------------------------------------
+        [FwLogicProperty(Id: "4GOaCRZNHec6")]
+        public string SourceQuoteId { get { return dealOrder.QuoteOrderId; } set { dealOrder.QuoteOrderId = value; } }
+
+        [FwLogicProperty(Id: "SvenxvvbkLwv", IsReadOnly: true)]
+        public string SourceQuoteNumber { get; set; }
+
+        //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = base.Validate(saveMode, original, ref validateMsg);

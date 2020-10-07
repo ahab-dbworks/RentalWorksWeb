@@ -981,9 +981,6 @@ namespace WebApi.Modules.Agent.Order
         public bool? IsManualSort { get; set; }
         //------------------------------------------------------------------------------------ 
 
-        [FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text)]
-        public string RelatedQuoteOrderId { get; set; }
-        //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "nontaxable", modeltype: FwDataTypes.Boolean)]
         public bool? NonTaxable { get; set; }

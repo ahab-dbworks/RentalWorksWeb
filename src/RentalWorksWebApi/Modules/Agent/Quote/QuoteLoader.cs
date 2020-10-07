@@ -24,6 +24,12 @@ namespace WebApi.Modules.Agent.Quote
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer)]
         public int? VersionNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text)]
+        public string ConvertedToOrderId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "quoteorderno", modeltype: FwDataTypes.Text)]
+        public string ConvertedToOrderNumber { get; set; }
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

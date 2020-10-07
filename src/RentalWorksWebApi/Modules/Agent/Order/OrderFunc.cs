@@ -269,7 +269,7 @@ namespace WebApi.Modules.Agent.Order
         public decimal? MarginPercent { get; set; }
     }
 
-    public class OrderIsEditableResponse 
+    public class OrderIsEditableResponse
     {
         public bool IsEditable { get; set; } = false;
         public string Reason { get; set; } = "";
@@ -858,6 +858,8 @@ namespace WebApi.Modules.Agent.Order
                 location.LocationId = newLocationId;
                 await location.LoadAsync<OrderLogic>();
 
+                string fromId = from.GetPrimaryKeys()[0].ToString();
+
                 //use reflection to copy all peroperties from Quote to Order
                 PropertyInfo[] fromProperties = from.GetType().GetProperties();
                 PropertyInfo[] toProperties = to.GetType().GetProperties();
@@ -899,6 +901,7 @@ namespace WebApi.Modules.Agent.Order
                     {
                         ((OrderLogic)to).OrderNumber = await AppFunc.GetNextModuleCounterAsync(appConfig, userSession, RwConstants.MODULE_ORDER, newLocationId, conn);
                     }
+                    ((OrderLogic)to).SourceQuoteId = fromId;
                 }
                 else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
                 {
@@ -922,7 +925,6 @@ namespace WebApi.Modules.Agent.Order
                 //save the new 
                 await to.SaveAsync(original: null, conn: conn);
 
-                string fromId = from.GetPrimaryKeys()[0].ToString();
                 string toId = to.GetPrimaryKeys()[0].ToString();
 
                 // copy all items
@@ -1080,7 +1082,7 @@ namespace WebApi.Modules.Agent.Order
                     q2.QuoteId = fromId;
                     q2.Status = RwConstants.QUOTE_STATUS_ORDERED;
                     q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
-                    q2.RelatedQuoteOrderId = toId;
+                    q2.ConvertedToOrderId = toId;
                     await q2.SaveAsync(original: from, conn: conn);
                 }
                 else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))

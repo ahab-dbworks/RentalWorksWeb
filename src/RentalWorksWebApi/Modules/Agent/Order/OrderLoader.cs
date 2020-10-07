@@ -21,6 +21,12 @@ namespace WebApi.Modules.Agent.Order
         //[FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
         //public string OrderNumberColor { get; set; }
         ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "quoteorderid", modeltype: FwDataTypes.Text)]
+        public string SourceQuoteId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "quoteorderno", modeltype: FwDataTypes.Text)]
+        public string SourceQuoteNumber { get; set; }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

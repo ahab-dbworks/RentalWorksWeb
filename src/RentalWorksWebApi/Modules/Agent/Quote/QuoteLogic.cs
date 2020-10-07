@@ -38,7 +38,10 @@ namespace WebApi.Modules.Agent.Quote
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
 
         [FwLogicProperty(Id: "Vm6yP2w0ywVGu")]
-        public string RelatedQuoteOrderId { get { return dealOrder.QuoteOrderId; } set { dealOrder.QuoteOrderId = value; } }
+        public string ConvertedToOrderId { get { return dealOrder.QuoteOrderId; } set { dealOrder.QuoteOrderId = value; } }
+
+        [FwLogicProperty(Id: "TmESalJvD2tc", IsReadOnly: true)]
+        public string ConvertedToOrderNumber { get; set; }
 
 
 
