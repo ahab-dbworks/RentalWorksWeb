@@ -195,6 +195,9 @@ class PurchaseHistory {
           <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="off"></div>
           </div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Ownership" data-datafield="Ownership" data-browsedatatype="text" data-sort="off"></div>
+          </div>
         </div>`;
     };
     //---------------------------------------------------------------------------------------------
