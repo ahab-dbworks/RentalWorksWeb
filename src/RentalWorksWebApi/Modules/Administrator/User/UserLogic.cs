@@ -68,7 +68,7 @@ namespace WebApi.Modules.Administrator.User
                     passwordChanged = true;
                 }
                 user.Password = value;
-                user.PasswordUpdatedDateTime = FwConvert.ToUSShortDate(DateTime.Today);
+                user.PasswordUpdatedDateTime = FwConvert.ToShortDate(DateTime.Today);
 
                 webUser.WebPassword = value;
             }

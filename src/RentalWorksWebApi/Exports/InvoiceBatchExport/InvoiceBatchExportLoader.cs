@@ -219,8 +219,8 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                     BatchInvoice i = new BatchInvoice();
                     i.InvoiceId = row[dt.GetColumnNo("invoiceid")].ToString();
                     i.InvoiceNumber = row[dt.GetColumnNo("invoiceno")].ToString();
-                    i.InvoiceDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoicedate")].ToString());   // US specific #jhtodo: add format for user
-                    i.InvoiceDueDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoiceduedate")].ToString());   // US specific #jhtodo: add format for user
+                    i.InvoiceDate = FwConvert.ToShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
+                    i.InvoiceDueDate = FwConvert.ToShortDate(row[dt.GetColumnNo("invoiceduedate")].ToString());
                     i.InvoiceDescription = row[dt.GetColumnNo("invoicedesc")].ToString();
                     i.InvoiceType = row[dt.GetColumnNo("invoicetype")].ToString();
                     i.InvoiceTypeForQuickBooks = row[dt.GetColumnNo("invoicetypeqbo")].ToString();

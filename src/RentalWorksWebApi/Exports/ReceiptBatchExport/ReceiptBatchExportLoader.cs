@@ -109,7 +109,7 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
                 {
                     BatchReceipt r = new BatchReceipt();
                     r.ReceiptId = row[dt.GetColumnNo("arid")].ToString();
-                    r.ReceiptDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("ardate")].ToString());
+                    r.ReceiptDate = FwConvert.ToShortDate(row[dt.GetColumnNo("ardate")].ToString());
                     r.CheckNumber = row[dt.GetColumnNo("checkno")].ToString();
                     r.PaymentType = row[dt.GetColumnNo("paytype")].ToString();
                     r.PaymentBy = row[dt.GetColumnNo("paymentby")].ToString();

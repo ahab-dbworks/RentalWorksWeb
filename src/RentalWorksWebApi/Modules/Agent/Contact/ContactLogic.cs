@@ -165,7 +165,7 @@ namespace WebApi.Modules.Agent.Contact
             set
             {
                 user.Password = value;
-                user.PasswordUpdatedDateTime = FwConvert.ToUSShortDate(DateTime.Today);
+                user.PasswordUpdatedDateTime = FwConvert.ToShortDate(DateTime.Today);
 
                 webUser.WebPassword = value;
             }

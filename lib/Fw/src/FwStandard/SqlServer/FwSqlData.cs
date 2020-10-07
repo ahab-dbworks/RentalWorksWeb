@@ -704,11 +704,11 @@ namespace FwStandard.SqlServer
             if (active)
             {
                 inactivedate = DBNull.Value;
-                activedate = FwConvert.ToUSShortDate(DateTime.Now);
+                activedate = FwConvert.ToShortDate(DateTime.Now);
             }
             else 
             {
-                inactivedate = FwConvert.ToUSShortDate(DateTime.Now);
+                inactivedate = FwConvert.ToShortDate(DateTime.Now);
             }
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 

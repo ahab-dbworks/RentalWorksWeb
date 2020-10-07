@@ -257,10 +257,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
                                         conflictRow[dt.GetColumnNo("Deal")] = reservation.Deal;
                                         conflictRow[dt.GetColumnNo("OrderNumber")] = reservation.OrderNumber;
                                         conflictRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
-                                        conflictRow[dt.GetColumnNo("OrderFromDate")] = FwConvert.ToString(reservation.FromDateTime);
-                                        conflictRow[dt.GetColumnNo("OrderToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToString(reservation.ToDateTime));
-                                        conflictRow[dt.GetColumnNo("ItemFromDate")] = FwConvert.ToString(reservation.FromDateTime);
-                                        conflictRow[dt.GetColumnNo("ItemToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToString(reservation.ToDateTime));
+                                        conflictRow[dt.GetColumnNo("OrderFromDate")] = FwConvert.ToShortDate(reservation.FromDateTime);
+                                        conflictRow[dt.GetColumnNo("OrderToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
+                                        conflictRow[dt.GetColumnNo("ItemFromDate")] = FwConvert.ToShortDate(reservation.FromDateTime);
+                                        conflictRow[dt.GetColumnNo("ItemToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
                                         conflictRow[dt.GetColumnNo("QuantitySub")] = reservation.QuantitySub;
                                         conflictRow[dt.GetColumnNo("QuantityReserved")] = reservation.QuantityReserved.Total;
                                         TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(reservation.FromDateTime, reservation.ToDateTime);

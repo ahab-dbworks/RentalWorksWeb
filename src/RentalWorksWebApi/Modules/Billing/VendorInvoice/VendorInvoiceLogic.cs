@@ -346,7 +346,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.VENDOR_INVOICE_STATUS_NEW;
-                StatusDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
             }
             else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
