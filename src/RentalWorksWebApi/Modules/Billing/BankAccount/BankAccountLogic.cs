@@ -33,7 +33,7 @@ namespace WebApi.Modules.Home.BankAccount
         [FwLogicProperty(Id: "xSfhkgSpb74Cz", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
         [FwLogicProperty(Id: "XsgfE1HUrmY2P", IsReadOnly: true)]
-        public bool? CurrencySymbol { get; set; }
+        public string CurrencySymbol { get; set; }
         [FwLogicProperty(Id: "XSGkJCMQLwxxA")]
         public bool? Inactive { get { return bankAccount.Inactive; } set { bankAccount.Inactive = value; } }
         [FwLogicProperty(Id: "xSGPbo4VSmjkz")]

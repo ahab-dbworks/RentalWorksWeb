@@ -33,8 +33,8 @@ namespace WebApi.Modules.Home.BankAccount
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Boolean)]
-        public bool? CurrencySymbol { get; set; }
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
