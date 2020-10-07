@@ -585,6 +585,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "QPdy1kkGsN2t", IsReadOnly: true)]
         public string LastOrderNumber { get; set; }
 
+        [FwLogicProperty(Id: "nV7raLl28Kde", IsReadOnly: true)]
+        public string LastOrderDescription { get; set; }
+
         [FwLogicProperty(Id: "kw3W7vVfuNBi", IsReadOnly: true)]
         public string LastDealId { get; set; }
 
@@ -600,6 +603,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "fGtXTD9V9Q8y", IsReadOnly: true)]
         public string LastOutContractNumber { get; set; }
 
+        [FwLogicProperty(Id: "PD751CRLrFd8", IsReadOnly: true)]
+        public string LastOutContractDate { get; set; }
+
         [FwLogicProperty(Id: "UTfKskpTqzbC", IsReadOnly: true)]
         public string LastOutUserId { get; set; }
 
@@ -611,6 +617,9 @@ namespace WebApi.Modules.Inventory.Asset
 
         [FwLogicProperty(Id: "FjLB7b5agp8Y", IsReadOnly: true)]
         public string LastInContractNumber { get; set; }
+
+        [FwLogicProperty(Id: "n1t3VACRtGA2", IsReadOnly: true)]
+        public string LastInContractDate { get; set; }
 
         [FwLogicProperty(Id: "of8Ur3VcBl0P", IsReadOnly: true)]
         public string LastInUserId { get; set; }

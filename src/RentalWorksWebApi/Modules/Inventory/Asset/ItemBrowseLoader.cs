@@ -592,6 +592,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "lastoutcontractno", modeltype: FwDataTypes.Text)]
         public string LastOutContractNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastoutcontractdate", modeltype: FwDataTypes.Date)]
+        public string LastOutContractDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastoutusersid", modeltype: FwDataTypes.Text)]
         public string LastOutUserId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -603,6 +606,9 @@ namespace WebApi.Modules.Inventory.Asset
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastincontractno", modeltype: FwDataTypes.Text)]
         public string LastInContractNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastincontractdate", modeltype: FwDataTypes.Date)]
+        public string LastInContractDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastinusersid", modeltype: FwDataTypes.Text)]
         public string LastInUserId { get; set; }
