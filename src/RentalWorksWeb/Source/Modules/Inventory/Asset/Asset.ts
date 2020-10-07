@@ -293,7 +293,12 @@ class RwAsset {
                 request.uniqueids = {
                     PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId')
                 };
+                request.totalfields = ['Quantity', 'Extended'];
             },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValueByDataField($form, 'VendorInvoiceTotalQuantity', dt.Totals.Quantity);
+                FwFormField.setValueByDataField($form, 'VendorInvoiceTotalExtended', dt.Totals.Extended);
+            }
             //jh - user cannot sava data here
             //beforeSave: (request: any) => {
             //    request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
