@@ -343,7 +343,7 @@ class RwAsset {
         });
     };
     //---------------------------------------------------------------------------------------------
-    afterLoad($form: JQuery) {
+    afterLoad($form: JQuery, response: any) {
         const availFor = FwFormField.getValueByDataField($form, 'AvailFor');
         const $iCodeField = FwFormField.getDataField($form, 'InventoryId');
         switch (availFor) {
@@ -453,7 +453,39 @@ class RwAsset {
             $form.find('.fixed-asset').show();
         }
 
+        if (FwFormField.getValueByDataField($form, 'WarehouseCurrencyId') != FwFormField.getValueByDataField($form, 'PurchaseCurrencyId')) {
+            $form.find('[data-datafield="PurchaseCurrencyExchangeRate"], [data-datafield="WarehouseCurrencyCode"]').hide();
+        }
+
+        this.applyCurrencySymbolToTotalFields($form, response);
     };
+    //---------------------------------------------------------------------------------------------
+    applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
+        const $totalFields = $form.find('[data-datafield="VendorInvoiceTotalExtended"]');
+
+        $totalFields.each((index, element) => {
+            let $fwformfield, currencySymbol;
+            $fwformfield = jQuery(element);
+            currencySymbol = response[$fwformfield.attr('data-currencysymbol')];
+            if (typeof currencySymbol == 'undefined' || currencySymbol === '') {
+                currencySymbol = '$';
+            }
+
+            $fwformfield.attr('data-currencysymboldisplay', currencySymbol);
+
+            $fwformfield
+                .find('.fwformfield-value')
+                .inputmask('currency', {
+                    prefix: currencySymbol + ' ',
+                    placeholder: "0.00",
+                    min: ((typeof $fwformfield.attr('data-minvalue') !== 'undefined') ? $fwformfield.attr('data-minvalue') : undefined),
+                    max: ((typeof $fwformfield.attr('data-maxvalue') !== 'undefined') ? $fwformfield.attr('data-maxvalue') : undefined),
+                    digits: ((typeof $fwformfield.attr('data-digits') !== 'undefined') ? $fwformfield.attr('data-digits') : 2),
+                    radixPoint: '.',
+                    groupSeparator: ','
+                });
+        });
+    }
     //---------------------------------------------------------------------------------------------
     beforeValidate(datafield, request, $validationbrowse, $form, $tr) {
         switch (datafield) {
@@ -582,6 +614,8 @@ class RwAsset {
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="display:none;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="PurchaseId" data-enabled="false" style="display:none;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="PurchaseCurrencyId" data-enabled="false" style="display:none;"></div>           
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="WarehouseCurrencyId" data-enabled="false" style="display:none;"></div>                               
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="float:left;width:500px;"></div>
                           </div>
