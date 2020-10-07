@@ -2,6 +2,7 @@ using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Threading.Tasks;
 using WebApi.Data;
 
@@ -16,6 +17,36 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
 
     public class ReceiptBatchExportLoader : AppExportLoader  // maybe add a new superclass that all Exports inherit from?
     {
+        public class ReceiptInvoice
+        {
+            public string InvoiceId { get; set; }
+            public string InvoiceNumber { get; set; }
+            public string InvoiceDate { get; set; }
+            public string InvoiceDescription { get; set; }
+            public string Customer { get; set; }
+            public string Deal { get; set; }
+            public decimal? Applied { get; set; }
+        }
+
+        public class GLTransaction
+        {
+            public string AccountId { get; set; }
+            public string GroupHeading { get; set; }
+            public string AccountNumber { get; set; }
+            public string AccountDescription { get; set; }
+            public decimal? Debit { get; set; }
+            public decimal? Credit { get; set; }
+            public decimal? Amount { get; set; }
+            public string AmountWithCurrencySymbol { get; set; }
+            public string OrderNumber { get; set; }
+            public string OrderDescription { get; set; }
+            public int? OrderBy { get; set; }
+            public string Currency { get; set; }
+            public string CurrencyCode { get; set; }
+            public string CurrencySymbol { get; set; }
+            public bool IsAccountsReceivable { get; set; }
+        }
+
         public class BatchReceipt
         {
             public string ReceiptId { get; set; }
@@ -34,21 +65,8 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
             public string UndepositedFundsAccountNumber { get; set; }
             public string UndepositedFundsAccountDescription { get; set; }
 
-            public class Invoice
-            {
-                public string InvoiceId { get; set; }
-                public string InvoiceNumber { get; set; }
-                public DateTime? InvoiceDate { get; set; }
-                public string InvoiceDescription { get; set; }
-                public string Customer { get; set; }
-                public string CustomerNumber { get; set; }
-                public string DealNumber { get; set; }
-                public decimal? InvoiceSubTotal { get; set; }
-                public decimal? InvoiceTax { get; set; }
-                public decimal? InvoiceTotal { get; set; }
-            }
-
-            public List<Invoice> Invoices = new List<Invoice>(new Invoice[] { new Invoice() });
+            public List<ReceiptInvoice> Invoices = new List<ReceiptInvoice>(new ReceiptInvoice[] { new ReceiptInvoice() });
+            public List<GLTransaction> GLTransactions = new List<GLTransaction>(new GLTransaction[] { new GLTransaction() });
         }
 
         public List<BatchReceipt> Receipts = new List<BatchReceipt>(new BatchReceipt[] { new BatchReceipt() });
@@ -106,6 +124,85 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
                     r.UndepositedFundsAccountNumber = row[dt.GetColumnNo("undepositedfundsglno")].ToString();
                     r.UndepositedFundsAccountDescription = row[dt.GetColumnNo("undepositedfundsgldesc")].ToString();
                     Receipts.Add(r);
+                }
+            }
+
+            foreach (BatchReceipt r in Receipts)
+            {
+                if (!string.IsNullOrEmpty(r.ReceiptId))
+                {
+                    r.Invoices.Clear();
+                    //
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.Add("select *                                         ");
+                        qry.Add(" from  arpaymentview v                           ");
+                        qry.Add(" where v.arid = @receiptid                       ");
+                        //qry.Add("order by gl.orderby                            ");
+                        qry.AddParameter("@receiptid", r.ReceiptId);
+                        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat.NumberGroupSeparator = "";
+                        numberFormat.NumberDecimalSeparator = ".";
+                        numberFormat.NumberDecimalDigits = 2;
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            ReceiptInvoice i = new ReceiptInvoice();
+                            i.InvoiceId = row[dt.GetColumnNo("invoiceid")].ToString();
+                            i.InvoiceNumber = row[dt.GetColumnNo("invoiceno")].ToString();
+                            i.InvoiceDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
+                            i.InvoiceDescription = row[dt.GetColumnNo("invoicedesc")].ToString();
+                            i.Customer = row[dt.GetColumnNo("arcustomer")].ToString();
+                            i.Deal = row[dt.GetColumnNo("ardeal")].ToString();
+                            i.Applied = FwConvert.ToDecimal(row[dt.GetColumnNo("amount")].ToString());
+                            r.Invoices.Add(i);
+                        }
+                    }
+
+
+
+                    r.GLTransactions.Clear();
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.Add("select *                                       ");
+                        qry.Add(" from  dbo.funcreceiptglexport(@receiptid) gl  ");
+                        qry.Add("order by gl.orderby                            ");
+                        qry.AddParameter("@receiptid", r.ReceiptId);
+                        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat = new CultureInfo("en-US", false).NumberFormat;
+                        numberFormat.NumberGroupSeparator = "";
+                        numberFormat.NumberDecimalSeparator = ".";
+                        numberFormat.NumberDecimalDigits = 2;
+
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            GLTransaction t = new GLTransaction();
+                            t.AccountId = row[dt.GetColumnNo("glaccountid")].ToString();
+                            t.GroupHeading = row[dt.GetColumnNo("groupheading")].ToString();
+                            t.AccountNumber = row[dt.GetColumnNo("glno")].ToString();
+                            t.AccountDescription = row[dt.GetColumnNo("glacctdesc")].ToString();
+                            t.Debit = FwConvert.ToDecimal(row[dt.GetColumnNo("debit")].ToString());
+                            t.Credit = FwConvert.ToDecimal(row[dt.GetColumnNo("credit")].ToString());
+                            t.Amount = (t.Debit - t.Credit);
+                            t.OrderBy = FwConvert.ToInt32(row[dt.GetColumnNo("orderby")].ToString());
+                            t.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
+                            t.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
+                            t.Currency = row[dt.GetColumnNo("currency")].ToString();
+                            t.CurrencyCode = row[dt.GetColumnNo("currencycode")].ToString();
+                            t.CurrencySymbol = row[dt.GetColumnNo("currencysymbol")].ToString();
+                            t.AmountWithCurrencySymbol = (t.Amount < 0 ? "-" : "") + t.CurrencySymbol + Math.Abs(t.Amount.GetValueOrDefault(0)).ToString("N", numberFormat);
+                            t.IsAccountsReceivable = FwConvert.ToBoolean(row[dt.GetColumnNo("isaccountsreceivable")].ToString());
+                            r.GLTransactions.Add(t);
+                        }
+                    }
                 }
             }
 
