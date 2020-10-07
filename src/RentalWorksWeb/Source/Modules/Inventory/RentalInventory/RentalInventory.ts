@@ -1054,10 +1054,10 @@ class RentalInventory extends InventoryBase {
                 $grid = $form.find('[data-grid="InventoryWarehouseSpecificGrid"].kit');
             }
             if ($this.prop('checked') === false) {
-                FwFormField.disable($grid);
+                FwBrowse.disableGrid($grid);
                 $grid.find('div[data-type="NewButton"]').hide();
             } else {
-                FwFormField.enable($grid);
+                FwBrowse.enableGrid($grid);
                 $grid.find('div[data-type="NewButton"]').show();
             }
         });
