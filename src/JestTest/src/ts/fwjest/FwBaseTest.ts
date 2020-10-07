@@ -1,4 +1,4 @@
-﻿require('dotenv').config()
+require('dotenv').config()
 import { FwLogging } from './FwLogging';
 import { FwTestUtils, FwLoginResponse, FwLogoutResponse } from './FwTestUtils';
 import { FwModuleBase } from './FwModuleBase';
@@ -23,7 +23,7 @@ export abstract class FwBaseTest {
     //---------------------------------------------------------------------------------------
     DoBeforeAll() {
         beforeAll(async () => {
-            await page.setViewport({ width: 1600, height: 1080 })
+            await page.setViewport({ width: 1600, height: 1300 })
                 .then()
                 .catch(err => FwLogging.logError('Error in BeforeAll: ' + err));
         });
