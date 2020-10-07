@@ -482,7 +482,7 @@ class FwMenuClass {
 
             const mode = $form.attr('data-mode');
             hasSave = ((options.hasSave && nodeNew !== null && nodeNew.properties.visible === 'T' && mode === 'NEW') ||
-                (options.hasSave && nodeEdit !== null && nodeEdit.properties.visible === 'T') && mode === 'EDIT' ||
+                (options.hasSave && nodeEdit !== null && nodeEdit.properties.visible === 'T') && (mode === 'EDIT' || mode === 'MULTI-EDIT') ||
                 (nodeSave !== null && nodeSave.properties.visible === 'T') && (mode === 'NEW' || mode === 'EDIT'));
 
             // Save

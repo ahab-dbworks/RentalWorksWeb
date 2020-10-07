@@ -4565,7 +4565,7 @@ class FwBrowseClass {
             }
 
             $form = window[controller].openForm('MULTI-EDIT');
-            const $fwformfields = $form.data('fields');
+            const $fwformfields = $form.find('.fwformfield:not([data-enabled="false"])');
             FwFormField.enable($fwformfields);
             $form.find('[data-required="true"]').attr('data-required', 'false');
 
