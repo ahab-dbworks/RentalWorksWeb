@@ -863,6 +863,7 @@ class Order extends OrderBase {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderNumber" data-enabled="false" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Original Quote" data-datafield="SourceQuoteId" data-displayfield="SourceQuoteNumber" data-validationname="QuoteValidation" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="flex:1 1 250px;"></div>

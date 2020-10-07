@@ -401,8 +401,9 @@ class Quote extends OrderBase {
                     <div class="flexcolumn" style="flex:1 1 300px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quote No." data-datafield="QuoteNumber" data-enabled="false" style="flex:1 1 200px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Version" data-datafield="VersionNumber" data-enabled="false" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quote No." data-datafield="QuoteNumber" data-enabled="false" style="flex:1 1 100px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Version" data-datafield="VersionNumber" data-enabled="false" style="flex:1 1 50px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Converted to Order" data-datafield="ConvertedToOrderId" data-displayfield="ConvertedToOrderNumber" data-validationname="OrderValidation" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="flex:1 1 275px;"></div>
