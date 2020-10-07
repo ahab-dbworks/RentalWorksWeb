@@ -252,6 +252,14 @@ class Repair {
                 FwFormField.setValue($form, 'div[data-displayfield="SerialNumber"] ', $tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
                 FwFormField.setValue($form, 'div[data-displayfield="RfId"]', $tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="RfId"]').attr('data-originalvalue'));
                 FwFormField.disable($form.find('div[data-displayfield="ICode"]'));
+
+                // Last Order section on form
+                //FwFormField.setValueByDataField($form, 'DamageOrderId', $tr.find('.field[data-formdatafield="LastOrderId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastOrderNumber"]').attr('data-originalvalue'));
+                //FwFormField.setValueByDataField($form, 'DamageDeal', $tr.find('.field[data-formdatafield="LastDeal"]').attr('data-originalvalue'));
+                //FwFormField.setValueByDataField($form, 'DamageContractId', $tr.find('.field[data-formdatafield="LastOutContractId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastOutContractNumber"]').attr('data-originalvalue'));
+                //FwFormField.setValueByDataField($form, 'DamageOrderId', $tr.find('.field[data-formdatafield="LastOrderId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastOrderNumber"]').attr('data-originalvalue'));
+                //FwFormField.setValueByDataField($form, 'DamageOrderId', $tr.find('.field[data-formdatafield="LastOrderId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastOrderNumber"]').attr('data-originalvalue'));
+                //FwFormField.setValueByDataField($form, 'DamageOrderId', $tr.find('.field[data-formdatafield="LastOrderId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastOrderNumber"]').attr('data-originalvalue'));
             });
 
             // ICode Validation
@@ -313,6 +321,7 @@ class Repair {
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
         }
+
         this.renderPrintRepairTagButton($form);
         this.renderPrintRepairButton($form);
 
@@ -342,29 +351,6 @@ class Repair {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
-        //const $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]');
-        //const $repairCostGridControl = FwBrowse.loadGridFromTemplate('RepairCostGrid');
-        //$repairCostGrid.empty().append($repairCostGridControl);
-        //$repairCostGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
-        //    }
-        //    request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
-        //});
-        //$repairCostGridControl.data('beforesave', request => {
-        //    request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-        //});
-        //FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', ($repairCostGridControl, response) => {
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostTotal"]', response.Totals.Total);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostTax"]', response.Totals.Tax);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostExtended"]', response.Totals.Extended);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostGrossTotal"]', response.Totals.GrossTotal);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairCostDiscount"]', response.Totals.DiscountAmount);
-        //});
-        //FwBrowse.init($repairCostGridControl);
-        //FwBrowse.renderRuntimeHtml($repairCostGridControl);
-
-        //Repair Cost Grid
         const $repairCostGrid = FwBrowse.renderGrid({
             nameGrid: 'RepairCostGrid',
             gridSecurityId: 'THGHEcObwRTDc',
@@ -387,31 +373,7 @@ class Repair {
             FwFormField.setValue($form, 'div[data-totalfield="RepairCostGrossTotal"]', response.Totals.GrossTotal);
             FwFormField.setValue($form, 'div[data-totalfield="RepairCostDiscount"]', response.Totals.DiscountAmount);
         });
-
         // ----------
-        //const $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]');
-        //const $repairPartGridControl = FwBrowse.loadGridFromTemplate('RepairPartGrid');
-        //$repairPartGrid.empty().append($repairPartGridControl);
-        //$repairPartGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
-        //    }
-        //    request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
-        //});
-        //$repairPartGridControl.data('beforesave', request => {
-        //    request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-        //});
-        //FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', ($repairPartGridControl, response) => {
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartTotal"]', response.Totals.Total);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartTax"]', response.Totals.Tax);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartExtended"]', response.Totals.Extended);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartGrossTotal"]', response.Totals.GrossTotal);
-        //    FwFormField.setValue($form, 'div[data-totalfield="RepairPartDiscount"]', response.Totals.DiscountAmount);
-        //});
-        //FwBrowse.init($repairPartGridControl);
-        //FwBrowse.renderRuntimeHtml($repairPartGridControl);
-
-        //Repair Part Grid
         const $repairPartGrid = FwBrowse.renderGrid({
             nameGrid: 'RepairPartGrid',
             gridSecurityId: 'k1Qn9brpxHGhp',
@@ -434,24 +396,7 @@ class Repair {
             FwFormField.setValue($form, 'div[data-totalfield="RepairPartGrossTotal"]', response.Totals.GrossTotal);
             FwFormField.setValue($form, 'div[data-totalfield="RepairPartDiscount"]', response.Totals.DiscountAmount);
         });
-
-
         // ----------
-        //const $repairReleaseGrid = $form.find('div[data-grid="RepairReleaseGrid"]');
-        //const $repairReleaseGridControl = FwBrowse.loadGridFromTemplate('RepairReleaseGrid');
-        //$repairReleaseGrid.empty().append($repairReleaseGridControl);
-        //$repairReleaseGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
-        //    }
-        //});
-        //$repairReleaseGridControl.data('beforesave', request => {
-        //    request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-        //});
-        //FwBrowse.init($repairReleaseGridControl);
-        //FwBrowse.renderRuntimeHtml($repairReleaseGridControl);
-
-        //Repair Release Grid
         const $repairReleaseGrid = FwBrowse.renderGrid({
             nameGrid: 'RepairReleaseGrid',
             gridSecurityId: 'O2lL9RZYzdjNg',
@@ -466,7 +411,6 @@ class Repair {
                 request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
             }
         });
-
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: JQuery, parameters: any): void {
