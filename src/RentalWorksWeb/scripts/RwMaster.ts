@@ -461,13 +461,27 @@ class RwMaster extends WebMaster {
                                 $elementToBlock: $realConfirm
                             });
 
+                            const promiseGetSystemNumbers = FwAjax.callWebApi<BrowseRequest, any>({
+                                httpMethod: 'POST',
+                                url: `${applicationConfig.apiurl}api/v1/systemnumber/browse`,
+                                $elementToBlock: $realConfirm,
+                                data: {
+                                    uniqueids: {
+                                        LocationId: locationid
+                                    }
+                                }
+                            });
+
+
                             await Promise.all([
                                 promiseGetOfficeLocationInfo,     // 00
                                 promiseGetDepartment,             // 01
+                                promiseGetSystemNumbers,          // 02
                             ])
                                 .then((values: any) => {
                                     const responseGetOfficeLocationInfo = values[0];
                                     const responseGetDepartment = values[1];
+                                    const responseGetSystemNumbers = values[2];
 
                                     sessionStorage.setItem('location', JSON.stringify(responseGetOfficeLocationInfo.location));
                                     sessionStorage.setItem('warehouse', JSON.stringify(responseGetOfficeLocationInfo.warehouse));
@@ -482,6 +496,26 @@ class RwMaster extends WebMaster {
                                     }
                                     department.activities = defaultActivities;
                                     sessionStorage.setItem('department', JSON.stringify(department));
+
+                                    const systemNumberModuleIndex = responseGetSystemNumbers.ColumnIndex.Module;
+                                    const systemNumberIsAssignedByUserIndex = responseGetSystemNumbers.ColumnIndex.IsAssignByUser;
+                                    let userassignedcustnum: boolean = false;
+                                    let userassigneddealnum: boolean = false;
+                                    for (let i = 0; i < responseGetSystemNumbers.Rows.length; i++) {
+                                        const moduleSystemNumber = responseGetSystemNumbers.Rows[i];
+                                        const module = moduleSystemNumber[systemNumberModuleIndex];
+                                        const isAssignedByUser = moduleSystemNumber[systemNumberIsAssignedByUserIndex];
+                                        if (module === 'CUSTOMER') {
+                                            userassignedcustnum = isAssignedByUser;
+                                        }
+                                        else if (module === 'DEAL') {
+                                            userassigneddealnum = isAssignedByUser;
+                                        }
+                                    }
+                                    let controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+                                    controlDefaults.userassignedcustomernumber = userassignedcustnum;
+                                    controlDefaults.userassigneddealnumber = userassigneddealnum;
+                                    sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 
                                     FwConfirmation.destroyConfirmation($confirmation);
                                     window.location.reload(false);
