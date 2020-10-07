@@ -952,6 +952,12 @@ class Repair {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
                 break;
             case 'DamageOrderId':
+                const itemId = FwFormField.getValueByDataField($form, 'ItemId');
+                if (itemId !== '') {
+                    request.uniqueids = {
+                        ItemId: itemId,
+                    };
+                }
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedamageorder`);
                 break;
             case 'RepairItemStatusId':
