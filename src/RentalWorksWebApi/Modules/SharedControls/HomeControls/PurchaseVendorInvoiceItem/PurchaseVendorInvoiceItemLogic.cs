@@ -34,6 +34,14 @@ namespace WebApi.Modules.HomeControls.PurchaseVendorInvoiceItem
         public decimal? UnitCost { get; set; }
         [FwLogicProperty(Id: "i9cLuFcoIGZA", IsReadOnly: true)]
         public decimal? Extended { get; set; }
+        [FwLogicProperty(Id: "XYh5dQxJDHMB", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        [FwLogicProperty(Id: "iRRU6JuUSd9i", IsReadOnly: true)]
+        public string Currency { get; set; }
+        [FwLogicProperty(Id: "7k8Xy8Kg0yJR", IsReadOnly: true)]
+        public string CurrencyCode { get; set; }
+        [FwLogicProperty(Id: "GXsfHjDq90PR", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{ 
