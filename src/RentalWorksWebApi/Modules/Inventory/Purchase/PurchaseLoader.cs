@@ -263,6 +263,18 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "purchasenotes", modeltype: FwDataTypes.Text)]
         public string PurchaseNotes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
+        public string ItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
+        public string SerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
+        public string Rfid { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -181,6 +181,12 @@ class PurchaseHistory {
             <div class="field" data-caption="Quantity" data-datafield="Quantity" data-browsedatatype="number" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
+            <div class="field" data-caption="Serial Number" data-datafield="SerialNumber" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Unit Cost" data-datafield="UnitCost" data-browsedatatype="money" data-cellcolor="CurrencyColor" data-currencysymbol="CurrencySymbol" data-digits="2" data-formatnumeric="true" data-sort="off" style="justify-content:flex-end;"></div>
           </div>
           <div class="column flexcolumn" data-width="auto" data-visible="true">
@@ -218,6 +224,11 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="float:left;width:500px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" data-enabled="false" style="float:left;width:100px;"></div>
+                          </div>
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Bar Code" data-datafield="ItemId" data-validationname="AssetValidation" data-displayfield="BarCode" data-enabled="false" style="float:left;width:200px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Serial Number" data-datafield="ItemId" data-validationname="AssetValidation" data-displayfield="SerialNumber" data-enabled="false" style="float:left;width:200px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="RFID" data-datafield="ItemId" data-validationname="AssetValidation" data-displayfield="Rfid" data-enabled="false" style="float:left;width:200px;"></div>
                           </div>
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-enabled="false" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;"></div>

@@ -739,10 +739,10 @@ class RwAsset {
               <!-- Purchase tab -->
               <div data-type="tabpage" id="purchasetabpage" class="tabpage" data-tabid="purchasetab">
                 <div class="flexpage">
-                  <div class="flexrow" style="width:1300px;">
+                  <div class="flexrow" style="max-width:1400px;">
 
                      <!-- Purchase column -->
-                     <div class="flexcolumn" style="flex:1 1 300px;">
+                     <div class="flexcolumn" style="flex:1 1 350px;">
                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase">
                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="flex:1 1 100px;"></div>
                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="flex:1 1 100px;"></div>
@@ -756,7 +756,7 @@ class RwAsset {
                      </div>
 
                      <!-- Vendor Invoice grid column -->
-                     <div class="flexcolumn" style="flex:1 1 650px;">
+                     <div class="flexcolumn" style="flex:1 1 750px;">
                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor Invoices">
                          <div class="flexrow">
                            <div data-control="FwGrid" data-grid="PurchaseVendorInvoiceItemGrid" data-securitycaption="Purchase Vendor Invoice Item"></div>
@@ -778,27 +778,29 @@ class RwAsset {
 
                   </div>
 
-                  <div class="flexrow fixed-asset" style="width:1300px;">
+                  <div class="flexrow fixed-asset" style="max-width:1400px;">
                      <!-- Cost/Value column -->
-                     <div class="flexcolumn" style="flex:1 1 1300px;">
-                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Cost / Value">
-                         <div class="flexrow">
+                     <div class="flexcolumn" style="max-width:1400px;">
+                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Cost / Value" style="max-width:1400px;">
+                         <div class="flexrow" style="max-width:1400px;">
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FixedAsset" data-datafield="FixedAsset" style="display:none;"></div>
-                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Purchase Currency" data-datafield="PurchaseCurrencyCode" data-enabled="false" style="flex:1 1 50px;"></div>
-                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse Currency" data-datafield="WarehouseCurrencyCode" data-enabled="false" style="flex:1 1 50px;"></div>
-                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
-                           <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="float:left;width:50px;"></div>
-                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="Depreciation" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
-                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Current Book Value" data-datafield="BookValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
-                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Purchase Currency" data-datafield="PurchaseCurrencyCode" data-enabled="false" style="flex:1 1 100px;"></div>
+                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse Currency" data-datafield="WarehouseCurrencyCode" data-enabled="false" style="flex:1 1 100px;"></div>
+                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange Rate" data-datafield="PurchaseCurrencyExchangeRate" data-enabled="false" style="flex:1 1 100px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost (with Tax)" data-datafield="UnitCostWithTaxCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
+                           <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="flex:1 1 150px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="Depreciation" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Current Book Value" data-datafield="BookValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
                          </div>
                        </div>
                      </div>
                   </div>
 
-                  <div class="flexrow fixed-asset" style="width:1300px;">
+                  <div class="flexrow fixed-asset" style="max-width:1400px;">
                      <!-- Depreciation grid -->
-                     <div class="flexcolumn" style="flex:1 1 1300px;">
+                     <div class="flexcolumn" style="flex:1 1 1400px;">
                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
                          <div class="flexrow">
                             <div data-control="FwGrid" data-grid="DepreciationGrid"></div>

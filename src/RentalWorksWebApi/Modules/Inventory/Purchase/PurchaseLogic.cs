@@ -174,6 +174,14 @@ namespace WebApi.Modules.Inventory.Purchase
         public string AdjustmentId { get { return purchase.AdjustmentId; } set { purchase.AdjustmentId = value; } }
         [FwLogicProperty(Id: "A8aykZ8eMZPhe")]
         public string PurchaseNotes { get { return purchase.PurchaseNotes; } set { purchase.PurchaseNotes = value; } }
+        [FwLogicProperty(Id: "CLT5RRDZB2Nr", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string ItemId { get; set; }
+        [FwLogicProperty(Id: "2pROfEOT6Uqc", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string BarCode { get; set; }
+        [FwLogicProperty(Id: "F9srj8yqNSNZ", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string SerialNumber { get; set; }
+        [FwLogicProperty(Id: "BK2TqagSXUfq", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string Rfid { get; set; }
         [FwLogicProperty(Id: "a958gqrhgM3bu", DisableDirectAssign: true, DisableDirectModify: true)]
         public string DateStamp { get { return purchase.DateStamp; } set { purchase.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
