@@ -1044,6 +1044,8 @@ class CustomForm {
                                 $form.find('#controlProperties .propval >').attr('disabled', 'disabled');
                                 $form.find('#controlProperties .addproperties, #controlProperties .deleteObject').remove();
                             }
+                        } else if (type === 'Browse') {
+                            this.highlightColumn($form, jQuery(originalHtml));
                         }
 
                         this.showAdvancedProperties($form);
@@ -1373,7 +1375,6 @@ class CustomForm {
                         let newColumn = jQuery(html.join(''));
 
                         hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
-
                         originalHtml = newColumn.find('.field');
 
                         //build properties column
@@ -1444,7 +1445,10 @@ class CustomForm {
                         newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
                         $form.find('#controlProperties input').change();
                         this.showAdvancedProperties($form);
-                        lastIndex = newFieldIndex
+                        lastIndex = newFieldIndex;
+                        const $newDesignerField = $form.find(`[data-index="${newFieldIndex}"]`);
+                        this.highlightColumn($form, $newDesignerField);
+                        $newDesignerField[0].scrollIntoViewIfNeeded();
                     } else if (type === 'Form') {
                         let $tabpage = $customForm.find('[data-type="tabpage"]:visible');
                         let tabpageIndex = $tabpage.attr('data-index');
@@ -1715,6 +1719,11 @@ class CustomForm {
                 break;
         }
         return values;
+    };
+    //----------------------------------------------------------------------------------------------
+    highlightColumn($form: JQuery, $field: JQuery) {
+        $form.find('#designerContent [data-type="Browse"] div.highlight').removeClass('highlight');
+        $field.addClass('highlight');
     }
 };
 //----------------------------------------------------------------------------------------------
