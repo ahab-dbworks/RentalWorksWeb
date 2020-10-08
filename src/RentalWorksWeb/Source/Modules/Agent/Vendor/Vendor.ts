@@ -93,21 +93,27 @@ class Vendor {
 
         FwModule.loadForm(this.Module, $form);
 
-        let nodePurchaseOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, '9a0xOMvBM7Uh9');
+        // Sub-Modules
+        const nodePurchaseOrder = FwApplicationTree.getNodeById(FwApplicationTree.tree, '9a0xOMvBM7Uh9');
         if (nodePurchaseOrder !== undefined && nodePurchaseOrder.properties.visible === 'T') {
-            FwTabs.showTab($form.find('.purchaseordertab'));
+            FwTabs.showTab($form.find('#purchaseordertab'));
             const $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
             $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
         }
 
-
-        let nodeVendorInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Fq9aOe0yWfY');
+        const nodeVendorInvoice = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Fq9aOe0yWfY');
         if (nodeVendorInvoice !== undefined && nodeVendorInvoice.properties.visible === 'T') {
-            FwTabs.showTab($form.find('.vendorinvoicetab'));
+            FwTabs.showTab($form.find('#vendorinvoicetab'));
             const $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
             $form.find('.vendorInvoiceSubModule').append($submoduleVendorInvoiceBrowse);
         }
 
+        const nodePayment = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Y7YC6NpLqX8kx');
+        if (nodePayment !== undefined && nodePayment.properties.visible === 'T') {
+            FwTabs.showTab($form.find('#paymenttab'));
+            const $submodulepaymentBrowse = this.openPaymentBrowse($form);
+            $form.find('.paymentSubModule').append($submodulepaymentBrowse);
+        }
 
         return $form;
     }
@@ -138,24 +144,27 @@ class Vendor {
         return $browse;
     }
     //---------------------------------------------------------------------------------------------
+    openPaymentBrowse($form) {
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        const $browse = PaymentController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = PaymentController.ActiveViewFields;
+            request.uniqueids = {
+                VendorId: vendorId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //---------------------------------------------------------------------------------
     afterLoad($form: any) {
-        //const $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
-        //FwBrowse.search($companyTaxOptionGrid);
-
-        //const $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
-        //FwBrowse.search($vendorNoteGrid);
-
-        //const $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
-        //FwBrowse.search($companyContactGrid);
 
         this.togglePanels($form, FwFormField.getValueByDataField($form, 'VendorNameType'));
         this.toggleRequiredFields($form);
-
-
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
@@ -497,8 +506,9 @@ class Vendor {
             <div data-type="tab" id="taxtab" class="tab taxtab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
             <div data-type="tab" id="shippingtab" class="tab shippingtab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
             <div data-type="tab" id="contactstab" class="tab contactstab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
-            <div data-type="tab" id="purchaseordertab" class="tab submodule purchaseordertab" data-tabpageid="purchaseordertabpage" data-caption="Purchase Order"></div>
-            <div data-type="tab" id="vendorinvoicetab" class="tab submodule vendorinvoicetab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
+            <div data-type="tab" id="purchaseordertab" class="tab submodule" data-tabpageid="purchaseordertabpage" data-caption="Purchase Order"></div>
+            <div data-type="tab" id="vendorinvoicetab" class="tab submodule" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
+            <div data-type="tab" id="paymenttab" class="tab submodule" data-tabpageid="paymenttabpage" data-caption="Payment"></div>
             <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
             <div data-type="tab" id="notestab" class="tab notestab" data-tabpageid="notestabpage" data-caption="Notes"></div>
           </div>
@@ -809,6 +819,10 @@ class Vendor {
 
             <!-- VENDOR INVOICE TAB -->
             <div data-type="tabpage" id="vendorinvoicetabpage" class="tabpage vendorInvoiceSubModule rwSubModule" data-tabid="vendorinvoicetab">
+            </div>
+
+            <!-- PAYMENT TAB -->
+            <div data-type="tabpage" id="paymenttabpage" class="tabpage paymentSubModule rwSubModule" data-tabid="paymenttab">
             </div>
 
             <!-- DOCUMENTS TAB -->
