@@ -94,12 +94,12 @@ class BankAccount {
     }
     //---------------------------------------------------------------------------------------------
     openPaymentBrowse($form) {
-        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        const bankAccountId = FwFormField.getValueByDataField($form, 'BankAccountId');
         const $browse = PaymentController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = PaymentController.ActiveViewFields;
             request.uniqueids = {
-                VendorId: vendorId
+                BankAccountId: bankAccountId
             };
         });
         FwBrowse.search($browse);
