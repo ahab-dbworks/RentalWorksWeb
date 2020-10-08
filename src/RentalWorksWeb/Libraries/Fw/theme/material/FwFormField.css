@@ -469,3 +469,5 @@ html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control
 html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item input.fwformfield-value:checked + .togglebutton-button {border-color:#2196F3;background-color:#E3F2FD;}
 html.theme-material .fwformfield[data-type="togglebuttons"][data-enabled="false"] .fwformfield-control .togglebutton-item .togglebutton-button {cursor:default;background-color: #F5F5F5;color:rgb(84, 84, 84);}
 /*#endregion*/
+/*Hide validation magnifying glass input formfields when disabled*/
+html.theme-material.desktop .fwformfield[data-type="validation"] i.btnvalidate[data-enabled="false"] { display:none; }
