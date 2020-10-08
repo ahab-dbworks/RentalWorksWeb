@@ -25,6 +25,16 @@ class SalesCategory {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasMultiRowEditing = true;
+        FwMenu.addBrowseMenuButtons(options);
+    }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasMultiEdit = true;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -36,20 +46,44 @@ class SalesCategory {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        this.events($form);
+        FwFormField.loadItems($form.find('div[data-datafield="BarCodeType"]'), [
+            { value: '1', caption: 'Small', checked: true },
+            { value: '2', caption: 'Large' }
+        ]);
 
-        $form.find('[data-datafield="CatalogCategory"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
+        this.events($form);
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        var $form;
+
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="CategoryId"] input').val(uniqueids.CategoryId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.on('change', '[data-datafield="OverrideProfitAndLossCategory"]', (e) => {
+            if (FwFormField.getValueByDataField($form, 'OverrideProfitAndLossCategory')) {
+                FwFormField.enable($form.find('.catvalidation'))
+            } else {
+                FwFormField.disable($form.find('.catvalidation'))
+            }
+        });
+
+        $form.find('[data-datafield="CatalogCategory"]').on('change', function () {
+            const isChecked = FwFormField.getValueByDataField($form, 'CatalogCategory');
+            if (isChecked) {
                 FwFormField.enable($form.find('.designer'))
                 FwFormField.disable($form.find('.barcodetype'))
             } else {
                 FwFormField.disable($form.find('.designer'))
                 FwFormField.enable($form.find('.barcodetype'))
             }
-        })
-
-        this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
+        });
 
         $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
@@ -66,34 +100,6 @@ class SalesCategory {
         $form.find('div[data-datafield="CostOfGoodsSoldExpenseAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsSoldExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
-
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="CategoryId"] input').val(uniqueids.CategoryId);
-        FwModule.loadForm(this.Module, $form);
-
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    events($form: JQuery): void {
-        $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
-            var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
-
-            this.toggleEnabled($overrideCheck, $categoryValidation);
-        });
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
-        if ($checkbox.is(':checked')) {
-            $validation.attr('data-enabled', 'true');
-        } else {
-            $validation.attr('data-enabled', 'false');
-        }
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -137,12 +143,18 @@ class SalesCategory {
         const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($subCategoryGrid);
 
-        if ($form.find('[data-datafield="CatalogCategory"] .fwformfield-value').prop('checked')) {
+        if (FwFormField.getValueByDataField($form, 'CatalogCategory')) {
             FwFormField.enable($form.find('.designer'))
             FwFormField.disable($form.find('.barcodetype'))
         } else {
             FwFormField.disable($form.find('.designer'))
             FwFormField.enable($form.find('.barcodetype'))
+        }
+
+        if (FwFormField.getValueByDataField($form, 'OverrideProfitAndLossCategory')) {
+            FwFormField.enable($form.find('.catvalidation'))
+        } else {
+            FwFormField.disable($form.find('.catvalidation'))
         }
     }
     //----------------------------------------------------------------------------------------------

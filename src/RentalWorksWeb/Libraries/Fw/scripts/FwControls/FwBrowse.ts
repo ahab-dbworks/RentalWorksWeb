@@ -4598,6 +4598,16 @@ class FwBrowseClass {
                     { value: 'true', caption: 'Checked' },
                     { value: 'false', caption: 'Unchecked' }
                 ]);
+
+                //Applies checkbox behavior to toggle buttons
+                //$checkbox.on('click', e => {
+                //    const toggleValue = jQuery(e.target).text();
+                //    if (toggleValue === 'Checked') {
+                //        jQuery(e.currentTarget).prop('checked', true);
+                //    } else if (toggleValue === 'Unchecked') {
+                //        jQuery(e.currentTarget).prop('checked', false);
+                //    }
+                //});
             }
             $form.find('[data-type="money"] .fwformfield-value').inputmask('numeric');
 
