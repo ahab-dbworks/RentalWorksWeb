@@ -256,10 +256,10 @@ class Repair {
                 // Last Order section on form
                 FwFormField.setValueByDataField($form, 'DamageOrderId', $tr.find('.field[data-formdatafield="LastOrderId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastOrderNumber"]').attr('data-originalvalue'));
                 FwFormField.setValueByDataField($form, 'DamageOrderDescription', $tr.find('.field[data-formdatafield="LastOrderDescription"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($form, 'DamageDeal', $tr.find('.field[data-formdatafield="LastDeal"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'DamageDeal', $tr.find('.field[data-formdatafield="LastDealId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastDeal"]').attr('data-originalvalue'));
                 FwFormField.setValueByDataField($form, 'DamageContractId', $tr.find('.field[data-formdatafield="LastInContractId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastInContractNumber"]').attr('data-originalvalue'));
                 FwFormField.setValueByDataField($form, 'DamageContractDate', $tr.find('.field[data-formdatafield="LastInContractDate"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($form, 'DamageScannedBy', $tr.find('.field[data-formdatafield="LastInUserName"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'DamageScannedBy', $tr.find('.field[data-formdatafield="LastInUserId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastInUserName"]').attr('data-originalvalue'));
             });
 
             // ICode Validation
@@ -1141,12 +1141,12 @@ class Repair {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order Number" data-datafield="DamageOrderId" data-displayfield="DamageOrderNumber" data-required="false" data-enabled="false" data-validationname="OrderValidation" style="flex:1 1 136px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="DamageOrderDescription" data-enabled="false" style="flex:1 1 232px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DamageDeal" data-enabled="false" style="flex:1 1 232px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DamageDealId" data-displayfield="DamageDeal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 232px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contract Number" data-datafield="DamageContractId" data-displayfield="DamageContractNumber" data-required="false" data-enabled="false" data-validationname="ContractValidation" style="flex:1 1 150px;"></div>
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Contract Date" data-datafield="DamageContractDate" data-enabled="false" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Scanned By" data-datafield="DamageScannedBy" data-enabled="false" style="flex:1 1 150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Scanned By" data-datafield="DamageScannedById" data-displayfield="DamageScannedBy" data-validationname="UserValidation" data-enabled="false" style="flex:1 1 150px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Loss and Damage Order Number" data-datafield="LossAndDamageOrderId" data-displayfield="LossAndDamageOrderNumber" data-required="false" data-enabled="false" data-validationname="OrderValidation" style="flex:1 1 100px;"></div>
