@@ -659,7 +659,7 @@ class Order extends OrderBase {
     afterLoad($form, response) {
         super.afterLoad($form, response);
         //const lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
-        const lossDamageTab = this.getTab($form, 'lossdamagetab');
+        const lossDamageTab = super.getTab($form, 'lossdamagetab');
 
         const orderId = FwFormField.getValueByDataField($form, 'OrderId');
         this.checkMessages($form, 'order', orderId);

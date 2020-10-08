@@ -3758,7 +3758,7 @@ class OrderBase {
                 FwFormField.setValueByDataField($confirmation, 'BillingEndDate', moment(response.PeriodEnd).format('MM-DD-YYYY'));
 
                 const disableStartDateTypes = ['IMMEDIATE', 'ATCLOSE', 'EVENTS'];
-                if (disableStartDateTypes.includes(billingCycleType)) {
+                if (disableStartDateTypes.indexOf(billingCycleType) !== -1) {
                     FwFormField.disable($confirmation.find('[data-datafield="BillingStartDate"]'));
                 } else {
                     startDate = response.PeriodStart;
