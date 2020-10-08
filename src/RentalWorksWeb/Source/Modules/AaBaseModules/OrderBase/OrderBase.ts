@@ -3784,15 +3784,15 @@ class OrderBase {
             }, function onError(response) { FwFunc.showError(response) }, $confirmation.find('.fwconfirmationbox'));
         }, function onError(response) { FwFunc.showError(response) }, $confirmation.find('.fwconfirmationbox'));
 
-        const $ok = FwConfirmation.addButton($confirmation, 'Ok', false);
+        const $ok = FwConfirmation.addButton($confirmation, 'Create Estimate', false);
         FwConfirmation.addButton($confirmation, 'Cancel');
 
         $ok.on('click', e => {
             const request: any = {
                 OrderId: id,
-                PeriodStart: startDate,
-                PeriodEnd: endDate,
-                IncludeNotYetOut: FwFormField.getValueByDataField($confirmation, 'IncludeNotYetOut')
+                PeriodStart: FwFormField.getValueByDataField($confirmation, 'BillingStartDate'),
+                PeriodEnd: FwFormField.getValueByDataField($confirmation, 'BillingEndDate'),
+                IncludeNotYetOut: (FwFormField.getValueByDataField($confirmation, 'IncludeNotYetOut') === 'T')
             };
             FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoiceestimate`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Created.');
