@@ -164,7 +164,6 @@ html.theme-material .fwbrowse > .designer thead > tr > td > .field {cursor:move;
 html.theme-material .fwbrowse > .designer thead > tr > td > .field > .deletefield {float:right;padding:0 4px;cursor:pointer;}
 
 /* FwBrowse Fields*/
-html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="text"] {white-space:initial;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="text"] input.value {width:100%;box-sizing:border-box;height:100%;line-height:100%;border:0;}
 
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] {text-align:center;}
@@ -199,7 +198,6 @@ html.theme-material .fwbrowse table tbody .field[data-browsedatatype="number"] {
 html.theme-material .fwbrowse table tbody .field[data-browsedatatype="percent"] {justify-content:flex-end;}
 
 
-html.theme-material .fwbrowse table tbody tr .field[data-browsedatatype="validation"] {white-space:initial;}
 html.theme-material .fwbrowse table tbody .field[data-formdatatype="validation"] .btnpeek {height:100%;cursor:pointer;color:#000000;display: flex;align-items: center;justify-content: center; margin-left: auto;}
 
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="time"] input.value {flex: 1 1 0;box-sizing:border-box;height:100%;width:100%;border:0;padding:0 .3rem;}
