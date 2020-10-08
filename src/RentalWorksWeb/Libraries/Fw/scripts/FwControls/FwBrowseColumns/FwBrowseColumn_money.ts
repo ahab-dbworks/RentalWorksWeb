@@ -17,7 +17,11 @@
             currencySymbol = dtRow[dt.ColumnIndex['CurrencySymbol']];
         }
         if (currencySymbol === '') {
-            currencySymbol = '$';
+            if (sessionStorage.getItem('location') != null) {
+                currencySymbol = JSON.parse(sessionStorage.getItem('location')).defaultcurrencysymbol;
+            } else {
+                currencySymbol = '$';
+            }
         }
         $field.attr('data-currencysymboldisplay', currencySymbol);
     }

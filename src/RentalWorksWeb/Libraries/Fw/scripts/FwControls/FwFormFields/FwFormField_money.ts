@@ -14,6 +14,7 @@
     }
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+        var defaultCurrencySymbol;
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text" autocapitalize="none"');
@@ -23,7 +24,22 @@
         html.push(' />');
         html.push('</div>');
         $control.html(html.join(''));
-        $control.find('.fwformfield-value').inputmask("currency");
+
+        if (sessionStorage.getItem('location') != null) {
+            defaultCurrencySymbol = JSON.parse(sessionStorage.getItem('location')).defaultcurrencysymbol;
+        } else {
+            defaultCurrencySymbol = '$';
+        }
+
+        $control.find('.fwformfield-value').inputmask("currency", {
+            prefix: defaultCurrencySymbol + ' ',
+            placeholder: "0.00",
+            min: ((typeof $control.attr('data-minvalue') !== 'undefined') ? $control.attr('data-minvalue') : undefined),
+            max: ((typeof $control.attr('data-maxvalue') !== 'undefined') ? $control.attr('data-maxvalue') : undefined),
+            digits: ((typeof $control.attr('data-digits') !== 'undefined') ? $control.attr('data-digits') : 2),
+            radixPoint: '.',
+            groupSeparator: ','
+        });
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
