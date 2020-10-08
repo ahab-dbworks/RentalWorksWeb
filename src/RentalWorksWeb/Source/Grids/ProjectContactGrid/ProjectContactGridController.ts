@@ -3,10 +3,9 @@
     apiurl: string = 'api/v1/projectcontact';
 
     generateRow($control, $generatedtr) {
-        let $form;
-        $form = $control.closest('.fwform');
+        const $form = $control.closest('.fwform');
 
-        $generatedtr.find('div[data-browsedatafield="ProjectContactId"]').data('onchange', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="ContactId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="ContactTitleId"] input.value').val($tr.find('.field[data-browsedatafield="ContactTitleId"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="ContactTitleId"] input.text').val($tr.find('.field[data-browsedatafield="ContactTitle"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="OfficePhone"] input').val($tr.find('.field[data-browsedatafield="OfficePhone"]').attr('data-originalvalue'));
