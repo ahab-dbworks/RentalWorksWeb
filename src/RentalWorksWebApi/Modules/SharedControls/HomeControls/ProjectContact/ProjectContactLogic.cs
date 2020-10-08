@@ -26,6 +26,7 @@ namespace WebApi.Modules.HomeControls.ProjectContact
             AfterSave += OnAfterSave;
 
             ReloadOnSave = false;
+            ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"bGMsfzHSP2noo", IsPrimaryKey:true)]
@@ -155,15 +156,23 @@ namespace WebApi.Modules.HomeControls.ProjectContact
         //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            if ((ContactId != null) || (!ContactId.Equals(string.Empty)))
+            if (!string.IsNullOrEmpty(ContactId))
             {
-                if (MobilePhone != null)
+                if (MobilePhone != null)  // user is supplying a mobile phone number, or blank
                 {
-                    ContactLogic l4 = new ContactLogic();
-                    l4.SetDependencies(this.AppConfig, this.UserSession);
-                    l4.ContactId = ContactId;
-                    l4.MobilePhone = MobilePhone;
-                    int i = l4.SaveAsync(null).Result; // save the MobilePhone to the Contact
+                    ContactLogic origContact = new ContactLogic();
+                    origContact.SetDependencies(AppConfig, UserSession);
+                    origContact.ContactId = ContactId;
+                    if (origContact.LoadAsync<ContactLogic>().Result)
+                    {
+                        if (!origContact.MobilePhone.Equals(MobilePhone))
+                        {
+                            ContactLogic modifiedContact = origContact.MakeCopy<ContactLogic>();
+                            modifiedContact.SetDependencies(AppConfig, UserSession);
+                            modifiedContact.MobilePhone = MobilePhone;
+                            int i = modifiedContact.SaveAsync(original: origContact, conn: e.SqlConnection).Result;
+                        }
+                    }
                 }
             }
         }
