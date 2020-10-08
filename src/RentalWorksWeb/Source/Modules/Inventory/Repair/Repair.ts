@@ -256,10 +256,10 @@ class Repair {
                 // Last Order section on form
                 FwFormField.setValueByDataField($form, 'DamageOrderId', $tr.find('.field[data-formdatafield="LastOrderId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastOrderNumber"]').attr('data-originalvalue'));
                 FwFormField.setValueByDataField($form, 'DamageOrderDescription', $tr.find('.field[data-formdatafield="LastOrderDescription"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($form, 'DamageDeal', $tr.find('.field[data-formdatafield="LastDealId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastDeal"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'DamageDealId', $tr.find('.field[data-formdatafield="LastDealId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastDeal"]').attr('data-originalvalue'));
                 FwFormField.setValueByDataField($form, 'DamageContractId', $tr.find('.field[data-formdatafield="LastInContractId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastInContractNumber"]').attr('data-originalvalue'));
                 FwFormField.setValueByDataField($form, 'DamageContractDate', $tr.find('.field[data-formdatafield="LastInContractDate"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($form, 'DamageScannedBy', $tr.find('.field[data-formdatafield="LastInUserId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastInUserName"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'DamageScannedById', $tr.find('.field[data-formdatafield="LastInUserId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="LastInUserName"]').attr('data-originalvalue'));
             });
 
             // ICode Validation
