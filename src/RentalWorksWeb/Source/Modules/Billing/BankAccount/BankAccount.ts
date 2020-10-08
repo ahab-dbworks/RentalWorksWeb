@@ -75,6 +75,13 @@ class BankAccount {
         $form.find('div.fwformfield[data-datafield="BankAccountId"] input').val(uniqueids.BankAccountId);
         FwModule.loadForm(this.Module, $form);
 
+        const nodePayment = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Y7YC6NpLqX8kx');
+        if (nodePayment !== undefined && nodePayment.properties.visible === 'T') {
+            FwTabs.showTab($form.find('#paymenttab'));
+            const $submodulepaymentBrowse = this.openPaymentBrowse($form);
+            $form.find('.paymentSubModule').append($submodulepaymentBrowse);
+        }
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -84,6 +91,19 @@ class BankAccount {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
 
+    }
+    //---------------------------------------------------------------------------------------------
+    openPaymentBrowse($form) {
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        const $browse = PaymentController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = PaymentController.ActiveViewFields;
+            request.uniqueids = {
+                VendorId: vendorId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
     }
     //----------------------------------------------------------------------------------------------
 }
