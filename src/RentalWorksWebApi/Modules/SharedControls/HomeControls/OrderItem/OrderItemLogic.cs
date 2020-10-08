@@ -1430,8 +1430,13 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     bool flag = FwConvert.ToBoolean(prop.GetValue(l).ToString());
                     if (!flag)
                     {
-                        prop.SetValue(l, true);
-                        int i = l.SaveAsync(original: null, conn: e.SqlConnection).Result;
+                        FwBusinessLogic l2 = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                        l2.SetPrimaryKeys(new string[] { OrderId });
+                        if (l2.LoadAsync<T>(e.SqlConnection).Result)
+                        {
+                            prop.SetValue(l2, true);
+                            int i = l2.SaveAsync(original: l, conn: e.SqlConnection).Result;
+                        }
                     }
                 }
             }
