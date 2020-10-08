@@ -453,7 +453,7 @@ class RwAsset {
             $form.find('.fixed-asset').show();
         }
 
-        if (FwFormField.getValueByDataField($form, 'WarehouseCurrencyId') != FwFormField.getValueByDataField($form, 'PurchaseCurrencyId')) {
+        if (FwFormField.getValueByDataField($form, 'WarehouseCurrencyId') == FwFormField.getValueByDataField($form, 'PurchaseCurrencyId')) {
             $form.find('[data-datafield="PurchaseCurrencyExchangeRate"], [data-datafield="WarehouseCurrencyCode"]').hide();
         }
 
