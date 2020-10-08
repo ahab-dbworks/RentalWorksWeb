@@ -389,6 +389,30 @@ class SalesInventory extends InventoryBase {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
             }
         });
+        // InventoryWarehouseSpecificGrid for Completes
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryWarehouseSpecificGrid',
+            gridSelector: 'div[data-grid="InventoryWarehouseSpecificGrid"].complete',
+            gridSecurityId: 'HUmVUurETwRho',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.addClass('complete');
+            },
+        });
         // ----------
         const $inventoryKitGrid = FwBrowse.renderGrid({
             nameGrid: 'InventoryKitGrid',
@@ -419,6 +443,30 @@ class SalesInventory extends InventoryBase {
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 $browse.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
             }
+        });
+        // InventoryWarehouseSpecificGrid for Kits
+        FwBrowse.renderGrid({
+            nameGrid: 'InventoryWarehouseSpecificGrid',
+            gridSelector: 'div[data-grid="InventoryWarehouseSpecificGrid"].kit',
+            gridSecurityId: 'HUmVUurETwRho',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.addClass('kit');
+            },
         });
         // ----------
         FwBrowse.renderGrid({
@@ -622,6 +670,75 @@ class SalesInventory extends InventoryBase {
                 }
             }
         });
+        // WarehouseSpecificPackage checkbox
+        $form.find('div[data-datafield="WarehouseSpecificPackage"]').on('change', e => {
+            this.disableInventoryWarehouseSpecificGrid($form);
+        });
+        // evt for InventoryWarehouseSpecificGrid
+        $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                if ($control.attr('data-enabled') !== 'false') {
+                    let $grid;
+                    if ($control.hasClass('complete')) {
+                        $grid = $form.find('[data-name="InventoryCompleteGrid"]');
+                    } else if ($control.hasClass('kit')) {
+                        $grid = $form.find('[data-name="InventoryKitGrid"]');
+                    }
+                    const warehouseId = $tr.find('.field[data-browsedatatype="key"]').attr('data-originalvalue');
+
+                    $grid.data('ondatabind', request => {
+                        request.uniqueids = {
+                            PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                            WarehouseId: warehouseId,
+                        };
+                    });
+                    $grid.data('beforesave', request => {
+                        request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
+                        request.WarehouseId = warehouseId;
+                    });
+                    FwBrowse.search($grid);
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        // click evt for resetting complete or kit grid back to all warehouses
+        $form.find('.standard-definition').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            let $grid;
+            if ($this.hasClass('complete')) {
+                $grid = $form.find('[data-name="InventoryCompleteGrid"]');
+            } else if ($this.hasClass('kit')) {
+                $grid = $form.find('[data-name="InventoryKitGrid"]');
+            }
+            $grid.data('ondatabind', request => {
+                request.uniqueids = {
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                };
+            });
+            $grid.data('beforesave', request => {
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
+            });
+
+            FwBrowse.search($grid);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    disableInventoryWarehouseSpecificGrid($form) {
+        let $grid;
+        const classification = FwFormField.getValueByDataField($form, 'Classification');
+        if (classification === 'C') {
+            $grid = $form.find('[data-name="InventoryWarehouseSpecificGrid"].complete');
+        } else if (classification === 'K') {
+            $grid = $form.find('[data-name="InventoryWarehouseSpecificGrid"].kit');
+        }
+
+        const warehouseSpecificPackage = FwFormField.getValueByDataField($form, 'WarehouseSpecificPackage');
+        if (warehouseSpecificPackage) {
+            FwFormField.enable($grid);
+        } else {
+            FwFormField.disable($grid);
+        }
     }
     //----------------------------------------------------------------------------------------------
 };
