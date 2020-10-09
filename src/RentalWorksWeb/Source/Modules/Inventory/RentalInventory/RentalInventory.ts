@@ -1099,15 +1099,17 @@ class RentalInventory extends InventoryBase {
     }
     //----------------------------------------------------------------------------------------------
     disableInventoryWarehouseSpecificGrid($form) {
-        let $grid;
+        let $grid, tag;
         const classification = FwFormField.getValueByDataField($form, 'Classification');
         if (classification === 'C') {
             $grid = $form.find('[data-name="InventoryWarehouseSpecificGrid"].complete');
+            tag = 'complete';
         } else if (classification === 'K') {
             $grid = $form.find('[data-name="InventoryWarehouseSpecificGrid"].kit');
+            tag = 'kit';
         }
 
-        const warehouseSpecificPackage = FwFormField.getValueByDataField($form, 'WarehouseSpecificPackage');
+        const warehouseSpecificPackage = FwFormField.getValue($form, `div[data-datafield="WarehouseSpecificPackage"].${tag}`);
         if (warehouseSpecificPackage) {
             FwFormField.enable($grid);
         } else {
