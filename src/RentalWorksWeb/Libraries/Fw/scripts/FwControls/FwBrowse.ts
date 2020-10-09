@@ -4596,18 +4596,8 @@ class FwBrowseClass {
                 FwFormField.loadItems($form.find(`div[data-datafield="${datafield}"]`), [
                     { value: '', caption: 'No Change', checked: true },
                     { value: 'true', caption: 'Checked' },
-                    { value: 'false', caption: 'Unchecked' }
+                    { value: '', caption: 'Unchecked' }  //changed value to empty string so it would evaluate as false and mimic checkbox change event behavior
                 ]);
-
-                //Applies checkbox behavior to toggle buttons
-                //$checkbox.on('click', e => {
-                //    const toggleValue = jQuery(e.target).text();
-                //    if (toggleValue === 'Checked') {
-                //        jQuery(e.currentTarget).prop('checked', true);
-                //    } else if (toggleValue === 'Unchecked') {
-                //        jQuery(e.currentTarget).prop('checked', false);
-                //    }
-                //});
             }
             $form.find('[data-type="money"] .fwformfield-value').inputmask('numeric');
 
@@ -4627,7 +4617,11 @@ class FwBrowseClass {
                 const datafield = $fwformfield.attr('data-datafield');
                 const value = FwFormField.getValue2($fwformfield);
                 if (dataType == 'togglebuttons' && value == '') {
-                    delete modifiedFields[datafield];
+                    if (jQuery(e.target).siblings('.togglebutton-button').text() === 'Unchecked') {
+                        modifiedFields[datafield] = 'false';
+                    } else {
+                        delete modifiedFields[datafield];
+                    }
                 } else {
                     modifiedFields[datafield] = value;
                 }
