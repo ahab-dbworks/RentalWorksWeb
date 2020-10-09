@@ -13,6 +13,7 @@ using System.Text;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
 
 namespace WebApi.Modules.AccountServices.HubSpot
 {
@@ -145,19 +146,69 @@ namespace WebApi.Modules.AccountServices.HubSpot
                 }
             }
 
-
-            //if the access token is expired, use the refresh token for a new one
+            await SyncContactsAsync(response.contacts);
 
 
             return new OkObjectResult(response);
             //time supplied in hubspot filter call must be epoch time
         }
         //---------------------------------------------------------------------------------------------
-        //public async Task<string> SyncContactsAsync([FromBody]GetHubSpotContactsRequest request)
-        //{
-        //    //be sure to log hubspot contacts_id in source_id on dbo.contact, we use this to see if the duplicate is a new contact or the same. 
-        //    //check against email addresses to verify duplicates, i.e there could be many john smiths in one system.
-        //}
+        public async Task<List<HubSpotSearchedContactResultsDetails>> SyncContactsAsync(HubSpotSearchedContactsResponse HubSpotContacts)
+        {
+            List<string> emails = new List<string>();
+            List<string> hubSpotEmails = new List<string>();
+            List<HubSpotSearchedContactResultsDetails> contactsToCreate = new List<HubSpotSearchedContactResultsDetails>();
+            FwJsonDataTable dt;
+            RwContactEmailsResponse rwEmails = new RwContactEmailsResponse();
+            //get all contacts emails, we check for matching emails in RW and HubSpot to cull out duplicates
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.ReportTimeout))
+                {
+                    qry.Add("select email from dbo.contact");
+                    dt = await qry.QueryToFwJsonTableAsync();
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        string email = dt.Rows[i][dt.GetColumnNo("email")].ToString();
+                        emails.Add(email);
+                    }
+                }
+            }
+
+            var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
+            var securitySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
+            SearchHubSpotContactsWithinPeriodRequest searchContactsReq = new SearchHubSpotContactsWithinPeriodRequest();
+            searchContactsReq.accessToken = securitySettings.hubspotaccesstoken;
+
+            //get hubspot contacts to compare to rw contacts.
+            //compare passed in hubspotcontacts
+            HubSpotSearchedContactResultsDetails[] HubSpotContactsResults = HubSpotContacts.results;
+            //extract hubspot emails to compare
+            for (int i = 0; i < HubSpotContactsResults.Length; i++)
+            {
+                string email = HubSpotContactsResults[i].properties.email;
+                hubSpotEmails.Add(email);
+            }
+
+            string[] sameEmails = emails.Intersect(hubSpotEmails).ToArray();
+            string[] diffEmails = hubSpotEmails.Except(sameEmails).ToArray();
+
+            //loop back through the results properties and create a new array of non duplicate contacts
+            for (int i = 0; i < HubSpotContactsResults.Length; i++)
+            {
+                for (int y = 0; y < diffEmails.Length; y++)
+                {
+                    if (HubSpotContactsResults[i].properties.email == diffEmails[y])
+                    {
+                        contactsToCreate.Add(HubSpotContactsResults[i]);
+                    }
+                }
+            }
+            //loop through contactstocreate and create contacts in RWW
+            return contactsToCreate;
+            //be sure to log hubspot contacts_id in source_id on dbo.contact, we use this to see if the duplicate is a new contact or the same. 
+            //check against email addresses to verify duplicates, i.e there could be many john smiths in one system.
+        }
         //---------------------------------------------------------------------------------------------
         public async Task<string> PostContactAsync([FromBody]PostHubSpotContactRequest request)
         {
@@ -386,6 +437,11 @@ namespace WebApi.Modules.AccountServices.HubSpot
         public HubSpotSearchedContactsResponse contacts { get; set; }
         public int statuscode { get; set; }
         public string statusmessage { get; set; }
+    }
+    //---------------------------------------------------------------------------------------------
+    public class RwContactEmailsResponse
+    {
+        public string email { get; set; } = string.Empty;
     }
 
 }
