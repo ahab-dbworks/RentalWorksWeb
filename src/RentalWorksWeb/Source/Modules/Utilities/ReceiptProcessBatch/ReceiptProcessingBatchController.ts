@@ -9,14 +9,6 @@
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
         FwMenu.addFormMenuButtons(options);
-
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Export Settings', '', (e: JQuery.ClickEvent) => {
-            try {
-                this.ExportSettings(options.$form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -66,23 +58,6 @@
 
         this.events($form);
         return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    ExportSettings($form: JQuery): void {
-        try {
-            let $exportSettingsBrowse = ExportSettingsController.openBrowse();
-            $exportSettingsBrowse.data('ondatabind', function (request) {
-                request.miscfields = {
-                    Invoices:       false,
-                    Receipts:       true,
-                    VendorInvoices: false
-                }
-            });
-            FwModule.openModuleTab($exportSettingsBrowse, 'Export Settings', true, 'BROWSE', true);
-            FwBrowse.search($exportSettingsBrowse);
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
