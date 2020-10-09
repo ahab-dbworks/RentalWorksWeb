@@ -60,6 +60,7 @@ namespace WebApi.Modules.AccountServices.HubSpot
         //---------------------------------------------------------------------------------------------
         public async Task<string> GetContactsAsync([FromBody]GetHubSpotContactsRequest request)
         {
+            //this is not done yet, need to make return mnodel, but not using this function/endpoint yet - JG
             HttpResponseMessage response;
             var client = new HttpClient();
             string accessToken = request.accessToken;
@@ -77,11 +78,11 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return responseBody;
         }
         //---------------------------------------------------------------------------------------------
-        public async Task<dynamic> SearchContactsWithinPeriodAsync([FromBody]SearchHubSpotContactsWithinPeriodRequest request)
+        public async Task<ActionResult<HubSpotSearchedContactsResponseModel>> SearchContactsWithinPeriodAsync([FromBody]SearchHubSpotContactsWithinPeriodRequest request)
         {
             //if access token is expired get a new one with refresh token.
             var client = new HttpClient();
-            var deserializedResponse = "";
+            dynamic response = new ExpandoObject();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {request.accessToken}");
 
             HubSpotSearchFilters filters = new HubSpotSearchFilters();
@@ -109,7 +110,11 @@ namespace WebApi.Modules.AccountServices.HubSpot
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 //deserialize successful response of searched contacts and return them
-            } else
+                response.contacts = System.Text.Json.JsonSerializer.Deserialize<HubSpotSearchedContactsResponse>(responseBody);
+                response.statuscode = 200;
+                response.statusmessage = "Success";
+            } 
+            else
             {
                 DeserializedHubSpotErrorResponse errorResponse = System.Text.Json.JsonSerializer.Deserialize<DeserializedHubSpotErrorResponse>(responseBody);
                 if (errorResponse.category == "EXPIRED_AUTHENTICATION")
@@ -129,24 +134,23 @@ namespace WebApi.Modules.AccountServices.HubSpot
                     {
                         SearchHubSpotContactsWithinPeriodRequest newSearchReq = new SearchHubSpotContactsWithinPeriodRequest();
                         newSearchReq.accessToken = renewResponse.accessToken;
+                        //newSearchReq.lastSyncEpoch = request.lastSyncEpoch;
                         return await SearchContactsWithinPeriodAsync(newSearchReq);
                     }
-
+                    else
+                    {
+                        response.statuscode = 401;
+                        response.statusmessage = "Unauthorized, Check your RentalWorksWeb Integration in HubSpot";
+                    }
                 }
             }
-            
+
 
             //if the access token is expired, use the refresh token for a new one
-            
 
-            return deserializedResponse;
+
+            return new OkObjectResult(response);
             //time supplied in hubspot filter call must be epoch time
-            // body example for filtered contacts request 
-            //{
-            //    "filterGroups": [{"filters": [{"value": "1600977557", "propertyName": "createdate", "operator": "LT"}]}],
-            //"limit": 0,
-            //"after": 0
-            // }
         }
         //---------------------------------------------------------------------------------------------
         //public async Task<string> SyncContactsAsync([FromBody]GetHubSpotContactsRequest request)
@@ -247,6 +251,12 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return response;
         }
     }
+    //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
+    /// use this to convert for the filters based on the interval set
+    /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
+    //protected static long ToUnixEpochDate(DateTime date)
+    //=> (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
     //---------------------------------------------------------------------------------------------
     public class GetHubSpotTokensRequest
     {
@@ -349,7 +359,7 @@ namespace WebApi.Modules.AccountServices.HubSpot
         public string createdAt { get; set; } = string.Empty;
         public bool archived { get; set; } = false;
         public string id { get; set; } = string.Empty;
-        public HubSpotSearchedContactDetailsProperties[] properties { get; set; }
+        public HubSpotSearchedContactDetailsProperties properties { get; set; }
         public string updatedAt { get; set; } = string.Empty;
     }
     //---------------------------------------------------------------------------------------------
@@ -370,4 +380,12 @@ namespace WebApi.Modules.AccountServices.HubSpot
         public int total { get; set; }
         public HubSpotSearchedContactResultsDetails[] results { get; set; }
     }
+    //---------------------------------------------------------------------------------------------
+    public class HubSpotSearchedContactsResponseModel
+    {
+        public HubSpotSearchedContactsResponse contacts { get; set; }
+        public int statuscode { get; set; }
+        public string statusmessage { get; set; }
+    }
+
 }
