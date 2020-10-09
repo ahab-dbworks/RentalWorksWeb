@@ -521,17 +521,17 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     addButtonMenu($form: JQuery) {
-        let $buttonmenu = $form.find('.add-component[data-type="btnmenu"]');
-        let $addEmptyContainer = FwMenu.generateButtonMenuOption('ADD EMPTY CONTAINER'),
-            $addEmptyCol = FwMenu.generateButtonMenuOption('ADD EMPTY COLUMN'),
-            $addEmptyRow = FwMenu.generateButtonMenuOption('ADD EMPTY ROW');
+        let $buttonmenu = $form.find('.add-text-field[data-type="btnmenu"]');
+        let $addEmptyContainer = FwMenu.generateButtonMenuOption('ADD CONTAINER'),
+            $addEmptyCol = FwMenu.generateButtonMenuOption('ADD COLUMN'),
+            $addEmptyRow = FwMenu.generateButtonMenuOption('ADD ROW');
 
         $addEmptyContainer.addClass('add-empty-container');
         $addEmptyCol.addClass('add-empty-col');
         $addEmptyRow.addClass('add-empty-row');
 
         let menuOptions = [];
-        menuOptions.push($addEmptyContainer, $addEmptyCol, $addEmptyRow);
+        menuOptions.push($addEmptyRow, $addEmptyCol, $addEmptyContainer);
 
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     }
@@ -903,19 +903,6 @@ class CustomReportLayout {
             }
         });
 
-        //Add empty report header row
-        $form.on('click', '.add-empty-row', e => {
-            if (typeof $reportHeaderSection != 'undefined') {
-                const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
-                if ($reportHeaderSection.find('.rpt-flexcolumn').length > 0) {
-                    this.addNestedSorting($form, $emptyRow, false);
-                    jQuery($reportHeaderSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
-                    this.updateReportHeader($form, $reportHeaderSection);
-                    this.highlightElement($form, $emptyRow);
-                }
-            }
-        });
-
         //Add empty report header column
         $form.on('click', '.add-empty-col', e => {
             if (typeof $reportHeaderSection != 'undefined') {
@@ -925,6 +912,37 @@ class CustomReportLayout {
                     jQuery($reportHeaderSection.find('.rpt-flexrow:last-of-type')).append($emptyCol);
                     this.updateReportHeader($form, $reportHeaderSection);
                     this.highlightElement($form, $emptyCol);
+                } else {
+                    FwFunc.showError('Container not found.  A container must be added before adding a new column.');
+                }
+            }
+        });
+
+        //Add empty report header row
+        $form.on('click', '.add-empty-row', e => {
+            if (typeof $reportHeaderSection != 'undefined') {
+                const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
+                if ($reportHeaderSection.find('.rpt-flexcolumn').length > 0) {
+                    this.addNestedSorting($form, $emptyRow, false);
+                    jQuery($reportHeaderSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
+                    this.updateReportHeader($form, $reportHeaderSection);
+                    this.highlightElement($form, $emptyRow);
+                } else {
+                    FwFunc.showError('Column not found.  A column must be added before adding a new row.');
+                }
+            }
+        });
+
+        //Add empty text field
+        $form.on('click', '.add-text-field', e => {
+            if (typeof $reportHeaderSection != 'undefined') {
+                const $emptyText = jQuery(`<span>New Text Field</span>`);
+                if ($reportHeaderSection.find('.rpt-nested-flexrow').length > 0) {
+                    jQuery($reportHeaderSection.find('.rpt-nested-flexrow:last')).append($emptyText);
+                    this.updateReportHeader($form, $reportHeaderSection);
+                    $emptyText.click();
+                } else {
+                    FwFunc.showError('Row not found.  A row must be added before adding a new text field.');
                 }
             }
         });
