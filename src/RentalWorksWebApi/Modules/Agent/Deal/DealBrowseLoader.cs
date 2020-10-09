@@ -160,6 +160,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "usecustomerdiscount", modeltype: FwDataTypes.Boolean)]
         public bool? UseCustomerDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customerdiscounttemplateid", modeltype: FwDataTypes.Text)]
+        public string CustomerDiscountTemplateId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usediscounttemplate", modeltype: FwDataTypes.Boolean)]
         public bool? UseDiscountTemplate { get; set; }
         //------------------------------------------------------------------------------------ 
