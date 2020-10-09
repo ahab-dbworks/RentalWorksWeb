@@ -49,10 +49,10 @@ namespace WebApi.Modules.AccountServices.HubSpot
         // POST api/v1/hubspot/getcontactsepoch 
         [HttpPost("getcontactsepoch")]
         [FwControllerMethod(Id: "abSnMnaW8gLP", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<dynamic>> GetContactsEpochAsync([FromBody]GetHubSpotContactsWithinPeriodRequest l)
+        public async Task<ActionResult<dynamic>> GetContactsEpochAsync([FromBody]SearchHubSpotContactsWithinPeriodRequest l)
         {
             var hs = FwBusinessLogic.CreateBusinessLogic<HubSpotLogic>(this.AppConfig, this.UserSession);
-            return await hs.GetContactsWithinPeriodAsync(l);
+            return await hs.SearchContactsWithinPeriodAsync(l);
         }
     }
 

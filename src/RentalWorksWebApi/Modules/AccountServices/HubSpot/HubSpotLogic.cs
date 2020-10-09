@@ -77,34 +77,69 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return responseBody;
         }
         //---------------------------------------------------------------------------------------------
-        public async Task<dynamic> GetContactsWithinPeriodAsync([FromBody]GetHubSpotContactsWithinPeriodRequest request)
+        public async Task<dynamic> SearchContactsWithinPeriodAsync([FromBody]SearchHubSpotContactsWithinPeriodRequest request)
         {
             //if access token is expired get a new one with refresh token.
             var client = new HttpClient();
+            var deserializedResponse = "";
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {request.accessToken}");
 
-            HubSpotSearchFiltersProperties filterProperties = new HubSpotSearchFiltersProperties();
-            filterProperties.propertyName = "firstname";
-            filterProperties.value = "Tom";
-            filterProperties.@operator = "NEQ";
+            HubSpotSearchFilters filters = new HubSpotSearchFilters();
+            filters.propertyName = "firstname";
+            filters.@operator = "NEQ";
+            filters.value = "Tom";
 
-            HubSpotSearchFiltersProperties[] FiltersArray = new HubSpotSearchFiltersProperties[] { filterProperties };
-            string[] filterString = new string[] { "filters" };
+            //build funky nested arrays in objects format for searching, 
+            //hubspot is setup this way so you can apply multiple filter groups to a search
+            HubSpotSearchFilters[] filtersArray = new HubSpotSearchFilters[] { filters };
+            HubSpotSearchFiltersObj filtersObj = new HubSpotSearchFiltersObj();
+            filtersObj.filters = filtersArray;
+            HubSpotSearchFiltersObj[] filtersObjArray = new HubSpotSearchFiltersObj[] { filtersObj };
+            HubSpotSearchFilterGroups searchFilterGroups = new HubSpotSearchFilterGroups();
+            searchFilterGroups.filterGroups = filtersObjArray;
 
-            HubSpotSearchDataBody body = new HubSpotSearchDataBody();
-            body.properties = new Dictionary<string[], HubSpotSearchFiltersProperties[]>();
-            body.properties.Add(filterString, FiltersArray);
-
+            //build our request params
+            var jsonBody = System.Text.Json.JsonSerializer.Serialize(searchFilterGroups);
+            var stringContent = new StringContent(jsonBody, Encoding.UTF32, "application/json");
             var url = "https://api.hubapi.com/crm/v3/objects/contacts/search";
 
-            var jsonBody = System.Text.Json.JsonSerializer.Serialize(body.properties);
-            var stringContent = new StringContent(jsonBody, Encoding.UTF32, "application/json");
-
+            //do response things
             var httpResponse = await client.PostAsync(url, stringContent);
-            httpResponse.EnsureSuccessStatusCode();
-
             var responseBody = await httpResponse.Content.ReadAsStringAsync();
+            if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                //deserialize successful response of searched contacts and return them
+            } else
+            {
+                DeserializedHubSpotErrorResponse errorResponse = System.Text.Json.JsonSerializer.Deserialize<DeserializedHubSpotErrorResponse>(responseBody);
+                if (errorResponse.category == "EXPIRED_AUTHENTICATION")
+                {
+                    //get the current refresh token
+                    var ssl = CreateBusinessLogic<SecuritySettingsLogic>(this.AppConfig, this.UserSession);
+                    var securitySettings = await ssl.GetSettingsAsync<SecuritySettingsLoader>("1");
+                    var refreshToken = securitySettings.hubspotrefreshtoken;
 
-            return responseBody;
+                    RenewAccessTokenRequest r = new RenewAccessTokenRequest();
+                    r.refreshToken = refreshToken;
+
+                    var renewResponse = await RenewAccessTokenAsync(r);
+
+                    //if we successfully renew the access token, we search again with the new token.
+                    if (renewResponse.message == "Success")
+                    {
+                        SearchHubSpotContactsWithinPeriodRequest newSearchReq = new SearchHubSpotContactsWithinPeriodRequest();
+                        newSearchReq.accessToken = renewResponse.accessToken;
+                        return await SearchContactsWithinPeriodAsync(newSearchReq);
+                    }
+
+                }
+            }
+            
+
+            //if the access token is expired, use the refresh token for a new one
+            
+
+            return deserializedResponse;
             //time supplied in hubspot filter call must be epoch time
             // body example for filtered contacts request 
             //{
@@ -191,6 +226,7 @@ namespace WebApi.Modules.AccountServices.HubSpot
             await ssl.SaveSettingsAsync<SecuritySettingsLoader>("1", securitySettings);
 
             response.message = "Success";
+            response.accessToken = jsonTokens.access_token;
 
             return response;
         }
@@ -211,27 +247,33 @@ namespace WebApi.Modules.AccountServices.HubSpot
             return response;
         }
     }
+    //---------------------------------------------------------------------------------------------
     public class GetHubSpotTokensRequest
     {
         public string authorizationCode { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class HubSpotTokensFormData
     {
         public Dictionary<string, string> properties { get; set; }
     }
+    //---------------------------------------------------------------------------------------------
     public class HubSpotTokensResponse
     {
         public string access_token { get; set; } = string.Empty;
         public string refresh_token { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class GetWriteTokensResponse
     {
         public string message { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class GetHubSpotContactsRequest
     {
         public string accessToken { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class PostHubSpotContactRequest
     {
         public string accessToken { get; set; } = string.Empty;
@@ -239,50 +281,93 @@ namespace WebApi.Modules.AccountServices.HubSpot
         public string firstname { get; set; } = string.Empty;
         public string lastname { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class HubSpotContactPostRequest
     {
         public Dictionary<string, string> properties { get; set; }
     }
-
+    //---------------------------------------------------------------------------------------------
     public class HubSpotContactProperties
     {
         public string firstname { get; set; } = string.Empty;
         public string lastname { get; set; } = string.Empty;
         public string email { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class GetHubSpotRefreshTokenBool
     {
         public bool hasRefreshToken { get; set; }
     }
+    //---------------------------------------------------------------------------------------------
     public class DeleteHubSpotTokens
     {
         public string message { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class RenewAccessTokenResponse
     {
-        public string message { get; set; } = string.Empty; 
+        public string message { get; set; } = string.Empty;
+        public string accessToken { get; set; } = string.Empty;
     }
+    //---------------------------------------------------------------------------------------------
     public class RenewAccessTokenRequest
     {
         public string refreshToken { get; set; } = string.Empty;
     }
-    public class GetHubSpotContactsWithinPeriodRequest
+    //---------------------------------------------------------------------------------------------
+    public class SearchHubSpotContactsWithinPeriodRequest
     {
         public string accessToken { get; set; } = string.Empty;
         public int? lastSyncEpoch { get; set; }
     }
+    //---------------------------------------------------------------------------------------------
     public class HubSpotSearchFilters
     {
-        public HubSpotSearchFiltersProperties[] filters { get; set; }
+        public string propertyName { get; set; } = string.Empty;
+        public string @operator { get; set; } = string.Empty;
+        public string value { get; set; } = string.Empty;
     }
-    public class HubSpotSearchFiltersProperties
+    //---------------------------------------------------------------------------------------------
+    public class HubSpotSearchFiltersObj
     {
-        public string value { get; set; }
-        public string propertyName { get; set; }
-        public string @operator { get; set;}
+        public HubSpotSearchFilters[] filters { get; set; }
     }
-    public class HubSpotSearchDataBody
+    //---------------------------------------------------------------------------------------------
+    public class HubSpotSearchFilterGroups
     {
-        public Dictionary<string[], HubSpotSearchFiltersProperties[]> properties { get; set; }
+        public HubSpotSearchFiltersObj[] filterGroups { get; set; }
+    }
+    //---------------------------------------------------------------------------------------------
+    public class DeserializedHubSpotErrorResponse
+    {
+        public string status { get; set; } = string.Empty;
+        public string category { get; set; } = string.Empty;
+    }
+    //---------------------------------------------------------------------------------------------
+    public class HubSpotSearchedContactResultsDetails
+    {
+        public string createdAt { get; set; } = string.Empty;
+        public bool archived { get; set; } = false;
+        public string id { get; set; } = string.Empty;
+        public HubSpotSearchedContactDetailsProperties[] properties { get; set; }
+        public string updatedAt { get; set; } = string.Empty;
+    }
+    //---------------------------------------------------------------------------------------------
+    public class HubSpotSearchedContactDetailsProperties
+    {
+        public string company { get; set; } = string.Empty;
+        public string createdate { get; set; } = string.Empty;
+        public string email { get; set; } = string.Empty;
+        public string firstname { get; set; } = string.Empty;
+        public string lastmodifieddate { get; set; } = string.Empty;
+        public string lastname { get; set; } = string.Empty;
+        public string phone { get; set; } = string.Empty;
+        public string website { get; set; } = string.Empty;
+    }
+    //---------------------------------------------------------------------------------------------
+    public class HubSpotSearchedContactsResponse
+    {
+        public int total { get; set; }
+        public HubSpotSearchedContactResultsDetails[] results { get; set; }
     }
 }

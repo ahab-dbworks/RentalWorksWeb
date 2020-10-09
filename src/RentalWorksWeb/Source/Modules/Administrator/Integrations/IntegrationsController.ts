@@ -32,14 +32,14 @@ class Integrations implements IModule {
                 url: `${applicationConfig.apiurl}api/v1/integrations/hashubspotrefreshtoken`,
             }); 
             this.events($form, isHubSpotConnected.hasRefreshToken);
-            //const getContacts = await FwAjax.callWebApi<any, any>({
-            //    httpMethod: 'POST',
-            //    url: `${applicationConfig.apiurl}api/v1/hubspot/getcontactsepoch`,
-            //    data: {
-            //        accessToken: 'CLrMmOrOLhICAQEYz8GHBCCr5dcFKIKADjIZAKW9C0Zht3IbAGRHIgEFUHRt7C8MWO0iWjoaAAoCQQAADIADAAgAAAABAAAAAAAAABjAABNCGQClvQtGwFLeovRTX8dQYybTHl0f_9H2wto'
-            //    }
-            //});
-            //console.log(getContacts);
+            const getContacts = await FwAjax.callWebApi<any, any>({
+                httpMethod: 'POST',
+                url: `${applicationConfig.apiurl}api/v1/hubspot/getcontactsepoch`,
+                data: {
+                    accessToken: 'CLrMmOrOLhICAQEYz8GHBCCr5dcFKIKADjIZAKW9C0Zht3IbAGRHIgEFUHRt7C8MWO0iWjoaAAoCQQAADIADAAgAAAABAAAAAAAAABjAABNCGQClvQtGwFLeovRTX8dQYybTHl0f_9H2wto'
+                }
+            });
+            console.log(getContacts);
         })()
         
         return $form;
