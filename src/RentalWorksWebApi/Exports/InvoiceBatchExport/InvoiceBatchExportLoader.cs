@@ -18,6 +18,10 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
     {
         public class InvoiceItem
         {
+            public string OrderNumber { get; set; }
+            public string OrderDescription { get; set; }
+            public string MarketType { get; set; }
+            public string MarketTypeExportCode { get; set; }
             public string ICode { get; set; }
             public string Description { get; set; }
             public string DescriptionWithoutDoubleQuotes { get; set; }
@@ -267,6 +271,10 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                         foreach (List<object> row in dt.Rows)
                         {
                             InvoiceItem ii = new InvoiceItem();
+                            ii.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
+                            ii.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
+                            ii.MarketType = row[dt.GetColumnNo("markettype")].ToString();
+                            ii.MarketTypeExportCode = row[dt.GetColumnNo("markettypeexportcode")].ToString();
                             ii.ICode = row[dt.GetColumnNo("masterno")].ToString();
                             ii.Description = row[dt.GetColumnNo("description")].ToString();
                             ii.DescriptionWithoutDoubleQuotes = ii.Description.Replace("\"", "");
@@ -349,7 +357,7 @@ namespace WebApi.Modules.Exports.InvoiceBatchExport
                             t.AccountNumber = row[dt.GetColumnNo("glno")].ToString();
                             t.AccountDescription = row[dt.GetColumnNo("glacctdesc")].ToString();
                             t.Amount = FwConvert.ToDecimal(row[dt.GetColumnNo("amount")].ToString());
-                            t.Tax= FwConvert.ToDecimal(row[dt.GetColumnNo("tax")].ToString());
+                            t.Tax = FwConvert.ToDecimal(row[dt.GetColumnNo("tax")].ToString());
                             t.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
                             t.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
                             t.Currency = row[dt.GetColumnNo("currency")].ToString();

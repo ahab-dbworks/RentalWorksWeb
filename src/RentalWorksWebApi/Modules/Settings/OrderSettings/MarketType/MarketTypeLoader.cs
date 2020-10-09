@@ -16,6 +16,9 @@ namespace WebApi.Modules.Settings.OrderSettings.MarketType
         [FwSqlDataField(column: "markettype", modeltype: FwDataTypes.Text)]
         public string MarketType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "exportcode", modeltype: FwDataTypes.Text)]
+        public string ExportCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
