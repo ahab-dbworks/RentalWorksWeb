@@ -1112,8 +1112,6 @@
     <Content Include="Source\Modules\Utilities\InventoryPurchaseUtility\InventoryPurchaseUtilityForm.htm" />
     <Content Include="Source\Modules\Utilities\RefreshGLHistory\RefreshGLHistoryForm.htm" />
     <Content Include="Source\Modules\Utilities\MigrateOrders\MigrateOrdersForm.htm" />
-    <Content Include="Source\Modules\Utilities\ExportSettings\ExportSettingsBrowse.htm" />
-    <Content Include="Source\Modules\Utilities\ExportSettings\ExportSettingsForm.htm" />
     <Content Include="Source\Modules\Utilities\InvoiceProcessBatch\InvoiceProcessBatchForm.htm" />
     <Content Include="Source\Modules\Utilities\DashboardSettings\DashboardSettingsForm.htm" />
     <Content Include="Source\Modules\Utilities\ReceiptProcessBatch\ReceiptProcessBatchForm.htm" />
@@ -1125,7 +1123,6 @@
     <TypeScriptCompile Include="Source\Modules\Inventory\QuikSearch\QuikSearch.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\RefreshGLHistory\RefreshGLHistoryController.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\MigrateOrders\MigrateOrders.ts" />
-    <TypeScriptCompile Include="Source\Modules\Utilities\ExportSettings\ExportSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InvoiceProcessBatch\InvoiceProcessBatchController.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ReceiptProcessBatch\ReceiptProcessingBatchController.ts" />
