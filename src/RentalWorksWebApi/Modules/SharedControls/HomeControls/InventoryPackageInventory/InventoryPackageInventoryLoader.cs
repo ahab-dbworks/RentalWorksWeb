@@ -180,6 +180,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             select.AddParameter("@packageid", packageId);
             select.AddParameter("@warehouseid", warehouseId);
             select.AddParameter("@currencyid", currencyId);
+            select.AddWhere("warehouseid = @warehouseid");
         }
         //------------------------------------------------------------------------------------ 
         private string getDefaultQuantityColor(decimal? defaultQuantity)

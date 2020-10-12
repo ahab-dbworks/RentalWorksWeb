@@ -55,9 +55,6 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouseSpecific
         [FwControllerMethod(Id: "QAgMD3GeciBKq", ActionType: FwControllerActionTypes.New)]
         public async Task<ActionResult<InventoryWarehouseSpecificLogic>> NewAsync([FromBody] InventoryWarehouseSpecificLogic l)
         {
-            //return await DoNewAsync<InventoryWarehouseSpecificLogic>(l);
-
-
             InventoryWarehouseSpecificPackageRequest request = new InventoryWarehouseSpecificPackageRequest();
             request.InventoryId = l.InventoryId;
             request.WarehouseId = l.WarehouseId;
@@ -86,18 +83,15 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouseSpecific
         [FwControllerMethod(Id: "o7vOmWdbDCd70", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute] string id)
         {
-            //return await DoDeleteAsync<InventoryWarehouseSpecificLogic>(id);
-
             string[] ids = id.Split('~');
 
             InventoryWarehouseSpecificPackageRequest request = new InventoryWarehouseSpecificPackageRequest();
-            //request.InventoryId = l.InventoryId;
-            //request.WarehouseId = l.WarehouseId;
+            request.InventoryId = ids[0];
+            request.WarehouseId = ids[1];
             request.IsWarehouseSpecific = false;
             InventoryWarehouseSpecificPackageResponse response = await InventoryFunc.SetWarehouseSpecificPackage(AppConfig, UserSession, request);
 
             return new OkObjectResult(true);
-
         }
         //------------------------------------------------------------------------------------
     }

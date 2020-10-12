@@ -13,6 +13,9 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         //------------------------------------------------------------------------------------ 
         InventoryPackageInventoryRecord inventoryPackageInventory = new InventoryPackageInventoryRecord();
         InventoryPackageInventoryLoader inventoryPackageInventoryLoader = new InventoryPackageInventoryLoader();
+
+        public bool deletingWarehouseSpecific = false;
+
         public InventoryPackageInventoryLogic()
         {
             dataRecords.Add(inventoryPackageInventory);
@@ -245,8 +248,11 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         {
             if (IsPrimary.GetValueOrDefault(false))
             {
-                e.PerformDelete = false;
-                e.ErrorMessage = "Primary Item cannot be deleted.";
+                if (!deletingWarehouseSpecific)
+                {
+                    e.PerformDelete = false;
+                    e.ErrorMessage = "Primary Item cannot be deleted.";
+                }
             }
         }
         //------------------------------------------------------------------------------------

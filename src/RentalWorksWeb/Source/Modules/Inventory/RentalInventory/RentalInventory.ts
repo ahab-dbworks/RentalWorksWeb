@@ -1058,7 +1058,8 @@ class RentalInventory extends InventoryBase {
                     } else if ($control.hasClass('kit')) {
                         $grid = $form.find('[data-name="InventoryKitGrid"]');
                     }
-                    const warehouseId = $tr.find('.field[data-browsedatatype="key"]').attr('data-originalvalue');
+                    //const warehouseId = $tr.find('.field[data-browsedatatype="key"]').attr('data-originalvalue');
+                    const warehouseId = $tr.find('.field[data-whkey="true"]').attr('data-originalvalue');
 
                     $grid.data('ondatabind', request => {
                         request.uniqueids = {
