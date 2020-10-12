@@ -24,6 +24,7 @@ namespace WebApi.Modules.HomeControls.InventoryWarehouseSpecific
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("warehousespecific = 'T'");
+            select.AddWhere("warehouseinactive <> 'T'");
             addFilterToSelect("InventoryId", "masterid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
         }
