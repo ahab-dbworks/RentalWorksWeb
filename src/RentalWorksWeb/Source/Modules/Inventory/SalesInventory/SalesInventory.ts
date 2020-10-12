@@ -398,7 +398,7 @@ class SalesInventory extends InventoryBase {
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
-                options.hasEdit = true;
+                options.hasEdit = false;
                 options.hasDelete = true;
             },
             onDataBind: (request: any) => {
@@ -453,7 +453,7 @@ class SalesInventory extends InventoryBase {
             $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = true;
-                options.hasEdit = true;
+                options.hasEdit = false;
                 options.hasDelete = true;
             },
             onDataBind: (request: any) => {
@@ -676,8 +676,9 @@ class SalesInventory extends InventoryBase {
         $form.find('div[data-datafield="WarehouseSpecificPackage"]').on('change', e => {
             this.disableInventoryWarehouseSpecificGrid($form);
         });
+        const $inventoryWarehouseSpecificGrid = $form.find('[data-name="InventoryWarehouseSpecificGrid"]');
         // evt for InventoryWarehouseSpecificGrid
-        $form.find('[data-name="InventoryWarehouseSpecificGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+        $inventoryWarehouseSpecificGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 if ($control.attr('data-enabled') !== 'false') {
                     let $grid;
@@ -686,8 +687,9 @@ class SalesInventory extends InventoryBase {
                     } else if ($control.hasClass('kit')) {
                         $grid = $form.find('[data-name="InventoryKitGrid"]');
                     }
-                    const warehouseId = $tr.find('.field[data-browsedatatype="key"]').attr('data-originalvalue');
-
+                    const warehouseId = $tr.find('.field[data-whkey="true"]').attr('data-originalvalue');
+                    const warehouse = $tr.find('.field[data-validationname="WarehouseValidation"]').attr('data-originaltext') || '';
+                    $grid.find('.gridmenu .menucaption').text(`Items ${warehouse ? '(' + warehouse + ')' : 'Items'}`);
                     $grid.data('ondatabind', request => {
                         request.uniqueids = {
                             PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
@@ -704,15 +706,16 @@ class SalesInventory extends InventoryBase {
                 FwFunc.showError(ex);
             }
         });
-        // click evt for resetting complete or kit grid back to all warehouses
-        $form.find('.standard-definition').on('click', e => {
-            const $this = jQuery(e.currentTarget);
+        // ----------
+        $inventoryWarehouseSpecificGrid.data('afterdelete', ($control: JQuery, $tr: JQuery) => {
+            const classification = FwFormField.getValueByDataField($form, 'Classification');
             let $grid;
-            if ($this.hasClass('complete')) {
+            if (classification === 'C') {
                 $grid = $form.find('[data-name="InventoryCompleteGrid"]');
-            } else if ($this.hasClass('kit')) {
+            } else if (classification === 'K') {
                 $grid = $form.find('[data-name="InventoryKitGrid"]');
             }
+            $grid.find('.gridmenu .menucaption').text(`Items`);
             $grid.data('ondatabind', request => {
                 request.uniqueids = {
                     PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
@@ -723,6 +726,31 @@ class SalesInventory extends InventoryBase {
             });
 
             FwBrowse.search($grid);
+        })
+        // ----------
+        // click evt for resetting complete or kit grid back to all warehouses
+        $form.find('.standard-definition').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            let $grid, tag;
+            if ($this.hasClass('complete')) {
+                $grid = $form.find('[data-name="InventoryCompleteGrid"]');
+                tag = 'complete';
+            } else if ($this.hasClass('kit')) {
+                $grid = $form.find('[data-name="InventoryKitGrid"]');
+                tag = 'kit';
+            }
+            $grid.find('.gridmenu .menucaption').text(`Items`);
+            $grid.data('ondatabind', request => {
+                request.uniqueids = {
+                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
+                };
+            });
+            $grid.data('beforesave', request => {
+                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
+            });
+
+            FwBrowse.search($grid);
+            FwBrowse.search($form.find(`[data-name="InventoryWarehouseSpecificGrid"].${tag}`));
         });
     }
     //----------------------------------------------------------------------------------------------
