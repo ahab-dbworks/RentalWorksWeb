@@ -6,6 +6,12 @@ class SalesInventory extends InventoryBase {
     id: string = Constants.Modules.Inventory.children.SalesInventory.id;
     AvailableFor: string = "S";
     //----------------------------------------------------------------------------------------------
+    setupNewMode($form: any) {
+        super.setupNewMode($form);
+    //----------------------------------------------------------------------------------------------
+        FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');  //justin hoffman 10/12/2020 #3177
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         // ----------

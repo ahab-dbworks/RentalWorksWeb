@@ -469,10 +469,14 @@ namespace WebApi.Modules.HomeControls.Inventory
         //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            //#jhtodo - need to add a radio group for this on the form, default to Warehouse on new
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
-                AvailableFrom = RwConstants.INVENTORY_AVAILABLE_FROM_WAREHOUSE;
+                AvailableFrom = RwConstants.INVENTORY_AVAILABLE_FROM_WAREHOUSE;  //#jhtodo - need to? add a radio group for this on the form, default to Warehouse on new
+
+                if (string.IsNullOrEmpty(TrackedBy))
+                {
+                    TrackedBy = RwConstants.INVENTORY_TRACKED_BY_QUANTITY;
+                }
             }
 
             InventoryLogic orig = null;
@@ -565,7 +569,7 @@ namespace WebApi.Modules.HomeControls.Inventory
                     request.OldTrackedBy = orig.TrackedBy;
                     request.NewTrackedBy = TrackedBy;
                     ChangeInventoryTrackedByResponse response = InventoryFunc.ChangeInventoryTrackedBy(AppConfig, UserSession, request, e.SqlConnection).Result;
-                    if (!response.success)  
+                    if (!response.success)
                     {
                         throw new System.Exception(response.msg);
                         //bool b = AppFunc.UpdateDataAsync(AppConfig, "master", new string[] { "masterid" }, new string[] { InventoryId }, new string[] { "trackedby" }, new string[] { orig.TrackedBy }).Result;
