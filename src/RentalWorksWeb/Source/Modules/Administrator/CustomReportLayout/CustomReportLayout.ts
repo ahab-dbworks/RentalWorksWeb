@@ -545,6 +545,10 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     updateReportHeader($form: JQuery, $headerSection: JQuery) {
         const headerFor = $headerSection.attr('data-headerfor') || '';
+
+        if ($headerSection.attr('data-section') === 'footer') {
+            $form.data('isfooter', true);
+        }
         $form.data('updatetype', 'reportheader');
         $form.data('reportheaderfor', headerFor);
         this.updateHTML($form, null, null);
@@ -558,13 +562,21 @@ class CustomReportLayout {
             this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser  
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
             if (updateType == 'reportheader') {
+                let sectionType;
                 const headerFor = $form.data('reportheaderfor');
-                if (headerFor == '') {
-                    newHTML = $form.find('#reportDesigner .header-wrapper [data-section="header"]').get(0).innerHTML;
-                    $wrapper.find('[data-section="header"]').html(newHTML);
+                if ($form.data('isfooter')) {
+                    sectionType = 'footer';
+                    $form.removeData('isfooter');
                 } else {
-                    newHTML = $form.find(`#reportDesigner .header-wrapper [data-headerfor="${headerFor}"]`).get(0).outerHTML;
-                    $wrapper.find(`[data-section="header"][data-headerfor="${headerFor}"]`).html(newHTML);
+                    sectionType = 'header';
+                }
+
+                if (headerFor == '') {
+                    newHTML = $form.find(`#reportDesigner .${sectionType}-wrapper [data-section="${sectionType}"]`).get(0).innerHTML;
+                    $wrapper.find(`[data-section="${sectionType}"]`).html(newHTML);
+                } else {
+                    newHTML = $form.find(`#reportDesigner .${sectionType}-wrapper [data-headerfor="${headerFor}"]`).get(0).outerHTML;
+                    $wrapper.find(`[data-section="${sectionType}"][data-headerfor="${headerFor}"]`).html(newHTML);
                 }
                 $form.removeData('reportheaderfor');
             } else {
@@ -680,6 +692,9 @@ class CustomReportLayout {
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.text(value);
+                        if ($headerField.attr('data-section') === 'footer') {
+                            $form.data('isfooter', true);
+                        }
                         $form.data('updatetype', 'reportheader');
                         $form.data('reportheaderfor', headerFor);
                     }
@@ -688,6 +703,9 @@ class CustomReportLayout {
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.attr('style', value);
+                        if ($headerField.attr('data-section') === 'footer') {
+                            $form.data('isfooter', true);
+                        }
                         $form.data('updatetype', 'reportheader');
                         $form.data('reportheaderfor', headerFor);
                     }
@@ -957,18 +975,18 @@ class CustomReportLayout {
             }
         });
 
-        $form.on('click', '#reportDesigner .header-wrapper', e => {
+        $form.on('click', '#reportDesigner .header-wrapper, #reportDesigner .footer-wrapper', e => {
             const $this = jQuery(e.currentTarget);
             $form.find('#reportDesigner .selected').removeClass('selected');
             $this.addClass('selected');
-            $reportHeaderSection = $this.find('[data-section="header"]');
+            $reportHeaderSection = $this.find('[data-section]');
             this.showHideControlProperties($form, 'headerwrapper');
         });
 
-        $form.on('click', '#reportDesigner .header-wrapper span', e => {
+        $form.on('click', '#reportDesigner .header-wrapper span, #reportDesigner .footer-wrapper span', e => {
             e.stopPropagation();
             $headerField = jQuery(e.currentTarget);
-            $reportHeaderSection = $headerField.closest('[data-section="header"]');
+            $reportHeaderSection = $headerField.closest('[data-section]');
             this.highlightElement($form, $headerField);
             this.showHideControlProperties($form, 'header');
             $form.find('[data-datafield="HeaderField"]').show();
@@ -978,11 +996,11 @@ class CustomReportLayout {
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
         });
 
-        $form.on('click', '#reportDesigner [data-section="header"] div', e => {
+        $form.on('click', '#reportDesigner [data-section="header"] div, #reportDesigner [data-section="footer"] div', e => {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
             $headerField = $this;
-            $reportHeaderSection = $this.closest('[data-section="header"]');
+            $reportHeaderSection = $this.closest('[data-section]');
             this.highlightElement($form, $this);
             this.showHideControlProperties($form, 'header');
             $form.find('[data-datafield="HeaderField"]').hide();

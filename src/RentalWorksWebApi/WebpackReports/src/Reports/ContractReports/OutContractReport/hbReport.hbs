@@ -154,7 +154,7 @@
   </table>
 </div>
 
-<div data-section="footer" class="rpt-flexrow">
+<div data-section="footer" class="rpt-flexcolumn">
   <div class="rpt-flexrow">
     <div class="rpt-flexcolumn">
       <div class="rpt-nested-flexrow" id="termsRow" data-visible="{{#if TermsAndConditionsHtml}}true{{/if}}">
@@ -165,31 +165,30 @@
       </div>
     </div>
   </div>
-  <div class="rpt-flexrow avoid-page-break" style="margin-top:25px;">
+  <div class="rpt-flexrow avoid-page-break" style="margin-top:25px;border:2px solid black;">
     <div class="rpt-flexcolumn">
-      <div class="rpt-nested-flexrow" style="height:150px">
-        <fieldset>
-          <legend><span>RECEIVED BY</span></legend>
-          <div>
-            <div style="display:flex">
-              <div class="receivedbyfield">
-                <div class="value"><img id="base64img" src="{{PersonSignature}}" alt="signature" style="width:auto;height:100px;" /></div>
-                <div class="caption"><span>SIGNATURE</span></div>
-              </div>
-              <div class="receivedbyfield">
-                <div class="value"><span>{{PersonPrintName}}</span></div>
-                <div class="caption"><span>PRINT NAME</span></div>
-              </div>
-            </div>
-            <div style="display:flex">
-              <div class="receivedbyfield">
-                <div class="value"><span>{{ContractDate}}</span></div>
-                <div class="caption"><span>DATE</span></div>
-              </div>
-              <div class="receivedbyfield"></div>
-            </div>
-          </div>
-        </fieldset>
+      <div class="rpt-nested-flexrow" style="align-self:center;font-weight:bold;">
+        <span>RECEIVED BY</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+      </div>
+      <div class="rpt-nested-flexrow">
+        <img data-visible="{{#if PersonSignature}}true{{/if}}" id="base64img" src="{{PersonSignature}}" alt="signature" style="width:auto;flex:0 1 50%;white-space: nowrap;margin:0 1em;" />
+        <span data-visible="{{#if PersonPrintName}}true{{/if}}" style="flex:0 1 50%;white-space: nowrap;margin:0 1em;">{{PersonPrintName}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="flex:0 1 50%;border-top: 1px solid #000000; margin:1em;">SIGNATURE</span>
+        <span style="flex:0 1 50%;border-top: 1px solid #000000; margin:1em;">PRINT NAME</span>
+      </div>
+      <div class="rpt-nested-flexrow" style="min-height:1em;">
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="margin:0 1em;">{{ContractDate}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="border-top: 1px solid #000000; white-space: nowrap; flex:0 1 47.25%; margin:0 1em;">DATE</span>
+      </div>
+      <div class="rpt-nested-flexrow" style="min-height:1em;">
       </div>
     </div>
   </div>
