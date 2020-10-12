@@ -1176,10 +1176,11 @@ namespace WebApi.Modules.HomeControls.OrderItem
                                 itemAvailToDateTime = InventoryAvailabilityFunc.TransferAvailabilityToDateTime;
                             }
 
-
-
-                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, itemAvailFromDateTime, itemAvailToDateTime));
-                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, RwConstants.WAREHOUSEID_ALL, itemAvailFromDateTime, itemAvailToDateTime));
+                            if (itemAvailToDateTime >= DateTime.Today)
+                            {
+                                availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, itemAvailFromDateTime, itemAvailToDateTime));
+                                availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, RwConstants.WAREHOUSEID_ALL, itemAvailFromDateTime, itemAvailToDateTime));
+                            }
                         }
 
                         availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded: true, forceRefresh: false).Result;
@@ -1243,24 +1244,33 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         DateTime? conflictDateAllWarehouses = null;
                         string availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_STALE;
 
-                        if (loadAvail)
+
+                        if (itemAvailFromDateTime < DateTime.Today)
                         {
-                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                            availabilityState = RwConstants.AVAILABILITY_STATE_HISTORY;
+                            availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_HISTORY;
+                        }
+                        else
+                        {
+                            if (loadAvail)
                             {
-                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(itemAvailFromDateTime, itemAvailToDateTime);
+                                if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                                {
+                                    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(itemAvailFromDateTime, itemAvailToDateTime);
 
-                                qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
-                                conflictDate = minAvail.FirstConfict;
-                                availabilityState = minAvail.AvailabilityState;
-                            }
+                                    qtyAvailable = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                    conflictDate = minAvail.FirstConfict;
+                                    availabilityState = minAvail.AvailabilityState;
+                                }
 
-                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, RwConstants.WAREHOUSEID_ALL), out availData))
-                            {
-                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(itemAvailFromDateTime, itemAvailToDateTime);
+                                if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, RwConstants.WAREHOUSEID_ALL), out availData))
+                                {
+                                    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(itemAvailFromDateTime, itemAvailToDateTime);
 
-                                qtyAvailableAllWarehouses = minAvail.MinimumAvailable.OwnedAndConsigned;
-                                conflictDateAllWarehouses = minAvail.FirstConfict;
-                                availabilityStateAllWarehouses = minAvail.AvailabilityState;
+                                    qtyAvailableAllWarehouses = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                    conflictDateAllWarehouses = minAvail.FirstConfict;
+                                    availabilityStateAllWarehouses = minAvail.AvailabilityState;
+                                }
                             }
                         }
 
