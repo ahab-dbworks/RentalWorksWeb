@@ -1256,6 +1256,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
         public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "multipleactivities", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMultipleActivities { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         public List<RentalOrderItemReportLoader> RentalItems { get; set; } = new List<RentalOrderItemReportLoader>(new RentalOrderItemReportLoader[] { new RentalOrderItemReportLoader() });

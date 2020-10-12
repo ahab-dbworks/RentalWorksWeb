@@ -1010,6 +1010,10 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "multipleactivities", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMultipleActivities { get; set; }
+        //------------------------------------------------------------------------------------
+
         //------------------------------------------------------------------------------------
         public List<RentalInvoiceItemReportLoader> RentalItems { get; set; } = new List<RentalInvoiceItemReportLoader>(new RentalInvoiceItemReportLoader[] { new RentalInvoiceItemReportLoader() });
         //------------------------------------------------------------------------------------ 

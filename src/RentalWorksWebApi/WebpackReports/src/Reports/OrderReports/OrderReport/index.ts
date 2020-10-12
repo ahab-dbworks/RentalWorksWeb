@@ -11,7 +11,7 @@ const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
 export class OrderReport extends WebpackReport {
-    order: Order = null;
+    order: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -84,7 +84,7 @@ export class OrderReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: Order): string {
+    renderFooterHtml(model: any): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
@@ -92,7 +92,7 @@ export class OrderReport extends WebpackReport {
 
 (<any>window).report = new OrderReport();
 
-class Order {
+/*class Order {
     _Custom = new Array<CustomField>();
     Report: string;
     Company: string;
@@ -260,3 +260,4 @@ class Order {
     LaborItems: any;
     PrintTime: string;
 }
+*/
