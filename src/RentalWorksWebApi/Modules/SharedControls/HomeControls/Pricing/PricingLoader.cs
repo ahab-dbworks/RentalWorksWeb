@@ -116,6 +116,9 @@ namespace WebApi.Modules.HomeControls.Pricing
         [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
         public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hourlycost", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
