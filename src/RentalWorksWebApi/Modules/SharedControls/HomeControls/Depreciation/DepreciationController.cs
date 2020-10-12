@@ -68,6 +68,7 @@ namespace WebApi.Modules.HomeControls.Depreciation
         }
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/depreciation/A0000001 
+        // this method is temporary. Can be removed once Mike addresses Issue#3150
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "wjmBdCvjE2rFD", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<DepreciationLogic>> EditAsync([FromRoute] string id, [FromBody]DepreciationLogic l)

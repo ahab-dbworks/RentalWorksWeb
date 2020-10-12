@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.HomeControls.InventoryAvailability;
+using WebApi.Modules.HomeControls.InventoryPackageInventory;
 using WebApi.Modules.HomeControls.InventoryWarehouse;
 using WebApi.Modules.Utilities.RateUpdateBatch;
 using WebApi.Modules.Utilities.RateUpdateBatchItem;
@@ -97,6 +98,17 @@ namespace WebApi.Modules.Inventory.Inventory
     }
 
     public class RentalInventoryQcRequiredAllWarehousesResponse : TSpStatusResponse
+    {
+    }
+
+    public class InventoryWarehouseSpecificPackageRequest
+    {
+        public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
+        public bool IsWarehouseSpecific { get; set; }
+    }
+
+    public class InventoryWarehouseSpecificPackageResponse : TSpStatusResponse
     {
     }
 
@@ -316,6 +328,77 @@ namespace WebApi.Modules.Inventory.Inventory
                 iw2.QcRequired = request.QcRequired;
                 await iw2.SaveAsync(original: iw);
                 response.success = true;
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<InventoryWarehouseSpecificPackageResponse> SetWarehouseSpecificPackage(FwApplicationConfig appConfig, FwUserSession userSession, InventoryWarehouseSpecificPackageRequest request)
+        {
+            InventoryWarehouseSpecificPackageResponse response = new InventoryWarehouseSpecificPackageResponse();
+
+            InventoryWarehouseLogic lCurr = new InventoryWarehouseLogic();
+            lCurr.SetDependencies(appConfig, userSession);
+            lCurr.InventoryId = request.InventoryId;
+            lCurr.WarehouseId = request.WarehouseId;
+            if (await lCurr.LoadAsync<InventoryWarehouseLogic>())
+            {
+                if (!lCurr.IsWarehouseSpecific.Equals(request.IsWarehouseSpecific))
+                {
+                    InventoryWarehouseLogic lNew = lCurr.MakeCopy<InventoryWarehouseLogic>();
+                    lNew.SetDependencies(appConfig, userSession);
+                    lNew.IsWarehouseSpecific = request.IsWarehouseSpecific;
+                    await lNew.SaveAsync(original: lCurr);
+
+                    if (request.IsWarehouseSpecific)
+                    {
+                        //copy all items
+                        BrowseRequest itemBrowseRequest = new BrowseRequest();
+                        itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        itemBrowseRequest.uniqueids.Add("PackageId", request.InventoryId);
+                        itemBrowseRequest.uniqueids.Add("WarehouseId", "");  // copy the default warehouse definition
+                        itemBrowseRequest.orderby = "OrderBy";
+
+                        InventoryPackageInventoryLogic itemSelector = new InventoryPackageInventoryLogic();
+                        itemSelector.SetDependencies(appConfig, userSession);
+                        List<InventoryPackageInventoryLogic> items = await itemSelector.SelectAsync<InventoryPackageInventoryLogic>(itemBrowseRequest);
+
+                        foreach (InventoryPackageInventoryLogic i in items)
+                        {
+                            i.SetDependencies(appConfig, userSession);
+                            i.InventoryPackageInventoryId = ""; // creating a new
+                            i.WarehouseId = request.WarehouseId;
+                            await i.SaveAsync();
+                        }
+                    }
+                    else
+                    {
+                        // delete all items
+                        BrowseRequest itemBrowseRequest = new BrowseRequest();
+                        itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        itemBrowseRequest.uniqueids.Add("PackageId", request.InventoryId);
+                        itemBrowseRequest.uniqueids.Add("WarehouseId", request.WarehouseId);
+                        itemBrowseRequest.orderby = "OrderBy";
+
+                        InventoryPackageInventoryLogic itemSelector = new InventoryPackageInventoryLogic();
+                        itemSelector.SetDependencies(appConfig, userSession);
+                        List<InventoryPackageInventoryLogic> items = await itemSelector.SelectAsync<InventoryPackageInventoryLogic>(itemBrowseRequest);
+
+                        foreach (InventoryPackageInventoryLogic i in items)
+                        {
+                            i.SetDependencies(appConfig, userSession);
+                            i.deletingWarehouseSpecific = true;
+                            await i.DeleteAsync();
+                        }
+                    }
+                }
+                response.success = true;
+            }
+            else
+            {
+                //return NotFound();
+                response.success = false;
+                response.msg = "Invalid Inventory Warehouse object.";
             }
 
             return response;

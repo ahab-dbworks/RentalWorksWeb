@@ -134,7 +134,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         {
             useWithNoLock = false;
             string packageId = "";
-            string warehouseId = "xnonex";
+            string warehouseId = RwConstants.NONE;
             string currencyId = "";
             if ((request != null) && (request.uniqueids != null))
             {
@@ -162,12 +162,25 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
                 }
             }
 
+            if (warehouseId.Equals(RwConstants.NONE))
+            {
+                if (!string.IsNullOrEmpty(InventoryPackageInventoryId))
+                {
+                    warehouseId = AppFunc.GetStringDataAsync(AppConfig, "packageitem", "packageitemid", InventoryPackageInventoryId, "warehouseid").Result;
+                }
+            }
+
+            if (warehouseId.Equals(RwConstants.NONE))
+            {
+                warehouseId = "";
+            }
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddParameter("@packageid", packageId);
             select.AddParameter("@warehouseid", warehouseId);
             select.AddParameter("@currencyid", currencyId);
+            select.AddWhere("warehouseid = @warehouseid");
         }
         //------------------------------------------------------------------------------------ 
         private string getDefaultQuantityColor(decimal? defaultQuantity)

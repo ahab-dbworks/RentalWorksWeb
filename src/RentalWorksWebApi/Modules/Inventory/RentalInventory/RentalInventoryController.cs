@@ -150,6 +150,36 @@ namespace WebApi.Modules.Inventory.RentalInventory
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/rentalinventory/warehousespecificpackage
+        [HttpPost("warehousespecificpackage")]
+        [FwControllerMethod(Id: "53MaIeR7FEOiy", ActionType: FwControllerActionTypes.Option)]
+        public async Task<ActionResult<InventoryWarehouseSpecificPackageResponse>> SetWarehouseSpecificPackage([FromBody]InventoryWarehouseSpecificPackageRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                RentalInventoryLogic l = new RentalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.InventoryId = request.InventoryId;
+                if (await l.LoadAsync<RentalInventoryLogic>())
+                {
+                    InventoryWarehouseSpecificPackageResponse response = await InventoryFunc.SetWarehouseSpecificPackage(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventory/validateinventorytype/browse
         [HttpPost("validateinventorytype/browse")]
         [FwControllerMethod(Id: "HJOX4aCjQNGv", ActionType: FwControllerActionTypes.Browse)]

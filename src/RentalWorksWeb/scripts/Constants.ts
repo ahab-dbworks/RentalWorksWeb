@@ -931,6 +931,7 @@ var Constants = {
         InventoryVendorGrid:                    { id: 's9vdtBqItIEi',  caption: 'Inventory Vendor' },
         InventoryWarehouseCompletePricingGrid:  { id: 'g8sCuKjUVrW1',  caption: 'Warehouse Pricing' },
         InventoryWarehouseKitPricingGrid:       { id: 'g8sCuKjUVrW1',  caption: 'Warehouse Pricing' },
+        InventoryWarehouseSpecificGrid:         { id: 'HUmVUurETwRho', caption: 'Inventory Warehouse Specific' },
         InventoryWarehouseStagingGrid:          { id: 'g8sCuKjUVrW1',  caption: 'Inventory Warehouse Staging' },
         InvoiceBatchGrid:                       { id: '0NB2O1dDY0Y6',  caption: 'Invoice Batch' },
         InvoiceItemGrid:                        { id: '5xgHiF8dduf',   caption: 'Invoice Item',

@@ -116,6 +116,9 @@ namespace WebApi.Modules.HomeControls.MasterWarehouse
         [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehousespecific", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? IsWarehouseSpecific { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
