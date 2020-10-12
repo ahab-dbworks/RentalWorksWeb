@@ -102,9 +102,9 @@
       <tr data-row="linked-sub-header" data-sort="true" data-linkedrow="detail">
         <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
         <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
-        <th data-linkedcolumn="QuantityOrdered" data-valuefield="QuantityOrdered">QuantityOrdered</th>
-        <th data-linkedcolumn="TotalQuantity" data-valuefield="TotalQuantity">Total Out</th>
-        <th data-linkedcolumn="Quantity" data-valuefield="Quantity">Out</th>
+        <th data-linkedcolumn="QuantityOrdered" class="number" data-valuefield="QuantityOrdered">Quantity Ordered</th>
+        <th data-linkedcolumn="TotalQuantity" class="number" data-valuefield="TotalQuantity">Total Out</th>
+        <th data-linkedcolumn="Quantity" class="number" data-valuefield="Quantity">Out</th>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
