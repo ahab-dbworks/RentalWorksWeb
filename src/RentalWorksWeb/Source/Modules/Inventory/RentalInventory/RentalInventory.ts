@@ -1078,8 +1078,6 @@ class RentalInventory extends InventoryBase {
                     }
                     //const warehouseId = $tr.find('.field[data-browsedatatype="key"]').attr('data-originalvalue');
                     const warehouseId = $tr.find('.field[data-whkey="true"]').attr('data-originalvalue');
-
-                    const warehouseId = $tr.find('.field[data-browsedatatype="key"]').attr('data-originalvalue');
                     const warehouse = $tr.find('.field[data-validationname="WarehouseValidation"]').attr('data-originaltext') || '';
                     $grid.find('.gridmenu .menucaption').text(`Items ${warehouse ? '(' + warehouse + ')' : 'Items'}`);
                     $grid.data('ondatabind', request => {
