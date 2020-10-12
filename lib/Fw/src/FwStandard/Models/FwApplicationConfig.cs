@@ -23,6 +23,7 @@ namespace FwStandard.Models
         public string WebRequestPath { get; set; } = null;
         public string MobileRequestPath { get; set; } = null;
         public MobileAppConfig MobileApp { get; set; } = new MobileAppConfig();
+        public HubSpotSettings HubSpotSettings { get; set; } = new HubSpotSettings();
         //public bool EnableHttpsRedirect { get; set; } = false;
         //public List<RewriteRulesConfig> RewriteRules { get; set; }
     }
@@ -133,6 +134,11 @@ namespace FwStandard.Models
         public string Regex { get; set; } = string.Empty;
         public string Replacement { get; set; } = string.Empty;
         public bool SkipRemainingRules { get; set; } = false;
+    }
+    public class HubSpotSettings
+    {
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
     }
 
     //public class OktaSignInConfig

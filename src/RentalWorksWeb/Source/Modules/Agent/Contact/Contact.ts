@@ -148,25 +148,6 @@ class Contact {
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        if ($form.attr('data-mode') === 'NEW') {
-            let firstname = FwFormField.getValueByDataField($form, 'FirstName');
-            let lastname = FwFormField.getValueByDataField($form, 'LastName');
-            let email = FwFormField.getValueByDataField($form, 'Email');
-            (async () => {
-                const addHubSpotContact = await FwAjax.callWebApi<any, any>({
-                    httpMethod: 'POST',
-                    url: `${applicationConfig.apiurl}api/v1/hubspot/newcontact`,
-                    data: {
-                        accessToken: 'CKDG09LJLhICAQEYrpWDBCCr5dcFKI_4DTIZAODQ32U9gVpueofSbGH-_cnSH0j6bzbZbDoaAAoCQQAADIADAAgAAAABAAAAAAAAABjAABNCGQDg0N9lVBfvW5HkO3rUivbiyoTjSiRjsIQ',
-                        firstname: firstname,
-                        lastname: lastname,
-                        email: email
-                    },
-                    $elementToBlock: $form
-                })
-                console.log(JSON.parse(addHubSpotContact));
-            })();
-        }
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------

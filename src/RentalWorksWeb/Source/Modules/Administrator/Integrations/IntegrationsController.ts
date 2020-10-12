@@ -32,14 +32,6 @@ class Integrations implements IModule {
                 url: `${applicationConfig.apiurl}api/v1/integrations/hashubspotrefreshtoken`,
             }); 
             this.events($form, isHubSpotConnected.hasRefreshToken);
-            const getTest = await FwAjax.callWebApi<any, any>({
-                httpMethod: 'POST',
-                url: `${applicationConfig.apiurl}api/v1/hubspot/getcontactsepoch`,
-                data: {
-                    accessToken: 'COTzpIPRLhICAQEYz8GHBCCr5dcFKIKADjIZAJ6WPZqe3MsAcOHrUxeT4jAU30bOqW8GGjoaAAoCQQAADIADAAgAAAABAAAAAAAAABjAABNCGQCelj2aSCJ_zqwOe8pmj8ufrUK9j3_4QcA'
-                }
-            });
-            console.log(getTest);
         })()
         
         return $form;
@@ -48,6 +40,7 @@ class Integrations implements IModule {
     events($form: JQuery, ishubspotconnected: boolean) {
         let installUrl = "https://app.hubspot.com/oauth/authorize?client_id=7fd2d81a-ae52-4a60-af93-caa4d1fd5848&redirect_uri=http://localhost:57949/webdev&scope=contacts";
         let installBtn = $form.find('.hubspot-btn');
+        let syncBtn = $form.find('.sync-contacts-btn');
 
         ishubspotconnected ? installBtn.text('Disconnect') && installBtn.css('background-color', 'red') : installBtn.text('Connect');
 
@@ -63,6 +56,29 @@ class Integrations implements IModule {
                     installBtn.text('Connect').css('background-color', '#1976d2');
                     installBtn.trigger('change');
                 }
+            }
+        });
+        syncBtn.on('click', async () => {
+                const isHubSpotConnected = await FwAjax.callWebApi<any, any>({
+                    httpMethod: 'POST',
+                    url: `${applicationConfig.apiurl}api/v1/integrations/hashubspotrefreshtoken`,
+                });
+            if (isHubSpotConnected) {
+                const syncContacts = await FwAjax.callWebApi<any, any>({
+                    httpMethod: 'POST',
+                    url: `${applicationConfig.apiurl}api/v1/hubspot/getcontactsepoch`,
+                    data: {
+                        webusersid: sessionStorage.getItem('webusersid')
+                    },
+                    $elementToBlock: $form
+                });
+                if (syncContacts.Result.StatusCode === 200) {
+                    FwFunc.showMessage('Sync Has Successfully Completed');
+                } else {
+                    FwFunc.showMessage('Error, Sync Was Unsuccessful!');
+                }
+            } else {
+                FwFunc.showMessage('HubSpot Must Be Connected Before Syncing!')
             }
         });
     }

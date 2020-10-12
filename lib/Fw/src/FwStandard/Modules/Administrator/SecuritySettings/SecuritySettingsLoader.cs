@@ -26,7 +26,10 @@ namespace FwStandard.Modules.Administrator.SecuritySettings
         public string lockuserafterfailedattempts { get; set; }
         [XmlElement("lockuserafterfailedattemptsnumber")]
         public int lockuserafterfailedattemptsnumber { get; set; }
+        [XmlElement("epochlastsynced")]
+        public long epochlastsynced { get; set; } = 0;
         [FwLogicProperty(Id: "0CeIdtbq2fhA")]
         public string RecordTitle { get; set; }
+
     }
 }
