@@ -771,11 +771,13 @@ class SalesInventory extends InventoryBase {
             tag = 'kit';
         }
 
-        const warehouseSpecificPackage = FwFormField.getValue($form, `div[data-datafield="WarehouseSpecificPackage"].${tag}`);
-        if (warehouseSpecificPackage) {
-            FwFormField.enable($grid);
-        } else {
-            FwFormField.disable($grid);
+        if ((classification === 'C') || (classification === 'K')) {
+            const warehouseSpecificPackage = FwFormField.getValue($form, `div[data-datafield="WarehouseSpecificPackage"].${tag}`);
+            if (warehouseSpecificPackage) {
+                FwFormField.enable($grid);
+            } else {
+                FwFormField.disable($grid);
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
