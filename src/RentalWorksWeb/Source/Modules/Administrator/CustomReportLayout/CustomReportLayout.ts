@@ -389,6 +389,13 @@ class CustomReportLayout {
 
                         break;
                     case 'footer':
+                        $wrapper = jQuery(`<div class="footer-section">
+                                               <span>Footer</span>
+                                               <div class="footer-wrapper"></div>
+                                           </div>`);
+                        $section.contents().filter(function () { return (this.nodeType == 3) }).remove(); //removes text nodes (handlebars)
+                        this.addReportHeaderSorting($form, $section.find('.rpt-flexrow'));
+                        $wrapper.find('.footer-wrapper').append($section);
                         break;
                 }
                 $form.find(`#reportDesigner`).append($wrapper);
@@ -894,6 +901,7 @@ class CustomReportLayout {
 
         //Add empty report container row
         $form.on('click', '.add-empty-container', e => {
+            e.stopPropagation();
             if (typeof $reportHeaderSection != 'undefined') {
                 const $emptyContainer = jQuery(`<div class="rpt-flexrow" style="min-height:100px;"></div>`);
                 this.addReportHeaderSorting($form, $emptyContainer);
@@ -905,6 +913,7 @@ class CustomReportLayout {
 
         //Add empty report header column
         $form.on('click', '.add-empty-col', e => {
+            e.stopPropagation();
             if (typeof $reportHeaderSection != 'undefined') {
                 const $emptyCol = jQuery(`<div class="rpt-flexcolumn"></div>`);
                 if ($reportHeaderSection.find('.rpt-flexrow').length > 0) {
@@ -920,6 +929,7 @@ class CustomReportLayout {
 
         //Add empty report header row
         $form.on('click', '.add-empty-row', e => {
+            e.stopPropagation();
             if (typeof $reportHeaderSection != 'undefined') {
                 const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
                 if ($reportHeaderSection.find('.rpt-flexcolumn').length > 0) {
