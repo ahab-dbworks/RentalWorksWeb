@@ -20,7 +20,7 @@ namespace WebApi.Modules.Settings.OrderSettings.MarketType
         [FwLogicProperty(Id:"nifjEyvBYGbP", IsRecordTitle:true)]
         public string MarketType { get { return marketType.MarketType; } set { marketType.MarketType = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxx")]
+        [FwLogicProperty(Id: "LiEOTnBaC6mx")]
         public string ExportCode { get { return marketType.ExportCode; } set { marketType.ExportCode = value; } }
 
         [FwLogicProperty(Id:"e5euUtECYjY")]
