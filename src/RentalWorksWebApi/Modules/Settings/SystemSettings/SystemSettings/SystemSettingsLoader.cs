@@ -52,6 +52,9 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwSqlDataField(column: "allowdeleteinvoice", modeltype: FwDataTypes.Boolean)]
         public bool? AllowDeleteInvoices { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowinvoicedatechange", modeltype: FwDataTypes.Boolean)]
+        public bool? AllowInvoiceDateChange { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

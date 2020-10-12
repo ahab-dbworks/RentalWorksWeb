@@ -168,6 +168,11 @@ class Invoice {
             FwTabs.hideTab($form.find('.receipt-tab'));
         }
 
+        const allowinvoicedatechange = JSON.parse(sessionStorage.getItem('controldefaults')).allowinvoicedatechange;
+        if (!allowinvoicedatechange) {
+            FwFormField.disableDataField($form, 'InvoiceDate');
+        }
+
         if (FwApplicationTree.isVisibleInSecurityTree('3XHEm3Q8WSD8z')) {
             const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
             $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);

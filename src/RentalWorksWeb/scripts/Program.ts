@@ -275,6 +275,7 @@ class Program extends FwApplication {
                     userassigneddealnumber:              userassigneddealnum,
                     multiwarehouse: (responseGetWarehouses.Rows.length > 1),
                     allowdeleteinvoices:                 responseGetSystemSettings.AllowDeleteInvoices,
+                    allowinvoicedatechange:              responseGetSystemSettings.AllowInvoiceDateChange,
                 }
                 sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 

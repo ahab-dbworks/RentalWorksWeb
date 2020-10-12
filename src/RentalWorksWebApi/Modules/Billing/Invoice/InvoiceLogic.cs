@@ -497,6 +497,12 @@ namespace WebApi.Modules.Billing.Invoice
         {
             bool isValid = true;
 
+
+            SystemSettingsLogic s = new SystemSettingsLogic();
+            s.SetDependencies(AppConfig, UserSession);
+            s.SystemSettingsId = RwConstants.CONTROL_ID;
+            bool b = s.LoadAsync<SystemSettingsLogic>().Result;
+
             if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if (!string.IsNullOrEmpty(DealId))
@@ -505,9 +511,20 @@ namespace WebApi.Modules.Billing.Invoice
                     insertingDeal = new DealLogic();
                     insertingDeal.SetDependencies(AppConfig, UserSession);
                     insertingDeal.DealId = DealId;
-                    bool b = insertingDeal.LoadAsync<DealLogic>().Result;
+                    bool b2 = insertingDeal.LoadAsync<DealLogic>().Result;
                 }
 
+                if (isValid)
+                {
+                    if (!s.AllowInvoiceDateChange.GetValueOrDefault(false))
+                    {
+                        if (!FwConvert.ToDateTime(InvoiceDate).Equals(DateTime.Today))
+                        {
+                            isValid = false;
+                            validateMsg = "Invoice Date cannot be changed.";
+                        }
+                    }
+                }
             }
             else //smUpdate
             {
@@ -534,6 +551,19 @@ namespace WebApi.Modules.Billing.Invoice
                     {
                         isValid = false;
                         validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                    }
+                }
+
+                // cannot change the Invoice date if system is configured so
+                if (isValid)
+                {
+                    if (!s.AllowInvoiceDateChange.GetValueOrDefault(false))
+                    {
+                        if ((InvoiceDate != null) && (!InvoiceDate.Equals(lOrig.InvoiceDate)))
+                        {
+                            isValid = false;
+                            validateMsg = "Invoice Date cannot be changed.";
+                        }
                     }
                 }
             }

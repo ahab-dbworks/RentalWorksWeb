@@ -1,9 +1,9 @@
 ﻿class InvoiceProcessBatch {
-    Module:     string = 'InvoiceProcessBatch';
-    apiurl:     string = 'api/v1/invoiceprocessbatch';
-    caption:    string = Constants.Modules.Utilities.children.InvoiceProcessBatch.caption;
-    nav:        string = Constants.Modules.Utilities.children.InvoiceProcessBatch.nav;
-    id:         string = Constants.Modules.Utilities.children.InvoiceProcessBatch.id;
+    Module: string = 'InvoiceProcessBatch';
+    apiurl: string = 'api/v1/invoiceprocessbatch';
+    caption: string = Constants.Modules.Utilities.children.InvoiceProcessBatch.caption;
+    nav: string = Constants.Modules.Utilities.children.InvoiceProcessBatch.nav;
+    id: string = Constants.Modules.Utilities.children.InvoiceProcessBatch.id;
     exporttype: string = 'InvoiceBatchExport';
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
@@ -36,8 +36,18 @@
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         const today = FwFunc.getDate();
-        FwFormField.setValueByDataField($form, 'AsOfDate', today);
         FwFormField.setValueByDataField($form, 'ProcessInvoices', true);
+
+        const allowinvoicedatechange = JSON.parse(sessionStorage.getItem('controldefaults')).allowinvoicedatechange;
+        if (allowinvoicedatechange) {
+            FwFormField.getDataField($form, 'AsOfDate').hide();
+            FwFormField.getDataField($form, 'InvoiceDates').show();
+            FwFormField.setValueByDataField($form, 'InvoiceDates', '(Each Invoice Date)');
+        }
+        else {
+            FwFormField.setValueByDataField($form, 'AsOfDate', today);
+        }
+        
 
         const request: any = {};
         request.uniqueids = {
@@ -64,8 +74,11 @@
                 let request;
                 let location = JSON.parse(sessionStorage.getItem('location'));
                 var userId = sessionStorage.getItem('usersid');
+
+                const allowinvoicedatechange = JSON.parse(sessionStorage.getItem('controldefaults')).allowinvoicedatechange;
+
                 request = {
-                    AsOfDate: FwFormField.getValueByDataField($form, 'AsOfDate'),
+                    AsOfDate: (allowinvoicedatechange ? null : FwFormField.getValueByDataField($form, 'AsOfDate')),
                     LocationId: location.locationid
                 };
 
@@ -77,7 +90,6 @@
                         FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
                         exportBatch();
                     } else {
-                        //FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
                         FwNotification.renderNotification('WARNING', response.msg);
                     }
                 }, null, $form, userId);
@@ -134,6 +146,11 @@
                 }
                 FwFormField.enable($form.find(`${controlsToEnable}`));
                 FwFormField.disable($form.find(`${controlsToDisable}`));
+
+                const allowinvoicedatechange = JSON.parse(sessionStorage.getItem('controldefaults')).allowinvoicedatechange;
+                if (allowinvoicedatechange) {
+                    FwFormField.disableDataField($form, 'InvoiceDates');
+                }
             })
 
         const exportBatch = () => {

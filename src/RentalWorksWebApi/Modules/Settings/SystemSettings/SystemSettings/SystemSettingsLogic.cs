@@ -66,6 +66,8 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwLogicProperty(Id: "XuNW5diLKlWu")]
         public bool? AllowDeleteInvoices { get { return sysControl.AllowDeleteInvoices; } set { sysControl.AllowDeleteInvoices = value; } }
 
+        [FwLogicProperty(Id: "mYWrAlicPDZB")]
+        public bool? AllowInvoiceDateChange { get { return sysControl.AllowInvoiceDateChange; } set { sysControl.AllowInvoiceDateChange = value; } }
 
         [FwLogicProperty(Id: "54tMuScs2fSPS")]
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }

@@ -20,38 +20,30 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
             string batchId = "";
             InvoiceProcessBatchResponse response = new InvoiceProcessBatchResponse();
 
-            if (await FiscalFunc.DateIsInClosedMonth(appConfig, userSession, request.AsOfDate))
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                response.success = false;
-                response.msg = "Invoices cannot be Processed to a Closed month.";
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "createchargebatch2", appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@asof", SqlDbType.DateTime, ParameterDirection.Input, request.AsOfDate);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
+                    qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    batchId = qry.GetParameter("@chgbatchid").ToString();
+                    response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+                }
             }
-            else
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-                    using (FwSqlCommand qry = new FwSqlCommand(conn, "createchargebatch2", appConfig.DatabaseSettings.QueryTimeout))
-                    {
-                        qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                        qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                        qry.AddParameter("@asof", SqlDbType.DateTime, ParameterDirection.Input, request.AsOfDate);
-                        qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
-                        qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
-                        qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                        qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                        await qry.ExecuteNonQueryAsync();
-                        batchId = qry.GetParameter("@chgbatchid").ToString();
-                        response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                        response.msg = qry.GetParameter("@msg").ToString();
-                    }
-                }
 
-                if (!string.IsNullOrEmpty(batchId))
-                {
-                    response.Batch = new InvoiceProcessBatchLogic();
-                    response.Batch.SetDependencies(appConfig, userSession);
-                    response.Batch.BatchId = batchId;
-                    await response.Batch.LoadAsync<InvoiceProcessBatchLogic>();
-                }
+            if (!string.IsNullOrEmpty(batchId))
+            {
+                response.Batch = new InvoiceProcessBatchLogic();
+                response.Batch.SetDependencies(appConfig, userSession);
+                response.Batch.BatchId = batchId;
+                await response.Batch.LoadAsync<InvoiceProcessBatchLogic>();
             }
 
             return response;

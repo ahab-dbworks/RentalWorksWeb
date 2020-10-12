@@ -14,7 +14,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
     public class InvoiceProcessBatchRequest
     {
         public string LocationId { get; set; }
-        public DateTime AsOfDate { get; set; }
+        public DateTime? AsOfDate { get; set; }
     }
 
     public class InvoiceProcessBatchResponse : TSpStatusResponse

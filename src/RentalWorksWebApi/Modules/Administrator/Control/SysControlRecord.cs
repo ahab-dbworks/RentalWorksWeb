@@ -584,6 +584,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "allowdeleteinvoice", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? AllowDeleteInvoices { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowinvoicedatechange", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AllowInvoiceDateChange { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
