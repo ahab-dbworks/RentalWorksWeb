@@ -610,18 +610,18 @@ export class CustomerType extends SettingsModule {
         this.defaultNewRecordToExpect = {
             CustomerType: "",
             Inactive: false,
-            DefaultRentalDiscountPercent: "",
-            DefaultSalesDiscountPercent: "",
-            DefaultFacilitiesDiscountPercent: "",
+            //DefaultRentalDiscountPercent: "",
+            //DefaultSalesDiscountPercent: "",
+            //DefaultFacilitiesDiscountPercent: "",
         }
 
         this.newRecordsToCreate = [
             {
                 record: {
                     CustomerType: "GlobalScope.TestToken~1.TestToken",
-                    DefaultRentalDiscountPercent: "10",
-                    DefaultSalesDiscountPercent: "20",
-                    DefaultFacilitiesDiscountPercent: "30.33",
+                    //DefaultRentalDiscountPercent: "10",
+                    //DefaultSalesDiscountPercent: "20",
+                    //DefaultFacilitiesDiscountPercent: "30.33",
                 },
                 seekObject: {
                     CustomerType: "GlobalScope.TestToken~1.TestToken",
@@ -637,9 +637,9 @@ export class CustomerType extends SettingsModule {
         ];
         this.newRecordsToCreate[0].recordToExpect = {
             CustomerType: this.newRecordsToCreate[0].record.CustomerType.toUpperCase(),
-            DefaultRentalDiscountPercent: this.newRecordsToCreate[0].record.DefaultRentalDiscountPercent + " %",
-            DefaultSalesDiscountPercent: this.newRecordsToCreate[0].record.DefaultSalesDiscountPercent + " %",
-            DefaultFacilitiesDiscountPercent: this.newRecordsToCreate[0].record.DefaultFacilitiesDiscountPercent + " %",
+            //DefaultRentalDiscountPercent: this.newRecordsToCreate[0].record.DefaultRentalDiscountPercent + " %",
+            //DefaultSalesDiscountPercent: this.newRecordsToCreate[0].record.DefaultSalesDiscountPercent + " %",
+            //DefaultFacilitiesDiscountPercent: this.newRecordsToCreate[0].record.DefaultFacilitiesDiscountPercent + " %",
             Inactive: false,
         }
     }

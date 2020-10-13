@@ -918,8 +918,7 @@ export class InventoryIntegrityTest extends BaseTest {
                 while (iCode.includes('_')) {
                     iCode = iCode.replace('_', '');
                 }
-                if (iCode.endsWith('-'))
-                {
+                if (iCode.endsWith('-')) {
                     iCode = iCode.substring(0, iCode.length - 1);
                 }
                 this.globalScopeRef[module.moduleName + "~" + quantityRentalInventoryKey].ICode = iCode;
@@ -1689,7 +1688,7 @@ export class InventoryIntegrityTest extends BaseTest {
             test(testName, async () => {
                 //quantity
                 let expectedInvData: InventoryData = new InventoryData();
-
+            
                 expectedInvData.qtyTotal = 20;
                 expectedInvData.qtyIn = 17;
                 expectedInvData.qtyQcRequired = 0;
@@ -1700,13 +1699,13 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 16", " 10", " 10", "  7", " -3", " -3", " -3", "  7", "  7", "  9", "  7", " 10", " 10", " 10", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16", " 16",]);
-
+            
                 let record: NewRecordToCreate = rentalInventoryModule.newRecordsToCreate[0];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "060");
-
+            
                 //barcode
                 expectedInvData = new InventoryData();
-
+            
                 expectedInvData.qtyTotal = 20;
                 expectedInvData.qtyIn = 15;
                 expectedInvData.qtyQcRequired = 0;
@@ -1716,11 +1715,11 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData.qtyInRepair = 3;
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
-                expectedInvData.populateAvailDates([" 15", "  9", "  9", "  6", " -4", " -4", " -4", "  6", "  6", "  8", " 6", "  9", "  9", "  9", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15",]);
-
+                expectedInvData.populateAvailDates([" 14", "  8", "  8", "  5", " -5", " -5", " -5", "  5", "  5", "  8", " 6", "  9", "  9", "  9", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15",]);
+            
                 record = rentalInventoryModule.newRecordsToCreate[1];
                 await this.TestInventoryIntegrity(rentalInventoryModule, record, expectedInvData, "061");
-
+            
             }, this.testTimeout);
             //---------------------------------------------------------------------------------------
 
@@ -1734,7 +1733,7 @@ export class InventoryIntegrityTest extends BaseTest {
 describe('InventoryIntegrityTest', () => {
     try {
         new InventoryIntegrityTest().Run();
-    } catch(ex) {
+    } catch (ex) {
         fail(ex);
     }
 });
