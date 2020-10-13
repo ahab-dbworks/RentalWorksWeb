@@ -944,7 +944,7 @@ class FwModule {
                 const $tab = FwTabs.getTabByElement($form);
                 $tab.find('.modified').text('');
                 FwModule.closeForm($form, $tab);
-                FwBrowse.showMultiRowSelector($browse, $browse.find('[data-type="MultiRowEditButton"]'));
+                FwBrowse.showMultiRowSelector($browse);
                 FwBrowse.search($browse);
                 FwNotification.renderNotification('SUCCESS', 'Records successfully updated.');
             }, ex => FwFunc.showError(ex), $form);
@@ -956,27 +956,36 @@ class FwModule {
     static deleteRecord(module: string, $control: JQuery) {
         try {
             const $browse = $control;
-            const $selectedRow = $browse.find('tr.selected');
-            if ($selectedRow.length > 0) {
-                const $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
+            let $selectedRows;
+            if ($control.data('hasmultirowselect') && $control.data('showmultirowselect') == 'true') {
+                $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+            } else {
+                $selectedRows = $browse.find('tr.selected');
+            }
+
+            if ($selectedRows.length > 0) {
+                const confirmationText = $selectedRows.length === 1 ? 'this record' : $selectedRows.length + ' records';
+                const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete ${confirmationText}?`);
                 const $yes = FwConfirmation.addButton($confirmation, 'Yes');
                 const $no = FwConfirmation.addButton($confirmation, 'No');
                 $yes.focus();
                 $yes.on('click', e => {
                     const controller = $browse.attr('data-controller');
-                    const ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
-                    const request: any = {
-                        module: (<any>window[controller]).Module,
-                        ids: ids
-                    };
-                    FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
-                        const $form = FwModule.getFormByUniqueIds(ids);
-                        if ((typeof $form != 'undefined') && ($form.length > 0)) {
-                            const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
-                            FwModule.closeFormTab($tab, $form, true);
-                        }
-                        FwBrowse.databind($browse);
-                    });
+                    for (let i = 0; i < $selectedRows.length; i++) {
+                        const ids = FwBrowse.getRowFormUniqueIds($browse, jQuery($selectedRows[i]));
+                        const request: any = {
+                            module: (<any>window[controller]).Module,
+                            ids: ids
+                        };
+                        FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
+                            const $form = FwModule.getFormByUniqueIds(ids);
+                            if ((typeof $form != 'undefined') && ($form.length > 0)) {
+                                const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
+                                FwModule.closeFormTab($tab, $form, true);
+                            }
+                            FwBrowse.databind($browse);
+                        });
+                    }
                 });
                 // hotkey support for confirmation buttons
                 $confirmation.on('keyup', e => {

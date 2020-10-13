@@ -791,7 +791,7 @@ class FwMenuClass {
                     const $browse = options.$browse;
                     if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
                         let $selectedRows;
-                        if ($browse.find('.multi-edit-active').length) {
+                        if ($browse.data('showmultirowselect') === 'true') {
                             $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
                         } else {
                             $selectedRows = $browse.find('tr.selected');
