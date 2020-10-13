@@ -1708,12 +1708,12 @@ export class InventoryIntegrityTest extends BaseTest {
                 expectedInvData = new InventoryData();
 
                 expectedInvData.qtyTotal = 20;
-                expectedInvData.qtyIn = 16;
+                expectedInvData.qtyIn = 15;
                 expectedInvData.qtyQcRequired = 0;
                 expectedInvData.qtyInContainer = 0;
                 expectedInvData.qtyStaged = 1;
                 expectedInvData.qtyOut = 1;
-                expectedInvData.qtyInRepair = 2;
+                expectedInvData.qtyInRepair = 3;
                 expectedInvData.qtyInTransit = 0;
                 //                                    00     01     02     03     04     05     06     07     08     09     10     11     12     13     14     15     16     17     18     19     20     21     22     23     24
                 expectedInvData.populateAvailDates([" 15", "  9", "  9", "  6", " -4", " -4", " -4", "  6", "  6", "  8", " 6", "  9", "  9", "  9", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15", " 15",]);
