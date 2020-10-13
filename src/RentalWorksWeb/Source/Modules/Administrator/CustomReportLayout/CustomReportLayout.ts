@@ -57,7 +57,7 @@ class CustomReportLayout {
         this.designerEvents($form);
 
         //temp 
-        FwFormField.setValueByDataField($form, 'BaseReport', 'OutContractReport', null, true);
+        //FwFormField.setValueByDataField($form, 'BaseReport', 'OutContractReport', null, true);
 
         return $form;
     }
