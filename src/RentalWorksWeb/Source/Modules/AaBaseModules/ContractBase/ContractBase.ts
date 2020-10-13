@@ -643,6 +643,7 @@ abstract class ContractBase {
             // After Save, remove and clear out reason row
             $form.find('.date-change-reason').hide();
             FwFormField.setValueByDataField($form, 'BillingDateChangeReason', '');
+            $form.find('div[data-datafield="BillingDateChangeReason"]').attr('data-required', 'false');
         }
         this.showHideDeliveryLocationField($form);
 
