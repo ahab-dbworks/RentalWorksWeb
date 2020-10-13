@@ -47,6 +47,7 @@ class OutContractReport extends FwWebApiReport {
     constructor() {
         super('OutContractReport', 'api/v1/outcontractreport', outContractReportTemplate);
         this.reportOptions.HasDownloadExcel = false;
+        this.designerProvisioned = true;
     };
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

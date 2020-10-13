@@ -55,6 +55,10 @@ class CustomReportLayout {
         this.loadModules($form);
         this.events($form);
         this.designerEvents($form);
+
+        //temp 
+        //FwFormField.setValueByDataField($form, 'BaseReport', 'OutContractReport', null, true);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -173,6 +177,8 @@ class CustomReportLayout {
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
         modulefields.empty();
+        const $headerFields = $form.find('.header-fields-drag');
+        $headerFields.empty();
         FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/emptyobject`, null, FwServices.defaultTimeout,
             response => {
                 let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
@@ -215,14 +221,19 @@ class CustomReportLayout {
 
                 for (let i = 0; i < allValidFields.length; i++) {
                     modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].value}</div>`);
+                    $headerFields.append(`<span>${allValidFields[i].value}</span>`);
                     if (allValidFields[i].hasOwnProperty("NestedItems")) {
                         for (const key of Object.keys(allValidFields[i].NestedItems)) {
                             if (key != '_Custom') {
                                 modulefields.append(`<div data-iscustomfield="false" data-isnested="true" data-parentfield="${allValidFields[i].value}" style="text-indent:1em;">${key}</div>`);
+                                $headerFields.append(`<span data-parentfield="${allValidFields[i].value}" style="text-indent:1em;">${key}</span>`);
                             }
                         }
                     }
                 }
+
+                //add draggable fields to designer
+                this.addNestedSorting($form, $headerFields, true);
 
                 FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
 
@@ -350,6 +361,7 @@ class CustomReportLayout {
                                                <div class="header-wrapper"></div>
                                            </div>`);
                         $section.contents().filter(function () { return (this.nodeType == 3) }).remove(); //removes text nodes (handlebars)
+                        this.addReportHeaderSorting($form, $section.find('.rpt-flexrow'));
                         $wrapper.find('.header-wrapper').append($section);
                         break;
                     case 'table':
@@ -377,6 +389,13 @@ class CustomReportLayout {
 
                         break;
                     case 'footer':
+                        $wrapper = jQuery(`<div class="footer-section">
+                                               <span>Footer</span>
+                                               <div class="footer-wrapper"></div>
+                                           </div>`);
+                        $section.contents().filter(function () { return (this.nodeType == 3) }).remove(); //removes text nodes (handlebars)
+                        this.addReportHeaderSorting($form, $section.find('.rpt-flexrow'));
+                        $wrapper.find('.footer-wrapper').append($section);
                         break;
                 }
                 $form.find(`#reportDesigner`).append($wrapper);
@@ -422,8 +441,117 @@ class CustomReportLayout {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                 $table.find('.highlight').removeClass('highlight');
                 $table.find(`[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
-            }
+            },
+            animation: 100
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    addReportHeaderSorting($form: JQuery, $elements: JQuery) {
+        //for sorting cols within rows
+        for (let i = 0; i < $elements.length; i++) {
+            const $element = jQuery($elements[i]);
+            Sortable.create($element[0], {
+                group: 'row',
+                onStart: e => {
+                    //
+                },
+                onEnd: e => {
+                    const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
+                    this.updateReportHeader($form, $reportHeaderSection);
+                },
+                delay: 500,
+                animation: 100,
+                dragoverBubble: true
+            });
+
+            if ($element.find('.rpt-flexcolumn').length > 0){
+                this.addReportHeaderColSorting($form, $element.find('.rpt-flexcolumn'));
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    addReportHeaderColSorting($form: JQuery, $elements: JQuery) {
+        //for sorting rows within columns
+        for (let i = 0; i < $elements.length; i++) {
+            const $element = jQuery($elements[i]);
+            Sortable.create($element[0], {
+                group: 'column',
+                onStart: e => {
+                    //
+                },
+                onEnd: e => {
+                    const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
+                    this.updateReportHeader($form, $reportHeaderSection);
+                },
+                delay: 500,
+                animation: 100,
+                dragoverBubble: true
+            });
+
+            if ($element.find('.rpt-nested-flexrow').length > 0) {
+                const $nestedElements = $element.find('.rpt-nested-flexrow');
+                this.addNestedSorting($form, $nestedElements, false);
+            }
+        }
+      
+    }
+    //----------------------------------------------------------------------------------------------
+    addNestedSorting($form: JQuery, $nestedElements: JQuery, clone?: boolean) {
+        for (let j = 0; j < $nestedElements.length; j++) {
+            const $nestedElement = jQuery($nestedElements[j]);
+            const group: any = { name: 'nested' };
+            if (clone) {
+                group.pull = 'clone';
+                group.put = false;
+            };
+
+            Sortable.create($nestedElement[0], {
+                group: group,
+                onStart: e => {
+                    //
+                },
+                onEnd: e => {
+                    if (jQuery(e.item).parent().hasClass('rpt-nested-flexrow')) {
+                        if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
+                            jQuery(e.item).text(`{{${jQuery(e.item).text()}}}`);
+                        }
+                        const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
+                        this.updateReportHeader($form, $reportHeaderSection);
+                    }
+                },
+                delay: 500,
+                animation: 100,
+                fallbackOnBody: true,
+                dragoverBubble: true
+            });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    addButtonMenu($form: JQuery) {
+        let $buttonmenu = $form.find('.add-text-field[data-type="btnmenu"]');
+        let $addEmptyContainer = FwMenu.generateButtonMenuOption('ADD CONTAINER'),
+            $addEmptyCol = FwMenu.generateButtonMenuOption('ADD COLUMN'),
+            $addEmptyRow = FwMenu.generateButtonMenuOption('ADD ROW');
+
+        $addEmptyContainer.addClass('add-empty-container');
+        $addEmptyCol.addClass('add-empty-col');
+        $addEmptyRow.addClass('add-empty-row');
+
+        let menuOptions = [];
+        menuOptions.push($addEmptyRow, $addEmptyCol, $addEmptyContainer);
+
+        FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
+    }
+    //----------------------------------------------------------------------------------------------
+    updateReportHeader($form: JQuery, $headerSection: JQuery) {
+        const headerFor = $headerSection.attr('data-headerfor') || '';
+
+        if ($headerSection.attr('data-section') === 'footer') {
+            $form.data('isfooter', true);
+        }
+        $form.data('updatetype', 'reportheader');
+        $form.data('reportheaderfor', headerFor);
+        this.updateHTML($form, null, null);
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $table: JQuery, $tr: JQuery, $th?) {
@@ -434,13 +562,21 @@ class CustomReportLayout {
             this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser  
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
             if (updateType == 'reportheader') {
+                let sectionType;
                 const headerFor = $form.data('reportheaderfor');
-                if (headerFor == '') {
-                    newHTML = $form.find('#reportDesigner .header-wrapper').get(0).innerHTML;
-                    $wrapper.find('[data-section="header"]').html(newHTML);
+                if ($form.data('isfooter')) {
+                    sectionType = 'footer';
+                    $form.removeData('isfooter');
                 } else {
-                    newHTML = $form.find(`#reportDesigner .header-wrapper [data-headerfor="${headerFor}"]`).get(0).outerHTML;
-                    $wrapper.find(`[data-section="header"][data-headerfor="${headerFor}"]`).html(newHTML);
+                    sectionType = 'header';
+                }
+
+                if (headerFor == '') {
+                    newHTML = $form.find(`#reportDesigner .${sectionType}-wrapper [data-section="${sectionType}"]`).get(0).innerHTML;
+                    $wrapper.find(`[data-section="${sectionType}"]`).html(newHTML);
+                } else {
+                    newHTML = $form.find(`#reportDesigner .${sectionType}-wrapper [data-headerfor="${headerFor}"]`).get(0).outerHTML;
+                    $wrapper.find(`[data-section="${sectionType}"][data-headerfor="${headerFor}"]`).html(newHTML);
                 }
                 $form.removeData('reportheaderfor');
             } else {
@@ -531,7 +667,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery) {
-        let $table, $row, $column, $headerField;
+        let $table, $row, $column, $headerField, $reportSection;
         const $addColumn = $form.find('.addColumn');
         const $addRow = $form.find('.addRow');
 
@@ -556,6 +692,9 @@ class CustomReportLayout {
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.text(value);
+                        if ($reportSection.attr('data-section') === 'footer') {
+                            $form.data('isfooter', true);
+                        }
                         $form.data('updatetype', 'reportheader');
                         $form.data('reportheaderfor', headerFor);
                     }
@@ -564,6 +703,9 @@ class CustomReportLayout {
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.attr('style', value);
+                        if ($reportSection.attr('data-section') === 'footer') {
+                            $form.data('isfooter', true);
+                        }
                         $form.data('updatetype', 'reportheader');
                         $form.data('reportheaderfor', headerFor);
                     }
@@ -644,7 +786,7 @@ class CustomReportLayout {
             }
         });
 
-        //add header column
+        //add table header column
         $addColumn.on('click', e => {
             const newId = program.uniqueId(8);
             $column = jQuery(`<th data-linkedcolumn="${newId}" class="new-column"></th>`);
@@ -665,7 +807,7 @@ class CustomReportLayout {
             this.showHideControlProperties($form, 'table');
         });
 
-        //add rows
+        //add table header rows
         $addRow.on('click', e => {
             $row = this.addNewHeaderRow($form);
             $form.data('updatetype', 'addrow');
@@ -690,7 +832,7 @@ class CustomReportLayout {
             }
         });
 
-        //delete row
+        //delete table row
         $form.on('click', '.delete-row', e => {
             if (typeof $column !== 'undefined') {
                 $row = $column.parents('tr');
@@ -732,8 +874,7 @@ class CustomReportLayout {
             $form.data('updatetype', 'tableheader');
             this.setControlValues($form, $column);
             const linkedColumn = $column.attr('data-linkedColumn');
-            $form.find('#reportDesigner .highlight').removeClass('highlight');
-            $table.find(`[data-linkedcolumn="${linkedColumn}"]`).addClass('highlight');
+            this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumn}"]`));
             this.showHideControlProperties($form, 'table');
             if ($column.parents('tr').index()) {
                 $form.find('.delete-row').parent('div').show();
@@ -747,8 +888,7 @@ class CustomReportLayout {
             e.stopPropagation();
             $column = jQuery(e.currentTarget);
             $table = $column.parents('table');
-            $form.find('#reportDesigner .highlight').removeClass('highlight');
-            $column.addClass('highlight');
+            this.highlightElement($form, $column);
             const tableName = $table.parents('.table-wrapper').attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
             FwFormField.setValueByDataField($form, 'CellStyleField', $column.attr('style') || '');
@@ -773,22 +913,110 @@ class CustomReportLayout {
             $form.data('updatetype', 'footerrow');
         });
 
-        $form.on('click', '#reportDesigner .header-wrapper', e => {
-            $form.find('#reportDesigner .selected').removeClass('selected');
-            jQuery(e.currentTarget).addClass('selected');
-            this.showHideControlProperties($form, 'hide');
+
+        //  Report Header Events
+        //-----------------------------------------------------------------------------------------------
+
+        //Add empty report container row
+        $form.on('click', '.add-empty-container', e => {
+            e.stopPropagation();
+            if (typeof $reportSection != 'undefined') {
+                const $emptyContainer = jQuery(`<div class="rpt-flexrow" style="min-height:100px;"></div>`);
+                this.addReportHeaderSorting($form, $emptyContainer);
+                jQuery($reportSection).append($emptyContainer);
+                this.updateReportHeader($form, $reportSection);
+                this.highlightElement($form, $emptyContainer);
+            }
         });
 
-        $form.on('click', '#reportDesigner .header-wrapper span', e => {
+        //Add empty report header column
+        $form.on('click', '.add-empty-col', e => {
+            e.stopPropagation();
+            if (typeof $reportSection != 'undefined') {
+                const $emptyCol = jQuery(`<div class="rpt-flexcolumn"></div>`);
+                if ($reportSection.find('.rpt-flexrow').length > 0) {
+                    this.addReportHeaderColSorting($form, $emptyCol);
+                    jQuery($reportSection.find('.rpt-flexrow:last-of-type')).append($emptyCol);
+                    this.updateReportHeader($form, $reportSection);
+                    this.highlightElement($form, $emptyCol);
+                } else {
+                    FwFunc.showError('Container not found.  A container must be added before adding a new column.');
+                }
+            }
+        });
+
+        //Add empty report header row
+        $form.on('click', '.add-empty-row', e => {
+            e.stopPropagation();
+            if (typeof $reportSection != 'undefined') {
+                const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
+                if ($reportSection.find('.rpt-flexcolumn').length > 0) {
+                    this.addNestedSorting($form, $emptyRow, false);
+                    jQuery($reportSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
+                    this.updateReportHeader($form, $reportSection);
+                    this.highlightElement($form, $emptyRow);
+                } else {
+                    FwFunc.showError('Column not found.  A column must be added before adding a new row.');
+                }
+            }
+        });
+
+        //Add empty text field
+        $form.on('click', '.add-text-field', e => {
+            if (typeof $reportSection != 'undefined') {
+                const $emptyText = jQuery(`<span>New Text Field</span>`);
+                if ($reportSection.find('.rpt-nested-flexrow').length > 0) {
+                    jQuery($reportSection.find('.rpt-nested-flexrow:last')).append($emptyText);
+                    this.updateReportHeader($form, $reportSection);
+                    $emptyText.click();
+                } else {
+                    FwFunc.showError('Row not found.  A row must be added before adding a new text field.');
+                }
+            }
+        });
+
+        $form.on('click', '#reportDesigner .header-wrapper, #reportDesigner .footer-wrapper', e => {
+            const $this = jQuery(e.currentTarget);
+            $form.find('#reportDesigner .selected').removeClass('selected');
+            $this.addClass('selected');
+            $reportSection = $this.find('[data-section]');
+            this.showHideControlProperties($form, 'headerwrapper');
+        });
+
+        $form.on('click', '#reportDesigner .header-wrapper span, #reportDesigner .footer-wrapper span', e => {
             e.stopPropagation();
             $headerField = jQuery(e.currentTarget);
-            $form.find('#reportDesigner .highlight').removeClass('highlight');
-            $headerField.addClass('highlight');
+            $reportSection = $headerField.closest('[data-section]');
+            this.highlightElement($form, $headerField);
             this.showHideControlProperties($form, 'header');
+            $form.find('[data-datafield="HeaderField"]').show();
             const value = $headerField.text();
             FwFormField.setValueByDataField($form, 'HeaderField', value);
             const styling = $headerField.attr('style') || '';
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
+        });
+
+        $form.on('click', '#reportDesigner [data-section="header"] div, #reportDesigner [data-section="footer"] div', e => {
+            e.stopPropagation();
+            const $this = jQuery(e.currentTarget);
+            $headerField = $this;
+            $reportSection = $this.closest('[data-section]');
+            this.highlightElement($form, $this);
+            this.showHideControlProperties($form, 'header');
+            $form.find('[data-datafield="HeaderField"]').hide();
+            const styling = $headerField.attr('style') || '';
+            FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
+        });
+
+        //Delete header element
+        $form.on('click', '.delete-component', e => {
+            if (typeof $reportSection != 'undefined') {
+                const $element = $reportSection.find('.highlight');
+                if ($element.length > 0) {
+                    $element.remove();
+                    this.updateReportHeader($form, $reportSection);
+                }
+            }
         });
 
         $form.on('change', '[data-datafield="TableName"]', e => {
@@ -813,6 +1041,13 @@ class CustomReportLayout {
         FwFormField.setValueByDataField($form, 'CaptionField', $column.text(), $column.text());
         FwFormField.setValueByDataField($form, 'ValueField', $column.attr('data-valuefield'), $column.attr('data-valuefield'));
         FwFormField.setValueByDataField($form, 'CellStyleField', $column.attr('style') || '');
+    }
+    //----------------------------------------------------------------------------------------------
+    highlightElement($form: JQuery, $elements: JQuery) {
+        $form.find('#reportDesigner .highlight').removeClass('highlight');
+        for (let i = 0; i < $elements.length; i++) {
+            jQuery($elements[i]).addClass('highlight');
+        }
     }
     //----------------------------------------------------------------------------------------------
     addNewHeaderRow($form: JQuery) {
@@ -875,6 +1110,7 @@ class CustomReportLayout {
     showHideControlProperties($form: JQuery, section: string) {
         const $controlProperties = $form.find('#controlProperties');
         switch (section) {
+            case 'headerwrapper':
             case 'header':
                 $controlProperties.children(`:not('.header-controls')`).hide();
                 $controlProperties.children('.header-controls').show();

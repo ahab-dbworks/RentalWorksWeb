@@ -23,8 +23,8 @@
                 <div id="reportDesigner"></div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:10vw;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Properties" style="position:sticky; top:10em;">
+            <div class="flexcolumn" style="max-width:12vw;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Properties" style="position:sticky; top:2em;">
                 <div id="controlProperties" style="display:none;">
                   <div class="table-controls">
                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Table" data-datafield="TableName" style="flex:auto"></div>
@@ -40,8 +40,17 @@
                     </div>
                   </div>
                   <div class="header-controls">
+                    <div style="text-align:center; margin:1em; display:flex; justify-content:center;">
+                      <div class="fwformcontrol add-text-field" data-type="btnmenu" data-caption="Add Text Field"></div>
+                    </div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Field" data-allcaps="false" data-datafield="HeaderField" style="flex:1 1 0;"></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Styling" data-allcaps="false" data-datafield="HeaderFieldStyle" style="flex:1 1 0;"></div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fields" style="margin-top:1em;">
+                      <div class="header-fields-drag"></div>
+                    </div>
+                    <div style="text-align:center; margin:1em;">
+                      <div class="fwformcontrol delete-component" data-type="button" style="margin-top:1em;">Delete Component</div>
+                    </div>
                   </div>
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Value Field" data-datafield="ValueField" style="flex:1 1 0;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Caption" data-allcaps="false" data-datafield="CaptionField" style="flex:1 1 0;"></div>
