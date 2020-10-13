@@ -154,7 +154,7 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
                             ReceiptInvoice i = new ReceiptInvoice();
                             i.InvoiceId = row[dt.GetColumnNo("invoiceid")].ToString();
                             i.InvoiceNumber = row[dt.GetColumnNo("invoiceno")].ToString();
-                            i.InvoiceDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
+                            i.InvoiceDate = FwConvert.ToShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
                             i.InvoiceDescription = row[dt.GetColumnNo("invoicedesc")].ToString();
                             i.Customer = row[dt.GetColumnNo("arcustomer")].ToString();
                             i.Deal = row[dt.GetColumnNo("ardeal")].ToString();
