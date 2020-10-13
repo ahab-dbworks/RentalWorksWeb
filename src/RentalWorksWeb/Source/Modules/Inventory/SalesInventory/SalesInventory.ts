@@ -8,7 +8,7 @@ class SalesInventory extends InventoryBase {
     //----------------------------------------------------------------------------------------------
     setupNewMode($form: any) {
         super.setupNewMode($form);
-    //----------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
         FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');  //justin hoffman 10/12/2020 #3177
     }
     //----------------------------------------------------------------------------------------------
@@ -683,6 +683,12 @@ class SalesInventory extends InventoryBase {
             this.disableInventoryWarehouseSpecificGrid($form);
         });
         const $inventoryWarehouseSpecificGrid = $form.find('[data-name="InventoryWarehouseSpecificGrid"]');
+        // double click added for single row grid
+        $inventoryWarehouseSpecificGrid.data('onrowdblclick', evt => {
+            const $tr = jQuery(evt.currentTarget);
+            const $control = $tr.closest('div[data-type="Grid"]');
+            $inventoryWarehouseSpecificGrid.data('onselectedrowchanged')($control, $tr);
+        });
         // evt for InventoryWarehouseSpecificGrid
         $inventoryWarehouseSpecificGrid.data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
