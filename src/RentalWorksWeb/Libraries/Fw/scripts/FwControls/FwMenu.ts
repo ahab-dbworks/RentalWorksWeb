@@ -1258,9 +1258,12 @@ class FwMenuClass {
         if (options.hasMultiRowEditing) {
             FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    const $menuOption = jQuery(e.currentTarget);
-                    $menuOption.attr('data-type', 'MultiRowEditButton')
-                    FwBrowse.showMultiRowSelector(options.$browse, $menuOption);
+                    if (options.$browse.data('showmultirowselect') === 'true') {
+                        options.$browse.data('showmultirowselect', 'false');
+                    } else {
+                        options.$browse.data('showmultirowselect', 'true');
+                    }
+                    FwBrowse.showMultiRowSelector(options.$browse);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

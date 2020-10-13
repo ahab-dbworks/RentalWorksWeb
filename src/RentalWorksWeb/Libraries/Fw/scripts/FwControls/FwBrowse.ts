@@ -2581,6 +2581,10 @@ class FwBrowseClass {
 
             $control.find('.runtime table').append($tbody);
 
+            if ($control.attr('data-hasmultirowediting') === 'true') {
+                FwBrowse.showMultiRowSelector($control);
+            }
+
             if ($control.attr('data-type') === 'Grid') {
                 if ($control.attr('data-manualsorting') === 'true') {
                     this.addManualSorting($control);
@@ -4634,22 +4638,23 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    showMultiRowSelector($control: JQuery, $menuOption: JQuery) {
+    showMultiRowSelector($control: JQuery) {
         try {
-            if ($menuOption.hasClass('multi-edit-active')) {
-                $menuOption.removeClass('multi-edit-active');
+            if ($control.data('showmultirowselect') === 'true') {
+                $control.find('td.tdselectrow:hidden').show();
+                $control.find('.submenu .caption:contains("Show Multi-Row Selector")').text('Hide Multi-Row Selector');
+            } else {
+                $control.attr('data-showmultirowselect', 'false');
                 $control.find('td.tdselectrow:visible').hide();
                 $control.find('td.tdselectrow input[type="checkbox"]').prop('checked', false);
-                $menuOption.find('.caption').text('Show Multi-Row Selector');
-            } else {
-                $menuOption.addClass('multi-edit-active');
-                $control.find('td.tdselectrow:hidden').show();
-                $menuOption.find('.caption').text('Hide Multi-Row Selector');
+                $control.find('.submenu .caption:contains("Hide Multi-Row Selector")').text('Show Multi-Row Selector');
             }
         } catch (ex) {
             FwFunc.showError(ex);
         }
     }
+    //----------------------------------------------------------------------------------------------
+
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {
         let $form;
