@@ -29,12 +29,12 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
-        options.hasMultiRowEditing = true;
+        options.hasMultiRowEditing = false;
         FwMenu.addBrowseMenuButtons(options);
     }
     //-----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
-        options.hasMultiEdit = true;
+        options.hasMultiEdit = false;
         FwMenu.addFormMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
@@ -1096,7 +1096,7 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController" data-hasmultirowselect="true" data-hasmultirowediting="true" data-hasinactive="true">
+        <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController" data-hasmultirowselect="false" data-hasmultirowediting="false" data-hasinactive="true">
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="DealId" data-browsedatatype="key" ></div>
           </div>
