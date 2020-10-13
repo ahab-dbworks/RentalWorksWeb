@@ -41,10 +41,10 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     }
 
                     types = types.join(', ')
-                    const data: any = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response, parameters);
                     this.setReportMetadata(parameters, data);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    data.FromDate = this.formatDateToLocale(parameters.FromDate, parameters.Locale)
+                    data.ToDate = this.formatDateToLocale(parameters.ToDate, parameters.Locale)
                     data.Report = 'Customer Revenue By Month Report';
                     data.RevenueTypes = types;
                     // Determine Summary or Detail View

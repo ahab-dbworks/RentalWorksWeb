@@ -16,7 +16,7 @@ export class OutgoingShippingLabel extends WebpackReport {
                     const logoObject: any = response;
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/outgoingshippinglabel/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
-                            const data: any = DataTable.toObjectList(response);
+                            const data: any = DataTable.toObjectList(response, parameters);
                     this.setReportMetadata(parameters, data);
                             //data.AsOfDate = parameters.AsOfDate;
                             //data.Report = 'Outgoing Shipping Label';

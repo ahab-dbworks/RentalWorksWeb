@@ -14,7 +14,7 @@ export class RentalInventoryQCRequiredReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryqcrequiredreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = {};
-                    data.rows = DataTable.toObjectList(response);
+                    data.rows = DataTable.toObjectList(response, parameters);
                     this.setReportMetadata(parameters, data);
                     data.Report = 'Rental Inventory QC Required Report';
 

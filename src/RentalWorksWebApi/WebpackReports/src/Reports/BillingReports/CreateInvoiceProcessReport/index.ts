@@ -14,7 +14,7 @@ export class CreateInvoiceProcessReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response, parameters);
 
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].RowType === 'detail') {

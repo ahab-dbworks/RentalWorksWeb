@@ -13,7 +13,7 @@ export class DealOutstandingReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/dealoutstandingitemsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response, parameters);
                     data.IncludeFullImages = false;
                     //if (parameters.ShowResponsiblePerson === true) {
                     //    data.ShowResponsiblePerson = true;
@@ -55,8 +55,8 @@ export class DealOutstandingReport extends WebpackReport {
                     //}
               
                     this.setReportMetadata(parameters, data);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    data.FromDate = this.formatDateToLocale(parameters.FromDate, parameters.Locale)
+                    data.ToDate = this.formatDateToLocale(parameters.ToDate, parameters.Locale)
                     data.Report = 'Deal Outstanding Items Report';
 
                     this.renderFooterHtml(data);

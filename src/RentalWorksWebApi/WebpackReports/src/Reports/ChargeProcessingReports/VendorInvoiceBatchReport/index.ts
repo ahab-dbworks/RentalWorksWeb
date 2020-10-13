@@ -13,7 +13,7 @@ export class VendorInvoiceBatchReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/vendorinvoicebatchreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response, parameters);
 
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].RowType === 'detail') {

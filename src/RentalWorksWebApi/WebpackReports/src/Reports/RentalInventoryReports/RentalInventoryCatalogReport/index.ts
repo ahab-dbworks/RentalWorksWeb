@@ -13,7 +13,7 @@ export class RentalInventoryCatalogReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorycatalogreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response, parameters);
                     data.Report = 'Rental Inventory Catalog Report';
                     this.setReportMetadata(parameters, data);
                     this.renderFooterHtml(data);

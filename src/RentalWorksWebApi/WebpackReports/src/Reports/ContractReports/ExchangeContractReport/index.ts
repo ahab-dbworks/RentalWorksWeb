@@ -19,7 +19,7 @@ export class ExchangeContractReport extends WebpackReport {
                     Ajax.post<ExchangeContract>(`${apiUrl}/api/v1/exchangecontractreport/runreport`, authorizationHeader, parameters)
                         .then((response: ExchangeContract) => {
                             const data: any = response;
-                            data.Items = DataTable.toObjectList(response.Items);
+                            data.Items = DataTable.toObjectList(response.Items, parameters);
                     this.setReportMetadata(parameters, data);
                             data.Report = 'EXCHANGE CONTRACT';
                             if (logoObject.LogoImage != '') {

@@ -24,7 +24,7 @@ export class ReturnListReport extends WebpackReport {
                             Ajax.post<DataTable>(`${apiUrl}/api/v1/returnlistreport/runreport`, authorizationHeader, parameters)
                                 .then((response: any) => {
                                     const data: any = response;
-                                    data.Items = DataTable.toObjectList(response.ItemsTable);
+                                    data.Items = DataTable.toObjectList(response.ItemsTable, parameters);
                     this.setReportMetadata(parameters, data);
                                     data.Report = 'RETURN LIST';
                                     data.Session = sessionNumber;

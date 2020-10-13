@@ -14,9 +14,9 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/customerrevenuebytypereport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    const data: any = DataTable.toObjectList(response, parameters);
+                    data.FromDate = this.formatDateToLocale(parameters.FromDate, parameters.Locale)
+                    data.ToDate = this.formatDateToLocale(parameters.ToDate, parameters.Locale)
                     data.Report = 'Customer Revenue By Type Report';
                     this.setReportMetadata(parameters, data);
                     data.ContractTime = moment(data.ContractTime, 'h:mm a').format('h:mm a');

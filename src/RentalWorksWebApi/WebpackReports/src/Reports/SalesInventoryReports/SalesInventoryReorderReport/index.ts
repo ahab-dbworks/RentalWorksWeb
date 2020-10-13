@@ -14,10 +14,10 @@ export class SalesInventoryReorderReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventoryreorderreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response, parameters);
                     this.setReportMetadata(parameters, data);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    data.FromDate = this.formatDateToLocale(parameters.FromDate, parameters.Locale)
+                    data.ToDate = this.formatDateToLocale(parameters.ToDate, parameters.Locale)
                     data.Report = 'Sales Inventory Reorder Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
