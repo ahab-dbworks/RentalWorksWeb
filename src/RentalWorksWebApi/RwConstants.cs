@@ -4,6 +4,10 @@ namespace WebApi
     {
 
         //NONE
+        public const string INCLUDE = "INCLUDE";
+        public const string EXCLUDE = "EXCLUDE";
+
+        //NONE
         public const string NONE = "NONE";
 
         //CONTROL

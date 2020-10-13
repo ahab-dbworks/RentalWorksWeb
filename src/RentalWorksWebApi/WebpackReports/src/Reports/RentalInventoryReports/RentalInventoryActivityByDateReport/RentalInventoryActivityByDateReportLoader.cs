@@ -62,6 +62,9 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         [FwSqlDataField(column: "qtyin", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityIn { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
+        public bool? IsFixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryActivityByDateReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -76,6 +79,14 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
+                    if (request.FixedAssets.Equals(IncludeExcludeAll.inaIncludeOnly))
+                    {
+                        qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
+                    }
+                    else if (request.FixedAssets.Equals(IncludeExcludeAll.inaExclude))
+                    {
+                        qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
+                    }
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
