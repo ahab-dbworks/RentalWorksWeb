@@ -667,7 +667,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     designerEvents($form: JQuery) {
-        let $table, $row, $column, $headerField, $reportHeaderSection;
+        let $table, $row, $column, $headerField, $reportSection;
         const $addColumn = $form.find('.addColumn');
         const $addRow = $form.find('.addRow');
 
@@ -692,7 +692,7 @@ class CustomReportLayout {
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.text(value);
-                        if ($headerField.attr('data-section') === 'footer') {
+                        if ($reportSection.attr('data-section') === 'footer') {
                             $form.data('isfooter', true);
                         }
                         $form.data('updatetype', 'reportheader');
@@ -703,7 +703,7 @@ class CustomReportLayout {
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.attr('style', value);
-                        if ($headerField.attr('data-section') === 'footer') {
+                        if ($reportSection.attr('data-section') === 'footer') {
                             $form.data('isfooter', true);
                         }
                         $form.data('updatetype', 'reportheader');
@@ -920,11 +920,11 @@ class CustomReportLayout {
         //Add empty report container row
         $form.on('click', '.add-empty-container', e => {
             e.stopPropagation();
-            if (typeof $reportHeaderSection != 'undefined') {
+            if (typeof $reportSection != 'undefined') {
                 const $emptyContainer = jQuery(`<div class="rpt-flexrow" style="min-height:100px;"></div>`);
                 this.addReportHeaderSorting($form, $emptyContainer);
-                jQuery($reportHeaderSection).append($emptyContainer);
-                this.updateReportHeader($form, $reportHeaderSection);
+                jQuery($reportSection).append($emptyContainer);
+                this.updateReportHeader($form, $reportSection);
                 this.highlightElement($form, $emptyContainer);
             }
         });
@@ -932,12 +932,12 @@ class CustomReportLayout {
         //Add empty report header column
         $form.on('click', '.add-empty-col', e => {
             e.stopPropagation();
-            if (typeof $reportHeaderSection != 'undefined') {
+            if (typeof $reportSection != 'undefined') {
                 const $emptyCol = jQuery(`<div class="rpt-flexcolumn"></div>`);
-                if ($reportHeaderSection.find('.rpt-flexrow').length > 0) {
+                if ($reportSection.find('.rpt-flexrow').length > 0) {
                     this.addReportHeaderColSorting($form, $emptyCol);
-                    jQuery($reportHeaderSection.find('.rpt-flexrow:last-of-type')).append($emptyCol);
-                    this.updateReportHeader($form, $reportHeaderSection);
+                    jQuery($reportSection.find('.rpt-flexrow:last-of-type')).append($emptyCol);
+                    this.updateReportHeader($form, $reportSection);
                     this.highlightElement($form, $emptyCol);
                 } else {
                     FwFunc.showError('Container not found.  A container must be added before adding a new column.');
@@ -948,12 +948,12 @@ class CustomReportLayout {
         //Add empty report header row
         $form.on('click', '.add-empty-row', e => {
             e.stopPropagation();
-            if (typeof $reportHeaderSection != 'undefined') {
+            if (typeof $reportSection != 'undefined') {
                 const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
-                if ($reportHeaderSection.find('.rpt-flexcolumn').length > 0) {
+                if ($reportSection.find('.rpt-flexcolumn').length > 0) {
                     this.addNestedSorting($form, $emptyRow, false);
-                    jQuery($reportHeaderSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
-                    this.updateReportHeader($form, $reportHeaderSection);
+                    jQuery($reportSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
+                    this.updateReportHeader($form, $reportSection);
                     this.highlightElement($form, $emptyRow);
                 } else {
                     FwFunc.showError('Column not found.  A column must be added before adding a new row.');
@@ -963,11 +963,11 @@ class CustomReportLayout {
 
         //Add empty text field
         $form.on('click', '.add-text-field', e => {
-            if (typeof $reportHeaderSection != 'undefined') {
+            if (typeof $reportSection != 'undefined') {
                 const $emptyText = jQuery(`<span>New Text Field</span>`);
-                if ($reportHeaderSection.find('.rpt-nested-flexrow').length > 0) {
-                    jQuery($reportHeaderSection.find('.rpt-nested-flexrow:last')).append($emptyText);
-                    this.updateReportHeader($form, $reportHeaderSection);
+                if ($reportSection.find('.rpt-nested-flexrow').length > 0) {
+                    jQuery($reportSection.find('.rpt-nested-flexrow:last')).append($emptyText);
+                    this.updateReportHeader($form, $reportSection);
                     $emptyText.click();
                 } else {
                     FwFunc.showError('Row not found.  A row must be added before adding a new text field.');
@@ -979,14 +979,14 @@ class CustomReportLayout {
             const $this = jQuery(e.currentTarget);
             $form.find('#reportDesigner .selected').removeClass('selected');
             $this.addClass('selected');
-            $reportHeaderSection = $this.find('[data-section]');
+            $reportSection = $this.find('[data-section]');
             this.showHideControlProperties($form, 'headerwrapper');
         });
 
         $form.on('click', '#reportDesigner .header-wrapper span, #reportDesigner .footer-wrapper span', e => {
             e.stopPropagation();
             $headerField = jQuery(e.currentTarget);
-            $reportHeaderSection = $headerField.closest('[data-section]');
+            $reportSection = $headerField.closest('[data-section]');
             this.highlightElement($form, $headerField);
             this.showHideControlProperties($form, 'header');
             $form.find('[data-datafield="HeaderField"]').show();
@@ -1000,7 +1000,7 @@ class CustomReportLayout {
             e.stopPropagation();
             const $this = jQuery(e.currentTarget);
             $headerField = $this;
-            $reportHeaderSection = $this.closest('[data-section]');
+            $reportSection = $this.closest('[data-section]');
             this.highlightElement($form, $this);
             this.showHideControlProperties($form, 'header');
             $form.find('[data-datafield="HeaderField"]').hide();
@@ -1010,11 +1010,11 @@ class CustomReportLayout {
 
         //Delete header element
         $form.on('click', '.delete-component', e => {
-            if (typeof $reportHeaderSection != 'undefined') {
-                const $element = $reportHeaderSection.find('.highlight');
+            if (typeof $reportSection != 'undefined') {
+                const $element = $reportSection.find('.highlight');
                 if ($element.length > 0) {
                     $element.remove();
-                    this.updateReportHeader($form, $reportHeaderSection);
+                    this.updateReportHeader($form, $reportSection);
                 }
             }
         });
