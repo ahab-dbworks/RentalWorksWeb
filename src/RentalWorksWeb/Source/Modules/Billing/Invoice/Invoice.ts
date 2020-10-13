@@ -10,6 +10,7 @@ class Invoice {
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         let allowdeleteinvoices = JSON.parse(sessionStorage.getItem('controldefaults')).allowdeleteinvoices;
         options.hasDelete = allowdeleteinvoices;
+        options.hasMultiRowEditing = true;
         FwMenu.addBrowseMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, `Void`, `xEo3YJ6FHSYE`, (e: JQuery.ClickEvent) => {
@@ -62,6 +63,7 @@ class Invoice {
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasMultiEdit = true;
         FwMenu.addFormMenuButtons(options);
 
         FwMenu.addSubMenuItem(options.$groupOptions, `Void`, `xEo3YJ6FHSYE`, (e: JQuery.ClickEvent) => {
@@ -986,13 +988,13 @@ class Invoice {
         //if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { $form.find('.lossdamagetab[data-type="tab"]').hide() }
 
         if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { this.hideTab($form, 'rentaltab'); }
-        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { this.hideTab($form, 'salestab');  }
-        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { this.hideTab($form, 'labortab');  }
-        if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { this.hideTab($form, 'facilitiestab');  }
-        if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { this.hideTab($form, 'metertab');  }
-        if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { this.hideTab($form, 'transportationtab');  }
-        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { this.hideTab($form, 'rentalsaletab');  }
-        if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { this.hideTab($form, 'lossdamagetab');  }
+        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { this.hideTab($form, 'salestab'); }
+        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { this.hideTab($form, 'labortab'); }
+        if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { this.hideTab($form, 'facilitiestab'); }
+        if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { this.hideTab($form, 'metertab'); }
+        if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { this.hideTab($form, 'transportationtab'); }
+        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { this.hideTab($form, 'rentalsaletab'); }
+        if (!FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) { this.hideTab($form, 'lossdamagetab'); }
 
         const $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
         const $invoiceItemGridSales = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
@@ -1369,8 +1371,17 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     browseVoidInvoice($browse: JQuery) {
-        const invoiceId: string = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
-        this.voidInvoice(invoiceId, function onSuccess(response) { FwBrowse.databind($browse); });
+        let ids: Array<string> = [];
+        if ($browse.data('hasmultirowediting') && $browse.data('showmultirowselect') === 'true') {
+            const $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+            for (let i = 0; i < $selectedRows.length; i++) {
+                ids.push(jQuery($selectedRows[i]).find('[data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
+            }
+        } else {
+            ids.push($browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
+        }
+        //const invoiceId: string = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
+        this.voidInvoice(ids, function onSuccess(response) { FwBrowse.databind($browse); });
     }
     //----------------------------------------------------------------------------------------------
     formVoidInvoice($form: JQuery) {
@@ -1378,7 +1389,8 @@ class Invoice {
         this.voidInvoice(invoiceId, function onSuccess(response) { FwModule.refreshForm($form); });
     }
     //----------------------------------------------------------------------------------------------
-    voidInvoice(invoiceId: string, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): void {
+    //voidInvoice(invoiceId: string, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): void {
+    voidInvoice(invoiceId: any, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): void {
         try {
             if ((invoiceId == null) || (invoiceId == '') || (typeof invoiceId === 'undefined')) {
                 FwNotification.renderNotification('WARNING', 'No Invoice Selected');
