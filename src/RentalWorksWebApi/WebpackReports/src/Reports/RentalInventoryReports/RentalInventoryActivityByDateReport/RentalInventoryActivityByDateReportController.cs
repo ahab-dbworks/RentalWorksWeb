@@ -21,7 +21,7 @@ using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityByDateReport
 {
-    public enum IncludeExcludeAll { inaAll, inaIncludeOnly, inaExclude };
+    public enum IncludeExcludeAll { ieaAll, ieaIncludeOnly, ieaExclude };
     public class RentalInventoryActivityByDateReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }

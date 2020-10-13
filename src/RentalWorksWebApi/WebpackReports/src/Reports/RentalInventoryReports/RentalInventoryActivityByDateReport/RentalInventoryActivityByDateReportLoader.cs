@@ -79,11 +79,11 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
-                    if (request.FixedAssets.Equals(IncludeExcludeAll.inaIncludeOnly))
+                    if (request.FixedAssets.Equals(IncludeExcludeAll.ieaIncludeOnly))
                     {
                         qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
                     }
-                    else if (request.FixedAssets.Equals(IncludeExcludeAll.inaExclude))
+                    else if (request.FixedAssets.Equals(IncludeExcludeAll.ieaExclude))
                     {
                         qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
                     }
