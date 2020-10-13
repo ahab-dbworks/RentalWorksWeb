@@ -4,7 +4,9 @@
     }
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control: JQuery, html: string[]): void {
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
+        if ($control.attr('data-caption')) {
+            html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
+        }
         html.push('<div class="fwformfield-control">');
         html.push('  <ol style="min-height:1200px;min-width:200px;">');
         html.push('  </ol>');
