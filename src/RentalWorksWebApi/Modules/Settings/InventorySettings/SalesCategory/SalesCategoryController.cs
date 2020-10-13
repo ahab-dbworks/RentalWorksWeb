@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.AppReportDesigner;
 using WebApi.Modules.Settings.AccountingSettings.GlAccount;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Settings.InventorySettings.SalesCategory
 {
@@ -59,7 +60,17 @@ namespace WebApi.Modules.Settings.InventorySettings.SalesCategory
             return await DoNewAsync<SalesCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // PUT api/v1/salescategor/A0000001
+        // POST api/v1/salescategory/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "D8m4d78VO4sU")]
+        public async Task<List<ActionResult<SalesCategoryLogic>>> PostAsync([FromBody] List<SalesCategoryLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<SalesCategoryLogic>(l2);
+        }
+        //------------------------------------------------------------------------------------
+        // PUT api/v1/salescategory/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "objnsebcEDwKK", ActionType: FwControllerActionTypes.Edit)]
         public async Task<ActionResult<SalesCategoryLogic>> EditAsync([FromRoute] string id, [FromBody]SalesCategoryLogic l)

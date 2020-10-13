@@ -50,7 +50,7 @@ class FwModule {
                             </div>
                           </div>`);
             const $closeTabButton = jQuery(iconHtml.join(''));
-            $tabControl.find('.closetabbutton:first').append($closeTabButton);
+            $tabControl.find('.closetabbutton:first').append($closeTabButton); 
         } else {
             $tabControl.find('.closetabbutton').html('');
         }
@@ -925,6 +925,34 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
+    static multiEditSave($form: JQuery, $browse: JQuery) {
+        try {
+            let request: any = [];
+            const controllername = $form.attr('data-controller');
+            const controller = window[controllername];
+            const apiurl = controller.apiurl;
+            const uniqueids = $form.data('multirowedituniqueids');
+            const modifiedFields = $form.data('modifiedfields');
+
+            for (let i = 0; i < uniqueids.length; i++) {
+                const fields = { ...uniqueids[i], ...modifiedFields }; 
+                request.push(fields);
+            }
+
+            FwAppData.apiMethod(true, 'POST', apiurl + '/many', request, FwServices.defaultTimeout, function onSuccess(response) {
+                $form.attr('data-modified', 'false');
+                const $tab = FwTabs.getTabByElement($form);
+                $tab.find('.modified').text('');
+                FwModule.closeForm($form, $tab);
+                FwBrowse.showMultiRowSelector($browse, $browse.find('[data-type="MultiRowEditButton"]'));
+                FwBrowse.search($browse);
+                FwNotification.renderNotification('SUCCESS', 'Records successfully updated.');
+            }, ex => FwFunc.showError(ex), $form);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     static deleteRecord(module: string, $control: JQuery) {
         try {
             const $browse = $control;
@@ -990,7 +1018,8 @@ class FwModule {
             $groupOptions: $groupOptions,
             hasSave: true,
             hasNext: false,
-            hasPrevious: false
+            hasPrevious: false,
+            hasMultiEdit: false
         };
         //if (typeof $form.data('addFormMenuItems') === 'function') {
         //    $form.data('addFormMenuItems')(options);
@@ -1001,7 +1030,6 @@ class FwModule {
         else {
             FwMenu.addFormMenuButtons(options);
         }
-
 
         // Refresh form button
         if (typeof (<any>window[controller])['loadForm'] === 'function') {

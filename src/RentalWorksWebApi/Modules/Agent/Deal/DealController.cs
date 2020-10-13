@@ -22,7 +22,7 @@ using WebApi.Modules.Settings.RateType;
 using WebApi.Modules.Agent.Contact;
 using WebApi.Modules.Settings.CustomerSettings.CreditStatus;
 using WebApi.Modules.Agent.Vendor;
-
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Agent.Deal
 {
@@ -71,6 +71,16 @@ namespace WebApi.Modules.Agent.Deal
         public async Task<ActionResult<DealLogic>> NewAsync([FromBody]DealLogic l)
         {
             return await DoNewAsync<DealLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/deal/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "IlYaNj4Ib2wv")]
+        public async Task<List<ActionResult<DealLogic>>> PostAsync([FromBody] List<DealLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<DealLogic>(l2);
         }
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/deal/A0000001

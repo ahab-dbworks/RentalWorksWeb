@@ -1274,9 +1274,9 @@ class FwBrowseClass {
                         html.push(`<td class="column manual-sort" style="display:none;"></td>`);
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
-                    if ($control.attr('data-hasmultirowselect') !== 'false') {
-                        html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
-                    }
+                    //if ($control.attr('data-hasmultirowselect') !== 'false') {
+                    html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-hasmultirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                    //}
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
                     var $column = $columns.eq(colno);
@@ -4549,6 +4549,106 @@ class FwBrowseClass {
                 FwFunc.showError(response);
             }, null);
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    openMultiRowEditForm($browse: JQuery, $selectedRows: JQuery) {
+        try {
+            let $form, uniqueids: any = [];
+            const controller = $browse.attr('data-controller');
+            if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+            const module = (<any>window)[controller].Module;
+
+            for (let i = 0; i < $selectedRows.length; i++) {
+                let $row = jQuery($selectedRows[i]);
+                let uniqueid = this.getRowBrowseUniqueIds($browse, $row);
+                uniqueids.push(uniqueid);
+            }
+
+            $form = window[controller].openForm('MULTI-EDIT');
+            const $fwformfields = $form.find('.fwformfield:not([data-enabled="false"])');
+            FwFormField.enable($fwformfields);
+            $form.find('[data-required="true"]').attr('data-required', 'false');
+
+            //add "None" option to togglebuttons
+            $form.find('[data-type="togglebuttons"] input[type="radio"]').prop('checked', false);
+            const $toggleButtonCtrls = $form.find('[data-type="togglebuttons"]');
+            for (let i = 0; i < $toggleButtonCtrls.length; i++) {
+                const $toggleBtn = jQuery($toggleButtonCtrls[i]);
+                const $toggleOptions = $toggleBtn.find('label');
+                if ($toggleOptions.length > 0) {
+                    const $noneBtn = jQuery($toggleOptions[0]).clone(false);
+                    $noneBtn.find('input').attr('value', '')
+                    $noneBtn.find('input').prop('checked', true);
+                    $noneBtn.find('span').text('No Change');
+                    $noneBtn.insertBefore($toggleOptions[0]);
+                }
+            }
+
+            //change checkboxes to togglebuttons
+            const $checkboxCtrls = $form.find('[data-type="checkbox"]');
+            for (let i = 0; i < $checkboxCtrls.length; i++) {
+                const $checkbox = jQuery($checkboxCtrls[i]);
+                const datafield = $checkbox.attr('data-datafield');
+                $checkbox.attr('data-name', FwApplication.prototype.uniqueId(10));
+                $checkbox.attr('data-type', 'togglebuttons');
+                $checkbox.find('.fwformfield-control').empty();
+                jQuery(`<div class="fwformfield-caption">${$checkbox.attr('data-caption')}</div>`).insertBefore($checkbox.find('.fwformfield-control'));
+                FwFormField.loadItems($form.find(`div[data-datafield="${datafield}"]`), [
+                    { value: '', caption: 'No Change', checked: true },
+                    { value: 'true', caption: 'Checked' },
+                    { value: '', caption: 'Unchecked' }  //changed value to empty string so it would evaluate as false and mimic checkbox change event behavior
+                ]);
+            }
+            $form.find('[data-type="money"] .fwformfield-value').inputmask('numeric');
+
+            $form.find('.submodule[data-type="tab"]').hide();
+            $form.find('.audittab[data-type="tab"]').hide();
+            $form.find('[data-control="FwGrid"]').hide();
+
+            $form.find('.updaterecords-btn').text(`Update ${$selectedRows.length} Records`);
+
+            $form.data('multirowedituniqueids', uniqueids);
+            $form.data('modifiedfields', {});
+
+            $form.on('change', '.fwformfield', e => {
+                const modifiedFields = $form.data('modifiedfields');
+                const $fwformfield = jQuery(e.currentTarget);
+                const dataType = $fwformfield.attr('data-type');
+                const datafield = $fwformfield.attr('data-datafield');
+                const value = FwFormField.getValue2($fwformfield);
+                if (dataType == 'togglebuttons' && value == '') {
+                    if (jQuery(e.target).siblings('.togglebutton-button').text() === 'Unchecked') {
+                        modifiedFields[datafield] = 'false';
+                    } else {
+                        delete modifiedFields[datafield];
+                    }
+                } else {
+                    modifiedFields[datafield] = value;
+                }
+                $form.data('modifiedfields', modifiedFields);
+            });
+
+            FwModule.openModuleTab($form, `Edit ${$form.data('caption')} (${$selectedRows.length})`, true, 'FORM', true);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    showMultiRowSelector($control: JQuery, $menuOption: JQuery) {
+        try {
+            if ($menuOption.hasClass('multi-edit-active')) {
+                $menuOption.removeClass('multi-edit-active');
+                $control.find('td.tdselectrow:visible').hide();
+                $control.find('td.tdselectrow input[type="checkbox"]').prop('checked', false);
+                $menuOption.find('.caption').text('Show Multi-Row Selector');
+            } else {
+                $menuOption.addClass('multi-edit-active');
+                $control.find('td.tdselectrow:hidden').show();
+                $menuOption.find('.caption').text('Hide Multi-Row Selector');
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {

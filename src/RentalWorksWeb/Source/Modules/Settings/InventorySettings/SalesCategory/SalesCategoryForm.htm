@@ -10,11 +10,13 @@
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
-        <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Category">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-required="true" style="float:left;width:250px;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Category" data-enabled="true" data-datafield="Category" data-required="true" style="float:left;width:250px;"></div>
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 570px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Category">
+              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-required="true" style="float:left;width:250px;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Category" data-enabled="true" data-datafield="Category" data-required="true" style="float:left;width:250px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -29,29 +31,30 @@
         </div>
       </div>
       <div data-type="tabpage" id="barcodetabpage" class="tabpage" data-tabid="barcodetab">
-        <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Printing">
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Designer" data-datafield="CatalogCategory" style="float:left;width:270px;"></div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Inventory Bar Code" data-datafield="InventoryBarCodeDesignerId" data-displayfield="InventoryBarCodeDesigner" data-validationname="ReportDesignerValidation" style="float:left;width:350px;"></div>
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 225px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Printing">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Designer" data-datafield="CatalogCategory" style="flex: 0 1 250px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Inventory Bar Code" data-datafield="InventoryBarCodeDesignerId" data-displayfield="InventoryBarCodeDesigner" data-validationname="ReportDesignerValidation" data-enabled="false" style="flex: 0 1 300px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Sale Item Bar Code" data-datafield="BarCodeDesignerId" data-displayfield="BarCodeDesigner" data-validationname="ReportDesignerValidation" data-enabled="false" style="flex: 0 1 300px;"></div>
+              </div>
             </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Sale Item Bar Code" data-datafield="BarCodeDesignerId" data-displayfield="BarCodeDesigner" data-validationname="ReportDesignerValidation" style="float:left;width:350px;"></div>
-            </div>
-          </div>
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Type">
-            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield barcodetype" data-caption="Bar Code Type" data-datafield="BarCodeType" style="float:left;width:250px;">
-              <div data-value="1" data-caption="Small"></div>
-              <div data-value="2" data-caption="Large"></div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Type">
+              <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield barcodetype" data-caption="Bar Code Type" data-datafield="BarCodeType" style="flex: 0 1 250px;"></div>
             </div>
           </div>
         </div>
       </div>
       <div data-type="tabpage" id="proflosstabpage" class="tabpage" data-tabid="proflosstab">
-        <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit/Loss">
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield overridecheck" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="float:left;width:290px;"></div>
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield catvalidation" data-caption="Category" data-enabled="true" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="SalesCategoryValidation" style="float:left;width:275px;"></div>
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 335px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit/Loss">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield overridecheck" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="float:left;width:290px;"></div>
+              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield catvalidation" data-caption="Category" data-enabled="false" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategory" style="float:left;width:275px;"></div>
+            </div>
           </div>
         </div>
       </div>

@@ -25,6 +25,16 @@ class PartsCategory {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasMultiRowEditing = true;
+        FwMenu.addBrowseMenuButtons(options);
+    }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasMultiEdit = true;
+        FwMenu.addFormMenuButtons(options);
+    }
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -37,21 +47,6 @@ class PartsCategory {
         $form = FwModule.openForm($form, mode);
 
         this.events($form);
-
-        this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
-
-        $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
-        $form.find('div[data-datafield="CostOfGoodsSoldExpenseAccountId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsSoldExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        });
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -109,22 +104,34 @@ class PartsCategory {
     afterLoad($form: any) {
         const $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);
+
+        if (FwFormField.getValueByDataField($form, 'OverrideProfitAndLossCategory')) {
+            FwFormField.enable($form.find('.catvalidation'))
+        } else {
+            FwFormField.disable($form.find('.catvalidation'))
+        }
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
-            var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
-
-            this.toggleEnabled($overrideCheck, $categoryValidation);
+        $form.on('change', '[data-datafield="OverrideProfitAndLossCategory"]', (e) => {
+            if (FwFormField.getValueByDataField($form, 'OverrideProfitAndLossCategory')) {
+                FwFormField.enable($form.find('.catvalidation'))
+            } else {
+                FwFormField.disable($form.find('.catvalidation'))
+            }
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
-        if ($checkbox.is(':checked')) {
-            $validation.attr('data-enabled', 'true');
-        } else {
-            $validation.attr('data-enabled', 'false');
-        }
+
+        $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        $form.find('div[data-datafield="CostOfGoodsSoldExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsSoldExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {

@@ -8,6 +8,7 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.AccountingSettings.GlAccount;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
 {
@@ -56,6 +57,16 @@ namespace WebApi.Modules.Settings.InventorySettings.PartsCategory
         public async Task<ActionResult<PartsCategoryLogic>> NewAsync([FromBody]PartsCategoryLogic l)
         {
             return await DoNewAsync<PartsCategoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/partscategory/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "e68xaxhQYUOi")]
+        public async Task<List<ActionResult<PartsCategoryLogic>>> PostAsync([FromBody] List<PartsCategoryLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<PartsCategoryLogic>(l2);
         }
         //------------------------------------------------------------------------------------
         // PUT api/v1/partscategor/A0000001
