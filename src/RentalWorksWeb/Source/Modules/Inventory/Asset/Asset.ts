@@ -370,13 +370,13 @@ class RwAsset {
         const $vendorInvoiceItemGrid: JQuery = $form.find(`[data-name="PurchaseVendorInvoiceItemGrid"]`);
         FwBrowse.search($vendorInvoiceItemGrid);
 
-        var status: string = FwFormField.getValueByDataField($form, 'InventoryStatus');
-        if (status === "IN") {
+        const status: string = FwFormField.getValueByDataField($form, 'InventoryStatus');
+        if (status === "IN" || status === "IN REPAIR") {
             FwFormField.enable($form.find('.ifin'));
         }
 
-        let isContainer = FwFormField.getValueByDataField($form, 'IsContainer');
-        if (isContainer == 'true') { 
+        const isContainer = FwFormField.getValueByDataField($form, 'IsContainer');
+        if (isContainer == 'true') {
             $form.find('.container-section').show();
         }
 
