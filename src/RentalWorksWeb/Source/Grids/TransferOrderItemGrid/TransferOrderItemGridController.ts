@@ -72,6 +72,31 @@
             $availQtyAllWarehouses.attr('data-state', availabilityStateAllWarehouses);
             $availQty.css('cursor', 'pointer');
 
+            //Option to open up Complete/Kit grid to add items
+            const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+            const $browsecontextmenu = $tr.find('.browsecontextmenu');
+            const classList: any = ['C', 'CI', 'CO', 'K', 'KI', 'KO'];
+
+            $browsecontextmenu.data('contextmenuoptions', $tr => {
+                if (classList.includes(itemClass)) {
+                    FwContextMenu.addMenuItem($browsecontextmenu, `Update Options`, () => {
+                        try {
+                            this.renderCompleteKitGridPopup($control, $tr, itemClass);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
+                //Insert line-item option
+                FwContextMenu.addMenuItem($browsecontextmenu, `Insert Line Item`, () => {
+                    try {
+                        this.insertLineItem($control, $tr);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            });
+
             const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
             const $td = $tr.find('[data-browsedatafield="InventoryId"]');
             let peekForm;
@@ -86,7 +111,6 @@
             $td.attr('data-peekForm', peekForm);
 
             //Allow searching on description field
-            const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
             const validTextItemClasses: any = ['M', 'GH', 'T', 'ST'];
             if (validTextItemClasses.includes(itemClass)) {
                 $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
@@ -242,6 +266,182 @@
                 return;
             }
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    insertLineItem($control: JQuery, $tr: JQuery) {
+        const itemClass = FwBrowse.getValueByDataField($control, $tr, 'ItemClass');
+        const types: any = ['C', 'K', 'I'];
+        let primaryItemId;
+        if (types.includes(itemClass)) {
+            primaryItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
+        } else {
+            primaryItemId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+        }
+
+        const request: any = {
+            OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId'),
+            PrimaryItemId: primaryItemId,
+            BelowOrderItemId: FwBrowse.getValueByDataField($control, $tr, 'OrderItemId')
+        };
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/insertlineitem`, request, FwServices.defaultTimeout,
+            response => {
+                const pageNo = parseInt($control.attr('data-pageno'));
+                const onDataBind = $control.data('ondatabind');
+                if (typeof onDataBind == 'function') {
+                    $control.data('ondatabind', request => {
+                        onDataBind(request);
+                        request.pageno = pageNo;
+                    });
+                }
+                FwBrowse.databind($control);
+            }, ex => FwFunc.showError(ex), $control);
+    }
+    //----------------------------------------------------------------------------------------------
+    renderCompleteKitGridPopup($control: JQuery, $tr: JQuery, itemClass: string): void {
+        let HTML: Array<string> = [], $popupHtml, $popup;
+        let type;
+
+        switch (itemClass) {
+            case 'C':
+            case 'CI':
+            case 'CO':
+                type = 'Complete';
+                break;
+            case 'K':
+            case 'KI':
+            case 'KO':
+                type = 'Kit';
+                break;
+        }
+
+        HTML.push(
+            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form">
+                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+                  <div class="flexpage">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Update ${type} Options">
+                        <div class="wideflexrow">
+                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="ParentId" style="display:none;"></div>  
+                           <div data-control="FwGrid" data-grid="Inventory${type}Grid" data-securitycaption=""></div>
+                         </div>
+                        <div class="wideflexrow" style="flex-direction:row-reverse;">  
+                            <div class="fwformcontrol apply-options" data-type="button" data-enabled="true" style="flex:1 1 150px;margin:16px 10px 0px 5px;text-align:center; max-width:200px;">Apply</div> 
+                        </div>
+                    </div>
+                </div>
+            </div>`);
+        $popupHtml = HTML.join('');
+        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+        FwPopup.showPopup($popup);
+
+        let packageId;
+        let parentOrderItemId;
+        const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
+        const optionTypes: any = ['KI', 'KO', 'CI', 'CO'];
+        if (optionTypes.includes(itemClass)) {
+            const optionParentId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+            let $parenttr = $control.find(`[data-browsedatafield="OrderItemId"][data-originalvalue="${optionParentId}"]`).parents('tr');
+            packageId = FwBrowse.getValueByDataField($control, $parenttr, 'ParentId');
+            parentOrderItemId = FwBrowse.getValueByDataField($control, $parenttr, 'OrderItemId');
+        } else {
+            //inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
+            packageId = FwBrowse.getValueByDataField($control, $tr, 'ParentId');
+            parentOrderItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
+        }
+
+        FwFormField.setValueByDataField($popup.find('.fwform'), 'ParentId', packageId);
+
+        const $completeKitGrid = FwBrowse.renderGrid({
+            nameGrid: `Inventory${type}Grid`,
+            gridSecurityId: 'ABL0XJQpsQQo',
+            moduleSecurityId: 'RFgCJpybXoEb',
+            $form: $popup,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    //PackageId:  (itemClass === 'K' || itemClass === 'C') ? inventoryId: parentId,
+                    PackageId: packageId,
+                    WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid
+                };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.attr('data-hasaudithistory', 'false');
+            }
+        });
+
+        const fieldsToHide: any = ['ItemTrackedBy', 'IsOption', 'Charge'];
+        const $thead = $completeKitGrid.find('thead');
+        for (let i = 0; i < fieldsToHide.length; i++) {
+            $thead.find(`[data-browsedatafield="${fieldsToHide[i]}"]`).parent('td').hide();
+        }
+        FwBrowse.setAfterRenderRowCallback($completeKitGrid, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
+            const defaultQuantity = 0;
+            const $field = $tr.find('[data-browsedatafield="DefaultQuantity"]');
+            $field.attr('data-browsedatatype', 'numericupdown');
+            $field.attr('data-allownegative', 'false');
+            $field.attr('data-originalvalue', defaultQuantity);
+            FwBrowse.setFieldViewMode($completeKitGrid, $tr, $field);
+
+            const isPrimary = FwBrowse.getValueByDataField($completeKitGrid, $tr, 'IsPrimary');
+            if (isPrimary == 'true') {
+                $field
+                    .hide()
+                    .parents('td')
+                    .css('background-color', 'rgb(245,245,245)');
+            }
+
+            $field.on('change', '.value', e => {
+                const quantity = jQuery(e.currentTarget).val();
+                $field.attr('data-originalvalue', Number(quantity));
+            });
+        });
+
+        FwBrowse.disableGrid($completeKitGrid);
+        FwBrowse.search($completeKitGrid);
+
+        // Close modal
+        $popup.find('.close-modal').one('click', e => {
+            FwPopup.destroyPopup($popup);
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
+        //// Close modal if click outside
+        //jQuery(document).on('click', e => {
+        //    if (!jQuery(e.target).closest('.popup').length) {
+        //        FwPopup.destroyPopup($popup);
+        //    }
+        //});
+
+        $popup.on('click', '.apply-options', e => {
+            const $trs = $completeKitGrid.find(`tbody tr [data-browsedatafield="IsPrimary"][data-originalvalue="false"]`).parents('tr');
+            const request: any = {};
+            const $items: any = [];
+            for (let i = 0; i < $trs.length; i++) {
+                const qty = FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'DefaultQuantity')
+                if (qty != 0) {
+                    const item = {
+                        InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryId'),
+                        Quantity: qty
+                    }
+                    $items.push(item);
+                }
+            }
+
+            request.OrderId = orderId;
+            request.ParentOrderItemId = parentOrderItemId;
+            request.Items = $items;
+            FwAppData.apiMethod(true, 'POST', "api/v1/orderitem/insertoption", request, FwServices.defaultTimeout,
+                response => {
+                    $popup.find('.close-modal').click();
+                    FwBrowse.databind($control);
+                },
+                ex => FwFunc.showError(ex), $control);
+        });
     }
     //----------------------------------------------------------------------------------------------
     afterRowEditMode($grid: JQuery, $tr: JQuery) {
@@ -434,5 +634,6 @@ FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.Co
 
     FwBrowse.search($templateBrowse);
 };
+
 //----------------------------------------------------------------------------------------------
 var TransferOrderItemGridController = new TransferOrderItemGrid();

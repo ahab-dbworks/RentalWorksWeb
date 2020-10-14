@@ -1965,7 +1965,7 @@ class OrderItemGrid {
             }, ex => FwFunc.showError(ex), $control);
     }
     //----------------------------------------------------------------------------------------------
-    toggleFreeText($tr:JQuery) {
+    toggleFreeText($tr: JQuery) {
         $tr.find('[data-browsedatafield="Description"]').attr({ 'data-browsedatatype': 'text', 'data-formdatatype': 'text' });
         $tr.find('[data-browsedatafield="Description"] input.value').remove();
         $tr.find('[data-browsedatafield="Description"] input.text').removeClass('text').addClass('value').off('change');
