@@ -762,7 +762,7 @@ var Constants = {
                     id: 'Settings.WarehouseSettings',
                     nodetype: 'Category',
                     children: {
-                        Warehouse: { id: 'ICJcR2gOu04OB', caption: 'Warehouse', nav: 'settings/warehousesettings/warehouse', nodetype: 'Module', description: '' }
+                        Warehouse: { id: 'ICJcR2gOu04OB', caption: 'Warehouse', nav: 'module/warehouse', nodetype: 'Module', description: '' }
                     }
                 },
                 WidgetSettings: {
