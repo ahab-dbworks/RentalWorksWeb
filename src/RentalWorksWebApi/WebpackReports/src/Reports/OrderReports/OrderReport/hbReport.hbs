@@ -79,24 +79,23 @@
   <!-- Billing Dates, Usage Dates, Terms, Billing Cycle-->
   <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin-left:10px;">
     <table>
-      {{#ifCond BillingDates '!==' "N/A"}}
+      {{#if HasRecurring}}
       <tr>
         <td style="width:105px;" class="shaded-block">Billing Period:</td>
-        <td class="">{{BillingDates}}</td>
+        <td class="">{{BillingStartDate}}-{{BillingStopDate}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond UsageDates '!==' "N/A"}}
+      {{/if}}
+      {{#if HasRecurring}}
       <tr>
         <td style="width:105px;" class="shaded-block">Usage Period:</td>
-        <td class="">{{UsageDates}}</td>
+        <td class="">{{EstimatedStartDate}}-{{EstimatedStopDate}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond UsageDates '===' "N/A"}}
+      {{else}}
       <tr>
         <td style="width:105px;" class="shaded-block">Start Date:</td>
         <td class="">{{EstimatedStartDate}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
       <tr>
         <td style="width:105px;" class="shaded-block">Terms:</td>
         <td class="">{{PaymentTerms}}</td>
@@ -107,7 +106,7 @@
       </tr>
       {{#if ReferenceNumber}}
       <tr>
-        <td style="width:105px;;" class="shaded-block">Reference No:</td>
+        <td style="width:105px;" class="shaded-block">Reference No:</td>
         <td class="">{{ReferenceNumber}}</td>
       </tr>
       {{/if}}

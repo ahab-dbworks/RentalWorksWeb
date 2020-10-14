@@ -84,27 +84,27 @@
     {{#ifNotEquals OrderTypeDescription "MISCELLANEOUS"}}
     <table id="outgoing">
       <tr>
-        <th class="sub text shaded-block" style="text-align:left;padding:5px;">Receive from Vendor ({{OutDeliveryType}})</th>
+        <th class="sub text shaded-block" style="text-align:left;padding:5px;">Receive from Vendor ({{ReceiveDeliveryType}})</th>
       </tr>
       <tr>
-        <td class=""><span style="font-weight:700;">Location: </span>{{OutDeliveryLocation}}</td>
+        <td class=""><span style="font-weight:700;">Location: </span>{{ReceiveDeliveryLocation}}</td>
       </tr>
-      {{#if OutDeliveryAttention}}
+      {{#if ReceiveDeliveryAttention}}
       <tr>
-        <td class=""><span style="font-weight:700;">Attention: </span>{{OutDeliveryAttention}}</td>
-      </tr>
-      {{/if}}
-      <tr>
-        <td class="">{{OutDeliveryAddress1}}{{#if OutDeliveryAddress2}},&nbsp;{{OutDeliveryAddress2}}{{/if}}</td>
-      </tr>
-      {{#if OutDeliveryCity}}
-      <tr>
-        <td class="">{{OutDeliveryCity}}, {{OutDeliveryState}} {{OutDeliveryZipCode}} {{OutDeliveryCountry}}</td>
+        <td class=""><span style="font-weight:700;">Attention: </span>{{ReceiveDeliveryAttention}}</td>
       </tr>
       {{/if}}
-      {{#if OutDeliveryRequiredByDateTime}}
       <tr>
-        <td class=""><span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDateTime}}</td>
+        <td class="">{{ReceiveDeliveryAddress1}}{{#if ReceiveDeliveryAddress2}},&nbsp;{{ReceiveDeliveryAddress2}}{{/if}}</td>
+      </tr>
+      {{#if ReceiveDeliveryCity}}
+      <tr>
+        <td class="">{{ReceiveDeliveryCity}}, {{ReceiveDeliveryState}} {{ReceiveDeliveryZipCode}} {{ReceiveDeliveryCountry}}</td>
+      </tr>
+      {{/if}}
+      {{#if ReceiveDeliveryRequiredByDateTime}}
+      <tr>
+        <td class=""><span style="font-weight:700;">Required By: </span>{{ReceiveDeliveryRequiredByDate}} {{ReceiveDeliveryRequiredByTime}}</td>
       </tr>
       {{/if}}
     </table>
@@ -121,20 +121,18 @@
         <td class="">{{Description}}</td>
       </tr>
       {{/ifEquals}}
-      {{#ifNotEquals OrderTypeDescription "INVENTORY"}}
-      {{#ifCond BillingDates '!==' "N/A"}}
+      {{#if HasRecurring}}
       <tr>
-        <td class="shaded-block" style="width:105px;">Billing Period:</td>
-        <td class="">{{BillingDates}}</td>
+        <td style="width:105px;" class="shaded-block">Billing Period:</td>
+        <td class="">{{BillingStartDate}}-{{BillingStopDate}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond UsageDates '!==' "N/A"}}
+      {{/if}}
+      {{#if HasRecurring}}
       <tr>
-        <td class="shaded-block" style="width:105px;">Usage Period:</td>
-        <td class="">{{UsageDates}}</td>
+        <td style="width:105px;" class="shaded-block">Usage Period:</td>
+        <td class="">{{EstimatedStartDate}}-{{EstimatedStopDate}}</td>
       </tr>
-      {{/ifCond}}
-      {{/ifNotEquals}}
+      {{/if}}
       <tr>
         <td class="shaded-block" style="width:105px;">Terms:</td>
         <td class="">{{PaymentTerms}}</td>
@@ -168,27 +166,27 @@
     {{#ifNotEquals OrderTypeDescription "MISCELLANEOUS"}}
     <table id="incoming">
       <tr>
-        <th class="sub text shaded-block" style="text-align:left;padding:5px;background-color:#e3f2fd;">Return to Vendor ({{InDeliveryType}})</th>
+        <th class="sub text shaded-block" style="text-align:left;padding:5px;background-color:#e3f2fd;">Return to Vendor ({{ReturnDeliveryType}})</th>
       </tr>
       <tr>
-        <td class=""><span style="font-weight:700;">Location: </span>{{InDeliveryLocation}}</td>
+        <td class=""><span style="font-weight:700;">Location: </span>{{ReturnDeliveryLocation}}</td>
       </tr>
-      {{#if InDeliveryAttention}}
+      {{#if ReturnDeliveryAttention}}
       <tr>
-        <td class=""><span style="font-weight:700;">Attention: </span>{{InDeliveryAttention}}</td>
-      </tr>
-      {{/if}}
-      <tr>
-        <td class="">{{InDeliveryAddress1}}{{#if InDeliveryAddress2}},&nbsp;{{InDeliveryAddress2}}{{/if}}</td>
-      </tr>
-      {{#if InDeliveryCity}}
-      <tr>
-        <td class="">{{InDeliveryCity}}, {{InDeliveryState}} {{InDeliveryZipCode}} {{InDeliveryCountry}}</td>
+        <td class=""><span style="font-weight:700;">Attention: </span>{{ReturnDeliveryAttention}}</td>
       </tr>
       {{/if}}
-      {{#if InDeliveryRequiredByDateTime}}
       <tr>
-        <td class=""><span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDateTime}}</td>
+        <td class="">{{ReturnDeliveryAddress1}}{{#if ReturnDeliveryAddress2}},&nbsp;{{ReturnDeliveryAddress2}}{{/if}}</td>
+      </tr>
+      {{#if ReturnDeliveryCity}}
+      <tr>
+        <td class="">{{ReturnDeliveryCity}}, {{ReturnDeliveryState}} {{ReturnDeliveryZipCode}} {{ReturnDeliveryCountry}}</td>
+      </tr>
+      {{/if}}
+      {{#if ReturnDeliveryRequiredByDateTime}}
+      <tr>
+        <td class=""><span style="font-weight:700;">Required By: </span>{{ReturnDeliveryRequiredByDate}} {{ReturnDeliveryRequiredByTime}}</td>
       </tr>
       {{/if}}
     </table>

@@ -690,30 +690,30 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text)]
         public string EstimatedStopTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "estrentfromdatetime", modeltype: FwDataTypes.Text)]
-        public string EstimatedStartDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "estrenttodatetime", modeltype: FwDataTypes.Text)]
-        public string EstimatedStopDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "estrentfromdatetime", modeltype: FwDataTypes.Text)]
+        //public string EstimatedStartDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "estrenttodatetime", modeltype: FwDataTypes.Text)]
+        //public string EstimatedStopDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usagestart", modeltype: FwDataTypes.Date)]
         public string UsageStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usageend", modeltype: FwDataTypes.Date)]
         public string UsageEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usagedates", modeltype: FwDataTypes.Text)]
-        public string UsageDates { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "usagedates", modeltype: FwDataTypes.Text)]
+        //public string UsageDates { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date)]
         public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date)]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
-        public string BillingDates { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
+        //public string BillingDates { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
         public string BillingCycleId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -855,9 +855,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "outdeliveryrequiredbytime", modeltype: FwDataTypes.Text)]
         public string OutDeliveryRequiredbyTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outdeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryRequiredByDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "outdeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
+        //public string OutDeliveryRequiredByDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverycarrierid", modeltype: FwDataTypes.Text)]
         public string OutDeliveryCarrierId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1013,6 +1013,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "multipleactivities", modeltype: FwDataTypes.Boolean)]
         public bool? HasMultipleActivities { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "hasrecurringitems", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRecurring { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------
         public List<RentalInvoiceItemReportLoader> RentalItems { get; set; } = new List<RentalInvoiceItemReportLoader>(new RentalInvoiceItemReportLoader[] { new RentalInvoiceItemReportLoader() });
