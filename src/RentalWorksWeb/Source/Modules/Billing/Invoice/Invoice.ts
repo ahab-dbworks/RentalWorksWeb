@@ -196,8 +196,15 @@ class Invoice {
             FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
             FwFormField.enable($form.find('[data-datafield="RateType"]'));
             FwFormField.setValueByDataField($form, 'StatusDate', today);
+
+            FwFormField.enableDataField($form, 'DepartmentId');
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+
+            FwFormField.enableDataField($form, 'DealId');
+            FwFormField.enableDataField($form, 'BillingStartDate');
+            FwFormField.enableDataField($form, 'BillingEndDate');
+
 
             const office = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
