@@ -842,8 +842,14 @@ class FwMenuClass {
                         //FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
                         if ($browse.data('hasmultirowselect') && $browse.data('showmultirowselect') == 'true') {
                             $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+
                             if ($selectedRows.length === 0) {
                                 $selectedRows = $browse.find('tr.selected');
+                            } else {
+                                const $highlightedRow = FwBrowse.getSelectedRow($browse);
+                                if (!$highlightedRow.find('.tdselectrow input').prop('checked')) {
+                                    throw new Error('Ambiguous delete. Select the record(s) you want to delete, then try the Delete again.');
+                                } 
                             }
                         } else {
                             $selectedRows = $browse.find('tr.selected');
