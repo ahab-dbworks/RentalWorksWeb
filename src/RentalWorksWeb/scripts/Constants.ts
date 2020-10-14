@@ -347,9 +347,9 @@ var Constants = {
                     id: 'Settings.AccountingSettings',
                     nodetype: 'Category',
                     children: {
-                        AccountingSettings: { id: 'Xxp77cNVPq29d', caption: 'Accounting Settings', nav: 'settings/accountingsettings/accountingsettings', nodetype: 'Module', description: '' },
-                        GlAccount:          { id: '1bUgvfRlo7v4',  caption: 'Chart Of Accounts',   nav: 'settings/accountingsettings/chartofaccounts',    nodetype: 'Module', description: 'Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.' },
-                        GlDistribution:     { id: '71QUDQyIbibs',  caption: 'G/L Distribution',    nav: 'settings/accountingsettings/gldistribution',     nodetype: 'Module', description: 'Accounts to use for Accounts Receivable, Receipts, Payables, etc.' },
+                        AccountingSettings: { id: 'Xxp77cNVPq29d', caption: 'Accounting Settings', nav: 'module/accountingsettings', nodetype: 'Module', description: '' },
+                        GlAccount:          { id: '1bUgvfRlo7v4',  caption: 'Chart Of Accounts',   nav: 'module/chartofaccounts',    nodetype: 'Module', description: 'Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.' },
+                        GlDistribution:     { id: '71QUDQyIbibs',  caption: 'G/L Distribution',    nav: 'module/gldistribution',     nodetype: 'Module', description: 'Accounts to use for Accounts Receivable, Receipts, Payables, etc.' },
                     }
                 },
                 AddressSettings: {
@@ -357,8 +357,8 @@ var Constants = {
                     id: 'Settings.AddressSettings',
                     nodetype: 'Category',
                     children: {
-                        Country: { id: 'FV8c2ibthqUF',  caption: 'Country',          nav: 'settings/addresssettings/country', nodetype: 'Module', description: 'List Countries to relate to your Customers, Deals, and Vendors' },
-                        State:   { id: 'JW3yCGldGTAqC', caption: 'State / Province', nav: 'settings/addresssettings/state',   nodetype: 'Module', description: 'List States to relate to your Customers, Deals, and Vendors' },
+                        Country: { id: 'FV8c2ibthqUF',  caption: 'Country',          nav: 'module/country', nodetype: 'Module', description: 'List Countries to relate to your Customers, Deals, and Vendors' },
+                        State:   { id: 'JW3yCGldGTAqC', caption: 'State / Province', nav: 'module/state',   nodetype: 'Module', description: 'List States to relate to your Customers, Deals, and Vendors' },
                     }
                 },
                 BillingCycleSettings: {
@@ -366,7 +366,7 @@ var Constants = {
                     id: 'Settings.BillingCycleSettings',
                     nodetype: 'Category',
                     children: {
-                        BillingCycle: { id: 'FQfXEIcN9q3', caption: 'Billing Cycle', nav: 'settings/billingcyclesettings/billingcycle', nodetype: 'Module', description: 'Define and configure Billing Cycles for your Quotes and Orders' },
+                        BillingCycle: { id: 'FQfXEIcN9q3', caption: 'Billing Cycle', nav: 'module/billingcycle', nodetype: 'Module', description: 'Define and configure Billing Cycles for your Quotes and Orders' },
                     }
                 },
                 CalendarSettings: {
@@ -374,8 +374,8 @@ var Constants = {
                     id: 'Settings.CalendarSettings',
                     nodetype: 'Category',
                     children: {
-                        Holiday:        { id: 'nZBYaMILxWSm', caption: 'Holiday',         nav: 'settings/calendarsettings/holiday',        nodetype: 'Module', description: '' },
-                        BlackoutStatus: { id: '1B2gGaIJglY',  caption: 'Blackout Status', nav: 'settings/calendarsettings/blackoutstatus', nodetype: 'Module', description: '' },
+                        Holiday:        { id: 'nZBYaMILxWSm', caption: 'Holiday',         nav: 'module/holiday',        nodetype: 'Module', description: '' },
+                        BlackoutStatus: { id: '1B2gGaIJglY',  caption: 'Blackout Status', nav: 'module/blackoutstatus', nodetype: 'Module', description: '' },
                     }
                 },
                 ContactSettings: {
@@ -383,9 +383,9 @@ var Constants = {
                     id: 'Settings.ContactSettings',
                     nodetype: 'Category',
                     children: {
-                        ContactEvent: { id: 'KdvGpc1dQINo', caption: 'Contact Event', nav: 'settings/contactsettings/contactevent', nodetype: 'Module', description: '' },
-                        ContactTitle: { id: 'PClZ3w0VUnPt', caption: 'Contact Title', nav: 'settings/contactsettings/contacttitle', nodetype: 'Module', description: '' },
-                        MailList:     { id: 'vUT6JZ1Owu5n', caption: 'Mail List',     nav: 'settings/contactsettings/maillist',     nodetype: 'Module', description: '' },
+                        ContactEvent: { id: 'KdvGpc1dQINo', caption: 'Contact Event', nav: 'module/contactevent', nodetype: 'Module', description: '' },
+                        ContactTitle: { id: 'PClZ3w0VUnPt', caption: 'Contact Title', nav: 'module/contacttitle', nodetype: 'Module', description: '' },
+                        MailList:     { id: 'vUT6JZ1Owu5n', caption: 'Mail List',     nav: 'module/maillist',     nodetype: 'Module', description: '' },
                     }
                 },
                 CurrencySettings: {
@@ -393,7 +393,7 @@ var Constants = {
                     id: 'Settings.CurrencySettings',
                     nodetype: 'Category',
                     children: {
-                        Currency: { id: 'xpyZJmmju0uB', caption: 'Currency', nav: 'settings/currencysettings/currency', nodetype: 'Module', description: '' }
+                        Currency: { id: 'xpyZJmmju0uB', caption: 'Currency', nav: 'module/currency', nodetype: 'Module', description: '' }
                     }
                 },
                 CustomerSettings: {
@@ -401,10 +401,10 @@ var Constants = {
                     id: 'Settings.CustomerSettings',
                     nodetype: 'Category',
                     children: {
-                        CreditStatus:     { id: 'A4P8o1quoutj', caption: 'Credit Status',     nav: 'settings/currencysettings/creditstatus',     nodetype: 'Module', description: '' },
-                        CustomerCategory: { id: 'HC4q49WUI1NW', caption: 'Customer Category', nav: 'settings/currencysettings/customercategory', nodetype: 'Module', description: '' },
-                        CustomerStatus:   { id: 'ZbZ8bywECnnE', caption: 'Customer Status',   nav: 'settings/currencysettings/customerstatus',   nodetype: 'Module', description: '' },
-                        CustomerType:     { id: 'gk8NipmJErWZ', caption: 'Customer Type',     nav: 'settings/currencysettings/customertype',     nodetype: 'Module', description: '' },
+                        CreditStatus:     { id: 'A4P8o1quoutj', caption: 'Credit Status',     nav: 'module/creditstatus',     nodetype: 'Module', description: '' },
+                        CustomerCategory: { id: 'HC4q49WUI1NW', caption: 'Customer Category', nav: 'module/customercategory', nodetype: 'Module', description: '' },
+                        CustomerStatus:   { id: 'ZbZ8bywECnnE', caption: 'Customer Status',   nav: 'module/customerstatus',   nodetype: 'Module', description: '' },
+                        CustomerType:     { id: 'gk8NipmJErWZ', caption: 'Customer Type',     nav: 'module/customertype',     nodetype: 'Module', description: '' },
                     }
                 },
                 DealSettings: {
@@ -412,11 +412,11 @@ var Constants = {
                     id: 'SetSettings.DealSettings',
                     nodetype: 'Category',
                     children: {
-                        DealClassification: { id: 'uRRVPMAFf61J',  caption: 'Deal Classification', nav: 'settings/currencysettings/dealclassification', nodetype: 'Module', description: '' },
-                        DealStatus:         { id: 'CHOTGdFVlnFK',  caption: 'Deal Status',         nav: 'settings/currencysettings/dealstatus',         nodetype: 'Module', description: '' },
-                        DealType:           { id: 'jZCS1X5BzeyS',  caption: 'DealType',            nav: 'settings/currencysettings/dealtype',           nodetype: 'Module', description: '' },
-                        ProductionType:     { id: '3UvqzQ0Svxay6', caption: 'Production Type',     nav: 'settings/currencysettings/productiontype',     nodetype: 'Module', description: '' },
-                        ScheduleType:       { id: 'rUWFdPEkKkDAM', caption: 'Schedule Type',       nav: 'settings/currencysettings/scheduletype',       nodetype: 'Module', description: '' },
+                        DealClassification: { id: 'uRRVPMAFf61J',  caption: 'Deal Classification', nav: 'module/dealclassification', nodetype: 'Module', description: '' },
+                        DealStatus:         { id: 'CHOTGdFVlnFK',  caption: 'Deal Status',         nav: 'module/dealstatus',         nodetype: 'Module', description: '' },
+                        DealType:           { id: 'jZCS1X5BzeyS',  caption: 'DealType',            nav: 'module/dealtype',           nodetype: 'Module', description: '' },
+                        ProductionType:     { id: '3UvqzQ0Svxay6', caption: 'Production Type',     nav: 'module/productiontype',     nodetype: 'Module', description: '' },
+                        ScheduleType:       { id: 'rUWFdPEkKkDAM', caption: 'Schedule Type',       nav: 'module/scheduletype',       nodetype: 'Module', description: '' },
                     }
                 },
                 DepartmentSettings: {
@@ -424,7 +424,7 @@ var Constants = {
                     id: 'Settings.CompanyDepartmentSettings',
                     nodetype: 'Category',
                     children: {
-                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'settings/companydepartmentsettings/companydepartment', nodetype: 'Module', description: '' },
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'module/companydepartment', nodetype: 'Module', description: '' },
                     }
                 },
                 DiscountTemplateSettings: {
@@ -432,7 +432,7 @@ var Constants = {
                     id: 'Settings.DiscountTemplateSettings',
                     nodetype: 'Category',
                     children: {
-                        DiscountTemplate: { id: '1uoU0MeI7hIu', caption: 'Discount Template', nav: 'settings/discounttemplatesettings/discounttemplate', nodetype: 'Module', description: '' },
+                        DiscountTemplate: { id: '1uoU0MeI7hIu', caption: 'Discount Template', nav: 'module/discounttemplate', nodetype: 'Module', description: '' },
                     }
                 },
                 DocumentSettings: {
@@ -440,9 +440,9 @@ var Constants = {
                     id: 'Settings.DocumentSettings',
                     nodetype: 'Category',
                     children: {
-                        DocumentType:    { id: 'qus92U5z7R9Z',  caption: 'Document Type',      nav: 'settings/documentsettings/documenttype',       nodetype: 'Module', description: '' },
-                        CoverLetter:     { id: 'ejyCz527IQCS',  caption: 'Cover Letter',       nav: 'settings/documentsettings/coverletter',        nodetype: 'Module', description: '' },
-                        TermsConditions: { id: 'lYqC40ZjalGUy', caption: 'Terms & Conditions', nav: 'settings/documentsettings/termsandconditions', nodetype: 'Module', description: '' },
+                        DocumentType:    { id: 'qus92U5z7R9Z',  caption: 'Document Type',      nav: 'module/documenttype',       nodetype: 'Module', description: '' },
+                        CoverLetter:     { id: 'ejyCz527IQCS',  caption: 'Cover Letter',       nav: 'module/coverletter',        nodetype: 'Module', description: '' },
+                        TermsConditions: { id: 'lYqC40ZjalGUy', caption: 'Terms & Conditions', nav: 'module/termsandconditions', nodetype: 'Module', description: '' },
                     }
                 },
                 EventSettings: {
@@ -450,10 +450,10 @@ var Constants = {
                     id: 'Settings.EventSettings',
                     nodetype: 'Category',
                     children: {
-                        EventCategory:   { id: '0Zcc827UeucP', caption: 'Event Category',   nav: 'settings/eventsettings/eventcategory',   nodetype: 'Module', description: '' },
-                        EventType:       { id: 'HXotrQfoaQCq', caption: 'Event Type',       nav: 'settings/eventsettings/eventtype',       nodetype: 'Module', description: '' },
-                        PersonnelType:   { id: 'Dd4V9E1c9Kz8', caption: 'Personnel Type',   nav: 'settings/eventsettings/personneltype',   nodetype: 'Module', description: '' },
-                        PhotographyType: { id: 'bFH6YcKYCqye', caption: 'Photography Type', nav: 'settings/eventsettings/photographytype', nodetype: 'Module', description: '' },
+                        EventCategory:   { id: '0Zcc827UeucP', caption: 'Event Category',   nav: 'module/eventcategory',   nodetype: 'Module', description: '' },
+                        EventType:       { id: 'HXotrQfoaQCq', caption: 'Event Type',       nav: 'module/eventtype',       nodetype: 'Module', description: '' },
+                        PersonnelType:   { id: 'Dd4V9E1c9Kz8', caption: 'Personnel Type',   nav: 'module/personneltype',   nodetype: 'Module', description: '' },
+                        PhotographyType: { id: 'bFH6YcKYCqye', caption: 'Photography Type', nav: 'module/photographytype', nodetype: 'Module', description: '' },
                     }
                 },
                 ExportSettings: {
@@ -461,7 +461,7 @@ var Constants = {
                     id: 'Settings.ExportSettings',
                     nodetype: 'Category',
                     children: {
-                        DataExportFormat: { id: 'ItSDcv89HNNo', caption: 'Data Export Format', nav: 'settings/exportsettings/dataexportformat', nodetype: 'Module', description: '' },
+                        DataExportFormat: { id: 'ItSDcv89HNNo', caption: 'Data Export Format', nav: 'module/dataexportformat', nodetype: 'Module', description: '' },
                     }
                 },
                 FacilitySettings: {
@@ -469,14 +469,14 @@ var Constants = {
                     id: 'Settings.FacilitySettings',
                     nodetype: 'Category',
                     children: {
-                        Building:               { id: 'h0sTItX8Ofd',   caption: 'Building',                 nav: 'settings/facilitysettings/building',               nodetype: 'Module', description: '' },
-                        FacilityCategory:       { id: 'YA1ynwQcq11',   caption: 'Facility Category',        nav: 'settings/facilitysettings/facilitycategory',       nodetype: 'Module', description: '' },
-                        FacilityRate:           { id: 'rA0UZvSMuSF',   caption: 'Facility Rate',            nav: 'settings/facilitysettings/facilityrate',           nodetype: 'Module', description: '' },
-                        FacilityScheduleStatus: { id: '8QjijODAMJt',   caption: 'Facility Schedule Status', nav: 'settings/facilitysettings/facilityschedulestatus', nodetype: 'Module', description: '' },
-                        FacilityStatus:         { id: 'xJ4UyFe61kC',   caption: 'Facility Status',          nav: 'settings/facilitysettings/facilitystatus',         nodetype: 'Module', description: '' },
-                        FacilityType:           { id: 'sp3q4geu1RZM',  caption: 'Facility Type',            nav: 'settings/facilitysettings/facilitytype',           nodetype: 'Module', description: '' },
-                        SpaceType:              { id: 'lVjqEX5l2s8ZS', caption: 'Facility Space Type',      nav: 'settings/facilitysettings/facilityspacetype',      nodetype: 'Module', description: '' },
-                        Venue:                  { id: 'dzfHYYraDfbPx', caption: 'Venue',                    nav: 'settings/facilitysettings/venue',                  nodetype: 'Module', description: '' },
+                        Building:               { id: 'h0sTItX8Ofd',   caption: 'Building',                 nav: 'module/building',               nodetype: 'Module', description: '' },
+                        FacilityCategory:       { id: 'YA1ynwQcq11',   caption: 'Facility Category',        nav: 'module/facilitycategory',       nodetype: 'Module', description: '' },
+                        FacilityRate:           { id: 'rA0UZvSMuSF',   caption: 'Facility Rate',            nav: 'module/facilityrate',           nodetype: 'Module', description: '' },
+                        FacilityScheduleStatus: { id: '8QjijODAMJt',   caption: 'Facility Schedule Status', nav: 'module/facilityschedulestatus', nodetype: 'Module', description: '' },
+                        FacilityStatus:         { id: 'xJ4UyFe61kC',   caption: 'Facility Status',          nav: 'module/facilitystatus',         nodetype: 'Module', description: '' },
+                        FacilityType:           { id: 'sp3q4geu1RZM',  caption: 'Facility Type',            nav: 'module/facilitytype',           nodetype: 'Module', description: '' },
+                        SpaceType:              { id: 'lVjqEX5l2s8ZS', caption: 'Facility Space Type',      nav: 'module/facilityspacetype',      nodetype: 'Module', description: '' },
+                        Venue:                  { id: 'dzfHYYraDfbPx', caption: 'Venue',                    nav: 'module/venue',                  nodetype: 'Module', description: '' },
                     }
                 },
                 FiscalYearSettings: {
@@ -492,11 +492,11 @@ var Constants = {
                     id: 'Settings.GeneratorSettings',
                     nodetype: 'Category',
                     children: {
-                        GeneratorFuelType: { id: 'WP4ewzQGUV8U', caption: 'Generator Fuel Type', nav: 'settings/generatorsettings/fueltype', nodetype: 'Module', description: '' },
-                        GeneratorMake:     { id: 'fHix04T2Hsc6', caption: 'Generator Make',      nav: 'settings/generatorsettings/make',     nodetype: 'Module', description: '' },
-                        GeneratorRating:   { id: 'B0hMFj9s7XGT', caption: 'Generator Rating',    nav: 'settings/generatorsettings/rating',   nodetype: 'Module', description: '' },
-                        GeneratorWatts:    { id: 'D2Z3jlFgx8Es', caption: 'Generator Watts',     nav: 'settings/generatorsettings/watts',    nodetype: 'Module', description: '' },
-                        GeneratorType:     { id: 'mUQp7GqmQlaR', caption: 'Generator Type',      nav: 'settings/generatorsettings/type',     nodetype: 'Module', description: '' },
+                        GeneratorFuelType: { id: 'WP4ewzQGUV8U', caption: 'Generator Fuel Type', nav: 'module/fueltype', nodetype: 'Module', description: '' },
+                        GeneratorMake:     { id: 'fHix04T2Hsc6', caption: 'Generator Make',      nav: 'module/make',     nodetype: 'Module', description: '' },
+                        GeneratorRating:   { id: 'B0hMFj9s7XGT', caption: 'Generator Rating',    nav: 'module/rating',   nodetype: 'Module', description: '' },
+                        GeneratorWatts:    { id: 'D2Z3jlFgx8Es', caption: 'Generator Watts',     nav: 'module/watts',    nodetype: 'Module', description: '' },
+                        GeneratorType:     { id: 'mUQp7GqmQlaR', caption: 'Generator Type',      nav: 'module/type',     nodetype: 'Module', description: '' },
                     }
                 },
                 InventorySettings: {
@@ -504,21 +504,21 @@ var Constants = {
                     id: 'Settings.InventorySettings',
                     nodetype: 'Category',
                     children: {
-                        Attribute:                 { id: 'Ok4Yh4kdsxk'  , caption: 'Inventory Attribute',         nav: 'module/inventorysettings/attribute',                 nodetype: 'Module', description: '' },
-                        BarCodeRange:              { id: 'akTqMO0zmuc'  , caption: 'Bar Code Range',              nav: 'module/inventorysettings/barcoderange',              nodetype: 'Module', description: '' },
-                        InventoryAdjustmentReason: { id: 'geoncGlrjrAr' , caption: 'Inventory Adjustment Reason', nav: 'module/inventorysettings/inventoryadjustmentreason', nodetype: 'Module', description: '' },
-                        InventoryCondition:        { id: 'JL0j4lk1KfBY' , caption: 'Inventory Condition',         nav: 'module/inventorysettings/inventorycondition',        nodetype: 'Module', description: '' },
-                        InventoryGroup:            { id: 'XgfGFSbbiiHy' , caption: 'Inventory Group',             nav: 'module/inventorysettings/inventorygroup',            nodetype: 'Module', description: '' },
-                        InventoryRank:             { id: '3YXhU6x3GseH' , caption: 'Inventory Rank',              nav: 'module/inventorysettings/inventoryrank',                                 description: '' },
-                        InventoryStatus:           { id: 'eb5WjxGH2duV' , caption: 'Inventory Status',            nav: 'module/inventorysettings/inventorystatus',           nodetype: 'Module', description: '' },
-                        InventoryType:             { id: 'aFLFxVNukHJt' , caption: 'Inventory Type',              nav: 'module/inventorysettings/inventorytype',             nodetype: 'Module', description: '' },
-                        PartsCategory:             { id: 'aSzlwy6XYMSV' , caption: 'Parts Category',              nav: 'module/inventorysettings/partscategory',             nodetype: 'Module', description: '' },
-                        RentalCategory:            { id: 'whxFImy6IZG2p', caption: 'Rental Category',             nav: 'module/inventorysettings/rentalcategory',            nodetype: 'Module', description: '' },
-                        RetiredReason:             { id: 'hktLnLB9qF7k' , caption: 'Retired Reason',              nav: 'module/inventorysettings/retiredreason',             nodetype: 'Module', description: '' },
-                        SalesCategory:             { id: 'XS6vdtV5jQTyF', caption: 'Sales Category',              nav: 'module/inventorysettings/salescategory',             nodetype: 'Module', description: '' },
-                        Unit:                      { id: 'K87j9eupQwohK', caption: 'Unit of Measure',             nav: 'module/inventorysettings/unit',                      nodetype: 'Module', description: '' },
-                        UnretiredReason:           { id: '0SWJ0HNGoioxe', caption: 'Unretired Reason',            nav: 'module/inventorysettings/unretiredreason',           nodetype: 'Module', description: '' },
-                        WarehouseCatalog:          { id: 'wMXhVrm9w33xO', caption: 'Warehouse Catalog',           nav: 'module/inventorysettings/warehousecatalog',          nodetype: 'Module', description: '' },
+                        Attribute:                 { id: 'Ok4Yh4kdsxk'  , caption: 'Inventory Attribute',         nav: 'module/attribute',                 nodetype: 'Module', description: '' },
+                        BarCodeRange:              { id: 'akTqMO0zmuc'  , caption: 'Bar Code Range',              nav: 'module/barcoderange',              nodetype: 'Module', description: '' },
+                        InventoryAdjustmentReason: { id: 'geoncGlrjrAr' , caption: 'Inventory Adjustment Reason', nav: 'module/inventoryadjustmentreason', nodetype: 'Module', description: '' },
+                        InventoryCondition:        { id: 'JL0j4lk1KfBY' , caption: 'Inventory Condition',         nav: 'module/inventorycondition',        nodetype: 'Module', description: '' },
+                        InventoryGroup:            { id: 'XgfGFSbbiiHy' , caption: 'Inventory Group',             nav: 'module/inventorygroup',            nodetype: 'Module', description: '' },
+                        InventoryRank:             { id: '3YXhU6x3GseH' , caption: 'Inventory Rank',              nav: 'module/inventoryrank',                                 description: '' },
+                        InventoryStatus:           { id: 'eb5WjxGH2duV' , caption: 'Inventory Status',            nav: 'module/inventorystatus',           nodetype: 'Module', description: '' },
+                        InventoryType:             { id: 'aFLFxVNukHJt' , caption: 'Inventory Type',              nav: 'module/inventorytype',             nodetype: 'Module', description: '' },
+                        PartsCategory:             { id: 'aSzlwy6XYMSV' , caption: 'Parts Category',              nav: 'module/partscategory',             nodetype: 'Module', description: '' },
+                        RentalCategory:            { id: 'whxFImy6IZG2p', caption: 'Rental Category',             nav: 'module/rentalcategory',            nodetype: 'Module', description: '' },
+                        RetiredReason:             { id: 'hktLnLB9qF7k' , caption: 'Retired Reason',              nav: 'module/retiredreason',             nodetype: 'Module', description: '' },
+                        SalesCategory:             { id: 'XS6vdtV5jQTyF', caption: 'Sales Category',              nav: 'module/salescategory',             nodetype: 'Module', description: '' },
+                        Unit:                      { id: 'K87j9eupQwohK', caption: 'Unit of Measure',             nav: 'module/unit',                      nodetype: 'Module', description: '' },
+                        UnretiredReason:           { id: '0SWJ0HNGoioxe', caption: 'Unretired Reason',            nav: 'module/unretiredreason',           nodetype: 'Module', description: '' },
+                        WarehouseCatalog:          { id: 'wMXhVrm9w33xO', caption: 'Warehouse Catalog',           nav: 'module/warehousecatalog',          nodetype: 'Module', description: '' },
                     }
                 },
                 LaborSettings: {
@@ -526,13 +526,13 @@ var Constants = {
                     id:      'Settings.LaborSettings',
                     nodetype: 'Category',
                     children: {
-                        Crew:               { id: '7myCbtZNx85m', caption: 'Crew',                 nav: 'module/crew',                               nodetype: 'Module', description: 'Define Crew personell, indicate which positions and default rates for each crew position.' },
-                        CrewScheduleStatus: { id: 'c0X4YfdKCp06', caption: 'Crew Schedule Status', nav: 'settings/laborsettings/crewschedulestatus', nodetype: 'Module', description: 'List of statuses for each Crew assignment.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
-                        CrewStatus:         { id: 'uW0hAqUv6mDL', caption: 'Crew Status',          nav: 'settings/laborsettings/crewstatus',         nodetype: 'Module', description: 'List of statuses for each Crew person.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
-                        LaborCategory:      { id: 'nJIiZsDNxc83', caption: 'Labor Category',       nav: 'settings/laborsettings/laborcategory',      nodetype: 'Module', description: '' },
-                        LaborPosition:      { id: 'ZKb7ET3WoPs2', caption: 'Crew Position',        nav: 'settings/laborsettings/laborposition',      nodetype: 'Module', description: 'List of Positions (job functions) and default rates for each.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
-                        LaborRate:          { id: 'GRs9mNWBxRw4', caption: 'Labor Rate',           nav: 'settings/laborsettings/laborrate',          nodetype: 'Module', description: '' },
-                        LaborType:          { id: 'FGjikpXt4iRf', caption: 'Labor Type',           nav: 'settings/laborsettings/labortype',          nodetype: 'Module', description: '' },
+                        Crew:               { id: '7myCbtZNx85m', caption: 'Crew',                 nav: 'module/crew',               nodetype: 'Module', description: 'Define Crew personell, indicate which positions and default rates for each crew position.' },
+                        CrewScheduleStatus: { id: 'c0X4YfdKCp06', caption: 'Crew Schedule Status', nav: 'module/crewschedulestatus', nodetype: 'Module', description: 'List of statuses for each Crew assignment.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
+                        CrewStatus:         { id: 'uW0hAqUv6mDL', caption: 'Crew Status',          nav: 'module/crewstatus',         nodetype: 'Module', description: 'List of statuses for each Crew person.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
+                        LaborCategory:      { id: 'nJIiZsDNxc83', caption: 'Labor Category',       nav: 'module/laborcategory',      nodetype: 'Module', description: '' },
+                        LaborPosition:      { id: 'ZKb7ET3WoPs2', caption: 'Crew Position',        nav: 'module/laborposition',      nodetype: 'Module', description: 'List of Positions (job functions) and default rates for each.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
+                        LaborRate:          { id: 'GRs9mNWBxRw4', caption: 'Labor Rate',           nav: 'module/laborrate',          nodetype: 'Module', description: '' },
+                        LaborType:          { id: 'FGjikpXt4iRf', caption: 'Labor Type',           nav: 'module/labortype',          nodetype: 'Module', description: '' },
                     }
                 },
                 MiscSettings: {
@@ -540,9 +540,9 @@ var Constants = {
                     id: 'Settings.MiscellaneousSettings',
                     nodetype: 'Category',
                     children: {
-                        MiscCategory:   { id: 'BRtP4O9fieRK', caption: 'Miscellaneous Category', nav: 'settings/miscsettings/misccategory', nodetype: 'Module', description: '' },
-                        MiscRate:       { id: 'tINVceJ8JoN7', caption: 'Miscellaneous Rate',     nav: 'settings/miscsettings/miscrate',     nodetype: 'Module', description: '' },
-                        MiscType:       { id: 'FjAFN8CLolYu', caption: 'Miscellaneous Type',     nav: 'settings/miscsettings/misctype',     nodetype: 'Module', description: '' },
+                        MiscCategory:   { id: 'BRtP4O9fieRK', caption: 'Miscellaneous Category', nav: 'module/misccategory', nodetype: 'Module', description: '' },
+                        MiscRate:       { id: 'tINVceJ8JoN7', caption: 'Miscellaneous Rate',     nav: 'module/miscrate',     nodetype: 'Module', description: '' },
+                        MiscType:       { id: 'FjAFN8CLolYu', caption: 'Miscellaneous Type',     nav: 'module/misctype',     nodetype: 'Module', description: '' },
                     }
                 },
                 OfficeLocationSettings: {
@@ -550,7 +550,7 @@ var Constants = {
                     id: 'Settings.OfficeLocationSettings',
                     nodetype: 'Category',
                     children: {
-                        OfficeLocation: { id: 'yZhqRrXdTEvN', caption: 'Office Location', nav: 'settings/officeloactionsettings/officelocation', nodetype: 'Module', description: '' },
+                        OfficeLocation: { id: 'yZhqRrXdTEvN', caption: 'Office Location', nav: 'module/officelocation', nodetype: 'Module', description: '' },
                     }
                 },
                 OrderSettings: {
@@ -558,13 +558,13 @@ var Constants = {
                     id: 'Settings.OrderSettings',
                     nodetype: 'Category',
                     children: {
-                        ActivityType:   { id: 'dZaqY68fhRSXm', caption: 'Activity Type',   nav: 'settings/ordersettings/activitytype',   nodetype: 'Module', description: '' },
-                        OrderType:      { id: 'yFStSrvTlwWY',  caption: 'Order Type',      nav: 'settings/ordersettings/ordertype',      nodetype: 'Module', description: '' },
-                        DiscountReason: { id: 'XyjAvHBEaKL7',  caption: 'Discount Reason', nav: 'settings/ordersettings/discountreason', nodetype: 'Module', description: '' },
-                        MarketSegment:  { id: 'NPu4Lci1ndrl',  caption: 'Market Segment',  nav: 'settings/ordersettings/marketsegment',  nodetype: 'Module', description: '' },
-                        MarketType:     { id: 'sEgqHq5tov4n',  caption: 'Market Type',     nav: 'settings/ordersettings/markettype',     nodetype: 'Module', description: '' },
-                        OrderSetNo:     { id: 'OoepsrkqPYRP',  caption: 'Order Set No.',   nav: 'settings/ordersettings/ordersetno',     nodetype: 'Module', description: '' },
-                        OrderLocation:  { id: 'ezKyPjJBJKjQ',  caption: 'Order Location',  nav: 'settings/laborsettings/laborrate',      nodetype: 'Module', description: '' },
+                        ActivityType:   { id: 'dZaqY68fhRSXm', caption: 'Activity Type',   nav: 'module/activitytype',   nodetype: 'Module', description: '' },
+                        OrderType:      { id: 'yFStSrvTlwWY',  caption: 'Order Type',      nav: 'module/ordertype',      nodetype: 'Module', description: '' },
+                        DiscountReason: { id: 'XyjAvHBEaKL7',  caption: 'Discount Reason', nav: 'module/discountreason', nodetype: 'Module', description: '' },
+                        MarketSegment:  { id: 'NPu4Lci1ndrl',  caption: 'Market Segment',  nav: 'module/marketsegment',  nodetype: 'Module', description: '' },
+                        MarketType:     { id: 'sEgqHq5tov4n',  caption: 'Market Type',     nav: 'module/markettype',     nodetype: 'Module', description: '' },
+                        OrderSetNo:     { id: 'OoepsrkqPYRP',  caption: 'Order Set No.',   nav: 'module/ordersetno',     nodetype: 'Module', description: '' },
+                        OrderLocation:  { id: 'ezKyPjJBJKjQ',  caption: 'Order Location',  nav: 'module/laborrate',      nodetype: 'Module', description: '' },
                     }
                 },
                 PaymentSettings: {
@@ -572,8 +572,8 @@ var Constants = {
                     id: 'Settings.PaymentSettings',
                     nodetype: 'Category',
                     children: {
-                        PaymentTerms:   { id: 'p5RqSdENdPMa', caption: 'Payment Terms', nav: 'settings/paymentsettings/paymentterms', nodetype: 'Module', description: '' },
-                        PaymentType:    { id: 'd8RdKxFfho4z', caption: 'Payment Type',  nav: 'settings/paymentsettings/paymenttype',  nodetype: 'Module', description: '' },
+                        PaymentTerms:   { id: 'p5RqSdENdPMa', caption: 'Payment Terms', nav: 'module/paymentterms', nodetype: 'Module', description: '' },
+                        PaymentType:    { id: 'd8RdKxFfho4z', caption: 'Payment Type',  nav: 'module/paymenttype',  nodetype: 'Module', description: '' },
                     }
                 },
                 POSettings: {
@@ -581,14 +581,14 @@ var Constants = {
                     id: 'Settings.POSettings',
                     nodetype: 'Category',
                     children: {
-                        POApprovalStatus:      { id: '9CsrBJ9TN1wT',  caption: 'PO Approval Status',      nav: 'settings/posettings/poapprovalstatus',      nodetype: 'Module', description: '' },
-                        POApprover:            { id: 'kaGlUrLG9GjN',  caption: 'PO Approver',             nav: 'settings/posettings/POApprover',            nodetype: 'Module', description: '' },
-                        POApproverRole:        { id: 'HdPKvHGhi3zf',  caption: 'PO Approver Role',        nav: 'settings/posettings/poapproverrole',        nodetype: 'Module', description: '' },
-                        POClassification:      { id: 'skhmIJOt0Fi0',  caption: 'PO Classification',       nav: 'settings/posettings/poclassification',      nodetype: 'Module', description: '' },
-                        POImportance:          { id: 'gLt2YTtB2afl',  caption: 'PO Importance',           nav: 'settings/posettings/poimportance',          nodetype: 'Module', description: '' },
-                        PORejectReason:        { id: 'xwTGYRx4Gg21',  caption: 'PO Reject Reason',        nav: 'settings/posettings/porejectreason',        nodetype: 'Module', description: '' },
-                        POType:                { id: 'Gyx3ZcMtuH1fi', caption: 'PO Type',                 nav: 'settings/posettings/potype',                nodetype: 'Module', description: '' },
-                        VendorInvoiceApprover: { id: '3Hhg9Bl5Rm1mT', caption: 'Vendor Invoice Approver', nav: 'settings/posettings/vendorinvoiceapprover', nodetype: 'Module', description: '' },
+                        POApprovalStatus:      { id: '9CsrBJ9TN1wT',  caption: 'PO Approval Status',      nav: 'module/poapprovalstatus',      nodetype: 'Module', description: '' },
+                        POApprover:            { id: 'kaGlUrLG9GjN',  caption: 'PO Approver',             nav: 'module/POApprover',            nodetype: 'Module', description: '' },
+                        POApproverRole:        { id: 'HdPKvHGhi3zf',  caption: 'PO Approver Role',        nav: 'module/poapproverrole',        nodetype: 'Module', description: '' },
+                        POClassification:      { id: 'skhmIJOt0Fi0',  caption: 'PO Classification',       nav: 'module/poclassification',      nodetype: 'Module', description: '' },
+                        POImportance:          { id: 'gLt2YTtB2afl',  caption: 'PO Importance',           nav: 'module/poimportance',          nodetype: 'Module', description: '' },
+                        PORejectReason:        { id: 'xwTGYRx4Gg21',  caption: 'PO Reject Reason',        nav: 'module/porejectreason',        nodetype: 'Module', description: '' },
+                        POType:                { id: 'Gyx3ZcMtuH1fi', caption: 'PO Type',                 nav: 'module/potype',                nodetype: 'Module', description: '' },
+                        VendorInvoiceApprover: { id: '3Hhg9Bl5Rm1mT', caption: 'Vendor Invoice Approver', nav: 'module/vendorinvoiceapprover', nodetype: 'Module', description: '' },
                     }
                 },
                 PresentationSettings: {
@@ -596,8 +596,8 @@ var Constants = {
                     id:      'Settings.PresentationSettings',
                     nodetype: 'Category',
                     children: {
-                        FormDesign:        { id: 'er64NLGnsWN7',  caption: 'Form Design',        nav: 'settings/presentationsettings/formdesign',        nodetype: 'Module', description: '' },
-                        PresentationLayer: { id: '0v54dFE9Zhun8', caption: 'Presentation Layer', nav: 'settings/presentationsettings/presentationlayer', nodetype: 'Module', description: '' },
+                        FormDesign:        { id: 'er64NLGnsWN7',  caption: 'Form Design',        nav: 'module/formdesign',        nodetype: 'Module', description: '' },
+                        PresentationLayer: { id: '0v54dFE9Zhun8', caption: 'Presentation Layer', nav: 'module/presentationlayer', nodetype: 'Module', description: '' },
                     }
                 },
                 ProjectSettings: {
@@ -605,12 +605,12 @@ var Constants = {
                     id:      'Settings.ProjectSettings',
                     nodetype: 'Category',
                     children: {
-                        ProjectAsBuild:       { id: 'CiTY0pLnyroMa', caption: 'Project As Build',        nav: 'settings/projectsettings/projectasbuild',       nodetype: 'Module', description: '' },
-                        ProjectCommissioning: { id: '124H9oI67IKRx', caption: 'Project Commissioning',   nav: 'settings/projectsettings/projectcommissioning', nodetype: 'Module', description: '' },
-                        ProjectDeposit:       { id: 'z9uSXy8A4AdoO', caption: 'Project Deposit',         nav: 'settings/projectsettings/projectdeposit',       nodetype: 'Module', description: '' },
-                        ProjectDrawings:      { id: 'e0Ylzlhkp2wY0', caption: 'Project Drawings',        nav: 'settings/projectsettings/projectdrawings',      nodetype: 'Module', description: '' },
-                        ProjectDropShipItems: { id: 'XzUwxCWh64FDw', caption: 'Project Drop Ship Items', nav: 'settings/projectsettings/projectdropshipitems', nodetype: 'Module', description: '' },
-                        ProjectItemsOrdered:  { id: 'oB5CeVYRCU1EG', caption: 'Project Items Ordered',   nav: 'settings/projectsettings/projectitemsordered',  nodetype: 'Module', description: '' },
+                        ProjectAsBuild:       { id: 'CiTY0pLnyroMa', caption: 'Project As Build',        nav: 'module/projectasbuild',       nodetype: 'Module', description: '' },
+                        ProjectCommissioning: { id: '124H9oI67IKRx', caption: 'Project Commissioning',   nav: 'module/projectcommissioning', nodetype: 'Module', description: '' },
+                        ProjectDeposit:       { id: 'z9uSXy8A4AdoO', caption: 'Project Deposit',         nav: 'module/projectdeposit',       nodetype: 'Module', description: '' },
+                        ProjectDrawings:      { id: 'e0Ylzlhkp2wY0', caption: 'Project Drawings',        nav: 'module/projectdrawings',      nodetype: 'Module', description: '' },
+                        ProjectDropShipItems: { id: 'XzUwxCWh64FDw', caption: 'Project Drop Ship Items', nav: 'module/projectdropshipitems', nodetype: 'Module', description: '' },
+                        ProjectItemsOrdered:  { id: 'oB5CeVYRCU1EG', caption: 'Project Items Ordered',   nav: 'module/projectitemsordered',  nodetype: 'Module', description: '' },
                     }
                 },
                 PropsSettings: {
@@ -618,7 +618,7 @@ var Constants = {
                     id:      'Settings.PropsSettings',
                     nodetype: 'Category',
                     children: {
-                        PropsCondition: { id: 'E793OHd1PFRk4', caption: 'Props Condition', nav: 'settings/propssettings/propscondition', nodetype: 'Module', description: '' },
+                        PropsCondition: { id: 'E793OHd1PFRk4', caption: 'Props Condition', nav: 'module/propscondition', nodetype: 'Module', description: '' },
                     }
                 },
                 RegionSettings: {
@@ -626,7 +626,7 @@ var Constants = {
                     id:      'Settings.RegionSettings',
                     nodetype: 'Category',
                     children: {
-                        Region: { id: 'pqSlzQGRVmxiE', caption: 'Region', nav: 'settings/regionsettings/region', nodetype: 'Module', description: '' },
+                        Region: { id: 'pqSlzQGRVmxiE', caption: 'Region', nav: 'module/region', nodetype: 'Module', description: '' },
                     }
                 },
                 RepairSettings: {
@@ -634,7 +634,7 @@ var Constants = {
                     id:      'Settings.RepairSettings',
                     nodetype: 'Category',
                     children: {
-                        RepairItemStatus: { id: 'iuo4dnWX5KCP8', caption: 'Repair Item Status', nav: 'settings/repairsettings/repairitemstatus', nodetype: 'Module', description: '' },
+                        RepairItemStatus: { id: 'iuo4dnWX5KCP8', caption: 'Repair Item Status', nav: 'module/repairitemstatus', nodetype: 'Module', description: '' },
                     }
                 },
                 SetSettings: {
@@ -642,11 +642,11 @@ var Constants = {
                     id:      'Settings.SetSettings',
                     nodetype: 'Category',
                     children: {
-                        SetCondition:    { id: '3r7dQtlxlUX8u', caption: 'Set Condition',     nav: 'settings/setsettings/setcondition',    nodetype: 'Module', description: '' },
-                        SetOpening:      { id: 'gwzYE66lX9myO', caption: 'Set Opening',       nav: 'settings/setsettings/setopening',      nodetype: 'Module', description: '' },
-                        SetSurface:      { id: 'Fg5VqZXTcgja2', caption: 'Set Surface',       nav: 'settings/setsettings/setsurface',      nodetype: 'Module', description: '' },
-                        WallDescription: { id: '0uJgpWp1Mj9Jd', caption: 'Wall Descriptions', nav: 'settings/setsettings/walldescription', nodetype: 'Module', description: '' },
-                        WallType:        { id: 'V45pfjoiW04Ix', caption: 'Wall Type',         nav: 'settings/setsettings/walltype',        nodetype: 'Module', description: '' },
+                        SetCondition:    { id: '3r7dQtlxlUX8u', caption: 'Set Condition',     nav: 'module/setcondition',    nodetype: 'Module', description: '' },
+                        SetOpening:      { id: 'gwzYE66lX9myO', caption: 'Set Opening',       nav: 'module/setopening',      nodetype: 'Module', description: '' },
+                        SetSurface:      { id: 'Fg5VqZXTcgja2', caption: 'Set Surface',       nav: 'module/setsurface',      nodetype: 'Module', description: '' },
+                        WallDescription: { id: '0uJgpWp1Mj9Jd', caption: 'Wall Descriptions', nav: 'module/walldescription', nodetype: 'Module', description: '' },
+                        WallType:        { id: 'V45pfjoiW04Ix', caption: 'Wall Type',         nav: 'module/walltype',        nodetype: 'Module', description: '' },
                     }
                 },
                 ShipViaSettings: {
@@ -654,7 +654,7 @@ var Constants = {
                     id: 'Settings.ShipViaSettings',
                     nodetype: 'Category',
                     children: {
-                        ShipVia: { id: 'D1wheIde10lAO', caption: 'Ship Via', nav: 'settings/shipviasettings/shipvia', nodetype: 'Module', description: '' },
+                        ShipVia: { id: 'D1wheIde10lAO', caption: 'Ship Via', nav: 'module/shipvia', nodetype: 'Module', description: '' },
                     }
                 },
                 SourceSettings: {
@@ -662,7 +662,7 @@ var Constants = {
                     id: 'Settings.SourceSettings',
                     nodetype: 'Category',
                     children: {
-                        Source: { id: 'BOH4LAvrGvVjW', caption: 'Source', nav: 'settings/sourcesettings/source', nodetype: 'Module', description: '' }
+                        Source: { id: 'BOH4LAvrGvVjW', caption: 'Source', nav: 'module/source', nodetype: 'Module', description: '' }
                     }
                 },
                 SystemSettings: {
@@ -670,13 +670,13 @@ var Constants = {
                     id: 'Settings.SystemSettings',
                     nodetype: 'Category',
                     children: {
-                        AvailabilitySettings:    { id: 'UXYMLInJl6JMP', caption: 'Availability Settings',      nav: 'settings/systemsettings/availabilitysettings',    nodetype: 'Module', description: '' },
-                        DefaultSettings:         { id: '6pvUgTaKPnjf3', caption: 'Default Settings',           nav: 'settings/systemsettings/defaultsettings',         nodetype: 'Module', description: '' },
-                        DocumentBarCodeSettings: { id: 'iSSvVLPqOGXnD', caption: 'Document Bar Code Settings', nav: 'settings/systemsettings/documentbarcodesettings', nodetype: 'Module', description: '' },
-                        EmailSettings:           { id: '7MWuq0m77CnZ8', caption: 'Email Settings',             nav: 'settings/systemsettings/emailsettings',           nodetype: 'Module', description: '' },
-                        InventorySettings:       { id: 'fdUclyoOCTYbx', caption: 'Inventory Settings',         nav: 'module/systemsettings/inventorysettings',         nodetype: 'Module', description: '' },
-                        LogoSettings:            { id: 'FM7iCQcVmmUqK', caption: 'Logo Settings',              nav: 'settings/systemsettings/logosettings',            nodetype: 'Module', description: '' },
-                        SystemSettings:          { id: 'v3tPhS7Ug7qgO', caption: 'System Settings',            nav: 'settings/systemsettings/systemsettings',          nodetype: 'Module', description: '' }
+                        AvailabilitySettings:    { id: 'UXYMLInJl6JMP', caption: 'Availability Settings',      nav: 'module/availabilitysettings',    nodetype: 'Module', description: '' },
+                        DefaultSettings:         { id: '6pvUgTaKPnjf3', caption: 'Default Settings',           nav: 'module/defaultsettings',         nodetype: 'Module', description: '' },
+                        DocumentBarCodeSettings: { id: 'iSSvVLPqOGXnD', caption: 'Document Bar Code Settings', nav: 'module/documentbarcodesettings', nodetype: 'Module', description: '' },
+                        EmailSettings:           { id: '7MWuq0m77CnZ8', caption: 'Email Settings',             nav: 'module/emailsettings',           nodetype: 'Module', description: '' },
+                        InventorySettings:       { id: 'fdUclyoOCTYbx', caption: 'Inventory Settings',         nav: 'module/inventorysettings',       nodetype: 'Module', description: '' },
+                        LogoSettings:            { id: 'FM7iCQcVmmUqK', caption: 'Logo Settings',              nav: 'module/logosettings',            nodetype: 'Module', description: '' },
+                        SystemSettings:          { id: 'v3tPhS7Ug7qgO', caption: 'System Settings',            nav: 'module/systemsettings',          nodetype: 'Module', description: '' }
                     }
                 },
                 TaxSettings: {
@@ -684,7 +684,7 @@ var Constants = {
                     id: 'Settings.TaxSettings',
                     nodetype: 'Category',
                     children: {
-                        TaxOption: { id: 'gYT7BJnFn9SLc', caption: 'Tax Option', nav: 'settings/taxsettings/taxoption', nodetype: 'Module', description: '',
+                        TaxOption: { id: 'gYT7BJnFn9SLc', caption: 'Tax Option', nav: 'module/taxoption', nodetype: 'Module', description: '',
                             form: {
                                 menuItems: {
                                     ForceTaxRates: { id: '{CE1AEA95-F022-4CF5-A4FA-81CE32523344}' }
@@ -698,7 +698,7 @@ var Constants = {
                     id: 'Settings.TemplateSettings',
                     nodetype: 'Category',
                     children: {
-                        Template: { id: '74uXyH7jXXbZM', caption: 'Template', nav: 'settings/templatesettings/template', nodetype: 'Module', description: '',
+                        Template: { id: '74uXyH7jXXbZM', caption: 'Template', nav: 'module/template', nodetype: 'Module', description: '',
                             form: {
                                 menuItems: {
                                     Search: { id: '{6386E100-98B2-42F3-BF71-5BB432070D10}' }
@@ -712,8 +712,8 @@ var Constants = {
                     id: 'Settings.UserSettings',
                     nodetype: 'Category',
                     children: {
-                        UserStatus: { id: 'YjSbfCF9CEvjz', caption: 'User Status',  nav: 'settings/usersettings/userstatus', nodetype: 'Module', description: '' },
-                        Sound:      { id: '1SCjkmxKUSbaQ', caption: 'Sound',        nav: 'settings/usersettings/sound',      nodetype: 'Module', description: '' }
+                        UserStatus: { id: 'YjSbfCF9CEvjz', caption: 'User Status',  nav: 'module/userstatus', nodetype: 'Module', description: '' },
+                        Sound:      { id: '1SCjkmxKUSbaQ', caption: 'Sound',        nav: 'module/sound',      nodetype: 'Module', description: '' }
                     }
                 },
                 VehicleSettings: {
@@ -721,13 +721,13 @@ var Constants = {
                     id: 'Settings.VehicleSettings',
                     nodetype: 'Category',
                     children: {
-                        LicenseClass:           { id: 'gLsGICI8R4VM',   caption: 'License Class',           nav: 'settings/vehiclesettings/licenseclass',          nodetype: 'Module', description: '' },
-                        VehicleColor:           { id: 'vxf0Ur4W8UEzw',  caption: 'Vehicle Color',           nav: 'settings/vehiclesettings/vehiclecolor',          nodetype: 'Module', description: '' },
-                        VehicleFuelType:        { id: 'T1uhkfrSK7J3d',  caption: 'Vehicle Fuel Type',       nav: 'settings/vehiclesettings/vehiclefueltype',       nodetype: 'Module', description: '' },
-                        VehicleMake:            { id: 'Kacj9CuAA7F8m',  caption: 'Vehicle Make',            nav: 'settings/vehiclesettings/vehiclemake',           nodetype: 'Module', description: '' },
-                        VehicleScheduleStatus:  { id: 'nvZvZeHdxviKG',  caption: 'Vehicle Schedule Status', nav: 'settings/vehiclesettings/vehicleschedulestatus', nodetype: 'Module', description: '' },
-                        VehicleStatus:          { id: 'RSXpDaDwDtgH3',  caption: 'Vehicle Status',          nav: 'settings/vehiclesettings/vehiclestatus',         nodetype: 'Module', description: '' },
-                        VehicleType:            { id: 'lbbSCJTjhBL3U',  caption: 'Vehicle Type',            nav: 'settings/vehiclesettings/vehicletype',           nodetype: 'Module', description: '' }
+                        LicenseClass:           { id: 'gLsGICI8R4VM',   caption: 'License Class',           nav: 'module/licenseclass',          nodetype: 'Module', description: '' },
+                        VehicleColor:           { id: 'vxf0Ur4W8UEzw',  caption: 'Vehicle Color',           nav: 'module/vehiclecolor',          nodetype: 'Module', description: '' },
+                        VehicleFuelType:        { id: 'T1uhkfrSK7J3d',  caption: 'Vehicle Fuel Type',       nav: 'module/vehiclefueltype',       nodetype: 'Module', description: '' },
+                        VehicleMake:            { id: 'Kacj9CuAA7F8m',  caption: 'Vehicle Make',            nav: 'module/vehiclemake',           nodetype: 'Module', description: '' },
+                        VehicleScheduleStatus:  { id: 'nvZvZeHdxviKG',  caption: 'Vehicle Schedule Status', nav: 'module/vehicleschedulestatus', nodetype: 'Module', description: '' },
+                        VehicleStatus:          { id: 'RSXpDaDwDtgH3',  caption: 'Vehicle Status',          nav: 'module/vehiclestatus',         nodetype: 'Module', description: '' },
+                        VehicleType:            { id: 'lbbSCJTjhBL3U',  caption: 'Vehicle Type',            nav: 'module/vehicletype',           nodetype: 'Module', description: '' }
                     }
                 },
                 VendorSettings: {
@@ -735,10 +735,10 @@ var Constants = {
                     id: 'Settings.VendorSettings',
                     nodetype: 'Category',
                     children: {
-                        OrganizationType:       { id: 'ENv2O3MbwKrI',   caption: 'Organization Type',           nav: 'settings/vendorsettings/organizationtype',       nodetype: 'Module', description: '' },
-                        VendorCatalog:          { id: '086ok4V8ztfCu',  caption: 'Vendor Catalog',              nav: 'settings/vendorsettings/vendorcatalog',          nodetype: 'Module', description: '' },
-                        VendorClass:            { id: 'EH6T4hlMVhYxq',  caption: 'Vendor Class',                nav: 'settings/vendorsettings/class',                  nodetype: 'Module', description: '' },
-                        SapVendorInvoiceStatus: { id: 'rzRfHzdo5DVyn',  caption: 'SAP Vendor Invoice Status',   nav: 'settings/vendorsettings/sapvendorinvoicestatus', nodetype: 'Module', description: '' }
+                        OrganizationType:       { id: 'ENv2O3MbwKrI',   caption: 'Organization Type',           nav: 'module/organizationtype',       nodetype: 'Module', description: '' },
+                        VendorCatalog:          { id: '086ok4V8ztfCu',  caption: 'Vendor Catalog',              nav: 'module/vendorcatalog',          nodetype: 'Module', description: '' },
+                        VendorClass:            { id: 'EH6T4hlMVhYxq',  caption: 'Vendor Class',                nav: 'module/class',                  nodetype: 'Module', description: '' },
+                        SapVendorInvoiceStatus: { id: 'rzRfHzdo5DVyn',  caption: 'SAP Vendor Invoice Status',   nav: 'module/sapvendorinvoicestatus', nodetype: 'Module', description: '' }
                     }
                 },
                 WardrobeSettings: {
@@ -746,15 +746,15 @@ var Constants = {
                     id: 'Settings.WardrobeSettings',
                     nodetype: 'Category',
                     children: {
-                        WardrobeCare:      { id: 'DcPDf33MJtiO4', caption: 'Wardrobe Care',      nav: 'settings/wardrobesettings/wardrobecare',      nodetype: 'Module', description: '' },
-                        WardrobeColor:     { id: 'Kc77x9j3t1Cf8', caption: 'Wardrobe Color',     nav: 'settings/wardrobesettings/wardrobecolor',     nodetype: 'Module', description: '' },
-                        WardrobeCondition: { id: 'W3fQSvmWyXmox', caption: 'Wardrobe Condition', nav: 'settings/wardrobesettings/wardrobecondition', nodetype: 'Module', description: '' },
-                        WardrobeGender:    { id: 'oZl62v243hmoY', caption: 'Wardrobe Gender',    nav: 'settings/wardrobesettings/wardrobegender',    nodetype: 'Module', description: '' },
-                        WardrobeLabel:     { id: 'oPEyg39ExOQhO', caption: 'Wardrobe Label',     nav: 'settings/wardrobesettings/wardrobelabel',     nodetype: 'Module', description: '' },
-                        WardrobeMaterial:  { id: 'rTEb0yyIofBBU', caption: 'Wardrobe Material',  nav: 'settings/wardrobesettings/wardrobematerial',  nodetype: 'Module', description: '' },
-                        WardrobePattern:   { id: '3SMTlxYJ2LGH1', caption: 'Wardrobe Pattern',   nav: 'settings/wardrobesettings/wardrobepattern',   nodetype: 'Module', description: '' },
-                        WardrobePeriod:    { id: 'OhMqm7XJBcfI1', caption: 'Wardrobe Period',    nav: 'settings/wardrobesettings/wardrobeperiod',    nodetype: 'Module', description: '' },
-                        WardrobeSource:    { id: 'ngguXevaaonRp', caption: 'Wardrobe Source',    nav: 'settings/wardrobesettings/wardrobesource',    nodetype: 'Module', description: '' }
+                        WardrobeCare:      { id: 'DcPDf33MJtiO4', caption: 'Wardrobe Care',      nav: 'module/wardrobecare',      nodetype: 'Module', description: '' },
+                        WardrobeColor:     { id: 'Kc77x9j3t1Cf8', caption: 'Wardrobe Color',     nav: 'module/wardrobecolor',     nodetype: 'Module', description: '' },
+                        WardrobeCondition: { id: 'W3fQSvmWyXmox', caption: 'Wardrobe Condition', nav: 'module/wardrobecondition', nodetype: 'Module', description: '' },
+                        WardrobeGender:    { id: 'oZl62v243hmoY', caption: 'Wardrobe Gender',    nav: 'module/wardrobegender',    nodetype: 'Module', description: '' },
+                        WardrobeLabel:     { id: 'oPEyg39ExOQhO', caption: 'Wardrobe Label',     nav: 'module/wardrobelabel',     nodetype: 'Module', description: '' },
+                        WardrobeMaterial:  { id: 'rTEb0yyIofBBU', caption: 'Wardrobe Material',  nav: 'module/wardrobematerial',  nodetype: 'Module', description: '' },
+                        WardrobePattern:   { id: '3SMTlxYJ2LGH1', caption: 'Wardrobe Pattern',   nav: 'module/wardrobepattern',   nodetype: 'Module', description: '' },
+                        WardrobePeriod:    { id: 'OhMqm7XJBcfI1', caption: 'Wardrobe Period',    nav: 'module/wardrobeperiod',    nodetype: 'Module', description: '' },
+                        WardrobeSource:    { id: 'ngguXevaaonRp', caption: 'Wardrobe Source',    nav: 'module/wardrobesource',    nodetype: 'Module', description: '' }
                     }
                 },
                 WarehouseSettings: {
@@ -770,7 +770,7 @@ var Constants = {
                     id: 'Settings.WidgetSettings',
                     nodetype: 'Category',
                     children: {
-                        Widget: { id: 'QLfJikDW0foC1', caption: 'Widget', nav: 'settings/widgetsettings/widget', nodetype: 'Module', description: '' }
+                        Widget: { id: 'QLfJikDW0foC1', caption: 'Widget', nav: 'module/widget', nodetype: 'Module', description: '' }
                     }
                 },
                 WorkWeekSettings: {
@@ -778,7 +778,7 @@ var Constants = {
                     id: 'Settings.WorkWeekSettings',
                     nodetype: 'Category',
                     children: {
-                        WorkWeek: { id: 'hRNv34ONOUmB7', caption: 'Work Week', nav: 'settings/workweeksettings/workweek', nodetype: 'Module', description: '' }
+                        WorkWeek: { id: 'hRNv34ONOUmB7', caption: 'Work Week', nav: 'module/workweek', nodetype: 'Module', description: '' }
                     }
                 }
             }
