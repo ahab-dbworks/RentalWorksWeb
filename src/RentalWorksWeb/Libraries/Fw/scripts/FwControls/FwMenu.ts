@@ -791,7 +791,7 @@ class FwMenuClass {
                     const $browse = options.$browse;
                     if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
                         let $selectedRows;
-                        if ($browse.data('showmultirowselect') === 'true') {
+                        if ($browse.data('showmultirowselect')) {
                             $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
                             if ($selectedRows.length === 0) {
                                 $selectedRows = $browse.find('tr.selected');
@@ -840,7 +840,7 @@ class FwMenuClass {
                         });
                     } else {
                         //FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
-                        if ($browse.data('hasmultirowselect') && $browse.data('showmultirowselect') == 'true') {
+                        if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing && $browse.data('showmultirowselect')) {
                             $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
 
                             if ($selectedRows.length === 0) {
@@ -1311,10 +1311,10 @@ class FwMenuClass {
         if (options.hasMultiRowEditing) {
             FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    if (options.$browse.data('showmultirowselect') === 'true') {
-                        options.$browse.data('showmultirowselect', 'false');
+                    if (options.$browse.data('showmultirowselect')) {
+                        options.$browse.data('showmultirowselect', false);
                     } else {
-                        options.$browse.data('showmultirowselect', 'true');
+                        options.$browse.data('showmultirowselect', true);
                     }
                     FwBrowse.showMultiRowSelector(options.$browse);
                 } catch (ex) {
