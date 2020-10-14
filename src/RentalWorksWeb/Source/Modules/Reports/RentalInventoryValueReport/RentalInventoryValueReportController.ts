@@ -130,6 +130,15 @@ class RentalInventoryValueReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'IncludeOwned', 'T');
         FwFormField.setValueByDataField($form, 'IncludeConsigned', 'T');
 
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        if (!enableConsignment) {
+            FwFormField.setValueByDataField($form, 'IncludeConsigned', false);
+            FwFormField.getDataField($form, 'IncludeConsigned').hide();
+
+            FwFormField.setValueByDataField($form, 'IncludeOwned', true);
+            FwFormField.getDataField($form, 'IncludeOwned').hide();
+        }
+
         this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
@@ -157,48 +166,48 @@ class RentalInventoryValueReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
 
-            const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-            const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-            const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
 
-            switch (datafield) {
-                case 'InventoryTypeId':
-                    request.uniqueids.Rental = true;
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                    break;
-                case 'CategoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                    break;
-                case 'SubCategoryId':
-                    request.uniqueids.Rental = true;
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
-                    break;
-                case 'InventoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    };
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    };
-                    if (subCategoryId !== "") {
-                        request.uniqueids.SubCategoryId = subCategoryId;
-                    };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-                    break;
-                case 'WarehouseId':
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
-                    break;
-            }
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids.Rental = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
+                request.uniqueids.Rental = true;
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'InventoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                };
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                };
+                if (subCategoryId !== "") {
+                    request.uniqueids.SubCategoryId = subCategoryId;
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
         }
+    }
     //----------------------------------------------------------------------------------------------
 };
 

@@ -264,6 +264,8 @@ class Program extends FwApplication {
                     defaultrentalsaleretiredreason:      responseGetInventorySettings.DefaultRentalSaleRetiredReason,
                     defaultlossanddamageretiredreasonid: responseGetInventorySettings.DefaultLossAndDamageRetiredReasonId,
                     defaultlossanddamageretiredreason:   responseGetInventorySettings.DefaultLossAndDamageRetiredReason,
+                    enableconsignment:                   responseGetInventorySettings.EnableConsignment,
+                    enablelease:                         responseGetInventorySettings.EnableLease,
                     enablereceipts:                      responseGetSystemSettings.EnableReceipts,
                     enablepayments:                      responseGetSystemSettings.EnablePayments,
                     sharedealsacrossofficelocations:     responseGetSystemSettings.ShareDealsAcrossOfficeLocations,

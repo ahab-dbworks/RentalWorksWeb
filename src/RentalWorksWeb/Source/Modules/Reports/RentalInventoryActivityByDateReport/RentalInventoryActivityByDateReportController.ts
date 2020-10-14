@@ -121,13 +121,28 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
         //    { value: 'ieaAll', caption: 'All' }
         //]);
 
-        FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'),
-            [
-                { value: "OWNED", text: "Include Owned", selected: "T" },
-                { value: "CONSIGNED", text: "Include Consigned", selected: "T" },
-                { value: "LEASED", text: "Include Leased", selected: "T" },
-                { value: "SUBBED", text: "Include Sub-Rented", selected: "T" },
-            ]);
+
+        //FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'),
+        //    [
+        //        { value: "OWNED", text: "Include Owned", selected: "T" },
+        //        { value: "CONSIGNED", text: "Include Consigned", selected: "T" },
+        //        { value: "LEASED", text: "Include Leased", selected: "T" },
+        //        { value: "SUBBED", text: "Include Sub-Rented", selected: "T" },
+        //    ]);
+
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        const enableLease = JSON.parse(sessionStorage.getItem('controldefaults')).enablelease
+
+        var ownershipItems: any = [];
+        ownershipItems.push({ value: "OWNED", text: "Include Owned", selected: "T" });
+        ownershipItems.push({ value: "SUBBED", text: "Include Sub-Rented", selected: "T" });
+        if (enableConsignment) {
+            ownershipItems.push({ value: "CONSIGNED", text: "Include Consigned", selected: "T" });
+        }
+        if (enableLease) {
+            ownershipItems.push({ value: "LEASED", text: "Include Leased", selected: "T" });
+        }
+        FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'), ownershipItems);
 
         // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

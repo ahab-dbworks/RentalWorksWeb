@@ -76,6 +76,12 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "LwSmXksF727e")]
         public string PartsQuantityInventoryValueMethod { get { return sysControl.PartsQuantityInventoryValueMethod; } set { sysControl.PartsQuantityInventoryValueMethod = value; } }
 
+        [FwLogicProperty(Id: "of86azr3dnOr")]
+        public bool? EnableConsignment { get { return sysControl.EnableConsignment; } set { sysControl.EnableConsignment = value; } }
+
+        [FwLogicProperty(Id: "rwEZZ44IiF6U")]
+        public bool? EnableLease { get { return sysControl.EnableLease; } set { sysControl.EnableLease = value; } }
+
         [FwLogicProperty(Id: "E0PTF3DZXRoNX")]
         public string DateStamp { get { return sysControl.DateStamp; } set { sysControl.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
