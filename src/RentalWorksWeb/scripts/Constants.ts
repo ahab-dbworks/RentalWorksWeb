@@ -484,7 +484,7 @@ var Constants = {
                     id: 'Settings.FiscalYearSettings',
                     nodetype: 'Category',
                     children: {
-                        FiscalYear: { id: 'n8p9E78kGRM6', caption: 'Fiscal Year', nav: 'settings/fiscalyearsettings/fiscalyear', nodetype: 'Module', description: '' },
+                        FiscalYear: { id: 'n8p9E78kGRM6', caption: 'Fiscal Year', nav: 'module/fiscalyear', nodetype: 'Module', description: '' },
                     }
                 },
                 GeneratorSettings: {
@@ -526,7 +526,7 @@ var Constants = {
                     id:      'Settings.LaborSettings',
                     nodetype: 'Category',
                     children: {
-                        Crew:               { id: '7myCbtZNx85m', caption: 'Crew',                 nav: 'settings/laborsettings/crew',               nodetype: 'Module', description: 'Define Crew personell, indicate which positions and default rates for each crew position.' },
+                        Crew:               { id: '7myCbtZNx85m', caption: 'Crew',                 nav: 'module/crew',                               nodetype: 'Module', description: 'Define Crew personell, indicate which positions and default rates for each crew position.' },
                         CrewScheduleStatus: { id: 'c0X4YfdKCp06', caption: 'Crew Schedule Status', nav: 'settings/laborsettings/crewschedulestatus', nodetype: 'Module', description: 'List of statuses for each Crew assignment.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
                         CrewStatus:         { id: 'uW0hAqUv6mDL', caption: 'Crew Status',          nav: 'settings/laborsettings/crewstatus',         nodetype: 'Module', description: 'List of statuses for each Crew person.  NOTE: Crew Scheduling not yet supported.  This module is included for future expansion.' },
                         LaborCategory:      { id: 'nJIiZsDNxc83', caption: 'Labor Category',       nav: 'settings/laborsettings/laborcategory',      nodetype: 'Module', description: '' },
