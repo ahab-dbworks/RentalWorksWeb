@@ -823,46 +823,53 @@ class FwMenuClass {
             $menubarbutton.on('click', function () {
                 try {
                     const $browse = options.$browse;
+                    const controller = options.$browse.attr('data-controller');
+                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
                     let $selectedRows;
-                    if ($browse.data('hasmultirowselect') && $browse.data('showmultirowselect') == 'true') {
-                        $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+                    if (typeof window[controller]['deleteRecord'] === 'function') {
+                        const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete this record?`);
+                        const $yes = FwConfirmation.addButton($confirmation, 'Yes');
+                        const $no = FwConfirmation.addButton($confirmation, 'No');
+                        $yes.focus();
+                        $yes.on('click', e => {
+                            $selectedRows = $browse.find('tr.selected');
+                            window[controller]['deleteRecord'](options.$browse, $selectedRows);
+                        });
                     } else {
-                        $selectedRows = $browse.find('tr.selected');
-                    }
+                        //FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
+                        if ($browse.data('hasmultirowselect') && $browse.data('showmultirowselect') == 'true') {
+                            $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+                        } else {
+                            $selectedRows = $browse.find('tr.selected');
+                        }
 
-                    if ($selectedRows.length > 0) {
-                        const confirmationText = $selectedRows.length === 1 ? 'this record' : $selectedRows.length + ' records';
-                        const $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedRows.length > 1 ? 's' : ''), `Are you sure you want to delete ${confirmationText}?`,
-                            //on yes
-                            async () => {
-                                const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
-                                FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${$selectedRows.length}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${$selectedRows.length}<div>`);
-                                try {
-                                    for (let i = 0; i < $selectedRows.length; i++) {
-                                        $confirmation.find('.recordno').html((i + 1).toString());
-                                        $confirmation.find('.progress').attr('value', (i + 1).toString());
-                                        await FwModule.deleteRecord($browse, jQuery($selectedRows[i]));
+                        if ($selectedRows.length > 0) {
+                            const confirmationText = $selectedRows.length === 1 ? 'this record' : $selectedRows.length + ' records';
+                            const $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedRows.length > 1 ? 's' : ''), `Are you sure you want to delete ${confirmationText}?`,
+                                //on yes
+                                async () => {
+                                    const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
+                                    FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${$selectedRows.length}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${$selectedRows.length}<div>`);
+                                    try {
+                                        for (let i = 0; i < $selectedRows.length; i++) {
+                                            $confirmation.find('.recordno').html((i + 1).toString());
+                                            $confirmation.find('.progress').attr('value', (i + 1).toString());
+                                            await FwModule.deleteRecord($browse, jQuery($selectedRows[i]));
+                                        }
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
                                     }
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                                finally {
-                                    FwConfirmation.destroyConfirmation($confirmation);
-                                    await FwBrowse.databind(options.$browse);
-                                }
-                            },
-                            // on no
-                            () => {
-                                // do nothing
-                            });
+                                    finally {
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                        await FwBrowse.databind(options.$browse);
+                                    }
+                                },
+                                // on no
+                                () => {
+                                    // do nothing
+                                });
+                        }
                     }
-                    //const controller = options.$browse.attr('data-controller');
-                    //if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                    //if (typeof window[controller]['deleteRecord'] === 'function') {
-                    //    window[controller]['deleteRecord'](options.$browse);
-                    //} else {
-                    //    FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
-                    //}
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

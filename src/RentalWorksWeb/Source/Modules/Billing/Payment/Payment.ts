@@ -135,8 +135,9 @@ class Payment {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    deleteRecord($browse): void {
-        FwModule.deleteRecord(this.Module, $browse);
+    deleteRecord($browse, $tr): void {
+        //FwModule.deleteRecord(this.Module, $browse);
+        FwModule.deleteRecord($browse, $tr);
         let observer;
         const app = document.getElementById('application');
         observer = new MutationObserver(() => {
