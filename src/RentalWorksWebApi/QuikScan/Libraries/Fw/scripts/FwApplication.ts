@@ -126,14 +126,18 @@ class FwApplication {
                 break;
             case 'NativeAudio':
                 if ((<any>window).plugins && (<any>window).plugins.NativeAudio) {
+                    let volume = 1;
+                    if ((<any>window).volume && typeof (<any>window).volumeControl.currentVolume === 'number') {
+                        volume = (<any>window).volumeControl.currentVolume;
+                    }
                     // Preload audio resources
                     if (typeof (<any>window).plugins.NativeAudio.preloadedSounds !== 'boolean') {
                         (<any>window).plugins.NativeAudio.preloadedSounds = true;
-                        (<any>window).plugins.NativeAudio.preloadSimple('success', 'audio/success.wav', function (msg) {
+                        (<any>window).plugins.NativeAudio.preloadComplex('success', 'audio/success.wav', volume, 1, 0, function (msg) {
                         }, function (msg) {
                             //FwFunc.showError(msg);
                         });
-                        (<any>window).plugins.NativeAudio.preloadSimple('error', 'audio/error.wav', function (msg) {
+                        (<any>window).plugins.NativeAudio.preloadComplex('error', 'audio/error.wav', volume, 1, 0, function (msg) {
                         }, function (msg) {
                             //FwFunc.showError(msg);
                         });

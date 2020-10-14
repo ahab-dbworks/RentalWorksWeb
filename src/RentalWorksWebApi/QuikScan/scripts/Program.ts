@@ -157,6 +157,23 @@ class Program extends FwApplication {
                     program.browserVersionRevision = revision;
                     program.browserVersionBuild = build;
 
+                    if ((<any>window).volumeControl) {
+                        (<any>window).volumeControl.init({},
+                            (vol) => {
+                                (<any>window).volumeControl.currentVolume = vol;
+                                if ((<any>window).plugins && (<any>window).plugins.NativeAudio) {
+                                    (<any>window).plugins.NativeAudio.setVolumeForComplexAsset('success', vol,
+                                    /* successs */() => {
+                                            (<any>window).plugins.NativeAudio.setVolumeForComplexAsset('error', vol,
+                                            /* successs */() => { },
+                                            /* failure  */() => { });
+                                        },
+                                    /* failure  */() => {});
+                                } 
+                                //FwNotification.renderNotification('INFO', `Volume: ${vol}`);
+                            });
+                    }
+
                     //fires when the device's battery percentage changes
                     window.addEventListener("batterystatus", (status) => {
                         let batteryStatus: BatteryStatusEvent = <any>status;
