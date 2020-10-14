@@ -294,6 +294,8 @@ abstract class StagingCheckoutBase {
         //const maxPageSize = 20;
         const module = this.Module;
 
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+
         $form.on('change', `[data-datafield="${this.Type}Id"]`, e => {
             try {
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type == 'ContainerItem' ? 'Order' : this.Type}Id`);
@@ -337,7 +339,7 @@ abstract class StagingCheckoutBase {
                         res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
                         res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
                         //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
-                        res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
+                        ((res.ConsignmentTab === true) && (enableConsignment)) ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
                     }, ex => {
                         FwFunc.showError(ex)
                     }, $form);
@@ -611,6 +613,8 @@ abstract class StagingCheckoutBase {
 
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+
         if ($selectedCheckBoxes.length !== 0) {
             await this.unstageSelectedItems($form, $selectedCheckBoxes).then(errorMessages => {
                 FwBrowse.search($grid);
@@ -623,7 +627,7 @@ abstract class StagingCheckoutBase {
                     res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
                     res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
                     //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
-                    res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
+                    ((res.ConsignmentTab === true) && (enableConsignment)) ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
                 }, ex => {
                     FwFunc.showError(ex)
                 }, $form);
