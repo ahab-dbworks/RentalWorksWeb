@@ -2793,6 +2793,32 @@ class PurchaseOrder implements IModule {
             case 'TaxOptionId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
                 break;
+            case 'ReceiveDeliveryCarrierId':
+                request.uniqueids = {
+                    Freight: true
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatereceivedeliverycarrier`);
+                break;
+            case 'ReceiveDeliveryShipViaId':
+                let receiveDeliveryCarrierId = FwFormField.getValueByDataField($form, 'ReceiveDeliveryCarrierId');
+                request.uniqueids = {
+                    VendorId: receiveDeliveryCarrierId
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatereceivedeliveryshipvia`);
+                break;
+            case 'ReturnDeliveryCarrierId':
+                request.uniqueids = {
+                    Freight: true
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatereturndeliverycarrier`);
+                break;
+            case 'ReturnDeliveryShipViaId':
+                let returnDeliveryCarrierId = FwFormField.getValueByDataField($form, 'ReturnDeliveryCarrierId');
+                request.uniqueids = {
+                    VendorId: returnDeliveryCarrierId
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatereturndeliveryshipvia`);
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------	

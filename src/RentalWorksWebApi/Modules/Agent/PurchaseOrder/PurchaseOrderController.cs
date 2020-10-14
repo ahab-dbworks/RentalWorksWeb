@@ -18,6 +18,7 @@ using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
 using static WebApi.Modules.HomeControls.DealOrder.DealOrderRecord;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using WebApi.Modules.Settings.ShipViaSettings.ShipVia;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -340,12 +341,44 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/purchaseorder/officerlocation/A0000001
+        // GET api/v1/purchaseorder/validateofficelocation/A0000001
         [HttpGet("officelocation/{id}")]
         [FwControllerMethod(Id: "PptuuQ1Cl3M3", ActionType: FwControllerActionTypes.View)]
         public async Task<ActionResult<OfficeLocationLogic>> OfficeLocation_GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<OfficeLocationLogic>(id, typeof(OfficeLocationLogic));
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/purchaseorder/validateoutdeliverycarrier/browse 
+        [HttpPost("validatereceivedeliverycarrier/browse")]
+        [FwControllerMethod(Id: "1lRTINhPSGXy", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateReceiveDeliveryCarrierBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/purchaseorder/validatereceivedeliveryshipvia/browse 
+        [HttpPost("validatereceivedeliveryshipvia/browse")]
+        [FwControllerMethod(Id: "2Crhzp2BG9se", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateReceiveDeliveryShipViaBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ShipViaLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/purchaseorder/validatereturndeliverycarrier/browse 
+        [HttpPost("validatereturndeliverycarrier/browse")]
+        [FwControllerMethod(Id: "hxvO7cEfakPQ", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateReturnDeliveryCarrierBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<VendorLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/purchaseorder/validatereturndeliveryshipvia/browse 
+        [HttpPost("validatereturndeliveryshipvia/browse")]
+        [FwControllerMethod(Id: "mYUSYeCIZkC2", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateReturnDeliveryShipViaBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ShipViaLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------
     }
