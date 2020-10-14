@@ -1408,14 +1408,14 @@ class Invoice {
                             for (let i = 0; i < invoiceId.length; i++) {
                                 $confirmation.find('.recordno').html((i + 1).toString());
                                 $confirmation.find('.progress').attr('value', (i + 1).toString());
-                                this.doVoidInvoice(invoiceId[i], onVoidSuccess, onVoidFailure);
+                                const isLastIndex = (i == invoiceId.length - 1 ? true : false);
+                                await this.doVoidInvoice($control, invoiceId[i], isLastIndex, onVoidSuccess, onVoidFailure);
                             }
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
                         finally {
                             FwConfirmation.destroyConfirmation($confirmation);
-
                         }
                     },
                     // on no
@@ -1469,92 +1469,182 @@ class Invoice {
         }
     }
     //----------------------------------------------------------------------------------------------
-    async doVoidInvoice(invoiceId: string, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): Promise<void> {
+    async doVoidInvoice($control: JQuery, invoiceId: string, isLastIndex:boolean, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
-            const request = new FwAjaxRequest<any>();
-            request.url = applicationConfig.apiurl + `api/v1/invoice/${invoiceId}/void`;
-            request.httpMethod = 'POST';
-            const response = await FwAjax.callWebApi<any, any>(request);
-            if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
-                if ((onVoidSuccess) && (typeof onVoidSuccess === 'function')) {
-                    onVoidSuccess(response);
+            try {
+                const request = new FwAjaxRequest<any>();
+                request.url = applicationConfig.apiurl + `api/v1/invoice/${invoiceId}/void`;
+                request.httpMethod = 'POST';
+                request.$elementToBlock = $control;
+                const response = await FwAjax.callWebApi<any, any>(request);
+                if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                    if ((onVoidSuccess) && (typeof onVoidSuccess === 'function') && isLastIndex) {
+                        onVoidSuccess(response);
+                    }
+                    resolve();
                 }
-                resolve();
             }
-            else {
+            catch (ex) {
                 if ((onVoidFailure) && (typeof onVoidFailure === 'function')) {
-                    onVoidFailure(response);
+                    onVoidFailure(ex);
                 }
-                reject(response);
+                reject(ex);
             }
         });
     }
     //----------------------------------------------------------------------------------------------
     browseApproveInvoice($browse: JQuery) {
-        const invoiceId: string = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
-        this.approveInvoice($browse, invoiceId, function onSuccess(response) { FwBrowse.databind($browse); });
+        let ids: Array<string> = [];
+        if ($browse.data('hasmultirowediting') && $browse.data('showmultirowselect') === 'true') {
+            let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+            if ($selectedRows.length === 0) {
+                $selectedRows = $browse.find('tbody tr.selected');
+            }
+            for (let i = 0; i < $selectedRows.length; i++) {
+                ids.push(jQuery($selectedRows[i]).find('[data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
+            }
+        } else {
+            ids.push($browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
+        }
+        this.approveInvoice($browse, ids, function onSuccess(response) { FwBrowse.databind($browse); });
     }
     //----------------------------------------------------------------------------------------------
     formApproveInvoice($form: JQuery) {
         const invoiceId: string = FwFormField.getValueByDataField($form, 'InvoiceId');
-        this.approveInvoice($form, invoiceId, function onSuccess(response) { FwModule.refreshForm($form); });
+        this.approveInvoice($form, [invoiceId], function onSuccess(response) { FwModule.refreshForm($form); });
     }
     //----------------------------------------------------------------------------------------------
-    approveInvoice($formToBlock: JQuery, invoiceId: string, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): void {
+    async approveInvoice($control: JQuery, invoiceId: Array<string>, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): Promise<void> {
         try {
-            if ((invoiceId == null) || (invoiceId == '') || (typeof invoiceId === 'undefined')) {
+            if ((invoiceId.length === 0) || (typeof invoiceId === 'undefined')) {
                 FwNotification.renderNotification('WARNING', 'No Invoice Selected');
+            } else {
+                for (let i = 0; i < invoiceId.length; i++) {
+                    const isLastIndex = (i == invoiceId.length - 1 ? true : false);
+                    await this.doApproveInvoice($control, invoiceId[i], isLastIndex, onApproveSuccess, onApproveFailure);
+                }
             }
-            else {
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.success === true) {
-                        if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
-                            onApproveSuccess(response);
-                        }
-                    } else {
-                        FwNotification.renderNotification('WARNING', response.msg);
-                        if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
-                            onApproveFailure(response);
-                        }
-                    }
-                }, null, $formToBlock);
-            }
+            //if ((invoiceId == null) || (invoiceId == '') || (typeof invoiceId === 'undefined')) {
+            //    FwNotification.renderNotification('WARNING', 'No Invoice Selected');
+            //}
+            //else {
+            //    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            //        if (response.success === true) {
+            //            if ((onApproveSuccess) && (typeof onApproveSuccess === 'function')) {
+            //                onApproveSuccess(response);
+            //            }
+            //        } else {
+            //            FwNotification.renderNotification('WARNING', response.msg);
+            //            if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
+            //                onApproveFailure(response);
+            //            }
+            //        }
+            //    }, null, $formToBlock);
+            //}
         } catch (ex) {
             FwFunc.showError(ex);
         }
     }
     //----------------------------------------------------------------------------------------------
+    async doApproveInvoice($control: JQuery, invoiceId: string, isLastIndex: boolean, onApproveSuccess: (response: any) => void, onApproveFailure?: (response: any) => void): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                const request = new FwAjaxRequest<any>();
+                request.url = applicationConfig.apiurl + `api/v1/invoice/${invoiceId}/approve`;
+                request.httpMethod = 'POST';
+                request.$elementToBlock = $control;
+                const response = await FwAjax.callWebApi<any, any>(request);
+                if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                    if ((onApproveSuccess) && (typeof onApproveSuccess === 'function') && isLastIndex) {
+                        onApproveSuccess(response);
+                    }
+                    resolve();
+                }
+            }
+            catch (ex) {
+                if ((onApproveFailure) && (typeof onApproveFailure === 'function')) {
+                    onApproveFailure(ex);
+                }
+                reject(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     browseUnapproveInvoice($browse: JQuery) {
-        const invoiceId: string = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
-        this.unApproveInvoice($browse, invoiceId, function onSuccess(response) { FwBrowse.databind($browse); });
+        let ids: Array<string> = [];
+        if ($browse.data('hasmultirowediting') && $browse.data('showmultirowselect') === 'true') {
+            let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+            if ($selectedRows.length === 0) {
+                $selectedRows = $browse.find('tbody tr.selected');
+            }
+            for (let i = 0; i < $selectedRows.length; i++) {
+                ids.push(jQuery($selectedRows[i]).find('[data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
+            }
+        } else {
+            ids.push($browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
+        }
+
+        this.unApproveInvoice($browse, ids, function onSuccess(response) { FwBrowse.databind($browse); });
     }
     //----------------------------------------------------------------------------------------------
     formUnapproveInvoice($form: JQuery) {
         const invoiceId: string = FwFormField.getValueByDataField($form, 'InvoiceId');
-        this.unApproveInvoice($form, invoiceId, function onSuccess(response) { FwModule.refreshForm($form); });
+        this.unApproveInvoice($form, [invoiceId], function onSuccess(response) { FwModule.refreshForm($form); });
     }
     //----------------------------------------------------------------------------------------------
-    unApproveInvoice($formToBlock: JQuery, invoiceId: string, onUnapproveSuccess: (response: any) => void, onUnapproveFailure?: (response: any) => void): void {
+    async unApproveInvoice($control: JQuery, invoiceId: Array<string>, onUnapproveSuccess: (response: any) => void, onUnapproveFailure?: (response: any) => void): Promise<void> {
         try {
-            if ((invoiceId == null) || (invoiceId == '') || (typeof invoiceId === 'undefined')) {
+            if ((invoiceId.length === 0) || (typeof invoiceId === 'undefined')) {
                 FwNotification.renderNotification('WARNING', 'No Invoice Selected');
             } else {
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (response.success === true) {
-                        if ((onUnapproveSuccess) && (typeof onUnapproveSuccess === 'function')) {
-                            onUnapproveSuccess(response);
-                        }
-                    } else {
-                        FwNotification.renderNotification('WARNING', response.msg);
-                        if ((onUnapproveFailure) && (typeof onUnapproveFailure === 'function')) {
-                            onUnapproveFailure(response);
-                        }
-                    }
-                }, null, $formToBlock);
+                for (let i = 0; i < invoiceId.length; i++) {
+                    const isLastIndex = (i == invoiceId.length - 1 ? true : false);
+                    await this.doUnapproveInvoice($control, invoiceId[i], isLastIndex, onUnapproveSuccess, onUnapproveFailure);
+                }
             }
+            //if ((invoiceId == null) || (invoiceId == '') || (typeof invoiceId === 'undefined')) {
+            //    FwNotification.renderNotification('WARNING', 'No Invoice Selected');
+            //} else {
+            //    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            //        if (response.success === true) {
+            //            if ((onUnapproveSuccess) && (typeof onUnapproveSuccess === 'function')) {
+            //                onUnapproveSuccess(response);
+            //            }
+            //        } else {
+            //            FwNotification.renderNotification('WARNING', response.msg);
+            //            if ((onUnapproveFailure) && (typeof onUnapproveFailure === 'function')) {
+            //                onUnapproveFailure(response);
+            //            }
+            //        }
+            //    }, null, $formToBlock);
+            //}
         } catch (ex) {
             FwFunc.showError(ex);
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    async doUnapproveInvoice($control: JQuery, invoiceId: string, isLastIndex: boolean, onUnapproveSuccess: (response: any) => void, onUnapproveFailure?: (response: any) => void): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                const request = new FwAjaxRequest<any>();
+                request.url = applicationConfig.apiurl + `api/v1/invoice/${invoiceId}/unapprove`;
+                request.httpMethod = 'POST';
+                request.$elementToBlock = $control;
+                const response = await FwAjax.callWebApi<any, any>(request);
+                if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                    if ((onUnapproveSuccess) && (typeof onUnapproveSuccess === 'function') && isLastIndex) {
+                        onUnapproveSuccess(response);
+                    }
+                    resolve();
+                }
+            }
+            catch (ex) {
+                if ((onUnapproveFailure) && (typeof onUnapproveFailure === 'function')) {
+                    onUnapproveFailure(ex);
+                }
+                reject(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     formPrintInvoice($form: JQuery) {
