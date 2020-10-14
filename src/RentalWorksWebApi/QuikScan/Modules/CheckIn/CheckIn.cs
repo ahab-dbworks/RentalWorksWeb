@@ -164,8 +164,28 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public async Task GetShowCreateContract(dynamic request, dynamic response, dynamic session)
         {
+
             using (FwSqlConnection conn = new FwSqlConnection(this.ApplicationConfig.DatabaseSettings.ConnectionString))
             {
+                FwSqlCommand qryInputByUser;
+                string inputbyusersid, namefml, contractid, usersid;
+                contractid = request.contractid;
+                usersid = session.security.webUser.usersid;
+                if (!string.IsNullOrEmpty(contractid))
+                {
+                    qryInputByUser = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
+                    qryInputByUser.Add("select c.inputbyusersid, u.namefml");
+                    qryInputByUser.Add("from contract c join usersview u on (c.inputbyusersid = u.usersid)");
+                    qryInputByUser.Add("where contractid = @contractid");
+                    qryInputByUser.AddParameter("@contractid", contractid);
+                    await qryInputByUser.ExecuteAsync();
+                    inputbyusersid = qryInputByUser.GetField("inputbyusersid").ToString().TrimEnd();
+                    namefml = qryInputByUser.GetField("namefml").ToString().TrimEnd();
+                    if (usersid != inputbyusersid)
+                    {
+                        throw new FwBadRequestException("Only the session owner " + namefml + " can create a contract.");
+                    }
+                }
                 using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Add("select showcreatecontract = (case when exists (select *");
