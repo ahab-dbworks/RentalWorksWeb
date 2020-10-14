@@ -18,13 +18,13 @@
                 }
                 else {
                     Ajax.hideLoader();
-                    Ajax.logError(`GET: ${url}`, req.responseText);
+                    Ajax.logError(`${req.status} ${req.statusText} - GET: ${url}`, req.responseText);
                     reject(Error(req.statusText));
                 }
             };
             req.onerror = function () {
                 Ajax.hideLoader();
-                Ajax.logError(`GET: ${url}`, req.responseText);
+                Ajax.logError(`${req.status} ${req.statusText} - GET: ${url}`, req.responseText);
                 reject(Error("Network Error"));
             };
             req.send();
@@ -45,13 +45,13 @@
                 }
                 else {
                     Ajax.hideLoader();
-                    Ajax.logError(`POST: ${url}`, req.responseText);
+                    Ajax.logError(`${req.status} ${req.statusText} - POST: ${url}`, req.responseText);
                     reject(Error(req.statusText));
                 }
             };
             req.onerror = function () {
                 Ajax.hideLoader();
-                Ajax.logError(`POST: ${url}`, req.responseText);
+                Ajax.logError(`${req.status} ${req.statusText} - POST: ${url}`, req.responseText);
                 reject(Error("Network Error"));
             };
             req.send(JSON.stringify(data));
