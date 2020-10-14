@@ -1457,6 +1457,20 @@ abstract class InventoryBase {
         }
     }
     //----------------------------------------------------------------------------------------------
+    getTab($form: JQuery, tabClass: string): JQuery<HTMLElement> {
+        return $form.find(`[data-type="tab"].${tabClass}`);
+    }
+    //----------------------------------------------------------------------------------------------
+    showTab($form: JQuery, tabClass: string) {
+        this.getTab($form, tabClass).show();
+    }
+    //----------------------------------------------------------------------------------------------
+    hideTab($form: JQuery, tabClass: string) {
+        this.getTab($form, tabClass).hide();
+    }
+    //----------------------------------------------------------------------------------------------
+
+
     //calculateYearly() {
     //    for (var jan = 0; jan <= 30; jan++) {
     //        this.yearlyEvents.push({

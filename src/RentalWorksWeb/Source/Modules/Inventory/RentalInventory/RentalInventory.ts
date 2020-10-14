@@ -18,6 +18,12 @@ class RentalInventory extends InventoryBase {
         $form.find('div[data-datafield="ContainerScannableInventoryId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="ContainerScannableDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
+
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        if (!enableConsignment) {
+            this.hideTab($form, 'consignmenttab');
+        }
+
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
