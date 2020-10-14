@@ -1373,7 +1373,10 @@ class Invoice {
     browseVoidInvoice($browse: JQuery) {
         let ids: Array<string> = [];
         if ($browse.data('hasmultirowediting') && $browse.data('showmultirowselect') === 'true') {
-            const $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+            let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+            if ($selectedRows.length === 0) {
+                $selectedRows = $browse.find('tbody tr.selected');
+            }
             for (let i = 0; i < $selectedRows.length; i++) {
                 ids.push(jQuery($selectedRows[i]).find('[data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
             }
@@ -1381,64 +1384,110 @@ class Invoice {
             ids.push($browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue'));
         }
         //const invoiceId: string = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
-        this.voidInvoice(ids, function onSuccess(response) { FwBrowse.databind($browse); });
+        this.voidInvoice($browse, ids, function onSuccess(response) { FwBrowse.databind($browse); });
     }
     //----------------------------------------------------------------------------------------------
     formVoidInvoice($form: JQuery) {
         const invoiceId: string = FwFormField.getValueByDataField($form, 'InvoiceId');
-        this.voidInvoice(invoiceId, function onSuccess(response) { FwModule.refreshForm($form); });
+        this.voidInvoice($form, [invoiceId], function onSuccess(response) { FwModule.refreshForm($form); });
     }
     //----------------------------------------------------------------------------------------------
     //voidInvoice(invoiceId: string, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): void {
-    voidInvoice(invoiceId: any, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): void {
+    voidInvoice($control: JQuery, invoiceId: Array<string>, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): void {
         try {
-            if ((invoiceId == null) || (invoiceId == '') || (typeof invoiceId === 'undefined')) {
+            //if ((invoiceId == null) || (invoiceId == '') || (typeof invoiceId === 'undefined')) {
+            if ((invoiceId.length === 0) || (typeof invoiceId === 'undefined')) {
                 FwNotification.renderNotification('WARNING', 'No Invoice Selected');
             } else {
-                const $confirmation = FwConfirmation.renderConfirmation('Void', '');
-                $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                const html: Array<string> = [];
-                html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('    <div>Void Invoice?</div>');
-                html.push('  </div>');
-                html.push('</div>');
-
-                FwConfirmation.addControls($confirmation, html.join(''));
-                const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                $yes.on('click', makeVoid);
-
-                function makeVoid() {
-                    FwFormField.disable($confirmation.find('.fwformfield'));
-                    FwFormField.disable($yes);
-                    $yes.text('Voiding...');
-                    $yes.off('click');
-                    const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
-                    const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
-
-                    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        if ((onVoidSuccess) && (typeof onVoidSuccess === 'function')) {
-                            onVoidSuccess(response);
+                const $confirmation = FwConfirmation.yesNo('Void', `Void ${invoiceId.length > 1 ? invoiceId.length + ' ' : ''}Invoice${invoiceId.length > 1 ? 's' : ''}?`,
+                    //on yes
+                    async () => {
+                        const $confirmation = FwConfirmation.renderConfirmation('Voiding...', '');
+                        FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${invoiceId.length}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Voiding Record <span class="recordno">1</span> of ${invoiceId.length}<div>`);
+                        try {
+                            for (let i = 0; i < invoiceId.length; i++) {
+                                $confirmation.find('.recordno').html((i + 1).toString());
+                                $confirmation.find('.progress').attr('value', (i + 1).toString());
+                                this.doVoidInvoice(invoiceId[i], onVoidSuccess, onVoidFailure);
+                            }
+                        } catch (ex) {
+                            FwFunc.showError(ex);
                         }
-                    }, function onError(response) {
-                        $yes.on('click', makeVoid);
-                        $yes.text('Void');
-                        FwFunc.showError(response);
-                        FwFormField.enable($confirmation.find('.fwformfield'));
-                        FwFormField.enable($yes);
-                        if ((onVoidFailure) && (typeof onVoidFailure === 'function')) {
-                            onVoidFailure(response);
+                        finally {
+                            FwConfirmation.destroyConfirmation($confirmation);
+
                         }
-                    }, $realConfirm);
-                }
+                    },
+                    // on no
+                    () => {
+                        // do nothing
+                    });
             }
+
+            //const $confirmation = FwConfirmation.renderConfirmation('Void', '');
+            //$confirmation.find('.fwconfirmationbox').css('width', '450px');
+            //const html: Array<string> = [];
+            //html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            //html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            //html.push(`    <div>Void ${invoiceId.length > 1 ? invoiceId.length + ' ' : ''}Invoice${invoiceId.length > 1 ? 's':''}?</div>`);
+            //html.push('  </div>');
+            //html.push('</div>');
+
+            //FwConfirmation.addControls($confirmation, html.join(''));
+            //const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+            //const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            //$yes.on('click', makeVoid);
+
+            //function makeVoid() {
+            //    FwFormField.disable($confirmation.find('.fwformfield'));
+            //    FwFormField.disable($yes);
+            //    $yes.text('Voiding...');
+            //    $yes.off('click');
+            //    const topLayer = '<div class="top-layer" data-controller="none" style="background-color: transparent;z-index:1"></div>';
+            //    const $realConfirm = jQuery($confirmation.find('.fwconfirmationbox')).prepend(topLayer);
+
+            //    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            //        FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
+            //        FwConfirmation.destroyConfirmation($confirmation);
+            //        if ((onVoidSuccess) && (typeof onVoidSuccess === 'function')) {
+            //            onVoidSuccess(response);
+            //        }
+            //    }, function onError(response) {
+            //        $yes.on('click', makeVoid);
+            //        $yes.text('Void');
+            //        FwFunc.showError(response);
+            //        FwFormField.enable($confirmation.find('.fwformfield'));
+            //        FwFormField.enable($yes);
+            //        if ((onVoidFailure) && (typeof onVoidFailure === 'function')) {
+            //            onVoidFailure(response);
+            //        }
+            //    }, $realConfirm);
+            //}
         } catch (ex) {
             FwFunc.showError(ex);
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    async doVoidInvoice(invoiceId: string, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            const request = new FwAjaxRequest<any>();
+            request.url = applicationConfig.apiurl + `api/v1/invoice/${invoiceId}/void`;
+            request.httpMethod = 'POST';
+            const response = await FwAjax.callWebApi<any, any>(request);
+            if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                if ((onVoidSuccess) && (typeof onVoidSuccess === 'function')) {
+                    onVoidSuccess(response);
+                }
+                resolve();
+            }
+            else {
+                if ((onVoidFailure) && (typeof onVoidFailure === 'function')) {
+                    onVoidFailure(response);
+                }
+                reject(response);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     browseApproveInvoice($browse: JQuery) {
