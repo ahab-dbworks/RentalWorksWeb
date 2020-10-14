@@ -21,7 +21,6 @@ using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityByDateReport
 {
-    public enum IncludeExcludeAll { ieaAll, ieaIncludeOnly, ieaExclude };
     public class RentalInventoryActivityByDateReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
@@ -32,6 +31,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         public string SubCategoryId { get; set; }
         public string InventoryId { get; set; }
         public IncludeExcludeAll FixedAssets { get; set; }
+        public SelectedCheckBoxListItems OwnershipTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

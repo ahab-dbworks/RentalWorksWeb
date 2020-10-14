@@ -394,7 +394,9 @@ namespace WebApi
         public const string INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE = "SP";
 
         public const string INVENTORY_OWNERSHIP_OWNED = "OWNED";
+        public const string INVENTORY_OWNERSHIP_SUBBED = "SUBBED";  //  this is not really an "ownership". but we are using this as a selection on many report front-ends
         public const string INVENTORY_OWNERSHIP_CONSIGNED = "CONSIGNED";
+        public const string INVENTORY_OWNERSHIP_LEASED = "LEASED";
 
         public const string INVENTORY_QUANTITY_TRANSACTION_TYPE_PURCHASE = "PURCHASE INVENTORY";
 
@@ -685,4 +687,8 @@ namespace WebApi
         public decimal Total { get; set; }
         public bool? IncludeTaxInTotal { get; set; }
     }
+
+
+    public enum IncludeExcludeAll { All, IncludeOnly, Exclude };
+
 }

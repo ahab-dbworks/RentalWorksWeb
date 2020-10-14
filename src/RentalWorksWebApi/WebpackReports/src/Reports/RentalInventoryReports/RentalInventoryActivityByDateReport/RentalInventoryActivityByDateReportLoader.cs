@@ -1,11 +1,8 @@
-using FwStandard.Data;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
-using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityByDateReport
 {
     public class RentalInventoryActivityByDateReportLoader : AppReportLoader
@@ -22,6 +19,9 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ownershiptypes", modeltype: FwDataTypes.Text)]
+        public string OwnershipTypes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehousecode", modeltype: FwDataTypes.Text)]
         public string WarehouseCode { get; set; }
@@ -65,6 +65,48 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? IsFixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
+        public string Unit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitValue{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
+        public string Manufacturer{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text)]
+        public string ManufacturerUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool? IsInactive{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "classification", modeltype: FwDataTypes.Text)]
+        public string Classification { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
+        public string TrackedBy{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nondiscountable", modeltype: FwDataTypes.Boolean)]
+        public bool? IsNonDiscountable{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean)]
+        public bool? IsHazardousMaterial { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "aisleloc", modeltype: FwDataTypes.Text)]
+        public string AisleLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text)]
+        public string ShelfLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryActivityByDateReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -79,14 +121,19 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
-                    if (request.FixedAssets.Equals(IncludeExcludeAll.ieaIncludeOnly))
+                    if (request.FixedAssets.Equals(IncludeExcludeAll.IncludeOnly))
                     {
                         qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
                     }
-                    else if (request.FixedAssets.Equals(IncludeExcludeAll.ieaExclude))
+                    else if (request.FixedAssets.Equals(IncludeExcludeAll.Exclude))
                     {
                         qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
                     }
+                    qry.AddParameter("@includeowned", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_OWNED));
+                    qry.AddParameter("@includesubbed", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_SUBBED));
+                    qry.AddParameter("@includeconsigned", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_CONSIGNED));
+                    qry.AddParameter("@includeleased", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_LEASED));
+
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }

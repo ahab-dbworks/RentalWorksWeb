@@ -29,9 +29,9 @@ const rentalInventoryActivityByDateTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <!--<div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Fixed Assets" data-datafield="FixedAsset"></div>-->
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
-                    <div data-value="ieaIncludeOnly" data-caption="Include Fixed Assets Only"></div>
-                    <div data-value="ieaExclude" data-caption="Exclude Fixed Assets"></div>
-                    <div data-value="ieaAll" data-caption="All"></div>
+                    <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
+                    <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
+                    <div data-value="All" data-caption="All"></div>
                   </div>
                 </div>
               </div>
@@ -112,24 +112,6 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-
-        ////Toggle Buttons on Fixed Asset  (should be done in openForm?)
-        //FwFormField.loadItems($form.find('div[data-datafield="FixedAsset"]'), [
-        //    { value: 'ieaIncludeOnly', caption: 'Include Fixed Assets Only' },
-        //    { value: 'ieaExclude', caption: 'Exclude Fixed Assets' },
-        //    //{ value: 'ieaAll', caption: 'All', checked: true }
-        //    { value: 'ieaAll', caption: 'All' }
-        //]);
-
-
-        //FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'),
-        //    [
-        //        { value: "OWNED", text: "Include Owned", selected: "T" },
-        //        { value: "CONSIGNED", text: "Include Consigned", selected: "T" },
-        //        { value: "LEASED", text: "Include Leased", selected: "T" },
-        //        { value: "SUBBED", text: "Include Sub-Rented", selected: "T" },
-        //    ]);
-
         const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
         const enableLease = JSON.parse(sessionStorage.getItem('controldefaults')).enablelease
 
@@ -152,14 +134,7 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
         const aMonthAgo = FwFunc.getDate(today, -30);
         FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
 
-        //FwFormField.setValue($form, 'div[data-datafield="FixedAsset"]', 'ieaAll');
-        FwFormField.setValueByDataField($form, 'FixedAsset', 'ieaAll');
-
-        //FwFormField.setValueByDataField($form, 'IncludeOwned', true);
-        //FwFormField.setValueByDataField($form, 'IncludeConsigned', true);
-        //FwFormField.setValueByDataField($form, 'IncludeLeased', true);
-        //FwFormField.setValueByDataField($form, 'IncludeSubbed', true);
-
+        FwFormField.setValueByDataField($form, 'FixedAsset', 'All');
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
