@@ -145,11 +145,11 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
-                    if (request.FixedAssets.Equals(IncludeExcludeAll.IncludeOnly))
+                    if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
                     {
                         qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
                     }
-                    else if (request.FixedAssets.Equals(IncludeExcludeAll.Exclude))
+                    else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
                     {
                         qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
                     }
@@ -157,6 +157,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
                     qry.AddParameter("@includesubbed", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_SUBBED));
                     qry.AddParameter("@includeconsigned", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_CONSIGNED));
                     qry.AddParameter("@includeleased", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_LEASED));
+                    qry.AddParameter("@ranks", SqlDbType.Text, ParameterDirection.Input, request.Ranks);
+                    qry.AddParameter("@trackedby", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys);
 
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);

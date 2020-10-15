@@ -25,34 +25,33 @@ const rentalInventoryActivityByDateTemplate = `
               </div>
             </div>
             <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ownership">
+                <div data-datafield="OwnershipTypes" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="TrackedBys" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:75px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rank">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="Ranks" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:75px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:300px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <!--<div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Fixed Assets" data-datafield="FixedAsset"></div>-->
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
                     <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
                     <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
                     <div data-value="All" data-caption="All"></div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="flexcolumn" style="max-width:300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ownership">
-                <!--
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Owned" style="float:left;max-width:420px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeConsigned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Consigned" style="float:left;max-width:420px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeLeased" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Leased" style="float:left;max-width:420px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeSubbed" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Sub-Rented" style="float:left;max-width:420px;"></div>
-                </div>
-                -->
-                <div data-datafield="OwnershipTypes" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:300px;"></div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:600px;">
@@ -116,15 +115,33 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
         const enableLease = JSON.parse(sessionStorage.getItem('controldefaults')).enablelease
 
         var ownershipItems: any = [];
-        ownershipItems.push({ value: "OWNED", text: "Include Owned", selected: "T" });
-        ownershipItems.push({ value: "SUBBED", text: "Include Sub-Rented", selected: "T" });
+        ownershipItems.push({ value: "OWNED", text: "Owned", selected: "T" });
+        ownershipItems.push({ value: "SUBBED", text: "Sub-Rented", selected: "T" });
         if (enableConsignment) {
-            ownershipItems.push({ value: "CONSIGNED", text: "Include Consigned", selected: "T" });
+            ownershipItems.push({ value: "CONSIGNED", text: "Consigned", selected: "T" });
         }
         if (enableLease) {
-            ownershipItems.push({ value: "LEASED", text: "Include Leased", selected: "T" });
+            ownershipItems.push({ value: "LEASED", text: "Leased", selected: "T" });
         }
         FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'), ownershipItems);
+
+
+        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
+            { value: "BARCODE", text: "Barcode", selected: "T" },
+            { value: "QUANTITY", text: "Quantity", selected: "T" },
+            { value: "SERIALNO", text: "Serial Number", selected: "T" },
+            { value: "RFID", text: "RFID", selected: "T" },
+        ]);
+        FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [
+            { value: "A", text: "A", selected: "T" },
+            { value: "B", text: "B", selected: "T" },
+            { value: "C", text: "C", selected: "T" },
+            { value: "D", text: "D", selected: "T" },
+            { value: "E", text: "E", selected: "T" },
+            { value: "F", text: "F", selected: "T" },
+            { value: "G", text: "G", selected: "T" }
+        ]);
+
 
         // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

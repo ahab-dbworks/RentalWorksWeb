@@ -14,6 +14,24 @@ const rentalInventoryAttributesTemplate = `
       <div id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
+            <div class="flexcolumn" style="max-width:75px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rank">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="Ranks" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:75px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
+                    <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
+                    <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
+                    <div data-value="All" data-caption="All"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:225px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sort By">
                   <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -139,6 +157,19 @@ class RentalInventoryAttributesReport extends FwWebApiReport {
                 { value: "ICODE", text: "I-Code", selected: "T" },
                 { value: "ATTRIBUTE", text: "Attribute", selected: "T" }
             ]);
+
+        FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [
+            { value: "A", text: "A", selected: "T" },
+            { value: "B", text: "B", selected: "T" },
+            { value: "C", text: "C", selected: "T" },
+            { value: "D", text: "D", selected: "T" },
+            { value: "E", text: "E", selected: "T" },
+            { value: "F", text: "F", selected: "T" },
+            { value: "G", text: "G", selected: "T" }
+        ]);
+
+
+
     }
     //----------------------------------------------------------------------------------------------
 };
