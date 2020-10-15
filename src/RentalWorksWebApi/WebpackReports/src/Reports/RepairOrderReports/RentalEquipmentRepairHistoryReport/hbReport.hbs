@@ -33,17 +33,17 @@
       {{#each this}}
       {{#ifEquals RowType "Warehouseheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <th colspan="10" class="header-row">Warehouse: {{Warehouse}}</th>
+        <td colspan="10" class="header-row">Warehouse: {{Warehouse}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <th colspan="10" class="lower header-row">Inventory Type: {{InventoryType}}</th>
+        <td colspan="10" class="lower header-row">Inventory Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <th colspan="10" class="lower header-row">Category: {{"Category"}}</th>
+        <td colspan="10" class="lower header-row">Category: {{"Category"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
