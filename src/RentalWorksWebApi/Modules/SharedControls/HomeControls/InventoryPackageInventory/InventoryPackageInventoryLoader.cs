@@ -6,6 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using WebApi.Logic;
+using WebApi.Modules.HomeControls.InventoryWarehouse;
 
 namespace WebApi.Modules.HomeControls.InventoryPackageInventory
 {
@@ -173,6 +174,21 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             if (warehouseId.Equals(RwConstants.NONE))
             {
                 warehouseId = "";
+            }
+
+            if ((!string.IsNullOrEmpty(packageId)) && (!string.IsNullOrEmpty(warehouseId)))
+            {
+                InventoryWarehouseLogic iwl = new InventoryWarehouseLogic();
+                iwl.SetDependencies(AppConfig, UserSession);
+                iwl.InventoryId = packageId;
+                iwl.WarehouseId = warehouseId;
+                if (iwl.LoadAsync<InventoryWarehouseLogic>().Result)
+                {
+                    if (!iwl.IsWarehouseSpecific.GetValueOrDefault(false))
+                    {
+                        warehouseId = "";
+                    }
+                }
             }
 
             base.SetBaseSelectQuery(select, qry, customFields, request);

@@ -345,11 +345,6 @@ namespace WebApi.Modules.Inventory.Inventory
             {
                 if (!lCurr.IsWarehouseSpecific.Equals(request.IsWarehouseSpecific))
                 {
-                    InventoryWarehouseLogic lNew = lCurr.MakeCopy<InventoryWarehouseLogic>();
-                    lNew.SetDependencies(appConfig, userSession);
-                    lNew.IsWarehouseSpecific = request.IsWarehouseSpecific;
-                    await lNew.SaveAsync(original: lCurr);
-
                     if (request.IsWarehouseSpecific)
                     {
                         //copy all items
@@ -391,6 +386,12 @@ namespace WebApi.Modules.Inventory.Inventory
                             await i.DeleteAsync();
                         }
                     }
+
+                    InventoryWarehouseLogic lNew = lCurr.MakeCopy<InventoryWarehouseLogic>();
+                    lNew.SetDependencies(appConfig, userSession);
+                    lNew.IsWarehouseSpecific = request.IsWarehouseSpecific;
+                    await lNew.SaveAsync(original: lCurr);
+
                 }
                 response.success = true;
             }
