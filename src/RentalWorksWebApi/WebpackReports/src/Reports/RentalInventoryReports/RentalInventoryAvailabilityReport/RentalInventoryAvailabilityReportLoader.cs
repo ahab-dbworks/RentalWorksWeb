@@ -55,6 +55,33 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
+        public bool? IsFixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
+        public string Unit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
+        public string Manufacturer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text)]
+        public string ManufacturerUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
+        public string TrackedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nondiscountable", modeltype: FwDataTypes.Boolean)]
+        public bool? IsNonDiscountable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean)]
+        public bool? IsHazardousMaterial { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean)]
         public bool? AvailabilityByHour { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -459,6 +486,14 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
                     if (!request.IncludeZeroQuantity.GetValueOrDefault(false))
                     {
                         select.AddWhere("totalqty <> 0");
+                    }
+                    if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
+                    {
+                        select.AddWhere("fixedasset = 'T'");
+                    }
+                    else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
+                    {
+                        select.AddWhere("fixedasset <> 'T'");
                     }
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, master");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

@@ -22,13 +22,14 @@ const rentalInventoryAvailTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield date-field" data-caption="To:" data-datafield="ToDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
-              </div><span style="color:red;padding-left:15px;font-size:.8em;">(Maximum of 30 Days)</span>
-            </div>
-            <div class="flexcolumn" style="max-width:200px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
-                <div data-datafield="IsDetail" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
-                  <div data-value="false" data-caption="Summary"></div>
-                  <div data-value="true" data-caption="Detail"></div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <span style="color:red;padding-left:15px;font-size:.8em;">(Maximum of 30 Days)</span>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
+                  <div data-datafield="IsDetail" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                    <div data-value="false" data-caption="Summary"></div>
+                    <div data-value="true" data-caption="Detail"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -38,8 +39,6 @@ const rentalInventoryAvailTemplate = `
                   <div data-datafield="Classifications" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
-            </div>
-            <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="TrackedBys" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
@@ -50,6 +49,17 @@ const rentalInventoryAvailTemplate = `
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rank">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="Ranks" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:75px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
+                    <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
+                    <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
+                    <div data-value="All" data-caption="All"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -135,6 +145,8 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
         // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+
+        FwFormField.setValueByDataField($form, 'FixedAsset', 'All');
 
         this.loadLists($form);
     }

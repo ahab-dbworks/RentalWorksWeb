@@ -140,13 +140,16 @@ namespace WebApi.Modules.Reports.Shared.InventoryAttributesReport
                     select.AddWhereIn("masterid", request.InventoryId);
                     select.AddWhereIn("attributeid", request.AttributeId);
                     select.AddWhereIn("rank", request.Ranks);
-                    if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
+                    if (AvailableForFilter.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT))
                     {
-                        select.AddWhere("fixedasset = 'T'");
-                    }
-                    else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
-                    {
-                        select.AddWhere("fixedasset <> 'T'");
+                        if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
+                        {
+                            select.AddWhere("fixedasset = 'T'");
+                        }
+                        else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
+                        {
+                            select.AddWhere("fixedasset <> 'T'");
+                        }
                     }
 
                     StringBuilder orderBy = new StringBuilder();
