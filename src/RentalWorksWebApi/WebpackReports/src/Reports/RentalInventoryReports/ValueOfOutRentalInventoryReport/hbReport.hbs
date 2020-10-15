@@ -1,97 +1,127 @@
 ﻿<!--ValueOfOutRentalInventoryReport-->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">As of {{AsOfDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>As of {{AsOfDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Deal Out To</th>
-        <th>Contract No</th>
-        <th>Out Date</th>
-        <th>In Date</th>
-        <th class="number">Quantity</th>
-        <th>Bar Code</th>
-        <th class="number">Cost</th>
-        <th class="number">Value</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-valuefield="Description" data-linkedcolumn="Description">Description</th>
+        <th data-valuefield="DealOutTo" data-linkedcolumn="DealOutTo">Deal Out To</th>
+        <th data-valuefield="ContractNumber" data-linkedcolumn="ContractNumber">Contract No</th>
+        <th data-valuefield="DateOut" data-linkedcolumn="DateOut">Out Date</th>
+        <th data-valuefield="DateIn" data-linkedcolumn="DateIn">In Date</th>
+        <th data-valuefield="Quantity" data-linkedcolumn="Quantity" class="number">Quantity</th>
+        <th data-valuefield="BarCode" data-linkedcolumn="BarCode">Bar Code</th>
+        <th data-valuefield="Cost" data-linkedcolumn="Cost" class="number">Cost</th>
+        <th data-valuefield="Value" data-linkedcolumn="Value" class="number">Value</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="5" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "SubCategoryheader"}}
-        <td colspan="5" class="lower header-row">Sub-Category: {{SubCategory}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "ICodeheader"}}
-        <td colspan="5" class="lower header-row">I-Code: {{ICode}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{Description}}"></td>
-        <td data-value="{{DealOutTo}}"></td>
-        <td data-value="{{ContractNumber}}"></td>
-        <td data-value="{{DateOut}}"></td>
-        <td data-value="{{DateIn}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td data-value="{{BarCode}}"></td>
-        <td class="number" data-value="{{Cost}}"></td>
-        <td class="number" data-value="{{Value}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "ICodefooter"}}
-        <td colspan="5" class="total-name">{{ICode}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Value}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "SubCategoryfooter"}}
-        <td colspan="5" class="total-name">{{SubCategory}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Value}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="5" class="total-name">{{Category}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Value}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="5" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Value}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="5" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Value}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" colspan="2" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Value}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="header-row">Warehouse: {{Warehouse}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="lower header-row">Category: {{Category}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "SubCategoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="lower header-row">Sub-Category: {{SubCategory}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "ICodeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="9" class="lower header-row">I-Code: {{ICode}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="DealOutTo" data-value="{{DealOutTo}}"></td>
+        <td data-linkedcolumn="ContractNumber" data-value="{{ContractNumber}}"></td>
+        <td data-linkedcolumn="DateOut" data-value="{{DateOut}}"></td>
+        <td data-linkedcolumn="DateIn" data-value="{{DateIn}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
+        <td data-linkedcolumn="Cost" class="number" data-value="{{Cost}}"></td>
+        <td data-linkedcolumn="Value" class="number" data-value="{{Value}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "ICodefooter"}}
+    <tr data-row="footer" data-rowtype="{{RowType}}">
+      <td colspan="5" class="total-name">{{ICode}}&nbsp;</td>
+      <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+      <td data-linkedcolumn="BarCode" class="total-val empty"></td>
+      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+    </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "SubCategoryfooter"}}
+    <tr data-row="footer" data-rowtype="{{RowType}}">
+      <td colspan="5" class="total-name">{{SubCategory}}&nbsp;</td>
+      <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+      <td data-linkedcolumn="BarCode" class="total-val empty"></td>
+      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+    </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+    <tr data-row="footer" data-rowtype="{{RowType}}">
+      <td colspan="5" class="total-name">{{Category}}&nbsp;</td>
+      <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+      <td data-linkedcolumn="BarCode" class="total-val empty"></td>
+      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+    </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+    <tr data-row="footer" data-rowtype="{{RowType}}">
+      <td colspan="5" class="total-name">{{InventoryType}}&nbsp;</td>
+      <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+      <td data-linkedcolumn="BarCode" class="total-val empty"></td>
+      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+    </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+    <tr data-row="footer" data-rowtype="{{RowType}}">
+      <td colspan="5" class="total-name">{{Warehouse}}&nbsp;</td>
+      <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+      <td data-linkedcolumn="BarCode" class="total-val empty"></td>
+      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+    </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+    <tr data-row="footer" data-rowtype="{{RowType}}">
+      <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+      <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+      <td data-linkedcolumn="BarCode" class="total-val empty"></td>
+      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
+      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+    </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

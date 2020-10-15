@@ -59,6 +59,7 @@ class ValueOfOutRentalInventoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('ValueOfOutRentalInventoryReport', 'api/v1/valueofoutrentalinventoryreport', valueOfOutTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
