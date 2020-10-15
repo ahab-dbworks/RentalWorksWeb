@@ -132,6 +132,18 @@ namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
         [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
         public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
+        public decimal? Tax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxreceived", modeltype: FwDataTypes.Decimal)]
+        public decimal? TaxReceived { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxremaining", modeltype: FwDataTypes.Decimal)]
+        public decimal? TaxRemaining { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalinvtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalInvoiceTax { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 

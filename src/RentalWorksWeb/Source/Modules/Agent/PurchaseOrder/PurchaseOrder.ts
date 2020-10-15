@@ -1212,7 +1212,7 @@ class PurchaseOrder implements IModule {
                 request.uniqueids = {
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
                 };
-                request.totalfields = ['Rate', 'ReceivedCost', 'TotalInvoiced', 'CostRemaining'];
+                request.totalfields = ['TotalCost', 'ReceivedCost', 'TotalInvoiced', 'CostRemaining', 'Tax', 'TaxReceived', 'TaxRemaining', 'TotalInvoiceTax'];
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateInvoiceStatusGridTotals($form, dt.Totals);
@@ -2192,10 +2192,14 @@ class PurchaseOrder implements IModule {
     };
     //----------------------------------------------------------------------------------------------
     calculateInvoiceStatusGridTotals($form: any, totals: any): void {
-        FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="SubTotal"]`), totals.Rate);
+        FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="SubTotal"]`), totals.TotalCost);
+        FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="Tax"]`), totals.Tax);
         FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="SubTotal"]`), totals.ReceivedCost);
+        FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="Tax"]`), totals.TaxReceived);
         FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="SubTotal"]`), totals.TotalInvoiced);
+        FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="Tax"]`), totals.TotalInvoiceTax);
         FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="SubTotal"]`), totals.CostRemaining);
+        FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="Tax"]`), totals.TaxRemaining);
     };
     //----------------------------------------------------------------------------------------------
     applyRateType($form: JQuery) {

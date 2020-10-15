@@ -94,6 +94,14 @@ namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
         public string Currency { get; set; }
         [FwLogicProperty(Id: "uiryc29YJWct", IsReadOnly: true)]
         public string CurrencySymbol { get; set; }
+        [FwLogicProperty(Id: "3860PRlGWuc7", IsReadOnly: true)]
+        public decimal? Tax { get; set; }
+        [FwLogicProperty(Id: "vEsxJkuB9mZh", IsReadOnly: true)]
+        public decimal? TaxReceived { get; set; }
+        [FwLogicProperty(Id: "L4IOeoY6g2E6", IsReadOnly: true)]
+        public decimal? TaxRemaining { get; set; }
+        [FwLogicProperty(Id: "YJcoEPEFZ8MQ", IsReadOnly: true)]
+        public decimal? TotalInvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
