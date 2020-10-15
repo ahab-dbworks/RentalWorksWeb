@@ -101,7 +101,15 @@ namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
         [FwLogicProperty(Id: "L4IOeoY6g2E6", IsReadOnly: true)]
         public decimal? TaxRemaining { get; set; }
         [FwLogicProperty(Id: "YJcoEPEFZ8MQ", IsReadOnly: true)]
-        public decimal? TotalInvoiceTax { get; set; }
+        public decimal? InvoiceTax { get; set; }
+        [FwLogicProperty(Id: "Rgm3D1u6HAP2", IsReadOnly: true)]
+        public decimal? TotalInvoiceWithTax { get; set; }
+        [FwLogicProperty(Id: "xrFHvurav11y", IsReadOnly: true)]
+        public decimal? TotalCostWithTax { get; set; }
+        [FwLogicProperty(Id: "zkDFQ257s9xg", IsReadOnly: true)]
+        public decimal? TotalReceivedWithTax { get; set; }
+        [FwLogicProperty(Id: "37cRhdOJ2qrY", IsReadOnly: true)]
+        public decimal? TotalRemainingWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

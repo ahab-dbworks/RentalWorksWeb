@@ -1212,7 +1212,7 @@ class PurchaseOrder implements IModule {
                 request.uniqueids = {
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
                 };
-                request.totalfields = ['TotalCost', 'ReceivedCost', 'TotalInvoiced', 'CostRemaining', 'Tax', 'TaxReceived', 'TaxRemaining', 'TotalInvoiceTax'];
+                request.totalfields = ['TotalCost', 'ReceivedCost', 'TotalInvoiced', 'CostRemaining', 'Tax', 'TaxReceived', 'TaxRemaining', 'InvoiceTax', 'TotalInvoiceWithTax', 'TotalCostWithTax', 'TotalReceivedWithTax', 'TotalRemainingWithTax'];
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 this.calculateInvoiceStatusGridTotals($form, dt.Totals);
@@ -2194,12 +2194,16 @@ class PurchaseOrder implements IModule {
     calculateInvoiceStatusGridTotals($form: any, totals: any): void {
         FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="SubTotal"]`), totals.TotalCost);
         FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="Tax"]`), totals.Tax);
+        FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="Total"]`), totals.TotalCostWithTax);
         FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="SubTotal"]`), totals.ReceivedCost);
         FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="Tax"]`), totals.TaxReceived);
+        FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="Total"]`), totals.TotalReceivedWithTax);
         FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="SubTotal"]`), totals.TotalInvoiced);
-        FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="Tax"]`), totals.TotalInvoiceTax);
+        FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="Tax"]`), totals.InvoiceTax);
+        FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="Total"]`), totals.TotalInvoiceWithTax);
         FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="SubTotal"]`), totals.CostRemaining);
         FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="Tax"]`), totals.TaxRemaining);
+        FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="Total"]`), totals.TotalRemainingWithTax);
     };
     //----------------------------------------------------------------------------------------------
     applyRateType($form: JQuery) {

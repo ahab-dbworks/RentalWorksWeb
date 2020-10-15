@@ -142,7 +142,19 @@ namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
         public decimal? TaxRemaining { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totalinvtax", modeltype: FwDataTypes.Decimal)]
-        public decimal? TotalInvoiceTax { get; set; }
+        public decimal? InvoiceTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalinvcostwtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalInvoiceWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalpocostwtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalCostWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poreceivedcostwtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalReceivedWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pocostremainingwtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalRemainingWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
