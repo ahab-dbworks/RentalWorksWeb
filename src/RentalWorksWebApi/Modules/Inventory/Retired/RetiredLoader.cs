@@ -103,10 +103,13 @@ namespace WebApi.Modules.Home.Retired
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("InventoryId", "masterid", select, request); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
-            addFilterToSelect("ItemId", "rentalitemid", select, request); 
+            addFilterToSelect("ItemId", "rentalitemid", select, request);
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
+
+            AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
+
         }
         //------------------------------------------------------------------------------------ 
     }
