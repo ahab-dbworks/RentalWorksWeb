@@ -61,6 +61,7 @@ class RentalEquipmentRepairHistoryReport extends FwWebApiReport {
     constructor() {
         super('RentalEquipmentRepairHistoryReport', 'api/v1/rentalequipmentrepairhistoryreport', rentalEquipRepairHistReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
