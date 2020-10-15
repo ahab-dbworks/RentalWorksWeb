@@ -56,11 +56,11 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyout", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityOut { get; set; }
+        [FwSqlDataField(column: "qtyout", modeltype: FwDataTypes.Integer)]
+        public int? QuantityOut { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyin", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityIn { get; set; }
+        [FwSqlDataField(column: "qtyin", modeltype: FwDataTypes.Integer)]
+        public int? QuantityIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? IsFixedAsset { get; set; }
@@ -72,31 +72,31 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         public string Unit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitValue{ get; set; }
+        public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
-        public string Manufacturer{ get; set; }
+        public string Manufacturer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
-        public string ManufacturerPartNumber{ get; set; }
+        public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text)]
         public string ManufacturerUrl { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool? IsInactive{ get; set; }
+        public bool? IsInactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "classification", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
-        public string TrackedBy{ get; set; }
+        public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nondiscountable", modeltype: FwDataTypes.Boolean)]
-        public bool? IsNonDiscountable{ get; set; }
+        public bool? IsNonDiscountable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean)]
         public bool? IsHazardousMaterial { get; set; }
@@ -106,6 +106,30 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text)]
         public string ShelfLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqty", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtyin", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantityIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtystaged", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantityStaged { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtyout", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantityOut { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtyincontainer", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantityInContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtyinrepair", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantityInRepair { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtyintransit", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantityInTransit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtyontruck", modeltype: FwDataTypes.Integer)]
+        public int? CurrentQuantityOnTruck { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryActivityByDateReportRequest request)
         {
