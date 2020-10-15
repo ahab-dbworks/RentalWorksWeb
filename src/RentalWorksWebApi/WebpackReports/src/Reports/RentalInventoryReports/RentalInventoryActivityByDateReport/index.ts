@@ -18,6 +18,16 @@ export class RentalInventoryActivityByDateReport extends WebpackReport {
                     data.Report = 'Rental Inventory Activity By Date Report';
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
+                    data.OwnershipTypes = '';
+
+                    // get the value from the first detail row, if any
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].RowType === 'detail') {
+                            data.OwnershipTypes = data[i].OwnershipTypes;
+                            break;
+                        }
+                    }
+
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

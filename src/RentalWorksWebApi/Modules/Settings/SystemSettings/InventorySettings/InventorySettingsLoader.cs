@@ -67,6 +67,12 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwSqlDataField(column: "partscostcalculation", modeltype: FwDataTypes.Text)]
         public string PartsQuantityInventoryValueMethod { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enableconsignment", modeltype: FwDataTypes.Boolean)]
+        public bool? EnableConsignment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enablelease", modeltype: FwDataTypes.Boolean)]
+        public bool? EnableLease { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

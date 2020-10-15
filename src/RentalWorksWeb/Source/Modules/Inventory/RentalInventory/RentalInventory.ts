@@ -18,6 +18,12 @@ class RentalInventory extends InventoryBase {
         $form.find('div[data-datafield="ContainerScannableInventoryId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="ContainerScannableDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
+
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        if (!enableConsignment) {
+            this.hideTab($form, 'consignmenttab');
+        }
+
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -707,6 +713,10 @@ class RentalInventory extends InventoryBase {
         this.iCodeMask($form);
 
         const $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        if (!enableConsignment) {
+            jQuery($rentalInventoryWarehouseGrid.find(`[data-browsedatafield="QtyConsigned"]`)).parent().hide();
+        }
         FwBrowse.search($rentalInventoryWarehouseGrid);
         const $rentalInventoryWarehousePricingGrid = $form.find('[data-name="RentalInventoryWarehousePricingGrid"]');
         FwBrowse.search($rentalInventoryWarehousePricingGrid);

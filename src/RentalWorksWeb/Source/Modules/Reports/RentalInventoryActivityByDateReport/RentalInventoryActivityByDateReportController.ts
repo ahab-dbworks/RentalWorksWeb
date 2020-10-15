@@ -24,6 +24,37 @@ const rentalInventoryActivityByDateTemplate = `
                 </div>
               </div>
             </div>
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <!--<div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Fixed Assets" data-datafield="FixedAsset"></div>-->
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
+                    <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
+                    <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
+                    <div data-value="All" data-caption="All"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ownership">
+                <!--
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Owned" style="float:left;max-width:420px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeConsigned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Consigned" style="float:left;max-width:420px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeLeased" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Leased" style="float:left;max-width:420px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeSubbed" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Sub-Rented" style="float:left;max-width:420px;"></div>
+                </div>
+                -->
+                <div data-datafield="OwnershipTypes" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:300px;"></div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -81,6 +112,19 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        const enableLease = JSON.parse(sessionStorage.getItem('controldefaults')).enablelease
+
+        var ownershipItems: any = [];
+        ownershipItems.push({ value: "OWNED", text: "Include Owned", selected: "T" });
+        ownershipItems.push({ value: "SUBBED", text: "Include Sub-Rented", selected: "T" });
+        if (enableConsignment) {
+            ownershipItems.push({ value: "CONSIGNED", text: "Include Consigned", selected: "T" });
+        }
+        if (enableLease) {
+            ownershipItems.push({ value: "LEASED", text: "Include Leased", selected: "T" });
+        }
+        FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'), ownershipItems);
 
         // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -89,6 +133,8 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'ToDate', today);
         const aMonthAgo = FwFunc.getDate(today, -30);
         FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
+
+        FwFormField.setValueByDataField($form, 'FixedAsset', 'All');
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
@@ -97,48 +143,48 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
 
-            const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-            const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-            const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
 
-            switch (datafield) {
-                case 'InventoryTypeId':
-                    request.uniqueids.Rental = true;
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                    break;
-                case 'CategoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                    break;
-                case 'SubCategoryId':
-                    request.uniqueids.Rental = true;
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
-                    break;
-                case 'InventoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    };
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    };
-                    if (subCategoryId !== "") {
-                        request.uniqueids.SubCategoryId = subCategoryId;
-                    };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-                    break;
-                case 'WarehouseId':
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
-                    break;
-            }
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids.Rental = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
+                request.uniqueids.Rental = true;
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'InventoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                };
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                };
+                if (subCategoryId !== "") {
+                    request.uniqueids.SubCategoryId = subCategoryId;
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
         }
+    }
     //----------------------------------------------------------------------------------------------
 };
 

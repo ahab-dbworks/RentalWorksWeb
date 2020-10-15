@@ -587,6 +587,12 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "allowinvoicedatechange", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? AllowInvoiceDateChange { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enableconsignment", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? EnableConsignment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enablelease", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? EnableLease { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
