@@ -59,6 +59,7 @@ class ReturnedToInventoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('ReturnedToInventoryReport', 'api/v1/returnedtoinventoryreport', returnedInventoryTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

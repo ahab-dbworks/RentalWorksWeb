@@ -1,65 +1,93 @@
 ﻿<!--ReturnedToInventoryReport-->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-flexcolumn rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-flexcolumn rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-flexcolumn rpt-header-center"><span>From: {{FromDate}} To: {{ToDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-flexcolumn rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th class="number">Quantity</th>
-        <th>Contract No</th>
-        <th>Date</th>
-        <th>By</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">Quantity</th>
+        <th data-linkedcolumn="ContractNumber" data-valuefield="ContractNumber">Contract No</th>
+        <th data-linkedcolumn="CheckInDateTime" data-valuefield="CheckInDateTime">Date</th>
+        <th data-linkedcolumn="UserName" data-valuefield="UserName">By</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealheader"}}
-        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td data-value="{{ContractNumber}}"></td>
-        <td data-value="{{CheckInDateTime}}"></td>
-        <td data-value="{{UserName}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="2" class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="6" class="header-row">Warehouse: {{Warehouse}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="6" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="6" class="lower header-row">Deal: {{Deal}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="ContractNumber" data-value="{{ContractNumber}}"></td>
+        <td data-linkedcolumn="CheckInDateTime" data-value="{{CheckInDateTime}}"></td>
+        <td data-linkedcolumn="UserName" data-value="{{UserName}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="ContractNumber"></td>
+        <td data-linkedcolumn="CheckInDateTime"></td>
+        <td data-linkedcolumn="UserName"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{Deal}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="ContractNumber"></td>
+        <td data-linkedcolumn="CheckInDateTime"></td>
+        <td data-linkedcolumn="UserName"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="ContractNumber"></td>
+        <td data-linkedcolumn="CheckInDateTime"></td>
+        <td data-linkedcolumn="UserName"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="ContractNumber"></td>
+        <td data-linkedcolumn="CheckInDateTime"></td>
+        <td data-linkedcolumn="UserName"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
