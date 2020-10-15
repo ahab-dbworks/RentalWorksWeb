@@ -264,6 +264,22 @@
     <None Remove="QuikScan\theme\images\icons\wait.003.gif" />
     <None Remove="QuikScan\theme\images\textures\brushedmetal1.001.jpg" />
     <None Remove="QuikScan\views\Partial\ScanBarcode.htm" />
+    <None Remove="TrakitWorks\theme\audio\8bit_correct.wav" />
+    <None Remove="TrakitWorks\theme\audio\appointed.mp3" />
+    <None Remove="TrakitWorks\theme\audio\arpeggio.mp3" />
+    <None Remove="TrakitWorks\theme\audio\correct.mp3" />
+    <None Remove="TrakitWorks\theme\audio\distill.wav" />
+    <None Remove="TrakitWorks\theme\audio\errorBeep1.wav" />
+    <None Remove="TrakitWorks\theme\audio\horn.mp3" />
+    <None Remove="TrakitWorks\theme\audio\horn2.mp3" />
+    <None Remove="TrakitWorks\theme\audio\jubilation.mp3" />
+    <None Remove="TrakitWorks\theme\audio\klaxon.wav" />
+    <None Remove="TrakitWorks\theme\audio\laser.wav" />
+    <None Remove="TrakitWorks\theme\audio\ping.wav" />
+    <None Remove="TrakitWorks\theme\audio\ping2.wav" />
+    <None Remove="TrakitWorks\theme\audio\snap.mp3" />
+    <None Remove="TrakitWorks\theme\audio\successBeep1.mp3" />
+    <None Remove="TrakitWorks\theme\audio\whomp.wav" />
     <None Remove="version-RentalWorksWeb.txt" />
     <None Remove="version-TrakitWorksWeb.txt" />
     <None Remove="version.txt" />
@@ -407,6 +423,22 @@
     <Content Include="QuikScan\theme\images\icons\wait.003.gif" />
     <Content Include="QuikScan\theme\images\textures\brushedmetal1.001.jpg" />
     <Content Include="QuikScan\views\Partial\ScanBarcode.htm" />
+    <Content Include="TrakitWorks\theme\audio\8bit_correct.wav" />
+    <Content Include="TrakitWorks\theme\audio\appointed.mp3" />
+    <Content Include="TrakitWorks\theme\audio\arpeggio.mp3" />
+    <Content Include="TrakitWorks\theme\audio\correct.mp3" />
+    <Content Include="TrakitWorks\theme\audio\distill.wav" />
+    <Content Include="TrakitWorks\theme\audio\errorBeep1.wav" />
+    <Content Include="TrakitWorks\theme\audio\horn.mp3" />
+    <Content Include="TrakitWorks\theme\audio\horn2.mp3" />
+    <Content Include="TrakitWorks\theme\audio\jubilation.mp3" />
+    <Content Include="TrakitWorks\theme\audio\klaxon.wav" />
+    <Content Include="TrakitWorks\theme\audio\laser.wav" />
+    <Content Include="TrakitWorks\theme\audio\ping.wav" />
+    <Content Include="TrakitWorks\theme\audio\ping2.wav" />
+    <Content Include="TrakitWorks\theme\audio\snap.mp3" />
+    <Content Include="TrakitWorks\theme\audio\successBeep1.mp3" />
+    <Content Include="TrakitWorks\theme\audio\whomp.wav" />
     <Content Include="version-RentalWorksWeb.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

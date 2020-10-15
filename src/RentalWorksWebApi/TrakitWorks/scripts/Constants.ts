@@ -15,7 +15,7 @@
             nodetype: 'Category',
             children: {
                 Alert:         { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
-                CustomField:   { id: 'cZHPJQyBxolS',  caption: 'Custom Fields',   nav: 'module/customfield', nodetype: 'Module' },
+                CustomField:   { id: 'cZHPJQyBxolS', caption: 'Custom Fields', nav: 'module/customfield', nodetype: 'Module' },
                 CustomForm:    { id: '11txpzVKVGi2',  caption: 'Custom Forms',    nav: 'module/customform', nodetype: 'Module' },
                 CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layouts', nav: 'module/customreportlayout' },
                 DuplicateRule: { id: 'v7oBspDLjli8',  caption: 'Duplicate Rules', nav: 'module/duplicaterule', nodetype: 'Module' },

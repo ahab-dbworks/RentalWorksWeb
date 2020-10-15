@@ -18,25 +18,44 @@ namespace WebApi.Middleware
     /// </summary>
     class ApplicationConfigMiddleware
     {
+        private const string RENTALWORKS = "rentalworks";
+        private const string TRAKITWORKS = "trakitworks";
+        private const string QUIKSCAN = "quikscan";
         private readonly RequestDelegate _next;
         private readonly FwApplicationConfig _appConfig;
-        private readonly Regex _regexWebProdApplicationConfig;
-        private readonly Regex _regexWebDevApplicationConfig;
-        private readonly Regex _regexMobileProdApplicationConfig;
-        private readonly Regex _regexMobileDevApplicationConfig;
+        private readonly Regex _regexRentalWorksProdApplicationConfig = null;
+        private readonly Regex _regexRentalWorksDevApplicationConfig = null;
+        private readonly Regex _regexTrakItWorksProdApplicationConfig = null;
+        private readonly Regex _regexTrakItWorksDevApplicationConfig = null;
+        private readonly Regex _regexQuikScanProdApplicationConfig = null;
+        private readonly Regex _regexQuikScanDevApplicationConfig = null;
         private readonly string _version = "0.0.0.0";
 
         public ApplicationConfigMiddleware(RequestDelegate next, IOptions<FwApplicationConfig> options)
         {
             this._next = next;
             this._appConfig = options.Value;
-            string webPathRoot = this._appConfig.WebRequestPath;
-            this._regexWebProdApplicationConfig = new Regex($"^{webPathRoot}/applicationconfig.js$");
-            this._regexWebDevApplicationConfig = new Regex("^\\/webdev\\/applicationconfig.js$");
 
-            string mobilePathRoot = this._appConfig.MobileRequestPath;
-            this._regexMobileProdApplicationConfig = new Regex($"^{mobilePathRoot}/applicationconfig.js$");
-            this._regexMobileDevApplicationConfig = new Regex("^\\/quikscandev\\/applicationconfig.js$");
+            if (this._appConfig.Apps.ContainsKey(RENTALWORKS))
+            {
+                string rentalworkVirtualDirectory = this._appConfig.Apps[RENTALWORKS].VirtualDirectory;
+                this._regexRentalWorksProdApplicationConfig = new Regex($"^{rentalworkVirtualDirectory}/applicationconfig.js$");
+                this._regexRentalWorksDevApplicationConfig = new Regex("^\\/webdev\\/applicationconfig.js$");
+            }
+
+            if (this._appConfig.Apps.ContainsKey(TRAKITWORKS))
+            {
+                string trakitworksVirtualDirectory = this._appConfig.Apps[TRAKITWORKS].VirtualDirectory;
+                this._regexTrakItWorksProdApplicationConfig = new Regex($"^{trakitworksVirtualDirectory}/applicationconfig.js$");
+                this._regexTrakItWorksDevApplicationConfig = new Regex("^\\/trakitworksdev\\/applicationconfig.js$");
+            }
+
+            if (this._appConfig.Apps.ContainsKey(QUIKSCAN))
+            {
+                string quikscanVirtualDirectory = this._appConfig.Apps[QUIKSCAN].VirtualDirectory;
+                this._regexQuikScanProdApplicationConfig = new Regex($"^{quikscanVirtualDirectory}/applicationconfig.js$");
+                this._regexQuikScanDevApplicationConfig = new Regex("^\\/quikscandev\\/applicationconfig.js$");
+            }
             
             string pathVersion = Path.Combine(Environment.CurrentDirectory, "version.txt");
             if (File.Exists(pathVersion))
@@ -51,32 +70,46 @@ namespace WebApi.Middleware
             {
                 // dynamically generate Web's ApplicationConfig.js
                 string path = httpContext.Request.Path.Value.ToLower();
-                if (this._appConfig.WebApp != null && (_regexWebProdApplicationConfig.IsMatch(path) || _regexWebDevApplicationConfig.IsMatch(path)))
+                if (this._appConfig.Apps.ContainsKey(RENTALWORKS) && (_regexRentalWorksProdApplicationConfig.IsMatch(path) || _regexRentalWorksDevApplicationConfig.IsMatch(path)))
                 {
-                    WebAppConfig webAppConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.WebApp));
+                    WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[RENTALWORKS].Config));
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
-                        webAppConfig.apiurl = this._appConfig.PublicBaseUrl;
+                        appConfig.apiurl = this._appConfig.PublicBaseUrl;
                     }
                     //webAppConfig.version = this._version;
 
                     httpContext.Response.StatusCode = 200;
-                    await httpContext.Response.WriteAsync(this.GetApplicationConfigText(webAppConfig));
+                    await httpContext.Response.WriteAsync(this.GetApplicationConfigText(appConfig));
+                    return;
+                }
+
+                if (this._appConfig.Apps.ContainsKey(TRAKITWORKS) && (_regexTrakItWorksProdApplicationConfig.IsMatch(path) || _regexTrakItWorksDevApplicationConfig.IsMatch(path)))
+                {
+                    WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[TRAKITWORKS].Config));
+                    if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
+                    {
+                        appConfig.apiurl = this._appConfig.PublicBaseUrl;
+                    }
+                    //webAppConfig.version = this._version;
+
+                    httpContext.Response.StatusCode = 200;
+                    await httpContext.Response.WriteAsync(this.GetApplicationConfigText(appConfig));
                     return;
                 }
 
                 // dynamically generate QuikScan's ApplicationConfig.js
-                if (this._appConfig.MobileApp != null && (_regexMobileProdApplicationConfig.IsMatch(path) || _regexMobileDevApplicationConfig.IsMatch(path)))
+                if (this._appConfig.Apps.ContainsKey(QUIKSCAN) && (_regexQuikScanProdApplicationConfig.IsMatch(path) || _regexQuikScanDevApplicationConfig.IsMatch(path)))
                 {
-                    MobileAppConfig mobileAppConfig = JsonConvert.DeserializeObject<MobileAppConfig>(JsonConvert.SerializeObject(this._appConfig.MobileApp));
+                    MobileAppConfig appConfig = JsonConvert.DeserializeObject<MobileAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[QUIKSCAN].Config));
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
-                        mobileAppConfig.apiurl = this._appConfig.PublicBaseUrl;
+                        appConfig.apiurl = this._appConfig.PublicBaseUrl;
                     }
                     //mobileAppConfig.version = this._version;
                     
                     httpContext.Response.StatusCode = 200;
-                    await httpContext.Response.WriteAsync(this.GetApplicationConfigText(mobileAppConfig));
+                    await httpContext.Response.WriteAsync(this.GetApplicationConfigText(appConfig));
                     return;
                 }
                 await _next(httpContext); // Call the pipeline

@@ -70,62 +70,26 @@ namespace WebApi
         //------------------------------------------------------------------------------------
         protected override void ConfigureStaticFileHosting(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // host quikscan prod
-            var mobileProdDir = Path.Combine(Environment.CurrentDirectory, $"apps{Path.DirectorySeparatorChar}quikscan");
-            if (Directory.Exists(mobileProdDir))
+            // host rentalworksweb prod
+            if (this.ApplicationConfig.Apps.ContainsKey("rentalworks"))
             {
-                var mobileProdFileServerOptions = new FileServerOptions();
-                string mobileProdRequestPath = "/quikscan";
-                if (this.ApplicationConfig.MobileRequestPath != null)
+                string webProdRequestPath = "";
+                var webProdDir = Path.Combine(Environment.CurrentDirectory, $"apps{Path.DirectorySeparatorChar}rentalworks");
+                if (Directory.Exists(webProdDir))
                 {
-                    mobileProdRequestPath = this.ApplicationConfig.MobileRequestPath;
-                }
-                mobileProdFileServerOptions.RequestPath = mobileProdRequestPath;
-                mobileProdFileServerOptions.EnableDefaultFiles = true;
-                mobileProdFileServerOptions.FileProvider = new PhysicalFileProvider(mobileProdDir);
-                var mobileProdfileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
-                mobileProdfileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
-                mobileProdfileExtensionContentTypeProvider.Mappings[".css"] = "text/css";
-                mobileProdFileServerOptions.StaticFileOptions.ContentTypeProvider = mobileProdfileExtensionContentTypeProvider;
-                mobileProdFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
-                {
-                    // host static files in quikscan folder, but only cache the images
-                    bool cacheResults =
-                        context.File.Name.ToLower().EndsWith(".png") ||
-                        context.File.Name.ToLower().EndsWith(".jpg") ||
-                        context.File.Name.ToLower().EndsWith(".jpeg") ||
-                        context.File.Name.ToLower().EndsWith(".gif");
-                    if (!cacheResults)
+                    var webProdFileServerOptions = new FileServerOptions();
+                    if (this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory != null)
                     {
-                        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                        context.Context.Response.Headers.Add("Expires", "-1");
+                        webProdRequestPath = this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory;
                     }
-                };
-                app.UseFileServer(mobileProdFileServerOptions);
-                Console.WriteLine("------------------------------------------------------------------------------------");
-                Console.WriteLine("Hosting QuikScan at:");
-                Console.WriteLine($"  url: \"{mobileProdRequestPath}\"");
-                Console.WriteLine($"  path: \"{mobileProdDir}\"");
-            }
-
-            // host quikscan dev
-            if (env.IsDevelopment())
-            {
-                string mobileDevRequestPath = "/quikscandev";
-                var mobileDevDir = Path.Combine(Environment.CurrentDirectory, "QuikScan");
-                if (Directory.Exists(mobileDevDir))
-                {
-                    var mobileDevFileServerOptions = new FileServerOptions();
-                    mobileDevFileServerOptions.RequestPath = mobileDevRequestPath;
-                    mobileDevFileServerOptions.EnableDefaultFiles = true;
-                    mobileDevFileServerOptions.FileProvider = new PhysicalFileProvider(mobileDevDir);
-                    var mobileDevfileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
-                    mobileDevfileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
-                    mobileDevfileExtensionContentTypeProvider.Mappings[".min.css"] = "text/css";
-                    mobileDevfileExtensionContentTypeProvider.Mappings[".ts"] = "application/typescript";
-                    mobileDevfileExtensionContentTypeProvider.Mappings[".js.map"] = "application/json";
-                    mobileDevFileServerOptions.StaticFileOptions.ContentTypeProvider = mobileDevfileExtensionContentTypeProvider;
-                    mobileDevFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                    webProdFileServerOptions.RequestPath = webProdRequestPath;
+                    webProdFileServerOptions.EnableDefaultFiles = true;
+                    webProdFileServerOptions.FileProvider = new PhysicalFileProvider(webProdDir);
+                    var webProdFileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+                    webProdFileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
+                    webProdFileExtensionContentTypeProvider.Mappings[".min.css"] = "text/css";
+                    webProdFileServerOptions.StaticFileOptions.ContentTypeProvider = webProdFileExtensionContentTypeProvider;
+                    webProdFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
                     {
                         // host static files in quikscan folder, but only cache the images
                         bool cacheResults =
@@ -139,51 +103,12 @@ namespace WebApi
                             context.Context.Response.Headers.Add("Expires", "-1");
                         }
                     };
-                    app.UseFileServer(mobileDevFileServerOptions);
+                    app.UseFileServer(webProdFileServerOptions);
                     Console.WriteLine("------------------------------------------------------------------------------------");
-                    Console.WriteLine("Hosting QuikScanDev at:");
-                    Console.WriteLine($"  url: \"{mobileDevRequestPath}\"");
-                    Console.WriteLine($"  path: \"{mobileDevDir}\"");
+                    Console.WriteLine("Hosting RentalWorks at:");
+                    Console.WriteLine($"  url: \"{webProdRequestPath}\"");
+                    Console.WriteLine($"  path: \"{webProdDir}\"");
                 }
-            }
-
-
-            // host rentalworksweb prod
-            string webProdRequestPath = "";
-            var webProdDir = Path.Combine(Environment.CurrentDirectory, $"apps{Path.DirectorySeparatorChar}rentalworks");
-            if (Directory.Exists(webProdDir))
-            {
-                var webProdFileServerOptions = new FileServerOptions();
-                if (this.ApplicationConfig.WebRequestPath != null)
-                {
-                    webProdRequestPath = this.ApplicationConfig.WebRequestPath;
-                }
-                webProdFileServerOptions.RequestPath = webProdRequestPath;
-                webProdFileServerOptions.EnableDefaultFiles = true;
-                webProdFileServerOptions.FileProvider = new PhysicalFileProvider(webProdDir);
-                var webProdFileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
-                webProdFileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
-                webProdFileExtensionContentTypeProvider.Mappings[".min.css"] = "text/css";
-                webProdFileServerOptions.StaticFileOptions.ContentTypeProvider = webProdFileExtensionContentTypeProvider;
-                webProdFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
-                {
-                    // host static files in quikscan folder, but only cache the images
-                    bool cacheResults =
-                        context.File.Name.ToLower().EndsWith(".png") ||
-                        context.File.Name.ToLower().EndsWith(".jpg") ||
-                        context.File.Name.ToLower().EndsWith(".jpeg") ||
-                        context.File.Name.ToLower().EndsWith(".gif");
-                    if (!cacheResults)
-                    {
-                        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                        context.Context.Response.Headers.Add("Expires", "-1");
-                    }
-                };
-                app.UseFileServer(webProdFileServerOptions);
-                Console.WriteLine("------------------------------------------------------------------------------------");
-                Console.WriteLine("Hosting RentalWorks at:");
-                Console.WriteLine($"  url: \"{webProdRequestPath}\"");
-                Console.WriteLine($"  path: \"{webProdDir}\"");
             }
 
             // host rentalworksweb dev
@@ -227,6 +152,167 @@ namespace WebApi
                 }
             }
 
+            // host trakitworks prod
+            if (this.ApplicationConfig.Apps.ContainsKey("trakitworks"))
+            {
+                string trakitworksProdRequestPath = "/trakitworks";
+                var trakitworksProdDir = Path.Combine(Environment.CurrentDirectory, $"apps{Path.DirectorySeparatorChar}trakitworks");
+                if (Directory.Exists(trakitworksProdDir))
+                {
+                    var webProdFileServerOptions = new FileServerOptions();
+                    if (this.ApplicationConfig.Apps["trakitworks"].VirtualDirectory != null)
+                    {
+                        trakitworksProdRequestPath = this.ApplicationConfig.Apps["trakitworks"].VirtualDirectory;
+                    }
+                    webProdFileServerOptions.RequestPath = trakitworksProdRequestPath;
+                    webProdFileServerOptions.EnableDefaultFiles = true;
+                    webProdFileServerOptions.FileProvider = new PhysicalFileProvider(trakitworksProdDir);
+                    var webProdFileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+                    webProdFileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
+                    webProdFileExtensionContentTypeProvider.Mappings[".min.css"] = "text/css";
+                    webProdFileServerOptions.StaticFileOptions.ContentTypeProvider = webProdFileExtensionContentTypeProvider;
+                    webProdFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                    {
+                        // host static files in quikscan folder, but only cache the images
+                        bool cacheResults =
+                            context.File.Name.ToLower().EndsWith(".png") ||
+                            context.File.Name.ToLower().EndsWith(".jpg") ||
+                            context.File.Name.ToLower().EndsWith(".jpeg") ||
+                            context.File.Name.ToLower().EndsWith(".gif");
+                        if (!cacheResults)
+                        {
+                            context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                            context.Context.Response.Headers.Add("Expires", "-1");
+                        }
+                    };
+                    app.UseFileServer(webProdFileServerOptions);
+                    Console.WriteLine("------------------------------------------------------------------------------------");
+                    Console.WriteLine("Hosting TrakItWorks at:");
+                    Console.WriteLine($"  url: \"{trakitworksProdRequestPath}\"");
+                    Console.WriteLine($"  path: \"{trakitworksProdDir}\"");
+                }
+            }
+
+            // host trakitworks dev
+            if (env.IsDevelopment())
+            {
+                string pathWebApiProject = Environment.CurrentDirectory;
+                string pathSrcFolder = Path.GetDirectoryName(pathWebApiProject);
+                string trakitworksDevRequestPath = "/trakitworksdev";
+                var trakitworksDevDir = Path.Combine(pathSrcFolder, $"RentalWorksWebApi{Path.DirectorySeparatorChar}TrakItWorks");
+                if (Directory.Exists(trakitworksDevDir))
+                {
+                    var webDevFileServerOptions = new FileServerOptions();
+                    webDevFileServerOptions.RequestPath = trakitworksDevRequestPath;
+                    webDevFileServerOptions.EnableDefaultFiles = true;
+                    webDevFileServerOptions.FileProvider = new PhysicalFileProvider(trakitworksDevDir);
+                    var webDevFileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+                    webDevFileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
+                    webDevFileExtensionContentTypeProvider.Mappings[".min.css"] = "text/css";
+                    webDevFileExtensionContentTypeProvider.Mappings[".ts"] = "application/typescript";
+                    webDevFileExtensionContentTypeProvider.Mappings[".js.map"] = "application/json";
+                    webDevFileServerOptions.StaticFileOptions.ContentTypeProvider = webDevFileExtensionContentTypeProvider;
+                    webDevFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                    {
+                        // host static files in quikscan folder, but only cache the images
+                        bool cacheResults =
+                            context.File.Name.ToLower().EndsWith(".png") ||
+                            context.File.Name.ToLower().EndsWith(".jpg") ||
+                            context.File.Name.ToLower().EndsWith(".jpeg") ||
+                            context.File.Name.ToLower().EndsWith(".gif");
+                        if (!cacheResults)
+                        {
+                            context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                            context.Context.Response.Headers.Add("Expires", "-1");
+                        }
+                    };
+                    app.UseFileServer(webDevFileServerOptions);
+                    Console.WriteLine("------------------------------------------------------------------------------------");
+                    Console.WriteLine("Hosting TrakItWorksDev at:");
+                    Console.WriteLine($"  url: \"{trakitworksDevRequestPath}\"");
+                    Console.WriteLine($"  path: \"{trakitworksDevDir}\"");
+                }
+            }
+
+            // host quikscan prod
+            if (this.ApplicationConfig.Apps.ContainsKey("quikscan"))
+            {
+                var mobileProdDir = Path.Combine(Environment.CurrentDirectory, $"apps{Path.DirectorySeparatorChar}quikscan");
+                if (Directory.Exists(mobileProdDir))
+                {
+                    var mobileProdFileServerOptions = new FileServerOptions();
+                    string mobileProdRequestPath = "/quikscan";
+                    if (this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory != null)
+                    {
+                        mobileProdRequestPath = this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory;
+                    }
+                    mobileProdFileServerOptions.RequestPath = mobileProdRequestPath;
+                    mobileProdFileServerOptions.EnableDefaultFiles = true;
+                    mobileProdFileServerOptions.FileProvider = new PhysicalFileProvider(mobileProdDir);
+                    var mobileProdfileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+                    mobileProdfileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
+                    mobileProdfileExtensionContentTypeProvider.Mappings[".css"] = "text/css";
+                    mobileProdFileServerOptions.StaticFileOptions.ContentTypeProvider = mobileProdfileExtensionContentTypeProvider;
+                    mobileProdFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                    {
+                        // host static files in quikscan folder, but only cache the images
+                        bool cacheResults =
+                            context.File.Name.ToLower().EndsWith(".png") ||
+                            context.File.Name.ToLower().EndsWith(".jpg") ||
+                            context.File.Name.ToLower().EndsWith(".jpeg") ||
+                            context.File.Name.ToLower().EndsWith(".gif");
+                        if (!cacheResults)
+                        {
+                            context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                            context.Context.Response.Headers.Add("Expires", "-1");
+                        }
+                    };
+                    app.UseFileServer(mobileProdFileServerOptions);
+                    Console.WriteLine("------------------------------------------------------------------------------------");
+                    Console.WriteLine("Hosting QuikScan at:");
+                    Console.WriteLine($"  url: \"{mobileProdRequestPath}\"");
+                    Console.WriteLine($"  path: \"{mobileProdDir}\"");
+                }
+            }
+
+            // host quikscan dev
+            if (env.IsDevelopment())
+            {
+                string mobileDevRequestPath = "/quikscandev";
+                var mobileDevDir = Path.Combine(Environment.CurrentDirectory, "QuikScan");
+                if (Directory.Exists(mobileDevDir))
+                {
+                    var mobileDevFileServerOptions = new FileServerOptions();
+                    mobileDevFileServerOptions.RequestPath = mobileDevRequestPath;
+                    mobileDevFileServerOptions.EnableDefaultFiles = true;
+                    mobileDevFileServerOptions.FileProvider = new PhysicalFileProvider(mobileDevDir);
+                    var mobileDevfileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+                    mobileDevfileExtensionContentTypeProvider.Mappings[".json"] = "application/json";
+                    mobileDevfileExtensionContentTypeProvider.Mappings[".min.css"] = "text/css";
+                    mobileDevfileExtensionContentTypeProvider.Mappings[".ts"] = "application/typescript";
+                    mobileDevfileExtensionContentTypeProvider.Mappings[".js.map"] = "application/json";
+                    mobileDevFileServerOptions.StaticFileOptions.ContentTypeProvider = mobileDevfileExtensionContentTypeProvider;
+                    mobileDevFileServerOptions.StaticFileOptions.OnPrepareResponse = context =>
+                    {
+                        // host static files in quikscan folder, but only cache the images
+                        bool cacheResults =
+                            context.File.Name.ToLower().EndsWith(".png") ||
+                            context.File.Name.ToLower().EndsWith(".jpg") ||
+                            context.File.Name.ToLower().EndsWith(".jpeg") ||
+                            context.File.Name.ToLower().EndsWith(".gif");
+                        if (!cacheResults)
+                        {
+                            context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                            context.Context.Response.Headers.Add("Expires", "-1");
+                        }
+                    };
+                    app.UseFileServer(mobileDevFileServerOptions);
+                    Console.WriteLine("------------------------------------------------------------------------------------");
+                    Console.WriteLine("Hosting QuikScanDev at:");
+                    Console.WriteLine($"  url: \"{mobileDevRequestPath}\"");
+                    Console.WriteLine($"  path: \"{mobileDevDir}\"");
+                }
+            }
 
             // host static files in wwwroot
             var wwwrootDir = Path.Combine(Environment.CurrentDirectory, "wwwroot");

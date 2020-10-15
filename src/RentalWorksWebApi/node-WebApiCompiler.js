@@ -13,6 +13,7 @@ class WebApiCompiler {
     static get TARGET_ALL() { return 'all'; };
     static get TARGET_API() { return 'api' };
     static get TARGET_WEB() { return 'web' };
+    static get TARGET_TRAKITWORKS() { return 'trakitworks' };
     static get TARGET_REPORTS() { return 'reports' };
     static get TARGET_QUIKSCAN() { return 'quikscan' };
     static get BUILD_CONFIGURATION_DEVELOPMENT() { return 'dev'; };
@@ -39,6 +40,13 @@ class WebApiCompiler {
     async rmfr_web() {
         console.log('//------------------------------------------------------------------------------------');
         const webDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/rentalworks');
+        console.log(`Deleting: ${webDir}`);
+        await rmfr(webDir);
+    }
+    //------------------------------------------------------------------------------------
+    async rmfr_trakitworks() {
+        console.log('//------------------------------------------------------------------------------------');
+        const webDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/trakitworks');
         console.log(`Deleting: ${webDir}`);
         await rmfr(webDir);
     }
@@ -269,6 +277,98 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
     }
     //------------------------------------------------------------------------------------
+    async build_trakitworks() {
+        console.log('//------------------------------------------------------------------------------------');
+        console.log('Building TrakItWorks');
+        console.log('//------------------------------------------------------------------------------------');
+
+        const jsAppBuilderConfigFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/JSAppBuilder.config');
+        const versionFilePath = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/version.txt');
+        const version = (await fs.readFile(versionFilePath, 'utf8')).trim();
+        const srcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks');
+        const destDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/trakitworks');
+        let publish = false;
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            publish = false;
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwaudio`, `${srcDir}/theme/fwaudio`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwcursors`, `${srcDir}/theme/fwcursors`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwfonts`, `${srcDir}/theme/fwfonts`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwimages`, `${srcDir}/theme/fwimages`);
+        }
+        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            publish = true;
+            await this.rmfr_trakitworks();
+            const webOutputThemeDir = path.resolve(destDir, 'theme');
+            const webOutputLibrariesDir = path.resolve(destDir, 'libraries');
+            await fs.mkdir(destDir);
+            await fs.mkdir(webOutputThemeDir);
+            await fs.mkdir(webOutputLibrariesDir);
+
+            await fs.copy(`${srcDir}/theme/audio`, `${destDir}/theme/audio`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwaudio`, `${destDir}/theme/fwaudio`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwcursors`, `${destDir}/theme/fwcursors`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwfonts`, `${destDir}/theme/fwfonts`);
+            await fs.copy(`${srcDir}/libraries/fw/theme/fwimages`, `${destDir}/theme/fwimages`);
+            await fs.copy(`${srcDir}/theme/images`, `${destDir}/theme/images`);
+            await fs.copy(`${srcDir}/libraries/ckeditor`, `${destDir}/libraries/ckeditor`);
+            await fs.copy(`${srcDir}/ApplicationConfig.sample.js`, `${destDir}/ApplicationConfig.sample.js`);
+            await fs.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
+            await fs.copy(`./version.txt`, `${destDir}/version.txt`);
+        }
+        //console.log('//------------------------------------------------------------------------------------');
+        //console.log(`Building TrakItWorks TypeScript...`);
+        ////delete TypScript generated files
+        //await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json'), '--clean'], { stdio: 'inherit' });
+        //// compile TypeScript
+        //if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        //}
+        //else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
+        //}
+        //console.log(`Finished TrakItWorks TypeScript`);
+        console.log('//------------------------------------------------------------------------------------');
+        console.log(`Running JSAppBuilder for TrakItWorks...`);
+        await spawn('dotnet', [path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll'), '-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });
+        console.log(`Finished running JSAppBuilder for TrakItWorks`);
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            //console.log('//------------------------------------------------------------------------------------');
+            //console.log('Fixing urls on index page...')
+            const pathIndexFile = `${srcDir}/index.htm`;
+            let fileText = await fs.readFile(pathIndexFile, 'utf8');
+            fileText = fileText.replace(/\[appbaseurl\]/g, '/trakitworksdev/');
+            await fs.writeFile(pathIndexFile, fileText);
+        }
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            console.log('//------------------------------------------------------------------------------------');
+            console.log('Fixing urls on index page...')
+            const pathIndexFile = `${destDir}/index.htm`;
+            let fileText = await fs.readFile(pathIndexFile, 'utf8');
+            fileText = fileText.replace(/\[appbaseurl\]/g, './');
+            fileText = fileText.replace(/\[appvirtualdirectory\]/g, '');
+            await fs.writeFile(pathIndexFile, fileText);
+            console.log('//------------------------------------------------------------------------------------');
+            console.log(`Minifiying TrakItWorks JavaScript with google-closure-compiler...`);
+            await fs.move(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/script1-${version}.js`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/script1-${version}.merged.js`));
+            await spawn('npx', ['google-closure-compiler', '--js=' + path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/script1-${version}.merged.js`), '--js_output_file=' + path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/script1-${version}.js`)], { stdio: 'inherit' });
+            await fs.unlink(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/script1-${version}.merged.js`));
+            console.log(`Finished minifying TrakItWorks JavaScript`);
+            console.log('//------------------------------------------------------------------------------------');
+            console.log(`Minifiying TrakItWorks CSS with clean-css-cli...`);
+            await fs.move(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/theme/style-${version}.css`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/theme/style-${version}.merged.css`));
+            await spawn('npx', ['clean-css-cli', '-o', path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/theme/style-${version}.css`), path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/theme/style-${version}.merged.css`)], { stdio: 'inherit' });
+            await fs.unlink(path.resolve(this.appSolutionDir, `src/RentalWorksWebApi/apps/trakitworks/theme/style-${version}.merged.css`));
+            console.log(`Finished minifying TrakItWorks CSS`);
+            console.log('//------------------------------------------------------------------------------------');
+        }
+    }
+    //------------------------------------------------------------------------------------
+    async watch_trakitworks() {
+        console.log('//------------------------------------------------------------------------------------');
+        console.log('Watch has not been implemented for TrakItWorks');
+        console.log('//------------------------------------------------------------------------------------');
+    }
+    //------------------------------------------------------------------------------------
     async build_quikscan() {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Building QuikScan');
@@ -423,6 +523,7 @@ class WebApiCompiler {
                         await this.dotnet_restore();
                         await this.clean_api();
                         await this.build_web();
+                        await this.build_trakitworks();
                         await this.build_quikscan();
                         await this.build_webpack_reports();
                         await this.build_webapi();
@@ -431,6 +532,7 @@ class WebApiCompiler {
                         await this.dotnet_restore();
                         await this.clean_api();
                         await this.build_web();
+                        await this.build_trakitworks();
                         await this.build_quikscan();
                         await this.build_webpack_reports();
                         await this.run_webapi();
@@ -443,6 +545,7 @@ class WebApiCompiler {
                     await this.rmfr_publishfolder();
                     await this.npm_i();
                     await this.build_web();
+                    await this.build_trakitworks();
                     await this.build_quikscan();
                     await this.build_webpack_reports();
                     await this.publish_webapi();
@@ -491,7 +594,23 @@ class WebApiCompiler {
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
-            } else if (this.target === WebApiCompiler.TARGET_QUIKSCAN) {
+            } 
+            else if (this.target === WebApiCompiler.TARGET_TRAKITWORKS) {
+                if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                    if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                        await this.npm_i();
+                    }
+                    await this.build_trakitworks();
+                } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
+                    if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                        await this.npm_i();
+                    }
+                    await this.watch_trakitworks();
+                } else {
+                    throw UNSUPPORTED_CONFIGURATION;
+                }
+            }
+            else if (this.target === WebApiCompiler.TARGET_QUIKSCAN) {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                         await this.npm_i();

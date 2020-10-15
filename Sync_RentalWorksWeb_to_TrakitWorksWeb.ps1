@@ -20,9 +20,9 @@ try {
     $modules = @(
     
         # Modules: Base
-        'Modules\-BaseModules\CheckInBase',
-        'Modules\-BaseModules\OrderStatusBase',
-        'Modules\-BaseModules\StagingCheckoutBase', 
+        'Modules\AaBaseModules\CheckInBase',
+        'Modules\AaBaseModules\OrderStatusBase',
+        'Modules\AaBaseModules\StagingCheckoutBase', 
         
         # Modules: Administator
         'Modules\Administrator\Alert',
