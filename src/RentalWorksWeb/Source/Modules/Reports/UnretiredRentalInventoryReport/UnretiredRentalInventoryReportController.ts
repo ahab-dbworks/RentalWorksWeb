@@ -58,6 +58,7 @@ class UnretiredRentalInventoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('UnretiredRentalInventoryReport', 'api/v1/UnretiredRentalInventoryReport', unretiredRentalTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
