@@ -43,10 +43,9 @@ export abstract class WebpackReport {
     }
     //----------------------------------------------------------------------------------------------
     setReportMetadata(parameters: any, data: any) {  // parameters included here for future expansion
-        var localemoment = moment().locale(parameters.Locale);
-        data.PrintTime = localemoment.format('LTS');
-        data.PrintDate = localemoment.format('L');
-        data.PrintDateTime = `${localemoment.format('L')} ${localemoment.format('LTS')}`;
+        data.PrintTime = moment().format('h:mm:ss A');
+        data.PrintDate = moment().format('MM/DD/YYYY');
+        data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
         data.System = 'UNKNOWN SYSTEM';
         data.Company = 'UNKNOWN COMPANY';
         //if (sessionStorage.getItem('controldefaults') !== null) {
@@ -100,19 +99,6 @@ export abstract class WebpackReport {
 
             Ajax.logError('An error occured while rendering the report.', err);
         }
-    }
-    //----------------------------------------------------------------------------------------------
-    formatDateToLocale(date: string, language?: string): string {
-        if (!date) {
-            return '';
-        }
-        var localmoment = moment(date);
-
-        if (language) {
-            localmoment.locale(language);
-        }
-
-        return localmoment.format('L');
     }
     //----------------------------------------------------------------------------------------------
 }

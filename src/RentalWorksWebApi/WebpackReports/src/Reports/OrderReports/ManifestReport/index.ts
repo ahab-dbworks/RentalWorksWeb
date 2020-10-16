@@ -22,7 +22,7 @@ export class ManifestReport extends WebpackReport {
                     Ajax.post<ManifestReportResponse>(`${apiUrl}/api/v1/manifestreport/runreport`, authorizationHeader, parameters)
                         .then((response: ManifestReportResponse) => {
                             const data: any = response;
-                            data.Items = DataTable.toObjectList(response.ItemsTable, parameters);
+                            data.Items = DataTable.toObjectList(response.ItemsTable);
                             data.OrderNumber = parameters.orderno;
                             data.Report = "Value Sheet";
                             data.WhichReport = parameters.manifestReportItems;

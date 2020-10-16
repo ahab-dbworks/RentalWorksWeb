@@ -1,5 +1,4 @@
-﻿import moment from 'moment';
-export class DataTable {
+﻿export class DataTable {
     ColumnIndex: any;
     Columns: Array<DataTableColumn>;
     Rows: Array<Array<any>>;
@@ -9,18 +8,14 @@ export class DataTable {
     TotalRows: number;
     ColumnNameByIndex: any;
 
-    static toObjectList<T>(dt: DataTable, reportparameters: any): Array<T> {
+    static toObjectList<T>(dt: DataTable): Array<T> {
         let objects = [];
         for (let rowno = 0; rowno < dt.Rows.length; rowno++) {
             let row = dt.Rows[rowno];
             let object: any = {};
             for (let colno = 0; colno < dt.Columns.length; colno++) {
                 let column = dt.Columns[colno];
-                if (column.DataType == 'Date') {
-                    object[dt.Columns[colno].DataField] = moment(row[colno]).locale(reportparameters.Locale).format('L');
-                } else {
-                    object[dt.Columns[colno].DataField] = row[colno];
-                }
+                object[dt.Columns[colno].DataField] = row[colno];
             }
             objects.push(object);
         }

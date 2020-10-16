@@ -13,7 +13,7 @@ export class PartsInventoryCatalogReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventorycatalogreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response, parameters);
+                    const data: any = DataTable.toObjectList(response);
                     data.Report = 'Parts Inventory Catalog Report';
                     this.setReportMetadata(parameters, data);
                     this.renderFooterHtml(data);

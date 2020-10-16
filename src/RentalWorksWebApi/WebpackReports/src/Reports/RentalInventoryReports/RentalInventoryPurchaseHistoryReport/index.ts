@@ -13,7 +13,7 @@ export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorypurchasehistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response, parameters);
+                    const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
                     data.PurchasedFromDate = parameters.PurchasedFromDate;
                     data.PurchasedToDate = parameters.PurchasedToDate;

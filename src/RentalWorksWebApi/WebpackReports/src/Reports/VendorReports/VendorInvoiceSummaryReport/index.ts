@@ -14,10 +14,10 @@ export class VendorInvoiceSummaryReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/vendorinvoicesummaryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response, parameters);
+                    const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
-                    data.FromDate = this.formatDateToLocale(parameters.FromDate, parameters.Locale)
-                    data.ToDate = this.formatDateToLocale(parameters.ToDate, parameters.Locale)
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
                     data.Report = 'Vendor Invoice Summary Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

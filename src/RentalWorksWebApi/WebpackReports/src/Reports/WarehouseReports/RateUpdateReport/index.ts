@@ -15,8 +15,8 @@ export class RateUpdateReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = response;
                     this.setReportMetadata(parameters, data);
-                    data.FromDate = this.formatDateToLocale(parameters.FromDate, parameters.Locale)
-                    data.ToDate = this.formatDateToLocale(parameters.ToDate, parameters.Locale)
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
                     data.Report = 'Rate Update Report';
                     if (parameters.ThreeWeekEnabled) {
                         data.ThreeWeekEnabled = true;
