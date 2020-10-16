@@ -43,9 +43,11 @@ export abstract class WebpackReport {
     }
     //----------------------------------------------------------------------------------------------
     setReportMetadata(parameters: any, data: any) {  // parameters included here for future expansion
-        data.PrintTime = moment().format('h:mm:ss A');
-        data.PrintDate = moment().format('MM/DD/YYYY');
-        data.PrintDateTime = `${moment().format('MM/DD/YYYY')} ${moment().format('h:mm:ss A')}`;
+        var localemoment = moment().locale(parameters.Locale);
+        data.Locale = parameters.Locale;
+        data.PrintTime = localemoment.format('LTS');
+        data.PrintDate = localemoment.format('L');
+        data.PrintDateTime = `${localemoment.format('L')} ${localemoment.format('LTS')}`;
         data.System = 'UNKNOWN SYSTEM';
         data.Company = 'UNKNOWN COMPANY';
         //if (sessionStorage.getItem('controldefaults') !== null) {
