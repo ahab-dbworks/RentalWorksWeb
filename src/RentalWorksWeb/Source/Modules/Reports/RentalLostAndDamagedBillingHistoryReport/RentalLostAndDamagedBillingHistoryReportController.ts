@@ -74,6 +74,7 @@ class RentalLostAndDamagedBillingHistoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RentalLostAndDamagedBillingHistoryReport', 'api/v1/rentallostanddamagedbillinghistoryreport', rentalLnDBillingHistoryTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
