@@ -30,6 +30,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryValueRepo
         public bool? IncludeConsigned { get; set; }
         public bool? IncludeZeroQuantity { get; set; }
         public bool? GroupByICode { get; set; }
+        public string QuantityValueBasedOn { get; set; }
         public string SerializedValueBasedOn { get; set; }
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();

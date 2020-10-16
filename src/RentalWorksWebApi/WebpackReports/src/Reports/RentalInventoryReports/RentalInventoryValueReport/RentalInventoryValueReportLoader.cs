@@ -86,6 +86,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryValueRepo
                     qry.AddParameter("@includeconsigned", SqlDbType.Text, ParameterDirection.Input, request.IncludeConsigned);
                     qry.AddParameter("@includezeroqty", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroQuantity);
                     qry.AddParameter("@groupbyicode", SqlDbType.Text, ParameterDirection.Input, request.GroupByICode);
+                    qry.AddParameter("@quantityvaluebasedon", SqlDbType.Text, ParameterDirection.Input, request.QuantityValueBasedOn);
                     qry.AddParameter("@serializedvaluebasedon", SqlDbType.Text, ParameterDirection.Input, request.SerializedValueBasedOn);
                     qry.AddParameter("@ranks", SqlDbType.Text, ParameterDirection.Input, request.Ranks.ToString());
                     qry.AddParameter("@trackedbys", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys.ToString());

@@ -31,8 +31,14 @@ const rentalInventoryValueTemplate = `
                   <div data-value="false" data-caption="Detail - one line per I-Code Transaction"></div>
                 </div>
               </div>
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Value Based On">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Serialized Inventory Value">
                 <div data-datafield="SerializedValueBasedOn" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                  <div data-value="C" data-caption="Unit Cost""></div>
+                  <div data-value="P" data-caption="Purchase Price"></div>
+                </div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quantity Inventory Value">
+                <div data-datafield="QuantityValueBasedOn" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="C" data-caption="Unit Cost""></div>
                   <div data-value="P" data-caption="Purchase Price"></div>
                 </div>
@@ -140,6 +146,14 @@ class RentalInventoryValueReport extends FwWebApiReport {
         }
 
         this.loadLists($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form: any): void {
+        const rentalquantityinventoryvaluemethod = JSON.parse(sessionStorage.getItem('controldefaults')).rentalquantityinventoryvaluemethod;
+        if ((rentalquantityinventoryvaluemethod != 'FIFO') && (rentalquantityinventoryvaluemethod != 'LIFO')) {
+            FwFormField.setValueByDataField($form, 'QuantityValueBasedOn', 'C');
+            FwFormField.disableDataField($form, 'QuantityValueBasedOn');
+        }
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
