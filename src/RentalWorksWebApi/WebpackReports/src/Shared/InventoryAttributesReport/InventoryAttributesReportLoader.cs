@@ -139,7 +139,7 @@ namespace WebApi.Modules.Reports.Shared.InventoryAttributesReport
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
                     select.AddWhereIn("attributeid", request.AttributeId);
-                    select.AddWhereIn("rank", request.Ranks.ToString());
+                    select.AddWhereIn("rank", request.Ranks);
                     if (AvailableForFilter.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT))
                     {
                         if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))

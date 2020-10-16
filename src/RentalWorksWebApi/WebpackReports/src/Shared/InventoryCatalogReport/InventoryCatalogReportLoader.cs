@@ -13,6 +13,7 @@ namespace WebApi.Modules.Reports.Shared.InventoryCatalogReport
         public SelectedCheckBoxListItems Classifications { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+        public IncludeExcludeAll FixedAsset { get; set; }  // only applies to Rentals
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
@@ -51,24 +52,6 @@ namespace WebApi.Modules.Reports.Shared.InventoryCatalogReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "packageid", modeltype: FwDataTypes.Text)]
         public string PackageId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? DailyRate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? WeeklyRate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? MonthlyRate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? ReplacementCost { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? Price { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "retail", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? Retail { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
         public string Category { get; set; }
@@ -118,9 +101,6 @@ namespace WebApi.Modules.Reports.Shared.InventoryCatalogReport
         [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
         public string SubCategoryId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
-        public bool? IsFixedAsset { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyownedweb", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOwned { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -132,6 +112,36 @@ namespace WebApi.Modules.Reports.Shared.InventoryCatalogReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterorderby", modeltype: FwDataTypes.Integer)]
         public int? InventoryOrderBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
+        public string Unit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
+        public string Manufacturer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
+        public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text)]
+        public string ManufacturerUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nondiscountable", modeltype: FwDataTypes.Boolean)]
+        public bool? IsNonDiscountable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Boolean)]
+        public bool? IsHazardousMaterial { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "aisleloc", modeltype: FwDataTypes.Text)]
+        public string AisleLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text)]
+        public string ShelfLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtyin", modeltype: FwDataTypes.Decimal)]
+        public decimal? CurrentQuantityIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentqtystaged", modeltype: FwDataTypes.Decimal)]
+        public decimal? CurrentQuantityStaged { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(InventoryCatalogReportRequest request)
         {
@@ -155,6 +165,18 @@ namespace WebApi.Modules.Reports.Shared.InventoryCatalogReport
                     select.AddWhereIn("class", request.Classifications);
                     select.AddWhereIn("trackedby", request.TrackedBys);
                     select.AddWhereIn("rank", request.Ranks);
+
+                    if (AvailableForFilter.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT))
+                    {
+                        if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
+                        {
+                            select.AddWhere("fixedasset = 'T'");
+                        }
+                        else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
+                        {
+                            select.AddWhere("fixedasset <> 'T'");
+                        }
+                    }
 
                     if (!request.IncludeZeroQuantity.GetValueOrDefault(false))
                     {
