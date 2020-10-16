@@ -57,6 +57,7 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RetiredRentalInventoryReport', 'api/v1/retiredrentalinventoryreport', retiredRentalInventoryTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

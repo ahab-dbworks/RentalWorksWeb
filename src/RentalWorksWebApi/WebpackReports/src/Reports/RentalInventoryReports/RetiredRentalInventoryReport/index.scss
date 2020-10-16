@@ -1,15 +1,23 @@
 ﻿table {
+    thead {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+    }
+
     thead.main-header {
         th {
-            border-top: 2px solid #000000;
-            border-bottom: 2px solid #000000;
             font-weight: bold;
             padding: 5px;
             white-space: nowrap;
         }
     }
-
-    tbody[data-rowtype="detail"]:nth-of-type(even) {
+    /*    tbody[data-rowtype="detail"]:nth-of-type(even) {
+        background-color: #DCDCDC;
+    }*/
+    tr[data-row="detail"]:not([data-visible="true"]):nth-of-type(odd),
+    tr[data-row="detail"][data-visible="true"]:nth-of-type(even),
+    tr[data-row="sub-detail"]:nth-of-type(odd),
+    tr[data-row="sub-header"]:nth-of-type(even){
         background-color: #DCDCDC;
     }
 

@@ -1,147 +1,170 @@
 ﻿<!--Retired Rental Inventory Report-->
+<div data-section="header">
   <div class="rpt-flexrow" style="width:1555px;">
-    <style type="text/css" media="print"> @page { size: landscape; margin: 10px 10px 10px 10px; } </style>
+    <style type="text/css" media="print">
+      @page {
+        size: landscape;
+        margin: 10px 10px 10px 10px;
+      }
+    </style>
     <div class="rpt-flexcolumn">
-      <span class="rpt-header-left">{{System}}</span>
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
     </div>
     <div class="rpt-flexcolumn">
-      <span class="rpt-title">{{Report}}</span>
-      <span class="rpt-header-center">Retired From: {{FromDate}} To: {{ToDate}}</span>
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Retired From: {{FromDate}} To: {{ToDate}}</span></div>
     </div>
     <div class="rpt-flexcolumn">
-      <span class="rpt-header-right">{{Company}}</span>
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
     </div>
   </div>
-  <div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
-    <table>
-      <thead class="main-header">
-        <tr>
-          <th class="top">I-Code</th>
-          <th class="top">Description</th>
-          <th class="top number">Qty</th>
-          <th class="top">Bar Code</th>
-          <th class="top">Purch. Date</th>
-          <th class="top">Receive Date</th>
-          <th class="top">PO No.</th>
-          <th class="top number">Purch. Price</th>
-          <th>
-            <div>Retire Date</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire Date</div>
-            {{/if}}
-          </th>
-          <th>
-            <div>Retire By</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire By</div>
-            {{/if}}
-          </th>
-          <th>
-            <div>Retire Reason</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire Reason</div>
-            {{/if}}
-          </th>
-        </tr>
-      </thead>
+</div>
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;width:1555px;">
+  <table>
+    <thead id="columnHeader" class="main-header">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode" class="top">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description" class="top">Description</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="top number">Qty</th>
+        <th data-linkedcolumn="BarCode" data-valuefield="BarCode" class="top">Bar Code</th>
+        <th data-linkedcolumn="PurchaseDate" data-valuefield="PurchaseDate" class="top">Purch. Date</th>
+        <th data-linkedcolumn="ReceiveDate" data-valuefield="ReceiveDate" class="top">Receive Date</th>
+        <th data-linkedcolumn="PurchasePurchaseOrderNumber" data-valuefield="PurchasePurchaseOrderNumber" class="top">PO No.</th>
+        <th data-linkedcolumn="PurchaseAmount" data-valuefield="PurchaseAmount" class="top number">Purch. Price</th>
+        <th data-linkedcolumn="RetireDate" data-valuefield="RetireDate">Retire Date</th>
+        <th data-linkedcolumn="RetireBy" data-valuefield="RetireBy">Retire By</th>
+        <th data-linkedcolumn="RetiredReason" data-valuefield="RetiredReason">Retire Reason</th>
+      </tr>
+      <tr data-row="main-header" data-visible="{{#if IncludeUnretired}}true{{/if}}">
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-3" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-4" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-5" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-6" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-7" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-8" data-valuefield=""></th>
+        <th data-linkedcolumn="UnretireDate" data-valuefield="UnretireDate">Un-Retire Date</th>
+        <th data-linkedcolumn="UnretireBy" data-valuefield="UnretireBy">Un-Retire By</th>
+        <th data-linkedcolumn="UnretiredReason" data-valuefield="UnretiredReason">Un-Retire Reason</th>
+      </tr>
+    </thead>
+    <tbody>
       {{#each this}}
       {{#ifEquals RowType "Warehouseheader"}}
-      <thead data-rowtype="{{RowType}}">
-        <tr>
-          <th class="header-row" colspan="4">Warehouse: {{Warehouse}}</th>
-        </tr>
-      </thead>
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="header-row" colspan="11">Warehouse: {{Warehouse}}</td>
+      </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
-      <thead data-rowtype="{{RowType}}">
-        <tr>
-          <th class="header-row lower" colspan="4">Inventory Type: {{InventoryType}}</th>
-        </tr>
-      </thead>
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td class="header-row lower" colspan="11">Inventory Type: {{InventoryType}}</td>
+      </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tbody data-rowtype="{{RowType}}">
-        <tr>
-          <td class="nowrap">{{ICode}}</td>
-          <td>{{Description}}</td>
-          <td class="number">{{Quantity}}</td>
-          <td>{{BarCode}}</td>
-          <td>{{PurchaseDate}}</td>
-          <td>{{ReceiveDate}}</td>
-          <td>{{PurchasePurchaseOrderNumber}}</td>
-          <td class="number">{{PurchaseAmount}}</td>
-          <td>
-            <div>{{RetireDate}}</div>
-            {{#if ../IncludeUnretired}}
-            <div>{{UnretireDate}}</div>
-            {{/if}}
-          </td>
-          <td>
-            <div><nobr>{{RetiredBy}}</nobr></div>
-            {{#if ../IncludeUnretired}}
-            <div><nobr>{{UnretiredBy}}</nobr></div>
-            {{/if}}
-          </td>
-          <td>
-            <div>{{RetiredReason}}</div>
-            {{#if ../IncludeUnretired}}
-            <div>{{UnretiredReason}}</div>
-            {{/if}}
-          </td>
-        </tr>
-        {{#if RetiredNotes}}
-        <tr>
-          <td></td>
-          <td class="note" colspan="7">Retire Note: <span>{{RetiredNotes}}</span></td>
-          <td colspan="3"></td>
-        </tr>
-        {{/if}}
-        {{#ifEquals ../ShowSellInformation true}}
-        {{#checkLength SoldToCustomer 0}}
-        <tr>
-          <th></th>
-          <th class="subHeaders">Sold To Customer</th>
-          <th class="subHeaders" colspan="2">Deal</th>
-          <th class="subHeaders">Order No.</th>
-          <th class="subHeaders">L&D No.</th>
-          <th class="subHeaders">Inv. No.</th>
-          <th class="subHeaders number">Price</th>
-          <th colspan="3"></th>
-        </tr>
-        <tr class="subValues">
-          <td></td>
-          <td>{{SoldToCustomer}}</td>
-          <td colspan="2">{{SoldToDeal}}</td>
-          <td>{{SoldToOrderNumber}}</td>
-          <td>{{BilledToOrderNumber}}</td>
-          <td>{{BilledToInvoiceNumber}}</td>
-          <td class="number">{{BilledAmount}}</td>
-          <th colspan="3"></th>
-        </tr>
-        {{/checkLength}}
-        {{/ifEquals}}
-      </tbody>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" class="nowrap" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
+        <td data-linkedcolumn="PurchaseDate" data-value="{{PurchaseDate}}"></td>
+        <td data-linkedcolumn="ReceiveDate" data-value="{{ReceiveDate}}"></td>
+        <td data-linkedcolumn="PurchasePurchaseOrderNumber" data-value="{{PurchasePurchaseOrderNumber}}"></td>
+        <td data-linkedcolumn="PurchaseAmount" class="number" data-value="{{PurchaseAmount}}"></td>
+        <td data-linkedcolumn="RetireDate" data-value="{{RetireDate}}"></td>
+        <td data-linkedcolumn="RetiredBy" data-value="{{RetiredBy}}"></td>
+        <td data-linkedcolumn="RetiredReason" data-value="{{RetiredReason}}"></td>
+      </tr>
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-visible="{{#if ../IncludeUnretired}}true{{/if}}">
+        <td data-linkedcolumn="EmptyTd-1"></td>
+        <td data-linkedcolumn="EmptyTd-2"></td>
+        <td data-linkedcolumn="EmptyTd-3"></td>
+        <td data-linkedcolumn="EmptyTd-4"></td>
+        <td data-linkedcolumn="EmptyTd-5"></td>
+        <td data-linkedcolumn="EmptyTd-6"></td>
+        <td data-linkedcolumn="EmptyTd-7"></td>
+        <td data-linkedcolumn="EmptyTd-8"></td>
+        <td data-linkedcolumn="UnretireDate" data-value="{{UnretireDate}}"></td>
+        <td data-linkedcolumn="UnretireBy" data-value="{{UnretireBy}}"></td>
+        <td data-linkedcolumn="UnretiredReason" data-value="{{UnretiredReason}}"></td>
+      </tr>
+      <tr data-row="sub-detail" data-visible="{{#if RetiredNotes}}true{{/if}}">
+        <td data-linkedcolumn="EmptyTd-9"></td>
+        <td class="note" colspan="7">Retire Note: <span>{{RetiredNotes}}</span></td>
+        <td data-linkedcolumn="EmptyTd-10"></td>
+        <td data-linkedcolumn="EmptyTd-11"></td>
+        <td data-linkedcolumn="EmptyTd-12"></td>
+      </tr>
+      <tr data-row="sub-header" data-sort="true" data-visible="{{#ifEquals ../ShowSellInformation true}}{{#checkLength SoldToCustomer 0}}true{{/checkLength}}{{/ifEquals}}">
+        <th data-linkedcolumn="EmptyTd-13"></th>
+        <th data-linkedcolumn="SoldToCustomer" data-valuefield="SoldToCustomer" class="subHeaders">Sold To Customer</th>
+        <th data-linkedcolumn="SoldToDeal" data-valuefield="SoldToDeal" class="subHeaders">Deal</th>
+        <th data-linkedcolumn="EmptyTd-14" data-valuefield="" class="subHeaders"></th>
+        <th data-linkedcolumn="SoldToOrderNumber" data-valuefield="SoldToOrderNumber" class="subHeaders">Order No.</th>
+        <th data-linkedcolumn="BilledToOrderNumber" data-valuefield="BilledToOrderNumber" class="subHeaders">L&D No.</th>
+        <th data-linkedcolumn="BilledToInvoiceNumber" data-valuefield="BilledToInvoiceNumber" class="subHeaders">Inv. No.</th>
+        <th data-linkedcolumn="BilledAmount" data-valuefield="BilledAmount" class="subHeaders number">Price</th>
+        <th data-linkedcolumn="EmptyTd-15"></th>
+        <th data-linkedcolumn="EmptyTd-16"></th>
+        <th data-linkedcolumn="EmptyTd-17"></th>
+      </tr>
+      <tr data-row="sub-detail" class="subValues" data-visible="{{#ifEquals ../ShowSellInformation true}}{{#checkLength SoldToCustomer 0}}true{{/checkLength}}{{/ifEquals}}">
+        <td data-linkedcolumn="EmptyTd-13"></td>
+        <td data-linkedcolumn="SoldToCustomer" data-value="{{SoldToCustomer}}"></td>
+        <td data-linkedcolumn="SoldToDeal" data-value="{{SoldToDeal}}"></td>
+        <td data-linkedcolumn="EmptyTd-14"></td>
+        <td data-linkedcolumn="SoldToOrderNumber" data-value="{{SoldToOrderNumber}}"></td>
+        <td data-linkedcolumn="BilledToOrderNumber" data-value="{{BilledToOrderNumber}}"></td>
+        <td data-linkedcolumn="BilledToInvoiceNumber" data-value="{{BilledToInvoiceNumber}}"></td>
+        <td data-linkedcolumn="BilledAmount" data-value="{{BilledAmount}}" class="number"></td>
+        <td data-linkedcolumn="EmptyTd-15"></td>
+        <td data-linkedcolumn="EmptyTd-16"></td>
+        <td data-linkedcolumn="EmptyTd-17"></td>
+      </tr>
       {{/ifEquals}}
-      <tfoot data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <tr>
-          <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <tr>
-          <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <tr>
-          <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
-        {{/ifEquals}}
-      </tfoot>
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr data-row="footer">
+        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode"></td>
+        <td data-linkedcolumn="PurchaseDate"></td>
+        <td data-linkedcolumn="ReceiveDate"></td>
+        <td data-linkedcolumn="PurchasePurchaseOrderNumber"></td>
+        <td data-linkedcolumn="PurchaseAmount"></td>
+        <td data-linkedcolumn="RetireDate"></td>
+        <td data-linkedcolumn="RetireBy"></td>
+        <td data-linkedcolumn="RetiredReason"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer">
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode"></td>
+        <td data-linkedcolumn="PurchaseDate"></td>
+        <td data-linkedcolumn="ReceiveDate"></td>
+        <td data-linkedcolumn="PurchasePurchaseOrderNumber"></td>
+        <td data-linkedcolumn="PurchaseAmount"></td>
+        <td data-linkedcolumn="RetireDate"></td>
+        <td data-linkedcolumn="RetireBy"></td>
+        <td data-linkedcolumn="RetiredReason"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer">
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode"></td>
+        <td data-linkedcolumn="PurchaseDate"></td>
+        <td data-linkedcolumn="ReceiveDate"></td>
+        <td data-linkedcolumn="PurchasePurchaseOrderNumber"></td>
+        <td data-linkedcolumn="PurchaseAmount"></td>
+        <td data-linkedcolumn="RetireDate"></td>
+        <td data-linkedcolumn="RetireBy"></td>
+        <td data-linkedcolumn="RetiredReason"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
-    </table>
-  </div>
+    </tbody>
+  </table>
+</div>
