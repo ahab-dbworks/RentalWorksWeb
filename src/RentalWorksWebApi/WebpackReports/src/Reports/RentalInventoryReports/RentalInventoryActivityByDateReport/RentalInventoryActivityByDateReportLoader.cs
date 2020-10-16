@@ -157,8 +157,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
                     qry.AddParameter("@includesubbed", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_SUBBED));
                     qry.AddParameter("@includeconsigned", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_CONSIGNED));
                     qry.AddParameter("@includeleased", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_LEASED));
-                    qry.AddParameter("@ranks", SqlDbType.Text, ParameterDirection.Input, request.Ranks);
-                    qry.AddParameter("@trackedby", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys);
+                    qry.AddParameter("@rank", SqlDbType.Text, ParameterDirection.Input, request.Ranks.ToString());
+                    qry.AddParameter("@trackedby", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys.ToString());
 
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
