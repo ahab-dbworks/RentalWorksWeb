@@ -65,7 +65,7 @@ namespace FwCore.Mobile
         {
             await Task.CompletedTask;
 
-            string actionRole, userRole;
+            string jsonResponse, actionRole, userRole;
             dynamic request, response, session;
             bool foundMatch, hasPermission;
             List<string> userRoles;
@@ -82,6 +82,7 @@ namespace FwCore.Mobile
             {
                 if (request != null)
                 {
+                    //request = JsonConvert.DeserializeObject<dynamic>(jsonRequest);
                     response.request = request;
                     if (context.HttpContext.Request.Method == "OPTIONS")
                     {
@@ -107,6 +108,7 @@ namespace FwCore.Mobile
                                     hasPermission = (actionRole == userRole);
                                     if (hasPermission)
                                     {
+                                        //hasPermission = true;
                                         await actions[i].OnMatch(request, response, session);
                                         break;
                                     }
@@ -121,7 +123,7 @@ namespace FwCore.Mobile
                     }
                     if (!foundMatch)
                     {
-                        return NotFound("Unable to find a service to handle the request for: " + requestPath);
+                        return new NotFoundObjectResult("Unable to find a service to handle the request for: " + requestPath);
                     }
                     else if (!hasPermission)
                     {
@@ -129,11 +131,13 @@ namespace FwCore.Mobile
                     }
                     if (FwValidate.IsPropertyDefined(response, "filedownload"))
                     {
-                        return File(response.filedownload.file, response.filedownload.contenttype);
+                        return new FileContentResult(response.filedownload.file, response.filedownload.contenttype);
                     }
                     else
                     {
-                        return Ok(response);
+                        jsonResponse = Newtonsoft.Json.JsonConvert.SerializeObject(response);
+                        //jsonResponse = System.Text.Json.JsonSerializer.Serialize(response);
+                        return new OkObjectResult(jsonResponse);
                     }
                 }
                 else
@@ -144,15 +148,20 @@ namespace FwCore.Mobile
             catch (AuthTokenInvalidException)
             {
                 response.authTokenExpired = true;
-                return Ok(response);
+                //response.serverVersion = FwVersion.Current.FullVersion;
+                //jsonResponse = writer.Write(response);
+                //context.Response.ContentType = "application/json";
+                //context.Response.Write(jsonResponse);
+                jsonResponse = Newtonsoft.Json.JsonConvert.SerializeObject(response);
+                return new OkObjectResult(jsonResponse);
             }
             catch (FwNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return new NotFoundObjectResult(ex.Message);
             }
             catch (FwBadRequestException ex)
             {
-                return BadRequest(ex.Message);
+                return new BadRequestObjectResult(ex.Message);
             }
             catch (TargetInvocationException ex)
             {
@@ -162,6 +171,11 @@ namespace FwCore.Mobile
                     response.exception = new ExpandoObject();
                     response.exception.message = ex.InnerException.Message;
                     response.exception.stack = ex.InnerException.StackTrace;
+                    //response.serverVersion = FwVersion.Current.FullVersion;
+                    //jsonResponse = writer.Write(response);
+                    //context.Response.ContentType = "application/json";
+                    //context.Response.Write(jsonResponse);
+                    //jsonResponse = JsonConvert.SerializeObject(response);
                     return StatusCode(500, ex.Message + ex.StackTrace);
                 }
             }
@@ -171,6 +185,11 @@ namespace FwCore.Mobile
                 response.exception = new ExpandoObject();
                 response.exception.message = ex.Message;
                 response.exception.stack = ex.StackTrace;
+                //response.serverVersion = FwVersion.Current.FullVersion;
+                //jsonResponse = writer.Write(response);
+                //context.Response.ContentType = "application/json";
+                //context.Response.Write(jsonResponse);
+                //jsonResponse = JsonConvert.SerializeObject(response);
                 return StatusCode(500, ex.Message + ex.StackTrace);
             }
             return NotFound();

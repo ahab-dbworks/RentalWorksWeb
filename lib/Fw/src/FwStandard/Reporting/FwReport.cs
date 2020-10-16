@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using PuppeteerSharp;
 using System;
@@ -28,7 +28,7 @@ namespace FwStandard.Reporting
                     NavigationOptions navOptions = new NavigationOptions();
                     navOptions.WaitUntil = new WaitUntilNavigation[] { WaitUntilNavigation.Networkidle0 };
                     await page.GoToAsync(reportUrl, navOptions);
-                    page.Console += delegate(object sender, ConsoleEventArgs e)
+                    page.Console += delegate (object sender, ConsoleEventArgs e)
                     {
                         if (e.Message.Type == ConsoleType.Error)
                         {
@@ -124,12 +124,12 @@ namespace FwStandard.Reporting
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async static Task EmailImageAsync(string apiUrl, string reportUrl, string authorizationHeader, dynamic parameters, 
-            string fromusersid, string uniqueid, string title, string from, string to, string cc, string subject, 
+        public async static Task EmailImageAsync(string apiUrl, string reportUrl, string authorizationHeader, dynamic parameters,
+            string fromusersid, string uniqueid, string title, string from, string to, string cc, string subject,
             string bodyHeader, string bodyFooter, FwApplicationConfig appConfig, ViewPortOptions viewPortOptions, ScreenshotOptions screenshotOptions)
         {
             string body = $"<div class=\"body-header\">{bodyHeader}</div><div class=\"body\"><img src=\"cid:reportImage1\" width=\"{viewPortOptions.Width}\" height=\"{viewPortOptions.Height}\" /></div><div class=\"body-footer\">{bodyFooter}</div>";
-            
+
             var message = new MailMessage();
             message.From = new System.Net.Mail.MailAddress(from);
             message.To.Add(to);
@@ -204,11 +204,11 @@ namespace FwStandard.Reporting
                     qry.Add("select top 1 *");
                     qry.Add("from emailreportcontrol with (nolock)");
                     await qry.ExecuteAsync();
-                    accountname     = qry.GetField("accountname").ToString().TrimEnd();
+                    accountname = qry.GetField("accountname").ToString().TrimEnd();
                     accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
-                    authtype        = qry.GetField("authtype").ToString().TrimEnd();
-                    host            = qry.GetField("host").ToString().TrimEnd();
-                    port            = qry.GetField("port").ToInt32();
+                    authtype = qry.GetField("authtype").ToString().TrimEnd();
+                    host = qry.GetField("host").ToString().TrimEnd();
+                    port = qry.GetField("port").ToInt32();
                 }
             }
             var client = new SmtpClient(host, port);

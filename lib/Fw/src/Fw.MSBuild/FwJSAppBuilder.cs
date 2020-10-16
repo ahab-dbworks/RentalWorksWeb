@@ -800,24 +800,21 @@ namespace Fw.MSBuildTasks
                             }
                             #endregion
 
-                                
+
+                            // write app_scripts.json
+                            bool writeAppScriptsJson = false;
+                            StringBuilder appScriptsJson = new StringBuilder();
+                            appScriptsJson.AppendLine("{");
+                            appScriptsJson.AppendLine("    \"scripts\":  [");
                             for (int j = 0; j < config.SourceFiles.Count; j++)
                             {
                                 #region create file: app_scripts.json
                                 // create app_scripts.json
                                 if (!this.Publish)
                                 {
-                                    sourceFiles_outputFile   = config.SourceFiles[j].OutputFile.Replace("-{{Version}}.debug", string.Empty);
-                                    if (sourceFiles_outputFile.Equals("script.js"))
+                                    sourceFiles_outputFile = config.SourceFiles[j].OutputFile;
+                                    if (sourceFiles_outputFile.EndsWith(".js") && config.SourceFiles[j].InputFiles.Count > 0)
                                     {
-                                        sourceFiles_outputFile = "app_scripts.json";
-                                        sourceFiles_outputFile = Path.Combine(config.Targets[i].OutputDirectory, sourceFiles_outputFile);
-                                        sourceFiles_combinedOutputPath = GetAbsolutePath(sourceFiles_outputFile);
-                                        sourceFiles_combinedText = new StringBuilder();
-                                        sourceFiles_combinedText.AppendLine("{");
-                                        sourceFiles_combinedText.AppendLine("    \"scripts\":  [");
-                                        //sourceFiles_combinedText.AppendLine("{\"src\": \"[appbaseurl][appvirtualdirectory]app_startupscript.js\"}");
-                                        //sourceFiles_combinedText.AppendLine(",{\"src\": \"[appbaseurl][appvirtualdirectory]ApplicationConfig.js\"}");
                                         for (int k = 0; k < config.SourceFiles[j].InputFiles.Count; k++)
                                         {
                                             sourceFile_inputFileUri = config.SourceFiles[j].InputFiles[k]
@@ -826,38 +823,26 @@ namespace Fw.MSBuildTasks
                                                 .Replace("{{FwFrontEndLibraryUri}}", "[appbaseurl][fwvirtualdirectory]")
                                                 .Replace("{{AppUri}}", "[appbaseurl][appvirtualdirectory]");
                                             sourceFile_inputFileUri = ApplyFields(sourceFile_inputFileUri, config, config.Targets[i].Publish);
-                                            if (k > 0) sourceFiles_combinedText.Append(",");
-                                            sourceFiles_combinedText.AppendLine("{\"src\": \"" + sourceFile_inputFileUri + "\"}");
+                                            if (k > 0 || writeAppScriptsJson) appScriptsJson.Append(",");
+                                            appScriptsJson.AppendLine("{\"src\": \"" + sourceFile_inputFileUri + "\"}");
                                         }
-                                        sourceFiles_combinedText.AppendLine("    ]");
-                                        sourceFiles_combinedText.AppendLine("}");
-                                        if (File.Exists(sourceFiles_combinedOutputPath))
-                                        {
-                                            File.Delete(sourceFiles_combinedOutputPath);
-                                        }
-                                        File.WriteAllText(sourceFiles_combinedOutputPath, NormalizeLineEndings(sourceFiles_combinedText.ToString()));
+                                        writeAppScriptsJson = true;
                                     }
                                 }
                                 else
                                 {
                                     // create app_scripts.json
-                                    sourceFiles_outputFile   = config.SourceFiles[j].OutputFile.Replace("-{{Version}}.debug", string.Empty);
-                                    if (sourceFiles_outputFile.Equals("script.js"))
+                                    sourceFiles_outputFile = config.SourceFiles[j].OutputFile;
+                                    if (sourceFiles_outputFile.EndsWith(".js"))
                                     {
-                                        sourceFiles_outputFile = "app_scripts.json";
-                                        sourceFiles_outputFile = Path.Combine(config.Targets[i].OutputDirectory, sourceFiles_outputFile);
-                                        sourceFiles_combinedOutputPath = GetAbsolutePath(sourceFiles_outputFile);
-                                        sourceFiles_combinedText = new StringBuilder();
-                                        sourceFiles_combinedText.AppendLine("{");
-                                        sourceFiles_combinedText.AppendLine("    \"scripts\":  [");
-                                        sourceFiles_combinedText.AppendLine("{\"src\": \"[appbaseurl][appvirtualdirectory]script-" + Version + ".min.js\"}");
-                                        sourceFiles_combinedText.AppendLine("    ]");
-                                        sourceFiles_combinedText.AppendLine("}");
-                                        if (File.Exists(sourceFiles_combinedOutputPath))
+                                        string scriptFilename = config.SourceFiles[j].OutputFile.Replace("{{Version}}", Version);
+                                        if (config.SourceFiles[j].Minify)
                                         {
-                                            File.Delete(sourceFiles_combinedOutputPath);
+                                            scriptFilename = config.SourceFiles[j].MinifiedFile.Replace("{{Version}}", Version);
                                         }
-                                        File.WriteAllText(sourceFiles_combinedOutputPath, NormalizeLineEndings(sourceFiles_combinedText.ToString()));
+                                        if (writeAppScriptsJson) appScriptsJson.Append(",");
+                                        appScriptsJson.AppendLine("{\"src\": \"[appbaseurl][appvirtualdirectory]" + scriptFilename + "\"}");
+                                        writeAppScriptsJson = true;
                                     }
                                 }
                                 #endregion
@@ -967,7 +952,7 @@ namespace Fw.MSBuildTasks
 
                                             using (Process process = new Process())
                                             {
-                                                int timeout = 30 * 1000; // 30 seconds
+                                                int timeout = 5 * 60 * 1000; // 5 minutes
                                                 process.StartInfo.FileName               = javaPath;
                                                 process.StartInfo.Arguments              = commandLine.ToString();
                                                 process.StartInfo.UseShellExecute        = false;
@@ -982,24 +967,38 @@ namespace Fw.MSBuildTasks
                                                 using (AutoResetEvent errorWaitHandle = new AutoResetEvent(false))
                                                 {
                                                     process.OutputDataReceived += (sender, e) => {
-                                                        if (e.Data == null)
+                                                        try
                                                         {
-                                                            outputWaitHandle.Set();
+                                                            if (e.Data == null)
+                                                            {
+                                                                outputWaitHandle.Set();
+                                                            }
+                                                            else
+                                                            {
+                                                                output.AppendLine(e.Data);
+                                                            }
                                                         }
-                                                        else
+                                                        catch(ObjectDisposedException)
                                                         {
-                                                            output.AppendLine(e.Data);
+
                                                         }
                                                     };
                                                     process.ErrorDataReceived += (sender, e) =>
                                                     {
-                                                        if (e.Data == null)
+                                                        try
                                                         {
-                                                            errorWaitHandle.Set();
+                                                            if (e.Data == null)
+                                                            {
+                                                                errorWaitHandle.Set();
+                                                            }
+                                                            else
+                                                            {
+                                                                error.AppendLine(e.Data);
+                                                            }
                                                         }
-                                                        else
+                                                        catch (ObjectDisposedException)
                                                         {
-                                                            error.AppendLine(e.Data);
+
                                                         }
                                                     };
 
@@ -1226,6 +1225,17 @@ namespace Fw.MSBuildTasks
                                     }
                                     #endregion
                                 }
+                            }
+                            if (writeAppScriptsJson)
+                            {
+                                appScriptsJson.AppendLine("    ]");
+                                appScriptsJson.AppendLine("}");
+                                string appScripsJsonPath = GetAbsolutePath(Path.Combine(config.Targets[i].OutputDirectory, "app_scripts.json"));
+                                if (File.Exists(appScripsJsonPath))
+                                {
+                                    File.Delete(appScripsJsonPath);
+                                }
+                                File.WriteAllText(appScripsJsonPath, NormalizeLineEndings(appScriptsJson.ToString()));
                             }
                         }
                     }
@@ -2219,10 +2229,10 @@ namespace Fw.MSBuildTasks
                     value = field.Value;
                     if (((field.Key == "{{FwFrontEndLibraryUri}}") && (field.Value != "[appbaseurl][fwvirtualdirectory]")) || ((field.Key == "{{AppUri}}") && (field.Value != "[appbaseurl][appvirtualdirectory]")))
                     {
-                        if (!value.EndsWith("/"))
-                        {
-                            value += "/";
-                        }
+                        //if (!value.EndsWith("/"))
+                        //{
+                        //    value += "/";
+                        //}
                     }
                     result = result.Replace(field.Key, value);
                 }
@@ -2237,16 +2247,26 @@ namespace Fw.MSBuildTasks
             StreamReader reader;
             string result;
 
-            try {
-                client = new WebClient();
-                stream = client.OpenRead(uri);
-                reader = new StreamReader(stream);
-                result = reader.ReadToEnd();
+            Uri uri1 = new Uri(uri);
+            if (uri1.IsFile)
+            {
+                result = File.ReadAllText(uri1.LocalPath);
             }
-            catch (Exception ex) {
-                //System.Diagnostics.Debugger.Launch();
-                task.Log.LogError("Unable to load uri: " + uri);
-                throw new Exception("Unable to load uri: " + uri, ex);
+            else
+            {
+                try
+                {
+                    client = new WebClient();
+                    stream = client.OpenRead(uri);
+                    reader = new StreamReader(stream);
+                    result = reader.ReadToEnd();
+                }
+                catch (Exception ex)
+                {
+                    //System.Diagnostics.Debugger.Launch();
+                    task.Log.LogError("Unable to load uri: " + uri);
+                    throw new Exception("Unable to load uri: " + uri, ex);
+                }
             }
 
             return result;
@@ -2753,7 +2773,7 @@ namespace Fw.MSBuildTasks
         [XmlElement("Minify")]
         public bool Minify { get; set; } = false;
 
-        [XmlElement("AddBaseUrlToSourceFiles")]
+        //[XmlElement("AddBaseUrlToSourceFiles")]
         public bool AddBaseUrlToSourceFiles { get; set; } = false;
 
         [XmlElement("OutputDirectory")]
@@ -2767,6 +2787,9 @@ namespace Fw.MSBuildTasks
     [XmlRoot("File")]
     public class TargetFile
     {
+        [XmlAttribute("AddBaseUrl")]
+        public bool AddBaseUrl { get; set; } = false;
+
         [XmlElement("InputFile")]
         public string InputFile { get; set; } = string.Empty;
 

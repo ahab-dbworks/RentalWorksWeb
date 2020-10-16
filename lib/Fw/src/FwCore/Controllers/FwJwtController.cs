@@ -1,4 +1,4 @@
-﻿using FwCore.AppManager;
+using FwCore.AppManager;
 using FwCore.Logic;
 using FwStandard.AppManager;
 using FwStandard.Models;
@@ -72,22 +72,22 @@ namespace FwCore.Controllers
                 }
                 else
                 {
-                    ClaimsIdentity identity = await FwAmUserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, userauth.WebUsersId);
+                    ClaimsIdentity identity = await FwAmUserClaimsProvider.GetClaimsIdentityAsync(_appConfig.DatabaseSettings, userauth.WebUsersId);
                     var jwtClaims = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                        new Claim(JwtRegisteredClaimNames.Jti, await _appConfig.JwtIssuerOptions.JtiGenerator()),
-                        new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
-                    };
-                    List<Claim> claims = new List<Claim>();
-                    claims.AddRange(jwtClaims);
-                    claims.AddRange(identity.Claims);
+                    new Claim(JwtRegisteredClaimNames.Jti, await _appConfig.JwtIssuerOptions.JtiGenerator()),
+                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_appConfig.JwtIssuerOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
+                };
+                List<Claim> claims = new List<Claim>();
+                claims.AddRange(jwtClaims);
+                claims.AddRange(identity.Claims);
 
-                    // Create the JWT security token and encode it.
-                    var encodedJwt = FwJwtLogic.GenerateEncodedJwtToken(_appConfig, claims);
+                // Create the JWT security token and encode it.
+                var encodedJwt = FwJwtLogic.GenerateEncodedJwtToken(_appConfig, claims);
 
-                    // Serialize and return the response
-                    response.statuscode   = 0;
+                // Serialize and return the response
+                response.statuscode   = 0;
                     response.access_token = encodedJwt;
                     response.expires_in   = (int)_appConfig.JwtIssuerOptions.ValidFor.TotalSeconds;
                 }
@@ -116,7 +116,7 @@ namespace FwCore.Controllers
         protected virtual async Task<ActionResult<IntegrationResponseModel>> DoIntegrationPost([FromBody] FwStandard.Models.FwIntegration client)
         {
             dynamic response = new ExpandoObject();
-            var identity = await FwAmUserClaimsProvider.GetIntegrationClaimsIdentity(_appConfig.DatabaseSettings, client.client_id, client.client_secret);
+            var identity = await FwAmUserClaimsProvider.GetIntegrationClaimsIdentityAsync(_appConfig.DatabaseSettings, client.client_id, client.client_secret);
             if (identity == null)
             {
                 response.statuscode    = 401; //Unauthorized

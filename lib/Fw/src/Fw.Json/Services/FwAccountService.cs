@@ -17,99 +17,99 @@ namespace Fw.Json.Services
         public void GetAuthToken(FwSqlConnection conn, dynamic request, dynamic response, dynamic session)
         {
             int errNo;
-            string errMsg, webUsersId=null, usertype, usersid, contactid, webusersid, groupsid, webadministrator, sitename, version, authtoken, fullname, name, clientcode;
+            string errMsg, webUsersId = null, usertype, usersid, contactid, webusersid, groupsid, webadministrator, sitename, version, authtoken, fullname, name, clientcode;
             dynamic tokenData, webUsersView;
             FwWebUserSettings settings;
-            
-            errNo      = 0;
-            errMsg     = string.Empty;
+
+            errNo = 0;
+            errMsg = string.Empty;
             if (errNo.Equals(0) && (FwValidate.IsPropertyDefined(request, "authToken")))
             {
                 FormsAuthenticationTicket ticket;
                 dynamic authTokenData;
-                ticket        = GetAuthToken(request.authToken);
+                ticket = GetAuthToken(request.authToken);
                 authTokenData = GetAuthTokenData(ticket.UserData);
-                webUsersId    = authTokenData.webUser.webusersid;
+                webUsersId = authTokenData.webUser.webusersid;
             }
             else
             {
                 if (errNo.Equals(0) && (!FwValidate.IsPropertyDefined(request, "email")))
                 {
-                    errNo  = 1;
+                    errNo = 1;
                     errMsg = "request.email is not defined.";
                 }
                 if (errNo.Equals(0) && (!FwValidate.IsPropertyDefined(request, "password")))
                 {
-                    errNo  = 2;
+                    errNo = 2;
                     errMsg = "request.password is not defined.";
                 }
                 if (errNo.Equals(0))
                 {
                     string email, password;
-                    email      = request.email;
-                    password   = request.password;
+                    email = request.email;
+                    password = request.password;
                     webUsersId = FwSqlData.WebAuthenticate(conn, email, password, ref errNo, ref errMsg);
                 }
             }
             if (!string.IsNullOrEmpty(webUsersId) && (errNo.Equals(0)))
             {
-                webUsersView                        = FwSqlData.GetWebUsersView(conn, webUsersId);
-                session.security                    = new ExpandoObject();
-                session.security.webUser            = new ExpandoObject();
-                tokenData                           = new ExpandoObject();
-                tokenData.webUser                   = new ExpandoObject();
-                response.webUser                    = new ExpandoObject();
+                webUsersView = FwSqlData.GetWebUsersView(conn, webUsersId);
+                session.security = new ExpandoObject();
+                session.security.webUser = new ExpandoObject();
+                tokenData = new ExpandoObject();
+                tokenData.webUser = new ExpandoObject();
+                response.webUser = new ExpandoObject();
 
-                usertype                            = (FwValidate.IsPropertyDefined(webUsersView, "usertype"))  ? webUsersView.usertype  : string.Empty;
-                session.security.webUser.usertype   = usertype;
-                tokenData.webUser.usertype          = usertype;
-                response.webUser.usertype           = session.security.webUser.usertype;
-                    
-                usersid                             = (FwValidate.IsPropertyDefined(webUsersView, "usersid"))   ? webUsersView.usersid   : string.Empty;
-                session.security.webUser.usersid    = usersid;
-                tokenData.webUser.usersid           = usersid;
-                response.webUser.usersid            = usersid;  //justin 05/25/2018   //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+                usertype = (FwValidate.IsPropertyDefined(webUsersView, "usertype")) ? webUsersView.usertype : string.Empty;
+                session.security.webUser.usertype = usertype;
+                tokenData.webUser.usertype = usertype;
+                response.webUser.usertype = session.security.webUser.usertype;
 
-                contactid                           = (FwValidate.IsPropertyDefined(webUsersView, "contactid")) ? webUsersView.contactid : string.Empty;
-                session.security.webUser.contactid  = contactid;
-                tokenData.webUser.contactid         = contactid;
+                usersid = (FwValidate.IsPropertyDefined(webUsersView, "usersid")) ? webUsersView.usersid : string.Empty;
+                session.security.webUser.usersid = usersid;
+                tokenData.webUser.usersid = usersid;
+                response.webUser.usersid = usersid;  //justin 05/25/2018   //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
 
-                sitename                            = FwApplicationConfig.CurrentSite.Name;
-                tokenData.siteName                  = sitename;
-                    
-                webusersid                          = (FwValidate.IsPropertyDefined(webUsersView, "webusersid")) ? webUsersView.webusersid : string.Empty;
+                contactid = (FwValidate.IsPropertyDefined(webUsersView, "contactid")) ? webUsersView.contactid : string.Empty;
+                session.security.webUser.contactid = contactid;
+                tokenData.webUser.contactid = contactid;
+
+                sitename = FwApplicationConfig.CurrentSite.Name;
+                tokenData.siteName = sitename;
+
+                webusersid = (FwValidate.IsPropertyDefined(webUsersView, "webusersid")) ? webUsersView.webusersid : string.Empty;
                 session.security.webUser.webusersid = webusersid;
-                tokenData.webUser.webusersid        = webusersid;
-                    
-                groupsid                            = (FwValidate.IsPropertyDefined(webUsersView, "webusersid")) ? webUsersView.groupsid : string.Empty;
-                tokenData.webUser.groupsid          = groupsid;
-                response.applicationtree            = this.GetGroupsTree(groupsid, true);
-                    
-                webadministrator                    = (FwValidate.IsPropertyDefined(webUsersView, "webadministrator")) ? webUsersView.webadministrator : string.Empty;
-                tokenData.webUser.webadministrator  = webadministrator;
+                tokenData.webUser.webusersid = webusersid;
 
-                version                             = FwVersion.Current.FullVersion;
-                tokenData.version                   = version;
-                    
-                fullname                            = webUsersView.fullname;
-                response.webUser.fullname           = fullname;
+                groupsid = (FwValidate.IsPropertyDefined(webUsersView, "webusersid")) ? webUsersView.groupsid : string.Empty;
+                tokenData.webUser.groupsid = groupsid;
+                response.applicationtree = this.GetGroupsTree(groupsid, true);
 
-                name                                = (FwValidate.IsPropertyDefined(webUsersView, "name")) ? webUsersView.name : string.Empty;
-                session.security.webUser.name       = name;
-                tokenData.webUser.name              = name;
-                response.webUser.name               = name;  //justin 05/06/2018
+                webadministrator = (FwValidate.IsPropertyDefined(webUsersView, "webadministrator")) ? webUsersView.webadministrator : string.Empty;
+                tokenData.webUser.webadministrator = webadministrator;
 
-                clientcode                          = FwSqlData.GetClientCode(conn);
-                session.security.clientcode         = clientcode;
-                tokenData.clientcode                = clientcode;
-                response.clientcode                 = clientcode;
+                version = FwVersion.Current.FullVersion;
+                tokenData.version = version;
 
-                settings                            = FwSqlData.GetWebUserSettings(conn, webusersid);
-                response.webUser.browsedefaultrows  = settings.Settings.BrowseDefaultRows;
-                response.webUser.applicationtheme   = settings.Settings.ApplicationTheme;
+                fullname = webUsersView.fullname;
+                response.webUser.fullname = fullname;
 
-                session.applicationOptions          = FwSqlData.GetApplicationOptions(conn);
-                response.applicationOptions         = new ExpandoObject();
+                name = (FwValidate.IsPropertyDefined(webUsersView, "name")) ? webUsersView.name : string.Empty;
+                session.security.webUser.name = name;
+                tokenData.webUser.name = name;
+                response.webUser.name = name;  //justin 05/06/2018
+
+                clientcode = FwSqlData.GetClientCode(conn);
+                session.security.clientcode = clientcode;
+                tokenData.clientcode = clientcode;
+                response.clientcode = clientcode;
+
+                settings = FwSqlData.GetWebUserSettings(conn, webusersid);
+                response.webUser.browsedefaultrows = settings.Settings.BrowseDefaultRows;
+                response.webUser.applicationtheme = settings.Settings.ApplicationTheme;
+
+                session.applicationOptions = FwSqlData.GetApplicationOptions(conn);
+                response.applicationOptions = new ExpandoObject();
 
                 LoadApplicationAuthenticationInformation(conn, request, response, session, tokenData, webUsersView);
 
@@ -128,7 +128,7 @@ namespace Fw.Json.Services
                 errNo = 3;
                 errMsg = "Invalid user and/or password.";
             }
-            response.errNo  = errNo;
+            response.errNo = errNo;
             response.errMsg = errMsg;
         }
 
@@ -141,9 +141,9 @@ namespace Fw.Json.Services
             FormsAuthenticationTicket ticket;
             FwControl controlrec;
             DateTime issueDate, expiration;
-            
+
             userData.clientIP = HttpContext.Current.Request.UserHostAddress;
-            issueDate  =  DateTime.Now;
+            issueDate = DateTime.Now;
             if (FwSqlConnection.AppDatabase != FwDatabases.MicrosoftCRM)
             {
                 controlrec = FwSqlData.GetControl(FwSqlConnection.AppConnection);
@@ -156,22 +156,22 @@ namespace Fw.Json.Services
             jsonWriter = new JsonWriter();
             jsonUserData = jsonWriter.Write(userData);
             ticket = new FormsAuthenticationTicket(
-                version:      1
-              , name:         email
-              , issueDate:    issueDate
-              , expiration:   expiration
+                version: 1
+              , name: email
+              , issueDate: issueDate
+              , expiration: expiration
               , isPersistent: false
-              , userData:     jsonUserData
+              , userData: jsonUserData
             );
             authToken = FormsAuthentication.Encrypt(ticket);
-            
+
             return authToken;
         }
         //---------------------------------------------------------------------------------------------
         public FormsAuthenticationTicket GetAuthToken(string encryptedTicket)
         {
             FormsAuthenticationTicket result;
-            
+
             try
             {
                 result = FormsAuthentication.Decrypt(encryptedTicket);
@@ -191,7 +191,7 @@ namespace Fw.Json.Services
 
             jsonReader = new JsonReader();
             result = jsonReader.Read(userData);
-            
+
             return result;
         }
         //---------------------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ namespace Fw.Json.Services
         //    DateTime timeStamp;
         //    string decryptedToken, webUsersId;
         //    string[] fragments;
-            
+
         //    try
         //    {
         //        decryptedToken = FwCryptography.AjaxDecrypt(token);
@@ -240,16 +240,16 @@ namespace Fw.Json.Services
             errNo = 0;
             errMsg = string.Empty;
 
-            webUsersId          = string.Empty;
-            isPasswordDefined   = FwValidate.IsPropertyDefined(request, "password");
-            isEmailDefined      = FwValidate.IsPropertyDefined(request, "email");
+            webUsersId = string.Empty;
+            isPasswordDefined = FwValidate.IsPropertyDefined(request, "password");
+            isEmailDefined = FwValidate.IsPropertyDefined(request, "email");
             if (isEmailDefined && isPasswordDefined)
             {
-                email      = request.email;
-                password   = request.password;
+                email = request.email;
+                password = request.password;
                 webUsersId = FwSqlData.WebAuthenticate(conn, email, password, ref errNo, ref errMsg);
             }
-            response.errNo  = errNo;
+            response.errNo = errNo;
             response.errMsg = errMsg;
         }
         //---------------------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ namespace Fw.Json.Services
             errMsg = string.Empty;
             result = false;
             isPasswordValid = false;
-            isPasswordDefined   = FwValidate.IsPropertyDefined(request, "passsword");
+            isPasswordDefined = FwValidate.IsPropertyDefined(request, "passsword");
             isWebUsersIdDefined = FwValidate.IsPropertyDefined(request, "webUsersId");
             if (isWebUsersIdDefined && isPasswordDefined)
             {
@@ -285,11 +285,11 @@ namespace Fw.Json.Services
             const string METHOD_NAME = "WebUserResetPassword";
             string email;
             FwSqlData.WebUserResetPasswordResult webUserResetPasswordResult;
-            
+
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "email");
-            email    = request.email;
+            email = request.email;
             webUserResetPasswordResult = FwSqlData.WebUserResetPassword(conn, email);
-            response.errNo  = webUserResetPasswordResult.ErrNo;
+            response.errNo = webUserResetPasswordResult.ErrNo;
             response.errMsg = webUserResetPasswordResult.ErrMsg;
         }
         //---------------------------------------------------------------------------------------------

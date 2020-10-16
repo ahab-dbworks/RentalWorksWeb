@@ -1,4 +1,5 @@
-﻿using FwStandard.AppManager;
+using AutoMapper;
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Data;
 using FwStandard.Models;
@@ -47,10 +48,29 @@ namespace FwCore.Controllers
                 {
                     type = logicType;
                 }
+                if (type.IsSubclassOf(typeof(FwBusinessLogic)))
+                {
+                    FwBusinessLogic logic = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                    FwJsonDataTable dt = await logic.BrowseAsync(browseRequest);
+                    return new OkObjectResult(dt);
+                }
+                else if (type.IsSubclassOf(typeof(FwDataReadWriteRecord)))
+                {
 
-                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                return new OkObjectResult(dt);
+                    FwDataReadWriteRecord loader = (FwDataReadWriteRecord)Activator.CreateInstance(type);
+                    loader.SetDependencies(this.AppConfig, this.UserSession);
+                    FwJsonDataTable dt = await loader.BrowseAsync(browseRequest);
+                    return new OkObjectResult(dt);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid type: {type.FullName}.");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                ModelState.AddModelError(ex.ParamName, ex.Message);
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {
@@ -81,16 +101,37 @@ namespace FwCore.Controllers
                     type = logicType;
                 }
 
-                if (string.IsNullOrEmpty(worksheetName))
-                {
-                    string moduleName = type.Name.Replace("Logic", "");
-                    worksheetName = moduleName;
-                }
 
-                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 browseRequest.forexcel = true;
                 browseRequest.pageno = 1; // Required for successful download excel from any page other than 1
-                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                FwJsonDataTable dt;
+
+                if (type.IsSubclassOf(typeof(FwBusinessLogic)))
+                {
+                    if (string.IsNullOrEmpty(worksheetName))
+                    {
+                        string moduleName = type.Name.Replace("Logic", "");
+                        worksheetName = moduleName;
+                    }
+                    FwBusinessLogic logic = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                    dt = await logic.BrowseAsync(browseRequest);
+                }
+                else if (type.IsSubclassOf(typeof(FwDataReadWriteRecord)))
+                {
+                    if (string.IsNullOrEmpty(worksheetName))
+                    {
+                        string moduleName = type.Name.Replace("Loader", "");
+                        worksheetName = moduleName;
+                    }
+                    FwDataReadWriteRecord loader = (FwDataReadWriteRecord)Activator.CreateInstance(type);
+                    loader.SetDependencies(this.AppConfig, this.UserSession);
+                    dt = await loader.BrowseAsync(browseRequest);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid type: {type.FullName}.");
+                }
+
                 string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
                 string filename = $"{this.UserSession.WebUsersId}_{strippedWorksheetName}_{Guid.NewGuid().ToString().Replace("-", string.Empty)}_xlsx";
                 string downloadFileName = $"{strippedWorksheetName}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
@@ -342,8 +383,11 @@ namespace FwCore.Controllers
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <param name="type"></param>
+        /// <param name="customFields"></param>
+        /// <param name="beforeExecuteQuery"></param>
+        /// <param name="conn"></param>
         /// <returns></returns>
-        protected virtual async Task<ActionResult<GetResponse<T>>> DoGetManyAsync<T>(GetRequest request, Type type = null)
+        protected virtual async Task<ActionResult<GetResponse<T>>> DoGetManyAsync<T>(GetRequest request, Type type = null, FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null, FwSqlConnection conn = null)
         {
             if (!ModelState.IsValid)
             {
@@ -355,9 +399,28 @@ namespace FwCore.Controllers
                 {
                     type = logicType;
                 }
-                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
-                GetResponse<T> response = await l.GetManyAsync<T>(request);
-                return new OkObjectResult(response);
+                if (type.IsSubclassOf(typeof(FwBusinessLogic)))
+                {
+                    FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                    GetResponse<T> response = await l.GetManyAsync<T>(request, beforeExecuteQuery, conn);
+                    return new OkObjectResult(response);
+                }
+                else if (type.IsSubclassOf(typeof(FwDataReadWriteRecord)))
+                {
+
+                    FwDataReadWriteRecord loader = (FwDataReadWriteRecord)Activator.CreateInstance(type);
+                    loader.SetDependencies(this.AppConfig, this.UserSession);
+                    var getManyAsyncMethodInfo = loader.GetType().GetMethod("GetManyAsync");
+                    var getManyAsyncGenericMethocInfo = getManyAsyncMethodInfo.MakeGenericMethod(type);
+                    dynamic getManyAsyncTask = getManyAsyncGenericMethocInfo.Invoke(loader, new object[] { request, customFields, beforeExecuteQuery, conn });
+                    dynamic unmappedResponse = await getManyAsyncTask;
+                    GetResponse<T> mappedResponse = AutoMapper.Mapper.Map<GetResponse<T>>(unmappedResponse);
+                    return new OkObjectResult(mappedResponse);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid type: {type.FullName}.");
+                }
             }
             catch (ArgumentException ex)
             {
@@ -420,7 +483,7 @@ namespace FwCore.Controllers
                 }
                 else
                 {
-                    throw new Exception(result.ValidateMsg);
+                    return BadRequest(result.ValidateMsg);
                 }
             }
             catch (Exception ex)
@@ -429,7 +492,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<T>> DoNewAsync<T>(FwBusinessLogic l)
+        protected virtual async Task<ActionResult<T>> DoNewAsync<T>(object request, Type logicType = null)
         {
             if (!ModelState.IsValid)
             {
@@ -437,31 +500,49 @@ namespace FwCore.Controllers
             }
             try
             {
-                FwBusinessLogic original = null;
-                TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
-                l.AppConfig = this.AppConfig;
-                l.UserSession = this.UserSession;
-
-                var result = new FwValidateResult();
-                if (l.AllPrimaryKeysHaveValues)
+                FwBusinessLogic logic;
+                if (request.GetType().IsSubclassOf(typeof(FwBusinessLogic)))
                 {
-                    return BadRequest();
-                }
-                await l.ValidateBusinessLogicAsync(saveMode, original, result);
-
-                if (result.IsValid)
-                {
-                    int rowsAffected = await l.SaveAsync(original, saveMode: TDataRecordSaveMode.smInsert);
-
-                    if (l.ReloadOnSave)
-                    {
-                        await l.LoadAsync<T>();
-                    }
-                    return new OkObjectResult(l);
+                    logic = (FwBusinessLogic)request;
                 }
                 else
                 {
-                    throw new Exception(result.ValidateMsg);
+                    logic = (FwBusinessLogic)Mapper.Map(request, request.GetType(), logicType);
+                }
+
+                FwBusinessLogic original = null;
+                TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
+                logic.AppConfig = this.AppConfig;
+                logic.UserSession = this.UserSession;
+
+                var result = new FwValidateResult();
+                if (logic.AllPrimaryKeysHaveValues)
+                {
+                    return BadRequest();
+                }
+                await logic.ValidateBusinessLogicAsync(saveMode, original, result);
+
+                if (result.IsValid)
+                {
+                    int rowsAffected = await logic.SaveAsync(original, saveMode: TDataRecordSaveMode.smInsert);
+
+                    if (logic.ReloadOnSave)
+                    {
+                        var logic_LoadAsyncMethodInfo = logic.GetType().GetMethod("LoadAsync", new Type[] { typeof(FwSqlConnection) });
+                        var logic_LoadAsyncGenericMethocInfo = logic_LoadAsyncMethodInfo.MakeGenericMethod(logic.GetType());
+                        dynamic logic_LoadAsyncTask = logic_LoadAsyncGenericMethocInfo.Invoke(logic, new object[] { null });
+                        dynamic logic_LoadAsyncResponse = await logic_LoadAsyncTask;
+                    }
+                    if (typeof(T) != logic.GetType())
+                    {
+                        var mappedLogic = Mapper.Map<T>(logic);
+                        return new OkObjectResult(mappedLogic);
+                    }
+                    return new OkObjectResult(logic);
+                }
+                else
+                {
+                    return BadRequest(result.ValidateMsg);
                 }
             }
             catch (Exception ex)
@@ -470,7 +551,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<T>> DoEditAsync<T>(FwBusinessLogic l)
+        protected virtual async Task<ActionResult<T>> DoEditAsync<T>(object request, Type logicType = null)
         {
             if (!ModelState.IsValid)
             {
@@ -478,47 +559,68 @@ namespace FwCore.Controllers
             }
             try
             {
+                FwBusinessLogic logic;
+                if (request.GetType().IsSubclassOf(typeof(FwBusinessLogic)))
+                {
+                    logic = (FwBusinessLogic)request;
+                } else
+                {
+                    logic = (FwBusinessLogic)Mapper.Map(request, request.GetType(), logicType);
+                }
+
                 FwBusinessLogic original = null;
                 TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
-                l.AppConfig = this.AppConfig;
-                l.UserSession = this.UserSession;
+                logic.AppConfig = this.AppConfig;
+                logic.UserSession = this.UserSession;
 
                 var result = new FwValidateResult();
-                if (!l.AllPrimaryKeysHaveValues)
+                if (!logic.AllPrimaryKeysHaveValues)
                 {
                     return BadRequest();
                 }
                 //updating
                 saveMode = TDataRecordSaveMode.smUpdate;
 
-                if (l.LoadOriginalBeforeSaving)
+                if (logic.LoadOriginalBeforeSaving)
                 {
                     //load the original record from the database
-                    original = FwBusinessLogic.CreateBusinessLogic(typeof(T), this.AppConfig, this.UserSession);
-                    original.SetPrimaryKeys(l.GetPrimaryKeys());
-                    bool exists = await original.LoadAsync<T>();
-                    //if (!exists)
+                    original = FwBusinessLogic.CreateBusinessLogic(logic.GetType(), this.AppConfig, this.UserSession);
+                    original.SetPrimaryKeys(logic.GetPrimaryKeys());
+
+                    var original_LoadAsyncMethodInfo = original.GetType().GetMethod("LoadAsync", new Type[] { typeof(FwSqlConnection) });
+                    var original_LoadAsyncGenericMethocInfo = original_LoadAsyncMethodInfo.MakeGenericMethod(original.GetType());
+                    dynamic original_LoadAsyncTask = original_LoadAsyncGenericMethocInfo.Invoke(original, new object[] { null });
+                    dynamic original_LoadAsyncResponse = await original_LoadAsyncTask;
+                    bool exists = (bool)original_LoadAsyncResponse;
                     if ((!exists) && return404IfGetNotFound)
                     {
                         return NotFound();
                     }
                 }
 
-                await l.ValidateBusinessLogicAsync(saveMode, original, result);
+                await logic.ValidateBusinessLogicAsync(saveMode, original, result);
 
                 if (result.IsValid)
                 {
-                    int rowsAffected = await l.SaveAsync(original, saveMode: TDataRecordSaveMode.smUpdate);
+                    int rowsAffected = await logic.SaveAsync(original, saveMode: TDataRecordSaveMode.smUpdate);
 
-                    if (l.ReloadOnSave)
+                    if (logic.ReloadOnSave)
                     {
-                        await l.LoadAsync<T>();
+                        var logic_LoadAsyncMethodInfo = logic.GetType().GetMethod("LoadAsync", new Type[] { typeof(FwSqlConnection) });
+                        var logic_LoadAsyncGenericMethocInfo = logic_LoadAsyncMethodInfo.MakeGenericMethod(logic.GetType());
+                        dynamic logic_LoadAsyncTask = logic_LoadAsyncGenericMethocInfo.Invoke(logic, new object[] { null });
+                        dynamic logic_LoadAsyncResponse = await logic_LoadAsyncTask;
                     }
-                    return new OkObjectResult(l);
+                    if (typeof(T) != logic.GetType())
+                    {
+                        var mappedLogic = Mapper.Map<T>(logic);
+                        return new OkObjectResult(mappedLogic);
+                    }
+                    return new OkObjectResult(logic);
                 }
                 else
                 {
-                    throw new Exception(result.ValidateMsg);
+                    return BadRequest(result.ValidateMsg);
                 }
             }
             catch (Exception ex)
@@ -662,12 +764,20 @@ namespace FwCore.Controllers
         }
         //END LEGACY CODE
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<bool>> DoDeleteAsync<T>(string id)
+        protected virtual async Task<ActionResult<bool>> DoDeleteAsync<T>(string id, Type type = null)
         {
             try
             {
                 string[] ids = id.Split('~');
-                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(typeof(T), this.AppConfig, this.UserSession);
+                FwBusinessLogic l = null;
+                if (type == null)
+                {
+                    l = FwBusinessLogic.CreateBusinessLogic(typeof(T), this.AppConfig, this.UserSession);
+                }
+                else
+                {
+                    l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                }
                 l.SetPrimaryKeys(ids);
 
                 if (l.LoadOriginalBeforeDeleting)

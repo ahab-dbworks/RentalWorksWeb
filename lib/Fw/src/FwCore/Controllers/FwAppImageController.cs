@@ -23,10 +23,6 @@ namespace FwCore.Controllers
         //------------------------------------------------------------------------------------
         protected async Task<ActionResult<List<FwAppImageModel>>> DoGetManyAsync(string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype)
         {
-            if (uniqueid1 == null)
-            {
-                ModelState.AddModelError("uniqueid1", "uniqueid1 is required");
-            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

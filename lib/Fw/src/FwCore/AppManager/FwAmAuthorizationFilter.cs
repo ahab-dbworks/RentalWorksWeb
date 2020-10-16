@@ -1,4 +1,4 @@
-﻿using FwCore.Api;
+using FwCore.Api;
 using FwStandard.AppManager;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -53,7 +53,7 @@ namespace FwCore.AppManager
                     if (hasTokenTypeClaim)
                     {
                         var tokenType = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.TokenType).Value;
-                        if (tokenType == "SERVICE")
+                        if (tokenType == TokenTypes.Service)
                         {
                             var hasControllerIdFilterClaim = context.HttpContext.User.Claims.Any(c => c.Type == AuthenticationClaimsTypes.ControllerIdFilter && !string.IsNullOrEmpty(c.Value));
                             if (hasControllerIdFilterClaim)
@@ -90,15 +90,20 @@ namespace FwCore.AppManager
 
                                 var methodIdFilter = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.MethodIdFilter).Value;
                                 List<string> methodIds = new List<string>(methodIdFilter.Split(",", StringSplitOptions.RemoveEmptyEntries));
-                                if (!methodIds.Contains(methodAttribute.Id))
                                 {
                                     context.Result = new ForbidResult();
                                 }
                                 return Task.CompletedTask;
                             }
-
+                        }
+                        else if (tokenType == "INTEGRATION")
+                        {
                             return Task.CompletedTask;
                         }
+                        //else if (tokenType == "INTEGRATION")
+                        //{
+                        //    return Task.CompletedTask;
+                        //}
                     }
                     var hasWebUsersIdClaim = context.HttpContext.User.Claims.Any(c => c.Type == AuthenticationClaimsTypes.WebUsersId && !string.IsNullOrEmpty(c.Value));
                     if (!hasWebUsersIdClaim)

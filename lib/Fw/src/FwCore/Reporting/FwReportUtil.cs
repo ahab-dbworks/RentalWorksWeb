@@ -120,7 +120,7 @@ namespace FwCore.Utilities
                             }
                             else
                             {
-                                throw new Exception("no customreportlayout has been configured for customreportlayoutcategory=\"{reportEmail.CustomReportLayoutCategory}\" customerreportlayoutdescription=\"{reportEmail.CustomReportLayoutDescription}\"");
+                                throw new Exception($"no customreportlayout has been configured for customreportlayoutcategory=\"{request.CustomReportLayoutCategory}\" customerreportlayoutdescription=\"{request.CustomReportLayoutDescription}\"");
                             }
                         }
                     }

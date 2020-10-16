@@ -55,8 +55,20 @@ namespace Fw.MSBuild.Test
             config.Publish = false;
             config.Version = "0.0.0.0";
             string projectPath = Path.GetDirectoryName(txtPath.Text);
+            string pathVersion = Path.Combine(projectPath, "version.txt");
+            if (File.Exists(pathVersion))
+            {
+                config.Version = File.ReadAllText(pathVersion);
+            }
             string sourcePath = Path.GetDirectoryName(projectPath);
             string solutionPath = Path.GetDirectoryName(sourcePath);
+            
+            // to support project hosted under WebApi
+            if (solutionPath.EndsWith("\\src"))
+            {
+                solutionPath = Path.GetDirectoryName(solutionPath);
+            }
+            
             config.Build(txtPath.Text, solutionPath);
             Cursor.Current = Cursors.Default;
         }
@@ -71,8 +83,20 @@ namespace Fw.MSBuild.Test
             config.Publish = true;
             config.Version = "0.0.0.0";
             string projectPath = Path.GetDirectoryName(txtPath.Text);
+            string pathVersion = Path.Combine(projectPath, "version.txt");
+            if (File.Exists(pathVersion))
+            {
+                config.Version = File.ReadAllText(pathVersion);
+            }
             string sourcePath = Path.GetDirectoryName(projectPath);
             string solutionPath = Path.GetDirectoryName(sourcePath);
+
+            // to support project hosted under WebApi
+            if (solutionPath.EndsWith("\\src"))
+            {
+                solutionPath = Path.GetDirectoryName(solutionPath);
+            }
+
             config.Build(txtPath.Text, solutionPath);
             Cursor.Current = Cursors.Default;
         }

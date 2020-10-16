@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FwCore.Controllers
@@ -23,6 +24,7 @@ namespace FwCore.Controllers
         public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             this.UserSession = new FwUserSession(this.User);
+            Thread.CurrentPrincipal = this.User;
             return base.OnActionExecutionAsync(context, next);
         }
         //------------------------------------------------------------------------------------

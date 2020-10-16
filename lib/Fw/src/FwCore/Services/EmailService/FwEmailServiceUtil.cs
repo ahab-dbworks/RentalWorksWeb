@@ -120,8 +120,8 @@ namespace FwCore.Services.EmailService
                     {
                         using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
                         {
-                            procGetEmailTo.AddParameter("@emailtaskid", emailtaskid);
-                            procGetEmailTo.AddParameter("@message", "No email account to send to.");
+                            procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
+                            procLogEmailHistory.AddParameter("@message", "No email account to send to!");
                             await procGetEmailTo.ExecuteNonQueryAsync();
                         }
                     }
@@ -143,7 +143,7 @@ namespace FwCore.Services.EmailService
                     using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
                     {
                         procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
-                        procLogEmailHistory.AddParameter("@message", "No email account to send to.");
+                        procLogEmailHistory.AddParameter("@message", "No email account to send to!");
                         await procLogEmailHistory.ExecuteNonQueryAsync();
                         letSendEmail = false;
                     }
@@ -155,7 +155,7 @@ namespace FwCore.Services.EmailService
                     using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
                     {
                         procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
-                        procLogEmailHistory.AddParameter("@message", "No email account to send to.");
+                        procLogEmailHistory.AddParameter("@message", "Email body is empty!");
                         await procLogEmailHistory.ExecuteNonQueryAsync();
                         letSendEmail = false;
                     }
@@ -171,7 +171,7 @@ namespace FwCore.Services.EmailService
                     {
                         qryGetEmailBodyFormat.Add("select emailbodyformat = dbo.getemailbodyformat(@emailtaskid)");
                         qryGetEmailBodyFormat.AddParameter("@emailtaskid", emailtaskid);
-                        await qryGetEmailBodyFormat.ExecuteNonQueryAsync();
+                        await qryGetEmailBodyFormat.ExecuteAsync();
                         emailbodyformat = qryGetEmailBodyFormat.GetField("emailbodyformat").ToString().TrimEnd();
                     }
 
@@ -192,6 +192,7 @@ namespace FwCore.Services.EmailService
                     string emailServerAuthType = string.Empty;
                     string emailServerHost = string.Empty;
                     int emailServerPort = 25;
+                    bool emailServerEnableSsl = false;
                     using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                     {
                         qry.Add("select top 1 *");
@@ -204,6 +205,7 @@ namespace FwCore.Services.EmailService
                         emailServerAuthType = qry.GetField("authtype").ToString().TrimEnd();
                         emailServerHost = qry.GetField("host").ToString().TrimEnd();
                         emailServerPort = qry.GetField("port").ToInt32();
+                        emailServerEnableSsl = qry.GetField("enablessl").ToBoolean();
                     }
 
                     // start building the MailMessage
@@ -225,12 +227,21 @@ namespace FwCore.Services.EmailService
                         beforeSendEmailRequest.MailMessage = message;
                         BeforeSendEmailResponse beforeSendEmailResponse = await funcBeforeSendEmail(beforeSendEmailRequest);
 
-                        if (beforeSendEmailResponse.LetSendEmail) {
+                        if (beforeSendEmailResponse.LetSendEmail)
+                        {
                             try
                             {
-                                SmtpClient smtpClient = new SmtpClient(emailServerHost, emailServerPort);
-                                smtpClient.Credentials = new NetworkCredential(emailServerAccountName, emailServerAccountPassword);
-                                smtpClient.Send(message);
+                                if (beforeSendEmailResponse.AttachMessageBody)
+                                {
+                                    message.IsBodyHtml = emailbodyformat == "HTML";
+                                    message.Body = emailBody;
+                                }
+                                using (SmtpClient smtpClient = new SmtpClient(emailServerHost, emailServerPort))
+                                {
+                                    smtpClient.EnableSsl = emailServerEnableSsl;
+                                    smtpClient.Credentials = new NetworkCredential(emailServerAccountName, emailServerAccountPassword);
+                                    smtpClient.Send(message);
+                                }
 
                                 status = "SENT";
 
@@ -260,53 +271,58 @@ namespace FwCore.Services.EmailService
                                 using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
                                 {
                                     procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
-                                    procLogEmailHistory.AddParameter("@message", "Error in Email Service.");
-                                    await procLogEmailHistory.ExecuteNonQueryAsync();
-                                    letSendEmail = false;
-                                }
-                                using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
-                                {
-                                    procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
                                     procLogEmailHistory.AddParameter("@message", "Error: " + ex.Message);
                                     await procLogEmailHistory.ExecuteNonQueryAsync();
-                                    letSendEmail = false;
-                                }
-                                using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
-                                {
-                                    procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
-                                    procLogEmailHistory.AddParameter("@message", $"To: {emailTo}");
-                                    await procLogEmailHistory.ExecuteNonQueryAsync();
-                                    letSendEmail = false;
-                                }
-                                using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
-                                {
-                                    procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
-                                    procLogEmailHistory.AddParameter("@message", $"CC: {emailCc}");
-                                    await procLogEmailHistory.ExecuteNonQueryAsync();
-                                    letSendEmail = false;
-                                }
-                                using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
-                                {
-                                    procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
-                                    procLogEmailHistory.AddParameter("@message", $"Subject: {emailSubject}");
-                                    await procLogEmailHistory.ExecuteNonQueryAsync();
-                                    letSendEmail = false;
-                                }
-                                using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
-                                {
-                                    procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
-                                    procLogEmailHistory.AddParameter("@message", $"Body: {emailBody}");
-                                    await procLogEmailHistory.ExecuteNonQueryAsync();
-                                    letSendEmail = false;
                                 }
                             }
                         }
+                        else
+                        {
+                            status = "CANCEL";
+                        }
+                    }
+                }
+                else
+                {
+                    status = "CANCEL";
+                }
+                if (status == "CANCEL")
+                {
+                    using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
+                        procLogEmailHistory.AddParameter("@message", $"To: {emailTo}");
+                        await procLogEmailHistory.ExecuteNonQueryAsync();
+                    }
+                    using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
+                        procLogEmailHistory.AddParameter("@message", $"CC: {emailCc}");
+                        await procLogEmailHistory.ExecuteNonQueryAsync();
+                    }
+                    using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
+                        procLogEmailHistory.AddParameter("@message", $"Subject: {emailSubject}");
+                        await procLogEmailHistory.ExecuteNonQueryAsync();
+                    }
+                    using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
+                        procLogEmailHistory.AddParameter("@message", $"Body: {emailBody}");
+                        await procLogEmailHistory.ExecuteNonQueryAsync();
                     }
                 }
             }
             catch (Exception ex)
             {
                 status = "CANCEL";
+                using (FwSqlCommand procLogEmailHistory = new FwSqlCommand(conn, "dbo.logemailhistory", appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    procLogEmailHistory.AddParameter("@emailtaskid", emailtaskid);
+                    procLogEmailHistory.AddParameter("@message", $"API Exception: {ex.Message}");
+                    await procLogEmailHistory.ExecuteNonQueryAsync();
+                }
                 Console.Error.WriteLine(ex.Message + ex.StackTrace);
             }
             finally

@@ -2248,8 +2248,12 @@ namespace FwStandard.SqlServer
                             FwDatabaseField field = new FwDatabaseField(reader.GetValue(i));
                             object data = FormatReaderData(attribute.Value.ModelType, i, reader);
 
-                            //12/12/2019 justin hoffman - to support loading Logics with true DateTime? fields
-                            if ((sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(DateTime?)) || (sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(DateTime)))
+
+                            if ((sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(int?)) || (sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(int)))
+                            {
+                                data = FwConvert.ToInt32(data);
+                            }
+                            else if ((sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(DateTime?)) || (sqlDataFieldPropertyInfos[attribute.Key].PropertyType == typeof(DateTime)))
                             {
                                 data = FwConvert.ToDateTime(data.ToString());
                             }
@@ -2296,10 +2300,14 @@ namespace FwStandard.SqlServer
             return results;
         }
         //------------------------------------------------------------------------------------
-        public async Task<GetResponse<T>> GetManyAsync<T>(FwCustomFields customFields = null) where T : FwDataRecord
+        public async Task<GetResponse<T>> GetManyAsync<T>(FwCustomFields customFields = null, Type type = null) //where T : FwDataRecord
         {
             string methodName = "GetManyAsync";
             string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+            if (type == null)
+            {
+                type = typeof(T);
+            }
 
             GetResponse<T> response = new GetResponse<T>();
             response.PageNo = this.PageNo;
@@ -2317,7 +2325,7 @@ namespace FwStandard.SqlServer
                 await this.sqlCommand.Connection.OpenAsync();
             }
 
-            PropertyInfo[] propertyInfos = typeof(T).GetProperties();
+            PropertyInfo[] propertyInfos = type.GetProperties();
             Dictionary<string, PropertyInfo> sqlDataFieldPropertyInfos = new Dictionary<string, PropertyInfo>();
             Dictionary<string, FwSqlDataFieldAttribute> sqlDataFieldAttributes = new Dictionary<string, FwSqlDataFieldAttribute>();
             Dictionary<string, int> columnIndex = new Dictionary<string, int>();
@@ -2381,7 +2389,8 @@ namespace FwStandard.SqlServer
                             }
                             FwDatabaseField field = new FwDatabaseField(reader.GetValue(i));
                             object data = FormatReaderData(attribute.Value.ModelType, i, reader);
-                            sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
+                            obj.GetType().GetProperty(attribute.Key).SetValue(obj, data);
+                            //sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
                         }
 
                         if ((customFields != null) && (customFields.Count > 0))
@@ -2395,7 +2404,7 @@ namespace FwStandard.SqlServer
                                 string str = data.ToString();
                                 customValues.AddCustomValue(customField.FieldName, str, customField.FieldType);
                             }
-                            obj._Custom = customValues;
+                            ((dynamic)obj)._Custom = customValues;
                         }
 
                         if (needsTotalRows && hasColTotalRows)
