@@ -1,17 +1,19 @@
 ﻿<!--RentalInventoryUsageReport-->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Invoice From: {{FromDate}} To: {{ToDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
     <thead class="top-section-header">
       <tr>
@@ -22,132 +24,133 @@
         <th>TOTAL</th>
       </tr>
     </thead>
-    <thead>
-      <tr>
-        <th class="row1">I-Code</th>
-        <th class="row1">Description</th>
-        <th class="row1 number">Average</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Avail</th>
-        <th class="row1 number">Days</th>
-        <th class="row1 number">Days In</th>
-        <th class="row1 number">Usage</th>
-        <th class="row1 number">Days</th>
-        <th class="row1 number">Revenue</th>
-        <th class="row1 number">Days</th>
-        <th class="row1 number">Revenue</th>
-        <th class="row1 number">Cost</th>
-        <th class="row1 number">Fees</th>
-        <th class="row1 number">Adjusted</th>
-      </tr>
-      <tr>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2 number">Owned</th>
-        <th class="row2 number">Owned</th>
-        <th class="row2 number">Days</th>
-        <th class="row2 number">Out</th>
-        <th class="row2 number">Repair</th>
-        <th class="row2 number">%</th>
-        <th class="row2 number">Billed</th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number">Revenue</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode" class="row1">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description" class="row1">Description</th>
+        <th data-linkedcolumn="AverageOwnedQuantity" data-valuefield="AverageOwnedQuantity" class="row1 number">Average<br>Owned</th>
+        <th data-linkedcolumn="CurrentOwnedQuantity" data-valuefield="CurrentOwnedQuantity" class="row1 number">Current<br>Owned</th>
+        <th data-linkedcolumn="AvailableDays" data-valuefield="AvailableDays" class="row1 number">Avail<br>Days</th>
+        <th data-linkedcolumn="DaysOut" data-valuefield="DaysOut" class="row1 number">Days<br>Out</th>
+        <th data-linkedcolumn="DaysOutOfService" data-valuefield="DaysOutOfService" class="row1 number">Days In<br>Repair</th>
+        <th data-linkedcolumn="UsagePercent" data-valuefield="UsagePercent" class="row1 number">Usage<br>%</th>
+        <th data-linkedcolumn="DaysBilled" data-valuefield="DaysBilled" class="row1 number">Days<br>Billed</th>
+        <th data-linkedcolumn="Revenue" data-valuefield="Revenue" class="row1 number">Revenue</th>
+        <th data-linkedcolumn="DaysSubRented" data-valuefield="DaysSubRented" class="row1 number">Days</th>
+        <th data-linkedcolumn="SubRentalRevenue" data-valuefield="SubRentalRevenue" class="row1 number">Revenue</th>
+        <th data-linkedcolumn="SubRentalCost" data-valuefield="SubRentalCost" class="row1 number">Cost</th>
+        <th data-linkedcolumn="ConsignmentFees" data-valuefield="ConsignmentFees" class="row1 number">Fees</th>
+        <th data-linkedcolumn="AdjustedRevenue" data-valuefield="AdjustedRevenue" class="row1 number">Adjusted<br>Revenue</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td class="nowrap">{{ICode}}</td>
-        <td data-value="{{Description}}"></td>
-        <td class="number" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="number" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="number" data-value="{{AvailableDays}}"></td>
-        <td class="number" data-value="{{DaysOut}}"></td>
-        <td class="number" data-value="{{DaysOutOfService}}"></td>
-        <td class="number" data-value="{{UsagePercent}}"></td>
-        <td class="number" data-value="{{DaysBilled}}"></td>
-        <td class="number" data-value="{{Revenue}}"></td>
-        <td class="number" data-value="{{DaysSubRented}}"></td>
-        <td class="number" data-value="{{SubRentalRevenue}}"></td>
-        <td class="number" data-value="{{SubRentalCost}}"></td>
-        <td class="number" data-value="{{ConsignmentFees}}"></td>
-        <td class="number" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="2" class="total-name">{{Category}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="15" class="header-row">Warehouse: {{Warehouse}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="15" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="15" class="lower header-row">Category: {{Category}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" class="nowrap">{{ICode}}</td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="AverageOwnedQuantity" class="number" data-value="{{AverageOwnedQuantity}}"></td>
+        <td data-linkedcolumn="CurrentOwnedQuantity" class="number" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td data-linkedcolumn="AvailableDays" class="number" data-value="{{AvailableDays}}"></td>
+        <td data-linkedcolumn="DaysOut" class="number" data-value="{{DaysOut}}"></td>
+        <td data-linkedcolumn="DaysOutOfService" class="number" data-value="{{DaysOutOfService}}"></td>
+        <td data-linkedcolumn="UsagePercent" class="number" data-value="{{UsagePercent}}"></td>
+        <td data-linkedcolumn="DaysBilled" class="number" data-value="{{DaysBilled}}"></td>
+        <td data-linkedcolumn="Revenue" class="number" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="DaysSubRented" class="number" data-value="{{DaysSubRented}}"></td>
+        <td data-linkedcolumn="SubRentalRevenue" class="number" data-value="{{SubRentalRevenue}}"></td>
+        <td data-linkedcolumn="SubRentalCost" class="number" data-value="{{SubRentalCost}}"></td>
+        <td data-linkedcolumn="ConsignmentFees" class="number" data-value="{{ConsignmentFees}}"></td>
+        <td data-linkedcolumn="AdjustedRevenue" class="number" data-value="{{AdjustedRevenue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td data-linkedcolumn="AverageOwnedQuantity" class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
+        <td data-linkedcolumn="CurrentOwnedQuantity" class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td data-linkedcolumn="AvailableDays" class="total-val" data-value="{{AvailableDays}}"></td>
+        <td data-linkedcolumn="DaysOut" class="total-val" data-value="{{DaysOut}}"></td>
+        <td data-linkedcolumn="DaysOutOfService" class="total-val" data-value="{{DaysOutOfService}}"></td>
+        <td data-linkedcolumn="UsagePercent" class="total-val"></td>
+        <td data-linkedcolumn="DaysBilled" class="total-val" data-value="{{DaysBilled}}"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="DaysSubRented" class="total-val" data-value="{{DaysSubRented}}"></td>
+        <td data-linkedcolumn="SubRentalRevenue" class="total-val" data-value="{{SubRentalRevenue}}"></td>
+        <td data-linkedcolumn="SubRentalCost" class="total-val" data-value="{{SubRentalCost}}"></td>
+        <td data-linkedcolumn="ConsignmentFees" class="total-val" data-value="{{ConsignmentFees}}"></td>
+        <td data-linkedcolumn="AdjustedRevenue" class="total-val" data-value="{{AdjustedRevenue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td data-linkedcolumn="AverageOwnedQuantity" class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
+        <td data-linkedcolumn="CurrentOwnedQuantity" class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td data-linkedcolumn="AvailableDays" class="total-val" data-value="{{AvailableDays}}"></td>
+        <td data-linkedcolumn="DaysOut" class="total-val" data-value="{{DaysOut}}"></td>
+        <td data-linkedcolumn="DaysOutOfService" class="total-val" data-value="{{DaysOutOfService}}"></td>
+        <td data-linkedcolumn="UsagePercent" class="total-val"></td>
+        <td data-linkedcolumn="DaysBilled" class="total-val" data-value="{{DaysBilled}}"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="DaysSubRented" class="total-val" data-value="{{DaysSubRented}}"></td>
+        <td data-linkedcolumn="SubRentalRevenue" class="total-val" data-value="{{SubRentalRevenue}}"></td>
+        <td data-linkedcolumn="SubRentalCost" class="total-val" data-value="{{SubRentalCost}}"></td>
+        <td data-linkedcolumn="ConsignmentFees" class="total-val" data-value="{{ConsignmentFees}}"></td>
+        <td data-linkedcolumn="AdjustedRevenue" class="total-val" data-value="{{AdjustedRevenue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">{{Category}}&nbsp;</td>
+        <td data-linkedcolumn="AverageOwnedQuantity" class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
+        <td data-linkedcolumn="CurrentOwnedQuantity" class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td data-linkedcolumn="AvailableDays" class="total-val" data-value="{{AvailableDays}}"></td>
+        <td data-linkedcolumn="DaysOut" class="total-val" data-value="{{DaysOut}}"></td>
+        <td data-linkedcolumn="DaysOutOfService" class="total-val" data-value="{{DaysOutOfService}}"></td>
+        <td data-linkedcolumn="UsagePercent" class="total-val"></td>
+        <td data-linkedcolumn="DaysBilled" class="total-val" data-value="{{DaysBilled}}"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="DaysSubRented" class="total-val" data-value="{{DaysSubRented}}"></td>
+        <td data-linkedcolumn="SubRentalRevenue" class="total-val" data-value="{{SubRentalRevenue}}"></td>
+        <td data-linkedcolumn="SubRentalCost" class="total-val" data-value="{{SubRentalCost}}"></td>
+        <td data-linkedcolumn="ConsignmentFees" class="total-val" data-value="{{ConsignmentFees}}"></td>
+        <td data-linkedcolumn="AdjustedRevenue" class="total-val" data-value="{{AdjustedRevenue}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="AverageOwnedQuantity" class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
+        <td data-linkedcolumn="CurrentOwnedQuantity" class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td data-linkedcolumn="AvailableDays" class="total-val" data-value="{{AvailableDays}}"></td>
+        <td data-linkedcolumn="DaysOut" class="total-val" data-value="{{DaysOut}}"></td>
+        <td data-linkedcolumn="DaysOutOfService" class="total-val" data-value="{{DaysOutOfService}}"></td>
+        <td data-linkedcolumn="UsagePercent" class="total-val"></td>
+        <td data-linkedcolumn="DaysBilled" class="total-val" data-value="{{DaysBilled}}"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
+        <td data-linkedcolumn="DaysSubRented" class="total-val" data-value="{{DaysSubRented}}"></td>
+        <td data-linkedcolumn="SubRentalRevenue" class="total-val" data-value="{{SubRentalRevenue}}"></td>
+        <td data-linkedcolumn="SubRentalCost" class="total-val" data-value="{{SubRentalCost}}"></td>
+        <td data-linkedcolumn="ConsignmentFees" class="total-val" data-value="{{ConsignmentFees}}"></td>
+        <td data-linkedcolumn="AdjustedRevenue" class="total-val" data-value="{{AdjustedRevenue}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
