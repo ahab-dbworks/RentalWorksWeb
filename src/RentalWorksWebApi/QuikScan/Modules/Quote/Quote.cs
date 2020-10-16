@@ -253,7 +253,7 @@ namespace RentalWorksQuikScan.Modules
                 List<dynamic> result;
                 string[] searchvalues;
 
-                searchvalues = searchvalue.Split(' ');
+                searchvalues = searchvalue.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
                 FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select *");
