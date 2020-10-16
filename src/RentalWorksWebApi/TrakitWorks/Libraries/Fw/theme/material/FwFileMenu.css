@@ -56,6 +56,11 @@ html.theme-material .fwfilemenu[data-version="2"] .usercontrol.active .user-drop
 html.theme-material .fwfilemenu[data-version="2"] .usercontrol .user-dropdown .menuitem {padding:6px;cursor:pointer;}
 html.theme-material .fwfilemenu[data-version="2"] .usercontrol .user-dropdown .staticinfo {font-size: .75em;text-align: center;border-top: 1px solid #616161;margin-top: .375em;padding: .375em;color: #BDBDBD;background-color: #424242;cursor: default;}
 
+html.theme-material .fwfilemenu[data-version="2"] .user-controls .systembarcontrol .toolbar-module:hover { background-color:#BDBDBD;border-radius:3px; }
+html.theme-material .fwfilemenu[data-version="2"] .user-controls i:hover { background-color:#BDBDBD;border-radius:3px; }
+html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown { background-color:#37474F;color:#E0E0E0;border-top: 1px solid #313131;border-bottom: 1px solid #313131; }
+html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown .menuitem:hover { background-color:#546E7A; }
+
 /*#region Material Theme*/
 html.theme-material .fwfilemenu[data-version="2"] {background-color:#EEEEEE;color:#37474F;border-bottom:1px solid #9E9E9E;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper > i:hover {background-color:#BDBDBD;}
@@ -66,9 +71,5 @@ html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn.active .ddmodulebtn-caption:hover {background-color:#546E7A;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown {background-color: #263238;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn:hover {background-color:#546E7A;}
-
-html.theme-material .fwfilemenu[data-version="2"] .user-controls i:hover {background-color:#BDBDBD;}
-html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown {background-color:#37474F;color:#E0E0E0;border-top: 1px solid #313131;border-bottom: 1px solid #313131;}
-html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown .menuitem:hover {background-color:#546E7A;}
 /*#endregion Material Theme*/
 /*#endregion fwfilemenu - version 2*/

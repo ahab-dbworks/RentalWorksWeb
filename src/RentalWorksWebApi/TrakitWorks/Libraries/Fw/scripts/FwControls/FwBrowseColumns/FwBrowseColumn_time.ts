@@ -16,7 +16,11 @@
     }
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
-        $field.find('input.value').val(data.value);
+        if ($field.attr('data-formreadonly') === 'true') {
+            $field.find('.fieldvalue').text(data.value);
+        } else {
+            $field.find('input.value').val(data.value);
+        }
     }
     //---------------------------------------------------------------------------------
     isModified($browse, $tr, $field): boolean {
@@ -33,7 +37,7 @@
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         $field.data('autoselect', false);
-        $field.on('click', function() {
+        $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }

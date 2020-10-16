@@ -8,6 +8,8 @@ class FwApplication {
     audioSuccess: HTMLAudioElement;
     audioError: HTMLAudioElement;
     localStoragePrefix: string;
+    runningInCordova: boolean;
+    htmlname: string;
     //---------------------------------------------------------------------------------
     constructor() {
         this.setAudioMode('NativeAudio');
@@ -209,6 +211,16 @@ class FwApplication {
             var media = localStorage.getItem('media');
             this.setMedia(media);
         }
+
+        //2020-09-11 MY: Remove when TrakitWorks is its own application
+        if (applicationConfig.appCaption) {
+            Constants.appCaption = applicationConfig.appCaption;
+            program.name = applicationConfig.appCaption;
+        }
+        if (applicationConfig.appTitle) {
+            Constants.appTitle = applicationConfig.appTitle;
+            program.title = applicationConfig.appTitle;
+        }
     }
     //---------------------------------------------------------------------------------
     registerScripts() {
@@ -336,55 +348,54 @@ class FwApplication {
         return JSON.parse(sessionStorage.getItem('applicationOptions'));
     };
     //---------------------------------------------------------------------------------
-    async loadCustomFormsAndBrowseViewsAsync() {
+    loadCustomFormsAndBrowseViews() {
         const self = this;
         try {
             if (sessionStorage.getItem('userid') != null) {
+                let request: any = {};
                 const WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-
-                var requestAssignedCustomForm = new FwAjaxRequest<any>();
-                requestAssignedCustomForm.setWebApiUrl('/api/v1/assignedcustomform/browse');
-                requestAssignedCustomForm.httpMethod = 'POST';
-                requestAssignedCustomForm.$elementToBlock = jQuery('body');
-                requestAssignedCustomForm.data = {
-                    uniqueids: {
-                        WebUserId: WebUserId
-                    }
-                }
-                var responseAssignedCustomForm = await FwAjax.callWebApi<any, any>(requestAssignedCustomForm);
-                const baseFormIndex = responseAssignedCustomForm.ColumnIndex.BaseForm;
-                const htmlIndex = responseAssignedCustomForm.ColumnIndex.Html;
-                for (let i = 0; i < responseAssignedCustomForm.Rows.length; i++) {
-                    let customForm = responseAssignedCustomForm.Rows[i];
-                    let baseform = customForm[baseFormIndex];
-                    jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
-                }
-
-                if (sessionStorage.getItem('location') != null) {
-                    var requestBrowseActiveViewFields = new FwAjaxRequest<any>();
-                    requestBrowseActiveViewFields.setWebApiUrl('/api/v1/browseactiveviewfields/browse');
-                    requestBrowseActiveViewFields.httpMethod = 'POST';
-                    requestBrowseActiveViewFields.$elementToBlock = jQuery('body');
-                    requestBrowseActiveViewFields.data = {
-                        uniqueids: {
-                            WebUserId: WebUserId,
-                            OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
+                request.uniqueids = {
+                    WebUserId: WebUserId
+                };
+                FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, response => {
+                    try {
+                        const baseFormIndex = response.ColumnIndex.BaseForm;
+                        const htmlIndex = response.ColumnIndex.Html;
+                        for (let i = 0; i < response.Rows.length; i++) {
+                            let customForm = response.Rows[i];
+                            let baseform = customForm[baseFormIndex];
+                            jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
                         }
-                    }
-                    var responseBrowseActiveViewFields = await FwAjax.callWebApi<any, any>(requestBrowseActiveViewFields);
-                    const moduleNameIndex = responseBrowseActiveViewFields.ColumnIndex.ModuleName;
-                    const activeViewFieldsIndex = responseBrowseActiveViewFields.ColumnIndex.ActiveViewFields;
-                    const idIndex = responseBrowseActiveViewFields.ColumnIndex.Id;
-                    for (let i = 0; i < responseBrowseActiveViewFields.Rows.length; i++) {
-                        let controller = `${responseBrowseActiveViewFields.Rows[i][moduleNameIndex]}Controller`;
-                        if (typeof window[controller] !== 'undefined') {
-                            window[controller].ActiveViewFields = JSON.parse(responseBrowseActiveViewFields.Rows[i][activeViewFieldsIndex]);
-                            window[controller].ActiveViewFieldsId = responseBrowseActiveViewFields.Rows[i][idIndex];
+
+                        if (sessionStorage.getItem('location') != null) {
+                            request.uniqueids.OfficeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, request, FwServices.defaultTimeout, response => {
+                                try {
+                                    const moduleNameIndex = response.ColumnIndex.ModuleName;
+                                    const activeViewFieldsIndex = response.ColumnIndex.ActiveViewFields;
+                                    const idIndex = response.ColumnIndex.Id;
+                                    for (let i = 0; i < response.Rows.length; i++) {
+                                        let controller = `${response.Rows[i][moduleNameIndex]}Controller`;
+                                        if (typeof window[controller] !== 'undefined') {
+                                            window[controller].ActiveViewFields = JSON.parse(response.Rows[i][activeViewFieldsIndex]);
+                                            window[controller].ActiveViewFieldsId = response.Rows[i][idIndex];
+                                        }
+                                    }
+                                    self.loadDefaultPage();
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            }, null, null);
+                        } else {
+                            self.loadDefaultPage();
                         }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
                     }
-                }
+                }, null, null);
+            } else {
+                self.loadDefaultPage();
             }
-            self.loadDefaultPage();
         } catch (ex) {
             FwFunc.showError(ex);
         };

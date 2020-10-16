@@ -79,6 +79,15 @@
 
         $popup = FwPopup.renderPopup($browse, { 'ismodal': true });
 
+        const $clearAllBtn = $control.find('.clearall');
+        $clearAllBtn
+            .on('click', e => {
+                FwMultiSelectValidation.clear(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
+            })
+            .on('mousedown', e => {
+                e.preventDefault();
+            });
+
         $searchfield.on('change', function () {
             try {
                 if ((<string>$searchfield.val()).length === 0) {
@@ -103,21 +112,26 @@
             }
         });
 
-        $btnvalidate.on('click', function () {
-            try {
-                if ((typeof $control.attr('data-enabled') !== 'undefined') && ($control.attr('data-enabled') !== 'false')) {
-                    if ((<string>$searchfield.val()).length > 0) {
-                        FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
-                        FwBrowse.selectRowByIndex($browse, 0);
-                    } else {
-                        FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
-                        focusValidationSearchBox($browse);
+        $btnvalidate
+            .on('click', function (e) {
+                e.stopPropagation();
+                try {
+                    if ((typeof $control.attr('data-enabled') !== 'undefined') && ($control.attr('data-enabled') !== 'false')) {
+                        if ((<string>$searchfield.val()).length > 0) {
+                            FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
+                            FwBrowse.selectRowByIndex($browse, 0);
+                        } else {
+                            FwMultiSelectValidation.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, false);
+                            focusValidationSearchBox($browse);
+                        }
                     }
+                } catch (ex) {
+                    FwFunc.showError(ex);
                 }
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+            })
+            .on('mousedown', e => { //prevents blur event from triggering
+                e.preventDefault();
+            });
 
         $browse
             .on('click', '.validationbuttons .btnSelect', function () {
@@ -294,6 +308,7 @@
                 }
             })
             .on('keydown', 'div[contenteditable="true"]', e => {
+                e.stopPropagation();
                 const code = e.keyCode || e.which;
                 try {
                     switch (code) {
@@ -313,7 +328,6 @@
                             } else {
                                 FwBrowse.selectRowByIndex($browse, 0);
                             };
-
                             break;
                         case 8:  //Backspace
                             const inputLength = $control.find('span.addItem').text().length;
@@ -332,10 +346,12 @@
                 }
             });
 
-        const focusValidationSearchBox = function ($browse) {
+        const focusValidationSearchBox = $browse => {
             setTimeout(() => {
                 const $searchBox = $browse.find('.search input:visible');
-                $searchBox.eq(0).focus();
+                if ($searchBox.length > 0) {
+                    $searchBox.eq(0).focus();
+                }
             }, 1000);
         };
     }
@@ -384,7 +400,7 @@
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
             let values: any = $valuefield.val();
-            values = values.split(',');
+            values = values.split(multiSeparator);
             values = values.map(s => s.trim());
             $browse.data('selectedrowsuniqueids', values);
         } else if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
@@ -394,7 +410,7 @@
         let selectedRowText: any = $textField.val();
 
         if (selectedRowText.length > 0) {
-            selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
+            selectedRowText = selectedRowText.split(multiSeparator);
         } else {
             selectedRowText = [];
         }
@@ -417,15 +433,13 @@
             }
         }
         multiselectfield.append($inputField);
+
         uniqueid = selectedRowUniqueIds.join(',');
+        $textField.val(selectedRowText.join(multiSeparator));
+
         $valuefield.val(uniqueid).change();
         $inputField.text('');
         $searchfield.val('');
-        if ($control.hasClass('email')) {
-            $textField.val(selectedRowText.join(';'));
-        } else {
-            $textField.val(selectedRowText.join(multiSeparator));
-        }
 
         if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['loadRelatedValidationFields'] === 'function')) {
             window[controller]['loadRelatedValidationFields'](validationName, $valuefield, $tr);
@@ -441,16 +455,30 @@
     selectAll($control, $valuefield: JQuery, $searchfield: JQuery, $popup: JQuery, $browse: JQuery): void {
         let $selectedRows, $trs, $tr, uniqueIdValue, multiselectfield, selectedRowUniqueIds, $inputField;
         multiselectfield = $control.find('.multiselectitems');
+        const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         $inputField = multiselectfield.find('span.addItem');
-        if (typeof $browse.data('selectedrows') === 'undefined') {
-            $browse.data('selectedrows', {});
-        }
-        if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
-            $browse.data('selectedrowsuniqueids', []);
-        }
-        selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
-        $selectedRows = $browse.data('selectedrows');
+        const $textField = $valuefield.siblings('.fwformfield-text');
+        //if (typeof $browse.data('selectedrows') === 'undefined') {
+        //    $browse.data('selectedrows', {});
+        //}
+
+        //if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
+        //    $browse.data('selectedrowsuniqueids', []);
+        //}
+        $selectedRows = {};
+        selectedRowUniqueIds = [];
+        const selectedRowText = [];
+        multiselectfield.find('.multiitem').remove();
+        //let selectedRowText: any = $textField.val();
+        //if (selectedRowText.length > 0) {
+        //    selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
+        //} else {
+        //    selectedRowText = [];
+        //}
+        //selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+        //$selectedRows = $browse.data('selectedrows');
         $trs = $browse.find('tbody > tr');
+
         for (let i = 0; i < $trs.length; i++) {
             $tr = jQuery($trs[i]);
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
@@ -462,22 +490,33 @@
                     <span>${textValue}</span>
                     <i class="material-icons">clear</i>
                 </div>`);
+                if (selectedRowText.indexOf(textValue) == -1) {
+                    selectedRowText.push(textValue);
+                }
                 selectedRowUniqueIds.push(uniqueIdValue);
                 $selectedRows[uniqueIdValue] = $tr;
             }
         }
+        $textField.val(selectedRowText.join(multiSeparator));
+
+        $browse.data('selectedrows', $selectedRows);
+        $browse.data('selectedrowsuniqueids', selectedRowUniqueIds);
+
         $valuefield.val(selectedRowUniqueIds.join(',')).change();
         $searchfield.val('');
         multiselectfield.append($inputField);
         $inputField.text('');
+
+
         FwPopup.detachPopup($popup);
         FwMultiSelectValidation.clearSearchCriteria($browse);
         FwMultiSelectValidation.setCaret($control);
     };
     //---------------------------------------------------------------------------------
     clear(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
-        var uniqueid, $trGrid, $gridUniqueIdField;
         $browse.data('selectedrows', {});
+        $browse.data('selectedrowsuniqueids', []);
+        jQuery($valuefield.siblings('.multiselectitems')).find('.multiitem').remove();
         $valuefield.val('').change();
         $searchfield.val('');
         $browse.find('tbody tr').removeClass('selected');
@@ -555,13 +594,14 @@
                 FwMultiSelectValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $popup, $validationbrowse, false);
             })
 
-            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
+            const $popupControl = FwPopup.renderPopup($popupForm, undefined, 'New ' + title);
+            FwPopup.showPopup($popup);
 
             jQuery('.fwpopup.new-validation').on('click', function (e: JQuery.ClickEvent) {
                 if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                 } else {
-                    FwPopup.destroyPopup(this);
+                    FwPopup.destroyPopup($popupControl);
                     jQuery(document).off('keydown');
                     jQuery(document).find('.fwpopup').off('click');
                     FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);
@@ -572,7 +612,7 @@
                 const code = e.keyCode || e.which;
                 if (code === 27) { //ESC Key  
                     try {
-                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                        FwPopup.destroyPopup($popupControl);
                         jQuery(document).find('.fwpopup').off('click');
                         jQuery(document).off('keydown');
                         FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);
@@ -595,16 +635,21 @@
         }
     };
     //---------------------------------------------------------------------------------
-    setCaret($control) {
-        const element = $control.find('div.multiselectitems');
-        const node = element.find('span.addItem').get(0);
-        const range = document.createRange();
-        range.setStartAfter(node);
-        range.collapse(true);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        element.focus();
+    setCaret($control: JQuery) {
+        const $element = $control.find('div.multiselectitems');
+        if ($element.length > 0) {
+            const $addItemSpan = $element.find('span.addItem');
+            if ($addItemSpan.length > 0) {
+                const addItemNode = $addItemSpan.get(0);
+                const range = document.createRange();
+                range.setStartAfter(addItemNode);
+                range.collapse(true);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+                $element.focus();
+            }
+        }
     }
     //---------------------------------------------------------------------------------
 }

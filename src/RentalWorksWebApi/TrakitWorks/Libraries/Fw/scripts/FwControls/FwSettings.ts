@@ -13,23 +13,24 @@ class FwSettingsClass {
     };
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
+        const me = this;
         const html: Array<string> = [];
 
         html.push('<div class="fwsettingsheader">');
-        //html.push('<div class="settingsmenu">');
-        //html.push('</div>')
         html.push('  <div class="settings-header-title">Settings</div>');
         html.push('  <div class="input-group pull-right">');
+        html.push('    <div style="display:flex;width:255px;">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
-        html.push('    <span class="input-group-clear">');
-        html.push('      <i class="material-icons clear-search">clear</i>');
+        html.push('    <span class="input-group-clear" style="display:none;">');
+        html.push('      <i class="material-icons">clear</i>');
         html.push('    </span>');
+        html.push('    </div>');
         html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
         html.push('    </span>');
         html.push('  </div>');
         html.push('</div>');
-        html.push('<div class="flexrow settings-content">');
+        html.push('<div class="settings-content">');
         html.push('  <div class="menu-expand"><i class="material-icons">keyboard_arrow_right</i></div>');
         html.push('  <div class="navigation flexrow">');
         html.push('    <div class="navigation-menu flexcolumn"></div>');
@@ -42,22 +43,206 @@ class FwSettingsClass {
         settingsMenu.append('<div class="flexcolumn menu-collapse"><i class="material-icons">keyboard_arrow_left</i></div>');
         $control.html(html.join(''));
 
-        const menuCollapse = settingsMenu.find('.menu-collapse');
         const menuExpand = $control.find('.menu-expand');
         menuExpand.on('click', e => {
             menuCollapse.closest('.navigation').show();
             jQuery(e.currentTarget).hide();
+            this.updateUserIdNavExpanded('settings', true);
         });
 
+        const menuCollapse = settingsMenu.find('.menu-collapse');
         menuCollapse.on('click', e => {
             menuExpand.show();
             jQuery(e.currentTarget).closest('.navigation').hide();
+            this.updateUserIdNavExpanded('settings', false);
         });
 
-        settingsMenu.addClass('flexrow');
         settingsMenu.find('.menu').addClass('flexcolumn');
         $control.find('.navigation-menu').append(settingsMenu);
+
+        // Remembering user last navigation column state
+        setTimeout(() => {
+            const userid = JSON.parse(sessionStorage.getItem('userid'));
+            if (userid) {
+                if (userid.settingsnavexpanded) {
+                    if (userid.settingsnavexpanded === 'true') {
+                        menuExpand.click()
+                    } else {
+                        menuCollapse.click();
+                    }
+                }
+            }
+        }, 0);
+
+        // Clear 'X' button
+        $control.find('.input-group-clear').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            const event = jQuery.Event("keyup", { which: 13 });
+            $this.parent().find('#settingsSearch').val('').trigger(event);
+        });
+        // Search Input and icon
+        $control.find('.input-group-search').on('click', e => {
+            const $search = jQuery(e.currentTarget).parent().find('#settingsSearch');
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.find('#settingsSearch').on('change', e => {
+            const $search = jQuery(e.currentTarget);
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.find('#settingsSearch').on('keyup', function (e) {
+            const val = jQuery.trim(this.value).toUpperCase();
+            const $searchClear = jQuery(this).parent().find('.input-group-clear');
+            if ($searchClear.is(":hidden") && val !== '') {
+                $searchClear.show();
+            } else if (val === '') {
+                $searchClear.hide();
+            }
+            if (e.which === 13) {
+                var $settings, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
+                $control.find('.selected').removeClass('selected');
+
+                filter = [];
+                customFilter = [];
+                sectionFilter = [];
+                $settings = jQuery('#searchId');
+                $settingsTitles = $control.find('a#title');
+                $settingsDescriptions = jQuery('#description-text');
+                $module = jQuery('.panel-group');
+                $module.find('.highlighted').removeClass('highlighted');
+                if (val === "") {
+                    $module.show();
+                } else {
+                    var results = [];
+                    results.push(val);
+                    $searchClear.show();
+                    //$settings.closest('div.panel-group').hide();
+                    $module.hide();
+                    for (var caption in me.screen.moduleCaptions) {
+                        if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
+                            for (var moduleName in me.screen.moduleCaptions[caption]) {
+                                if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
+                                    customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
+                                } else if (me.screen.moduleCaptions[caption][moduleName][0].data('type') === 'section') {
+                                    sectionFilter.push(me.screen.moduleCaptions[caption][moduleName][0].data('caption'));
+                                } else {
+                                    filter.push(me.screen.moduleCaptions[caption][moduleName][0].data('datafield'));
+                                }
+                                results.push(moduleName.toUpperCase());
+                            }
+                        }
+                    }
+                    me.filter = filter;
+                    me.sectionFilter = sectionFilter;
+                    me.customFilter = customFilter;
+                    me.searchValue = val;
+
+                    var highlightSearch = function (element, search) {
+                        let searchStrLen = search.length;
+                        let startIndex = 0, index, indicies = [];
+                        let htmlStringBuilder = [];
+                        search = search.toUpperCase();
+                        while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
+                            indicies.push(index);
+                            startIndex = index + searchStrLen;
+                        }
+                        for (var i = 0; i < indicies.length; i++) {
+                            if (i === 0) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(0, indicies[0]));
+                            } else {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i - 1] + searchStrLen, indicies[i]))
+                            }
+                            htmlStringBuilder.push('<span class="highlighted">' + jQuery(element).text().substring(indicies[0], indicies[0] + searchStrLen) + '</span>');
+                            if (i === indicies.length - 1) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i] + searchStrLen, jQuery(element).text().length));
+                                element.innerHTML = htmlStringBuilder.join('');
+                            }
+                        }
+                    }
+
+                    var module: any = [];
+                    for (var i = 0; i < results.length; i++) {
+                        //check descriptions for match
+                        for (var k = 0; k < $module.length; k++) {
+                            // match results
+                            if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
+                                module.push($module.eq(k)[0]);
+                            }
+                            // search titles
+                            if ($settingsTitles.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsTitles.eq(k).closest('.panel-group')[0]);
+                            }
+                            // search descriptions
+                            if ($settingsDescriptions.eq(k).text().toUpperCase().indexOf(val) !== -1) {
+                                module.push($settingsDescriptions.eq(k).closest('.panel-group')[0]);
+                            }
+                        }
+                        module = jQuery(module);
+                    }
+
+                    let description = module.find('#description-text');
+                    let title = module.find('a#title');
+
+                    for (var j = 0; j < title.length; j++) {
+                        if (title[j] !== undefined) {
+                            let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                            let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                            if (descriptionIndex > -1) {
+                                highlightSearch(description[j], val);
+                            }
+                            if (titleIndex > -1) {
+                                highlightSearch(title[j], val);
+                            }
+                        }
+                    }
+
+                    if (module.length === 0) {
+                        $settings.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
+                        }).closest('div.panel-group').show();
+                    }
+                    module.show().find('#searchId').hide();
+
+                    let searchResults = $control.find('.panel-heading:visible');
+
+                    if (searchResults.length === 1 && searchResults.parent().find('.panel-body.header-content').is(':empty')) {
+                        searchResults[0].click();
+                    }
+                }
+            }
+            jQuery(this).focus();
+        });
     };
+    //----------------------------------------------------------------------------------------------
+    updateUserIdNavExpanded(module: string, isExpanded: boolean) {
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        let request: any = {};
+        if (userid) {
+            if (module === 'settings') {
+                userid.settingsnavexpanded = `${isExpanded}`;
+                request.SettingsNavigationMenuVisible = isExpanded;
+            } else {
+                userid.reportsnavexpanded = `${isExpanded}`;
+                request.ReportsNavigationMenuVisible = isExpanded;
+
+            }
+            sessionStorage.setItem('userid', JSON.stringify(userid));
+
+            const webusersid = sessionStorage.getItem('webusersid');
+            if (webusersid) {
+                request.WebUserId = webusersid;
+                FwAppData.apiMethod(true, 'PUT', `api/v1/userprofile/${webusersid}`, request, FwServices.defaultTimeout,
+                    response => { },
+                    ex => {
+                        if (ex !== 'Forbidden') {
+                            FwFunc.showError(ex)
+                        }
+                    }
+                    , null);
+            }
+        }
+    }
     //----------------------------------------------------------------------------------------------
     //saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName, getRows?) {
     //    var $tabpage, fields, ids, mode, isValid, $tab, request, controllername, controller;
@@ -408,7 +593,7 @@ class FwSettingsClass {
                                 html.push(`<div class="checkboxwrapper"><input class="value" data-datafield="${browseData[j]['datafield']}" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>`);
                             }
                         } else {
-                            if (browseData[j]['color']) {
+                            if (browseData[j]['color'] && response[i][browseData[j]['color']] != null) {
                                 html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:${response[i][browseData[j]['color']]};width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">`);
                             } else {
                                 html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">`);
@@ -431,34 +616,34 @@ class FwSettingsClass {
                 $moduleRows.data('recorddata', response[i]);
                 $moduleRows.data('browsedata', browseData);
                 $body.append($moduleRows);
-                $body.find('#recordSearch').focus();
+                $body.find('.recordSearch').focus();
             }
 
-            $body.find('#recordSearch').on('keypress', function (e) {
-                if (e.which === 13) {
-                    let dataKeys = [];
-                    let query = jQuery.trim(this.value).toUpperCase();
-                    let matches = [];
-                    let $panelBody = jQuery(this).closest('.panel-body')
-                    for (var key in response[0]) {
-                        if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
-                            dataKeys.push(key)
-                        }
-                    }
-                    for (var i = 0; i < dataKeys.length; i++) {
-                        for (var j = 0; j < response.length; j++) {
-                            if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
-                                matches.push(response[j][rowId]);
+            $body.find('.recordSearch')
+                .on('keypress', function (e) {
+                    if (e.which === 13) {
+                        let dataKeys = [];
+                        let query = jQuery.trim(this.value).toUpperCase();
+                        let matches = [];
+                        let $panelBody = jQuery(this).closest('.panel-body')
+                        for (var key in response[0]) {
+                            if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
+                                dataKeys.push(key)
                             }
                         }
+                        for (var i = 0; i < dataKeys.length; i++) {
+                            for (var j = 0; j < response.length; j++) {
+                                if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
+                                    matches.push(response[j][rowId]);
+                                }
+                            }
+                        }
+                        $panelBody.find('.panel-record').hide();
+                        for (var k = 0; k < matches.length; k++) {
+                            $panelBody.find('#' + matches[k]).show();
+                        }
                     }
-                    $panelBody.find('.panel-record').hide();
-                    for (var k = 0; k < matches.length; k++) {
-                        $panelBody.find('#' + matches[k]).show();
-                    }
-                }
-            })
-
+                });
             $control
                 .on('click', '.row-heading', function (e) {
                     e.stopPropagation();
@@ -543,6 +728,7 @@ class FwSettingsClass {
         let showNew = false;
         let showDelete = false;
         let showEdit = false;
+        let hasDownloadExcel = false;
 
         $modulecontainer = $control.find('#' + moduleName);
         const controllerName = moduleName + 'Controller';
@@ -582,21 +768,39 @@ class FwSettingsClass {
                 showNew = browseMenuOptions.hasNew && ((nodeNew !== null && nodeNew.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
                 showEdit = browseMenuOptions.hasEdit && ((nodeEdit !== null && nodeEdit.properties.visible === 'T') || (nodeSave !== null && nodeSave.properties.visible === 'T'));
                 showDelete = browseMenuOptions.hasDelete && (nodeDelete !== null && nodeDelete.properties.visible === 'T');
-                const caption = nodeModule.caption;
+                hasDownloadExcel = browseMenuOptions.hasDownloadExcel;
 
-                html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${caption}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
+                html.push(`<div class="panel-group" id="${moduleName}" data-id="${moduleId}" data-navigation="${menuCaption}" data-caption="${title}" data-showDelete=${showDelete.toString()} data-showEdit="${showEdit.toString()}">`);
                 html.push('  <div class="panel panel-primary">');
                 html.push(`    <div data-toggle="collapse" data-target="${moduleName}" href="${moduleName}" class="panel-heading">`);
-                html.push('      <div class="flexrow" style="max-width:none;">');
+                html.push('      <div style="display:flex;max-width:none;">');
                 html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
                 html.push('        <h4 class="panel-title">');
-                html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+
+                if (menu !== title) {
+                    html.push(`        <a id="title" data-toggle="collapse">${menu} - ${title}</a>`);
+                } else {
+                    html.push(`        <a id="title" data-toggle="collapse">${title}</a>`);
+                }
+
                 html.push('        <div id="myDropdown" class="dropdown-content">');
                 html.push('        <div class="flexcolumn">');
                 if (showNew) {
-                    html.push(`         <div class="flexrow new-row-menu" data-caption="${caption}"><i class="material-icons">add</i>New Item</div>`);
+                    html.push(`         <div class="flexrow new-row-menu" data-caption="${title}"><i class="material-icons">add</i>New Item</div>`);
                 }
-                html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+                html.push('          <div class="dropdown-item pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+
+                if (hasDownloadExcel) {
+                    html.push('          <div class="dropdown-item download-excel flexrow"><i class="material-icons">cloud_download</i>Download Excel</div>');
+                    const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+                    if (isWebAdmin === 'true') {
+                        const userEmail = JSON.parse(sessionStorage.getItem('userid')).email;
+                        if (userEmail.endsWith('dbworks.com')) {
+                            html.push('          <div class="dropdown-item upload-excel flexrow"><i class="material-icons">cloud_upload</i>Upload Excel</div>');
+                        }
+                    }
+                }
+
                 html.push('        </div>');
                 html.push('        </div>');
                 html.push('        <div class="panel-icons" style="margin-left:auto;">');
@@ -619,7 +823,7 @@ class FwSettingsClass {
 
                 html.push(`      <small id="searchId" style="display:none;">${moduleName}</small>`);
                 if (description) {
-                    html.push(`      <small style="margin:0 0 0 32px;" id="description-text">${description}</small>`);
+                    html.push(`      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">${description}</div>`);
                 }
 
                 html.push('    </div>');
@@ -668,6 +872,41 @@ class FwSettingsClass {
                     }
                     program.popOutTab('#/module/' + moduleName);
                 });
+                // Download Excel
+                $settingsPageModules.on('click', '.download-excel', e => {
+                    try {
+                        e.stopPropagation();
+                        const $this = jQuery(e.currentTarget);
+                        const $browse = window[`${moduleName}Controller`].openBrowse();
+                        $this.append($browse);
+                        $browse.css('display', 'none');
+                        FwBrowse.databind($browse)
+                            .then(() => {
+                                FwBrowse.downloadExcelWorkbook($browse, controller);
+                                const $appendedBrowse = $this.find('[data-control="FwBrowse"]');
+                                // delete hidden browse
+                                $appendedBrowse.remove();
+                            });
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                // Import Excel
+                $settingsPageModules.on('click', '.upload-excel', e => {
+                    e.stopPropagation();
+                    const $this = jQuery(e.currentTarget);
+                    const $browse = window[`${moduleName}Controller`].openBrowse();
+                    $this.append($browse);
+                    $browse.css('display', 'none');
+                    try {
+                        FwBrowse.importExcelFromBrowse($browse, controller);
+                        const $appendedBrowse = $this.find('[data-control="FwBrowse"]');
+                        // delete hidden browse
+                        $appendedBrowse.remove();
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
 
                 $settingsPageModules
                     .on('click', '.panel-heading', e => {
@@ -693,7 +932,7 @@ class FwSettingsClass {
                                 $body.append($browse.find('.legend'));
                             }
 
-                            FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
+                            FwAppData.apiMethod(true, 'GET', apiurl, null, null, function onSuccess(response) {
                                 $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
                                 const keys = $browse.find('.field');
                                 const rowId = jQuery(keys[0]).attr('data-browsedatafield');
@@ -817,7 +1056,7 @@ class FwSettingsClass {
                                                 }
                                             } else {
                                                 const color = response[i][browseData[j]['color']];
-                                                if (browseData[j]['color'] && color !== '') {
+                                                if (browseData[j]['color'] && color !== '' && color != null) {
                                                     html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:${response[i][browseData[j]['color']]};width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">`);
                                                 } else {
                                                     html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">`);
@@ -840,10 +1079,10 @@ class FwSettingsClass {
                                     $moduleRows.data('recorddata', response[i]);
                                     $moduleRows.data('browsedata', browseData);
                                     $body.append($moduleRows);
-                                    $body.find('#recordSearch').focus();
+                                    $body.find('.recordSearch').focus();
                                 }
 
-                                $body.find('#recordSearch').on('keypress', function (e) {
+                                $body.find('.recordSearch').on('keypress', function (e) {
                                     if (e.which === 13) {
                                         let dataKeys = [];
                                         let query = jQuery.trim(this.value).toUpperCase();
@@ -922,13 +1161,15 @@ class FwSettingsClass {
                 $control
                     .unbind().on('click', '.row-heading', e => {
                         e.stopPropagation();
-                        const recordData = jQuery(e.currentTarget).parent().parent().data('recorddata');
-                        const moduleName: any = jQuery(e.currentTarget).closest('div.panel-group')[0].id;
+                        const $this = jQuery(e.currentTarget);
+                        const recordData = $this.parent().parent().data('recorddata');
+                        const moduleName: any = $this.closest('div.panel-group')[0].id;
                         let $form = jQuery(jQuery(`#tmpl-modules-${moduleName}Form`).html());
                         const moduleId = jQuery($form.find('.fwformfield[data-isuniqueid="true"]')[0]).data('datafield');
                         const uniqueids: any = {};
                         uniqueids[moduleId] = recordData[moduleId];
-                        const $rowBody = $control.find(`#${recordData[moduleId]}.panel-body`);
+                        const $rowBody = $this.closest(`#${recordData[moduleId]}.panel-record`).find(`#${recordData[moduleId]}.panel-body`);
+                        // const $rowBody = $control.find(`#${recordData[moduleId]}.panel-body`);
                         const controller = $form.data('controller');
 
                         if ($rowBody.is(':empty')) {
@@ -982,15 +1223,18 @@ class FwSettingsClass {
                             if (jQuery(e.currentTarget).closest('.panel-group').attr('data-showEdit') === 'false') {
                                 FwModule.setFormReadOnly($form);
                             }
+
+                            FwControl.loadControls($form.find('.fwcontrol'));
+
+                            //if ($form.find('.fwappimage')[0]) {
+                            //    FwAppImage.getAppImages($form.find('.fwappimage'))  // - 12/16/19 J. Pace Moved into this scope to prvent undefined error in sortable library
+                            //}
+
+                            //if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {  // - 01/07/2020 Jason H - afterLoad is already being called in FwModule.loadForm above. 
+                            //    window[moduleName + 'Controller']['afterLoad']($form);
+                            //}  
                         }
 
-                        if ($form.find('.fwappimage')[0]) {
-                            FwAppImage.getAppImages($form.find('.fwappimage'))
-                        }
-
-                        if (typeof window[moduleName + 'Controller']['afterLoad'] === 'function') {
-                            window[moduleName + 'Controller']['afterLoad']($form);
-                        }
 
                         $form.data('afterLoadCustomFields', () => {
                             for (let key in recordData) {
@@ -1074,129 +1318,7 @@ class FwSettingsClass {
                                 }
                             }
                         }
-                    })
-
-                $control.on('click', '.input-group-clear', function (e) {
-                    let event = jQuery.Event('keypress');
-                    event.which = 13;
-                    jQuery(this).parent().find('#settingsSearch').val('').trigger(event).focus();
-                    jQuery(this).find('.clear-search').css('visibility', 'hidden');
-                })
-                $control.on('keypress', '#settingsSearch', function (e) {
-                    if (e.which === 13) {
-                        var $settings, val, $module, $settingsTitles, $settingsDescriptions, filter, customFilter, sectionFilter;
-                        $control.find('.selected').removeClass('selected');
-
-                        filter = [];
-                        customFilter = [];
-                        sectionFilter = [];
-                        $settings = jQuery('small#searchId');
-                        $settingsTitles = $control.find('a#title');
-                        $settingsDescriptions = jQuery('small#description-text');
-                        $module = jQuery('.panel-group');
-                        $module.find('.highlighted').removeClass('highlighted');
-                        val = jQuery.trim(this.value).toUpperCase();
-                        if (val === "") {
-                            jQuery(this).parent().find('.clear-search').css('visibility', 'hidden');
-                            $settings.closest('div.panel-group').show();
-                        } else {
-                            var results = [];
-                            results.push(val);
-                            jQuery(this).parent().find('.clear-search').css('visibility', 'visible');
-                            $settings.closest('div.panel-group').hide();
-                            for (var caption in me.screen.moduleCaptions) {
-                                if (caption.indexOf(val) !== -1 || caption.indexOf(val.split(' ').join('')) !== -1) {
-                                    for (var moduleName in me.screen.moduleCaptions[caption]) {
-                                        if (me.screen.moduleCaptions[caption][moduleName][0].custom) {
-                                            customFilter.push(me.screen.moduleCaptions[caption][moduleName][0]);
-                                        } else if (me.screen.moduleCaptions[caption][moduleName][0].data('type') === 'section') {
-                                            sectionFilter.push(me.screen.moduleCaptions[caption][moduleName][0].data('caption'));
-                                        } else {
-                                            filter.push(me.screen.moduleCaptions[caption][moduleName][0].data('datafield'));
-                                        }
-                                        results.push(moduleName.toUpperCase());
-                                    }
-                                }
-                            }
-                            me.filter = filter;
-                            me.sectionFilter = sectionFilter;
-                            me.customFilter = customFilter;
-                            me.searchValue = val;
-
-                            var highlightSearch = function (element, search) {
-                                let searchStrLen = search.length;
-                                let startIndex = 0, index, indicies = [];
-                                let htmlStringBuilder = [];
-                                search = search.toUpperCase();
-                                while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
-                                    indicies.push(index);
-                                    startIndex = index + searchStrLen;
-                                }
-                                for (var i = 0; i < indicies.length; i++) {
-                                    if (i === 0) {
-                                        htmlStringBuilder.push(jQuery(element).text().substring(0, indicies[0]));
-                                    } else {
-                                        htmlStringBuilder.push(jQuery(element).text().substring(indicies[i - 1] + searchStrLen, indicies[i]))
-                                    }
-                                    htmlStringBuilder.push('<span class="highlighted">' + jQuery(element).text().substring(indicies[0], indicies[0] + searchStrLen) + '</span>');
-                                    if (i === indicies.length - 1) {
-                                        htmlStringBuilder.push(jQuery(element).text().substring(indicies[i] + searchStrLen, jQuery(element).text().length));
-                                        element.innerHTML = htmlStringBuilder.join('');
-                                    }
-                                }
-                            }
-
-                            var module: any = [];
-                            for (var i = 0; i < results.length; i++) {
-                                //check descriptions for match
-                                for (var k = 0; k < $module.length; k++) {
-                                    // match results
-                                    if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
-                                        module.push($module.eq(k)[0]);
-                                    }
-                                    // search titles
-                                    if ($settingsTitles.eq(k).text().toUpperCase().indexOf(val) !== -1) {
-                                        module.push($settingsTitles.eq(k).closest('.panel-group')[0]);
-                                    }
-                                    // search descriptions
-                                    if ($settingsDescriptions.eq(k).text().toUpperCase().indexOf(val) !== -1) {
-                                        module.push($settingsDescriptions.eq(k).closest('.panel-group')[0]);
-                                    }
-                                }
-                                module = jQuery(module);
-                            }
-
-                            let description = module.find('small#description-text');
-                            let title = module.find('a#title');
-
-                            for (var j = 0; j < title.length; j++) {
-                                if (title[j] !== undefined) {
-                                    let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
-                                    let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
-                                    if (descriptionIndex > -1) {
-                                        highlightSearch(description[j], val);
-                                    }
-                                    if (titleIndex > -1) {
-                                        highlightSearch(title[j], val);
-                                    }
-                                }
-                            }
-
-                            if (module.length === 0) {
-                                $settings.filter(function () {
-                                    return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                                }).closest('div.panel-group').show();
-                            }
-                            module.show().find('#searchId').hide();
-
-                            let searchResults = $control.find('.panel-heading:visible');
-
-                            if (searchResults.length === 1 && searchResults.parent().find('.panel-body.header-content').is(':empty')) {
-                                searchResults[0].click();
-                            }
-                        }
-                    }
-                });
+                    });
 
                 $control.on('click', '.appmenu', function (e) {
                     let searchInput = $control.find('#settingsSearch');
@@ -1369,7 +1491,7 @@ class FwSettingsClass {
                         html.push(`<div class="checkboxwrapper"><input class="value" data-datafield="${browseData[i]['datafield']}" type="checkbox" disabled="disabled" style="box-sizing:border-box;pointer-events:none;"><label></label></div>`);
                     }
                 } else {
-                    if (browseData[i]['color']) {
+                    if (browseData[i]['color'] && saveData[browseData[i]['color']] != null) {
                         html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow color" data-type="fieldrow" style="color:${saveData[browseData[i]['color']]};width:8em;white-space:nowrap;height: 0;display:flex;border-bottom: 20px solid transparent;border-top: 20px solid;">`);
                     } else {
                         html.push(`    <div class="fwcontrol fwcontainer fwform-fieldrow" data-type="fieldrow">`);
@@ -1410,7 +1532,7 @@ class FwSettingsClass {
         return `
             <div class="search-bar">
               <div class="view-options">
-                <div class="flexrow">
+                <div style="display:flex;">
                   <div class="flexcolumn" style="max-width: 28px;">
                     <i class="material-icons show-inactive show-btn" title="Show All">visibility</i>
                     <i class="material-icons hide-inactive show-btn" title="Hide Inactive" style="display:none;">visibility_off</i>
@@ -1422,7 +1544,7 @@ class FwSettingsClass {
               </div>
               <div class="record-search">
                 <span class="input-group-addon search"><i class="material-icons">search</i></span>
-                <input type="text" id="recordSearch" class="form-control" placeholder="Record Search" autofocus="">
+                <input type="text" class="form-control recordSearch" placeholder="Record Search" autofocus="">
               </div>
             </div>
        `;
@@ -1484,7 +1606,7 @@ class FwSettingsClass {
                     const navigationCaption = $modulebtn.data('navigation');
                     const panels = $control.find('.panel-group');
                     if (navigationCaption === 'All Settings') {
-                        const event = jQuery.Event('keypress');
+                        const event = jQuery.Event('keyup');
                         event.which = 13;
                         $control.find('.selected').removeClass('selected');
                         $control.find('#settingsSearch').val('').trigger(event);

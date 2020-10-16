@@ -38,7 +38,7 @@ class FwFormField_comboboxClass implements IFwFormField {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('input.fwformfield-value')
@@ -83,6 +83,12 @@ class FwFormField_comboboxClass implements IFwFormField {
         $btnvalidate = $control.find('.btnvalidate');
         $validationbrowse = jQuery(jQuery('#tmpl-validations-' + validationName + 'Browse').html());
         $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
+        if ($control.attr('data-pageno') === undefined) {
+            $control.attr('data-pageno', '1');
+        }
+        if ($control.attr('data-pagesize') != null) {
+            $control.attr('data-pagesize', '15');
+        }
 
         // auto generate controllers for validations if they don't have one, so we only have to look in 1 place for the apiurl
         if (typeof $validationbrowse.attr('data-name') !== 'undefined' && typeof $validationbrowse.attr('data-apiurl') !== 'undefined') {
@@ -135,19 +141,61 @@ class FwFormField_comboboxClass implements IFwFormField {
         });
 
         // overrides the databind method in FwBrowse
-        $validationbrowse.data('calldatabind', function (request) {
-            //if (typeof $control.attr('data-pagesize') === 'string') {
-            //    request.pagesize = parseInt($control.attr('data-pagesize'));
-            //}
-            FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
-                try {
-                    if (typeof window[$validationbrowse.attr('data-name') + 'Controller'].apiurl !== 'undefined') {
-                        FwFormField_combobox.databindcallback($control, $validationbrowse, response, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
-                    } else {
-                        FwFormField_combobox.databindcallback($control, $validationbrowse, response.browse, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+        $validationbrowse.data('calldatabind', async (request: any, callback: (response: any) => void): Promise<any> => {
+            return new Promise<any>(async (resolve, reject) => {
+                let validationmode = $control.data('validationmode');
+                if (validationmode !== undefined && validationmode === 2) {
+                    try {
+                        let getManyRequest = FwBrowse.getManyRequest($validationbrowse);
+                        //getManyRequest.pageno = (!isNaN(parseInt($control.attr('data-pageno')))) ? parseInt($control.attr('data-pageno')) : getManyRequest.pageno;
+                        //getManyRequest.pagesize = (!isNaN(parseInt($control.attr('data-pagesize')))) ? parseInt($control.attr('data-pagesize')) : getManyRequest.pagesize;
+                        //$control.attr('data-pageno', getManyRequest.pageno);
+                        //$control.attr('data-pagesize', getManyRequest.pagesize);
+
+
+                        let url = Array<string>();
+                        url.push(`${applicationConfig.apiurl}${$control.attr('data-apiurl')}?`);
+                        url.push(`pageno=${getManyRequest.pageno}`);
+                        url.push(`&pagesize=${getManyRequest.pagesize}`);
+                        if (getManyRequest.sort.length > 0) {
+                            url.push(`&sort=${getManyRequest.sort}`);
+                        }
+                        for (let filterno = 0; filterno < getManyRequest.filters.length; filterno++) {
+                            let filter = getManyRequest.filters[filterno];
+                            url.push(`&${filter.fieldName}=${filter.comparisonOperator}:${filter.fieldValue}`);
+                        }
+                        if (typeof control_boundfields != 'undefined') {
+                            for (let i = 0; i < boundfields.length; i++) {
+                                url.push(`&${boundfields[i]}=${FwFormField.getValueByDataField($object, boundfields[i])}`);
+                            }
+                        }
+                        let request = new FwAjaxRequest();
+                        request.httpMethod = 'GET';
+                        request.url = encodeURI(url.join(''));
+                        request.timeout = 15000;
+                        request.$elementToBlock = $control.data('$control');
+                        request.addAuthorizationHeader = true;
+                        let getManyResponse = await FwAjax.callWebApi<any, GetManyModel<any>>(request);
+                        let dt = DataTable.objectListToDataTable(getManyResponse);
+                        FwFormField_combobox.databindcallback($control, $validationbrowse, dt, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                        callback(dt);
+                        resolve();
+                    } catch (ex) {
+                        reject(ex);
                     }
-                } catch (ex) {
-                    FwFunc.showError(ex);
+                }
+                else {
+                    FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
+                        try {
+                            if (typeof window[$validationbrowse.attr('data-name') + 'Controller'].apiurl !== 'undefined') {
+                                FwFormField_combobox.databindcallback($control, $validationbrowse, response, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                            } else {
+                                FwFormField_combobox.databindcallback($control, $validationbrowse, response.browse, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                            }
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
                 }
             });
         });
@@ -178,10 +226,10 @@ class FwFormField_comboboxClass implements IFwFormField {
             //});
         }
         $control
-            .on('keydown', '.fwformfield-text', function (e) {
+            .on('keydown', '.fwformfield-text', (e) => {
                 var $row, search, usesearchfield;
                 try {
-                    //alert(e.which);
+                    //console.log(e.which);
                     search = true;
                     usesearchfield = true;
                     if (e.which === 27) { // Esc
@@ -202,34 +250,40 @@ class FwFormField_comboboxClass implements IFwFormField {
                             e.preventDefault();
                             return;
                         }
-                        if (e.which === 13) { //Enter Key
-                            $row = FwFormField_combobox.getHighlightedRow($control);
-                            FwFormField_combobox.selectRow($control, $row, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
-                            return;
-                        }
+                        //if (e.which === 13) { //Enter Key
+                        //    $row = FwFormField_combobox.getHighlightedRow($control);
+                        //    FwFormField_combobox.selectRow($control, $row, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                        //    return;
+                        //}
                     } else {
                         if (e.which === 40) { // Down Arrow
                             usesearchfield = false;
                         }
                     }
                     switch (e.which) {
-                        case 8:
-                        case 46:
-                            if ((<string>$control.find('.fwformfield-text').val()).length <= 0) {
-                                search = false;
-                                FwFormField_combobox.closeDropDown($control, true);
-                            }
-                            break;
+                        //case 8:
+                        //case 46:
+                        //    if ((<string>$control.find('.fwformfield-text').val()).length <= 0) {
+                        //        search = false;
+                        //        FwFormField_combobox.closeDropDown($control, true);
+                        //        return;
+                        //    }
+                        //    break;
                         case 9: // Tab
                             search = false;
                             FwFormField_combobox.closeDropDown($control, true);
                             break;
+                        //case 12: // numpad(5)
+                        //case 13: // Enter
+                        //    search = false;
+                        //    //$control.find('.fwformfield-text').change();
+                        //    e.preventDefault();
+                        //    return;
+                        //    break;
                         case 12: // numpad(5)
                         case 13: // Enter
-                            search = false;
-                            $control.find('.fwformfield-text').change();
-                            e.preventDefault();
-                            break;
+                        case 8:  // backspace
+                        case 46: // delete
                         case 16: // shift
                         case 17: // ctrl
                         case 18: // alt
@@ -250,37 +304,61 @@ class FwFormField_comboboxClass implements IFwFormField {
                             break;
                     }
                     if (search) {
-                        if ($control.data('searchtimeout') !== null) {
-                            window.clearTimeout($control.data('searchtimeout'));
-                            $control.data('searchtimeout', null);
-                        }
-                        $control.data('searchtimeout', window.setTimeout(function () {
-                            FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, usesearchfield);
-                        }, 250));
+                        this.clearSearchTimeout($control);
+                        $control.data('searchtimeout', window.setTimeout(async () => {
+                            await this.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, usesearchfield);
+                        }, 500));
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-            .on('change', '.fwformfield-text', function () {
+            .on('keyup', '.fwformfield-text', (e) => {
+                try {
+                    console.log(e.which, $control.find('.fwformfield-text').val());
+                    switch (e.which) {
+                        case 8:
+                        case 46:
+                            if ((<string>$control.find('.fwformfield-text').val()).length <= 0) {
+                                FwFormField_combobox.closeDropDown($control, true);
+                            }
+                            break;
+                        case 12: // numpad(5)
+                        case 13: // Enter
+                            if ($control.data('dropdown') !== null) {
+                                const $row = FwFormField_combobox.getHighlightedRow($control);
+                                FwFormField_combobox.selectRow($control, $row, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
+                            }
+                            else {
+                                $control.find('.fwformfield-text').change();
+                            }
+                            e.preventDefault();
+                            break;
+                            
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+            .on('change', '.fwformfield-text', async () => {
                 try {
                     if ($searchfield.val().length === 0) {
                         $valuefield.val('').change();
                         FwFormField_combobox.closeDropDown($control, true);
                     } else {
-                        FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, true);
+                        await FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, true);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.btnvalidate', function () {
+            .on('click', '.btnvalidate', async () => {
                 try {
-                    if ($control.data('dropdown') !== null) {
+                    if ($control.data('dropdown') != null) {
                         FwFormField_combobox.closeDropDown($control, true);
                     }
                     else if ((typeof $control.attr('data-enabled') !== 'string') || ($control.attr('data-enabled') !== 'false')) {
-                        FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
+                        await FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -289,12 +367,14 @@ class FwFormField_comboboxClass implements IFwFormField {
             ;
     }
     //---------------------------------------------------------------------------------
-    databindcallback($control, $browse, dt, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller) {
+    databindcallback($control: JQuery, $browse: JQuery, dt: DataTable, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $validationbrowse: JQuery, controller: string) {
         var html = [], $dropdown, controlOffset, originalcolor;
         var pageSize = parseInt($validationbrowse.attr('data-pagesize'));
         var htmlPager = [];
         var rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
         var rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
+        let validationmode: number = 1;
+        validationmode = ($control.attr('data-validationmode') !== undefined && !isNaN(parseInt($control.attr('data-validationmode')))) ? parseInt($control.attr('data-validationmode')) : validationmode;
 
         // only focus the searchfield on desktop browsers so the user can use keydown handler on the field to arrow up and down through the dropdown
         if (typeof (<any>window).cordova === 'undefined') {
@@ -304,9 +384,20 @@ class FwFormField_comboboxClass implements IFwFormField {
         if (dt.Rows.length > 0) {
             var uniqueid, displayfield;
             for (var i = 0; i < dt.Columns.length; i++) {
-                if (dt.Columns[i].IsUniqueId) {
-                    uniqueid = dt.Columns[i].DataField;
-                    break;
+                if (validationmode === 2) {
+                    var $col = $validationbrowse.find(`[data-browsedatafield="${dt.Columns[i].DataField}"]`);
+                    if ($col.length > 0) {
+                        const isUniqueId = $col.attr('data-isuniqueid');
+                        if (isUniqueId !== undefined && isUniqueId.toLowerCase() === 'true') {
+                            uniqueid = dt.Columns[i].DataField;
+                            break;
+                        }
+                    }
+                } else { // validationmode === 1
+                    if (dt.Columns[i].IsUniqueId) {
+                        uniqueid = dt.Columns[i].DataField;
+                        break;
+                    }
                 }
             }
             displayfield = $validationbrowse.find('table > thead > tr > td > .field[data-validationdisplayfield="true"]').eq(0).attr('data-browsedatafield');
@@ -329,16 +420,16 @@ class FwFormField_comboboxClass implements IFwFormField {
                     $dropdown.find('.rows').css('min-height', (pageSize * 32) + 10);
                 }
             }
-            $dropdown.on('mouseover', '.row', function () {
-                var $row = jQuery(this);
-                FwFormField_combobox.highlightRow($control, $row);
-            });
+            //$dropdown.on('mouseover', '.row', function () {
+            //    var $row = jQuery(this);
+            //    FwFormField_combobox.highlightRow($control, $row);
+            //});
             $dropdown.on('click', '.row', function () {
                 var $row = jQuery(this);
                 FwFormField_combobox.selectRow($control, $row, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller);
             });
             controlOffset = $control.offset();
-            if ($control.data('dropdown') !== null) {
+            if ($control.data('dropdown') != null) {
                 FwFormField_combobox.closeDropDown($control, false);
                 $control.append($dropdown);
             } else {
@@ -387,13 +478,18 @@ class FwFormField_comboboxClass implements IFwFormField {
             $dropdown.append($pager);
 
             $pager.find('.btnFirstPage')
-                .on('click', function () {
+                .on('click', async (e: JQuery.ClickEvent) => {
                     var pageno, $thisbtn;
                     try {
-                        $thisbtn = jQuery(this);
+                        $thisbtn = jQuery(e.target);
                         if ($thisbtn.attr('data-enabled') === 'true') {
                             $validationbrowse.attr('data-pageno', '1');
-                            FwBrowse.databind($validationbrowse);
+                            try {
+                                this.toggleWaitingIndicator($control, true);
+                                await FwBrowse.databind($validationbrowse);
+                            } finally {
+                                this.toggleWaitingIndicator($control, false);
+                            }
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -401,15 +497,20 @@ class FwFormField_comboboxClass implements IFwFormField {
                 })
                 ;
             $pager.find('.btnPreviousPage')
-                .on('click', function () {
+                .on('click', async (e: JQuery.ClickEvent) => {
                     var pageno, $thisbtn;
                     try {
-                        $thisbtn = jQuery(this);
+                        $thisbtn = jQuery(e.target);
                         if ($thisbtn.attr('data-enabled') === 'true') {
                             pageno = parseInt(<string>$pager.find('.txtPageNo').val()) - 1;
                             pageno = (pageno >= 1) ? pageno : 1;
                             $validationbrowse.attr('data-pageno', pageno.toString());
-                            FwBrowse.databind($validationbrowse);
+                            try {
+                                this.toggleWaitingIndicator($control, true);
+                                await FwBrowse.databind($validationbrowse);
+                            } finally {
+                                this.toggleWaitingIndicator($control, false);
+                            }
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -417,10 +518,10 @@ class FwFormField_comboboxClass implements IFwFormField {
                 })
                 ;
             $pager.find('.txtPageNo')
-                .on('change', function () {
+                .on('change', async (e: JQuery.ChangeEvent) => {
                     var pageno, originalpageno, originalpagenoStr, $txtPageNo, totalPages;
                     try {
-                        $txtPageNo = jQuery(this);
+                        $txtPageNo = jQuery(e.target);
                         originalpagenoStr = $txtPageNo.val();
                         if (!isNaN(originalpagenoStr)) {
                             pageno = parseInt(originalpagenoStr);
@@ -430,7 +531,12 @@ class FwFormField_comboboxClass implements IFwFormField {
                             pageno = (pageno <= totalPages) ? pageno : totalPages;
                             if (pageno === originalpageno) {
                                 $validationbrowse.attr('data-pageno', pageno.toString());
-                                FwBrowse.databind($validationbrowse);
+                                try {
+                                    this.toggleWaitingIndicator($control, true);
+                                    await FwBrowse.databind($validationbrowse);
+                                } finally {
+                                    this.toggleWaitingIndicator($control, false);
+                                }
                             } else {
                                 $pager.find('.txtTotalPages').val(pageno);
                             }
@@ -444,16 +550,21 @@ class FwFormField_comboboxClass implements IFwFormField {
                 })
                 ;
             $pager.find('.btnNextPage')
-                .on('click', function () {
+                .on('click', async (e: JQuery.ClickEvent) => {
                     //var pageno, totalPages, $thisbtn;
                     try {
-                        let $btnNextPage = jQuery(this);
+                        let $btnNextPage = jQuery(e.target);
                         if ($btnNextPage.attr('data-enabled') === 'true') {
                             let pageno = parseInt(<string>$pager.find('.txtPageNo').val()) + 1;
                             let totalPages = parseInt($pager.find('.txtTotalPages').html());
                             pageno = (pageno <= totalPages) ? pageno : totalPages;
                             $validationbrowse.attr('data-pageno', pageno.toString());
-                            FwBrowse.databind($validationbrowse);
+                            try {
+                                this.toggleWaitingIndicator($control, true);
+                                await FwBrowse.databind($validationbrowse);
+                            } finally {
+                                this.toggleWaitingIndicator($control, false);
+                            }
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -461,14 +572,19 @@ class FwFormField_comboboxClass implements IFwFormField {
                 })
                 ;
             $pager.find('.btnLastPage')
-                .on('click', function () {
+                .on('click', async (e: JQuery.ClickEvent) => {
                     var pageno, $thisbtn;
                     try {
-                        $thisbtn = jQuery(this);
+                        $thisbtn = jQuery(e.target);
                         if ($thisbtn.attr('data-enabled') === 'true') {
                             pageno = parseInt($pager.find('.txtTotalPages').html());
                             $validationbrowse.attr('data-pageno', pageno.toString());
-                            FwBrowse.databind($validationbrowse);
+                            try {
+                                this.toggleWaitingIndicator($control, true);
+                                await FwBrowse.databind($validationbrowse);
+                            } finally {
+                                this.toggleWaitingIndicator($control, false);
+                            }
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -482,7 +598,7 @@ class FwFormField_comboboxClass implements IFwFormField {
             }
 
             // register a one time event to close the dropdown when the users clicks on the document
-            $control.data('onclickdocument', function (e) {
+            $control.data('onclickdocument', function (e: JQuery.ClickEvent) {
                 var $target = jQuery(e.target);
                 if ($target.closest('.dropdown').length === 0) {
                     FwFormField_combobox.closeDropDown($control, true);
@@ -498,8 +614,17 @@ class FwFormField_comboboxClass implements IFwFormField {
         }
     }
     //---------------------------------------------------------------------------------
-    closeDropDown($control: JQuery<HTMLElement>, showAnimation: boolean) {
-        if ((typeof $control.data('dropdown') !== 'undefined') && ($control.data('dropdown') !== null)) {
+    clearSearchTimeout($control: JQuery) {
+        if ($control.data('searchtimeout') != null) {
+            window.clearTimeout($control.data('searchtimeout'));
+        }
+        $control.data('searchtimeout', null);
+
+    }
+    //---------------------------------------------------------------------------------
+    closeDropDown($control: JQuery, showAnimation: boolean) {
+        this.clearSearchTimeout($control);
+        if (($control.data('dropdown') != null)) {
             if (showAnimation) {
                 $control.data('dropdown').slideUp({
                     duration: 250
@@ -514,7 +639,15 @@ class FwFormField_comboboxClass implements IFwFormField {
         $control.find('.dropdown').remove();
     }
     //---------------------------------------------------------------------------------
-    validate($control: JQuery<HTMLElement>, validationName: string, $valuefield: JQuery<HTMLElement>, $searchfield: JQuery<HTMLElement>, $btnvalidate: JQuery<HTMLElement>, $validationbrowse: JQuery<HTMLElement>, useSearchFieldValue: boolean) {
+    toggleWaitingIndicator($control: JQuery, isVisible: boolean) {
+        if (isVisible) {
+            $control.find('.fwformfield-control i.material-icons').html('hourglass_empty');
+        } else {
+            $control.find('.fwformfield-control i.material-icons').html('&#xE5CF;');
+        }
+    }
+    //---------------------------------------------------------------------------------
+    async validate($control: JQuery<HTMLElement>, validationName: string, $valuefield: JQuery<HTMLElement>, $searchfield: JQuery<HTMLElement>, $btnvalidate: JQuery<HTMLElement>, $validationbrowse: JQuery<HTMLElement>, useSearchFieldValue: boolean) {
         var $validationSearchbox;
 
         FwFormField_combobox.clearSearchCriteria($validationbrowse);
@@ -530,7 +663,12 @@ class FwFormField_comboboxClass implements IFwFormField {
             }
         }
         $validationbrowse.attr('data-pagesize', 10);
-        FwBrowse.search($validationbrowse);
+        try {
+            this.toggleWaitingIndicator($control, true);
+            await FwBrowse.search($validationbrowse);
+        } finally {
+            this.toggleWaitingIndicator($control, false);
+        }
     }
     //---------------------------------------------------------------------------------
     selectRow($control, $row, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, controller) {
@@ -598,6 +736,8 @@ class FwFormField_comboboxClass implements IFwFormField {
             var $prevrow = $row.prev('.row');
             if ($prevrow.length > 0) {
                 FwFormField_combobox.highlightRow($control, $prevrow);
+            } else {
+                FwFormField_combobox.closeDropDown($control, true);
             }
         }
     }

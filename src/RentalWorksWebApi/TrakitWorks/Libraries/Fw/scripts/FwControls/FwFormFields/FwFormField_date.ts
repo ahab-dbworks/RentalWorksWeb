@@ -38,12 +38,14 @@
         $control.html(html.join(''));
 
         $control.find('.fwformfield-value').inputmask('mm/dd/yyyy');
+
         $control.find('.fwformfield-value').datepicker({
             endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
             autoclose: true,
             format: "mm/dd/yyyy",
             todayHighlight: true,
-            todayBtn: 'linked'
+            todayBtn: 'linked',
+            weekStart: FwFunc.getWeekStartInt(),
         }).off('focus'); //MY 1/5/2015: Suppresses the date picker from opening on focus.
 
         $control
@@ -120,7 +122,7 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('.fwformfield-value')

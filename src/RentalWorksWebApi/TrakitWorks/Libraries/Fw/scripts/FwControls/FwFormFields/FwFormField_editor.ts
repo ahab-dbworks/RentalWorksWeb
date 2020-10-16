@@ -14,9 +14,10 @@
     }
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+        const name = 'editor-' + program.uniqueId(8);
         html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
-        html.push('<textarea name="editor1" id="editor1" class="fwformfield-value"');
+        html.push(`<textarea name="${name}" id="${name}" class="fwformfield-value"`);
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
@@ -27,41 +28,49 @@
         const editor = $control.find('.fwformfield-value').ckeditor().editor;
         $control.data('editor', editor);
 
-        editor.on('change', function () {
+        editor.on('change', function (evt) {
             try {
-                $control.find('.fwformfield-value').change();
+                const origVal = $control.attr('data-originalvalue');
+                let value = CKEDITOR.instances[name].getData();
+                if (origVal != value) {
+                    $control.find('.fwformfield-value').change();
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
-        editor.on('instanceReady', function () {
-            try {
-                this.dataProcessor.writer.setRules('p', {
-                    indent: false,
-                    breakBeforeOpen: false,
-                    breakAfterOpen: false,
-                    breakBeforeClose: false,
-                    breakAfterClose: false
-                });
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+
+        //these already default to false
+        //editor.on('instanceReady', function () {
+        //    try {
+        //        this.dataProcessor.writer.setRules('p', {
+        //            indent: false,
+        //            breakBeforeOpen: false,
+        //            breakAfterOpen: false,
+        //            breakBeforeClose: false,
+        //            breakAfterClose: false
+        //        });
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('.fwformfield-value')
             .val(value);
 
+        const name = $fwformfield.data('editor').name;
+
         $fwformfield.data('editor').on('instanceReady', function () {
             try {
-                CKEDITOR.instances[$fwformfield.data('editor').name].setData(value);
+                CKEDITOR.instances[name].setData(value);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -89,7 +98,9 @@
     //---------------------------------------------------------------------------------
     onRemove($fwformfield) {
         const editor = $fwformfield.data('editor');
-        editor.destroy();
+        if (editor !== undefined) {
+            editor.destroy();
+        }
     }
     //---------------------------------------------------------------------------------
 }

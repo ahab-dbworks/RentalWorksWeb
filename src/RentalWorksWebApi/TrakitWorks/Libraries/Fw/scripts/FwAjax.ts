@@ -27,7 +27,7 @@ class FwAjaxRequest<T> {
         this.url = baseUrl + '/' + relativeUrl;
     }
     logoutOnAuthFailure?: boolean = true;
-    forceJsonParseResponse?= false;
+    forceJsonParseResponse? = false;
 }
 
 interface IRequest {

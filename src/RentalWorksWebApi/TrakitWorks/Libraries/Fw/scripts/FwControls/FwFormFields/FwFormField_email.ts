@@ -24,15 +24,21 @@
             html.push(' maxlength="' + $control.attr('data-maxlength') + '"');
         }
         html.push(' />');
+        html.push('<i class="material-icons btnSendEmail" style="flex: 0 0 auto;padding: 0 .2em;color: #616161;cursor:pointer;">email</i>');
         html.push('</div>');
         $control.html(html.join(''));
+        $control.find('.btnSendEmail').on('click', (e) => {
+            var mail = document.createElement("a");
+            mail.href = "mailto:" + this.getValue2($control);
+            mail.click();
+        });
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('.fwformfield-value')

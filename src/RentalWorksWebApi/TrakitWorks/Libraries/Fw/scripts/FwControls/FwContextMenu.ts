@@ -34,6 +34,9 @@ class FwContextMenuClass {
         const maxZIndex = FwFunc.getMaxZ('*');
         $control.css('z-index', maxZIndex);
         $appendto.append($control);
+
+        const browseContextMenuCell = $appendto.closest('.browsecontextmenucell');
+        browseContextMenuCell.css('z-index', '2'); //an effort to fix checkbox bleeding through context menu - z-index is removed when context menu is destroyed below in FwContextMenu.destroy(); - J.Pace
         //FwContextMenu.center($control);
         $control.on('click', function (event) {
             try {
@@ -105,6 +108,8 @@ class FwContextMenuClass {
         if (typeof $control.data('beforedestroy') === 'function') {
             typeof $control.data('beforedestroy')();
         }
+        const browseContextMenuCell = $control.closest('.browsecontextmenucell');
+        browseContextMenuCell.css('z-index', '');
         $control.remove();
     }
     //----------------------------------------------------------------------------------------------

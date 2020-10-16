@@ -12,6 +12,7 @@
         }
         html.push('style="display:none" />');
         html.push('<div class="btnvalidate"><i class="material-icons">search</i></div>');
+        html.push('<div class="clearall"><i class="material-icons">clear</i></div>');
         html.push('</div>');
         $control.html(html.join(''));
     }
@@ -33,6 +34,7 @@
         }
         html.push('style="display:none" />');
         html.push('<div class="btnvalidate"><i class="material-icons">search</i></div>');
+        html.push('<div class="clearall"><i class="material-icons">clear</i></div>');
         html.push('</div>');
         $control.html(html.join(''));
         validationName = $control.attr('data-validationname');
@@ -46,7 +48,7 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('input.fwformfield-value')
@@ -107,6 +109,8 @@
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+        let valueArr, textArr;
+
         // this is really only useful for clearing the value, otherwise it will be out of sync with the selected rows
         const $inputvalue = $fwformfield.find('.fwformfield-value');
         const $inputtext = $fwformfield.find('.fwformfield-text');
@@ -120,24 +124,29 @@
         } else {
             $browse.removeData('selectedrows');
         }
-        const multiselectfield = $fwformfield.find('.multiselectitems');
-        multiselectfield.find('.multiitem').remove();
+
+        const $multiselectfield = $fwformfield.find('.multiselectitems');
+        $multiselectfield.find('.multiitem').remove();
         if (value !== '') {
-            let valueArr;
-            $fwformfield.hasClass('email') ? valueArr = value.split(';') : valueArr = value.split(',');
-            let textArr;
             const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
             if (typeof text !== 'undefined') {
                 textArr = text.split(multiSeparator);
             }
 
+            if ($fwformfield.hasClass('email')) {
+                textArr = value.split(',');
+                valueArr = value.split(',');
+            } else {
+                valueArr = value.split(',');
+            }
+
             for (let i = 0; i < valueArr.length; i++) {
-                multiselectfield.prepend(`
-                    <div contenteditable="false" class="multiitem" data-multivalue="${valueArr[i]}">
+                jQuery(`<div contenteditable="false" class="multiitem" data-multivalue="${valueArr[i]}">
                         <span>${textArr[i]}</span>
                         <i class="material-icons">clear</i>
-                    </div>`);
+                    </div>`).insertBefore($multiselectfield.find('.addItem'));
             }
+            //$multiselectfield.find('.addItem').focus();
         }
         if (firechangeevent) $inputvalue.change();
     }

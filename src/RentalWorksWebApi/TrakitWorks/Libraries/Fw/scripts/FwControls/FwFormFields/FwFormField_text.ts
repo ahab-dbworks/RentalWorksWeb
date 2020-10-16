@@ -16,7 +16,7 @@
     renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
-        html.push('<input class="fwformfield-value" type="text"');
+        html.push(`<input class="fwformfield-value" type="text" name="${'a'+Math.random()}"`);
         if (applicationConfig.allCaps && $control.attr('data-allcaps') !== 'false') {
             html.push(' style="text-transform:uppercase"');
         }
@@ -44,7 +44,7 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('.fwformfield-value')

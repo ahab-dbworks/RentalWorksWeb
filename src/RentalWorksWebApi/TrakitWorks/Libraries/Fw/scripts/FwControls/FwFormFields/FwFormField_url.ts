@@ -21,15 +21,49 @@
             html.push(' disabled="disabled"');
         }
         html.push(' />');
+        html.push('<span class="material-icons" style="cursor:pointer;">link</span>');
         html.push('</div>');
         $control.html(html.join(''));
+
+        $control.find('span.material-icons').on('click', e => {
+            let url = `${$control.find('input').val()}`;
+            if (!url.match(/^https?:\/\//i)) {
+                if (url.match(/^https?:\\\\/i)) { // http or https:\\
+                    url = url.replace(/^https?:\\\\/i, '');
+                }
+                if (url.match(/^https?:\\/i)) { // http or https:\
+                    url = url.replace(/^https?:\\/i, '');
+                }
+                if (url.match(/^https?:\//i)) { // http or https:/
+                    url = url.replace(/^https?:\//i, '');
+                }
+                url = `http://${url}`;
+            }
+
+            if (isValidURL(url)) {
+                const win = window.open(url, '_blank');
+                win.focus();
+            } else {
+                FwNotification.renderNotification('WARNING', 'URL is not valid');
+            }
+
+            function isValidURL(str) {
+                const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                    '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+                return pattern.test(str);
+            }
+        });
     }
     //---------------------------------------------------------------------------------
     loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('.fwformfield-value')

@@ -1,7 +1,7 @@
 class FwBrowseColumn_validationClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-        var displayFieldValue = dtRow[dt.ColumnIndex[$field.attr('data-browsedisplayfield')]];
+        const displayFieldValue = dtRow[dt.ColumnIndex[$field.attr('data-browsedisplayfield')]];
         $field.attr('data-originaltext', displayFieldValue);
     }
     //---------------------------------------------------------------------------------
@@ -27,8 +27,8 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
     }
     //---------------------------------------------------------------------------------
     isModified($browse, $tr, $field): boolean {
-        var isModified = false;
-        let originalValue = $field.attr('data-originalvalue');
+        let isModified = false;
+        const originalValue = $field.attr('data-originalvalue');
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             let currentValue = $field.find('input.value').val();
             isModified = currentValue !== originalValue;
@@ -38,28 +38,17 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
         $field.data('autoselect', false);
-        var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
-        let html = [];
+        const originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
+        const html = [];
 
-        let showPeek = false;
-        const isWebAdmin = (sessionStorage.getItem('userid') !== null) ? JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true' : false;
-        if (!($field.attr('data-validationpeek') === 'false')) {
-            if (isWebAdmin === true) {
-                showPeek = true;
-            }
-            else if (isWebAdmin === false && FwValidation.isHomeModule($field)) {
-                showPeek = true;
-            }
-        }
-        if (showPeek) {
-            html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
-        }
-
+        html.push('<div class="btnpeek" style="display:none;"><i class="material-icons">more_horiz</i></div>');
         // push hidden spinner
         html.push('<div class="sk-fading-circle validation-loader"><div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>');
 
-        let htmlString = html.join('');
+        const htmlString = html.join('');
         $field.html(originaltext + htmlString);
+        FwValidation.showHidePeek($field, originaltext);
+
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
@@ -68,11 +57,9 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var validationName, validationFor, $valuefield, $textfield, $btnvalidate;
-        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
-        let showPeek = false;
-        let html = [];
+        const originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        const originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
+        const html = [];
         html.push('<input class="value" type="hidden" />');
         html.push('<input class="text" type="text"');
         if (applicationConfig.allCaps) {
@@ -85,21 +72,11 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
         html.push('<div class="btnvalidate"><i class="material-icons">&#xE8B6;</i></div>');
         // push hidden spinner
         html.push('<div class="sk-fading-circle validation-loader"><div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>');
+        html.push('<div class="btnpeek" style="display:none;"><i class="material-icons">more_horiz</i></div>');
 
-        const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
-        if (!($field.attr('data-validationpeek') === 'false')) {
-            if (isWebAdmin === 'true') {
-                showPeek = true;
-            }
-            else if (isWebAdmin === 'false' && FwValidation.isHomeModule($field)) {
-                showPeek = true;
-            }
-        }
-        if (showPeek) {
-            html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
-        }
         let htmlString = html.join('');
         $field.html(htmlString);
+        FwValidation.showHidePeek($field, originalvalue);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue, text: originaltext });
         FwValidation.init($field);
         if ($field.data('autoselect') === true) {

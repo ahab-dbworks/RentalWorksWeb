@@ -28,7 +28,7 @@ class FwAppData {
         var useWebApi = false;
         me = this;
         var fullurl = '';
-        fullurl = applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + url;
+        fullurl = applicationConfig.apiurl + url;
         if (url.indexOf('api/') === 0) {
             useWebApi = true;
             fullurl = applicationConfig.apiurl + url;

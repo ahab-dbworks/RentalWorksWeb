@@ -32,7 +32,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield.attr('data-originalvalue', value);
         $fwformfield.find(`input[value="${value}"]`).prop('checked', true);
     }
@@ -51,8 +51,15 @@
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
-        const $inputvalue = $fwformfield.find(`input[name="${$fwformfield.attr('data-name')}"][value="${value}"]`);
-        $inputvalue.prop('checked', true);
+        let $inputvalue;
+        if (value !== '') {
+            $inputvalue = $fwformfield.find(`input[name="${$fwformfield.attr('data-name')}"][value="${value}"]`);
+            $inputvalue.prop('checked', true);
+        } else {
+            const previousVal = $fwformfield.find(`input[name="${$fwformfield.attr('data-name')}"]:checked`).val();
+            $inputvalue = $fwformfield.find(`input[name="${$fwformfield.attr('data-name')}"][value="${previousVal}"]`);
+            $inputvalue.prop('checked', false);
+        }
         if (firechangeevent) $inputvalue.change();
     }
     //---------------------------------------------------------------------------------

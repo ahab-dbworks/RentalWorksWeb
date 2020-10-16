@@ -157,11 +157,15 @@
     }
     //---------------------------------------------------------------------------------
     static getMaxZ(selector: string): number {
-        return Math.max.apply(null, jQuery(selector).map(function () {
-            let z;
-            // mv 2018-05-29 - I bumped the starting value from 0 to 1 because the checkbox has an ::after element with z-index 1 that it doesn't seem to find.
-            return isNaN(z = parseInt(jQuery(this).css("z-index"), 10)) ? 1 : z;
-        }));
+        var maxZIndex = 1;
+        var $elements = jQuery('#fw-app-header,#fw-app-menu,.fwcontextmenu,.fwoverlay,.fwpopup,.fwconfirmation,.submenu,.grid-menu-dropdown');
+        for (var i = 0; i < $elements.length; i++) {
+            const z: number = +jQuery($elements[i]).css("z-index");
+            if (z > maxZIndex) {
+                maxZIndex = z;
+            }
+        }
+        return maxZIndex;
     }
     //---------------------------------------------------------------------------------
     static round(num: number, decimalplaces: number): number {
@@ -247,7 +251,7 @@
         return str.replace(/{(\d+)}/g, (match, index) => args[index] || '');
     }
     //---------------------------------------------------------------------------------
-    static keys: {
+    static keys = {
         INSERT: 45,
         DELETE: 46,
         BACKSPACE: 8,
@@ -272,36 +276,122 @@
     }
     //---------------------------------------------------------------------------------
     static playSuccessSound() {
-        const successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        let successSoundUrl = jQuery('#application').attr('data-SuccessSoundUrl');
 
-        if (successSoundFileName && typeof successSoundFileName === 'string') {
-            const sound = new Audio(successSoundFileName);
+        if (successSoundUrl !== '') {
+            const sound = new Audio(successSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Success')
+                .then(() => {
+                    successSoundUrl = jQuery('#application').attr('data-SuccessSoundUrl');
+                    if (successSoundUrl) {
+                        const sound = new Audio(successSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Success Sound set up. Visit User Profile to choose a sound.')
+                    }
+                });
         }
     }
     //---------------------------------------------------------------------------------
     static playErrorSound() {
-        const errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-
-        if (errorSoundFileName && typeof errorSoundFileName === 'string') {
-            const sound = new Audio(errorSoundFileName);
+        let errorSoundUrl = jQuery('#application').attr('data-ErrorSoundUrl');
+        if (errorSoundUrl) {
+            const sound = new Audio(errorSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Error')
+                .then(() => {
+                    errorSoundUrl = jQuery('#application').attr('data-ErrorSoundUrl');
+                    if (errorSoundUrl) {
+                        const sound = new Audio(errorSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Error Sound set up. Visit User Profile to choose a sound.')
+                    }
+                });
         }
     }
     //---------------------------------------------------------------------------------
     static playNotificationSound() {
-        const notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
-
-        if (notificationSoundFileName && typeof notificationSoundFileName === 'string') {
-            const sound = new Audio(notificationSoundFileName);
+        let notificationSoundUrl = jQuery('#application').attr('data-NotificationSoundUrl');
+        if (notificationSoundUrl !== '') {
+            const sound = new Audio(notificationSoundUrl);
             sound.play();
         } else {
-            FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Settings to choose a sound.')
+            this.getBase64Sound('Notification')
+                .then(() => {
+                    notificationSoundUrl = jQuery('#application').attr('data-NotificationSoundUrl');
+                    if (notificationSoundUrl) {
+                        const sound = new Audio(notificationSoundUrl);
+                        sound.play();
+                    } else {
+                        FwNotification.renderNotification('INFO', 'No Notification Sound set up. Visit User Profile to choose a sound.')
+                    }
+                });
         }
+    }
+    //---------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------
+    static getBase64Sound(tag: string, userSettingsObject?: any): Promise<any> {
+        // gets base64sound for input tag and loads blob into app and assigns resulting url to DOM for streaming elsewhere (ex. FwFunc.playErrorSound())
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                if (userSettingsObject) {
+                    const base64Sound = userSettingsObject[`${tag}Base64Sound`];
+                    const blob = this.b64SoundtoBlob(base64Sound);
+                    const blobUrl = URL.createObjectURL(blob);
+                    jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+                } else {
+                    const webUsersId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                    const requestGetUserSettings = new FwAjaxRequest<any>();
+                    requestGetUserSettings.httpMethod = 'GET';
+                    requestGetUserSettings.setWebApiUrl(`/api/v1/userprofile/${webUsersId}`);
+                    requestGetUserSettings.$elementToBlock = jQuery('#application');
+                    const responseGetUserSettings = await FwAjax.callWebApi<any, any>(requestGetUserSettings);
+                    const base64Sound = responseGetUserSettings[`${tag}Base64Sound`];
+                    const blob = this.b64SoundtoBlob(base64Sound);
+                    const blobUrl = URL.createObjectURL(blob);
+                    jQuery('#application').attr(`data-${tag}SoundUrl`, blobUrl);
+                    resolve();
+                }
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    static b64SoundtoBlob(b64Data) {
+        const byteCharacters = atob(b64Data.replace(/^data:audio\/(wav|mp3|ogg\mpeg);base64,/, ''));
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: '' });
+        return blob;
+    }
+    //---------------------------------------------------------------------------------
+    static getWeekStartInt(): number {
+        let weekStartInt = 0;
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        if (userid) {
+            if (userid.firstdayofweek) {
+                weekStartInt = userid.firstdayofweek;
+            }
+        }
+
+        return weekStartInt;
     }
     //---------------------------------------------------------------------------------
 }

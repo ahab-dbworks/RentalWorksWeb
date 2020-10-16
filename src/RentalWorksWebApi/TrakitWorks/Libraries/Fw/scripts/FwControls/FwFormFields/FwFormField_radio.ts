@@ -58,7 +58,7 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield.attr('data-originalvalue', value);
         $fwformfield.find('input[value="' + value + '"]')
             .prop('checked', true);

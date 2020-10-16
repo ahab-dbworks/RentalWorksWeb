@@ -42,7 +42,7 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         if (typeof value === 'string') {
             $fwformfield.attr('data-originalvalue', ((value === 'T') ? 'T' : 'F'));
             if (value === 'T') {

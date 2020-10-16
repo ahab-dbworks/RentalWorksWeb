@@ -18,7 +18,7 @@ div[data-controller="GroupController"] .grouptree ul {margin:0 0 0 .3em;padding:
 div[data-controller="GroupController"] .grouptree li {margin:1px 0 0 1.25em;padding:0;list-style-type:none;display:block;}
 div[data-controller="GroupController"] .grouptree .content { overflow: hidden; background-color: #ECEFF1; border: 1px solid rgba(100,100,100,.3); padding: .3em .13em; display: flex; align-items: center; }
 
-div[data-controller="GroupController"] .grouptree .iconexpander {float:left;cursor:pointer;margin:.1em .1em 0 -0.27em;font-size: 1.3em;visibility:hidden;}
+div[data-controller="GroupController"] .grouptree .iconexpander {float:left;cursor:pointer;margin:.4em .1em 0 -0.27em;font-size: 1.3em;visibility:hidden;}
 div[data-controller="GroupController"] .grouptree li[data-expanded="T"] > .iconexpander {visibility:visible;}
 div[data-controller="GroupController"] .grouptree li[data-expanded="T"] > .iconexpander::before {content:'expand_more';}
 div[data-controller="GroupController"] .grouptree li[data-expanded="F"] > .iconexpander {visibility:visible;}
@@ -36,10 +36,10 @@ div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Tab
 div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv1ModuleMenu"] > .icon {background-image:url('../fwimages/icons/128/securitytree-tab.001.png');display:block;}
 div[data-controller="GroupController"] .grouptree li[data-property-nodetype="Lv1SettingsMenu"] > .icon {background-image:url('../fwimages/icons/128/securitytree-tab.001.png');display:block;}
 
-div[data-controller="GroupController"] .grouptree .iconvisible {float:left;cursor:pointer;font-size:1em;color: #0097A7;border-right: 1px solid #aaaaaa;padding: 0 4px 0 0;}
-div[data-controller="GroupController"] .grouptree .iconvisible::before {content:'check_box_outline';}
+div[data-controller="GroupController"] .grouptree .iconvisible {float:left;cursor:pointer;font-size:1.3em;color: #0097A7;padding: 0 .1em 0 .4em;}
+div[data-controller="GroupController"] .grouptree .iconvisible::before {content:'check_box_outline_blank';}
 div[data-controller="GroupController"] .grouptree li[data-property-visible="T"] > .content > .iconvisible::before {content:'check_box';}
-div[data-controller="GroupController"] .grouptree li[data-property-visible="F"] {opacity:0.2;}
+div[data-controller="GroupController"] .grouptree li[data-property-visible="F"] {opacity:0.4;}
 div[data-controller="GroupController"] .grouptree li[data-property-visible="F"] li[data-property-visible="F"] {opacity:1;}
 div[data-controller="GroupController"] .grouptree li[data-property-visible="T"] {opacity:1;}
 
