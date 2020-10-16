@@ -101,6 +101,7 @@ class RentalInventoryValueReport extends FwWebApiReport {
     constructor() {
         super('RentalInventoryValueReport', 'api/v1/rentalinventoryvaluereport', rentalInventoryValueTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
