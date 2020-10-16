@@ -87,9 +87,6 @@ namespace WebApi.Modules.Reports.Shared.InventoryAttributesReport
         [FwSqlDataField(column: "numericonly", modeltype: FwDataTypes.Boolean)]
         public bool? NumericOnly { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
-        public bool? IsFixedAsset { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 

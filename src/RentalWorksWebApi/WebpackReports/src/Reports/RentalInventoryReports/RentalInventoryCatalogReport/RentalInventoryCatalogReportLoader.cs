@@ -31,6 +31,12 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryCatalogRe
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? IsFixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
+        public int? DefaultDepreciationMonths { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salvagevaluepct", modeltype: FwDataTypes.Decimal)]
+        public decimal? DefaultSalvageValuePercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currentqtyout", modeltype: FwDataTypes.Decimal)]
         public decimal? CurrentQuantityOut { get; set; }
         //------------------------------------------------------------------------------------ 

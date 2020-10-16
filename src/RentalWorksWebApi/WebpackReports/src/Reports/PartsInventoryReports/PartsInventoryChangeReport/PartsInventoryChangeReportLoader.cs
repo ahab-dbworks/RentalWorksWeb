@@ -1,13 +1,13 @@
 using WebApi.Modules.Reports.InventoryChangeReport;
 
-namespace WebApi.Modules.Reports.RentalInventoryChangeReport
+namespace WebApi.Modules.Reports.PartsInventoryChangeReport
 {
-    public class RentalInventoryChangeReportLoader : InventoryChangeReportLoader
+    public class PartsInventoryChangeReportLoader : InventoryChangeReportLoader
     {
         //------------------------------------------------------------------------------------ 
-        public RentalInventoryChangeReportLoader()
+        public PartsInventoryChangeReportLoader()
         {
-            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
         }
         //------------------------------------------------------------------------------------ 
     }

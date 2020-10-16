@@ -1,11 +1,11 @@
 routes.push({
-    pattern: /^reports\/rentalinventorychangereport/, action: function (match: RegExpExecArray) {
-        return RentalInventoryChangeReportController.getModuleScreen();
+    pattern: /^reports\/partsinventorychangereport/, action: function (match: RegExpExecArray) {
+        return PartsInventoryChangeReportController.getModuleScreen();
     }
 });
 
-const rentalInventoryChangeTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Change Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalInventoryChangeReportController">
+const partsInventoryChangeTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Parts Inventory Change Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PartsInventoryChangeReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -24,28 +24,10 @@ const rentalInventoryChangeTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="TrackedBys" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
-                </div>
-              </div>
-            </div>
             <div class="flexcolumn" style="max-width:75px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rank">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="Ranks" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:75px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="flexcolumn" style="max-width:300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
-                    <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
-                    <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
-                    <div data-value="All" data-caption="All"></div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -58,13 +40,13 @@ const rentalInventoryChangeTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType"  data-validationname="InventoryTypeValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category"  data-validationname="RentalCategoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category"  data-validationname="PartsCategoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId"  data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId"  data-displayfield="ICode" data-validationname="RentalInventoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId"  data-displayfield="ICode" data-validationname="PartsInventoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Transaction Type" data-datafield="TransactionType" data-displayfield="TransactionType" data-validationname="InventoryChangeTransactionTypeValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
@@ -79,10 +61,10 @@ const rentalInventoryChangeTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RentalInventoryChangeReport extends FwWebApiReport {
+class PartsInventoryChangeReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('RentalInventoryChangeReport', 'api/v1/RentalInventoryChangeReport', rentalInventoryChangeTemplate);
+        super('PartsInventoryChangeReport', 'api/v1/PartsInventoryChangeReport', partsInventoryChangeTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -118,9 +100,6 @@ class RentalInventoryChangeReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'ToDate', today);
         const aMonthAgo = FwFunc.getDate(today, -30);
         FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
-
-        FwFormField.setValueByDataField($form, 'FixedAsset', 'All');
-
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
@@ -135,7 +114,7 @@ class RentalInventoryChangeReport extends FwWebApiReport {
 
             switch (datafield) {
                 case 'InventoryTypeId':
-                    request.uniqueids.Rental = true;
+                    request.uniqueids.Parts = true;
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
                     break;
                 case 'CategoryId':
@@ -145,7 +124,7 @@ class RentalInventoryChangeReport extends FwWebApiReport {
                     $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
                     break;
                 case 'SubCategoryId':
-                    request.uniqueids.Rental = true;
+                    request.uniqueids.Parts = true;
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
@@ -177,16 +156,10 @@ class RentalInventoryChangeReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
-            { value: "BARCODE", text: "Barcode", selected: "T" },
-            { value: "QUANTITY", text: "Quantity", selected: "T" },
-            { value: "SERIALNO", text: "Serial Number", selected: "T" },
-            { value: "RFID", text: "RFID", selected: "T" },
-        ]);
         FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
     }
     //----------------------------------------------------------------------------------------------
 };
 
-var RentalInventoryChangeReportController: any = new RentalInventoryChangeReport();
+var PartsInventoryChangeReportController: any = new PartsInventoryChangeReport();
 //----------------------------------------------------------------------------------------------

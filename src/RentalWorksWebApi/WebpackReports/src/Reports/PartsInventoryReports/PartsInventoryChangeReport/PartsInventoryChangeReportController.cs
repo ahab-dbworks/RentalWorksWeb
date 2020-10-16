@@ -17,23 +17,22 @@ using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.Category;
 using WebApi.Modules.Settings.SubCategory;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
-using WebApi.Modules.Inventory.RentalInventory;
-using WebApi.Modules.Settings.InventorySettings.RentalCategory;
+using WebApi.Modules.Inventory.PartsInventory;
+using WebApi.Modules.Settings.InventorySettings.PartsCategory;
 using WebApi.Modules.Reports.InventoryChangeReport;
-
-namespace WebApi.Modules.Reports.RentalInventoryChangeReport
+namespace WebApi.Modules.Reports.PartsInventoryChangeReport
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "38oJf9KIuq4x")]
-    public class RentalInventoryChangeReportController : AppReportController
+    [FwController(Id: "PYSHE3LpB2yf")]
+    public class PartsInventoryChangeReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public RentalInventoryChangeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(RentalInventoryChangeReportLoader); }
+        public PartsInventoryChangeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(PartsInventoryChangeReportLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName(FwReportRenderRequest request) { return "RentalInventoryChangeReport"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "PartsInventoryChangeReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Rental Inventory Change Report"; }
+        protected override string GetReportFriendlyName() { return "Parts Inventory Change Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -46,12 +45,12 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "RentalInventoryChangeReport";
+            return "PartsInventoryChangeReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/render 
+        // POST api/v1/partsinventorychangereport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "kWqWWselO6L2")]
+        [FwControllerMethod(Id: "QWv2U9apDYe2")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -59,9 +58,9 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
             return actionResult;
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/exportexcelxlsx 
+        // POST api/v1/partsinventorychangereport/exportexcelxlsx 
         [HttpPost("exportexcelxlsx")]
-        [FwControllerMethod(Id: "G1soa2DZ3UmS")]
+        [FwControllerMethod(Id: "0s6k1q33YWvg")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]InventoryChangeReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
@@ -69,9 +68,9 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/runreport 
+        // POST api/v1/partsinventorychangereport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "8Av0EWfRVBqe")]
+        [FwControllerMethod(Id: "TnY29phbe2Pa")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]InventoryChangeReportRequest request)
         {
             if (!ModelState.IsValid)
@@ -80,7 +79,7 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
             }
             try
             {
-                RentalInventoryChangeReportLoader l = new RentalInventoryChangeReportLoader();
+                PartsInventoryChangeReportLoader l = new PartsInventoryChangeReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 l.HideDetailColumnsInSummaryDataTable(request, dt);
@@ -92,52 +91,52 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/validateinventorytype/browse 
+        // POST api/v1/partsinventorychangereport/validateinventorytype/browse 
         [HttpPost("validateinventorytype/browse")]
-        [FwControllerMethod(Id: "0OTR9H35bqQm", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "2ZBv3S88Sl8M", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/validatecategory/browse 
+        // POST api/v1/partsinventorychangereport/validatecategory/browse 
         [HttpPost("validatecategory/browse")]
-        [FwControllerMethod(Id: "GOvSjOtG4XDm", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "vKG5Wa0QFKQw", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
+            return await DoBrowseAsync<PartsCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/validatesubcategory/browse 
+        // POST api/v1/partsinventorychangereport/validatesubcategory/browse 
         [HttpPost("validatesubcategory/browse")]
-        [FwControllerMethod(Id: "D9Y2ng65xKeJ", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "tCAJI0xfZ3EB", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/validatetransactiontype/browse 
+        // POST api/v1/partsinventorychangereport/validatetransactiontype/browse 
         [HttpPost("validatetransactiontype/browse")]
-        [FwControllerMethod(Id: "AW7dodYKpSrf", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "F4xCkc2aEFxi", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateTransactionTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<InventoryChangeTransactionTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/validatewarehouse/browse 
+        // POST api/v1/partsinventorychangereport/validatewarehouse/browse 
         [HttpPost("validatewarehouse/browse")]
-        [FwControllerMethod(Id: "628qKhTcmIo9", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "YHbwDdd3126h", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorychangereport/validateinventory/browse 
+        // POST api/v1/partsinventorychangereport/validateinventory/browse 
         [HttpPost("validateinventory/browse")]
-        [FwControllerMethod(Id: "SbR5uVY5JUtw", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id: "eVtrJOqb1VQ5", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+            return await DoBrowseAsync<PartsInventoryLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }
