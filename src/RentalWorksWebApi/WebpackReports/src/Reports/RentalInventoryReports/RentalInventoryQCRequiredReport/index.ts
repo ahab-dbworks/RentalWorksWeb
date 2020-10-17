@@ -15,7 +15,7 @@ export class RentalInventoryQCRequiredReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = {};
                     data.rows = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Rental Inventory QC Required Report';
 
                     this.renderFooterHtml(data);

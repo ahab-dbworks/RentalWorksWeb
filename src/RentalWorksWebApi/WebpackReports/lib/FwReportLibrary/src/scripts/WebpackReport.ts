@@ -42,7 +42,7 @@ export abstract class WebpackReport {
         }
     }
     //----------------------------------------------------------------------------------------------
-    setReportMetadata(parameters: any, data: any) {  // parameters included here for future expansion
+    setReportMetadata(parameters: any, data: any, reportResponse: any) {  // parameters included here for future expansion
         var localemoment = moment().locale(parameters.Locale);
         data.Locale = parameters.Locale;
         data.PrintTime = localemoment.format('LTS');
@@ -50,6 +50,7 @@ export abstract class WebpackReport {
         data.PrintDateTime = `${localemoment.format('L')} ${localemoment.format('LTS')}`;
         data.System = 'UNKNOWN SYSTEM';
         data.Company = 'UNKNOWN COMPANY';
+        data.DateFields = reportResponse.DateFields;
         //if (sessionStorage.getItem('controldefaults') !== null) {
         //    const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
         //    if (typeof controlDefaults !== 'undefined') {
@@ -67,6 +68,43 @@ export abstract class WebpackReport {
         if (parameters.systemName) {
             data.System = parameters.systemName;
         }
+
+        // convert all ISO dates to locale dates
+        let fieldIsDate: boolean = false;
+        let dataIsArray: boolean = Array.isArray(data);
+        if (dataIsArray) {
+            for (var rec of data) {
+                for (var field in rec) {
+                    if (rec[field]) {
+                        fieldIsDate = false;
+                        for (var dateField of data.DateFields) {
+                            if (dateField.toLowerCase() === field.toLowerCase()) {
+                                fieldIsDate = true;
+                            }
+                        }
+                        if (fieldIsDate) {
+                            rec[field] = moment(rec[field]).locale(parameters.Locale).format('L');
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            for (var field in data) {
+                if (data[field]) {
+                    fieldIsDate = false;
+                    for (var dateField of data.DateFields) {
+                        if (dateField.toLowerCase() === field.toLowerCase()) {
+                            fieldIsDate = true;
+                        }
+                    }
+                    if (fieldIsDate) {
+                        data[field] = moment(data[field]).locale(parameters.Locale).format('L');
+                    }
+                }
+            }
+        }
+
         console.log('report data: ', data);
     }
     //----------------------------------------------------------------------------------------------

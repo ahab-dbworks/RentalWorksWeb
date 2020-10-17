@@ -16,8 +16,8 @@ export class RentalInventoryChangeReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    data.FromDate = moment(parameters.FromDate).locale(parameters.Locale).format('L');
+                    data.ToDate = moment(parameters.ToDate).locale(parameters.Locale).format('L');
                     data.Report = 'Rental Inventory Change Report';
 
                     this.renderFooterHtml(data);

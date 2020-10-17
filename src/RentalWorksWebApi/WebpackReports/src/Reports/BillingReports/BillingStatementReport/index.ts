@@ -18,9 +18,9 @@ export class BillingStatementReport extends WebpackReport {
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/BillingStatementReport/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
-                            data.FromDate = parameters.FromDate;
-                            data.ToDate = parameters.ToDate;
+                    this.setReportMetadata(parameters, data, response);
+                            data.FromDate = moment(parameters.FromDate).locale(parameters.Locale).format('L');
+                            data.ToDate = moment(parameters.ToDate).locale(parameters.Locale).format('L');
                             data.Report = 'Billing Statement Report';
                             
                             if (logoObject.LogoImage != '') {

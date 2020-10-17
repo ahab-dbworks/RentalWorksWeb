@@ -23,7 +23,7 @@ export class OrderReport extends WebpackReport {
                         .then((response: DataTable) => {
                             const data: any = response;
 
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }

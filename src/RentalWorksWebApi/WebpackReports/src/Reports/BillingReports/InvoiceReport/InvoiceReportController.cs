@@ -12,6 +12,9 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using WebApi.Data;
 using WebApi.Modules.Billing.Invoice;
+using System.Reflection;
+using System.Collections.Generic;
+using FwStandard.SqlServer.Attributes;
 
 namespace WebApi.Modules.Reports.Billing.InvoiceReport
 {

@@ -14,9 +14,9 @@ export class QuoteOrderMasterReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/quoteordermasterreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    this.setReportMetadata(parameters, data, response);
+                    data.FromDate = moment(parameters.FromDate).locale(parameters.Locale).format('L');
+                    data.ToDate = moment(parameters.ToDate).locale(parameters.Locale).format('L');
                     data.FilterDates = parameters.FilterDates;
                     data.Report = 'Quote / Order Master Report';
                     this.renderFooterHtml(data);

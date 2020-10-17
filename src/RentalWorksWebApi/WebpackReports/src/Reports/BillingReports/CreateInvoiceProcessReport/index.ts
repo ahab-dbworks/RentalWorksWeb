@@ -24,7 +24,7 @@ export class CreateInvoiceProcessReport extends WebpackReport {
                         }
                     }
 
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Create Invoice Process Report';
 
                     this.renderFooterHtml(data);

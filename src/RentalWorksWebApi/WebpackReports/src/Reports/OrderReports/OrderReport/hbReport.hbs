@@ -82,18 +82,18 @@
       {{#if HasRecurring}}
       <tr>
         <td style="width:105px;" class="shaded-block">Billing Period:</td>
-        <td class="">{{formatDate BillingStartDate Locale}} - {{formatDate BillingStopDate Locale}}</td>
+        <td class="">{{BillingStartDate}} - {{BillingStopDate}}</td>
       </tr>
       {{/if}}
       {{#if HasRecurring}}
       <tr>
         <td style="width:105px;" class="shaded-block">Usage Period:</td>
-        <td class="">{{formatDate EstimatedStartDate Locale}} - {{formatDate EstimatedStopDate Locale}}</td>
+        <td class="">{{EstimatedStartDate}} - {{EstimatedStopDate}}</td>
       </tr>
       {{else}}
       <tr>
         <td style="width:105px;" class="shaded-block">Start Date:</td>
-        <td class="">{{formatDate EstimatedStartDate Locale}}</td>
+        <td class="">{{EstimatedStartDate}}</td>
       </tr>
       {{/if}}
       <tr>
@@ -199,7 +199,7 @@
       {{#ifCond OutDeliveryRequiredByDate '!==' ""}}
       <tr>
         <td class="">
-          <span style="font-weight:700;">Required By: </span>{{formatDate OutDeliveryRequiredByDate Locale}}
+          <span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDate}}
           {{#ifCond OutDeliveryRequiredbyTime '!=' "  :"}}
           &nbsp;{{OutDeliveryRequiredbyTime}}
           {{/ifCond}}
@@ -238,7 +238,7 @@
       {{#ifCond InDeliveryRequiredByDate '!==' ""}}
       <tr>
         <td class="">
-          <span style="font-weight:700;">Required By: </span>{{formatDate InDeliveryRequiredByDate Locale}}
+          <span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDate}}
           {{#ifCond InDeliveryRequiredbyTime '!=' "  :"}}
           &nbsp;{{InDeliveryRequiredbyTime}}
           {{/ifCond}}

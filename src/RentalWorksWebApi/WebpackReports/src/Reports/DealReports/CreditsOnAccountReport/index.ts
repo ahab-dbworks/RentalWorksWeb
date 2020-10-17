@@ -14,7 +14,7 @@ export class CreditsOnAccountReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Credits on Account Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

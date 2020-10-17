@@ -16,7 +16,7 @@ export class PickListReport extends WebpackReport {
                 .then((response: any) => {
                     const data: any = response;
                     //data.rows = DataTable.toObjectList(response.Items);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.NewPagePerType = parameters.NewPagePerType;
                     //data.rows[1].IsFirstInventoryTypeHeader = true;
                     data.Items[1].IsFirstInventoryTypeHeader = true;

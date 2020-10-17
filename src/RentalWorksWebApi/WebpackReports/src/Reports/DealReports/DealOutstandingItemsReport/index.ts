@@ -54,9 +54,9 @@ export class DealOutstandingReport extends WebpackReport {
                     //    data.UnitValueHeading = "Purchase Amount";
                     //}
               
-                    this.setReportMetadata(parameters, data);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    this.setReportMetadata(parameters, data, response);
+                    data.FromDate = moment(parameters.FromDate).locale(parameters.Locale).format('L');
+                    data.ToDate = moment(parameters.ToDate).locale(parameters.Locale).format('L');
                     data.Report = 'Deal Outstanding Items Report';
 
                     this.renderFooterHtml(data);

@@ -14,8 +14,8 @@ export class BillingProgressReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/billingprogressreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
-                    data.AsOfDate = parameters.AsOfDate;
+                    this.setReportMetadata(parameters, data, response);
+                    data.AsOfDate = moment(parameters.AsOfDate).locale(parameters.Locale).format('L');
                     data.Report = 'Billing Progress Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

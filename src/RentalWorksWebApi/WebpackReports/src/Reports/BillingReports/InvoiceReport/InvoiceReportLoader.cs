@@ -1132,6 +1132,30 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                     }
                 }
             }
+
+
+            /////////////////////////////////////////////////////////
+
+
+            //Invoice.DateFields = new List<string>();
+            //PropertyInfo[] properties = Invoice.GetType().GetProperties();
+            //foreach (PropertyInfo property in properties)
+            //{
+            //    if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+            //    {
+            //        FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
+            //        if (sqlDataFieldAttribute.ModelType.Equals(FwDataTypes.Date))
+            //        {
+            //            Invoice.DateFields.Add(property.Name);
+            //        }
+            //    }
+            //}
+            //
+
+            /////////////////////////////////////////////////////////
+
+
+
             return Invoice;
         }
         //------------------------------------------------------------------------------------ 

@@ -1271,6 +1271,17 @@ namespace FwStandard.SqlServer
                                 }
                             }
                         }
+                        if (dt.DateFields == null)
+                        {
+                            dt.DateFields = new List<string>();
+                            foreach (FwJsonDataTableColumn col in dt.Columns)
+                            {
+                                if (col.DataType.Equals(FwDataTypes.Date))
+                                {
+                                    dt.DateFields.Add(col.Name);
+                                }
+                            }
+                        }
                         row = new List<object>();
                         for (int i = 0; i < columns.Count; i++)
                         {

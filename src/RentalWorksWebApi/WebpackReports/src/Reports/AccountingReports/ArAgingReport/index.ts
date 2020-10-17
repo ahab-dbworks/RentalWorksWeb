@@ -14,10 +14,10 @@ export class ArAgingReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/aragingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.AsOfDate = parameters.AsOfDate;
+                    data.AsOfDate = moment(parameters.AsOfDate).locale(parameters.Locale).format('L');
                     data.Report = 'A/R Aging Report';
 
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
 
                     this.renderFooterHtml(data);
 

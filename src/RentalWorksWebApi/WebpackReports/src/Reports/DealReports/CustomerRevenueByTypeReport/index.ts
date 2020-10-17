@@ -15,10 +15,10 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/customerrevenuebytypereport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    data.FromDate = moment(parameters.FromDate).locale(parameters.Locale).format('L');
+                    data.ToDate = moment(parameters.ToDate).locale(parameters.Locale).format('L');
                     data.Report = 'Customer Revenue By Type Report';
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.ContractTime = moment(data.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
