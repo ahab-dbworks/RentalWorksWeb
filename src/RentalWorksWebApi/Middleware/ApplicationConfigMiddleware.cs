@@ -38,21 +38,21 @@ namespace WebApi.Middleware
 
             if (this._appConfig.Apps.ContainsKey(RENTALWORKS))
             {
-                string rentalworkVirtualDirectory = this._appConfig.Apps[RENTALWORKS].VirtualDirectory;
+                string rentalworkVirtualDirectory = this._appConfig.Apps[RENTALWORKS].Path;
                 this._regexRentalWorksProdApplicationConfig = new Regex($"^{rentalworkVirtualDirectory}/applicationconfig.js$");
                 this._regexRentalWorksDevApplicationConfig = new Regex("^\\/webdev\\/applicationconfig.js$");
             }
 
             if (this._appConfig.Apps.ContainsKey(TRAKITWORKS))
             {
-                string trakitworksVirtualDirectory = this._appConfig.Apps[TRAKITWORKS].VirtualDirectory;
+                string trakitworksVirtualDirectory = this._appConfig.Apps[TRAKITWORKS].Path;
                 this._regexTrakItWorksProdApplicationConfig = new Regex($"^{trakitworksVirtualDirectory}/applicationconfig.js$");
                 this._regexTrakItWorksDevApplicationConfig = new Regex("^\\/trakitworksdev\\/applicationconfig.js$");
             }
 
             if (this._appConfig.Apps.ContainsKey(QUIKSCAN))
             {
-                string quikscanVirtualDirectory = this._appConfig.Apps[QUIKSCAN].VirtualDirectory;
+                string quikscanVirtualDirectory = this._appConfig.Apps[QUIKSCAN].Path;
                 this._regexQuikScanProdApplicationConfig = new Regex($"^{quikscanVirtualDirectory}/applicationconfig.js$");
                 this._regexQuikScanDevApplicationConfig = new Regex("^\\/quikscandev\\/applicationconfig.js$");
             }
@@ -72,7 +72,7 @@ namespace WebApi.Middleware
                 string path = httpContext.Request.Path.Value.ToLower();
                 if (this._appConfig.Apps.ContainsKey(RENTALWORKS) && (_regexRentalWorksProdApplicationConfig.IsMatch(path) || _regexRentalWorksDevApplicationConfig.IsMatch(path)))
                 {
-                    WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[RENTALWORKS].Config));
+                    WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[RENTALWORKS].ApplicationConfig));
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
                         appConfig.apiurl = this._appConfig.PublicBaseUrl;
@@ -86,7 +86,7 @@ namespace WebApi.Middleware
 
                 if (this._appConfig.Apps.ContainsKey(TRAKITWORKS) && (_regexTrakItWorksProdApplicationConfig.IsMatch(path) || _regexTrakItWorksDevApplicationConfig.IsMatch(path)))
                 {
-                    WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[TRAKITWORKS].Config));
+                    WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[TRAKITWORKS].ApplicationConfig));
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
                         appConfig.apiurl = this._appConfig.PublicBaseUrl;
@@ -101,7 +101,7 @@ namespace WebApi.Middleware
                 // dynamically generate QuikScan's ApplicationConfig.js
                 if (this._appConfig.Apps.ContainsKey(QUIKSCAN) && (_regexQuikScanProdApplicationConfig.IsMatch(path) || _regexQuikScanDevApplicationConfig.IsMatch(path)))
                 {
-                    MobileAppConfig appConfig = JsonConvert.DeserializeObject<MobileAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[QUIKSCAN].Config));
+                    MobileAppConfig appConfig = JsonConvert.DeserializeObject<MobileAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[QUIKSCAN].ApplicationConfig));
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
                         appConfig.apiurl = this._appConfig.PublicBaseUrl;

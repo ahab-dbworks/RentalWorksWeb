@@ -18,13 +18,49 @@ namespace FwStandard.Models
         public string WebApplicationPool { get; set; } = string.Empty;
         public string ApiPath { get; set; } = string.Empty;
         public string WebPath { get; set; } = string.Empty;
+        public Apps Apps { get; set; } = new Apps();
         public HostedServices HostedServices { get; set; } = new HostedServices();
-        public WebAppConfig WebApp { get; set; } = new WebAppConfig();
-        public string WebRequestPath { get; set; } = null;
-        public string MobileRequestPath { get; set; } = null;
-        public MobileAppConfig MobileApp { get; set; } = new MobileAppConfig();
+        //public WebAppConfig WebApp { get; set; } = new WebAppConfig();
+        //public string WebRequestPath { get; set; } = null;
+        //public string MobileRequestPath { get; set; } = null;
+        //public MobileAppConfig MobileApp { get; set; } = new MobileAppConfig();
         //public bool EnableHttpsRedirect { get; set; } = false;
         //public List<RewriteRulesConfig> RewriteRules { get; set; }
+    }
+
+    //public class ApplicationConfigJs
+    //{
+    //    public string appbaseurl { get; set; } = null;
+    //    public string fwvirtualdirectory { get; set; } = null;
+    //    public string appvirtualdirectory { get; set; } = null;
+    //    public bool? debugMode { get; set; } = null;
+    //    public bool? designMode { get; set; } = null;
+    //    public int? ajaxTimeoutSeconds { get; set; } = null;
+    //    public string version { get; set; } = null;
+    //    public string apiurl { get; set; } = null;
+    //    public bool? defaultPeek { get; set; } = null;
+    //    public int? photoQuality { get; set; } = null;
+    //    public int? photoWidth { get; set; } = null;
+    //    public int? photoHeight { get; set; } = null;
+    //    public bool? customLogin { get; set; } = null;
+    //    public string client { get; set; } = null;
+    //    public bool? allCaps { get; set; } = null;
+    //    public string appCaption { get; set; } = null; //2020-09-11 MY: Remove when TrakitWorks is its own application
+    //    public string appTitle { get; set; } = null;   //2020-09-11 MY: Remove when TrakitWorks is its own application
+    //    //public bool OktaEnabled { get; set; } = false;
+    //    //public FwOktaSignInConfig oktaSignIn { get; set; } = new FwOktaSignInConfig
+    //    //public string oktaApiUrl = string.Empty;
+    //}
+
+    public class App
+    {
+        public string Path { get; set; }
+        public ConcurrentDictionary<string, object> ApplicationConfig { get; set; }
+    }
+
+    public class Apps : ConcurrentDictionary<string, App>
+    {
+
     }
 
     public class HostedServices : ConcurrentDictionary<string, HostedService>

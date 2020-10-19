@@ -235,3 +235,7 @@
 src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js
 
 src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js.map
+
+src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js
+
+src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js.map

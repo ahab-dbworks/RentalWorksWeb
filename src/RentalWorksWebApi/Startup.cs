@@ -78,9 +78,9 @@ namespace WebApi
                 if (Directory.Exists(webProdDir))
                 {
                     var webProdFileServerOptions = new FileServerOptions();
-                    if (this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory != null)
+                    if (this.ApplicationConfig.Apps["rentalworks"].Path != null)
                     {
-                        webProdRequestPath = this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory;
+                        webProdRequestPath = this.ApplicationConfig.Apps["rentalworks"].Path;
                     }
                     webProdFileServerOptions.RequestPath = webProdRequestPath;
                     webProdFileServerOptions.EnableDefaultFiles = true;
@@ -160,9 +160,9 @@ namespace WebApi
                 if (Directory.Exists(trakitworksProdDir))
                 {
                     var webProdFileServerOptions = new FileServerOptions();
-                    if (this.ApplicationConfig.Apps["trakitworks"].VirtualDirectory != null)
+                    if (this.ApplicationConfig.Apps["trakitworks"].Path != null)
                     {
-                        trakitworksProdRequestPath = this.ApplicationConfig.Apps["trakitworks"].VirtualDirectory;
+                        trakitworksProdRequestPath = this.ApplicationConfig.Apps["trakitworks"].Path;
                     }
                     webProdFileServerOptions.RequestPath = trakitworksProdRequestPath;
                     webProdFileServerOptions.EnableDefaultFiles = true;
@@ -242,9 +242,9 @@ namespace WebApi
                 {
                     var mobileProdFileServerOptions = new FileServerOptions();
                     string mobileProdRequestPath = "/quikscan";
-                    if (this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory != null)
+                    if (this.ApplicationConfig.Apps["rentalworks"].Path != null)
                     {
-                        mobileProdRequestPath = this.ApplicationConfig.Apps["rentalworks"].VirtualDirectory;
+                        mobileProdRequestPath = this.ApplicationConfig.Apps["rentalworks"].Path;
                     }
                     mobileProdFileServerOptions.RequestPath = mobileProdRequestPath;
                     mobileProdFileServerOptions.EnableDefaultFiles = true;
