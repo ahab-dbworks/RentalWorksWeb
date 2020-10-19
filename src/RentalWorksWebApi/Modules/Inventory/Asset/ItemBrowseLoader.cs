@@ -454,6 +454,12 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "footcandles", modeltype: FwDataTypes.Integer)]
         public int? FootCandles { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text)]
+        public string SoftwareVersion { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.Date)]
+        public string SoftwareEffectiveDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pattern", modeltype: FwDataTypes.Text)]
         public string Pattern { get; set; }
         //------------------------------------------------------------------------------------ 

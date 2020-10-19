@@ -464,6 +464,12 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "Uw1mE7akfw01")]
         public int? FootCandles { get { return item.FootCandles; } set { item.FootCandles = value; } }
 
+        [FwLogicProperty(Id: "37cRhdOJ2qrY")]
+        public string SoftwareVersion { get { return item.SoftwareVersion; } set { item.SoftwareVersion = value; } }
+
+        [FwLogicProperty(Id: "LghShZjmaAq1")]
+        public string SoftwareEffectiveDate { get { return item.SoftwareEffectiveDate; } set { item.SoftwareEffectiveDate = value; } }
+
         [FwLogicProperty(Id: "AxOjLblF6wH1", IsReadOnly: true)]
         public string Pattern { get; set; }
 

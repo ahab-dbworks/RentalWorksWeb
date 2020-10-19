@@ -70,6 +70,13 @@ class CompleteQc {
                 CurrentFootCandles: +FwFormField.getValueByDataField($form, 'CurrentFootCandles'),
                 SoftwareEffectiveDate: FwFormField.getValueByDataField($form, 'SoftwareEffectiveDate'),
                 CurrentSoftwareVersion: FwFormField.getValueByDataField($form, 'CurrentSoftwareVersion'),
+                AssetHours: FwFormField.getValueByDataField($form, 'AssetHours'),
+                Strikes: FwFormField.getValueByDataField($form, 'Strikes'),
+                FootCandles: FwFormField.getValueByDataField($form, 'FootCandles'),
+                LampHours1: FwFormField.getValueByDataField($form, 'LampHours1'),
+                LampHours2: FwFormField.getValueByDataField($form, 'LampHours2'),
+                LampHours3: FwFormField.getValueByDataField($form, 'LampHours3'),
+                LampHours4: FwFormField.getValueByDataField($form, 'LampHours4'),
             }
             this.updateQc($form, request);
         })
@@ -187,6 +194,23 @@ class CompleteQc {
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:0 1 300px;" data-validationname="InventoryConditionValidation"></div>
                           </div>
+                          <div class="flexrow">
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Current Usage">
+                                <div class="flexrow">
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Asset Hours" data-datafield="AssetHours" style="flex:0 1 130px;"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="No. Strikes" data-datafield="Strikes" style="flex:0 1 130px;"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Foot-Candles" data-datafield="FootCandles" style="flex:0 1 130px;"></div>
+                                </div>
+                              </div>
+                              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Lamp Hours">
+                                <div class="flexrow">
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 1" data-datafield="LampHours1" style="flex:0 1 130px;"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 2" data-datafield="LampHours2" style="flex:0 1 130px;"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 3" data-datafield="LampHours3" style="flex:0 1 130px;"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 4" data-datafield="LampHours4" style="flex:0 1 130px;"></div>
+                                </div>
+                              </div>
+                            </div>
                           <div class="flexrow">
                             <div class="flexcolumn" style="flex:1 1 650px;">
                               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Attributes">

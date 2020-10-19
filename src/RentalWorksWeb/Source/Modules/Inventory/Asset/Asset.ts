@@ -592,6 +592,7 @@ class RwAsset {
               <div data-type="tab" id="assettab" class="tab" data-tabpageid="assettabpage" data-caption="General"></div>
               <div data-type="tab" id="locationtab" class="tab" data-tabpageid="locationtabpage" data-caption="Location"></div>
               <div data-type="tab" id="manufacturertab" class="tab" data-tabpageid="manufacturertabpage" data-caption="Manufacturer"></div>
+              <div data-type="tab" id="usagetab" class="tab" data-tabpageid="usagetabpage" data-caption="Usage"></div>
               <div data-type="tab" id="purchasetab" class="tab" data-tabpageid="purchasetabpage" data-caption="Purchase"></div>
               <div data-type="tab" id="attributetab" class="tab" data-tabpageid="attributetabpage" data-caption="Attribute"></div>
               <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="Quality Control"></div>
@@ -773,6 +774,32 @@ class RwAsset {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+              <!-- Usage tab -->
+              <div data-type="tabpage" id="usagetabpage" class="tabpage" data-tabid="usagetab">
+                <div class="flexcolumn" style="max-width:600px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Current Usage">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Asset Hours" data-datafield="AssetHours" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="No. Strikes" data-datafield="Strikes" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Foot-Candles" data-datafield="FootCandles" data-enabled="false" style="flex:0 1 130px;"></div>
+                      </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Lamp Hours">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 1" data-datafield="LampHours1" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 2" data-datafield="LampHours2" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 3" data-datafield="LampHours3" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 4" data-datafield="LampHours4" data-enabled="false" style="flex:0 1 130px;"></div>
+                      </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Software">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Version" data-datafield="SoftwareVersion" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" style="flex:0 1 130px;"></div>
+                      </div>
+                    </div>
                 </div>
               </div>
               <!-- Purchase tab -->

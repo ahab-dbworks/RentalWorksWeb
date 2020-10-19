@@ -86,6 +86,13 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 qry.AddParameter("@footcandles", SqlDbType.Int, ParameterDirection.Input, FwConvert.ToInt32(request.CurrentFootCandles));
                 qry.AddParameter("@currentsoftware", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrentSoftwareVersion);
                 qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, request.Note);
+                qry.AddParameter("@assethours", SqlDbType.Int, ParameterDirection.Input, request.AssetHours);
+                qry.AddParameter("@strikes", SqlDbType.Int, ParameterDirection.Input, request.Strikes);
+                //qry.AddParameter("@footcandles", SqlDbType.Int, ParameterDirection.Input, request.FootCandles);
+                qry.AddParameter("@lamphours1", SqlDbType.Int, ParameterDirection.Input, request.LampHours1);
+                qry.AddParameter("@lamphours2", SqlDbType.Int, ParameterDirection.Input, request.LampHours2);
+                qry.AddParameter("@lamphours3", SqlDbType.Int, ParameterDirection.Input, request.LampHours3);
+                qry.AddParameter("@lamphours4", SqlDbType.Int, ParameterDirection.Input, request.LampHours4);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
