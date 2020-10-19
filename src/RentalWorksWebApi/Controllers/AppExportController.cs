@@ -70,8 +70,7 @@ namespace WebApi.Controllers
             }
             var fileNameTemplate = Handlebars.Compile(downloadFileName);
             string downloadAsFileName = fileNameTemplate(loader).Replace(" ", "_");
-            //downloadFileName = loader.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
-            string filename = UserSession.WebUsersId + "_" + loader.BatchNumber + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
+            string filename = UserSession.WebUsersId + "_" + loader.BatchNumber.Replace("-", "_") + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
             string directory = FwDownloadController.GetDownloadsDirectory();
             string path = Path.Combine(directory, filename);
 
