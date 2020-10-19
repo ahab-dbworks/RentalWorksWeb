@@ -47,6 +47,7 @@ class RentalInventoryQCRequiredReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RentalInventoryQCRequiredReport', 'api/v1/rentalinventoryqcrequiredreport', rentalQCRequiredTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
