@@ -200,7 +200,7 @@
         $link.addClass('navHome');
         
         var secNodeMobile = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Mobile');
-        var nodeMobile = Constants.Modules.Mobile;
+        var nodeMobile = (<any>Constants).Modules.Mobile;
         for (var moduleKey in nodeMobile.children) {
             let nodeModule = nodeMobile.children[moduleKey];
             if (nodeModule.visible) {

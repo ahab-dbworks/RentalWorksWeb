@@ -101,6 +101,7 @@
 ,{"src": "[appbaseurl]libraries/fw/scripts/FwControls/FwValidation.js"}
 ,{"src": "[appbaseurl]libraries/fw/scripts/FwControls/FwWebApiReport.js"}
 ,{"src": "[appbaseurl]libraries/fw/scripts/FwPages/FwBasePages.js"}
+,{"src": "[appbaseurl]libraries/fw/scripts/Integration/Authenticate/Okta/FwOktaLogin.js"}
 ,{"src": "[appbaseurl]libraries/fw/scripts/hybrid/FwHybridMasterController.js"}
 ,{"src": "[appbaseurl]libraries/fw/scripts/jquery/jquery.signaturepad.js"}
 ,{"src": "[appbaseurl]libraries/fw/scripts/jquery/jquery.FwConversion.js"}
@@ -280,6 +281,7 @@
 ,{"src": "[appbaseurl]source/Modules/Warehouse/StagingCheckout/StagingCheckout.js"}
 ,{"src": "[appbaseurl]source/Pages/Base/Base.js"}
 ,{"src": "[appbaseurl]source/Pages/HomePage/HomeController.js"}
+,{"src": "[appbaseurl]source/Pages/OktaLogin/OktaLogin.js"}
 ,{"src": "[appbaseurl]source/Validations/BaseInventoryValidation/BaseInventoryValidationController.js"}
 ,{"src": "[appbaseurl]source/Validations/CompanyValidation/CompanyValidationController.js"}
 ,{"src": "[appbaseurl]source/Validations/GeneralItemValidation/GeneralItemValidationController.js"}

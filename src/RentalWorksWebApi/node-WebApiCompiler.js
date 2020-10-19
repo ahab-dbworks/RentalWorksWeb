@@ -316,17 +316,17 @@ class WebApiCompiler {
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
         //console.log('//------------------------------------------------------------------------------------');
-        //console.log(`Building TrakItWorks TypeScript...`);
-        ////delete TypScript generated files
-        //await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json'), '--clean'], { stdio: 'inherit' });
-        //// compile TypeScript
-        //if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
-        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
-        //}
-        //else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
-        //    await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/tsconfig.json')], { stdio: 'inherit' });
-        //}
-        //console.log(`Finished TrakItWorks TypeScript`);
+        console.log(`Building TrakItWorks TypeScript...`);
+        //delete TypScript generated files
+        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/tsconfig.json'), '--clean'], { stdio: 'inherit' });
+        // compile TypeScript
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/tsconfig.json')], { stdio: 'inherit' });
+        }
+        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/tsconfig.json')], { stdio: 'inherit' });
+        }
+        console.log(`Finished TrakItWorks TypeScript`);
         console.log('//------------------------------------------------------------------------------------');
         console.log(`Running JSAppBuilder for TrakItWorks...`);
         await spawn('dotnet', [path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll'), '-ConfigFilePath', jsAppBuilderConfigFile, '-SolutionDir', this.appSolutionDir, '-Version', version, '-UpdateSchema', 'false', '-Publish', publish, '-AttachDebugger', 'false'], { stdio: 'inherit' });

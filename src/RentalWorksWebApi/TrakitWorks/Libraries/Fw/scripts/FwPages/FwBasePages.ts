@@ -274,11 +274,11 @@ class FwBasePagesClass {
         return screen;
     }
     //---------------------------------------------------------------------------------
-    getSupportScreen () {
+    getSupportScreen(viewModel: any): any {
 
     }
     //---------------------------------------------------------------------------------
-    getPasswordRecoveryScreen() {
+    getPasswordRecoveryScreen(viewModel:any): any {
 
     }
 //---------------------------------------------------------------------------------

@@ -89,7 +89,7 @@ class ExpendableItem {
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
+                    //FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (var i = 0; i < calendarevents.length; i++) {

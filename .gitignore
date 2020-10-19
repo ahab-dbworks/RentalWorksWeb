@@ -231,3 +231,7 @@
 /src/JestTest/*.jpg
 /src/JestTest/output/**
 
+
+src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js
+
+src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js.map

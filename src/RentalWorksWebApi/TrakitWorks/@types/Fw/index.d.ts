@@ -1,6 +1,5 @@
 ﻿declare var product: any;
 //var geval = eval;
-declare var FwBasePages: any;
 declare var FwCharge: any;
 declare var FwSecurity: any;
 declare var FwLanguages: any;
@@ -10,3 +9,6 @@ declare var DayPilot: any;
 declare var moment: any;
 declare var Sortable: any;
 declare var CKEDITOR: any;
+declare var XLSX: any;
+declare var AppLanguages: any;
+declare var RwVirtualNumpad: any;

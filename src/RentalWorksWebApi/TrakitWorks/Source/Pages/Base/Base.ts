@@ -144,7 +144,7 @@
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    getSupportScreen() {
+    getSupportScreen(): any {
         let viewModel = {};
         let properties = {};
         let screen: any = {};
@@ -154,7 +154,7 @@
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    getPasswordRecoveryScreen() {
+    getPasswordRecoveryScreen(): any {
         let viewModel = {};
         let properties = {};
         let screen: any = {};
