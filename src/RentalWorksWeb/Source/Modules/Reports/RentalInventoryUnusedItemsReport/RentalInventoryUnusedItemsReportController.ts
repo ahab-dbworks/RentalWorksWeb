@@ -62,6 +62,7 @@ class RentalInventoryUnusedItemsReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RentalInventoryUnusedItemsReport', 'api/v1/rentalinventoryunuseditemsreport', rentalUnusedItemsTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
