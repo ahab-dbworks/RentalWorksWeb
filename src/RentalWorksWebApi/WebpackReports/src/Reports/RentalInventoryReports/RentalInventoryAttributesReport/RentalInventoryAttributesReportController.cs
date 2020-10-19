@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Inventory.RentalInventory;
 using WebApi.Modules.Reports.Shared.InventoryAttributesReport;
+using WebApi.Modules.Settings.InventorySettings.Attribute;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.InventorySettings.RentalCategory;
 using WebApi.Modules.Settings.SubCategory;
