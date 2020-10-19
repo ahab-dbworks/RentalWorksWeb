@@ -185,8 +185,6 @@ class FwAppDocumentGridClass {
             }
         });
     }
-    getTemplate(options) {
-    }
 }
 var FwAppDocumentGrid = new FwAppDocumentGridClass();
 //# sourceMappingURL=FwAppDocumentGrid.js.map
