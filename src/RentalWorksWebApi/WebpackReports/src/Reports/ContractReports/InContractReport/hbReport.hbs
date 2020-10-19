@@ -1,241 +1,243 @@
 ﻿<!-- In Contract Report -->
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
-  <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
-    <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
-      {{#if Logosrc}}
-      <div style="height:100px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
-      {{else}}
-      <div></div>
-      {{/if}}
-      <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
-      <span class="header-left">{{OfficeLocationAddress1}}</span>
-      <span class="header-left">{{OfficeLocationAddress2}}</span>
-      <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
-      <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+    <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+        <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
+            {{#if Logosrc}}
+            <div style="height:100px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+            {{else}}
+            <div></div>
+            {{/if}}
+            <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
+            <span class="header-left">{{OfficeLocationAddress1}}</span>
+            <span class="header-left">{{OfficeLocationAddress2}}</span>
+            <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
+            <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+        </div>
+        <div class="rpt-flexcolumn" style="flex:0 0 40%;">
+            <span class="sub-title" style="font-size:20px;">{{Department}}</span>
+            <span class="title blue">{{Report}}</span>
+        </div>
+        <!-- Order Number & Date -->
+        <div class="rpt-flexcolumn" style="flex:0 0 30%;">
+            <table>
+                <tr>
+                    <td style="width:40%;font-size:18px;font-weight:700;text-align:right;">No:</td>
+                    <td style="width:60%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{ContractNumber}}</td>
+                </tr>
+                <tr>
+                    <td style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
+                    <td style="width:60%;font-size:18px;text-align:center;">{{ContractDate}}</td>
+                </tr>
+                <tr>
+                    <td style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Time:</td>
+                    <td style="width:60%;font-size:18px;text-align:center;">{{ContractTime}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="rpt-flexcolumn" style="flex:0 0 40%;">
-      <span class="sub-title" style="font-size:20px;">{{Department}}</span>
-      <span class="title blue">{{Report}}</span>
-    </div>
-    <!-- Order Number & Date -->
-    <div class="rpt-flexcolumn" style="flex:0 0 30%;">
-      <table>
-        <tr>
-          <td style="width:40%;font-size:18px;font-weight:700;text-align:right;">No:</td>
-          <td style="width:60%;background-color:#e3f2fd;color:#027cc5;border:2px solid #212121;padding:5px 10px;font-size:26px;text-align:center;">{{ContractNumber}}</td>
-        </tr>
-        <tr>
-          <td style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
-          <td style="width:60%;font-size:18px;text-align:center;">{{ContractDate}}</td>
-        </tr>
-        <tr>
-          <td style="width:40%;color:black;font-size:18px;font-weight:700;text-align:right;">Time:</td>
-          <td style="width:60%;font-size:18px;text-align:center;">{{ContractTime}}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
 </div>
 <div class="rpt-flexrow" style="padding-left:3px;">
-  <!-- Issued To -->
-  <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
-    <table id="issuedTo">
-      <tr>
-        <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Issued To</th>
-      </tr>
-      <tr>
-        <td class="" style="font-weight:700;">{{IssuedToCompany}}</td>
-      </tr>
-      {{#if IssuedToAttention1}}
-      <tr>
-        <td class="">{{IssuedToAttention1}}</td>
-      </tr>
-      {{/if}}
-      <tr>
-        <td class="">{{IssuedToAddress1}}</td>
-      </tr>
-      {{#if IssuedToAddress2}}
-      <tr>
-        <td class="">{{IssuedToAddress2}}</td>
-      </tr>
-      {{/if}}
-      {{#if IssuedToCity}}
-      <tr>
-        <td class="">{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</td>
-      </tr>
-      {{/if}}
-      {{#if IssuedToPhone}}
-      <tr>
-        <td class=""><span style="font-weight:700;">Phone: </span>{{IssuedToPhone}}</td>
-      </tr>
-      {{/if}}
-    </table>
-  </div>
-  <!-- spacer column -->
-  <div class="rpt-flexcolumn" style="flex:0 0 220px;">
-    <span style="padding:10px;"></span>
-  </div>
-  <!-- Order details -->
-  <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-left:10px;">
-    <table class="meta-section" style="border-top:2px solid #027cc5;">
-      <tr>
-        <td style="width:100px;" class="shaded-block">Description: </td>
-        <td class="meta-content" style="vertical-align:top;">{{OrderDescription}}</td>
-      </tr>
-      <tr>
-        <td style="width:100px;" class="shaded-block">Deal: </td>
-        <td class="meta-content" style="vertical-align:top;">{{Deal}}</td>
-      </tr>
-      <tr>
-        <td style="width:100px;" class="shaded-block">Usage Dates: </td>
-        <td class="meta-content">{{UsageDates}}</td>
-      </tr>
-    </table>
-    <table class="meta-section" style="border-top:2px solid #027cc5;">
-      <tr>
-        <td style="width:100px;" class="shaded-block">Agent: </td>
-        <td class="meta-content">{{Agent}}</td>
-      </tr>
-      <tr>
-        <td style="width:100px;" class="shaded-block">Email: </td>
-        <td class="meta-content">{{AgentEmail}}</td>
-      </tr>
-      <tr>
-        <td style="width:100px;" class="shaded-block">Phone: </td>
-        <td class="meta-content">{{AgentPhoneAndExtension}}</td>
-      </tr>
-    </table>
-  </div>
+    <!-- Issued To -->
+    <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
+        <table id="issuedTo">
+            <tr>
+                <th class="sub text" style="text-align:left;padding:5px;background-color:#e3f2fd;">Issued To</th>
+            </tr>
+            <tr>
+                <td class="" style="font-weight:700;">{{IssuedToCompany}}</td>
+            </tr>
+            {{#if IssuedToAttention1}}
+            <tr>
+                <td class="">{{IssuedToAttention1}}</td>
+            </tr>
+            {{/if}}
+            <tr>
+                <td class="">{{IssuedToAddress1}}</td>
+            </tr>
+            {{#if IssuedToAddress2}}
+            <tr>
+                <td class="">{{IssuedToAddress2}}</td>
+            </tr>
+            {{/if}}
+            {{#if IssuedToCity}}
+            <tr>
+                <td class="">{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</td>
+            </tr>
+            {{/if}}
+            {{#if IssuedToPhone}}
+            <tr>
+                <td class=""><span style="font-weight:700;">Phone: </span>{{IssuedToPhone}}</td>
+            </tr>
+            {{/if}}
+        </table>
+    </div>
+    <!-- spacer column -->
+    <div class="rpt-flexcolumn" style="flex:0 0 220px;">
+        <span style="padding:10px;"></span>
+    </div>
+    <!-- Order details -->
+    <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-left:10px;">
+        <table class="meta-section" style="border-top:2px solid #027cc5;">
+            <tr>
+                <td style="width:100px;" class="shaded-block">Description: </td>
+                <td class="meta-content" style="vertical-align:top;">{{OrderDescription}}</td>
+            </tr>
+            <tr>
+                <td style="width:100px;" class="shaded-block">Deal: </td>
+                <td class="meta-content" style="vertical-align:top;">{{Deal}}</td>
+            </tr>
+            <tr>
+                <td style="width:100px;" class="shaded-block">Usage Dates: </td>
+                <td class="meta-content">{{UsageDates}}</td>
+            </tr>
+        </table>
+        <table class="meta-section" style="border-top:2px solid #027cc5;">
+            <tr>
+                <td style="width:100px;" class="shaded-block">Agent: </td>
+                <td class="meta-content">{{Agent}}</td>
+            </tr>
+            <tr>
+                <td style="width:100px;" class="shaded-block">Email: </td>
+                <td class="meta-content">{{AgentEmail}}</td>
+            </tr>
+            <tr>
+                <td style="width:100px;" class="shaded-block">Phone: </td>
+                <td class="meta-content">{{AgentPhoneAndExtension}}</td>
+            </tr>
+        </table>
+    </div>
 </div>
 <div class="rpt-flexrow">
-  <table style="table-layout:fixed;">
-    {{#each Items}}
-    {{#ifEquals RowType "RecTypeDisplayheader"}}
-    <tbody data-rowtype="{{RowType}}">
-      <tr><td>&nbsp;</td></tr><!--spacer row-->
-      <tr class="avoid-page-break">
-        <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
-      </tr>
-      <tr class="rectype-header">
-        <td style="min-width:100px;">I-Code</td>
-        <td style="min-width:600px;">Description</td>
-        <td class="number" style="min-width:100px;">Ordered</td>
-        <td class="number" style="min-width:100px;">Total In</td>
-        <td class="number" style="min-width:100px;">In</td>
-      </tr>
-    </tbody>
-    <tbody>
-      {{/ifEquals}}
-      {{#ifEquals RowType "detail"}}
-      <tr data-rowtype="{{RowType}}" class="description-row">
-        <td class="nowrap">{{ICode}}</td>
-        <td>{{Description}}</td>
-        <td class="number">{{QuantityOrdered}}</td>
-        <td class="number">{{TotalQuantity}}</td>
-        <td class="number">{{Quantity}}</td>
-      </tr>
-      <tr data-rowtype="{{RowType}}" class="barcode-row">
-        <td></td>
-        <td>
-          {{#if ../IncludeBarCodes}}
-          {{#if BarCodes}}
-          <div>
-            <b>Bar Codes:</b> {{BarCodes}}
-          </div>
-          {{/if}}
-          {{/if}}
+    <table style="table-layout:fixed;">
+        {{#each Items}}
+        {{#ifEquals RowType "RecTypeDisplayheader"}}
+        <tbody data-rowtype="{{RowType}}">
+            <tr><td>&nbsp;</td></tr><!--spacer row-->
+            <tr class="avoid-page-break">
+                <td colspan="5" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+            </tr>
+            <tr class="rectype-header">
+                <td style="min-width:100px;">I-Code</td>
+                <td style="min-width:600px;">Description</td>
+                <td class="number" style="min-width:100px;">Ordered</td>
+                <td class="number" style="min-width:100px;">Total In</td>
+                <td class="number" style="min-width:100px;">In</td>
+            </tr>
+        </tbody>
+        <tbody>
+            {{/ifEquals}}
+            {{#ifEquals RowType "detail"}}
+            <tr data-rowtype="{{RowType}}" class="description-row">
+                <td class="nowrap">{{ICode}}</td>
+                <td>{{Description}}</td>
+                <td class="number">{{QuantityOrdered}}</td>
+                <td class="number">{{TotalQuantity}}</td>
+                <td class="number">{{Quantity}}</td>
+            </tr>
+            <tr data-rowtype="{{RowType}}" class="barcode-row">
+                <td></td>
+                <td>
+                    {{#if ../IncludeBarCodes}}
+                    {{#if BarCodes}}
+                    <div>
+                        <b>Bar Codes:</b> {{BarCodes}}
+                    </div>
+                    {{/if}}
+                    {{/if}}
 
-          {{#if ../IncludeSerialNumbers}}
-          {{#if SerialNumbers}}
-          <div>
-            <b>Serial Numbers:</b> {{SerialNumbers}}
-          </div>
-          {{/if}}
-          {{/if}}
+                    {{#if ../IncludeSerialNumbers}}
+                    {{#if SerialNumbers}}
+                    <div>
+                        <b>Serial Numbers:</b> {{SerialNumbers}}
+                    </div>
+                    {{/if}}
+                    {{/if}}
 
-          {{#if ../IncludeRfids}}
-          {{#if Rfids}}
-          <div>
-            <b>RFIDs:</b> {{Rfids}}
-          </div>
-          {{/if}}
-          {{/if}}
+                    {{#if ../IncludeRfids}}
+                    {{#if Rfids}}
+                    <div>
+                        <b>RFIDs:</b> {{Rfids}}
+                    </div>
+                    {{/if}}
+                    {{/if}}
 
-          {{#if ../IncludeManufacturerPartNumbers}}
-          {{#if ManufacturerPartNumbers}}
-          <div>
-            <b>Part Numbers:</b> {{ManufacturerPartNumbers}}
-          </div>
-          {{/if}}
-          {{/if}}
+                    {{#if ../IncludeManufacturerPartNumbers}}
+                    {{#if ManufacturerPartNumbers}}
+                    <div>
+                        <b>Part Numbers:</b> {{ManufacturerPartNumbers}}
+                    </div>
+                    {{/if}}
+                    {{/if}}
 
-          {{#if Notes}}
-          <div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div>
-          {{/if}}
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td colspan="5"></td>
-      </tr>
-      {{/ifEquals}}
-      {{/each}}
-    </tbody>
-  </table>
+                    {{#if Notes}}
+                    <div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div>
+                    {{/if}}
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+            </tr>
+            {{/ifEquals}}
+            {{/each}}
+        </tbody>
+    </table>
 </div>
 {{#if TermsAndConditionsHtml}}
 <div id="termsRow" colspan="7">
-  <div style="font-weight:700;margin:20px 0 0 0;">Terms and Conditions:</div>
-  <div><span id="terms"></span></div>
+    <div style="font-weight:700;margin:20px 0 0 0;">Terms and Conditions:</div>
+    <div><span id="terms"></span></div>
 </div>
 {{/if}}
-{{#if PersonPrintName}}
+{{#if PersonSignature}}
 <div class="rpt-flexrow avoid-page-break" style="margin-top:25px;">
-  <fieldset style="height:150px">
-    <legend>RECEIVED BY</legend>
-    <table>
-      <tr>
-        <td valign="bottom"><img id="base64img" src="{{PersonSignature}}" alt="signature" style="width:auto;height:100px;" /></td>
-        <td>&nbsp;</td>
-        <td valign="bottom" style="width:250px">{{PersonPrintName}}</td>
-        <td>&nbsp;</td>
-        <td valign="bottom" style="width:100px">{{ContractDate}}</td>
-      </tr>
-      <tr>
-        <td style="border-top:1px solid #000000"><div class="caption">SIGNATURE</div></td>
-        <td>&nbsp;</td>
-        <td style="border-top:1px solid #000000"><div class="caption">PRINT NAME</div></td>
-        <td>&nbsp;</td>
-        <td style="border-top:1px solid #000000"><div class="caption">DATE</div></td>
-      </tr>
-    </table>
-  </fieldset>
+    <fieldset style="height:150px">
+        <legend>RECEIVED BY</legend>
+        <table>
+            <tr>
+                <td valign="bottom"><img id="base64img" src="{{PersonSignature}}" alt="signature" style="width:auto;height:100px;" /></td>
+                <td>&nbsp;</td>
+                <td valign="bottom" style="width:250px">{{PersonPrintName}}</td>
+                <td>&nbsp;</td>
+                <td valign="bottom" style="width:100px">{{ContractDate}}</td>
+            </tr>
+            <tr>
+                <td style="border-top:1px solid #000000"><div class="caption">SIGNATURE</div></td>
+                <td>&nbsp;</td>
+                <td style="border-top:1px solid #000000"><div class="caption">PRINT NAME</div></td>
+                <td>&nbsp;</td>
+                <td style="border-top:1px solid #000000"><div class="caption">DATE</div></td>
+            </tr>
+        </table>
+    </fieldset>
 </div>
 {{else}}
 <div class="rpt-flexrow avoid-page-break" style="margin-top:25px;">
-  <fieldset>
-    <legend>RECEIVED BY</legend>
-    <div>
-      <div style="display:flex">
-        <div class="receivedbyfield">
-          <div class="value"></div>
-          <div class="caption">SIGNATURE</div>
+    <fieldset>
+        <legend>RECEIVED BY</legend>
+        <div>
+            <div style="display:flex">
+                <div class="receivedbyfield">
+                    <div class="value"></div>
+                    <div class="caption">SIGNATURE</div>
+                </div>
+                <div class="receivedbyfield">
+                    <div class="value">{{PersonPrintName}}</div>
+                    <div class="caption">PRINT NAME</div>
+                </div>
+            </div>
+            <div style="display:flex">
+                <div class="receivedbyfield">
+                    <div class="value"></div>
+                    <div class="caption">DATE</div>
+                </div>
+                <div class="receivedbyfield"></div>
+            </div>
         </div>
-        <div class="receivedbyfield">
-          <div class="value"></div>
-          <div class="caption">PRINT NAME</div>
-        </div>
-      </div>
-      <div style="display:flex">
-        <div class="receivedbyfield">
-          <div class="value"></div>
-          <div class="caption">DATE</div>
-        </div>
-        <div class="receivedbyfield"></div>
-      </div>
-    </div>
-  </fieldset>
+    </fieldset>
 </div>
 {{/if}}
+
+
