@@ -213,18 +213,6 @@ class FwAppDocumentGridClass {
          });
     }
     //----------------------------------------------------------------------------------------------
-    getTemplate(options: any) {
-  //      data-version="1" 
-  //data-pageno="1" 
-  //data-pagesize="10" 
-  //data-showsearch="false"
-  //data-hasadd="true"
-  //data-hasedit="true"
-  //data-hasdelete="true"
-        
- 
-    }
-    //----------------------------------------------------------------------------------------------
 }
 
 var FwAppDocumentGrid = new FwAppDocumentGridClass();
