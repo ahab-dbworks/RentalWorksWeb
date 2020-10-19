@@ -31,7 +31,18 @@ const rentalMasterTemplate = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ownership">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OwnerShips" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OwnershipTypes" style="float:left;max-width:200px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
+                    <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
+                    <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
+                    <div data-value="All" data-caption="All"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -96,6 +107,19 @@ class RentalInventoryMasterReport extends FwWebApiReport {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        const enableLease = JSON.parse(sessionStorage.getItem('controldefaults')).enablelease
+        var ownershipItems: any = [];
+        ownershipItems.push({ value: "OWNED", text: "Owned", selected: "T" });
+        if (enableConsignment) {
+            ownershipItems.push({ value: "CONSIGNED", text: "Consigned", selected: "T" });
+        }
+        if (enableLease) {
+            ownershipItems.push({ value: "LEASED", text: "Leased", selected: "T" });
+        }
+        FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'), ownershipItems);
+
+
         this.loadLists($form);
     };
     //----------------------------------------------------------------------------------------------
@@ -107,7 +131,10 @@ class RentalInventoryMasterReport extends FwWebApiReport {
             { value: "RFID", text: "RFID", selected: "T" },
         ]);
         FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
-        FwFormField.loadItems($form.find('div[data-datafield="OwnerShips"]'), [{ value: "OWNED", text: "Owned", selected: "T" }, { value: "CONSIGNED", text: "Consigned", selected: "T" }]);
+        //FwFormField.loadItems($form.find('div[data-datafield="OwnerShips"]'), [{ value: "OWNED", text: "Owned", selected: "T" }, { value: "CONSIGNED", text: "Consigned", selected: "T" }]);
+
+
+
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

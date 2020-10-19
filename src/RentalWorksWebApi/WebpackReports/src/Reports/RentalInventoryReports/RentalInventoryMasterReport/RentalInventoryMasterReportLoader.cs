@@ -24,6 +24,9 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
+        public bool? IsFixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -168,6 +171,21 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbolAndCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryMasterReportRequest request)
         {
             useWithNoLock = false;
@@ -188,8 +206,16 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
                     select.AddWhereIn("rank", request.Ranks);
-                    select.AddWhereIn("ownership", request.Ownerships);
+                    select.AddWhereIn("ownership", request.OwnershipTypes);
                     select.AddWhereIn("trackedby", request.TrackedBys);
+                    if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
+                    {
+                        select.AddWhere("fixedasset = 'T'");
+                    }
+                    else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
+                    {
+                        select.AddWhere("fixedasset <> 'T'");
+                    }
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, barcode, mfgserial");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

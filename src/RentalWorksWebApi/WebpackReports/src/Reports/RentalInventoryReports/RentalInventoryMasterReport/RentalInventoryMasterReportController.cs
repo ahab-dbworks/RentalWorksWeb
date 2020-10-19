@@ -30,7 +30,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
         public string InventoryId { get; set; }
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
-        public SelectedCheckBoxListItems Ownerships { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems OwnershipTypes { get; set; } = new SelectedCheckBoxListItems();
+        public IncludeExcludeAll FixedAsset { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

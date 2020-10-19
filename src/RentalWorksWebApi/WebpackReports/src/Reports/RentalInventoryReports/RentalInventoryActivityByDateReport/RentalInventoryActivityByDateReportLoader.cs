@@ -77,11 +77,26 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
         [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
         public string Unit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitValue { get; set; }
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
-        public decimal? ReplacementCost { get; set; }
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbolAndCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
         public string Manufacturer { get; set; }

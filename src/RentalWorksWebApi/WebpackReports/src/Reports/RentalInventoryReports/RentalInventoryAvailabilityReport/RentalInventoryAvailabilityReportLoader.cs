@@ -166,6 +166,45 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
         [FwSqlDataField(column: "consignedqtyincontainer", modeltype: FwDataTypes.Decimal)]
         public decimal? ConsignedQuantityInContainer { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string UnitValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbolAndCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string DailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string WeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week2rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Week2Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week3rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Week3Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week4rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string Week4Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string MonthlyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 

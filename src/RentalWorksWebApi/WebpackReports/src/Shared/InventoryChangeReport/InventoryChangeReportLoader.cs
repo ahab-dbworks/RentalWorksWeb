@@ -127,11 +127,23 @@ namespace WebApi.Modules.Reports.InventoryChangeReport
         [FwSqlDataField(column: "runningtotalqty", modeltype: FwDataTypes.Decimal)]
         public decimal? RunningTotalQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbolAndCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "runningtotalvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? RunningTotalValue { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "transferindate", modeltype: FwDataTypes.Date)]
-        public string TransferInDate { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(InventoryChangeReportRequest request)
         {
