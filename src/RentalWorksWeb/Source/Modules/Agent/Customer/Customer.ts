@@ -480,20 +480,20 @@ class Customer {
             getUniqueid2Value: () => ''
         });
 
-        //const taxable = FwFormField.getValueByDataField($form, 'Taxable');
-        //if (taxable === 'true') {
-        //    FwFormField.disable($form.find('.non-taxable'));
-        //} else {
-        //    FwFormField.enable($form.find('.non-taxable'));
-        //}
-        let taxable: boolean = FwFormField.getValueByDataField($form, 'Taxable');
-        if (taxable != undefined) {
-            if (taxable) {
-                FwFormField.disable($form.find('.non-taxable'));
-            } else {
-                FwFormField.enable($form.find('.non-taxable'));
-            }
+        const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+        if (taxable === 'true') {
+            FwFormField.disable($form.find('.non-taxable'));
+        } else {
+            FwFormField.enable($form.find('.non-taxable'));
         }
+        //let taxable: boolean = FwFormField.getValueByDataField($form, 'Taxable');
+        //if (taxable != undefined) {
+        //    if (taxable) {
+        //        FwFormField.disable($form.find('.non-taxable'));
+        //    } else {
+        //        FwFormField.enable($form.find('.non-taxable'));
+        //    }
+        //}
 
         // Disable currency field if MultipleCurrencies is checked
         if (FwFormField.getValueByDataField($form, 'MultipleCurrencies') === true) {
@@ -543,21 +543,21 @@ class Customer {
             this.toggleOptionsTabIfExcludeQuote($form, isChecked);
         });
         $form.find('div[data-datafield="Taxable"]').on('change', () => {
-            //const taxable = FwFormField.getValueByDataField($form, 'Taxable');
-            //if (taxable === 'true') {
-            //    FwFormField.disable($form.find('.non-taxable'));
-            //} else {
-            //    FwFormField.enable($form.find('.non-taxable'));
-            //}
-
-            let taxable: boolean = FwFormField.getValueByDataField($form, 'Taxable');
-            if (taxable != undefined) {
-                if (taxable) {
-                    FwFormField.disable($form.find('.non-taxable'));
-                } else {
-                    FwFormField.enable($form.find('.non-taxable'));
-                }
+            const taxable = FwFormField.getValueByDataField($form, 'Taxable');
+            if (taxable === 'true') {
+                FwFormField.disable($form.find('.non-taxable'));
+            } else {
+                FwFormField.enable($form.find('.non-taxable'));
             }
+
+            //let taxable: boolean = FwFormField.getValueByDataField($form, 'Taxable');
+            //if (taxable != undefined) {
+            //    if (taxable) {
+            //        FwFormField.disable($form.find('.non-taxable'));
+            //    } else {
+            //        FwFormField.enable($form.find('.non-taxable'));
+            //    }
+            //}
 
 
         });
