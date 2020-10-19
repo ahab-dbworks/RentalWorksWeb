@@ -1,84 +1,112 @@
 ﻿<!--Rental Inventory Purchase History Report-->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-     {{#ifEquals showPurchaseDates true}}
-       <span class="rpt-header-center">Purchased From: {{PurchasedFromDate}} To: {{PurchasedToDate}}</span>
-     {{/ifEquals}}
-     {{#ifEquals showReceiveDates true}}
-       <span class="rpt-header-center">Received From: {{ReceivedFromDate}} To: {{ReceivedToDate}}</span>
-     {{/ifEquals}}
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div data-visible="{{#ifEquals showPurchaseDates true}}true{{/ifEquals}}" class="rpt-nested-flexrow rpt-header-center"><span>Purchased From: {{PurchasedFromDate}} To: {{PurchasedToDate}}</span></div>
+      <div data-visible="{{#ifEquals showReceiveDates true}}true{{/ifEquals}}" class="rpt-nested-flexrow rpt-header-center"><span>Received From: {{ReceivedFromDate}} To: {{ReceivedToDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
-      <tr>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th>Purchased</th>
-        <th>Received</th>
-        <th>Vendor</th>
-        <th class="number">Quantity</th>
-        <th>Bar Code</th>
-        <th>Serial No.</th>
-        <th>RFID</th>
-        <th class="number">Unit Cost</th>
-        <th class="number">Ext. Cost</th>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="PurchaseDate" data-valuefield="PurchaseDate">Purchased</th>
+        <th data-linkedcolumn="ReceiveDate" data-valuefield="ReceiveDate">Received</th>
+        <th data-linkedcolumn="Vendor" data-valuefield="Vendor">Vendor</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">Quantity</th>
+        <th data-linkedcolumn="BarCode" data-valuefield="BarCode">Bar Code</th>
+        <th data-linkedcolumn="SerialNumber" data-valuefield="SerialNumber">Serial No.</th>
+        <th data-linkedcolumn="RfId" data-valuefield="RfId">RFID</th>
+        <th data-linkedcolumn="UnitCost" data-valuefield="UnitCost" class="number">Unit Cost</th>
+        <th data-linkedcolumn="ExtendedCost" data-valuefield="ExtendedCost" class="number">Ext. Cost</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="5" class="lower header-row">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td data-value="{{PurchaseDate}}"></td>
-        <td data-value="{{ReceiveDate}}"></td>
-        <td data-value="{{Vendor}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td data-value="{{BarCode}}"></td>
-        <td data-value="{{SerialNumber}}"></td>
-        <td data-value="{{RfId}}"></td>
-        <td class="number" data-value="{{UnitCost}}"></td>
-        <td class="number" data-value="{{ExtendedCost}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="5" class="total-name">{{Category}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="5" class="total-val" data-value="{{ExtendedCost}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="5" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="5" class="total-val" data-value="{{ExtendedCost}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="5" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="5" class="total-val" data-value="{{ExtendedCost}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="5" class="total-val" data-value="{{ExtendedCost}}"></td>
-        {{/ifEquals}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="11" class="header-row">Warehouse: {{Warehouse}}</td>
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="11" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="11" class="lower header-row">Category: {{Category}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="PurchaseDate" data-value="{{PurchaseDate}}"></td>
+        <td data-linkedcolumn="ReceiveDate" data-value="{{ReceiveDate}}"></td>
+        <td data-linkedcolumn="Vendor" data-value="{{Vendor}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
+        <td data-linkedcolumn="SerialNumber" data-value="{{SerialNumber}}"></td>
+        <td data-linkedcolumn="RfId" data-value="{{RfId}}"></td>
+        <td data-linkedcolumn="UnitCost" class="number" data-value="{{UnitCost}}"></td>
+        <td data-linkedcolumn="ExtendedCost" class="number" data-value="{{ExtendedCost}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Category}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" class="total-val"></td>
+        <td data-linkedcolumn="SerialNumber" class="total-val"></td>
+        <td data-linkedcolumn="RfId" class="total-val"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedCost" class="total-val" data-value="{{ExtendedCost}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" class="total-val"></td>
+        <td data-linkedcolumn="SerialNumber" class="total-val"></td>
+        <td data-linkedcolumn="RfId" class="total-val"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedCost" class="total-val" data-value="{{ExtendedCost}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" class="total-val"></td>
+        <td data-linkedcolumn="SerialNumber" class="total-val"></td>
+        <td data-linkedcolumn="RfId" class="total-val"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedCost" class="total-val" data-value="{{ExtendedCost}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="BarCode" class="total-val"></td>
+        <td data-linkedcolumn="SerialNumber" class="total-val"></td>
+        <td data-linkedcolumn="RfId" class="total-val"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedCost" class="total-val" data-value="{{ExtendedCost}}"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>
