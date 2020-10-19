@@ -1,173 +1,176 @@
 ﻿<!--Rental Inventory Status and Revenue Report-->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">As Of: {{PrintDate}}</span>
-    <span class="rpt-header-center">Revenue Period: {{FromDate}} - {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow" style="width:1200px;">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>As Of: {{PrintDate}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Revenue Period: {{FromDate}} - {{ToDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead class="main-header">
-      <tr>
-        <th></th>
-        <th colspan="5"></th>
-        <th></th>
-        <th class="number"></th>
-        <th class="number"></th>
-        <th class="number"></th>
-        <th class="number"></th>
-        <th class="number">In</th>
-        <th class="number">In</th>
-        <th class="number">On</th>
-        <th class="number">Sub-</th>
-        <th>Last Date</th>
-        <th class="number"></th>
-      </tr>
-      <tr>
-        <th>I-Code</th>
-        <th colspan="5">Description</th>
-        <th>Warehouse</th>
-        <th class="number">Owned</th>
-        <th class="number">In</th>
-        <th class="number">Staged</th>
-        <th class="number">Out</th>
-        <th class="number">Container</th>
-        <th class="number">Repair</th>
-        <th class="number">PO</th>
-        <th class="number">Rented</th>
-        <th>Rented</th>
-        <th class="number">Revenue</th>
+    <thead id="columnHeader" class="main-header">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="EmptyTd-1" data-valuefield=""></th>
+        <th data-linkedcolumn="EmptyTd-2" data-valuefield=""></th>
+        <th data-linkedcolumn="Warehouse" data-valuefield="Warehouse">Warehouse</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">Owned</th>
+        <th data-linkedcolumn="QuantityIn" data-valuefield="QuantityIn" class="number">In</th>
+        <th data-linkedcolumn="QuantityStaged" data-valuefield="QuantityStaged" class="number">Staged</th>
+        <th data-linkedcolumn="QuantityOut" data-valuefield="QuantityOut" class="number">Out</th>
+        <th data-linkedcolumn="QuantityInContainer" data-valuefield="QuantityInContainer" class="number">In<div>Container</div></th>
+        <th data-linkedcolumn="QuantityInRepair" data-valuefield="QuantityInRepair" class="number">In<div>Repair</div></th>
+        <th data-linkedcolumn="QuantityOnPo" data-valuefield="QuantityOnPo" class="number">On<div>PO</div></th>
+        <th data-linkedcolumn="QuantitySubbed" data-valuefield="QuantitySubbed" class="number">Sub-<div>Rented</div></th>
+        <th data-linkedcolumn="LastRentedDate" data-valuefield="LastRentedDate">Last Date<div>Rented</div></th>
+        <th data-linkedcolumn="Revenue" data-valuefield="Revenue" class="number">Revenue</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       {{#ifEquals RowType "Warehouseheader"}}
-      <tr>
-        <td colspan="5" class="lower header-row">Warehouse: {{"Warehouse"}}</td>
+      <tr data-row="header">
+        <td colspan="15" class="lower header-row">Warehouse: {{"Warehouse"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
-      <tr>
-        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+      <tr data-row="header">
+        <td colspan="15" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
-      <tr>
-        <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
+      <tr data-row="header">
+        <td colspan="15" class="lower header-row">Category: {{"Category"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
       {{#ifEquals RecordType "inventory"}}
-      <tr class="subValues" data-recordtype="{{RecordType}}">
-        <td class="nowrap" data-value="{{ICode}}"></td>
-        <td colspan="5" data-value="{{Description}}"></td>
-        <td class="nowrap" data-value="{{Warehouse}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td class="number" data-value="{{QuantityIn}}"></td>
-        <td class="number" data-value="{{QuantityStaged}}"></td>
-        <td class="number" data-value="{{QuantityOut}}"></td>
-        <td class="number" data-value="{{QuantityInContainer}}"></td>
-        <td class="number" data-value="{{QuantityInRepair}}"></td>
-        <td class="number" data-value="{{QuantityOnPo}}"></td>
-        <td class="number" data-value="{{QuantitySubbed}}"></td>
-        <td data-value="{{LastRentedDate}}"></td>
-        <td class="number" data-value="{{Revenue}}"></td>
+      <tr data-row="detail" class="subValues" data-recordtype="{{RecordType}}">
+        <td data-linkedcolumn="ICode" class="nowrap" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="EmptyTd-1"></td>
+        <td data-linkedcolumn="EmptyTd-2"></td>
+        <td data-linkedcolumn="Warehouse" class="nowrap" data-value="{{Warehouse}}"></td>
+        <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="QuantityIn" class="number" data-value="{{QuantityIn}}"></td>
+        <td data-linkedcolumn="QuantityStaged" class="number" data-value="{{QuantityStaged}}"></td>
+        <td data-linkedcolumn="QuantityOut" class="number" data-value="{{QuantityOut}}"></td>
+        <td data-linkedcolumn="QuantityInContainer" class="number" data-value="{{QuantityInContainer}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="number" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="QuantityOnPo" class="number" data-value="{{QuantityOnPo}}"></td>
+        <td data-linkedcolumn="QuantitySubbed" class="number" data-value="{{QuantitySubbed}}"></td>
+        <td data-linkedcolumn="LastRentedDate" data-value="{{LastRentedDate}}"></td>
+        <td data-linkedcolumn="Revenue" class="number" data-value="{{Revenue}}"></td>
       </tr>
       {{#if ../ShowStagedAndOut}}
       {{#if HasStagedOutDetails}}
-      <tr>
-        <th colspan="2"></th>
-        <th class="subHeaders">Bar Code</th>
-        <th class="subHeaders">Qty.</th>
-        <th class="subHeaders">Status</th>
-        <th class="subHeaders" colspan="3">Deal</th>
-        <th class="subHeaders" colspan="4">Vendor</th>
-        <th class="subHeaders">As Of Date</th>
-        <th class="subHeaders">Order No.</th>
-        <th class="subHeaders" colspan="4">Order Description</th>
+      <tr data-row="sub-header" data-sort="true">
+        <th data-linkedcolumn="EmptyTd-3"></th>
+        <th data-linkedcolumn="StagedOutBarCode" data-valuefield="StagedOutBarCode" class="subHeaders">Bar Code</th>
+        <th data-linkedcolumn="StagedOutQuantity" data-valuefield="StagedOutQuantity" class="subHeaders">Qty.</th>
+        <th data-linkedcolumn="StagedOutStatus" data-valuefield="StagedOutStatus" class="subHeaders">Status</th>
+        <th data-linkedcolumn="StagedOutDeal" class="subHeaders">Deal</th>
+        <th data-linkedcolumn="EmptyTd-4" data-valuefield="StagedOutVendor" class="subHeaders"></th>
+        <th data-linkedcolumn="StagedOutVendor" class="subHeaders">Vendor</th>
+        <th data-linkedcolumn="EmptyTd-5" class="subHeaders"></th>
+        <th data-linkedcolumn="EmptyTd-6" class="subHeaders"></th>
+        <th data-linkedcolumn="EmptyTd-7" class="subHeaders"></th>
+        <th data-linkedcolumn="StagedOutAsOf" class="subHeaders">As Of Date</th>
+        <th data-linkedcolumn="StagedOutOrderNumber" class="subHeaders">Order No.</th>
+        <th data-linkedcolumn="StagedOutOrderDescription" class="subHeaders">Order Description</th>
+        <th data-linkedcolumn="EmptyTd-8" class="subHeaders"></th>
+        <th data-linkedcolumn="EmptyTd-9" class="subHeaders"></th>
       </tr>
       {{/if}}
       {{/if}}
       {{/ifEquals}}
       {{#ifEquals RecordType "stagedout"}}
-      <tr class="subValues">
-        <td colspan="2"></td>
-        <td>{{StagedOutBarCode}}</td>
-        <td class="number">{{StagedOutQuantity}}</td>
-        <td>{{StagedOutStatus}}</td>
-        <td colspan="3">{{StagedOutDeal}}</td>
-        <td colspan="4">{{StagedOutVendor}}</td>
-        <td>{{StagedOutAsOf}}</td>
-        <td>{{StagedOutOrderNumber}}</td>
-        <td colspan="4">{{StagedOutOrderDescription}}</td>
+      <tr data-row="sub-detail" class="subValues">
+        <td data-linkedcolumn="EmptyTd-3"></td>
+        <td data-linkedcolumn="StagedOutBarCode" data-value="{{StagedOutBarCode}}"></td>
+        <td data-linkedcolumn="StagedOutQuantity" data-value="{{StagedOutQuantity}}" class="number"></td>
+        <td data-linkedcolumn="StagedOutStatus" data-value="{{StagedOutStatus}}"></td>
+        <td data-linkedcolumn="StagedOutDeal" data-value="{{StagedOutDeal}}"></td>
+        <td data-linkedcolumn="EmptyTd-4"></td>
+        <td data-linkedcolumn="StagedOutVendor" data-value="{{StagedOutVendor}}"></td>
+        <td data-linkedcolumn="EmptyTd-5"></td>
+        <td data-linkedcolumn="EmptyTd-6"></td>
+        <td data-linkedcolumn="EmptyTd-7"></td>
+        <td data-linkedcolumn="StagedOutAsOf" data-value="{{StagedOutAsOf}}"></td>
+        <td data-linkedcolumn="StagedOutOrderNumber" data-value="{{StagedOutOrderNumber}}"></td>
+        <td data-linkedcolumn="StagedOutOrderDescription" data-value="{{StagedOutOrderDescription}}"></td>
+        <td data-linkedcolumn="EmptyTd-8"></td>
+        <td data-linkedcolumn="EmptyTd-9"></td>
       </tr>
       {{/ifEquals}}
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryfooter"}}
-      <tr>
-        <td colspan="7" class="total-name">{{Category}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
+      <tr data-row="footer">
+        <td colspan="5" class="total-name">{{Category}}:&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="QuantityIn" class="total-val" data-value="{{QuantityIn}}"></td>
+        <td data-linkedcolumn="QuantityStaged" class="total-val" data-value="{{QuantityStaged}}"></td>
+        <td data-linkedcolumn="QuantityOut" class="total-val" data-value="{{QuantityOut}}"></td>
+        <td data-linkedcolumn="QuantityInContainer" class="total-val" data-value="{{QuantityInContainer}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="QuantityOnPo" class="total-val" data-value="{{QuantityOnPo}}"></td>
+        <td data-linkedcolumn="QuantitySubbed" class="total-val" data-value="{{QuantitySubbed}}"></td>
+        <td data-linkedcolumn="LastRentedDate" class="total-val"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypefooter"}}
-      <tr>
-        <td colspan="7" class="total-name">{{InventoryType}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
+      <tr data-row="footer">
+        <td colspan="5" class="total-name">{{InventoryType}}:&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="QuantityIn" class="total-val" data-value="{{QuantityIn}}"></td>
+        <td data-linkedcolumn="QuantityStaged" class="total-val" data-value="{{QuantityStaged}}"></td>
+        <td data-linkedcolumn="QuantityOut" class="total-val" data-value="{{QuantityOut}}"></td>
+        <td data-linkedcolumn="QuantityInContainer" class="total-val" data-value="{{QuantityInContainer}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="QuantityOnPo" class="total-val" data-value="{{QuantityOnPo}}"></td>
+        <td data-linkedcolumn="QuantitySubbed" class="total-val" data-value="{{QuantitySubbed}}"></td>
+        <td data-linkedcolumn="LastRentedDate" class="total-val"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Warehousefooter"}}
-      <tr>
-        <td colspan="7" class="total-name">{{Warehouse}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
+      <tr data-row="footer">
+        <td colspan="5" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="QuantityIn" class="total-val" data-value="{{QuantityIn}}"></td>
+        <td data-linkedcolumn="QuantityStaged" class="total-val" data-value="{{QuantityStaged}}"></td>
+        <td data-linkedcolumn="QuantityOut" class="total-val" data-value="{{QuantityOut}}"></td>
+        <td data-linkedcolumn="QuantityInContainer" class="total-val" data-value="{{QuantityInContainer}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="QuantityOnPo" class="total-val" data-value="{{QuantityOnPo}}"></td>
+        <td data-linkedcolumn="QuantitySubbed" class="total-val" data-value="{{QuantitySubbed}}"></td>
+        <td data-linkedcolumn="LastRentedDate" class="total-val"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
-      <tr>
-        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
+      <tr data-row="footer">
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
+        <td data-linkedcolumn="QuantityIn" class="total-val" data-value="{{QuantityIn}}"></td>
+        <td data-linkedcolumn="QuantityStaged" class="total-val" data-value="{{QuantityStaged}}"></td>
+        <td data-linkedcolumn="QuantityOut" class="total-val" data-value="{{QuantityOut}}"></td>
+        <td data-linkedcolumn="QuantityInContainer" class="total-val" data-value="{{QuantityInContainer}}"></td>
+        <td data-linkedcolumn="QuantityInRepair" class="total-val" data-value="{{QuantityInRepair}}"></td>
+        <td data-linkedcolumn="QuantityOnPo" class="total-val" data-value="{{QuantityOnPo}}"></td>
+        <td data-linkedcolumn="QuantitySubbed" class="total-val" data-value="{{QuantitySubbed}}"></td>
+        <td data-linkedcolumn="LastRentedDate" class="total-val"></td>
+        <td data-linkedcolumn="Revenue" class="total-val" data-value="{{Revenue}}"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}
