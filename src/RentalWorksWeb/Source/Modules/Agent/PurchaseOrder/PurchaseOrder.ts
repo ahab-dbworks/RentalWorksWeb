@@ -92,6 +92,13 @@ class PurchaseOrder implements IModule {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Copy Purchase Order', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.copyPurchaseOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwMenu.addSubMenuItem(options.$groupOptions, 'Toggle Close', 'rmIBsGJIEjAZ', (e: JQuery.ClickEvent) => {
             try {
                 this.toggleClosePurchaseOrder(options.$form);
@@ -2828,6 +2835,97 @@ class PurchaseOrder implements IModule {
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatereturndeliveryshipvia`);
                 break;
         }
+    }
+    //----------------------------------------------------------------------------------------------	
+    copyPurchaseOrder($form) {
+        const module = this.Module;
+        const $confirmation = FwConfirmation.renderConfirmation(`Copy Purchase Order`, '');
+        $confirmation.find('.fwconfirmationbox').css('width', '550px');
+        const html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No" data-datafield="PurchaseOrderNumber" style="width:120px; float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="Vendor" style="width:400px; float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="width:400px;float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Vendor" data-datafield="CopyToVendorId" data-browsedisplayfield="Vendor" data-validationname="VendorValidation"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Rates for Items on New PO" data-datafield="PORates">');
+        html.push('      <div data-value="C" data-caption="Copy Rates from Existing PO"> </div>');
+        html.push('    <div data-value="D" data-caption="Use Default Cost from Inventory"> </div></div><br>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
+        html.push('</div>');
+
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        const purchaseOrderNumber = FwFormField.getValueByDataField($form, `${module}Number`);
+        FwFormField.setValueByDataField($confirmation, 'PurchaseOrderNumber', purchaseOrderNumber);
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        const vendor = FwFormField.getTextByDataField($form, 'VendorId');
+        FwFormField.setValueByDataField($confirmation, 'Vendor', vendor);
+        const description = FwFormField.getValueByDataField($form, 'Description');
+        FwFormField.setValueByDataField($confirmation, 'Description', description);
+        FwFormField.setValueByDataField($confirmation, 'CopyToVendorId', vendorId, vendor);
+
+        FwFormField.disable($confirmation.find('div[data-caption="No"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
+
+        $confirmation.find('div[data-datafield="CopyLineItemNotes"] input').prop('checked', true);
+
+        const $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', makeACopy);
+
+        function makeACopy() {
+            const request: any = {};
+            request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
+            request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
+            request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+            request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
+            request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            request.LocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+            if (request.CopyRatesFromInventory == "T") {
+                request.CopyRatesFromInventory = "False"
+            };
+
+            for (let key in request) {
+                if (request.hasOwnProperty(key)) {
+                    if (request[key] == "T") {
+                        request[key] = "True";
+                    } else if (request[key] == "F") {
+                        request[key] = "False";
+                    }
+                }
+            };
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Copying...');
+            $yes.off('click');
+            const $confirmationbox = jQuery('.fwconfirmationbox');
+            const purchaseOrderId = FwFormField.getValueByDataField($form, `${module}Id`);
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copytopurchaseorder/${purchaseOrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', `${module} Successfully Copied`);
+                FwConfirmation.destroyConfirmation($confirmation);
+                const uniqueids: any = {};
+                uniqueids.purchaseOrderId = response.purchaseOrderId;
+                const $control = PurchaseOrderController.loadForm(uniqueids);
+                FwModule.openModuleTab($control, "", true, 'FORM', true);
+            }, function onError(response) {
+                $yes.on('click', makeACopy);
+                $yes.text('Copy');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+            }, $confirmationbox);
+        };
     }
     //----------------------------------------------------------------------------------------------	
     toggleClosePurchaseOrder($form) {
