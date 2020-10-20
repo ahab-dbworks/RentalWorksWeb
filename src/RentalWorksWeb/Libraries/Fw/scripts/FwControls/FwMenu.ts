@@ -790,15 +790,19 @@ class FwMenuClass {
                 try {
                     const $browse = options.$browse;
                     if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
-                        let $selectedRows;
-                        if ($browse.data('showmultirowselect')) {
-                            $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
-                            if ($selectedRows.length === 0) {
-                                $selectedRows = $browse.find('tr.selected');
-                            }
-                        } else {
+                        let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+
+                        if ($selectedRows.length === 0) {
                             $selectedRows = $browse.find('tr.selected');
                         }
+
+                        //let $selectedRows;
+                        //if ($browse.data('showmultirowselect')) {
+                        //    $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+                           
+                        //} else {
+                        //    $selectedRows = $browse.find('tr.selected');
+                        //}
                  
                         if ($selectedRows.length > 1) {
                             FwBrowse.openMultiRowEditForm($browse, $selectedRows);
@@ -832,7 +836,7 @@ class FwMenuClass {
                     if (typeof window[controller]['deleteRecord'] === 'function') {
                         const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete this record?`);
                         const $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                        const $no = FwConfirmation.addButton($confirmation, 'No');
+                        FwConfirmation.addButton($confirmation, 'No');
                         $yes.focus();
                         $yes.on('click', e => {
                             $selectedRows = $browse.find('tr.selected');
@@ -840,7 +844,7 @@ class FwMenuClass {
                         });
                     } else {
                         //FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
-                        if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing && $browse.data('showmultirowselect')) {
+                        if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
                             $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
 
                             if ($selectedRows.length === 0) {
@@ -1308,20 +1312,20 @@ class FwMenuClass {
             });
         }
 
-        if (options.hasMultiRowEditing) {
-            FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
-                try {
-                    if (options.$browse.data('showmultirowselect')) {
-                        options.$browse.data('showmultirowselect', false);
-                    } else {
-                        options.$browse.data('showmultirowselect', true);
-                    }
-                    FwBrowse.showMultiRowSelector(options.$browse);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        }
+        //if (options.hasMultiRowEditing) {
+        //    FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
+        //        try {
+        //            if (options.$browse.data('showmultirowselect')) {
+        //                options.$browse.data('showmultirowselect', false);
+        //            } else {
+        //                options.$browse.data('showmultirowselect', true);
+        //            }
+        //            FwBrowse.showMultiRowSelector(options.$browse);
+        //        } catch (ex) {
+        //            FwFunc.showError(ex);
+        //        }
+        //    });
+        //}
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuButtons(options: IAddFormMenuOptions) {

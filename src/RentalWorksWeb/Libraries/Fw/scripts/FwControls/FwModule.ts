@@ -944,7 +944,7 @@ class FwModule {
                 const $tab = FwTabs.getTabByElement($form);
                 $tab.find('.modified').text('');
                 FwModule.closeForm($form, $tab);
-                FwBrowse.showMultiRowSelector($browse);
+                //FwBrowse.showMultiRowSelector($browse);
                 FwBrowse.search($browse);
                 FwNotification.renderNotification('SUCCESS', 'Records successfully updated.');
             }, ex => FwFunc.showError(ex), $form);
