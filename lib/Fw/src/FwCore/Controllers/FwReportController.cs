@@ -206,7 +206,7 @@ namespace FwCore.Controllers
                     foreach (FwJsonDataTableColumn col in dt.Columns)
                     {
                         string dataField = col.DataField.ToUpper();
-                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
+                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")) && (!dataField.ToUpper().Equals("RFID")))
                         {
                             col.IsVisible = false;
                         }
