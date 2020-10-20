@@ -457,6 +457,20 @@ class RwAsset {
             $form.find('[data-datafield="PurchaseCurrencyExchangeRate"], [data-datafield="WarehouseCurrencyCode"]').hide();
         }
 
+        const count = response["LampCount"];
+        if (typeof count == 'number') {
+            switch (count) {
+                case 0: $form.find('.lamp-hours').hide();
+                    break;
+                case 1: $form.find('[data-datafield="LampHours2"]').hide();
+                case 2: $form.find('[data-datafield="LampHours3"]').hide();
+                case 3: $form.find('[data-datafield="LampHours4"]').hide();
+                case 4: $form.find('.lamp-hours .fwform-section-title').text(`Lamp Hours (${count} Lamp${count > 1 ? 's' : ''})`);
+                    break;
+            }
+        }
+
+
         this.applyCurrencySymbolToTotalFields($form, response);
     };
     //---------------------------------------------------------------------------------------------
@@ -784,9 +798,10 @@ class RwAsset {
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Asset Hours" data-datafield="AssetHours" data-enabled="false" style="flex:0 1 130px;"></div>
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="No. Strikes" data-datafield="Strikes" data-enabled="false" style="flex:0 1 130px;"></div>
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Foot-Candles" data-datafield="FootCandles" data-enabled="false" style="flex:0 1 130px;"></div>
-                      </div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Minimum Foot Candles" data-datafield="MinimumFootCandles" data-enabled="false" style="flex:0 1 130px;"></div>                
                     </div>
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Lamp Hours">
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section lamp-hours" data-control="FwContainer" data-type="section" data-caption="Lamp Hours">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 1" data-datafield="LampHours1" data-enabled="false" style="flex:0 1 130px;"></div>
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 2" data-datafield="LampHours2" data-enabled="false" style="flex:0 1 130px;"></div>

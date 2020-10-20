@@ -436,6 +436,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "assethours", modeltype: FwDataTypes.Integer)]
         public int? AssetHours { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lampcount", modeltype: FwDataTypes.Integer)]
+        public int? LampCount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lamphours1", modeltype: FwDataTypes.Integer)]
         public int? LampHours1 { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -453,6 +456,9 @@ namespace WebApi.Modules.Inventory.Asset
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "footcandles", modeltype: FwDataTypes.Integer)]
         public int? FootCandles { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "minfootcandles", modeltype: FwDataTypes.Integer)]
+        public int? MinimumFootCandles { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text)]
         public string SoftwareVersion { get; set; }
