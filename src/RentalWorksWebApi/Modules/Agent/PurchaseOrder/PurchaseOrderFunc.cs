@@ -13,6 +13,10 @@ using WebApi.Modules.Warehouse.Contract;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using System.Reflection;
 using FwStandard.AppManager;
+using WebApi.Modules.HomeControls.OrderItem;
+using WebApi.Modules.HomeControls.OrderNote;
+using WebApi.Modules.HomeControls.OrderContact;
+using FwStandard.Grids.AppDocument;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -439,12 +443,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         {
             CopyPurchaseOrderResponse response = new CopyPurchaseOrderResponse();
 
-            // refer to OrderFunc.CopyQuoteOrder to see how we are using C# reflection to load the properties of the "from" Purchase Order and creating a new "to" Purchase Order
-
             return response;
         }
         //-------------------------------------------------------------------------------------------------------  
-        //-------------------------------------------------------------------------------------------------------
         private static async Task<PurchaseOrderLogic> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, string toType, PurchaseOrderCopyMode copyMode, string newLocationId = "", string newWarehouseId = "")
         {
             PurchaseOrderLogic to = null;
@@ -458,7 +459,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     toType = from.Type;
                 }
 
-                    to = new PurchaseOrderLogic();
+                to = new PurchaseOrderLogic();
 
                 to.SetDependencies(appConfig, userSession);
 
@@ -478,7 +479,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
                 string fromId = from.GetPrimaryKeys()[0].ToString();
 
-                //use reflection to copy all peroperties from Quote to Order
+                //use reflection to copy all properties from PO to PO
                 PropertyInfo[] fromProperties = from.GetType().GetProperties();
                 PropertyInfo[] toProperties = to.GetType().GetProperties();
                 foreach (PropertyInfo fromProperty in fromProperties)
@@ -505,40 +506,11 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 //manually set these fields after the reflection copy
                 to.Type = toType;
                 to.SetPrimaryKeys(new string[] { "" });
-                to.OutDeliveryId = "";
-                to.InDeliveryId = "";
-                to.BillToAddressId = "";
+                to.ReceiveDeliveryId = "";
+                to.ReturnDeliveryId = "";
                 to.TaxId = "";
                 to.OfficeLocationId = newLocationId;
                 to.WarehouseId = newWarehouseId;
-
-                if (copyMode.Equals(PurchaseOrderCopyMode.PurchaseOrder))
-                {
-                    ((PurchaseOrderLogic)to).OrderNumber = ((QuoteLogic)from).QuoteNumber;
-                    if (!location.UseSameNumberForQuoteAndOrder.GetValueOrDefault(false))
-                    {
-                        ((PurchaseOrderLogic)to).OrderNumber = await AppFunc.GetNextModuleCounterAsync(appConfig, userSession, RwConstants.MODULE_ORDER, newLocationId, conn);
-                    }
-                    ((PurchaseOrderLogic)to).SourceQuoteId = fromId;
-                }
-                else if (copyMode.Equals(PurchaseOrderCopyMode.NewVersion))
-                {
-                    ((PurchaseOrderLogic)to).QuoteNumber = ((PurchaseOrderLogic)from).QuoteNumber;
-
-                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("select newversionno = (max(o.versionno) + 1)");
-                    qry.Add(" from  dealorder o with (nolock)");
-                    qry.Add(" where o.orderno   = @quoteno");
-                    qry.Add(" and   o.ordertype = @ordertype");
-                    qry.AddParameter("@quoteno", ((PurchaseOrderLogic)from).QuoteNumber);
-                    qry.AddParameter("@ordertype", RwConstants.ORDER_TYPE_QUOTE);
-                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-                    if (dt.TotalRows > 0)
-                    {
-                        ((PurchaseOrderLogic)to).VersionNumber = FwConvert.ToInt32(dt.Rows[0][dt.GetColumnNo("newversionno")].ToString());
-                    }
-                }
-
 
                 //save the new 
                 await to.SaveAsync(original: null, conn: conn);
@@ -551,9 +523,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 itemBrowseRequest.uniqueids.Add("OrderId", fromId);
                 itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
 
-                PurchaseOrderLogic itemSelector = new PurchaseOrderLogic();
+                OrderItemLogic itemSelector = new OrderItemLogic();
                 itemSelector.SetDependencies(appConfig, userSession);
-                List<PurchaseOrderLogic> items = await itemSelector.SelectAsync<PurchaseOrderLogic>(itemBrowseRequest, conn);
+                List<OrderItemLogic> items = await itemSelector.SelectAsync<OrderItemLogic>(itemBrowseRequest, conn);
 
                 // dictionary of ID's to map old OrderItemId value to new OrderItemId for parents
                 Dictionary<string, string> ids = new Dictionary<string, string>();
@@ -587,7 +559,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     newId = i.OrderItemId;
                     ids.Add(oldId, newId);
                 }
-
 
                 // copy all Notes
                 BrowseRequest noteBrowseRequest = new BrowseRequest();
@@ -629,7 +600,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
                         bool contactExists = (contactCheck.Count > 0);
 
-                        if (!contactExists)  // only create the record on the New Order if not already on the new Order
+                        if (!contactExists)  // only create the record on the New PO if not already on the new PO
                         {
                             n.SetDependencies(appConfig, userSession);
                             n.OrderId = toId;
@@ -638,9 +609,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                         }
                     }
                 }
-
-                //copy multi po's/
-
 
                 // copy all documents
                 BrowseRequest documentBrowseRequest = new BrowseRequest();
@@ -653,69 +621,14 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
                 foreach (AppDocumentLogic n in documents)
                 {
-
-                    if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
-                    {
-                        OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
-                        newDoc.SetDependencies(appConfig, userSession);
-                        newDoc.OrderId = toId;
-                        newDoc.DocumentId = "";
-                        await newDoc.SaveAsync(conn: conn);
-                    }
-                    else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
-                    {
-                        QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
-                        newDoc.SetDependencies(appConfig, userSession);
-                        newDoc.QuoteId = toId;
-                        newDoc.DocumentId = "";
-                        await newDoc.SaveAsync(conn: conn);
-                    }
-                    else if (copyMode.Equals(QuoteOrderCopyMode.Copy))
-                    {
-                        if (from is OrderLogic)
-                        {
-                            OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
-                            newDoc.SetDependencies(appConfig, userSession);
-                            newDoc.OrderId = toId;
-                            newDoc.DocumentId = "";
-                            await newDoc.SaveAsync(conn: conn);
-                        }
-                        else if (from is QuoteLogic)
-                        {
-                            QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
-                            newDoc.SetDependencies(appConfig, userSession);
-                            newDoc.QuoteId = toId;
-                            newDoc.DocumentId = "";
-                            await newDoc.SaveAsync(conn: conn);
-                        }
-                    }
-                }
-
-
-                if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
-                {
-                    //set the original Quote to Ordered, update pointer to new OrderId
-                    QuoteLogic q2 = new QuoteLogic();
-                    q2.SetDependencies(appConfig, userSession);
-                    q2.QuoteId = fromId;
-                    q2.Status = RwConstants.QUOTE_STATUS_ORDERED;
-                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
-                    q2.ConvertedToOrderId = toId;
-                    await q2.SaveAsync(original: from, conn: conn);
-                }
-                else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
-                {
-                    //set the original Quote to Closed
-                    QuoteLogic q2 = new QuoteLogic();
-                    q2.SetDependencies(appConfig, userSession);
-                    q2.QuoteId = fromId;
-                    q2.Status = RwConstants.QUOTE_STATUS_CLOSED;
-                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
-                    await q2.SaveAsync(original: from, conn: conn);
+                    PurchaseOrderDocumentLogic newDoc = n.MakeCopy<PurchaseOrderDocumentLogic>();
+                    newDoc.SetDependencies(appConfig, userSession);
+                    newDoc.PurchaseOrderId = toId;
+                    newDoc.DocumentId = "";
+                    await newDoc.SaveAsync(conn: conn);
                 }
 
                 conn.CommitTransaction();
-
             }
 
             return to;

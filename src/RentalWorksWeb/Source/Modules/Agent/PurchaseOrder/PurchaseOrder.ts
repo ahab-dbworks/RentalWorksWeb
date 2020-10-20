@@ -2854,9 +2854,9 @@ class PurchaseOrder implements IModule {
         html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Vendor" data-datafield="CopyToVendorId" data-browsedisplayfield="Vendor" data-validationname="VendorValidation"></div>');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Rates for Items on New PO" data-datafield="CopyRatesFromInventory">');
-        html.push('      <div data-value="C" data-caption="Copy Rates from Existing PO"> </div>');
-        html.push('      <div data-value="D" data-caption="Use Default Cost from Inventory"> </div></div><br>');
+        //html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Rates for Items on New PO" data-datafield="CopyRatesFromInventory">');
+        //html.push('      <div data-value="C" data-caption="Copy Rates from Existing PO"> </div>');
+        //html.push('      <div data-value="D" data-caption="Use Default Cost from Inventory"> </div></div><br>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
         html.push('</div>');
 
@@ -2889,10 +2889,10 @@ class PurchaseOrder implements IModule {
             request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
             request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
             request.LocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
-            request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
-            if (request.CopyRatesFromInventory == "C") {
-                request.CopyRatesFromInventory = "False"
-            };
+            //request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+            //if (request.CopyRatesFromInventory == "C") {
+            //    request.CopyRatesFromInventory = "False"
+            //};
             // convert checkbox values to str booleans
             for (let key in request) {
                 if (request.hasOwnProperty(key)) {
