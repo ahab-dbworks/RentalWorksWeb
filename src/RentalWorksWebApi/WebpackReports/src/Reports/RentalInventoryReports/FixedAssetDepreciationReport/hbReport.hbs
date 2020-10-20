@@ -1,0 +1,126 @@
+﻿<!--Fixed Asset Depreciation Report-->
+<div data-section="header" class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}}  To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Rank" data-valuefield="Rank">Rank</th>
+        <th data-linkedcolumn="TrackedBy" data-valuefield="TrackedBy">Tracked By</th>
+        <th data-linkedcolumn="DepreciationQuantity" data-valuefield="Quantity" class="Quantity">Qty.</th>
+        <th data-linkedcolumn="BarCode" data-valuefield="BarCode">Bar Code</th>
+        <th data-linkedcolumn="ReceiveDate" data-valuefield="ReceiveDate">Received</th>
+        <th data-linkedcolumn="ExtendedCostWithTaxCurrencyConvertedExtended" data-valuefield="ExtendedCostWithTaxCurrencyConvertedExtended" class="number">Purchase Amount</th>
+        <th data-linkedcolumn="DepreciationDate" data-valuefield="DepreciationDate">Depreciation Date</th>
+        <th data-linkedcolumn="DepreciationExtended" data-valuefield="DepreciationExtended" class="number">Depreciation</th>
+        <th data-linkedcolumn="RetiredDate" data-valuefield="RetiredDate">Retired Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="11" class="header-row lower">Purchase Warehouse: {{Warehouse}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="11" class="header-row lower">Inventory Type: {{InventoryType}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="11" class="header-row lower">Category: {{Category}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Descriptionheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="11" class="header-row lower">Description: {{Description}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Rank" data-value="{{Rank}}"></td>
+        <td data-linkedcolumn="TrackedBy" data-value="{{TrackedBy}}"></td>
+        <td data-linkedcolumn="DepreciationQuantity" class="number" data-value="{{DepreciationQuantity}}"></td>
+        <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
+        <td data-linkedcolumn="ReceiveDate" data-value="{{ReceiveDate}}"></td>
+        <td data-linkedcolumn="ExtendedCostWithTaxCurrencyConvertedExtended" class="number" data-value="{{ExtendedCostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="DepreciationDate" data-value="{{DepreciationDate}}"></td>
+        <td data-linkedcolumn="DepreciationExtended" class="number" data-value="{{DepreciationExtended}}"></td>
+        <td data-linkedcolumn="RetiredDate" data-value="{{RetiredDate}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Descriptionfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{Description}}&nbsp;</td>
+        <td data-linkedcolumn="DepreciationQuantity" class="total-val" data-value="{{DepreciationQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="ExtendedCostWithTaxCurrencyConvertedExtended" class="total-val" data-value="{{ExtendedCostWithTaxCurrencyConvertedExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+        <td data-linkedcolumn="DepreciationExtended" class="total-val" data-value="{{DepreciationExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{Category}}&nbsp;</td>
+        <td data-linkedcolumn="DepreciationQuantity" class="total-val" data-value="{{DepreciationQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="ExtendedCostWithTaxCurrencyConvertedExtended" class="total-val" data-value="{{ExtendedCostWithTaxCurrencyConvertedExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+        <td data-linkedcolumn="DepreciationExtended" class="total-val" data-value="{{DepreciationExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td data-linkedcolumn="DepreciationQuantity" class="total-val" data-value="{{DepreciationQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="ExtendedCostWithTaxCurrencyConvertedExtended" class="total-val" data-value="{{ExtendedCostWithTaxCurrencyConvertedExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+        <td data-linkedcolumn="DepreciationExtended" class="total-val" data-value="{{DepreciationExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td data-linkedcolumn="DepreciationQuantity" class="total-val" data-value="{{DepreciationQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="ExtendedCostWithTaxCurrencyConvertedExtended" class="total-val" data-value="{{ExtendedCostWithTaxCurrencyConvertedExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+        <td data-linkedcolumn="DepreciationExtended" class="total-val" data-value="{{DepreciationExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="4" class="total-name">Grand Total&nbsp;</td>
+        <td data-linkedcolumn="DepreciationQuantity" class="total-val" data-value="{{DepreciationQuantity}}"></td>
+        <td colspan="2" class="total-name"></td>
+        <td data-linkedcolumn="ExtendedCostWithTaxCurrencyConvertedExtended" class="total-val" data-value="{{ExtendedCostWithTaxCurrencyConvertedExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+        <td data-linkedcolumn="DepreciationExtended" class="total-val" data-value="{{DepreciationExtended}}"></td>
+        <td colspan="1" class="total-name"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
