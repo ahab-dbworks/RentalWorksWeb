@@ -1,6 +1,6 @@
 ﻿routes.push({
     pattern: /^reports\/subrentalbillinganalysisreport/, action: function (match: RegExpExecArray) {
-        return RentalEquipmentRepairHistoryReportController.getModuleScreen();
+        return SubRentalBillingAnalysisReportController.getModuleScreen();
     }
 });
 

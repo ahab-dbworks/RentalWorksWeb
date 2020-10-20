@@ -590,11 +590,13 @@
     <TypeScriptCompile Include="Source\Modules\Reports\OrderStatusSummaryReport\OrderStatusSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PartsInventoryChangeReport\PartsInventoryChangeReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReturnListReport\PurchaseOrderReturnListReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryRepairHistoryReport\RentalInventoryRepairHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnListReport\ReturnListReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RateUpdateReport\RateUpdateReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RepairOrderReport\RepairOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnContractReport\ReturnContractReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryChangeReport\SalesInventoryChangeReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryRepairHistoryReport\SalesInventoryRepairHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseOutReport\WarehouseOutReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\WarehouseDispatchReport\WarehouseDispatchReportController.ts" />
@@ -708,7 +710,6 @@
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryQCRequiredReport\RentalInventoryQCRequiredReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesQuoteBillingReport\SalesQuoteBillingReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryUsageReport\RentalInventoryUsageReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\RentalEquipmentRepairHistoryReport\RentalEquipmentRepairHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryMasterReport\SalesInventoryMasterReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesHistoryReport\SalesHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalLostAndDamagedBillingHistoryReport\RentalLostAndDamagedBillingHistoryReportController.ts" />
@@ -1466,6 +1467,7 @@
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
+    <Folder Include="Source\Modules\Reports\RentalEquipmentRepairHistoryReport\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
     <Folder Include="theme\fwfonts\" />

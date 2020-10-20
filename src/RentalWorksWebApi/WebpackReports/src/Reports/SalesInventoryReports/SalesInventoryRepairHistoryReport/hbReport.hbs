@@ -1,4 +1,4 @@
-﻿<!--Rental Equipment Repair History Report-->
+﻿<!--Sales Inventory Repair History Report-->
 <div data-section="header" class="rpt-flexcolumn">
   <div class="rpt-flexrow">
     <div class="rpt-flexcolumn">
@@ -22,7 +22,7 @@
         <th data-linkedcolumn="RepairQuantity" data-valuefield="Quantity">Quantity</th>
         <th data-linkedcolumn="BarCode" data-valuefield="BarCode">Bar Code No.</th>
         <th data-linkedcolumn="PurchaseDate" data-valuefield="PurchaseDate">Purchase Date</th>
-        <th data-linkedcolumn="PurchaseAmount" data-valuefield="PurchaseAmount" class="number">Unit Cost</th>
+        <th data-linkedcolumn="UnitCost" data-valuefield="UnitCost" class="number">Unit Cost</th>
         <th data-linkedcolumn="CurrentQuantity" data-valuefield="CurrentQuantity" class="number">Qty Owned</th>
         <th data-linkedcolumn="Billable" data-valuefield="Billable" class="number">Billed Costs</th>
         <th data-linkedcolumn="NonBillable" data-valuefield="NonBillable" class="number">In House Costs</th>
@@ -53,7 +53,7 @@
         <td data-linkedcolumn="RepairQuantity" class="number" data-value="{{RepairQuantity}}"></td>
         <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
         <td data-linkedcolumn="PurchaseDate" data-value="{{PurchaseDate}}"></td>
-        <td data-linkedcolumn="PurchaseAmount" class="number" data-value="{{PurchaseAmount}}"></td>
+        <td data-linkedcolumn="UnitCost" class="number" data-value="{{UnitCost}}"></td>
         <td data-linkedcolumn="CurrentQuantity" class="number" data-value="{{CurrentQuantity}}"></td>
         <td data-linkedcolumn="Billable" class="number" data-value="{{Billable}}"></td>
         <td data-linkedcolumn="NonBillable" class="number" data-value="{{NonBillable}}"></td>
@@ -63,8 +63,8 @@
       {{#ifEquals RowType "Categoryfooter"}}
       <tr data-row="footer">
         <td colspan="5" class="total-name">{{Category}}:&nbsp;</td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{PurchaseAmount}}"></td>
-        <td data-linkedcolumn="CurrentQuantity" class="total-val empty"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val" data-value="{{UnitCost}}"></td>
+        <td data-linkedcolumn="CurrentQuantity" class="total-val" data-value="{{CurrentQuantity}}"></td>
         <td data-linkedcolumn="Billable" class="total-val" data-value="{{Billable}}"></td>
         <td data-linkedcolumn="NonBillable" class="total-val" data-value="{{NonBillable}}"></td>
         <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>
@@ -73,8 +73,8 @@
       {{#ifEquals RowType "InventoryTypefooter"}}
       <tr data-row="footer">
         <td colspan="5" class="total-name">{{InventoryType}}:&nbsp;</td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{PurchaseAmount}}"></td>
-        <td data-linkedcolumn="CurrentQuantity" class="total-val empty"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val" data-value="{{UnitCost}}"></td>
+        <td data-linkedcolumn="CurrentQuantity" class="total-val" data-value="{{CurrentQuantity}}"></td>
         <td data-linkedcolumn="Billable" class="total-val" data-value="{{Billable}}"></td>
         <td data-linkedcolumn="NonBillable" class="total-val" data-value="{{NonBillable}}"></td>
         <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>
@@ -83,8 +83,8 @@
       {{#ifEquals RowType "Warehousefooter"}}
       <tr data-row="footer">
         <td colspan="5" class="total-name">{{Warehouse}}:&nbsp;</td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{PurchaseAmount}}"></td>
-        <td data-linkedcolumn="CurrentQuantity" class="total-val empty"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val" data-value="{{UnitCost}}"></td>
+        <td data-linkedcolumn="CurrentQuantity" class="total-val" data-value="{{CurrentQuantity}}"></td>
         <td data-linkedcolumn="Billable" class="total-val" data-value="{{Billable}}"></td>
         <td data-linkedcolumn="NonBillable" class="total-val" data-value="{{NonBillable}}"></td>
         <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>
@@ -93,8 +93,8 @@
       {{#ifEquals RowType "grandtotal"}}
       <tr data-row="footer">
         <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{PurchaseAmount}}"></td>
-        <td data-linkedcolumn="CurrentQuantity" class="total-val empty"></td>
+        <td data-linkedcolumn="UnitCost" class="total-val" data-value="{{UnitCost}}"></td>
+        <td data-linkedcolumn="CurrentQuantity" class="total-val" data-value="{{CurrentQuantity}}"></td>
         <td data-linkedcolumn="Billable" class="total-val" data-value="{{Billable}}"></td>
         <td data-linkedcolumn="NonBillable" class="total-val" data-value="{{NonBillable}}"></td>
         <td data-linkedcolumn="Total" class="total-val" data-value="{{Total}}"></td>

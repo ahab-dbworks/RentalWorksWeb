@@ -7,17 +7,17 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class RentalEquipmentRepairHistoryReport extends WebpackReport {
+export class RentalInventoryRepairHistoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalequipmentrepairhistoryreport/runreport`, authorizationHeader, parameters)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryrepairhistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Report = 'Rental Equipment Repair History Report';
+                    data.Report = 'Rental Inventory Repair History Report';
         
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -44,4 +44,4 @@ export class RentalEquipmentRepairHistoryReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new RentalEquipmentRepairHistoryReport();
+(<any>window).report = new RentalInventoryRepairHistoryReport();
