@@ -21,17 +21,33 @@ const valueOfOutTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:115px;">
+            <div class="flexcolumn" style="max-width:300px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ownership">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OwnerShips" style="float:left;max-width:200px;"></div>
-                </div>
+                <div data-datafield="OwnershipTypes" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:140px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="TrackedBys" style="float:left;max-width:200px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:75px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rank">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="Ranks" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:75px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:300px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fixed Asset">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="FixedAsset">
+                    <div data-value="IncludeOnly" data-caption="Include Fixed Assets Only"></div>
+                    <div data-value="Exclude" data-caption="Exclude Fixed Assets"></div>
+                    <div data-value="All" data-caption="All"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -42,6 +58,15 @@ const valueOfOutTemplate = `
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType"  data-validationname="InventoryTypeValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category"  data-validationname="RentalCategoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId"  data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId"  data-displayfield="ICode" data-validationname="RentalInventoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -89,18 +114,41 @@ class ValueOfOutRentalInventoryReport extends FwWebApiReport {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
-        this.loadLists($form);
-    };
-    //----------------------------------------------------------------------------------------------
-    loadLists($form) {
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        const enableLease = JSON.parse(sessionStorage.getItem('controldefaults')).enablelease
+
+        var ownershipItems: any = [];
+        ownershipItems.push({ value: "OWNED", text: "Owned", selected: "T" });
+        ownershipItems.push({ value: "SUBBED", text: "Sub-Rented", selected: "T" });
+        if (enableConsignment) {
+            ownershipItems.push({ value: "CONSIGNED", text: "Consigned", selected: "T" });
+        }
+        if (enableLease) {
+            ownershipItems.push({ value: "LEASED", text: "Leased", selected: "T" });
+        }
+        FwFormField.loadItems($form.find('div[data-datafield="OwnershipTypes"]'), ownershipItems);
+
+
+        FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [
+            { value: "A", text: "A", selected: "T" },
+            { value: "B", text: "B", selected: "T" },
+            { value: "C", text: "C", selected: "T" },
+            { value: "D", text: "D", selected: "T" },
+            { value: "E", text: "E", selected: "T" },
+            { value: "F", text: "F", selected: "T" },
+            { value: "G", text: "G", selected: "T" }
+        ]);
+
         FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [
             { value: "BARCODE", text: "Barcode", selected: "T" },
             { value: "QUANTITY", text: "Quantity", selected: "T" },
             { value: "SERIALNO", text: "Serial Number", selected: "T" },
             { value: "RFID", text: "RFID", selected: "T" },
         ]);
-        FwFormField.loadItems($form.find('div[data-datafield="OwnerShips"]'), [{ value: "OWNED", text: "Owned", selected: "T" }, { value: "CONSIGNED", text: "Consigned", selected: "T" }]);
-    }
+
+        FwFormField.setValueByDataField($form, 'FixedAsset', 'All');
+
+    };
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         return parameters;
@@ -108,16 +156,48 @@ class ValueOfOutRentalInventoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
 
-            switch (datafield) {
-                case 'InventoryTypeId':
-                    request.uniqueids.Rental = true;
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                    break;
-                case 'WarehouseId':
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
-                    break;
-            }
-        
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+
+        switch (datafield) {
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'InventoryTypeId':
+                request.uniqueids.Rental = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
+                request.uniqueids.Rental = true;
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'InventoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                };
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                };
+                if (subCategoryId !== "") {
+                    request.uniqueids.SubCategoryId = subCategoryId;
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+        }
+
     };
     //----------------------------------------------------------------------------------------------
 };

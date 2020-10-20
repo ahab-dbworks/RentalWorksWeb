@@ -4,7 +4,7 @@ using WebApi.Data;
 using System.Threading.Tasks;
 namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventoryReport
 {
-    [FwSqlTable("valueofoutinventoryrptview")]
+    [FwSqlTable("valueofoutinventoryrptwebview")]
     public class ValueOfOutRentalInventoryReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -111,19 +111,29 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventor
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhere("dateout <= @asofdate and ((datein is null) or (datein > @asofdate))");
                     select.AddParameter("@asofdate", request.AsOfDate);
-
-
-                    select.AddWhereIn("warehouseid", request.WarehouseId); 
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
-                    select.AddWhereIn("ownership", request.OwnerShips);
+                    select.AddWhereIn("categoryid", request.CategoryId);
+                    select.AddWhereIn("subcategoryid", request.SubCategoryId);
+                    select.AddWhereIn("masterid", request.InventoryId);
+                    select.AddWhereIn("ownership", request.OwnershipTypes);
                     select.AddWhereIn("trackedby", request.TrackedBys);
+                    select.AddWhereIn("rank", request.Ranks);
+                    if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
+                    {
+                        select.AddWhere("fixedasset = 'T'");
+                    }
+                    else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
+                    {
+                        select.AddWhere("fixedasset <> 'T'");
+                    }
 
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, master");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

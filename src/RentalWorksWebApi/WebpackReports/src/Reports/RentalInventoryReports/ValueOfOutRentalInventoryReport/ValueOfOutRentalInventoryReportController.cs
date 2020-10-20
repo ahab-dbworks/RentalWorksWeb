@@ -14,6 +14,9 @@ using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
 using WebApi.Modules.Settings.InventorySettings.InventoryType;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using WebApi.Modules.Settings.InventorySettings.RentalCategory;
+using WebApi.Modules.Settings.SubCategory;
+using WebApi.Modules.Inventory.RentalInventory;
 
 namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventoryReport
 {
@@ -22,8 +25,13 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventor
         public DateTime AsOfDate { get; set; }
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
-        public SelectedCheckBoxListItems OwnerShips { get; set; } = new SelectedCheckBoxListItems();
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
+        public SelectedCheckBoxListItems OwnershipTypes { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+        public IncludeExcludeAll FixedAsset { get; set; }
 
     }
 
@@ -101,6 +109,30 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventor
             return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/valueofoutrentalinventoryreport/validatecategory/browse 
+        [HttpPost("validatecategory/browse")]
+        [FwControllerMethod(Id: "3Ezc8EfJKpH4", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/valueofoutrentalinventoryreport/validatesubcategory/browse 
+        [HttpPost("validatesubcategory/browse")]
+        [FwControllerMethod(Id: "9VONcE5nEmkb", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/valueofoutrentalinventoryreport/validateinventory/browse 
+        [HttpPost("validateinventory/browse")]
+        [FwControllerMethod(Id: "r6xiXm2a4uQ9", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/valueofoutrentalinventoryreport/validatewarehouse/browse 
         [HttpPost("validatewarehouse/browse")]
         [FwControllerMethod(Id: "tQM1G5jb9a14", ActionType: FwControllerActionTypes.Browse)]
@@ -108,5 +140,6 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.ValueOfOutRentalInventor
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }
