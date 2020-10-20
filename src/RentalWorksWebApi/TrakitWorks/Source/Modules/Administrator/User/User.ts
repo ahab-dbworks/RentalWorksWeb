@@ -36,7 +36,7 @@
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
+    addBrowseMenuItems(options: IAddBrowseMenuOptions) {
         const location      = JSON.parse(sessionStorage.getItem('location'));
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', false, "ALL");
@@ -46,8 +46,8 @@
         }
         const viewLocation = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-        return $menuObject;
+        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+        return options;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {

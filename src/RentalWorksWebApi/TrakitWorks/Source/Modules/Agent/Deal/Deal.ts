@@ -261,7 +261,7 @@ class Deal {
 
         FwBrowse.renderGrid({
             nameGrid: 'DealNoteGrid',
-            gridSecurityId: 'Est6dgMdThwL',
+            gridSecurityId: 'jcwmVLFEU88k',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -295,7 +295,7 @@ class Deal {
 
         FwBrowse.renderGrid({
             nameGrid: 'DealShipperGrid',
-            gridSecurityId: 'MFYWJzFkOeQU',
+            gridSecurityId: '5cMD0y0jSUgz',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -325,7 +325,7 @@ class Deal {
 
         FwBrowse.renderGrid({
             nameGrid: 'CompanyContactGrid',
-            gridSecurityId: '1rdUfYSzLHzj',
+            gridSecurityId: 'gQHuhVDA5Do2',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,

@@ -45,7 +45,7 @@ class Asset {
         return $browse;
     };
     //---------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
+    addBrowseMenuItems(options: IAddBrowseMenuOptions) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
         const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
@@ -56,7 +56,7 @@ class Asset {
 
         let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($userWarehouse, $all);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems, true, "WarehouseId");
+        FwMenu.addViewBtn(options.$menu, 'Warehouse', viewSubitems, true, "WarehouseId");
 
         //Tracked By Filter
         const $trackAll = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
@@ -66,8 +66,8 @@ class Asset {
 
         let viewTrack: Array<JQuery> = [];
         viewTrack.push($trackAll, $trackBarcode, $trackSerialNumber, $trackRFID);
-        FwMenu.addViewBtn($menuObject, 'Tracked By', viewTrack, true, "TrackedBy");
-        return $menuObject;
+        FwMenu.addViewBtn(options.$menu, 'Tracked By', viewTrack, true, "TrackedBy");
+        return options;
     };
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {

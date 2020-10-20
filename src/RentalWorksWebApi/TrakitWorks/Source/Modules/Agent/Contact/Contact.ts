@@ -135,7 +135,7 @@ class Contact {
         //FwBrowse.renderRuntimeHtml($companyContactGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'ContactCompanyGrid',
-            gridSecurityId: 'GbuH2ctylIzH',
+            gridSecurityId: 'gQHuhVDA5Do2',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -184,7 +184,7 @@ class Contact {
         //FwBrowse.renderRuntimeHtml($contactNoteGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'ContactNoteGrid',
-            gridSecurityId: '4mcvec78Damj',
+            gridSecurityId: 'mkJ1Ry8nqSnw',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -214,7 +214,7 @@ class Contact {
         //FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'ContactPersonalEventGrid',
-            gridSecurityId: 'qQp5sgQYo9m3',
+            gridSecurityId: '35was7r004gg',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,

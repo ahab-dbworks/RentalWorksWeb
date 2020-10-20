@@ -289,7 +289,7 @@ class PurchaseOrder {
         //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderStatusHistoryGrid',
-            gridSecurityId: 'k6GqKM4CQRme',
+            gridSecurityId: 'lATsdnAx7B4s',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -332,7 +332,7 @@ class PurchaseOrder {
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
-            gridSecurityId: 'Vw70Sf1kT0HR',
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -394,7 +394,7 @@ class PurchaseOrder {
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.subrentalgrid div[data-grid="OrderItemGrid"]',
-            gridSecurityId: '4xH0ub5zREgD',
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -441,7 +441,7 @@ class PurchaseOrder {
         //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
-            gridSecurityId: 'rf47IV47DeSX',
+            gridSecurityId: '8aq0E3nK2upt',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
