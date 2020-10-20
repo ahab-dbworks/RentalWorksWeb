@@ -157,6 +157,18 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     }
 
 
+    public class CopyPurchaseOrderRequest
+    {
+        public string PurchaseOrderId { get; set; }
+        //public string LocationId { get; set; }
+        //public string WarehouseId { get; set; }
+    }
+    public class CopyPurchaseOrderResponse : TSpStatusResponse
+    {
+        public PurchaseOrderLogic PurchaseOrder { get; set; }
+    }
+
+
     public static class PurchaseOrderFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -411,6 +423,15 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<CopyPurchaseOrderResponse> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, CopyPurchaseOrderRequest request)
+        {
+            CopyPurchaseOrderResponse response = new CopyPurchaseOrderResponse();
+
+            // refer to OrderFunc.CopyQuoteOrder to see how we are using C# reflection to load the properties of the "from" Purchase Order and creating a new "to" Purchase Order
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    

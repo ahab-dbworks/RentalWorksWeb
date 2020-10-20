@@ -269,6 +269,39 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------
+
+
+        // POST api/v1/purchaseorder/copy
+        [HttpPost("copy")]
+        [FwControllerMethod(Id: "fuUHEQthEdtv", ActionType: FwControllerActionTypes.Option, Caption: "Copy Purchase Order")]
+        public async Task<ActionResult<CopyPurchaseOrderResponse>> CreateOrder([FromBody]CopyPurchaseOrderRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PurchaseOrderLogic purchaseOrder = new PurchaseOrderLogic();
+                purchaseOrder.SetDependencies(AppConfig, UserSession);
+                purchaseOrder.PurchaseOrderId = request.PurchaseOrderId;
+                if (await purchaseOrder.LoadAsync<PurchaseOrderLogic>())
+                {
+                    CopyPurchaseOrderResponse response = await PurchaseOrderFunc.CopyPurchaseOrder(AppConfig, UserSession, purchaseOrder, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------          
+
         // POST api/v1/purchaseorder/validatevendor/browse
         [HttpPost("validatevendor/browse")]
         [FwControllerMethod(Id: "ndaJHEaojYFS", ActionType: FwControllerActionTypes.Browse)]
