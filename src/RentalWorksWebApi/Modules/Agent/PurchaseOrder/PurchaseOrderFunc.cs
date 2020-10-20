@@ -170,12 +170,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //public string LocationId { get; set; }
         //public string WarehouseId { get; set; }
     }
-    public enum PurchaseOrderCopyMode
-    {
-        PurchaseOrder,
-        NewVersion,
-        Copy
-    }
     public class CopyPurchaseOrderResponse : TSpStatusResponse
     {
         public PurchaseOrderLogic PurchaseOrder { get; set; }
@@ -438,43 +432,37 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
             return response;
         }
-        //-------------------------------------------------------------------------------------------------------    
+        //-------------------------------------------------------------------------------------------------------  
         public static async Task<CopyPurchaseOrderResponse> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, CopyPurchaseOrderRequest request)
         {
-            CopyPurchaseOrderResponse response = new CopyPurchaseOrderResponse();
-
-            return response;
-        }
-        //-------------------------------------------------------------------------------------------------------  
-        private static async Task<PurchaseOrderLogic> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, string toType, PurchaseOrderCopyMode copyMode, string newLocationId = "", string newWarehouseId = "")
-        {
+            //CopyPurchaseOrderResponse response = new CopyPurchaseOrderResponse(); 
             PurchaseOrderLogic to = null;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 await conn.OpenAsync();
                 conn.BeginTransaction();
 
-                if (string.IsNullOrEmpty(toType))
-                {
-                    toType = from.Type;
-                }
+                //if (string.IsNullOrEmpty(toType))
+                //{
+                //    toType = from.Type;
+                //}
 
                 to = new PurchaseOrderLogic();
 
                 to.SetDependencies(appConfig, userSession);
 
-                if (string.IsNullOrEmpty(newLocationId))
-                {
-                    newLocationId = from.OfficeLocationId;
-                }
-                if (string.IsNullOrEmpty(newWarehouseId))
-                {
-                    newWarehouseId = from.WarehouseId;
-                }
+                //if (string.IsNullOrEmpty(newLocationId))
+                //{
+                //    newLocationId = from.OfficeLocationId;
+                //}
+                //if (string.IsNullOrEmpty(newWarehouseId))
+                //{
+                //    newWarehouseId = from.WarehouseId;
+                //}
 
                 OfficeLocationLogic location = new OfficeLocationLogic();
                 location.SetDependencies(appConfig, userSession);
-                location.LocationId = newLocationId;
+                //location.LocationId = newLocationId;
                 await location.LoadAsync<PurchaseOrderLogic>();
 
                 string fromId = from.GetPrimaryKeys()[0].ToString();
@@ -504,13 +492,13 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 }
 
                 //manually set these fields after the reflection copy
-                to.Type = toType;
+                //to.Type = toType;
                 to.SetPrimaryKeys(new string[] { "" });
                 to.ReceiveDeliveryId = "";
                 to.ReturnDeliveryId = "";
                 to.TaxId = "";
-                to.OfficeLocationId = newLocationId;
-                to.WarehouseId = newWarehouseId;
+                //to.OfficeLocationId = newLocationId;
+                //to.WarehouseId = newWarehouseId;
 
                 //save the new 
                 await to.SaveAsync(original: null, conn: conn);

@@ -32,7 +32,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id: "CT5m1NLaLhzuD", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
         }
@@ -55,7 +55,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "UoKvbRlRbt1bF", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // GET api/v1/purchaseorder 
         [HttpGet]
         [FwControllerMethod(Id: "LIKzNq6S5IzDy", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<IEnumerable<PurchaseOrderLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<PurchaseOrderLogic>>> GetManyAsync([FromQuery] int pageno, [FromQuery] int pagesize, [FromQuery] string sort)
         {
             return await DoGetAsync<PurchaseOrderLogic>(pageno, pagesize, sort);
         }
@@ -71,7 +71,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // GET api/v1/purchaseorder/A0000001 
         [HttpGet("{id}")]
         [FwControllerMethod(Id: "RFk1UEbjNbkyG", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<PurchaseOrderLogic>> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<PurchaseOrderLogic>> GetOneAsync([FromRoute] string id)
         {
             return await DoGetAsync<PurchaseOrderLogic>(id);
         }
@@ -79,7 +79,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder 
         [HttpPost]
         [FwControllerMethod(Id: "IRGS1gIXKz13P", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<PurchaseOrderLogic>> NewAsync([FromBody]PurchaseOrderLogic l)
+        public async Task<ActionResult<PurchaseOrderLogic>> NewAsync([FromBody] PurchaseOrderLogic l)
         {
             return await DoNewAsync<PurchaseOrderLogic>(l);
         }
@@ -87,7 +87,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // PUT api/v1/purchaseorder/A0000001
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "Aq8oLVMYFv9GN", ActionType: FwControllerActionTypes.Edit)]
-        public async Task<ActionResult<PurchaseOrderLogic>> EditAsync([FromRoute] string id, [FromBody]PurchaseOrderLogic l)
+        public async Task<ActionResult<PurchaseOrderLogic>> EditAsync([FromRoute] string id, [FromBody] PurchaseOrderLogic l)
         {
             return await DoEditAsync<PurchaseOrderLogic>(l);
         }
@@ -188,7 +188,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/void/A0000001
         [HttpPost("void/{id}")]
         [FwControllerMethod(Id: "u5eAwyixomSFN", ActionType: FwControllerActionTypes.Option, Caption: "Void")]
-        public async Task<ActionResult<PurchaseOrderLogic>> Void([FromRoute]string id)
+        public async Task<ActionResult<PurchaseOrderLogic>> Void([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
@@ -228,7 +228,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/toggleclose/A0000001
         [HttpPost("toggleclose/{id}")]
         [FwControllerMethod(Id: "rmIBsGJIEjAZ", ActionType: FwControllerActionTypes.Option, Caption: "Toggle Close")]
-        public async Task<ActionResult<PurchaseOrderLogic>> ToggleClose([FromRoute]string id)
+        public async Task<ActionResult<PurchaseOrderLogic>> ToggleClose([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
@@ -269,12 +269,10 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------
-
-
         // POST api/v1/purchaseorder/copy
         [HttpPost("copy")]
         [FwControllerMethod(Id: "fuUHEQthEdtv", ActionType: FwControllerActionTypes.Option, Caption: "Copy Purchase Order")]
-        public async Task<ActionResult<CopyPurchaseOrderResponse>> CreateOrder([FromBody]CopyPurchaseOrderRequest request)
+        public async Task<ActionResult<CopyPurchaseOrderResponse>> CreateOrder([FromBody] CopyPurchaseOrderRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -301,11 +299,10 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             }
         }
         //------------------------------------------------------------------------------------          
-
         // POST api/v1/purchaseorder/validatevendor/browse
         [HttpPost("validatevendor/browse")]
         [FwControllerMethod(Id: "ndaJHEaojYFS", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateVendorBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<VendorLogic>(browseRequest);
         }
@@ -313,7 +310,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validatedepartment/browse
         [HttpPost("validatedepartment/browse")]
         [FwControllerMethod(Id: "eul5FkwF7dgf", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<DepartmentLogic>(browseRequest);
         }
@@ -321,7 +318,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validaterate/browse
         [HttpPost("validaterate/browse")]
         [FwControllerMethod(Id: "LRMSAsj09f5c", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateRateBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateRateBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RateTypeLogic>(browseRequest);
         }
@@ -329,7 +326,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validatepotype/browse
         [HttpPost("validatepotype/browse")]
         [FwControllerMethod(Id: "v7blxzU7KUkH", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidatePoTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePoTypeBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<PoTypeLogic>(browseRequest);
         }
@@ -337,7 +334,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validateagent/browse
         [HttpPost("validateagent/browse")]
         [FwControllerMethod(Id: "WeX6mpFl648Y", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateAgentBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<UserLogic>(browseRequest);
         }
@@ -345,7 +342,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validateprojectmanager/browse
         [HttpPost("validateprojectmanager/browse")]
         [FwControllerMethod(Id: "1sW1POS8yhJI", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateProjectManagerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateProjectManagerBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<UserLogic>(browseRequest);
         }
@@ -353,7 +350,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validatebillingcycle/browse
         [HttpPost("validatebillingcycle/browse")]
         [FwControllerMethod(Id: "lmhHtjF0Hf5w", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateBillingCycleBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateBillingCycleBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<BillingCycleLogic>(browseRequest);
         }
@@ -361,7 +358,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validatecurrency/browse
         [HttpPost("validatecurrency/browse")]
         [FwControllerMethod(Id: "DnOTKVgA8msf", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCurrencyBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCurrencyBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<CurrencyLogic>(browseRequest);
         }
@@ -369,7 +366,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // POST api/v1/purchaseorder/validatetaxoption/browse
         [HttpPost("validatetaxoption/browse")]
         [FwControllerMethod(Id: "L3r6bmjPEqVa", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOptionBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateTaxOptionBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<TaxOptionLogic>(browseRequest);
         }
@@ -377,7 +374,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         // GET api/v1/purchaseorder/validateofficelocation/A0000001
         [HttpGet("officelocation/{id}")]
         [FwControllerMethod(Id: "PptuuQ1Cl3M3", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<OfficeLocationLogic>> OfficeLocation_GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<OfficeLocationLogic>> OfficeLocation_GetOneAsync([FromRoute] string id)
         {
             return await DoGetAsync<OfficeLocationLogic>(id, typeof(OfficeLocationLogic));
         }
