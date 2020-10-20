@@ -209,6 +209,14 @@
                         DealType: { id: 'jZCS1X5BzeyS', caption: 'DealType', nav: 'settings/currencysettings/dealtype', nodetype: 'Module', description: '' }
                     }
                 },
+                DepartmentSettings: {
+                    caption: 'Department',
+                    id: 'Settings.CompanyDepartmentSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'module/companydepartment', nodetype: 'Module', description: '' },
+                    }
+                },
                 InventorySettings: {
                     caption: 'Inventory',
                     id: 'Settings.InventorySettings',

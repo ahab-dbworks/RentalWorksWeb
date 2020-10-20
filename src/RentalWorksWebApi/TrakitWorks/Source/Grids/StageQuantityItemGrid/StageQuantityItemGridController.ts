@@ -8,18 +8,18 @@
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         this.$form = $control.closest('.fwform');
-        const $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
         this.errorMsg = this.$form.find('.error-msg.qty');
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             const trackedByValue = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
             const itemClassValue = $tr.find('[data-browsedatafield="ItemClass"]').attr('data-originalvalue');
-            const $grid = $tr.parents('[data-grid="StageQuantityItemGrid"]');
 
             if (trackedByValue === 'QUANTITY' && itemClassValue !== 'K') {
+                const $quantityColumn = $generatedtr.find('[data-browsedatatype="numericupdown"]');
                 $quantityColumn.on('change', '.value', e => {
                     const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-                    const type = $grid.attr('data-moduletype');
+                    const $fwgrid = $control.parents('[data-grid="StageQuantityItemGrid"]');
+                    const type = $fwgrid.attr('data-moduletype');
 
                     let request: any = {},
                         code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'),
@@ -41,7 +41,7 @@
                             this.errorMsg.html('');
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue', Number(newValue));
-                                FwBrowse.setFieldValue($grid, $tr, 'QuantityRemaining', { value: response.InventoryStatus.QuantityRemaining });
+                                FwBrowse.setFieldValue($fwgrid, $tr, 'QuantityRemaining', { value: response.InventoryStatus.QuantityRemaining });
                             }
                             if (response.ShowAddItemToOrder === true) {
                                 FwFunc.playErrorSound();

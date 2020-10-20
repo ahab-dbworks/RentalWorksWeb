@@ -18,7 +18,7 @@
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             // Dashboard search
@@ -83,7 +83,6 @@
             gridSecurityId: 'BlB26FHHFsaQx',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -99,7 +98,6 @@
             gridSecurityId: 'HRLS0W2gCu4lD',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -115,7 +113,6 @@
         //    gridSecurityId: '1iBtCdzhTkio4',
         //    moduleSecurityId: this.id,
         //    $form: $form,
-        //    pageSize: 10,
         //    onDataBind: (request: any) => {
         //        request.uniqueids = {
         //            WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -131,7 +128,6 @@
             gridSecurityId: 'BlB26FHHFsaQx',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -147,7 +143,6 @@
             gridSecurityId: 'B1kMAlpwQNPLG',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -163,7 +158,6 @@
             gridSecurityId: 'IBGJoUXyFbKmm',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
@@ -307,6 +301,38 @@
                 $form.find('.catax').show();
             };
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'CountryId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecountry`);
+                break;
+            case 'RegionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateregion`);
+                break;
+            case 'CurrencyId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
+                break;
+            case 'RentalBarCodeRangeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalbarcoderange`);
+                break;
+            case 'SalesBarCodeRangeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesalesbarcoderange`);
+                break;
+            case 'RentalFixedAssetBarCodeRangeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validaterentalfixedassetbarcoderange`);
+                break;
+            case 'InternalVendorId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinternalvendor`);
+                break;
+            case 'InternalDealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinternaldeal`);
+                break;
+            case 'TaxOptionId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetaxoption`);
+                break;
+        }
     }
 }
 

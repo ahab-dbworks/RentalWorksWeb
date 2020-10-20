@@ -16,7 +16,7 @@
                     .parents('td')
                     .css('background-color', 'rgb(245,245,245)');
             }
-            $quantityColumn.on('change', '.fieldvalue', e => {
+            $quantityColumn.on('change', '.value', e => {
                 let request: any = {},
                     contractId = $tr.find('[data-browsedatafield="ContractId"]').attr('data-originalvalue'),
                     itemId = $tr.find('[data-browsedatafield="PurchaseOrderItemId"]').attr('data-originalvalue'),
@@ -34,7 +34,7 @@
 
                 if (quantity != 0) {
                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', +newValue);
-                    FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreturnitem/returnitems", request, FwServices.defaultTimeout,
+                    FwAppData.apiMethod(true, 'POST', `api/v1/returntovendor/returnitems`, request, FwServices.defaultTimeout,
                         function onSuccess(response) {
                             FwBrowse.setFieldValue($grid, $tr, 'QuantityReturned', { value: response.QuantityReturned });
                         }, function onError(response) {

@@ -80,7 +80,7 @@ class Order extends OrderBase {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    //addBrowseMenuItems($menuObject) {
+    //addBrowseMenuItems(options: IAddBrowseMenuOptions) {
     //    const $all       = FwMenu.generateDropDownViewBtn('All', true, "ALL");
     //    const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
     //    const $active    = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
@@ -91,7 +91,7 @@ class Order extends OrderBase {
       
     //    let viewSubitems: Array<JQuery> = [];
     //    viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
-    //    FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+    //    FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
     //    //Location Filter
     //    const location      = JSON.parse(sessionStorage.getItem('location'));
@@ -104,8 +104,8 @@ class Order extends OrderBase {
 
     //    let viewLocation: Array<JQuery> = [];
     //    viewLocation.push($userLocation, $allLocations);
-    //    FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-    //    return $menuObject;
+    //    FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    //    return options;
     //}
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasDelete = false;

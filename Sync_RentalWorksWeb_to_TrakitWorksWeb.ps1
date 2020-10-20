@@ -77,8 +77,11 @@ try {
         'Modules\Reports\DealOutstandingItemsReport',
         'Modules\Reports\LateReturnDueBackReport',,
         'Modules\Reports\OrderReport',
+        'Modules\Reports\OrderStatusDetailReport',
+        'Modules\Reports\OrderStatusSummaryReport',
         'Modules\Reports\OutContract',
         'Modules\Reports\PickListReport',
+        'Modules\Reports\PurchaseOrderReturnListReport',
         'Modules\Reports\QuoteReport'
         'Modules\Reports\RentalInventoryAttributesReport',
         'Modules\Reports\RentalInventoryCatalogReport',
@@ -86,6 +89,7 @@ try {
         'Modules\Reports\RentalInventoryPurchaseHistoryReport',
         'Modules\Reports\RentalInventoryValueReport',
         'Modules\Reports\RetiredRentalInventoryReport',
+        'Modules\Reports\ReturnListReport',
         'Modules\Reports\UnretiredRentalInventoryReport',
 
         # Grids
@@ -161,7 +165,7 @@ try {
 
     echo 'Compiling TypeScript...'
     cd "$Env:DwRentalWorksWebPath\src\RentalWorksWebApi\TrakitWorks"
-    tsc
+    npx tsc
 
     echo ''
     echo ''

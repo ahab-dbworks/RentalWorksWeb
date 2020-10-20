@@ -1,11 +1,11 @@
 routes.push({ pattern: /^module\/customform$/, action: function (match: RegExpExecArray) { return CustomFormController.getModuleScreen(); } });
 
 class CustomForm {
-    Module: string = 'CustomForm';
-    apiurl: string = 'api/v1/customform';
-    caption: string = Constants.Modules.Administrator.children.CustomForm.caption;
-    nav: string = Constants.Modules.Administrator.children.CustomForm.nav;
-    id: string = Constants.Modules.Administrator.children.CustomForm.id;
+    Module:     string = 'CustomForm';
+    apiurl:     string = 'api/v1/customform';
+    caption:    string = Constants.Modules.Administrator.children.CustomForm.caption;
+    nav:        string = Constants.Modules.Administrator.children.CustomForm.nav;
+    id:         string = Constants.Modules.Administrator.children.CustomForm.id;
     codeMirror: any;
     doc: any;
     //----------------------------------------------------------------------------------------------
@@ -410,10 +410,10 @@ class CustomForm {
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         FwBrowse.renderGrid({
-            nameGrid: 'CustomFormGroupGrid',
-            gridSecurityId: '11txpzVKVGi2',
+            nameGrid:         'CustomFormGroupGrid',
+            gridSecurityId:   '11txpzVKVGi2',
             moduleSecurityId: this.id,
-            $form: $form,
+            $form:            $form,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')
@@ -425,10 +425,10 @@ class CustomForm {
         });
 
         FwBrowse.renderGrid({
-            nameGrid: 'CustomFormUserGrid',
-            gridSecurityId: 'nHNdXDBX6m6cp',
+            nameGrid:         'CustomFormUserGrid',
+            gridSecurityId:   'nHNdXDBX6m6cp',
             moduleSecurityId: this.id,
-            $form: $form,
+            $form:            $form,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId')

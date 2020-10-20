@@ -42,26 +42,27 @@
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Printing">
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Designer" data-datafield="CatalogCategory" style="flex: 0 1 250px;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Inventory Bar Code" data-datafield="InventoryBarCodeDesignerId" data-displayfield="InventoryBarCodeDesigner" data-validationname="ReportDesignerValidation" style="flex: 0 1 300px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Inventory Bar Code" data-datafield="InventoryBarCodeDesignerId" data-displayfield="InventoryBarCodeDesigner" data-validationname="ReportDesignerValidation" data-enabled="false" style="flex: 0 1 300px;"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Rental Item Bar Code" data-datafield="BarCodeDesignerId" data-displayfield="BarCodeDesigner" data-validationname="ReportDesignerValidation" style="flex: 0 1 300px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Rental Item Bar Code" data-datafield="BarCodeDesignerId" data-displayfield="BarCodeDesigner" data-validationname="ReportDesignerValidation" data-enabled="false" style="flex: 0 1 300px;"></div>
               </div>
             </div>
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Type">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield barcodetype" data-caption="Bar Code Type" data-datafield="BarCodeType" style="flex: 0 1 250px;">
-                <div data-value="1" data-caption="Small"></div>
-                <div data-value="2" data-caption="Large"></div>
-              </div>
+              <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield barcodetype" data-caption="Bar Code Type" data-datafield="BarCodeType" style="flex: 0 1 250px;"></div>
             </div>
           </div>
         </div>
       </div>
       <div data-type="tabpage" id="depreciationtabpage" class="tabpage" data-tabid="depreciationtab">
         <div class="flexrow">
-          <div class="flexcolumn" style="flex:0 1 252px;">
+          <div class="flexcolumn" style="flex:0 1 600px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Straight Line Depreciation over X months" data-enabled="true" data-datafield="DepreciationMonths" style="flex: 0 1 252px;"></div>
+              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Straight Line Depreciation over X months" data-enabled="true" data-datafield="DepreciationMonths" style="width:252px;"></div>
+              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Default Salvage Value %" data-enabled="true" data-digits="2" data-datafield="SalvageValuePercent" style="width:252px;"></div>
+              <div class="flexrow depreciationnotes">
+                <div style="font-size:.8em"><br /><b>Depreciation Notes:</b><br />Rental Inventory marked as "Fixed Asset" will be depreciated to calculate Book Value.<br />Changes made to Depreciation Months or Salvage Value on this Category do not affect historical purchases.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -74,7 +75,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield overridecheck" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="flex: 0 1 175px;"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield catvalidation" data-caption="Category" data-enabled="true" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategoryValidation" style="flex: 0 1 225px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield catvalidation" data-caption="Category" data-enabled="false" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategoryValidation" style="flex: 0 1 225px;"></div>
               </div>
             </div>
           </div>
@@ -111,6 +112,14 @@
               <div class="flexrow">
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Cost of Goods Rented Expense G/L Account" data-enabled="true" data-datafield="CostOfGoodsRentedExpenseAccountId" data-displayfield="CostOfGoodsRentedExpenseAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="CostOfGoodsRentedExpenseAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Depreciation Expense G/L Account" data-enabled="true" data-datafield="DepreciationExpenseAccountId" data-displayfield="DepreciationExpenseAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="DepreciationExpenseAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation Expense G/L Account" data-enabled="true" data-datafield="AccumulatedDepreciationExpenseAccountId" data-displayfield="AccumulatedDepreciationExpenseAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="AccumulatedDepreciationExpenseAccountDescription" style="flex: 0 1 275px;"></div>
               </div>
             </div>
           </div>

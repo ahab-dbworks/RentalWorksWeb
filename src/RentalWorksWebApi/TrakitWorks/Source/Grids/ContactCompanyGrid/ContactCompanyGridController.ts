@@ -21,7 +21,7 @@
         });
     };
 
-    //addGridMenuItems($menuObject) {
+    //addGridMenuItems(options: IAddBrowseMenuOptions) {
     //    var self = this;
     //    var $all: JQuery = FwMenu.generateDropDownViewBtn('All Contacts', true);
     //    var $lead: JQuery = FwMenu.generateDropDownViewBtn('Lead Contacts', false);
@@ -67,7 +67,7 @@
     //        FwBrowse.databind($browse);
     //    });
 
-    //    FwMenu.addVerticleSeparator($menuObject);
+    //    FwMenu.addVerticleSeparator(options.$menu);
 
     //    var viewSubitems: Array<JQuery> = [];
     //    viewSubitems.push($all);
@@ -78,9 +78,9 @@
     //    viewSubitems.push($vendor);
 
     //    var $view;
-    //    $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+    //    $view = FwMenu.addViewBtn(options.$menu, 'View', viewSubitems);
 
-    //    return $menuObject;
+    //    return options;
     //};
 }
 

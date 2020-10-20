@@ -175,8 +175,9 @@ class FwMenuClass {
                         case 'Edit': btnHtml.push('<i class="material-icons">&#xE254;</i>'); break; //mode_edit
                         case 'Delete': btnHtml.push('<i class="material-icons">&#xE872;</i>'); break; //delete
                         case 'Save': btnHtml.push('<i class="material-icons">&#xE161;</i>'); break; //save
-                        case 'Refresh': btnHtml.push('<i class="material-icons">refresh</i>'); break; //find
+                        case 'Refresh': btnHtml.push('<i class="material-icons">refresh</i>'); break; //refresh
                         case 'Find': btnHtml.push('<i class="material-icons">search</i>'); break; //find
+                        case 'Update Records': btnHtml.push('<i class="material-icons">&#xE161;</i>'); break; //update records (multi-edit)
                     }
                 }
                 const addedClass = caption.toLowerCase().replace(/ /g, '');
@@ -481,7 +482,7 @@ class FwMenuClass {
 
             const mode = $form.attr('data-mode');
             hasSave = ((options.hasSave && nodeNew !== null && nodeNew.properties.visible === 'T' && mode === 'NEW') ||
-                (options.hasSave && nodeEdit !== null && nodeEdit.properties.visible === 'T') && mode === 'EDIT' ||
+                (options.hasSave && nodeEdit !== null && nodeEdit.properties.visible === 'T') && (mode === 'EDIT' || mode === 'MULTI-EDIT') ||
                 (nodeSave !== null && nodeSave.properties.visible === 'T') && (mode === 'NEW' || mode === 'EDIT'));
 
             // Save
@@ -727,6 +728,9 @@ class FwMenuClass {
         if (typeof options.hasCustomize === 'undefined') {
             options.hasCustomize = true;
         }
+        if (typeof options.hasMultiRowEditing === 'undefined') {
+            options.hasMultiRowEditing = false;
+        }
         //if (typeof buttons.hasExportExcel) {
         //    //check the security tree
         //    const nodeExportExcel
@@ -768,7 +772,7 @@ class FwMenuClass {
             $menubarbutton.attr('data-type', 'ViewMenuBarButton');
             $menubarbutton.on('click', function (event) {
                 try {
-                    const $browse = jQuery(this).closest('.fwbrowse');
+                    const $browse = options.$browse;
                     const $selectedRow = $browse.find('tr.selected');
                     if ($selectedRow.length > 0) {
                         $selectedRow.dblclick();
@@ -784,11 +788,29 @@ class FwMenuClass {
             $menubarbutton2.attr('data-type', 'EditMenuBarButton');
             $menubarbutton2.on('click', function (event) {
                 try {
-                    const $selectedRow = options.$browse.find('tr.selected');
-                    if ($selectedRow.length > 0) {
-                        $selectedRow.dblclick();
+                    const $browse = options.$browse;
+                    if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
+                        let $selectedRows;
+                        if ($browse.find('.multi-edit-active').length) {
+                            $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+                        } else {
+                            $selectedRows = $browse.find('tr.selected');
+                        }
+
+                        if ($selectedRows.length > 1) {
+                            FwBrowse.openMultiRowEditForm($browse, $selectedRows);
+                        } else if ($selectedRows.length === 1) {
+                            $selectedRows.dblclick();
+                        } else {
+                            FwNotification.renderNotification('WARNING', 'Please select a row.');
+                        }
                     } else {
-                        FwNotification.renderNotification('WARNING', 'Please select a row.');
+                        const $selectedRow = $browse.find('tr.selected');
+                        if ($selectedRow.length > 0) {
+                            $selectedRow.dblclick();
+                        } else {
+                            FwNotification.renderNotification('WARNING', 'Please select a row.');
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -1232,6 +1254,18 @@ class FwMenuClass {
                 }
             });
         }
+
+        if (options.hasMultiRowEditing) {
+            FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
+                try {
+                    const $menuOption = jQuery(e.currentTarget);
+                    $menuOption.attr('data-type', 'MultiRowEditButton')
+                    FwBrowse.showMultiRowSelector(options.$browse, $menuOption);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuButtons(options: IAddFormMenuOptions) {
@@ -1287,6 +1321,20 @@ class FwMenuClass {
                 }
             });
         }
+        if (options.$form.attr('data-mode') === 'MULTI-EDIT' && typeof options.hasMultiEdit === 'boolean' && options.hasMultiEdit) {
+            var $multiEdit = FwMenu.addStandardBtn(options.$menu, 'Update Records');
+            $multiEdit.attr('data-type', 'UpdateRecordsButton');
+            $multiEdit.on('click', function () {
+                var $this, $browse, $tab, $selectedrow;
+                try {
+                    $this = jQuery(this);
+                    $browse = $this.closest('.tabpages').find('[data-tabtype="BROWSE"] .fwbrowse');
+                    FwModule.multiEditSave(options.$form, $browse);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
@@ -1302,6 +1350,7 @@ interface IAddFormMenuOptions {
     hasPrevious?: boolean
     hasNext?: boolean
     hasSave?: boolean
+    hasMultiEdit?: boolean
 }
 
 interface IAddBrowseMenuOptions {
@@ -1319,7 +1368,8 @@ interface IAddBrowseMenuOptions {
     hasFind?: boolean
     hasDownloadExcel?: boolean
     hasInactive?: boolean
-    hasCustomize?: boolean;
+    hasCustomize?: boolean
+    hasMultiRowEditing?: boolean
 }
 
 interface IAddGridMenuOptions {

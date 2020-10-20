@@ -3,7 +3,7 @@
     caption: string = Constants.Modules.Administrator.children.Settings.caption;
     nav: string = Constants.Modules.Administrator.children.Settings.nav;
     id: string = Constants.Modules.Administrator.children.Settings.id;
-    settingsMenuId: string = Constants.MainMenu.Settings.id;
+    settingsMenuId: string = Constants.Modules.Settings.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var combinedViewModel: any;

@@ -1,12 +1,9 @@
-﻿abstract class CheckInBase implements IModule {
+abstract class CheckInBase implements IModule {
     Module:                    string;
     apiurl:                    string;
     caption:                   string;
     nav:                       string;
     id:                        string;
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     Type:                      string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(): IModuleScreen {
@@ -51,14 +48,13 @@
             $form.attr('data-showsuspendedsessions', 'false');
         }
 
-        this.getSoundUrls($form);
         this.events($form);
         this.getSuspendedSessions($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         if (showSuspendedSessions != "false") {
             let sessionType;
@@ -73,7 +69,7 @@
                     //orderType = 'T';
                     break;
             }
-            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/suspendedsessionsexist?warehouseId=${warehouse.warehouseid}`, null, FwServices.defaultTimeout, response => {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/suspendedsessionsexist?warehouseId=${warehouseId}`, null, FwServices.defaultTimeout, response => {
                 if (response) {
                     $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
                 }
@@ -92,21 +88,21 @@
                 FwBrowse.search($browse);
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
-                    let $this = jQuery(e.currentTarget);
-                    const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
-                    const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
-                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    let $tr = jQuery(e.currentTarget);
+                    const orderId = FwBrowse.getValueByDataField($browse, $tr, 'OrderId');
+                    const orderNo = FwBrowse.getValueByDataField($browse, $tr, 'OrderNumber');
+                    const contractId = FwBrowse.getValueByDataField($browse, $tr, 'ContractId');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     if (this.Module == 'CheckIn') {
-                        let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
-                        let dealNumber = $this.find(`[data-browsedatafield="DealNumber"]`).attr('data-originalvalue');
+                        let dealId = FwBrowse.getValueByDataField($browse, $tr, 'DealId');
+                        let dealNumber = FwBrowse.getValueByDataField($browse, $tr, 'DealOrVendor');
                         if (dealId !== "") {
                             FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
                         }
                     }
                     FwPopup.destroyPopup($popup);
-                    $form.find(`[data-datafield="${this.Type}Id"] input`).change();
+                    $form.find(`[data-datafield="${this.Type}Id"]`).data().onchange($tr);
                     $form.find('.suspendedsession').hide();
 
                     const $checkedInItemGrid = $form.find('div[data-name="CheckedInItemGrid"]');
@@ -122,15 +118,29 @@
             gridSecurityId:   'RanTH3xgxNy',
             moduleSecurityId: this.id,
             $form:            $form,
+            pageSize: 9999,  // for regression test to be able to select all rows and cancel them
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew    = false;
                 options.hasEdit   = false;
                 options.hasDelete = false;
+
+                FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '8bSrfYlth57y', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.cancelItems($form, e);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId')
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                if (this.Module === 'TransferIn') {
+                    $browse.attr('data-caption', 'Transferred In Items');
+                }
             }
         });
 
@@ -206,53 +216,146 @@
         });
     }
     //----------------------------------------------------------------------------------------------
+    async cancelItems($form: JQuery, event): Promise<any> {
+        const $element = jQuery(event.currentTarget);
+        const $grid = jQuery($element.closest('[data-type="Grid"]'));
+        const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
+        const errorMsg = $form.find('.error-msg:not(.qty)');
+
+        if ($selectedCheckBoxes.length !== 0) {
+            await this.cancelSelectedItems($form, $selectedCheckBoxes).then(errorMessages => {
+                FwBrowse.search($grid);
+                if (errorMessages.length == 0) {
+                    errorMsg.html('');
+                    FwFunc.playSuccessSound();
+                }
+                else {
+                    FwFunc.playErrorSound();
+                    errorMsg.html(`<div><span>${errorMessages.join('<br>')}</span></div>`);
+                }
+            });
+
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select rows to unstage in order to perform this function.');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    async cancelSelectedItems($form, $selectedCheckBoxes): Promise<Array<string>> {
+        function delay(ms: number) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        let responseCount = 0;
+        const errorMessages: Array<string> = [];
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            const $tr = $selectedCheckBoxes.eq(i).closest('tr');
+
+            const orderId = FwBrowse.getValueByDataField(null, $tr, 'OrderId');
+            const contractId = FwBrowse.getValueByDataField(null, $tr, 'ContractId');
+            const orderTranId = FwBrowse.getValueByDataField(null, $tr, 'OrderTranId');
+            const internalChar = FwBrowse.getValueByDataField(null, $tr, 'InternalChar');
+            const orderItemId = FwBrowse.getValueByDataField(null, $tr, 'OrderItemId');
+            const inventoryId = FwBrowse.getValueByDataField(null, $tr, 'InventoryId');
+            const vendorId = FwBrowse.getValueByDataField(null, $tr, 'VendorId');
+            const qty = FwBrowse.getValueByDataField(null, $tr, 'Quantity');
+            const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
+   
+            const request = {
+                OrderTranId: orderTranId,
+                InternalChar: internalChar,
+                ContractId: contractId,
+                OrderId: orderId,
+                OrderItemId: orderItemId,
+                InventoryId: inventoryId,
+                Description: description,
+                Quantity: qty,
+                VendorId: vendorId
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkin/cancelcheckinitems`, request, FwServices.defaultTimeout, response => {
+                responseCount++;
+                // success/error response not programmed yet
+                //if (response.success) {
+                // //
+                //}
+                //else {
+                //    errorMessages.push(response.msg);  // gather all errors into the errorMessages array
+                //}
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        }
+
+        while (responseCount < $selectedCheckBoxes.length) {
+            await delay(1000);
+        }
+
+        return errorMessages;
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
-        request.miscfields = {
-            CheckIn: true
-            , CheckInWarehouseId: warehouseId
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        switch (datafield) {
+            case 'OrderId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                request.miscfields = {
+                    CheckIn: true,
+                    CheckInWarehouseId: warehouseId
+                }
+                break;
+            case 'TransferId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransfer`);
+                request.miscfields = {
+                    TransferIn: true,
+                    TransferInWarehouseId: warehouseId
+                }
+                break;
+            case 'SpecificOrderId':
+                const dealId = FwFormField.getValueByDataField($form, 'DealId');
+                request.uniqueids = {
+                    DealId: dealId
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatespecificorder`);
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateSpecificOrder($browse: any, $form: any, request: any) {
-        let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
-        request.uniqueids = {
-            DealId: dealId
-        }
-        request.miscfields = {
-            CheckIn: true,
-            CheckInWarehouseId: warehouseId
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
-    }
+    //beforeValidateSpecificOrder($browse: any, $form: any, request: any) {
+    //    const dealId = FwFormField.getValueByDataField($form, 'DealId');
+    //    const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+    //    request.uniqueids = {
+    //        DealId: dealId
+    //    }
+    //    request.miscfields = {
+    //        CheckIn: true,
+    //        CheckInWarehouseId: warehouseId
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let errorMsg, errorSound, successSound, department, self = this;
-        department = JSON.parse(sessionStorage.getItem('department'));
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
-        errorMsg = $form.find('.error-msg:not(.qty)');
-        const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
-        const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
-        const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
-        const specificOrderValidation = $form.find('div[data-datafield="SpecificOrderId"]');
+        const errorMsg = $form.find('.error-msg:not(.qty)');
         const type = (this.Module === 'CheckIn' ? 'Order' : 'Transfer');
 
         //Default Department
+        const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
         $form.find('[data-datafield="OrderId"], [data-datafield="TransferId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            let descriptionFieldName;
+            if ($tr.find('[data-browsedatafield="Description"]').length > 0) {
+                descriptionFieldName = "Description";
+            } else {
+                descriptionFieldName = "OrderDescription";
+            }
+            FwFormField.setValueByDataField($form, 'Description', FwBrowse.getValueByDataField($form, $tr, descriptionFieldName));
             if (type === 'Order') {
-                FwFormField.setValueByDataField($form, 'DealId', $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue'));
+                let dealName;
+                if ($tr.find('[data-browsedatafield="Deal"]').length > 0) {
+                    dealName = "Deal";
+                } else {
+                    dealName = "DealOrVendor";
+                }
+                FwFormField.setValueByDataField($form, 'DealId', FwBrowse.getValueByDataField($form, $tr, 'DealId'), FwBrowse.getValueByDataField($form, $tr, dealName));
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
             } else if (type === 'Transfer') {
                 FwFormField.disable($form.find('[data-datafield="TransferId"]'));
@@ -282,8 +385,7 @@
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId.length === 0) {
                 FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
-                let request: any = {};
-                request = {
+                const request: any = {
                     DealId: FwFormField.getValueByDataField($form, 'DealId'),
                     DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId'),
                     OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid,
@@ -300,28 +402,29 @@
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
                 errorMsg.html('');
-                this.checkInItem($form);
+                let checkInTranType = 'BarCode';
+                this.checkInItem($form, checkInTranType);
             }
         });
         //Quantity input
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
                 errorMsg.html('');
-                let type = 'Quantity';
-                this.checkInItem($form, type);
+                let checkInTranType = 'Quantity';
+                this.checkInItem($form, checkInTranType);
             }
         });
         //Add Order to Contract
         $form.find('.addordertocontract').on('click', e => {
             errorMsg.html('');
-            let type = 'AddOrderToContract';
-            this.checkInItem($form, type);
+            let checkInTranType = 'AddOrderToContract';
+            this.checkInItem($form, checkInTranType);
         });
         //Swap Item
         $form.find('.swapitem').on('click', e => {
             errorMsg.html('');
-            let type = 'SwapItem';
-            this.checkInItem($form, type);
+            let checkInTranType = 'SwapItem';
+            this.checkInItem($form, checkInTranType);
         });
         //Create Contract
         $form.find('.createcontract').on('click', e => {
@@ -352,6 +455,8 @@
                 FwNotification.renderNotification('WARNING', 'Select an Order, Deal, BarCode, or I-Code.')
             }
         });
+        const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
+        const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
         $form.find('div.quantityitemstab').on('click', e => {
             //Disable clicking Quantity Items tab w/o a ContractId
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -392,7 +497,8 @@
                 $form.find('.all-orders').hide();
             }
         });
-
+        const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
+        const specificOrderValidation = $form.find('div[data-datafield="SpecificOrderId"]');
         //AllOrdersForDeal Checkbox functionality
         allActiveOrders.on('change', e => {
             if (allActiveOrders.prop('checked')) {
@@ -453,18 +559,33 @@
         //Order Status Button
         $form.find('.orderstatus').on('click', e => {
             let orderInfo: any = {}, $orderStatusForm;
-            orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
-            orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
+            const $checkedInItemGrid = $form.find('[data-name="CheckedInItemGrid"]');
+            if ($checkedInItemGrid.find('tbody >:not(.empty)').length === 0) {
+                orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
+                orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
+            } else {
+                let $tr;
+                if ($checkedInItemGrid.find('tbody tr .tdselectrow input:checked').length === 0) {
+                    $tr = $checkedInItemGrid.find('tbody tr .tdselectrow:visible').eq(0).parent('tr');
+                } else {
+                    $tr = $checkedInItemGrid.find('tbody tr .tdselectrow input:checked').eq(0).parents('tr');
+                }
+                orderInfo.OrderId = FwBrowse.getValueByDataField($checkedInItemGrid, $tr, 'OrderId');
+                orderInfo.OrderNumber = FwBrowse.getValueByDataField($checkedInItemGrid, $tr, 'OrderNumber');
+            }
+
             if (this.Module == 'TransferIn') {
                 $orderStatusForm = (<any>window).TransferStatusController.openForm('EDIT', orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
-                jQuery('.tab.submodule.active').find('.caption').html('Transfer Status');
+                const $tab = FwTabs.getTabByElement($orderStatusForm);
+                $tab.find('.caption').html('Transfer Status');
             } else {
                 $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
-                jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+                const $tab = FwTabs.getTabByElement($orderStatusForm);
+                $tab.find('.caption').html('Order Status');
             }
-           
+
         });
         //Refresh grid on Check-In tab click
         $form.find('.checkintab').on('click', e => {
@@ -473,12 +594,7 @@
         });
     }
     //----------------------------------------------------------------------------------------------
-    checkInItem($form, type?: string) {
-        let errorSound, successSound, notificationSound;
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
-        notificationSound = new Audio(this.notificationSoundFileName);
-
+    checkInItem($form, checkInTranType?: string) {
         const module = this.Module;
         const request: any = {};
         let idType;
@@ -501,7 +617,7 @@
             request.ContractId = contractId;
         }
 
-        switch (type) {
+        switch (checkInTranType) {
             case 'Quantity':
                 request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
                 break;
@@ -519,7 +635,7 @@
 
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/checkinitem`, request, FwServices.defaultTimeout, response => {
             if (response.success) {
-                successSound.play();
+                FwFunc.playSuccessSound();
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                 FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
                 FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
@@ -532,10 +648,11 @@
                 $form.find('.suspendedsession').hide();
 
                 if (this.Module == 'CheckIn') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
-                if (type !== 'SwapItem') {
-                    FwFormField.setValueByDataField($form, `${idType}Id`, response[`${idType}Id`], response[`${idType}Number`]);
+                if (checkInTranType !== 'SwapItem') {
+                    FwFormField.setValueByDataField($form, `${idType}Id`, response.OrderId, response.OrderNumber);
                     FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
                 }
+
                 FwFormField.disable($form.find(`[data-datafield=${idType}Id]`));
                 if (this.Module == 'CheckIn') FwFormField.disable($form.find(`[data-datafield="DealId"]`));
 
@@ -544,20 +661,20 @@
                 $form.find('[data-datafield="BarCode"] input').select();
 
                 if (response.status === 107) {
-                    successSound.play();
+                    FwFunc.playSuccessSound();
                     $form.find('[data-datafield="Quantity"] input').select();
                 }
 
-                if (type === 'Quantity') {
+                if (checkInTranType === 'Quantity') {
                     FwFormField.setValueByDataField($form, 'Quantity', 0);
                     $form.find('[data-datafield="BarCode"] input').select();
                 }
             } else if (!response.success) {
                 if (response.ShowSwap) {
-                    notificationSound.play();
+                    FwFunc.playNotificationSound();
                     $form.find('.swapitem').show();
                 } else {
-                    errorSound.play();
+                    FwFunc.playErrorSound();
                     $form.find('.swapitem').hide();
                 }
                 $form.find('.error-msg:not(.qty)').html(`<div><span>${response.msg}</span></div>`);
@@ -568,11 +685,14 @@
     }
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
-        const errorMsg = $form.find('.error-msg:not(.qty)');
+        $form.find('.error-msg').html('');
         $form.find('.fwformfield').not('[data-datafield="DepartmentId"]').find('input').val('');
+        $form.find('div[data-type="checkbox"] input').prop('checked', false);
         $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
-        errorMsg.html('');
-        FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+        $form.find('div[data-name="CheckInQuantityItemsGrid"] tr.viewmode').empty();
+        $form.find('div[data-name="CheckInExceptionGrid"] tr.viewmode').empty();
+
+        FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"], [data-datafield="TransferId"]'));
 
         $form.find('.suspendedsession').show();
     }
@@ -591,9 +711,9 @@
             <div class="tabpages">
               <div data-type="tabpage" id="checkintabpage" class="tabpage" data-tabid="checkintab">
                 <div class="flexpage">
-                  <div class="flexrow">
+                  <div class="flexrow" style="max-width:1300px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.caption}">
-                      <div class="flexrow">
+                      <div class="flexrow" style="max-width:1300px;">
                         <div class="flexcolumn" style="flex:1 1 450px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
@@ -605,42 +725,37 @@
                         </div>
                         <div class="flexcolumn" style="flex:1 1 450px;">
                           <div class="flexrow">
-                            ${this.Module == 'CheckIn' ?
-            `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Agent.children.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:0 1 350px;"></div>` : ''}
+                            ${this.Module == 'CheckIn' ? `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Agent.children.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:0 1 350px;"></div>` : ''}
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:0 1 200px;" data-enabled="false"></div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="flexrow">
+                  <div class="flexrow" style="max-width:1300px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Items">
                       <div class="flexrow">
-                        <div class="flexcolumn" style="flex:1 1 850px;">
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code / I-Code" data-datafield="BarCode" style="flex:1 1 300px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 300px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="InventoryDescription" style="flex:1 1 400px;" data-enabled="false"></div>
-                          </div>
-                        </div>
-                        <div class="flexcolumn" style="flex:1 1 850px;">
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="flex:0 1 100px; margin-right:256px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="QuantityOrdered" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sub" data-datafield="QuantitySub" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Out" data-datafield="QuantityOut" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Staged" data-datafield="QuantityStaged" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="In" data-datafield="QuantityIn" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="QuantityRemaining" style="flex:0 1 100px;" data-enabled="false"></div>
-                          </div>
-                        </div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code / I-Code" data-datafield="BarCode" style="flex:1 1 300px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 300px;" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="InventoryDescription" style="flex:1 1 400px;" data-enabled="false"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="flex:0 1 100px; margin-right:267px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="QuantityOrdered" style="flex:0 1 100px;" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sub" data-datafield="QuantitySub" style="flex:0 1 100px;" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Out" data-datafield="QuantityOut" style="flex:0 1 100px;" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Staged" data-datafield="QuantityStaged" style="flex:0 1 100px;" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="In" data-datafield="QuantityIn" style="flex:0 1 100px;" data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="QuantityRemaining" style="flex:0 1 100px;" data-enabled="false"></div>
                       </div>
                       <div class="error-msg" style="margin-top:8px;"></div>
                       <div class="fwformcontrol addordertocontract" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Add Order To Contract</div>
                       <div class="fwformcontrol swapitem" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Swap Item</div>
-                      <div class="flexrow">
-                        <div data-control="FwGrid" data-grid="CheckedInItemGrid" data-securitycaption=""></div>
-                      </div>
+                      <div class="flexrow" style="max-width:1300px;">
+                        <div class="flexcolumn" style="flex:1 1 950px;">
+                          <div data-control="FwGrid" data-grid="CheckedInItemGrid" data-securitycaption=""></div>
+                        </div>
+                    </div>
                       <div class="formrow">
                         <div class="fwformcontrol orderstatus" data-type="button" style="float:left; margin-left:10px;">${this.Module == 'CheckIn' ? 'Order' : 'Transfer'} Status</div>
                         <div class="fwformcontrol createcontract" data-type="button" style="float:right;">Create ${this.Module == 'CheckIn' ? 'Contract' : 'Receipt'}</div>
@@ -658,6 +773,7 @@
               </div>
               <div data-type="tabpage" id="quantityitemstabpage" class="tabpage" data-tabid="quantityitemstab">
                 <div class="flexpage">
+                  <div class="flexrow error-msg qty"></div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="CheckInQuantityItemsGrid" data-securitycaption=""></div>
                   </div>
@@ -669,7 +785,7 @@
                   <div class="flexrow optionlist all-orders" style="display:none;">
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show all ACTIVE Orders for this ${Constants.Modules.Agent.children.Deal.caption}" data-datafield="AllOrdersForDeal" style="flex:0 1 350px;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Specific Order" data-datafield="SpecificOrder" style="flex:0 1 150px;"></div>
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="SpecificOrderId" data-displayfield="SpecificOrderNumber" data-validationname="OrderValidation" data-formbeforevalidate="beforeValidateSpecificOrder" style="flex:0 1 175px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="SpecificOrderId" data-displayfield="SpecificOrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="SpecificDescription" style="flex:1 1 250px;" data-enabled="false"></div>
                   </div>
                   <div class="flexrow optionlist" style="display:none;">

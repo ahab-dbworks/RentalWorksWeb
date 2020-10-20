@@ -1,2 +1,2 @@
-Last Synced on: 11/20/2019 16:19:53
+Last Synced on: 10/19/2020 18:15:22
 Source Path: RentalWorksWeb\src\RentalWorksWeb\Source\Modules\Settings\CompanyDepartmentSettings\Department

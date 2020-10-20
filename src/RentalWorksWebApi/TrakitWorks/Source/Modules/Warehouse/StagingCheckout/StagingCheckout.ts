@@ -34,7 +34,7 @@ class StagingCheckout extends StagingCheckoutBase {
                     try {
                         const request: any = {};
                         request.ContractId = contractId;
-                        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/cancelcontract`, request, FwServices.defaultTimeout,
                             response => {
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 StagingCheckoutController.resetForm($form);

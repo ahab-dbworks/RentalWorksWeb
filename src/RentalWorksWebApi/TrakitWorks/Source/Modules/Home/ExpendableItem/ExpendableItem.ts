@@ -462,7 +462,7 @@ class ExpendableItem {
         dp.update();
     }
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
+    addBrowseMenuItems(options: IAddBrowseMenuOptions) {
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true, "I");
         const $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false, "A");
@@ -472,16 +472,16 @@ class ExpendableItem {
         const $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false, "M");
         const $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false, "N");
 
-        FwMenu.addVerticleSeparator($menuObject);
+        FwMenu.addVerticleSeparator(options.$menu);
 
         var viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $item, $accessory, $complete, $kit, $set, $misc);
         if (this.AvailableFor === "R") {
             viewSubitems.push($container);
         }
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Classification");
+        FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Classification");
 
-        return $menuObject;
+        return options;
     };
     //----------------------------------------------------------------------------------------------
     setupNewMode($form: any) {

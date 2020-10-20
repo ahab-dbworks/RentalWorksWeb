@@ -1,11 +1,11 @@
 class RepairItemStatus {
-    Module:  string = 'RepairItemStatus';
-    apiurl:  string = 'api/v1/repairitemstatus';
+    Module: string = 'RepairItemStatus';
+    apiurl: string = 'api/v1/repairitemstatus';
     caption: string = Constants.Modules.Settings.children.RepairSettings.children.RepairItemStatus.caption;
-    nav:     string = Constants.Modules.Settings.children.RepairSettings.children.RepairItemStatus.nav;
-    id:      string = Constants.Modules.Settings.children.RepairSettings.children.RepairItemStatus.id;
+    nav: string = Constants.Modules.Settings.children.RepairSettings.children.RepairItemStatus.nav;
+    id: string = Constants.Modules.Settings.children.RepairSettings.children.RepairItemStatus.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -13,7 +13,7 @@ class RepairItemStatus {
 
         const $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);

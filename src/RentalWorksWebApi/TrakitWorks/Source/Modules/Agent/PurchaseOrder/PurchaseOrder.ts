@@ -67,7 +67,7 @@ class PurchaseOrder {
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    //addBrowseMenuItems($menuObject: any) {
+    //addBrowseMenuItems(options: IAddBrowseMenuOptions) {
     //    const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
     //    const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
     //    const $open = FwMenu.generateDropDownViewBtn('Open', false, "OPEN");
@@ -78,7 +78,7 @@ class PurchaseOrder {
         
     //    const viewSubitems: Array<JQuery> = [];
     //    viewSubitems.push($all, $new, $open, $received, $complete, $void, $closed);
-    //    FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+    //    FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
     //    //Location Filter
     //    const location = JSON.parse(sessionStorage.getItem('location'));
@@ -91,8 +91,8 @@ class PurchaseOrder {
         
     //    const viewLocation: Array<JQuery> = [];
     //    viewLocation.push($userLocation, $allLocations);
-    //    FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-    //    return $menuObject;
+    //    FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    //    return options;
     //};
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {

@@ -8,6 +8,20 @@
             $tr.dblclick(() => {
                 moveStagedItemToOut($control, $tr);
             })
+
+            const $browsecontextmenu = $tr.find('.browsecontextmenu');
+            const $form = $control.closest('.fwform');
+            const controller = $form.attr('data-controller');
+            $browsecontextmenu.data('contextmenuoptions', $tr => {
+                FwContextMenu.addMenuItem($browsecontextmenu, `Unstage Item`, () => {
+                    try {
+                        $control.data('selectedcheckbox', $tr.find('.tdselectrow input'));
+                        (<any>window)[controller].unstageItems($form, event);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            });
         });
         //----------------------------------------------------------------------------------------------
         function moveStagedItemToOut($control, $tr) {
