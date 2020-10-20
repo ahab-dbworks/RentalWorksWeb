@@ -2854,9 +2854,9 @@ class PurchaseOrder implements IModule {
         html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Vendor" data-datafield="CopyToVendorId" data-browsedisplayfield="Vendor" data-validationname="VendorValidation"></div>');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Rates for Items on New PO" data-datafield="PORates">');
+        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Rates for Items on New PO" data-datafield="CopyRatesFromInventory">');
         html.push('      <div data-value="C" data-caption="Copy Rates from Existing PO"> </div>');
-        html.push('    <div data-value="D" data-caption="Use Default Cost from Inventory"> </div></div><br>');
+        html.push('      <div data-value="D" data-caption="Use Default Cost from Inventory"> </div></div><br>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
         html.push('</div>');
 
@@ -2885,16 +2885,15 @@ class PurchaseOrder implements IModule {
 
         function makeACopy() {
             const request: any = {};
-            request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
-            request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
-            request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+            request.CopyToVendorId = FwFormField.getValueByDataField($confirmation, 'CopyToVendorId');
             request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
             request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
             request.LocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
-            if (request.CopyRatesFromInventory == "T") {
+            request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+            if (request.CopyRatesFromInventory == "C") {
                 request.CopyRatesFromInventory = "False"
             };
-
+            // convert checkbox values to str booleans
             for (let key in request) {
                 if (request.hasOwnProperty(key)) {
                     if (request[key] == "T") {
@@ -2912,7 +2911,7 @@ class PurchaseOrder implements IModule {
             const $confirmationbox = jQuery('.fwconfirmationbox');
             const purchaseOrderId = FwFormField.getValueByDataField($form, `${module}Id`);
             FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copytopurchaseorder/${purchaseOrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', `${module} Successfully Copied`);
+                FwNotification.renderNotification('SUCCESS', `Purchase Order Successfully Copied`);
                 FwConfirmation.destroyConfirmation($confirmation);
                 const uniqueids: any = {};
                 uniqueids.purchaseOrderId = response.purchaseOrderId;
