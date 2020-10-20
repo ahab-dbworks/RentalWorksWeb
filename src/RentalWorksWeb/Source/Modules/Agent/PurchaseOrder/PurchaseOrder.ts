@@ -92,7 +92,7 @@ class PurchaseOrder implements IModule {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Copy Purchase Order', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Copy Purchase Order', 'fuUHEQthEdtv', (e: JQuery.ClickEvent) => {
             try {
                 this.copyPurchaseOrder(options.$form);
             } catch (ex) {

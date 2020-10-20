@@ -10,6 +10,9 @@ using WebApi.Modules.HomeControls.PurchaseOrderReturnItem;
 using WebApi;
 using System.ComponentModel.DataAnnotations;
 using WebApi.Modules.Warehouse.Contract;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
+using System.Reflection;
+using FwStandard.AppManager;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -162,6 +165,12 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public string PurchaseOrderId { get; set; }
         //public string LocationId { get; set; }
         //public string WarehouseId { get; set; }
+    }
+    public enum PurchaseOrderCopyMode
+    {
+        PurchaseOrder,
+        NewVersion,
+        Copy
     }
     public class CopyPurchaseOrderResponse : TSpStatusResponse
     {
@@ -434,6 +443,282 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
             return response;
         }
-        //-------------------------------------------------------------------------------------------------------    
+        //-------------------------------------------------------------------------------------------------------  
+        //-------------------------------------------------------------------------------------------------------
+        private static async Task<PurchaseOrderLogic> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, string toType, PurchaseOrderCopyMode copyMode, string newLocationId = "", string newWarehouseId = "")
+        {
+            PurchaseOrderLogic to = null;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                conn.BeginTransaction();
+
+                if (string.IsNullOrEmpty(toType))
+                {
+                    toType = from.Type;
+                }
+
+                    to = new PurchaseOrderLogic();
+
+                to.SetDependencies(appConfig, userSession);
+
+                if (string.IsNullOrEmpty(newLocationId))
+                {
+                    newLocationId = from.OfficeLocationId;
+                }
+                if (string.IsNullOrEmpty(newWarehouseId))
+                {
+                    newWarehouseId = from.WarehouseId;
+                }
+
+                OfficeLocationLogic location = new OfficeLocationLogic();
+                location.SetDependencies(appConfig, userSession);
+                location.LocationId = newLocationId;
+                await location.LoadAsync<PurchaseOrderLogic>();
+
+                string fromId = from.GetPrimaryKeys()[0].ToString();
+
+                //use reflection to copy all peroperties from Quote to Order
+                PropertyInfo[] fromProperties = from.GetType().GetProperties();
+                PropertyInfo[] toProperties = to.GetType().GetProperties();
+                foreach (PropertyInfo fromProperty in fromProperties)
+                {
+                    if (fromProperty.IsDefined(typeof(FwLogicPropertyAttribute)))
+                    {
+                        foreach (Attribute attribute in fromProperty.GetCustomAttributes())
+                        {
+                            if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                            {
+                                foreach (PropertyInfo toProperty in toProperties)
+                                {
+                                    if (toProperty.Name.Equals(fromProperty.Name))
+                                    {
+                                        toProperty.SetValue(to, fromProperty.GetValue(from));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //manually set these fields after the reflection copy
+                to.Type = toType;
+                to.SetPrimaryKeys(new string[] { "" });
+                to.OutDeliveryId = "";
+                to.InDeliveryId = "";
+                to.BillToAddressId = "";
+                to.TaxId = "";
+                to.OfficeLocationId = newLocationId;
+                to.WarehouseId = newWarehouseId;
+
+                if (copyMode.Equals(PurchaseOrderCopyMode.PurchaseOrder))
+                {
+                    ((PurchaseOrderLogic)to).OrderNumber = ((QuoteLogic)from).QuoteNumber;
+                    if (!location.UseSameNumberForQuoteAndOrder.GetValueOrDefault(false))
+                    {
+                        ((PurchaseOrderLogic)to).OrderNumber = await AppFunc.GetNextModuleCounterAsync(appConfig, userSession, RwConstants.MODULE_ORDER, newLocationId, conn);
+                    }
+                    ((PurchaseOrderLogic)to).SourceQuoteId = fromId;
+                }
+                else if (copyMode.Equals(PurchaseOrderCopyMode.NewVersion))
+                {
+                    ((PurchaseOrderLogic)to).QuoteNumber = ((PurchaseOrderLogic)from).QuoteNumber;
+
+                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    qry.Add("select newversionno = (max(o.versionno) + 1)");
+                    qry.Add(" from  dealorder o with (nolock)");
+                    qry.Add(" where o.orderno   = @quoteno");
+                    qry.Add(" and   o.ordertype = @ordertype");
+                    qry.AddParameter("@quoteno", ((PurchaseOrderLogic)from).QuoteNumber);
+                    qry.AddParameter("@ordertype", RwConstants.ORDER_TYPE_QUOTE);
+                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+                    if (dt.TotalRows > 0)
+                    {
+                        ((PurchaseOrderLogic)to).VersionNumber = FwConvert.ToInt32(dt.Rows[0][dt.GetColumnNo("newversionno")].ToString());
+                    }
+                }
+
+
+                //save the new 
+                await to.SaveAsync(original: null, conn: conn);
+
+                string toId = to.GetPrimaryKeys()[0].ToString();
+
+                // copy all items
+                BrowseRequest itemBrowseRequest = new BrowseRequest();
+                itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+                itemBrowseRequest.uniqueids.Add("OrderId", fromId);
+                itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+
+                PurchaseOrderLogic itemSelector = new PurchaseOrderLogic();
+                itemSelector.SetDependencies(appConfig, userSession);
+                List<PurchaseOrderLogic> items = await itemSelector.SelectAsync<PurchaseOrderLogic>(itemBrowseRequest, conn);
+
+                // dictionary of ID's to map old OrderItemId value to new OrderItemId for parents
+                Dictionary<string, string> ids = new Dictionary<string, string>();
+
+                foreach (OrderItemLogic i in items)
+                {
+                    string oldId = i.OrderItemId;
+                    string newId = "";
+                    i.SetDependencies(appConfig, userSession);
+                    i.OrderId = toId;
+                    i.OrderItemId = "";
+                    if (!string.IsNullOrEmpty(i.ParentId))
+                    {
+                        if (!(i.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT) || i.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || i.ItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_CONTAINER)))
+                        {
+                            string newParentId = "";
+                            ids.TryGetValue(i.ParentId, out newParentId);
+                            i.ParentId = newParentId;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(i.NestedOrderItemId))
+                    {
+                        string newGrandParentId = "";
+                        ids.TryGetValue(i.NestedOrderItemId, out newGrandParentId);
+                        i.NestedOrderItemId = newGrandParentId;
+                    }
+
+                    i.copying = true; // don't perform the typical checking in BeforeSaves
+                    await i.SaveAsync(conn: conn);
+                    newId = i.OrderItemId;
+                    ids.Add(oldId, newId);
+                }
+
+
+                // copy all Notes
+                BrowseRequest noteBrowseRequest = new BrowseRequest();
+                noteBrowseRequest.uniqueids = new Dictionary<string, object>();
+                noteBrowseRequest.uniqueids.Add("OrderId", fromId);
+
+                OrderNoteLogic noteSelector = new OrderNoteLogic();
+                noteSelector.SetDependencies(appConfig, userSession);
+                List<OrderNoteLogic> notes = await noteSelector.SelectAsync<OrderNoteLogic>(noteBrowseRequest, conn);
+
+                foreach (OrderNoteLogic n in notes)
+                {
+                    n.SetDependencies(appConfig, userSession);
+                    n.OrderId = toId;
+                    n.OrderNoteId = "";
+                    await n.SaveAsync(conn: conn);
+                }
+
+                //copy contacts
+                BrowseRequest contactBrowseRequest = new BrowseRequest();
+                contactBrowseRequest.uniqueids = new Dictionary<string, object>();
+                contactBrowseRequest.uniqueids.Add("OrderId", fromId);
+
+                OrderContactLogic contactSelector = new OrderContactLogic();
+                contactSelector.SetDependencies(appConfig, userSession);
+                List<OrderContactLogic> contacts = await contactSelector.SelectAsync<OrderContactLogic>(contactBrowseRequest, conn);
+
+                foreach (OrderContactLogic n in contacts)
+                {
+                    if (n.ContactOnOrder.GetValueOrDefault(false))  // only create the record on the New Order if assigned on Orig Order
+                    {
+                        BrowseRequest contactCheckBrowseRequest = new BrowseRequest();
+                        contactCheckBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        contactCheckBrowseRequest.uniqueids.Add("OrderId", toId);
+
+                        OrderContactLogic contactCheckSelector = new OrderContactLogic();
+                        contactCheckSelector.SetDependencies(appConfig, userSession);
+                        List<OrderContactLogic> contactCheck = await contactCheckSelector.SelectAsync<OrderContactLogic>(contactCheckBrowseRequest, conn);
+
+                        bool contactExists = (contactCheck.Count > 0);
+
+                        if (!contactExists)  // only create the record on the New Order if not already on the new Order
+                        {
+                            n.SetDependencies(appConfig, userSession);
+                            n.OrderId = toId;
+                            n.OrderContactId = null;
+                            await n.SaveAsync(conn: conn);
+                        }
+                    }
+                }
+
+                //copy multi po's/
+
+
+                // copy all documents
+                BrowseRequest documentBrowseRequest = new BrowseRequest();
+                documentBrowseRequest.uniqueids = new Dictionary<string, object>();
+                documentBrowseRequest.uniqueids.Add("UniqueId1", fromId);
+
+                AppDocumentLogic documentSelector = new AppDocumentLogic();
+                documentSelector.SetDependencies(appConfig, userSession);
+                List<AppDocumentLogic> documents = await documentSelector.SelectAsync<AppDocumentLogic>(documentBrowseRequest, conn);
+
+                foreach (AppDocumentLogic n in documents)
+                {
+
+                    if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
+                    {
+                        OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
+                        newDoc.SetDependencies(appConfig, userSession);
+                        newDoc.OrderId = toId;
+                        newDoc.DocumentId = "";
+                        await newDoc.SaveAsync(conn: conn);
+                    }
+                    else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
+                    {
+                        QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
+                        newDoc.SetDependencies(appConfig, userSession);
+                        newDoc.QuoteId = toId;
+                        newDoc.DocumentId = "";
+                        await newDoc.SaveAsync(conn: conn);
+                    }
+                    else if (copyMode.Equals(QuoteOrderCopyMode.Copy))
+                    {
+                        if (from is OrderLogic)
+                        {
+                            OrderDocumentLogic newDoc = n.MakeCopy<OrderDocumentLogic>();
+                            newDoc.SetDependencies(appConfig, userSession);
+                            newDoc.OrderId = toId;
+                            newDoc.DocumentId = "";
+                            await newDoc.SaveAsync(conn: conn);
+                        }
+                        else if (from is QuoteLogic)
+                        {
+                            QuoteDocumentLogic newDoc = n.MakeCopy<QuoteDocumentLogic>();
+                            newDoc.SetDependencies(appConfig, userSession);
+                            newDoc.QuoteId = toId;
+                            newDoc.DocumentId = "";
+                            await newDoc.SaveAsync(conn: conn);
+                        }
+                    }
+                }
+
+
+                if (copyMode.Equals(QuoteOrderCopyMode.QuoteToOrder))
+                {
+                    //set the original Quote to Ordered, update pointer to new OrderId
+                    QuoteLogic q2 = new QuoteLogic();
+                    q2.SetDependencies(appConfig, userSession);
+                    q2.QuoteId = fromId;
+                    q2.Status = RwConstants.QUOTE_STATUS_ORDERED;
+                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    q2.ConvertedToOrderId = toId;
+                    await q2.SaveAsync(original: from, conn: conn);
+                }
+                else if (copyMode.Equals(QuoteOrderCopyMode.NewVersion))
+                {
+                    //set the original Quote to Closed
+                    QuoteLogic q2 = new QuoteLogic();
+                    q2.SetDependencies(appConfig, userSession);
+                    q2.QuoteId = fromId;
+                    q2.Status = RwConstants.QUOTE_STATUS_CLOSED;
+                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    await q2.SaveAsync(original: from, conn: conn);
+                }
+
+                conn.CommitTransaction();
+
+            }
+
+            return to;
+        }
     }
 }
