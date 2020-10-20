@@ -811,8 +811,8 @@ class RwAsset {
                     </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Software">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Version" data-datafield="SoftwareVersion" style="flex:0 1 130px;"></div>
-                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Software Version" data-datafield="SoftwareVersion" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="SoftwareEffectiveDate" style="flex:0 1 130px;"></div>
                       </div>
                     </div>
                 </div>

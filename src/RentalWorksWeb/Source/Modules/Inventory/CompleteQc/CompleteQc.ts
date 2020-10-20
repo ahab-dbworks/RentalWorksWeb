@@ -267,7 +267,7 @@ class CompleteQc {
                                 <div class="flexrow">
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Required" data-datafield="RequiredSoftwareVersion" data-enabled="false" style="flex:1 1 120px;"></div>
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clear-fields" data-caption="Current" data-datafield="CurrentSoftwareVersion" data-enabled="true" style="flex:1 1 120px;"></div>
-                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield clear-fields" data-caption="Effective Date" data-datafield="SoftwareEffectiveDate" data-enabled="true" style="flex:1 1 120px;"></div>
+                                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield clear-fields" data-caption="As Of Date" data-datafield="SoftwareEffectiveDate" data-enabled="true" style="flex:1 1 120px;"></div>
                                 </div>
                               </div>
                             </div>
