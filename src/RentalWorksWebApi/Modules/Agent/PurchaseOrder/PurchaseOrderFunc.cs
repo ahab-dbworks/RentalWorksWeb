@@ -435,7 +435,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //-------------------------------------------------------------------------------------------------------  
         public static async Task<CopyPurchaseOrderResponse> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, CopyPurchaseOrderRequest request)
         {
-            //CopyPurchaseOrderResponse response = new CopyPurchaseOrderResponse(); 
+            CopyPurchaseOrderResponse response = new CopyPurchaseOrderResponse(); 
             PurchaseOrderLogic to = null;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
@@ -619,7 +619,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 conn.CommitTransaction();
             }
 
-            return to;
+            response.PurchaseOrder = to;
+
+            return response;
         }
     }
 }
