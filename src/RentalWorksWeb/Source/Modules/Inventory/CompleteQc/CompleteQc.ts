@@ -70,13 +70,12 @@ class CompleteQc {
                 CurrentFootCandles: +FwFormField.getValueByDataField($form, 'CurrentFootCandles'),
                 SoftwareEffectiveDate: FwFormField.getValueByDataField($form, 'SoftwareEffectiveDate'),
                 CurrentSoftwareVersion: FwFormField.getValueByDataField($form, 'CurrentSoftwareVersion'),
-                AssetHours: FwFormField.getValueByDataField($form, 'AssetHours'),
-                Strikes: FwFormField.getValueByDataField($form, 'Strikes'),
-                FootCandles: FwFormField.getValueByDataField($form, 'FootCandles'),
-                LampHours1: FwFormField.getValueByDataField($form, 'LampHours1'),
-                LampHours2: FwFormField.getValueByDataField($form, 'LampHours2'),
-                LampHours3: FwFormField.getValueByDataField($form, 'LampHours3'),
-                LampHours4: FwFormField.getValueByDataField($form, 'LampHours4'),
+                AssetHours: +FwFormField.getValueByDataField($form, 'AssetHours'),
+                Strikes: +FwFormField.getValueByDataField($form, 'Strikes'),
+                LampHours1: +FwFormField.getValueByDataField($form, 'LampHours1'),
+                LampHours2: +FwFormField.getValueByDataField($form, 'LampHours2'),
+                LampHours3: +FwFormField.getValueByDataField($form, 'LampHours3'),
+                LampHours4: +FwFormField.getValueByDataField($form, 'LampHours4'),
             }
             this.updateQc($form, request);
         })
@@ -111,16 +110,8 @@ class CompleteQc {
                 FwFormField.setValueByDataField($form, 'Condition', '');
                 if (response.success) {
                     $completed.show();
-                    if (!response.ShowFootCandles) {
-                        $form.find('.foot-candles').hide();
-                    } else {
-                        $form.find('.foot-candles').show();
-                    }
-                    if (!response.ShowSoftwareVersion) {
-                        $form.find('.software-version').hide();
-                    } else {
-                        $form.find('.software-version').show();
-                    }
+
+                    this.toggleFieldVisibility($form, response);
                     $form.find('.code').removeClass('error');
                     $form.find('.success-msg:not(.update)').html(`<div style="margin:0px 0px 0px 5px;"><span>QC Completed Successfully</span></div>`);
                     FwFormField.setValueByDataField($form, 'ICode', response.ICode);
@@ -145,6 +136,55 @@ class CompleteQc {
             }, null, $form);
         } catch (ex) {
             FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    toggleFieldVisibility($form: JQuery, response: any) {
+        if (!response.ShowFootCandles) {
+            $form.find('.foot-candles').hide();
+        } else {
+            $form.find('.foot-candles').show();
+        };
+        if (!response.ShowSoftwareVersion) {
+            $form.find('.software-version').hide();
+        } else {
+            $form.find('.software-version').show();
+        };
+
+        if (response.ShowStrikes || response.ShowAssetUsage) {
+            $form.find('.current-usage').show();
+        } else {
+            $form.find('.current-usage').hide();
+        };
+
+        if (!response.ShowAssetUsage) {
+            $form.find('[data-datafield="AssetHours"]').hide();
+        } else {
+            $form.find('[data-datafield="AssetHours"]').show();
+        };
+        if (!response.ShowStrikes) {
+            $form.find('[data-datafield="Strikes"]').hide();
+        } else {
+            $form.find('[data-datafield="Strikes"]').show();
+        };
+
+        if (!response.ShowLampUsage) {
+            $form.find('.lamp-hours').hide();
+        } else {
+            $form.find('.lamp-hours').show();
+        };
+
+        const lampCount = response["LampCount"];
+        if (typeof lampCount == 'number') {
+            switch (lampCount) {
+                case 0: $form.find('.lamp-hours').hide();
+                    break;
+                case 1: $form.find('[data-datafield="LampHours2"]').hide();
+                case 2: $form.find('[data-datafield="LampHours3"]').hide();
+                case 3: $form.find('[data-datafield="LampHours4"]').hide();
+                case 4: $form.find('.lamp-hours .fwform-section-title').text(`Lamp Hours (${lampCount} Lamp${lampCount > 1 ? 's' : ''})`);
+                    break;
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -213,7 +253,6 @@ class CompleteQc {
                                 <div class="flexrow">
                                   <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Asset Hours" data-datafield="AssetHours" style="flex:0 1 130px;"></div>
                                   <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="No. Strikes" data-datafield="Strikes" style="flex:0 1 130px;"></div>
-                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Foot-Candles" data-datafield="FootCandles" style="flex:0 1 130px;"></div>
                                 </div>
                               </div>
                               <div class="fwcontrol fwcontainer fwform-section lamp-hours" data-control="FwContainer" data-type="section" data-caption="Lamp Hours">

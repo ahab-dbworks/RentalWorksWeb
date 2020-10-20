@@ -25,13 +25,12 @@ namespace WebApi.Modules.Inventory.CompleteQc
         public string CurrentSoftwareVersion { get; set; }
         public string SoftwareEffectiveDate { get; set; }
         public string Note { get; set; }
-        public int AssetHours { get; set; }
-        public int Strikes { get; set; }
-        public int FootCandles { get; set; }
-        public int LampHours1 { get; set; }
-        public int LampHours2 { get; set; }
-        public int LampHours3 { get; set; }
-        public int LampHours4 { get; set; }
+        public int? AssetHours { get; set; }
+        public int? Strikes { get; set; }
+        public int? LampHours1 { get; set; }
+        public int? LampHours2 { get; set; }
+        public int? LampHours3 { get; set; }
+        public int? LampHours4 { get; set; }
     }
 
 
