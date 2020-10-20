@@ -79,6 +79,7 @@ class RentalInventoryMasterReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RentalInventoryMasterReport', 'api/v1/rentalinventorymasterreport', rentalMasterTemplate);
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
