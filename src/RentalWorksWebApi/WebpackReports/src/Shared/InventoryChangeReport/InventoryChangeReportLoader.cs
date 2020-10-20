@@ -164,11 +164,11 @@ namespace WebApi.Modules.Reports.InventoryChangeReport
                     {
                         if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
                         {
-                            qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
+                            qry.AddParameter("@fixedasset", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
                         }
                         else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
                         {
-                            qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
+                            qry.AddParameter("@fixedasset", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
                         }
                     }
                     qry.AddParameter("@rank", SqlDbType.Text, ParameterDirection.Input, request.Ranks.ToString());

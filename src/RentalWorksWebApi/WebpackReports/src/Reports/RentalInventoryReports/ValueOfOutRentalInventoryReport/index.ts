@@ -17,6 +17,16 @@ export class ValueOfOutRentalInventoryReport extends WebpackReport {
                     this.setReportMetadata(parameters, data);
                     data.AsOfDate = parameters.AsOfDate;
                     data.Report = 'Value Of Out Rental Inventory Report';
+                    data.OwnershipTypes = '';
+
+                    // get the value from the first detail row, if any
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].RowType === 'detail') {
+                            data.OwnershipTypes = data[i].OwnershipTypes;
+                            break;
+                        }
+                    }
+
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

@@ -168,11 +168,11 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryActivityB
                     qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
                     if (request.FixedAsset.Equals(IncludeExcludeAll.IncludeOnly))
                     {
-                        qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
+                        qry.AddParameter("@fixedasset", SqlDbType.Text, ParameterDirection.Input, RwConstants.INCLUDE);
                     }
                     else if (request.FixedAsset.Equals(IncludeExcludeAll.Exclude))
                     {
-                        qry.AddParameter("@fixedassets", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
+                        qry.AddParameter("@fixedasset", SqlDbType.Text, ParameterDirection.Input, RwConstants.EXCLUDE);
                     }
                     qry.AddParameter("@includeowned", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_OWNED));
                     qry.AddParameter("@includesubbed", SqlDbType.Text, ParameterDirection.Input, request.OwnershipTypes.ToString().Contains(RwConstants.INVENTORY_OWNERSHIP_SUBBED));

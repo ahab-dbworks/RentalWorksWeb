@@ -7,6 +7,7 @@
     <div class="rpt-flexcolumn">
       <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
       <div class="rpt-nested-flexrow rpt-header-center"><span>As of {{AsOfDate}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Ownership Types: {{OwnershipTypes}}</span></div>
     </div>
     <div class="rpt-flexcolumn">
       <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
@@ -24,8 +25,8 @@
         <th data-valuefield="DateIn" data-linkedcolumn="DateIn">In Date</th>
         <th data-valuefield="Quantity" data-linkedcolumn="Quantity" class="number">Quantity</th>
         <th data-valuefield="BarCode" data-linkedcolumn="BarCode">Bar Code</th>
-        <th data-valuefield="Cost" data-linkedcolumn="Cost" class="number">Cost</th>
-        <th data-valuefield="Value" data-linkedcolumn="Value" class="number">Value</th>
+        <th data-valuefield="UnitCostWithTaxExtendedCurrencyConverted" data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="number">Unit Cost</th>
+        <th data-valuefield="ReplacementCostExtended" data-linkedcolumn="ReplacementCostExtended" class="number">Replacement Cost</th>
       </tr>
     </thead>
     <tbody>
@@ -58,14 +59,14 @@
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
-        <td data-linkedcolumn="DealOutTo" data-value="{{DealOutTo}}"></td>
-        <td data-linkedcolumn="ContractNumber" data-value="{{ContractNumber}}"></td>
+        <td data-linkedcolumn="DealOutTo" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="ContractNumber" data-value="{{OutContractNumber}}"></td>
         <td data-linkedcolumn="DateOut" data-value="{{DateOut}}"></td>
         <td data-linkedcolumn="DateIn" data-value="{{DateIn}}"></td>
         <td data-linkedcolumn="Quantity" class="number" data-value="{{Quantity}}"></td>
         <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
-        <td data-linkedcolumn="Cost" class="number" data-value="{{Cost}}"></td>
-        <td data-linkedcolumn="Value" class="number" data-value="{{Value}}"></td>
+        <td data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="number" data-value="{{UnitCostWithTaxExtendedCurrencyConverted}}"></td>
+        <td data-linkedcolumn="ReplacementCostExtended" class="number" data-value="{{ReplacementCostExtended}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "ICodefooter"}}
@@ -73,8 +74,8 @@
       <td colspan="5" class="total-name">{{ICode}}&nbsp;</td>
       <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
       <td data-linkedcolumn="BarCode" class="total-val empty"></td>
-      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
-      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+      <td data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="total-val" data-value="{{UnitCostWithTaxExtendedCurrencyConverted}}"></td>
+      <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
     </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "SubCategoryfooter"}}
@@ -82,8 +83,8 @@
       <td colspan="5" class="total-name">{{SubCategory}}&nbsp;</td>
       <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
       <td data-linkedcolumn="BarCode" class="total-val empty"></td>
-      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
-      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+      <td data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="total-val" data-value="{{UnitCostWithTaxExtendedCurrencyConverted}}"></td>
+      <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
     </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryfooter"}}
@@ -91,8 +92,8 @@
       <td colspan="5" class="total-name">{{Category}}&nbsp;</td>
       <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
       <td data-linkedcolumn="BarCode" class="total-val empty"></td>
-      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
-      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+      <td data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="total-val" data-value="{{UnitCostWithTaxExtendedCurrencyConverted}}"></td>
+      <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
     </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypefooter"}}
@@ -100,8 +101,8 @@
       <td colspan="5" class="total-name">{{InventoryType}}&nbsp;</td>
       <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
       <td data-linkedcolumn="BarCode" class="total-val empty"></td>
-      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
-      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+      <td data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="total-val" data-value="{{UnitCostWithTaxExtendedCurrencyConverted}}"></td>
+      <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
     </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Warehousefooter"}}
@@ -109,8 +110,8 @@
       <td colspan="5" class="total-name">{{Warehouse}}&nbsp;</td>
       <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
       <td data-linkedcolumn="BarCode" class="total-val empty"></td>
-      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
-      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+      <td data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="total-val" data-value="{{UnitCostWithTaxExtendedCurrencyConverted}}"></td>
+      <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
     </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
@@ -118,8 +119,8 @@
       <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
       <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
       <td data-linkedcolumn="BarCode" class="total-val empty"></td>
-      <td data-linkedcolumn="Cost" class="total-val" data-value="{{Cost}}"></td>
-      <td data-linkedcolumn="Value" class="total-val" data-value="{{Value}}"></td>
+      <td data-linkedcolumn="UnitCostWithTaxExtendedCurrencyConverted" class="total-val" data-value="{{UnitCostWithTaxExtendedCurrencyConverted}}"></td>
+      <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
     </tr>
       {{/ifEquals}}
       {{/each}}
