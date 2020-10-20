@@ -1,128 +1,130 @@
 ﻿<!--Rental Inventory Movement Report-->
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>From: {{FromDate}} To: {{ToDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead class="main-header">
-      <tr>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th>Rank</th>
-        <th class="number">From Date Owned</th>
-        <th class="number">From Date Value</th>
-        <th class="number">Purchased</th>
-        <th class="number">Retired</th>
-        <th class="number">Unretired</th>
-        <th class="number">Transferred Out</th>
-        <th class="number">Transferred In</th>
-        <th class="number">To Date Owned</th>
-        <th class="number">To Date Value</th>
-        <th class="number">Last Purchase</th>
+    <thead id="columnHeader" class="main-header">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Rank" data-valuefield="Rank">Rank</th>
+        <th data-linkedcolumn="OwnedFromDate" data-valuefield="OwnedFromDate" class="number">From Date Owned</th>
+        <th data-linkedcolumn="ReplacementCostFromDate" data-valuefield="ReplacementCostFromDate" class="number">From Date Value</th>
+        <th data-linkedcolumn="Purchased" data-valuefield="Purchased" class="number">Purchased</th>
+        <th data-linkedcolumn="Retired" data-valuefield="Retired" class="number">Retired</th>
+        <th data-linkedcolumn="Unretired" data-valuefield="Unretired" class="number">Unretired</th>
+        <th data-linkedcolumn="TransferredOut" data-valuefield="TransferredOut" class="number">Transferred Out</th>
+        <th data-linkedcolumn="TransferredIn" data-valuefield="TransferredIn" class="number">Transferred In</th>
+        <th data-linkedcolumn="OwnedToDate" data-valuefield="OwnedToDate" class="number">To Date Owned</th>
+        <th data-linkedcolumn="ReplacementCostToDate" data-valuefield="ReplacementCostToDate" class="number">To Date Value</th>
+        <th data-linkedcolumn="LastPurchase" data-valuefield="LastPurchase" class="number">Last Purchase</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       {{#ifEquals RowType "Warehouseheader"}}
-      <tr>
-        <td colspan="5" class="lower header-row">Warehouse: {{"Warehouse"}}</td>
+      <tr data-row="header">
+        <td colspan="13" class="lower header-row">Warehouse: {{"Warehouse"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
-      <tr>
-        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+      <tr data-row="header">
+        <td colspan="13" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
-      <tr>
-        <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
+      <tr data-row="header">
+        <td colspan="13" class="lower header-row">Category: {{"Category"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-    <tr data-rowtype="{{RowType}}">
-      <td class="nowrap" data-value="{{ICode}}"></td>
-      <td data-value="{{Description}}"></td>
-      <td data-value="{{Rank}}"></td>
-      <td class="number" data-value="{{OwnedFromDate}}"></td>
-      <td class="number" data-value="{{ReplacementCostFromDate}}"></td>
-      <td class="number" data-value="{{Purchased}}"></td>
-      <td class="number" data-value="{{Retired}}"></td>
-      <td class="number" data-value="{{Unretired}}"></td>
-      <td class="number" data-value="{{TransferredOut}}"></td>
-      <td class="number" data-value="{{TransferredIn}}"></td>
-      <td class="number" data-value="{{OwnedToDate}}"></td>
-      <td class="number" data-value="{{ReplacementCostToDate}}"></td>
-      <td class="number" data-value="{{LastPurchase}}"></td>
-    </tr>
+      <tr data-row="detail" data-rowtype="{{RowType}}">
+        <td data-linkedcolumn="ICode" class="nowrap" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="Rank" data-value="{{Rank}}"></td>
+        <td data-linkedcolumn="OwnedFromDate" class="number" data-value="{{OwnedFromDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostFromDate" class="number" data-value="{{ReplacementCostFromDate}}"></td>
+        <td data-linkedcolumn="Purchased" class="number" data-value="{{Purchased}}"></td>
+        <td data-linkedcolumn="Retired" class="number" data-value="{{Retired}}"></td>
+        <td data-linkedcolumn="Unretired" class="number" data-value="{{Unretired}}"></td>
+        <td data-linkedcolumn="TransferredOut" class="number" data-value="{{TransferredOut}}"></td>
+        <td data-linkedcolumn="TransferredIn" class="number" data-value="{{TransferredIn}}"></td>
+        <td data-linkedcolumn="OwnedToDate" class="number" data-value="{{OwnedToDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostToDate" class="number" data-value="{{ReplacementCostToDate}}"></td>
+        <td data-linkedcolumn="LastPurchase" class="number" data-value="{{LastPurchase}}"></td>
+      </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryfooter"}}
-    <tr>
-      <td colspan="3" class="total-name">{{Category}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
-      <td class="total-val" data-value="{{Purchased}}"></td>
-      <td class="total-val" data-value="{{Retired}}"></td>
-      <td class="total-val" data-value="{{Unretired}}"></td>
-      <td class="total-val" data-value="{{TransferredOut}}"></td>
-      <td class="total-val" data-value="{{TransferredIn}}"></td>
-      <td class="total-val" data-value="{{OwnedToDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
-      <td class="total-val" data-value="{{LastPurchase}}"></td>
-    </tr>
+      <tr data-row="footer">
+        <td colspan="3" class="total-name">{{Category}}:&nbsp;</td>
+        <td data-linkedcolumn="OwnedFromDate" class="total-val" data-value="{{OwnedFromDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostFromDate" class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+        <td data-linkedcolumn="Purchased" class="total-val" data-value="{{Purchased}}"></td>
+        <td data-linkedcolumn="Retired" class="total-val" data-value="{{Retired}}"></td>
+        <td data-linkedcolumn="Unretired" class="total-val" data-value="{{Unretired}}"></td>
+        <td data-linkedcolumn="TransferredOut" class="total-val" data-value="{{TransferredOut}}"></td>
+        <td data-linkedcolumn="TransferredIn" class="total-val" data-value="{{TransferredIn}}"></td>
+        <td data-linkedcolumn="OwnedToDate" class="total-val" data-value="{{OwnedToDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostToDate" class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+        <td data-linkedcolumn="LastPurchase" class="total-val" data-value="{{LastPurchase}}"></td>
+      </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypefooter"}}
-    <tr>
-      <td colspan="3" class="total-name">{{InventoryType}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
-      <td class="total-val" data-value="{{Purchased}}"></td>
-      <td class="total-val" data-value="{{Retired}}"></td>
-      <td class="total-val" data-value="{{Unretired}}"></td>
-      <td class="total-val" data-value="{{TransferredOut}}"></td>
-      <td class="total-val" data-value="{{TransferredIn}}"></td>
-      <td class="total-val" data-value="{{OwnedToDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
-      <td class="total-val" data-value="{{LastPurchase}}"></td>
-    </tr>
+      <tr data-row="footer">
+        <td colspan="3" class="total-name">{{InventoryType}}:&nbsp;</td>
+        <td data-linkedcolumn="OwnedFromDate" class="total-val" data-value="{{OwnedFromDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostFromDate" class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+        <td data-linkedcolumn="Purchased" class="total-val" data-value="{{Purchased}}"></td>
+        <td data-linkedcolumn="Retired" class="total-val" data-value="{{Retired}}"></td>
+        <td data-linkedcolumn="Unretired" class="total-val" data-value="{{Unretired}}"></td>
+        <td data-linkedcolumn="TransferredOut" class="total-val" data-value="{{TransferredOut}}"></td>
+        <td data-linkedcolumn="TransferredIn" class="total-val" data-value="{{TransferredIn}}"></td>
+        <td data-linkedcolumn="OwnedToDate" class="total-val" data-value="{{OwnedToDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostToDate" class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+        <td data-linkedcolumn="LastPurchase" class="total-val" data-value="{{LastPurchase}}"></td>
+      </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Warehousefooter"}}
-    <tr>
-      <td colspan="3" class="total-name">{{Warehouse}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
-      <td class="total-val" data-value="{{Purchased}}"></td>
-      <td class="total-val" data-value="{{Retired}}"></td>
-      <td class="total-val" data-value="{{Unretired}}"></td>
-      <td class="total-val" data-value="{{TransferredOut}}"></td>
-      <td class="total-val" data-value="{{TransferredIn}}"></td>
-      <td class="total-val" data-value="{{OwnedToDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
-      <td class="total-val" data-value="{{LastPurchase}}"></td>
-    </tr>
+      <tr data-row="footer">
+        <td colspan="3" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td data-linkedcolumn="OwnedFromDate" class="total-val" data-value="{{OwnedFromDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostFromDate" class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+        <td data-linkedcolumn="Purchased" class="total-val" data-value="{{Purchased}}"></td>
+        <td data-linkedcolumn="Retired" class="total-val" data-value="{{Retired}}"></td>
+        <td data-linkedcolumn="Unretired" class="total-val" data-value="{{Unretired}}"></td>
+        <td data-linkedcolumn="TransferredOut" class="total-val" data-value="{{TransferredOut}}"></td>
+        <td data-linkedcolumn="TransferredIn" class="total-val" data-value="{{TransferredIn}}"></td>
+        <td data-linkedcolumn="OwnedToDate" class="total-val" data-value="{{OwnedToDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostToDate" class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+        <td data-linkedcolumn="LastPurchase" class="total-val" data-value="{{LastPurchase}}"></td>
+      </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
-    <tr>
-      <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
-      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
-      <td class="total-val" data-value="{{Purchased}}"></td>
-      <td class="total-val" data-value="{{Retired}}"></td>
-      <td class="total-val" data-value="{{Unretired}}"></td>
-      <td class="total-val" data-value="{{TransferredOut}}"></td>
-      <td class="total-val" data-value="{{TransferredIn}}"></td>
-      <td class="total-val" data-value="{{OwnedToDate}}"></td>
-      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
-      <td class="total-val" data-value="{{LastPurchase}}"></td>
-    </tr>
+      <tr data-row="footer">
+        <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="OwnedFromDate" class="total-val" data-value="{{OwnedFromDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostFromDate" class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+        <td data-linkedcolumn="Purchased" class="total-val" data-value="{{Purchased}}"></td>
+        <td data-linkedcolumn="Retired" class="total-val" data-value="{{Retired}}"></td>
+        <td data-linkedcolumn="Unretired" class="total-val" data-value="{{Unretired}}"></td>
+        <td data-linkedcolumn="TransferredOut" class="total-val" data-value="{{TransferredOut}}"></td>
+        <td data-linkedcolumn="TransferredIn" class="total-val" data-value="{{TransferredIn}}"></td>
+        <td data-linkedcolumn="OwnedToDate" class="total-val" data-value="{{OwnedToDate}}"></td>
+        <td data-linkedcolumn="ReplacementCostToDate" class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+        <td data-linkedcolumn="LastPurchase" class="total-val" data-value="{{LastPurchase}}"></td>
+      </tr>
       {{/ifEquals}}
       {{/each}}
     </tbody>
