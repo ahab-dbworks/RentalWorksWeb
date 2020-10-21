@@ -4,7 +4,7 @@
     }
 });
 
-const rentalEquipRepairHistReportTemplate = `
+const rentalInventoryRepairHistReportTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Repair History Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalInventoryRepairHistoryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -89,7 +89,7 @@ const rentalEquipRepairHistReportTemplate = `
 class RentalInventoryRepairHistoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('RentalInventoryRepairHistoryReport', 'api/v1/rentalinventoryrepairhistoryreport', rentalEquipRepairHistReportTemplate);
+        super('RentalInventoryRepairHistoryReport', 'api/v1/rentalinventoryrepairhistoryreport', rentalInventoryRepairHistReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
         this.designerProvisioned = true;
     }
