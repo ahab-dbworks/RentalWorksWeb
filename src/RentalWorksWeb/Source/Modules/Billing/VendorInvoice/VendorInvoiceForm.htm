@@ -77,11 +77,11 @@
           </div>
         </div>
         <!--<div class="fwcontrol fwcontainer fwform-section daily" data-control="FwContainer" data-type="section" data-caption="Adjustments" style="margin-left:auto;flex:0 1 15em">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="D/W" data-datafield="DaysPerWeek" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
-            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Disc. %" data-datafield="DiscountPercent" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
-          </div>
-        </div>-->
+    <div class="flexrow">
+      <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="D/W" data-datafield="DaysPerWeek" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
+      <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Disc. %" data-datafield="DiscountPercent" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
+    </div>
+  </div>-->
         <div class="wideflexrow">
           <div class="flexcolumn" style="flex:1 1 650px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor Invoice Items">
@@ -90,6 +90,8 @@
               </div>
             </div>
           </div>
+        </div>
+        <!--<div class="flexrow">
           <div class="flexcolumn rental-totals" style="flex:0 0 175px;">
             <div class="fwcontrol fwcontainer fwform-section gldistribution-totals" data-control="FwContainer" data-type="section" data-caption="Item Totals">
               <div class="flexrow">
@@ -106,7 +108,103 @@
               </div>
             </div>
           </div>
+        </div>-->
+
+        <div class="wideflexrow">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
+            <div class="flexrow">
+              <div class="flexcolumn invtotals-po" style="flex:0 0 200px;padding-right:10px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Freight" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Freight" style="flex:1 1 100px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Discount" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Credit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Credit" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flexcolumn invtotals-received" style="flex:0 0 200px;padding-right:10px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Received">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Freight" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Freight" style="flex:1 1 100px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Discount" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Credit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Credit" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flexcolumn invtotals-invoice" style="flex:0 0 200px;padding-right:10px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoiced">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Freight" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Freight" style="flex:1 1 100px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Discount" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Credit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Credit" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flexcolumn invtotals-remaining" style="flex:0 0 200px;padding-right:10px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Remaining">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 100px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Freight" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Freight" style="flex:1 1 100px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Discount" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Credit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Credit" style="flex:1 1 75px; display:none;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
       <!-- ADDITIONAL ITEMS TAB -->
       <div data-type="tabpage" id="additionalitemstabpage" class="tabpage" data-tabid="additionalitemstab">
