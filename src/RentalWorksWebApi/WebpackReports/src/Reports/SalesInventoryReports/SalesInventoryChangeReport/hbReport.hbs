@@ -1,89 +1,117 @@
 ﻿<!--SalesInventoryChangeReport-->
-<div data-section="header" class="rpt-flexrow" style="width:1555px;">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow" style="width:1555px;">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>From: {{FromDate}} To: {{ToDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;width:1555px;">
   <table>
     <thead id="columnHeader">
       <tr data-row="main-header">
-        <th>ICode</th>
-        <th>Description</th>
-        <th>Rank</th>
-        <th>Date</th>
-        <th>Change Type</th>
-        <th>Change Description</th>
-        <th class="number">+Qty</th>
-        <th class="number">+Unit Value</th>
-        <th class="number">+Extended Value</th>
-        <th class="number">-Qty</th>
-        <th class="number">-Unit Value</th>
-        <th class="number">-Extended Value</th>
-        <th class="number">Total Qty</th>
-        <th class="number">Total Value</th>
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">ICode</th>
+        <th data-linkedcolumn="Description" data-valuefield="Description">Description</th>
+        <th data-linkedcolumn="Rank" data-valuefield="Rank">Rank</th>
+        <th data-linkedcolumn="ChangeDate" data-valuefield="ChangeDate">Date</th>
+        <th data-linkedcolumn="ChangeType" data-valuefield="ChangeType">Change Type</th>
+        <th data-linkedcolumn="ChangeDescription" data-valuefield="ChangeDescription">Change Description</th>
+        <th data-linkedcolumn="AdditionQuantity" data-valuefield="AdditionQuantity" class="number">+Qty</th>
+        <th data-linkedcolumn="UnitValueAddition" data-valuefield="UnitValueAddition" class="number">+Unit Value</th>
+        <th data-linkedcolumn="ExtendedAdditionValue" data-valuefield="ExtendedAdditionValue" class="number">+Extended Value</th>
+        <th data-linkedcolumn="SubtractionQuantity" data-valuefield="SubtractionQuantity" class="number">-Qty</th>
+        <th data-linkedcolumn="UnitValueSubtraction" data-valuefield="UnitValueSubtraction" class="number">-Unit Value</th>
+        <th data-linkedcolumn="ExtendedSubtractionValue" data-valuefield="ExtendedSubtractionValue" class="number">-Extended Value</th>
+        <th data-linkedcolumn="RunningTotalQuantity" data-valuefield="RunningTotalQuantity" class="number">Total Qty</th>
+        <th data-linkedcolumn="RunningTotalValue" data-valuefield="RunningTotalValue" class="number">Total Value</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
+      {{#ifEquals RowType "Warehouseheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="14" class="header-row lower">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="14" class="header-row lower">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="14" class="header-row lower">Category: {{Category}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Descriptionheader"}}
-        <td colspan="14" class="header-row lower">Description: {{Description}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td data-value="{{Rank}}"></td>
-        <td data-value="{{ChangeDate}}"></td>
-        <td data-value="{{ChangeType}}"></td>
-        <td data-value="{{ChangeDescription}}"></td>
-        <td class="number" data-value="{{AdditionQuantity}}"></td>
-        <td class="number" data-value="{{UnitValueAddition}}"></td>
-        <td class="number" data-value="{{ExtendedAdditionValue}}"></td>
-        <td class="number" data-value="{{SubtractionQuantity}}"></td>
-        <td class="number" data-value="{{UnitValueSubtraction}}"></td>
-        <td class="number" data-value="{{ExtendedSubtractionValue}}"></td>
-        <td class="number" data-value="{{RunningTotalQuantity}}"></td>
-        <td class="number" data-value="{{RunningTotalValue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="6" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{AdditionQuantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{ExtendedAdditionValue}}"></td>
-        <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionValue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Descriptionfooter"}}
-        <td colspan="6" class="total-name">{{Description}}&nbsp;</td>
-        <td class="total-val" data-value="{{AdditionQuantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{ExtendedAdditionValue}}"></td>
-        <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionValue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{AdditionQuantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{ExtendedAdditionValue}}"></td>
-        <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionValue}}"></td>
-        {{/ifEquals}}
       </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypeheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="header-row lower">Inventory Type: {{InventoryType}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="header-row lower">Category: {{Category}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Descriptionheader"}}
+      <tr data-row="header" data-rowtype="{{RowType}}">
+        <td colspan="14" class="header-row lower">Description: {{Description}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
+    <tr data-row="detail" data-rowtype="{{RowType}}">
+      <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+      <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+      <td data-linkedcolumn="Rank" data-value="{{Rank}}"></td>
+      <td data-linkedcolumn="ChangeDate" data-value="{{ChangeDate}}"></td>
+      <td data-linkedcolumn="ChangeType" data-value="{{ChangeType}}"></td>
+      <td data-linkedcolumn="ChangeDescription" data-value="{{ChangeDescription}}"></td>
+      <td data-linkedcolumn="AdditionQuantity" class="number" data-value="{{AdditionQuantity}}"></td>
+      <td data-linkedcolumn="UnitValueAddition" class="number" data-value="{{UnitValueAddition}}"></td>
+      <td data-linkedcolumn="ExtendedAdditionValue" class="number" data-value="{{ExtendedAdditionValue}}"></td>
+      <td data-linkedcolumn="SubtractionQuantity" class="number" data-value="{{SubtractionQuantity}}"></td>
+      <td data-linkedcolumn="UnitValueSubtraction" class="number" data-value="{{UnitValueSubtraction}}"></td>
+      <td data-linkedcolumn="ExtendedSubtractionValue" class="number" data-value="{{ExtendedSubtractionValue}}"></td>
+      <td data-linkedcolumn="RunningTotalQuantity" class="number" data-value="{{RunningTotalQuantity}}"></td>
+      <td data-linkedcolumn="RunningTotalValue" class="number" data-value="{{RunningTotalValue}}"></td>
+    </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="6" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td data-linkedcolumn="AdditionQuantity" class="total-val" data-value="{{AdditionQuantity}}"></td>
+        <td data-linkedcolumn="UnitValueAddition" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedAdditionValue" class="total-val" data-value="{{ExtendedAdditionValue}}"></td>
+        <td data-linkedcolumn="SubtractionQuantity" class="total-val" data-value="{{SubtractionQuantity}}"></td>
+        <td data-linkedcolumn="UnitValueSubtraction" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedSubtractionValue" class="total-val" data-value="{{ExtendedSubtractionValue}}"></td>
+        <td data-linkedcolumn="RunningTotalQuantity"></td>
+        <td data-linkedcolumn="RunningTotalValue"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Descriptionfooter"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="6" class="total-name">{{Description}}&nbsp;</td>
+        <td data-linkedcolumn="AdditionQuantity" class="total-val" data-value="{{AdditionQuantity}}"></td>
+        <td data-linkedcolumn="UnitValueAddition" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedAdditionValue" class="total-val" data-value="{{ExtendedAdditionValue}}"></td>
+        <td data-linkedcolumn="SubtractionQuantity" class="total-val" data-value="{{SubtractionQuantity}}"></td>
+        <td data-linkedcolumn="UnitValueSubtraction" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedSubtractionValue" class="total-val" data-value="{{ExtendedSubtractionValue}}"></td>
+        <td data-linkedcolumn="RunningTotalQuantity"></td>
+        <td data-linkedcolumn="RunningTotalValue"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer" data-rowtype="{{RowType}}">
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td data-linkedcolumn="AdditionQuantity" class="total-val" data-value="{{AdditionQuantity}}"></td>
+        <td data-linkedcolumn="UnitValueAddition" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedAdditionValue" class="total-val" data-value="{{ExtendedAdditionValue}}"></td>
+        <td data-linkedcolumn="SubtractionQuantity" class="total-val" data-value="{{SubtractionQuantity}}"></td>
+        <td data-linkedcolumn="UnitValueSubtraction" class="total-val"></td>
+        <td data-linkedcolumn="ExtendedSubtractionValue" class="total-val" data-value="{{ExtendedSubtractionValue}}"></td>
+        <td data-linkedcolumn="RunningTotalQuantity"></td>
+        <td data-linkedcolumn="RunningTotalValue"></td>
+      </tr>
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

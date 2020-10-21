@@ -73,6 +73,7 @@ class SalesInventoryChangeReport extends FwWebApiReport {
     constructor() {
         super('SalesInventoryChangeReport', 'api/v1/SalesInventoryChangeReport', salesInventoryChangeTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -114,52 +115,52 @@ class SalesInventoryChangeReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
-            const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-            const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
-            const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+        const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
 
 
-            switch (datafield) {
-                case 'InventoryTypeId':
-                    request.uniqueids.Sales = true;
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
-                    break;
-                case 'CategoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
-                    break;
-                case 'SubCategoryId':
-                    request.uniqueids.Sales = true;
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    }
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    }
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
-                    break;
-                case 'InventoryId':
-                    if (inventoryTypeId !== "") {
-                        request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    };
-                    if (categoryId !== "") {
-                        request.uniqueids.CategoryId = categoryId;
-                    };
-                    if (subCategoryId !== "") {
-                        request.uniqueids.SubCategoryId = subCategoryId;
-                    };
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
-                    break;
-                case 'TransactionType':
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransactiontype`);
-                    break;
-                case 'WarehouseId':
-                    $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
-                    break;
-            }
-        
+        switch (datafield) {
+            case 'InventoryTypeId':
+                request.uniqueids.Sales = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
+                request.uniqueids.Sales = true;
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
+                break;
+            case 'InventoryId':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                };
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                };
+                if (subCategoryId !== "") {
+                    request.uniqueids.SubCategoryId = subCategoryId;
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
+                break;
+            case 'TransactionType':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatetransactiontype`);
+                break;
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+        }
+
     }
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {

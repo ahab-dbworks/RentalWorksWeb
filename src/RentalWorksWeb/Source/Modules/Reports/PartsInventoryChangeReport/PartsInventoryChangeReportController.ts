@@ -66,6 +66,7 @@ class PartsInventoryChangeReport extends FwWebApiReport {
     constructor() {
         super('PartsInventoryChangeReport', 'api/v1/PartsInventoryChangeReport', partsInventoryChangeTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
