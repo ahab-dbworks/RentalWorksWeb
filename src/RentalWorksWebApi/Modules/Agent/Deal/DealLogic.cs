@@ -40,6 +40,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwLogicProperty(Id:"wRdPpA7fzApR", IsReadOnly:true)]
         public string Customer { get; set; }
 
+        [FwLogicProperty(Id: "jZCUrlAL6KoT", IsReadOnly: true)]
+        public string CustomerNumber { get; set; }
+
         [FwLogicProperty(Id:"AHNWRG32QMHN")]
         public string OfficeLocationId { get { return deal.OfficeLocationId; } set { deal.OfficeLocationId = value; } }
 

@@ -25,6 +25,9 @@ namespace WebApi.Modules.Agent.Deal
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
+        public string CustomerNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 

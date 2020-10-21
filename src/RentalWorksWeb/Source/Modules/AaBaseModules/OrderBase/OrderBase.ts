@@ -1567,6 +1567,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', parentModuleInfo.PaymentTypeId, parentModuleInfo.PaymentType);
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', parentModuleInfo.DealNumber, parentModuleInfo.DealNumber);
             FwFormField.setValueByDataField($form, 'CustomerId', parentModuleInfo.CustomerId, parentModuleInfo.Customer);
+            FwFormField.setValueByDataField($form, 'CustomerNumber', parentModuleInfo.CustomerNumber);
 
             FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', parentModuleInfo.BillToAddressType);
             if (parentModuleInfo.BillToAddressType === 'DEAL') {
@@ -2519,7 +2520,8 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
-                FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer); // hidden field needed for other operations
+                FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer); 
+                FwFormField.setValueByDataField($form, 'CustomerNumber', response.CustomerNumber); 
 
 
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);

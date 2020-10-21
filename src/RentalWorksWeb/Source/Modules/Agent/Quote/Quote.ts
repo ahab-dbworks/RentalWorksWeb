@@ -398,7 +398,7 @@ class Quote extends OrderBase {
                 <div class="formpage">
                   <div class="flexrow">
                     <!-- Customer section -->
-                    <div class="flexcolumn" style="flex:1 1 300px;">
+                    <div class="flexcolumn" style="flex:1 1 350px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quote No." data-datafield="QuoteNumber" data-enabled="false" style="flex:1 1 100px;"></div>
@@ -412,13 +412,12 @@ class Quote extends OrderBase {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" data-required="true" style="flex:1 1 275px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield dealnumber" data-caption="Deal No." data-datafield="DealNumber" data-enabled="false" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" data-required="false" data-enabled="false" style="flex:1 1 275px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield dealnumber" data-caption="Customer No." data-datafield="CustomerNumber" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-formbeforevalidate="beforeValidateDeal" data-required="false" style="flex:1 1 275px;"></div>
-                        </div>
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" style="flex:1 1 0;display:none;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield dealnumber" data-caption="Deal No." data-datafield="DealNumber" data-enabled="false" style="flex:1 1 100px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield RateType" data-caption="Rate" data-datafield="RateType" data-displayfield="RateTypeDisplay" data-validationname="RateTypeValidation" data-validationpeek="false" data-required="true" style="flex:1 1 275px;"></div>
@@ -524,7 +523,7 @@ class Quote extends OrderBase {
                       </div>
                     </div>
                     <!-- Status section -->
-                    <div class="flexcolumn" style="flex:1 1 250px;">
+                    <div class="flexcolumn" style="flex:1 1 200px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" data-enabled="false" style="flex:1 0 115px;"></div>
