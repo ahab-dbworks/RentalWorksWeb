@@ -69,8 +69,47 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
         [FwSqlDataField(column: "podate", modeltype: FwDataTypes.Date)]
         public string PurchaseOrderdate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitCostWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtcurrconv", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitCostCurrencyConverted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyexchangerate", modeltype: FwDataTypes.Decimal)]
+        public decimal? CurrencyExchangeRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtaxcurrconv", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totaldepreciation", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? TotalDepreciation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "bookvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? BookValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salvagevalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? SalvageValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
+        public int? DepreciationMonths { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencyid", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencycode", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrency", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencySymbolAndCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitValue { get; set; }
@@ -171,20 +210,20 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
-        public string CurrencyId { get; set; }
+        [FwSqlDataField(column: "whcurrencyid", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
-        public string CurrencyCode { get; set; }
+        [FwSqlDataField(column: "whcurrencycode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
-        public string Currency { get; set; }
+        [FwSqlDataField(column: "whcurrency", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrency { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
-        public string CurrencySymbol { get; set; }
+        [FwSqlDataField(column: "whcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencysymbolandcode", modeltype: FwDataTypes.Text)]
-        public string CurrencySymbolAndCode { get; set; }
+        [FwSqlDataField(column: "whcurrencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencySymbolAndCode { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryMasterReportRequest request)
         {

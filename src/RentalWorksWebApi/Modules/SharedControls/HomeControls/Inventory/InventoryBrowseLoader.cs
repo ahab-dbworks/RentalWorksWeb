@@ -6,6 +6,8 @@ using WebApi.Data;
 using WebApi.Modules.HomeControls.Master;
 using System.Collections.Generic;
 using WebApi.Logic;
+using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
+using System.Text;
 
 namespace WebApi.Modules.HomeControls.Inventory
 {
@@ -76,7 +78,7 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "q.qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.manifestvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.manifestvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "mw.aisleloc", modeltype: FwDataTypes.Text)]
@@ -85,49 +87,49 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mw.shelfloc", modeltype: FwDataTypes.Text)]
         public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.hourlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.hourlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.dailyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.dailyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? DailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.weeklyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.weeklyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.week2rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.week2rate", modeltype: FwDataTypes.Decimal)]
         public decimal? Week2Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.week3rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.week3rate", modeltype: FwDataTypes.Decimal)]
         public decimal? Week3Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.week4rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.week4rate", modeltype: FwDataTypes.Decimal)]
         public decimal? Week4Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.monthlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.monthlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.defaultcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.defaultcost", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.cost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.cost", modeltype: FwDataTypes.Decimal)]
         public decimal? AverageCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.hourlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.hourlycost", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.dailycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.dailycost", modeltype: FwDataTypes.Decimal)]
         public decimal? DailyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.weeklycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.weeklycost", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.monthlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.monthlycost", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.price", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.price", modeltype: FwDataTypes.Decimal)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "mw.replacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(calculatedColumnSql: "mwr.replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "mw.qcrequired", modeltype: FwDataTypes.Boolean)]
@@ -153,25 +155,63 @@ namespace WebApi.Modules.HomeControls.Inventory
         ////------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            OverrideFromClause = " from inventoryview [t] with (nolock) " +
-                  " outer apply(select top 1 mw.warehouseid, mw.manifestvalue, mw.aisleloc, mw.shelfloc, mw.hourlyrate, mw.dailyrate, mw.weeklyrate, mw.week2rate, mw.week3rate, mw.week4rate, mw.monthlyrate, mw.defaultcost, mw.hourlycost, mw.dailycost, mw.weeklycost, mw.monthlycost, mw.cost, mw.price, mw.replacementcost, mw.qcrequired" +
-                  "              from  masterwh mw with(nolock)" +
-                  "              where mw.masterid    = t.masterid" +
-                  "              and   mw.warehouseid = @warehouseid) mw" +
-                  " outer apply(select top 1 q.qty" +
-                  "              from  masterwhqty q with(nolock) " +
-                  "              where q.masterid    = t.masterid" +
-                  "              and   q.warehouseid = @warehouseid) q" +
-                  " outer apply(select top 1 ml.taxable" +
-                  "              from  masterlocation ml with(nolock)" +
-                  "              where ml.masterid   = t.masterid" +
-                  "              and   ml.locationid = @locationid) ml" +
-                  " outer apply(select top 1 currencyid = w.currencyid, currency = c.currency, currencycode = c.code, currencysymbol = c.currencysymbol" +
-                  "              from  warehouse w with (nolock)" +
-                  "                         join currency c on (w.currencyid = c.currencyid)" +
-                  "              where mw.warehouseid = w.warehouseid) curr";
 
-      base.SetBaseSelectQuery(select, qry, customFields, request);
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request);
+            string currencyId = GetUniqueIdAsString("CurrencyId", request) ?? "";
+            bool foreignCurrency = false;
+            if (string.IsNullOrEmpty(warehouseId))
+            {
+                warehouseId = "xxx~~xxx";
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(currencyId))
+                {
+                    WarehouseLogic w = new WarehouseLogic();
+                    w.SetDependencies(AppConfig, UserSession);
+                    w.WarehouseId = warehouseId;
+                    if (w.LoadAsync<WarehouseLogic>().Result)
+                    {
+                        foreignCurrency = ((!string.IsNullOrEmpty(w.CurrencyId)) && (!currencyId.Equals(w.CurrencyId)));
+                    }
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(" from inventoryview [t] with (nolock) ");
+            sb.AppendLine(" outer apply(select top 1 mw.warehouseid, mw.aisleloc, mw.shelfloc, mw.qcrequired");
+            sb.AppendLine("              from  masterwh mw with(nolock)");
+            sb.AppendLine("              where mw.masterid    = t.masterid");
+            sb.AppendLine("              and   mw.warehouseid = @warehouseid) mw");
+            if (foreignCurrency)
+            {
+                //slower
+                sb.AppendLine(" outer apply(select top 1 r.manifestvalue, r.hourlyrate, r.dailyrate, r.weeklyrate, r.week2rate, r.week3rate, r.week4rate, r.monthlyrate, r.defaultcost, r.hourlycost, r.dailycost, r.weeklycost, r.monthlycost, r.cost, r.price, r.replacementcost");
+                sb.AppendLine("              from dbo.funcmasterwhratesweb(t.masterid, @warehouseid, @warehouseid, @currencyid) r) mwr");
+            }
+            else
+            {
+                //faster
+                sb.AppendLine(" outer apply(select top 1 r.manifestvalue, r.hourlyrate, r.dailyrate, r.weeklyrate, r.week2rate, r.week3rate, r.week4rate, r.monthlyrate, r.defaultcost, r.hourlycost, r.dailycost, r.weeklycost, r.monthlycost, r.cost, r.price, r.replacementcost");
+                sb.AppendLine("              from  masterwh r with(nolock)");
+                sb.AppendLine("              where r.masterid    = t.masterid");
+                sb.AppendLine("              and   r.warehouseid = @warehouseid) mwr");
+            }
+            sb.AppendLine(" outer apply(select top 1 q.qty");
+            sb.AppendLine("              from  masterwhqty q with(nolock) ");
+            sb.AppendLine("              where q.masterid    = t.masterid");
+            sb.AppendLine("              and   q.warehouseid = @warehouseid) q");
+            sb.AppendLine(" outer apply(select top 1 ml.taxable");
+            sb.AppendLine("              from  masterlocation ml with(nolock)");
+            sb.AppendLine("              where ml.masterid   = t.masterid");
+            sb.AppendLine("              and   ml.locationid = @locationid) ml");
+            sb.AppendLine(" outer apply(select top 1 currencyid = w.currencyid, currency = c.currency, currencycode = c.code, currencysymbol = c.currencysymbol");
+            sb.AppendLine("              from  warehouse w with (nolock)");
+            sb.AppendLine("                         join currency c on (w.currencyid = c.currencyid)");
+            sb.AppendLine("              where mw.warehouseid = w.warehouseid) curr");
+            OverrideFromClause = sb.ToString();
+
+            base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
 
             select.AddWhere("(availfor = @availfor)");
@@ -190,12 +230,8 @@ namespace WebApi.Modules.HomeControls.Inventory
                 select.AddParameter("@containerid", containerId);
             }
 
-            string warehouseId = GetUniqueIdAsString("WarehouseId", request);
-            if (string.IsNullOrEmpty(warehouseId))
-            {
-                warehouseId = "xxx~~xxx";
-            }
             select.AddParameter("@warehouseid", warehouseId);
+            select.AddParameter("@currencyid", currencyId);
 
             string locationId = GetUniqueIdAsString("LocationId", request);
             if (string.IsNullOrEmpty(locationId))

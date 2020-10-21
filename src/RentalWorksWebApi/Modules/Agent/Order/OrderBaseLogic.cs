@@ -1925,10 +1925,10 @@ namespace WebApi.Modules.Agent.Order
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if ((!string.IsNullOrEmpty(TaxOptionId)) && (!string.IsNullOrEmpty(TaxId)))
+                if ((!string.IsNullOrEmpty(tax.TaxOptionId)) && (!string.IsNullOrEmpty(tax.TaxId)))
                 {
                     bool b = false;
-                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
+                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, tax.TaxOptionId, tax.TaxId, e.SqlConnection).Result;
                     b = OrderFunc.UpdateOrderItemExtendedAllASync(this.AppConfig, this.UserSession, GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
                 }
             }

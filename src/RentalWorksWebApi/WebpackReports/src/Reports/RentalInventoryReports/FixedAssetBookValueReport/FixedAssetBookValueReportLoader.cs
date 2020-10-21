@@ -50,9 +50,6 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
         [FwSqlDataField(column: "purchaseid", modeltype: FwDataTypes.Text)]
         public string PurchaseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyexchangerate", modeltype: FwDataTypes.Decimal)]
-        public decimal? CurrencyExchangeRate { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "received", modeltype: FwDataTypes.Date)]
         public string ReceiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -61,6 +58,18 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? CostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitCostWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtaxextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? CostWithTaxExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtcurrconv", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitCostCurrencyConverted { get; set; }
@@ -73,6 +82,39 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtwithtaxcurrconvextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? CostWithTaxCurrencyConvertedExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencyid", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencycode", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrency", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencySymbolAndCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyexchangerate", modeltype: FwDataTypes.Decimal)]
+        public decimal? CurrencyExchangeRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencyid", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencycode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrency", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencySymbolAndCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "asofmonthbegin", modeltype: FwDataTypes.Date)]
         public string AsOfMonthBeginDate { get; set; }

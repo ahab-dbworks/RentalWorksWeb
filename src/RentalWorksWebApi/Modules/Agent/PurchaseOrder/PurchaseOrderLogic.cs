@@ -16,6 +16,8 @@ using WebApi.Modules.HomeControls.OrderDates;
 using System.Collections.Generic;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Settings.OrderTypeDateType;
+using FwStandard.Models;
+using WebApi.Modules.HomeControls.CompanyTaxOption;
 
 namespace WebApi.Modules.Agent.PurchaseOrder
 {
@@ -32,6 +34,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         PurchaseOrderLoader purchaseOrderLoader = new PurchaseOrderLoader();
         PurchaseOrderBrowseLoader purchaseOrderBrowseLoader = new PurchaseOrderBrowseLoader();
 
+        private VendorLogic insertingVendor = null;  // this object is loaded once during "Validate" (for speed) and used downstream 
         private bool _changeRatesToNewCurrency = false;
 
         public PurchaseOrderLogic()
@@ -752,7 +755,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public string TaxOption { get; set; }
 
         [FwLogicProperty(Id: "gNNYzTTDz8v8", DisableDirectModify: true)]
-        public string TaxId { get { return purchaseOrder.TaxId; } set { purchaseOrder.TaxId = value; } }
+        public string TaxId { get { return purchaseOrder.TaxId; } set { purchaseOrder.TaxId = value; tax.TaxId = value; } }
 
         [FwLogicProperty(Id: "gLEVVNQ8Daeu", IsReadOnly: true)]
         public string Tax1Name { get; set; }
@@ -986,7 +989,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             string rateType = string.Empty;
             bool misc = false, labor = false, subRent = false, subSale = false, repair = false, subMisc = false, subLabor = false;
 
-            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 rateType = RateType;
                 misc = Miscellaneous.GetValueOrDefault(false);
@@ -996,6 +999,17 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 repair = Repair.GetValueOrDefault(false);
                 subMisc = SubMiscellaneous.GetValueOrDefault(false);
                 subLabor = SubLabor.GetValueOrDefault(false);
+
+
+                if (!string.IsNullOrEmpty(VendorId))
+                {
+                    // load the Vendor object once here for use downstream
+                    insertingVendor = new VendorLogic();
+                    insertingVendor.SetDependencies(AppConfig, UserSession);
+                    insertingVendor.VendorId = VendorId;
+                    bool b = insertingVendor.LoadAsync<VendorLogic>().Result;
+                }
+
             }
             else
             {
@@ -1072,6 +1086,32 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                         vendor.VendorId = VendorId;
                         bool b = vendor.LoadAsync<VendorLogic>().Result;
                         BillingCycleId = vendor.BillingCycleId;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(TaxOptionId))
+                {
+                    if (insertingVendor != null)
+                    {
+                        string companyId = insertingVendor.VendorId;
+
+                        BrowseRequest companyTaxBrowseRequest = new BrowseRequest();
+                        companyTaxBrowseRequest.uniqueids = new Dictionary<string, object>();
+                        companyTaxBrowseRequest.uniqueids.Add("CompanyId", companyId);
+                        companyTaxBrowseRequest.uniqueids.Add("LocationId", OfficeLocationId);
+
+                        CompanyTaxOptionLogic companyTaxSelector = new CompanyTaxOptionLogic();
+                        companyTaxSelector.SetDependencies(AppConfig, UserSession);
+                        List<CompanyTaxOptionLogic> companyTax = companyTaxSelector.SelectAsync<CompanyTaxOptionLogic>(companyTaxBrowseRequest).Result;
+
+                        if (companyTax.Count > 0)
+                        {
+                            TaxOptionId = companyTax[0].TaxOptionId;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(TaxOptionId))
+                    {
+                        TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;
                     }
                 }
 
@@ -1239,7 +1279,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------
         public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 bool x = purchaseOrder.SetNumber(e.SqlConnection).Result;
                 StatusDate = FwConvert.ToString(DateTime.Today);
@@ -1248,18 +1288,18 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;
                 }
             }
-            else
-            {
-                if (e.Original != null)
-                {
-                    DealOrderRecord lOrig = ((DealOrderRecord)e.Original);
-
-                    if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
-                    {
-                        tax.TaxId = lOrig.TaxId;
-                    }
-                }
-            }
+            //else
+            //{
+            //    if (e.Original != null)
+            //    {
+            //        DealOrderRecord lOrig = ((DealOrderRecord)e.Original);
+            //
+            //        if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+            //        {
+            //            tax.TaxId = lOrig.TaxId;
+            //        }
+            //    }
+            //}
         }
         //------------------------------------------------------------------------------------
         public virtual void OnAfterSavePurchaseOrder(object sender, AfterSaveDataRecordEventArgs e)
@@ -1291,10 +1331,10 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         //------------------------------------------------------------------------------------
         public void OnAfterSaveTax(object sender, AfterSaveDataRecordEventArgs e)
         {
-            if ((!string.IsNullOrEmpty(TaxOptionId)) && (!string.IsNullOrEmpty(TaxId)))
+            if ((!string.IsNullOrEmpty(tax.TaxOptionId)) && (!string.IsNullOrEmpty(tax.TaxId)))
             {
                 bool b = false;
-                b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
+                b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, tax.TaxOptionId, tax.TaxId, e.SqlConnection).Result;
                 b = OrderFunc.UpdateOrderItemExtendedAllASync(this.AppConfig, this.UserSession, GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
             }
         }

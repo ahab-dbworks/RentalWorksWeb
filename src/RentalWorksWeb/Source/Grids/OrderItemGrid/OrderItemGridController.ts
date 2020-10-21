@@ -271,6 +271,7 @@ class OrderItemGrid {
                             break;
                     }
                     request.uniqueids.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                    request.uniqueids.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
                     request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
                 }
                 break;

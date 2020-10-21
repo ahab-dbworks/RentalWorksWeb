@@ -130,27 +130,21 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "purchamtwithtaxcurrconvextended", modeltype: FwDataTypes.Decimal)]
         public decimal? CostWithTaxCurrencyConvertedExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
         [FwSqlDataField(column: "totaldepreciation", modeltype: FwDataTypes.Decimal)]
         public decimal? TotalDepreciation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totalbookvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? TotalBookValue { get; set; }
         //------------------------------------------------------------------------------------ 
-
         [FwSqlDataField(column: "salvagevalue", modeltype: FwDataTypes.Decimal)]
         public decimal? SalvageValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salvagevalueextended", modeltype: FwDataTypes.Decimal)]
         public decimal? SalvageValueExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-
         [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
         public int? DepreciationMonths { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
         [FwSqlDataField(column: "invcost", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorInvoiceCost { get; set; }
         //------------------------------------------------------------------------------------ 
