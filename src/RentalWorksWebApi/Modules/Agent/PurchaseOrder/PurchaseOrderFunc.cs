@@ -167,8 +167,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     public class CopyPurchaseOrderRequest
     {
         public string PurchaseOrderId { get; set; }
-        //public string LocationId { get; set; }
-        //public string WarehouseId { get; set; }
+        public string LocationId { get; set; }
+        public string WarehouseId { get; set; }
     }
     public class CopyPurchaseOrderResponse : TSpStatusResponse
     {
@@ -433,7 +433,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return response;
         }
         //-------------------------------------------------------------------------------------------------------  
-        public static async Task<CopyPurchaseOrderResponse> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, CopyPurchaseOrderRequest request)
+        public static async Task<CopyPurchaseOrderResponse> CopyPurchaseOrder(FwApplicationConfig appConfig, FwUserSession userSession, PurchaseOrderLogic from, CopyPurchaseOrderRequest request, string newLocationId = "", string newWarehouseId = "")
         {
             CopyPurchaseOrderResponse response = new CopyPurchaseOrderResponse(); 
             PurchaseOrderLogic to = null;
@@ -451,18 +451,18 @@ namespace WebApi.Modules.Agent.PurchaseOrder
 
                 to.SetDependencies(appConfig, userSession);
 
-                //if (string.IsNullOrEmpty(newLocationId))
-                //{
-                //    newLocationId = from.OfficeLocationId;
-                //}
-                //if (string.IsNullOrEmpty(newWarehouseId))
-                //{
-                //    newWarehouseId = from.WarehouseId;
-                //}
+                if (string.IsNullOrEmpty(newLocationId))
+                {
+                    newLocationId = from.OfficeLocationId;
+                }
+                if (string.IsNullOrEmpty(newWarehouseId))
+                {
+                    newWarehouseId = from.WarehouseId;
+                }
 
                 OfficeLocationLogic location = new OfficeLocationLogic();
                 location.SetDependencies(appConfig, userSession);
-                //location.LocationId = newLocationId;
+                location.LocationId = newLocationId;
                 await location.LoadAsync<PurchaseOrderLogic>();
 
                 string fromId = from.GetPrimaryKeys()[0].ToString();
@@ -497,8 +497,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 to.ReceiveDeliveryId = "";
                 to.ReturnDeliveryId = "";
                 to.TaxId = "";
-                //to.OfficeLocationId = newLocationId;
-                //to.WarehouseId = newWarehouseId;
+                to.OfficeLocationId = newLocationId;
+                to.WarehouseId = newWarehouseId;
 
                 //save the new 
                 await to.SaveAsync(original: null, conn: conn);

@@ -2889,8 +2889,8 @@ class PurchaseOrder implements IModule {
 
                 //request.CopyToVendorId = FwFormField.getValueByDataField($confirmation, 'CopyToVendorId');
                 //request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
-                //request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-                //request.LocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+                request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+                request.LocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
                 //request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
                 //if (request.CopyRatesFromInventory == "C") {
                 //    request.CopyRatesFromInventory = "False"
