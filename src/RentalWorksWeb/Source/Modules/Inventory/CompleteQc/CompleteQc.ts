@@ -251,16 +251,16 @@ class CompleteQc {
                               </div>
                             <div class="fwcontrol fwcontainer fwform-section current-usage" data-control="FwContainer" data-type="section" data-caption="Current Usage">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Asset Hours" data-datafield="AssetHours" style="flex:0 1 130px;"></div>
-                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="No. Strikes" data-datafield="Strikes" style="flex:0 1 130px;"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Asset Hours" data-datafield="AssetHours" style="flex:0 1 130px;" data-digits="0"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="No. Strikes" data-datafield="Strikes" style="flex:0 1 130px;" data-digits="0"></div>
                                 </div>
                               </div>
                               <div class="fwcontrol fwcontainer fwform-section lamp-hours" data-control="FwContainer" data-type="section" data-caption="Lamp Hours">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 1" data-datafield="LampHours1" style="flex:0 1 130px;"></div>
-                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 2" data-datafield="LampHours2" style="flex:0 1 130px;"></div>
-                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 3" data-datafield="LampHours3" style="flex:0 1 130px;"></div>
-                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 4" data-datafield="LampHours4" style="flex:0 1 130px;"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 1" data-datafield="LampHours1" style="flex:0 1 130px;" data-digits="0"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 2" data-datafield="LampHours2" style="flex:0 1 130px;" data-digits="0"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 3" data-datafield="LampHours3" style="flex:0 1 130px;" data-digits="0"></div>
+                                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clear-fields" data-caption="Lamp 4" data-datafield="LampHours4" style="flex:0 1 130px;" data-digits="0"></div>
                                 </div>
                               </div>
                               <div class="fwcontrol fwcontainer fwform-section software-version" data-control="FwContainer" data-type="section" data-caption="Software Version">

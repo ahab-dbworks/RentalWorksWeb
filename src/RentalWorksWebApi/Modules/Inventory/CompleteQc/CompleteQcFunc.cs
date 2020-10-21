@@ -97,6 +97,7 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 qry.AddParameter("@conditionid", SqlDbType.NVarChar, ParameterDirection.Input, request.ConditionId);
                 qry.AddParameter("@footcandles", SqlDbType.Int, ParameterDirection.Input, FwConvert.ToInt32(request.CurrentFootCandles));
                 qry.AddParameter("@currentsoftware", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrentSoftwareVersion);
+                qry.AddParameter("@softwareeffectivedate", SqlDbType.NVarChar, ParameterDirection.Input, request.SoftwareEffectiveDate);
                 qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, request.Note);
                 qry.AddParameter("@assethours", SqlDbType.Int, ParameterDirection.Input, request.AssetHours);
                 qry.AddParameter("@strikes", SqlDbType.Int, ParameterDirection.Input, request.Strikes);
