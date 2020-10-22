@@ -13,7 +13,6 @@ using System;
 using System.IO;
 using WebApi.ApplicationManager;
 using WebApi.Middleware;
-using WebApi.Modules.Administrator.Integrations;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi

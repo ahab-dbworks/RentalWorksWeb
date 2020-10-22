@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.AccountServices.HubSpot;
 
-namespace WebApi.Modules.Administrator.Integrations
+namespace WebApi.Modules.Administrator.PlugIn
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
     [FwController(Id: "TcXQ0Mt5L0Rf")]
-    public class IntegrationsController : AppDataController
+    public class PlugInController : AppDataController
     {
-        public IntegrationsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(IntegrationsLogic); }
+        public PlugInController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PlugInLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/integrations/hashubspotrefreshtoken 
         [HttpPost("hashubspotrefreshtoken")]

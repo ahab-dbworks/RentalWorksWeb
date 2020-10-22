@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Administrator.Integrations
+namespace WebApi.Modules.Administrator.PlugIn
 {
-    public class IntegrationsLogic
+    public class PlugInLogic
     {
     }
 }

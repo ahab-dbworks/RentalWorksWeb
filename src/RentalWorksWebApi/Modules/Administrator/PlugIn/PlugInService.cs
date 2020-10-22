@@ -7,14 +7,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Administrator.Integrations
+namespace WebApi.Modules.Administrator.PlugIn
 {
-    internal class IntegrationsService: IHostedService, IDisposable
+    internal class PlugInService: IHostedService, IDisposable
     {
         private FwApplicationConfig appConfig;
 
         //-------------------------------------------------------------------------------------------------------
-        public IntegrationsService(IOptions<FwApplicationConfig> appConfig)
+        public PlugInService(IOptions<FwApplicationConfig> appConfig)
         {
             this.appConfig = appConfig.Value;
         }

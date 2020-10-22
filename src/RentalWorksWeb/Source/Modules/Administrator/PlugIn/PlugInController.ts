@@ -1,11 +1,11 @@
-﻿routes.push({ pattern: /^module\/integrations$/, action: function (match: RegExpExecArray) { return IntegrationsController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/plugin$/, action: function (match: RegExpExecArray) { return PlugInController.getModuleScreen(); } });
 
-class Integrations implements IModule {
-    Module: string = 'Integrations';
-    apiurl: string = 'api/v1/integrations';
-    caption: string = Constants.Modules.Administrator.children.Integrations.caption;
-    nav: string = Constants.Modules.Administrator.children.Integrations.nav;
-    id: string = Constants.Modules.Administrator.children.Integrations.id;
+class PlugIn implements IModule {
+    Module: string = 'PlugIn';
+    apiurl: string = 'api/v1/plugin';
+    caption: string = Constants.Modules.Administrator.children.PlugIn.caption;
+    nav: string = Constants.Modules.Administrator.children.PlugIn.nav;
+    id: string = Constants.Modules.Administrator.children.PlugIn.id;
     //---------------------------------------------------------------------------------
     getModuleScreen() {
         let $form;
@@ -29,7 +29,7 @@ class Integrations implements IModule {
         (async () => {
             const isHubSpotConnected = await FwAjax.callWebApi<any, any>({
                 httpMethod: 'POST',
-                url: `${applicationConfig.apiurl}api/v1/integrations/hashubspotrefreshtoken`,
+                url: `${applicationConfig.apiurl}api/v1/plugin/hashubspotrefreshtoken`,
             }); 
             this.events($form, isHubSpotConnected.hasRefreshToken);
         })()
@@ -50,7 +50,7 @@ class Integrations implements IModule {
             } else {
                 const deleteHubSpotTokens = await FwAjax.callWebApi<any, any>({
                     httpMethod: 'POST',
-                    url: `${applicationConfig.apiurl}api/v1/integrations/deletehubspottokens`,
+                    url: `${applicationConfig.apiurl}api/v1/plugin/deletehubspottokens`,
                 });
                 if (deleteHubSpotTokens.message = "Success") {
                     installBtn.text('Connect').css('background-color', '#1976d2');
@@ -61,7 +61,7 @@ class Integrations implements IModule {
         syncBtn.on('click', async () => {
                 const isHubSpotConnected = await FwAjax.callWebApi<any, any>({
                     httpMethod: 'POST',
-                    url: `${applicationConfig.apiurl}api/v1/integrations/hashubspotrefreshtoken`,
+                    url: `${applicationConfig.apiurl}api/v1/plugin/hashubspotrefreshtoken`,
                 });
             if (isHubSpotConnected) {
                 const syncContacts = await FwAjax.callWebApi<any, any>({
@@ -96,4 +96,4 @@ class Integrations implements IModule {
 
 }
 //-------------------------------------------------------------------------------------
-var IntegrationsController = new Integrations();
+var PlugInController = new PlugIn();
