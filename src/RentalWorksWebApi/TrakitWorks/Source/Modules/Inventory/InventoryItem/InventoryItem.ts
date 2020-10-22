@@ -76,7 +76,14 @@ class InventoryItem {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`,
+                    {
+                        InventoryId: inventoryId,
+                        WarehouseId: [warehouseId],
+                        FromDate: startOfMonth,
+                        ToDate: endOfMonth,
+                        SortReservationsBy: 'OrderNumber'
+                    }, FwServices.defaultTimeout, function onSuccess(response) {
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (var i = 0; i < calendarevents.length; i++) {
