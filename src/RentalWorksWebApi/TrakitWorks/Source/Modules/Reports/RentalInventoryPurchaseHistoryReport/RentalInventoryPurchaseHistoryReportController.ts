@@ -80,6 +80,7 @@ class RentalInventoryPurchaseHistoryReport extends FwWebApiReport {
     constructor() {
         super('RentalInventoryPurchaseHistoryReport', 'api/v1/rentalinventorypurchasehistoryreport', rentalInventoryPurchaseHistoryTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
