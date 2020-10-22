@@ -1,6 +1,6 @@
 ﻿class FwFormField_moneyClass implements IFwFormField {
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderDesignerHtml($control: JQuery, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
@@ -13,7 +13,7 @@
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderRuntimeHtml($control: JQuery, html: string[]): void {
         var defaultCurrencySymbol;
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
@@ -42,11 +42,11 @@
         });
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void {
         var currencySymbol;
         if (typeof $fwformfield.attr('data-currencysymbol') !== 'undefined' && typeof model[$fwformfield.attr('data-currencysymbol')] !== 'undefined') {
             currencySymbol = model[$fwformfield.attr('data-currencysymbol')]
@@ -74,15 +74,15 @@
             });
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>): void {
+    enable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         var valuecontainer = $fwformfield.find('.fwformfield-value').inputmask('unmaskedvalue');
         var value = valuecontainer !== null ? valuecontainer : ''; //Fix for jquery.inputmask('unmaskedvalue') change to return null on empty value instead of ''
 
@@ -92,7 +92,7 @@
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         var $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue
             .val(value)

@@ -1,6 +1,6 @@
 ﻿class FwFormField_multiselectvalidationClass implements IFwFormField {
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderDesignerHtml($control: JQuery, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
@@ -17,7 +17,7 @@
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderRuntimeHtml($control: JQuery, html: string[]): void {
         var validationName, $valuefield, $searchfield, $btnvalidate;
 
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
@@ -44,11 +44,11 @@
         FwMultiSelectValidation.init($control, validationName, $valuefield, $searchfield, $btnvalidate);
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('input.fwformfield-value')
@@ -83,22 +83,22 @@
         }
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
         $control.find('.btnvalidate').attr('data-enabled', 'false');
         $control.find('.fwformfield-text').prop('disabled', true);
     }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>): void {
+    enable($control: JQuery): void {
         $control.find('.btnvalidate').attr('data-enabled', 'true');
         $control.find('.fwformfield-text').prop('disabled', false);
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         var value = $fwformfield.find('.fwformfield-value').val();
         return value;
     }
     //---------------------------------------------------------------------------------
-    getText2($fwformfield: JQuery<HTMLElement>): string {
+    getText2($fwformfield: JQuery): string {
         var text;
         if (applicationConfig.allCaps && $fwformfield.attr('data-allcaps') !== 'false') {
             text = (<string>$fwformfield.find('.fwformfield-text').val()).toUpperCase();
@@ -108,7 +108,7 @@
         return text;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         let valueArr, textArr;
 
         // this is really only useful for clearing the value, otherwise it will be out of sync with the selected rows

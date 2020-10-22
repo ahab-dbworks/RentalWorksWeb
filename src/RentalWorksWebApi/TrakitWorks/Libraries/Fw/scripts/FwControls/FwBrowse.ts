@@ -1025,9 +1025,9 @@ class FwBrowseClass {
     /** Sets the pageno to 1 before loading records from the database.
         @param {object} $control - The browse control
     */
-    search($control: JQuery): Promise<any> {
+    async search($control: JQuery): Promise<any> {
         this.setPageNo($control, 1);
-        return this.databind($control);
+        return await this.databind($control);
     }
     //---------------------------------------------------------------------------------
     addDesignerField($column: JQuery, cssclass: string, caption: string, datafield: string, datatype: string): void {
@@ -2290,7 +2290,7 @@ class FwBrowseClass {
                                         let getManyRequest = this.getManyRequest($control);
                                         let url = Array<string>();
                                         url.push(`${applicationConfig.apiurl}${$control.attr('data-apiurl')}?`);
-                                        url.push(`&pageno=${getManyRequest.pageno}`);
+                                        url.push(`pageno=${getManyRequest.pageno}`);
                                         url.push(`&pagesize=${getManyRequest.pagesize}`);
                                         url.push(`&sort=${getManyRequest.sort}`);
                                         for (let filterno = 0; filterno < getManyRequest.filters.length; filterno++) {
@@ -2305,6 +2305,8 @@ class FwBrowseClass {
                                         request.addAuthorizationHeader = true;
                                         let getManyResponse = await FwAjax.callWebApi<any, GetManyModel<any>>(request);
                                         let dt = DataTable.objectListToDataTable(getManyResponse);
+                                        $control.data('$control').find('.validation-loader').hide();
+                                        $control.data('$btnvalidate').show();
                                         me.beforeDataBindCallBack($control, request, dt);
                                         resolve();
                                     } catch (ex) {
@@ -5122,6 +5124,7 @@ class DataTable {
         dt.PageNo = getManyModel.PageNo;
         dt.PageSize = getManyModel.PageSize;
         dt.TotalRows = getManyModel.TotalRows;
+        dt.TotalPages = Math.ceil(getManyModel.TotalRows / getManyModel.PageSize);
         if (getManyModel.Items.length > 0) {
             let record = getManyModel.Items[0];
             let colno = 0;

@@ -2,7 +2,7 @@
 
 class FwFormField_phoneinternationalClass implements IFwFormField {
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderDesignerHtml($control: JQuery, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
         html.push('<div class="content">');
         html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
@@ -17,7 +17,7 @@ class FwFormField_phoneinternationalClass implements IFwFormField {
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderRuntimeHtml($control: JQuery, html: string[]): void {
         html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}</div>`);
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="tel" autocapitalize="none"');
@@ -65,11 +65,11 @@ class FwFormField_phoneinternationalClass implements IFwFormField {
         });
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void {
         if (value) {
             $fwformfield.attr('data-originalvalue', value);
             $fwformfield.find('input').intlTelInput('setNumber', value);
@@ -93,15 +93,15 @@ class FwFormField_phoneinternationalClass implements IFwFormField {
         }
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>): void {
+    enable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         const $input = $fwformfield.find('input');
         let value;
         const countryCode = $input.intlTelInput('getSelectedCountryData').dialCode;
@@ -113,7 +113,7 @@ class FwFormField_phoneinternationalClass implements IFwFormField {
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         const $input = $fwformfield.find('input');
         if (value) {
             const $inputvalue = $input.intlTelInput('setNumber', value);

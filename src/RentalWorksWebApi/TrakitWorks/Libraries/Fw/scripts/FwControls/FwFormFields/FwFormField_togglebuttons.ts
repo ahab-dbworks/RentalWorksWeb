@@ -1,13 +1,13 @@
 ﻿class FwFormField_togglebuttonsClass implements IFwFormField {
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderDesignerHtml($control: JQuery, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
         html.push(`<div class="fwformfield-caption">${$control.attr('data-caption')}: ${$control.attr('id')}</div>`);
         html.push('<div class="fwformfield-control"></div>');
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderRuntimeHtml($control: JQuery, html: string[]): void {
         const name = FwApplication.prototype.uniqueId(10);
         $control.attr('data-name', name);
         //if ($control.attr('data-caption')) {
@@ -19,7 +19,7 @@
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any): void {
+    loadItems($control: JQuery, items: any): void {
         if ((typeof items !== 'undefined') && (items !== null)) {
             const name = $control.attr('data-name');
             for (let i = 0; i < items.length; i++) {
@@ -32,25 +32,25 @@
         }
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield.attr('data-originalvalue', value);
         $fwformfield.find(`input[value="${value}"]`).prop('checked', true);
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
         $control.find(`input[name="${$control.attr('data-name')}"]`).prop('disabled', true);
     }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>): void {
+    enable($control: JQuery): void {
         $control.find(`input[name="${$control.attr('data-name')}"]`).prop('disabled', false);
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         const value = $fwformfield.find(`input[name="${$fwformfield.attr('data-name')}"]:checked`).val();
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         let $inputvalue;
         if (value !== '') {
             $inputvalue = $fwformfield.find(`input[name="${$fwformfield.attr('data-name')}"][value="${value}"]`);

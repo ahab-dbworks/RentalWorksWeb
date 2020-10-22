@@ -4,7 +4,9 @@
     }
     //---------------------------------------------------------------------------------
     renderRuntimeHtml($control: JQuery, html: string[]): void {
-        html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
+        if ($control.attr('data-caption')) {
+            html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
+        }
         html.push('<div class="fwformfield-control">');
         html.push('  <ol style="min-height:1200px;min-width:200px;">');
         html.push('  </ol>');
@@ -44,7 +46,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void {
         const html = [];
         if ((typeof items !== 'undefined') && (items !== null)) {
             if ($control.attr('data-type') === 'orderby') {
@@ -109,7 +111,7 @@
         });
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text, model: any) {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text, model: any) {
         const html = [];
         if ((typeof value !== 'undefined') && (value !== null)) {
             for (let i = 0; i < value.length; i++) {
@@ -183,15 +185,15 @@
         });
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>): void {
+    enable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         let value = [];
         if ($fwformfield.data('checkboxlist') === 'persist') {
             $fwformfield.find('li[data-selected="T"]').each(function (index, element) {
@@ -235,7 +237,7 @@
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         const $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();

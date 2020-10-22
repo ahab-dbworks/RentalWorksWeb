@@ -1605,16 +1605,16 @@ class FwModule {
 }
 
 interface IFwFormField {
-    initControl?($control: JQuery<HTMLElement>): void;
-    disable($control: JQuery<HTMLElement>): void;
-    enable($control: JQuery<HTMLElement>): void;
-    getText2?($fwformfield: JQuery<HTMLElement>): string;
-    getValue2($fwformfield: JQuery<HTMLElement>): any;
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void;
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void;
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void;
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void;
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void;
+    initControl?($control: JQuery): void;
+    disable($control: JQuery): void;
+    enable($control: JQuery): void;
+    getText2?($fwformfield: JQuery): string;
+    getValue2($fwformfield: JQuery): any;
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void;
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void;
+    renderDesignerHtml($control: JQuery, html: string[]): void;
+    renderRuntimeHtml($control: JQuery, html: string[]): void;
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void;
 }
 
 interface IModule {

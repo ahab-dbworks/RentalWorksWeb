@@ -615,13 +615,13 @@
         return validationsWithPeeks;
     }
     //----------------------------------------------------------------------------------------------
-    isValidationWithPeek($control: JQuery<HTMLElement>): boolean { //temp (inefficient) solution, til security tree implementations are in place, used to determine whether to render peek buttons - jpace 7/16/19
+    isValidationWithPeek($control: JQuery): boolean { //temp (inefficient) solution, til security tree implementations are in place, used to determine whether to render peek buttons - jpace 7/16/19
         const validationsWithPeeks: string[] = this.getValidationsWithPeeks();
         const result: boolean = (validationsWithPeeks.indexOf($control.attr('data-validationname')) > -1);
         return result;
     }
     //----------------------------------------------------------------------------------------------
-    showHidePeek($control: JQuery<HTMLElement>, value: any) {
+    showHidePeek($control: JQuery, value: any) {
         const isWebAdmin = (sessionStorage.getItem('userid') !== null) ? JSON.parse(sessionStorage.getItem('userid')).webadministrator === 'true' : false;
         let showPeek = false;
         if (!($control.attr('data-validationpeek') === 'false')) {

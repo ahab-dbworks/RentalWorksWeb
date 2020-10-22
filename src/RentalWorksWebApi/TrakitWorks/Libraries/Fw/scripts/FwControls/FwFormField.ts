@@ -506,7 +506,7 @@ class FwFormFieldClass {
         return controller;
     }
     //---------------------------------------------------------------------------------
-    getDataField($parent: JQuery<HTMLElement>, datafield: string) {
+    getDataField($parent: JQuery, datafield: string) {
         var $field = $parent.find(`div[data-datafield="${datafield}"]`);
         return $field;
     }
