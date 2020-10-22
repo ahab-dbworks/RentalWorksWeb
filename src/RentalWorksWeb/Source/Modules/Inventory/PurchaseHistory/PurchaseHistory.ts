@@ -264,11 +264,11 @@ class PurchaseHistory {
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Salvage Value" data-datafield="SalvageValueExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
                           </div>
                         </div>
-                        <div class="flexrow fixed-asset">
-                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
-                            <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
-                          </div>
-                       </div>
+                      </div>
+                    </div>
+                    <div class="wideflexrow fixed-asset">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
+                        <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
                       </div>
                     </div>
                   </div>
