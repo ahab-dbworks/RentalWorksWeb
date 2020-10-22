@@ -266,7 +266,7 @@ class PurchaseHistory {
                         </div>
                       </div>
                     </div>
-                    <div class="wideflexrow fixed-asset">
+                    <div class="flexrow fixed-asset">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
                         <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
                       </div>
