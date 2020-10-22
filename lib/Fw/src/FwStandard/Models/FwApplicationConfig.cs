@@ -20,10 +20,13 @@ namespace FwStandard.Models
         public string WebPath { get; set; } = string.Empty;
         public Apps Apps { get; set; } = new Apps();
         public HostedServices HostedServices { get; set; } = new HostedServices();
-        //public WebAppConfig WebApp { get; set; } = new WebAppConfig();
-        //public string WebRequestPath { get; set; } = null;
-        //public string MobileRequestPath { get; set; } = null;
-        //public MobileAppConfig MobileApp { get; set; } = new MobileAppConfig();
+        
+        // mv 10/22/2020 phasing these out
+        public WebAppConfig WebApp { get; set; } = null;
+        public string WebRequestPath { get; set; } = null;
+        public string MobileRequestPath { get; set; } = null;
+        public MobileAppConfig MobileApp { get; set; } = null;
+
         //public bool EnableHttpsRedirect { get; set; } = false;
         //public List<RewriteRulesConfig> RewriteRules { get; set; }
     }
@@ -55,6 +58,7 @@ namespace FwStandard.Models
     public class App
     {
         public string Path { get; set; }
+        public string DevPath { get; set; }
         public ConcurrentDictionary<string, object> ApplicationConfig { get; set; }
     }
 

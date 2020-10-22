@@ -38,23 +38,26 @@ namespace WebApi.Middleware
 
             if (this._appConfig.Apps.ContainsKey(RENTALWORKS))
             {
-                string rentalworkVirtualDirectory = this._appConfig.Apps[RENTALWORKS].Path;
-                this._regexRentalWorksProdApplicationConfig = new Regex($"^{rentalworkVirtualDirectory}/applicationconfig.js$");
-                this._regexRentalWorksDevApplicationConfig = new Regex("^\\/webdev\\/applicationconfig.js$");
+                string rentalworkProdVirtualDirectory = this._appConfig.Apps[RENTALWORKS].Path;
+                string rentalworkDevVirtualDirectory = this._appConfig.Apps[RENTALWORKS].DevPath;
+                this._regexRentalWorksProdApplicationConfig = new Regex($"^{rentalworkProdVirtualDirectory}/applicationconfig.js$");
+                this._regexRentalWorksDevApplicationConfig = new Regex($"^{rentalworkDevVirtualDirectory}/applicationconfig.js$");
             }
 
             if (this._appConfig.Apps.ContainsKey(TRAKITWORKS))
             {
-                string trakitworksVirtualDirectory = this._appConfig.Apps[TRAKITWORKS].Path;
-                this._regexTrakItWorksProdApplicationConfig = new Regex($"^{trakitworksVirtualDirectory}/applicationconfig.js$");
-                this._regexTrakItWorksDevApplicationConfig = new Regex("^\\/trakitworksdev\\/applicationconfig.js$");
+                string trakitworksProdVirtualDirectory = this._appConfig.Apps[TRAKITWORKS].Path;
+                string trakitworksDevVirtualDirectory = this._appConfig.Apps[TRAKITWORKS].DevPath;
+                this._regexTrakItWorksProdApplicationConfig = new Regex($"^{trakitworksProdVirtualDirectory}/applicationconfig.js$");
+                this._regexTrakItWorksDevApplicationConfig = new Regex($"^{trakitworksDevVirtualDirectory}/applicationconfig.js$");
             }
 
             if (this._appConfig.Apps.ContainsKey(QUIKSCAN))
             {
-                string quikscanVirtualDirectory = this._appConfig.Apps[QUIKSCAN].Path;
-                this._regexQuikScanProdApplicationConfig = new Regex($"^{quikscanVirtualDirectory}/applicationconfig.js$");
-                this._regexQuikScanDevApplicationConfig = new Regex("^\\/quikscandev\\/applicationconfig.js$");
+                string quikscanProdVirtualDirectory = this._appConfig.Apps[QUIKSCAN].Path;
+                string quikscanDevVirtualDirectory = this._appConfig.Apps[QUIKSCAN].DevPath;
+                this._regexQuikScanProdApplicationConfig = new Regex($"^{quikscanProdVirtualDirectory}/applicationconfig.js$");
+                this._regexQuikScanDevApplicationConfig = new Regex($"^{quikscanDevVirtualDirectory}/applicationconfig.js$");
             }
             
             string pathVersion = Path.Combine(Environment.CurrentDirectory, "version.txt");

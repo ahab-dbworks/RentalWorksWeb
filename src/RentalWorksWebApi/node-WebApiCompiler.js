@@ -244,7 +244,15 @@ class WebApiCompiler {
             //console.log('Fixing urls on index page...')
             const pathIndexFile = `${srcDir}/index.htm`;
             let fileText = await fs.readFile(pathIndexFile, 'utf8');
-            fileText = fileText.replace(/\[appbaseurl\]/g, '/webdev/');
+            const appSettingsJsonFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/appsettings.json');
+            const appSettingsJsonWithComments = await fs.readFile(appSettingsJsonFile, 'utf8');
+            const appSettingsJson = appSettingsJsonWithComments.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m).trim();
+            const appSettings = JSON.parse(appSettingsJson);
+            let devPath = '/rentalworksdev';
+            if (appSettings && appSettings.ApplicationConfig && appSettings.ApplicationConfig.Apps && appSettings.ApplicationConfig.Apps.rentalworks && typeof appSettings.ApplicationConfig.Apps.rentalworks.DevPath === 'string') {
+                devPath = appSettings.ApplicationConfig.Apps.rentalworks.DevPath
+            }
+            fileText = fileText.replace(/\[appbaseurl\]/g, `${devPath}/`);
             await fs.writeFile(pathIndexFile, fileText);
         }
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
@@ -336,7 +344,15 @@ class WebApiCompiler {
             //console.log('Fixing urls on index page...')
             const pathIndexFile = `${srcDir}/index.htm`;
             let fileText = await fs.readFile(pathIndexFile, 'utf8');
-            fileText = fileText.replace(/\[appbaseurl\]/g, '/trakitworksdev/');
+            const appSettingsJsonFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/appsettings.json');
+            const appSettingsJsonWithComments = await fs.readFile(appSettingsJsonFile, 'utf-8');
+            const appSettingsJson = appSettingsJsonWithComments.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m).trim();
+            const appSettings = JSON.parse(appSettingsJson);
+            let devPath = '/trakitworksdev';
+            if (appSettings && appSettings.ApplicationConfig && appSettings.ApplicationConfig.Apps && appSettings.ApplicationConfig.Apps.trakitworks && typeof appSettings.ApplicationConfig.Apps.trakitworks.DevPath === 'string') {
+                devPath = appSettings.ApplicationConfig.Apps.trakitworks.DevPath
+            }
+            fileText = fileText.replace(/\[appbaseurl\]/g, `${devPath}/`);
             await fs.writeFile(pathIndexFile, fileText);
         }
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
@@ -426,7 +442,15 @@ class WebApiCompiler {
             //console.log('Fixing urls on index page...')
             const pathIndexFile = `${srcDir}/index.htm`;
             let fileText = await fs.readFile(pathIndexFile, 'utf8');
-            fileText = fileText.replace(/\[appbaseurl\]/g, '/quikscandev/');
+            const appSettingsJsonFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/appsettings.json');
+            const appSettingsJsonWithComments = await fs.readFile(appSettingsJsonFile, 'utf8');
+            const appSettingsJson = appSettingsJsonWithComments.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m).trim();
+            const appSettings = JSON.parse(appSettingsJson);
+            let devPath = '/quikscandev';
+            if (appSettings && appSettings.ApplicationConfig && appSettings.ApplicationConfig.Apps && appSettings.ApplicationConfig.Apps.quikscan && typeof appSettings.ApplicationConfig.Apps.quikscan.DevPath === 'string') {
+                devPath = appSettings.ApplicationConfig.Apps.quikscan.DevPath
+            }
+            fileText = fileText.replace(/\[appbaseurl\]/g, `${devPath}/`);
             await fs.writeFile(pathIndexFile, fileText);
         }
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
