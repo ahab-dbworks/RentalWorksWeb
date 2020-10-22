@@ -8,7 +8,7 @@ using WebApi.Controllers;
 namespace WebApi.Modules.HomeControls.VendorInvoiceItemCorrespondingDealInvoices
 {
     [Route("api/v1/[controller]")]
-    [ApiExplorerSettings(GroupName = "billing-v1")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "06qm2k830e7D")]
     public class VendorInvoiceItemCorrespondingDealInvoicesController : AppDataController
     {

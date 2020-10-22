@@ -47,8 +47,8 @@
 
         const $grid = FwBrowse.renderGrid({
             nameGrid: `VendorInvoiceItemCorrespondingDealInvoicesGrid`,
-            gridSecurityId: '',
-            moduleSecurityId: '',
+            gridSecurityId: '06qm2k830e7D',
+            moduleSecurityId: '06qm2k830e7D',
             $form: $popup,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
@@ -57,7 +57,9 @@
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
-                    OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId')
+                    OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId'),
+                    BillingStartDate: FwBrowse.getValueByDataField($control, $tr, 'FromDate'),
+                    BillingEndDate: FwBrowse.getValueByDataField($control, $tr, 'ToDate')
                 };
             }
         });
