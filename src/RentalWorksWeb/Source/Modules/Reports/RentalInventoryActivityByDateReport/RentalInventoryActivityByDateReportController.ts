@@ -86,6 +86,7 @@ class RentalInventoryActivityByDateReport extends FwWebApiReport {
     constructor() {
         super('RentalInventoryActivityByDateReport', 'api/v1/rentalinventoryactivitybydatereport', rentalInventoryActivityByDateTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
