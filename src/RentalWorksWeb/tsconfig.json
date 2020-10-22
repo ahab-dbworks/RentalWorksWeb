@@ -5,7 +5,14 @@
     "noEmitOnError": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "ES2015"
+    "target": "ES2015",
+    "lib": [
+      "DOM",
+      "ES2015"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
   "include": [
     "./@types/**/*.d.ts",

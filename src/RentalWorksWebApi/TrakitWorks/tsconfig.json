@@ -6,11 +6,17 @@
     "removeComments": true,
     "sourceMap": true,
     "target": "ES2015",
-    "moduleResolution": "Node"
+    "lib": [
+      "DOM",
+      "ES2015"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
   "include": [
     "./@types/**/*.d.ts",
-    "./Libraries/**/*.ts",
+    "./Libraries/Fw/**/*.ts",
     "./scripts/**/*.ts",
     "./Source/**/*.ts",
     "./DefaultApplicationConfig.ts"
