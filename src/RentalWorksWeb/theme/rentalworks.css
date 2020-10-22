@@ -407,16 +407,21 @@ Form tables
     border-radius: 50%;
 }
 
-.dbl-angle {
+.staging-btn {
     outline: none;
-    background-color:transparent;
-    border-color:transparent;
-    border-width:0px 0px 0px 0px;
+    background-color: transparent;
+    border-color: transparent;
+    border-width: 0px 0px 0px 0px;
 }
+
+.unstage-all > i {
+    cursor: pointer;
+}
+
 .dbl-angle > img {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
 }
 
 .dbl-angle > img:active {
@@ -424,7 +429,7 @@ Form tables
      border-radius: 6px;
 }
 
-.arrow-clicked > img {
+.btn-active > img, .btn-active > i {
      background-color: #76f776;
      border-radius: 6px;
 }
