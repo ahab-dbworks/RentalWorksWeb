@@ -163,5 +163,9 @@ namespace WebApi.Modules.Agent.Contact
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "contactnametype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10, precision: 0, scale: 0)]
         public string ContactNameType { get; set; }
+	    //------------------------------------------------------------------------------------
+		[FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
+        public string DepartmentId { get; set; }
+	    
     }
 }

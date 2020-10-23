@@ -37,7 +37,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         //------------------------------------------------------------------------------------ 
         // POST api/v1/systemupdate/availableversions
         [HttpPost("availableversions")]
-        [FwControllerMethod(Id: "Q2YnR3ZeEPtlX", ActionType: FwControllerActionTypes.View)]
+        [FwControllerMethod(Id: "Q2YnR3ZeEPtlX", ActionType: FwControllerActionTypes.View, ValidateSecurityGroup: false)]
         public ActionResult<AvailableVersionsResponse> GetAvailableVersions([FromBody] AvailableVersionsRequest request)
         {
             if (!ModelState.IsValid)

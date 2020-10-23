@@ -21,312 +21,302 @@ class RwMaster extends WebMaster {
             icon: 'person',
             children: []
         };
-        if (userType == 'USER') {
-            menuAgent.children.push(Constants.Modules.Agent.children.Contact);
-            menuAgent.children.push(Constants.Modules.Agent.children.Customer);
-            menuAgent.children.push(Constants.Modules.Agent.children.Deal);
-            menuAgent.children.push(Constants.Modules.Agent.children.Order);
-            menuAgent.children.push(Constants.Modules.Agent.children.Project);
-            menuAgent.children.push(Constants.Modules.Agent.children.PurchaseOrder);
-        }
-
-        if (userType == 'USER' || userType == 'CONTACT') {
-            menuAgent.children.push(Constants.Modules.Agent.children.Quote);
-        }
-
-        if (userType == 'USER') {
-            menuAgent.children.push(Constants.Modules.Agent.children.Vendor);
-        }
+        menuAgent.children.push(Constants.Modules.Agent.children.Contact);
+        menuAgent.children.push(Constants.Modules.Agent.children.Customer);
+        menuAgent.children.push(Constants.Modules.Agent.children.Deal);
+        menuAgent.children.push(Constants.Modules.Agent.children.Order);
+        menuAgent.children.push(Constants.Modules.Agent.children.Project);
+        menuAgent.children.push(Constants.Modules.Agent.children.PurchaseOrder);
+        menuAgent.children.push(Constants.Modules.Agent.children.Quote);
+        menuAgent.children.push(Constants.Modules.Agent.children.Vendor);
 
         this.navigation.push(menuAgent);
 
-        if (userType == 'USER') {
-            // Billing Menu
-            let menuBilling = {
-                caption: 'Billing',
-                id: 'Billing',
-                icon: 'attach_money',
-                children: []
-            };
-            if (userType == 'USER') {
-                if (controlDefaults.enablepayments) {
-                    menuBilling.children.push(Constants.Modules.Billing.children.BankAccount);
-                }
-                menuBilling.children.push(Constants.Modules.Billing.children.Billing);
-                menuBilling.children.push(Constants.Modules.Billing.children.BillingWorksheet);
-                menuBilling.children.push(Constants.Modules.Billing.children.Invoice);
-                if (controlDefaults.enablepayments) {
-                    menuBilling.children.push(Constants.Modules.Billing.children.Payment);
-                }
-                if (controlDefaults.enablereceipts) {
-                    menuBilling.children.push(Constants.Modules.Billing.children.Receipt);
-                }
-                menuBilling.children.push(Constants.Modules.Billing.children.VendorInvoice);
-            }
-            this.navigation.push(menuBilling);
-
-            // Inventory Menu
-            let menuInventory = {
-                caption: 'Inventory',
-                id: 'Inventory',
-                icon: 'storage',
-                children: [
-                    Constants.Modules.Inventory.children.Asset,
-                    Constants.Modules.Inventory.children.AvailabilityConflicts,
-                    Constants.Modules.Inventory.children.CompleteQc,
-                    Constants.Modules.Inventory.children.InventorySummary,
-                    Constants.Modules.Inventory.children.PartsInventory,
-                    Constants.Modules.Inventory.children.PurchaseHistory,
-                    Constants.Modules.Inventory.children.PhysicalInventory,
-                    Constants.Modules.Inventory.children.QuikSearch,
-                    Constants.Modules.Inventory.children.RentalInventory,
-                    Constants.Modules.Inventory.children.Repair,
-                    Constants.Modules.Inventory.children.SalesInventory
-                ]
-            };
-            if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
-                menuInventory.children.push(Constants.Modules.Transfers.children.TransferIn)
-                menuInventory.children.push(Constants.Modules.Transfers.children.Manifest)
-                menuInventory.children.push(Constants.Modules.Transfers.children.TransferOrder)
-                menuInventory.children.push(Constants.Modules.Transfers.children.TransferOut)
-                menuInventory.children.push(Constants.Modules.Transfers.children.TransferReceipt)
-                menuInventory.children.push(Constants.Modules.Transfers.children.TransferStatus)
-            }
-            this.navigation.push(menuInventory);
-            // Warehouse Menu
-            let menuWarehouse = {
-                caption: 'Warehouse',
-                id: 'Warehouse',
-                icon: 'store',
-                children: [
-                    Constants.Modules.Warehouse.children.AssignBarCodes,
-                    Constants.Modules.Warehouse.children.CheckIn,
-                    Constants.Modules.Warehouse.children.Contract,
-                    Constants.Modules.Warehouse.children.Exchange,
-                    Constants.Modules.Warehouse.children.OrderStatus,
-                    Constants.Modules.Warehouse.children.PickList,
-                    Constants.Modules.Warehouse.children.ReceiveFromVendor,
-                    Constants.Modules.Warehouse.children.ReturnToVendor,
-                    Constants.Modules.Warehouse.children.StagingCheckout,
-                    Constants.Modules.Container.children.Container,
-                    Constants.Modules.Container.children.ContainerStatus,
-                    Constants.Modules.Container.children.EmptyContainer,
-                    Constants.Modules.Container.children.FillContainer,
-                    Constants.Modules.Container.children.RemoveFromContainer
-                ]
-            };
-            this.navigation.push(menuWarehouse);
-            let menuReports = {
-                caption:    Constants.Modules.Administrator.children.Reports.caption,
-                navigation: Constants.Modules.Administrator.children.Reports.nav,
-                id:         Constants.Modules.Administrator.children.Reports.id,
-                icon:       'assignment'
-            }
-            this.navigation.push(menuReports);
-            // Containers Menu
-            //const menuContainer = {
-            //    caption: 'Container',
-            //    id: 'Containers',
-            //    icon: 'new_releases',
-            //    children: [
-            //        Constants.Modules.Container.children.Container,
-            //        Constants.Modules.Container.children.ContainerStatus,
-            //        Constants.Modules.Container.children.EmptyContainer,
-            //        Constants.Modules.Container.children.FillContainer,
-            //        Constants.Modules.Container.children.RemoveFromContainer
-            //    ]
-            //};
-            //jh 07/31/2019 #790: I just discovered that in v2019, we removed the "Container" application option.  Module is available for all sites now.
-            //if ((applicationOptions.container != undefined) && (applicationOptions.container.enabled != null) && (applicationOptions.container.enabled)) {
-            //this.navigation.push(menuContainer);
-            //}
-            // Transfers Menu
-            //const menuTransfers = {
-            //    caption: 'Transfers',
-            //    id: 'Transfers',
-            //    icon: 'new_releases',
-            //    children: [
-            //        Constants.Modules.Transfers.children.TransferIn,
-            //        Constants.Modules.Transfers.children.Manifest,
-            //        Constants.Modules.Transfers.children.TransferOrder,
-            //        Constants.Modules.Transfers.children.TransferOut,
-            //        Constants.Modules.Transfers.children.TransferReceipt,
-            //        Constants.Modules.Transfers.children.TransferStatus,
-            //    ]
-            //};
-            //if ((applicationOptions.multiwarehouse != undefined) && (applicationOptions.multiwarehouse.enabled != null) && (applicationOptions.multiwarehouse.enabled) && (applicationOptions.multiwarehouse.value !== 1)) {
-            //if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
-            //    this.navigation.push(menuTransfers);
-            //}
-
-            // Utilities Menu
-            let menuUtilities = {
-                caption: 'Utilities',
-                id: 'Utilities',
-                icon: 'build',
-                children: [
-                    Constants.Modules.Utilities.children.ChangeICodeUtility,
-                    Constants.Modules.Utilities.children.ChangeOrderStatus,
-                    Constants.Modules.Utilities.children.CurrencyProvisioningUtility,
-                    Constants.Modules.Utilities.children.Dashboard,
-                    Constants.Modules.Utilities.children.InventoryPurchaseUtility,
-                    Constants.Modules.Utilities.children.InventoryRetireUtility,
-                    Constants.Modules.Utilities.children.InventorySequenceUtility,
-                    Constants.Modules.Utilities.children.MigrateOrders,
-                    Constants.Modules.Utilities.children.InvoiceProcessBatch,
-                    Constants.Modules.Utilities.children.ReceiptProcessBatch,
-                    Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
-                    Constants.Modules.Utilities.children.QuikActivityCalendar,
-                    Constants.Modules.Utilities.children.RateUpdateUtility,
-                    Constants.Modules.Utilities.children.RefreshGLHistory,
-                ]
-            };
-            this.navigation.push(menuUtilities);
-
-            let menuSettings = {
-                caption:    Constants.Modules.Administrator.children.Settings.caption,
-                navigation: Constants.Modules.Administrator.children.Settings.nav,
-                id:         Constants.Modules.Administrator.children.Settings.id,
-                icon:       'settings'
-            }
-            this.navigation.push(menuSettings);
-
-            // Administrator Menu
-            let menuAdministrator = {
-                caption: 'Administrator',
-                id: 'Administrator',
-                icon: 'security',
-                children: [
-                    Constants.Modules.Administrator.children.Alert,
-                    Constants.Modules.Administrator.children.CustomField,
-                    Constants.Modules.Administrator.children.CustomForm,
-                    Constants.Modules.Administrator.children.CustomReportLayout,
-                    Constants.Modules.Administrator.children.DataHealth,
-                    Constants.Modules.Administrator.children.DuplicateRule,
-                    Constants.Modules.Administrator.children.EmailHistory,
-                    Constants.Modules.Administrator.children.EmailTemplate,
-                    Constants.Modules.Administrator.children.Group,
-                    //Constants.Modules.Administrator.children.Reports,
-                    //Constants.Modules.Administrator.children.Settings,
-                    Constants.Modules.Administrator.children.SystemUpdate,
-                    Constants.Modules.Administrator.children.User
-                ]
-            };
-            this.navigation.push(menuAdministrator);
-
-            // Settings
-            this.settings = Constants.Modules.Settings.children;
-            //this.settings.push(
-            //    Constatnts
-            //    {
-            //        caption: 'Accounting',
-            //        id: 'JF6Fj2eEJY6c',
-            //        children: [
-            //            Constants.Modules.Settings.children.Account.children.AccountingSettings,
-            //            Constants.Modules.Settings.children.Account.children.ChartOfAccounts,
-            //            Constants.Modules.Settings.children.Account.children.GlDistribution,
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Address',
-            //        id: 'PCkcrN7fWLfL',
-            //        children: [
-            //            Constants.Modules.Settings.children.Address.children.Country,
-            //            Constants.Modules.Settings.children.Address.children.StateProvince
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Billing',
-            //        id: 'sGPbm7rvSBqt',
-            //        children: [
-            //            Constants.Modules.Settings.children.Billing.children.BillingCycle
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Company Department',
-            //        id: 'DjG7ktoV3nCE',
-            //        children: [
-            //            Constants.Modules.Settings.children.CompanyDepartment.children.CompanyDepartment
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Contact',
-            //        id: 'RbtoIAj5hUUH',
-            //        children: [
-            //            Constants.Modules.Settings.children.Contact.ContactEvent,
-            //            Constants.Modules.Settings.children.Contact.ContactTitle,
-            //            Constants.Modules.Settings.children.Contact.MailList
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Currency',
-            //        id: '0IlJUgChYxN8',
-            //        children: [
-            //            Constants.Modules.Settings.children.Currency.Currency
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Customer',
-            //        id: 'Sxz7v8QTDAIe',
-            //        children: [
-            //            Constants.Modules.Settings.children.Customer.children.CreditStatus,
-            //            Constants.Modules.Settings.children.Customer.children.CustomerCategory,
-            //            Constants.Modules.Settings.children.Customer.children.CustomerStatus,
-            //            Constants.Modules.Settings.children.Customer.children.CustomerType
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Deal',
-            //        id: 'mBstcBfAhOef',
-            //        children: [
-            //            Constants.Modules.Settings.children.Deal.DealClassification,
-            //            Constants.Modules.Settings.children.Deal.DealType,
-            //            Constants.Modules.Settings.children.Deal.DealStatus,
-            //            Constants.Modules.Settings.children.Deal.ProductionType,
-            //            Constants.Modules.Settings.children.Deal.ScheduleType,
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Discount Template',
-            //        id: 'Jn1E43g161dR',
-            //        children: [
-            //            Constants.Modules.Settings.children.DiscountTemplate.children.DiscountTemplate
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Document',
-            //        id: 'UhSkDzYb2osR',
-            //        children: [
-            //            Constants.Modules.Settings.children.Document.children.DocumentType,
-            //            Constants.Modules.Settings.children.Document.children.CoverLetter,
-            //            Constants.Modules.Settings.children.Document.children.TermsAndConditions
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Event',
-            //        id: 'jmFqqwQPAdBQ',
-            //        children: [
-            //            Constants.Modules.Settings.children.Event.EventCategory,
-            //            Constants.Modules.Settings.children.Event.EventType,
-            //            Constants.Modules.Settings.children.Event.PersonnelType,
-            //            Constants.Modules.Settings.children.Event.PhotographyType
-            //        ]
-            //    },
-            //    {
-            //        caption: 'Facilities',
-            //        id: 'aVn1wUS1Gjrj',
-            //        children: [
-            //            Constants.Modules.Settings.children.Facilities.Building,
-            //            Constants.Modules.Settings.children.Facilities.FacilityType,
-            //            Constants.Modules.Settings.children.Facilities.FacilityRate,
-            //            Constants.Modules.Settings.children.Facilities.FacilityScheduleStatus,
-            //            Constants.Modules.Settings.children.Facilities.FacilityStatus,
-            //            Constants.Modules.Settings.children.Facilities.FacilityCategory,
-            //            Constants.Modules.Settings.children.Facilities.FacilitySpaceType
-            //        ]
-            //    }
-            //);
+        // Billing Menu
+        let menuBilling = {
+            caption: 'Billing',
+            id: 'Billing',
+            icon: 'attach_money',
+            children: []
+        };
+        if (controlDefaults.enablepayments) {
+            menuBilling.children.push(Constants.Modules.Billing.children.BankAccount);
         }
+        menuBilling.children.push(Constants.Modules.Billing.children.Billing);
+        menuBilling.children.push(Constants.Modules.Billing.children.BillingWorksheet);
+        menuBilling.children.push(Constants.Modules.Billing.children.Invoice);
+        if (controlDefaults.enablepayments) {
+            menuBilling.children.push(Constants.Modules.Billing.children.Payment);
+        }
+        if (controlDefaults.enablereceipts) {
+            menuBilling.children.push(Constants.Modules.Billing.children.Receipt);
+        }
+        menuBilling.children.push(Constants.Modules.Billing.children.VendorInvoice);
+        
+        this.navigation.push(menuBilling);
+
+        // Inventory Menu
+        let menuInventory = {
+            caption: 'Inventory',
+            id: 'Inventory',
+            icon: 'storage',
+            children: [
+                Constants.Modules.Inventory.children.Asset,
+                Constants.Modules.Inventory.children.AvailabilityConflicts,
+                Constants.Modules.Inventory.children.CompleteQc,
+                Constants.Modules.Inventory.children.InventorySummary,
+                Constants.Modules.Inventory.children.PartsInventory,
+                Constants.Modules.Inventory.children.PurchaseHistory,
+                Constants.Modules.Inventory.children.PhysicalInventory,
+                Constants.Modules.Inventory.children.QuikSearch,
+                Constants.Modules.Inventory.children.RentalInventory,
+                Constants.Modules.Inventory.children.Repair,
+                Constants.Modules.Inventory.children.SalesInventory
+            ]
+        };
+        if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
+            menuInventory.children.push(Constants.Modules.Transfers.children.TransferIn)
+            menuInventory.children.push(Constants.Modules.Transfers.children.Manifest)
+            menuInventory.children.push(Constants.Modules.Transfers.children.TransferOrder)
+            menuInventory.children.push(Constants.Modules.Transfers.children.TransferOut)
+            menuInventory.children.push(Constants.Modules.Transfers.children.TransferReceipt)
+            menuInventory.children.push(Constants.Modules.Transfers.children.TransferStatus)
+        }
+        this.navigation.push(menuInventory);
+        // Warehouse Menu
+        let menuWarehouse = {
+            caption: 'Warehouse',
+            id: 'Warehouse',
+            icon: 'store',
+            children: [
+                Constants.Modules.Warehouse.children.AssignBarCodes,
+                Constants.Modules.Warehouse.children.CheckIn,
+                Constants.Modules.Warehouse.children.Contract,
+                Constants.Modules.Warehouse.children.Exchange,
+                Constants.Modules.Warehouse.children.OrderStatus,
+                Constants.Modules.Warehouse.children.PickList,
+                Constants.Modules.Warehouse.children.ReceiveFromVendor,
+                Constants.Modules.Warehouse.children.ReturnToVendor,
+                Constants.Modules.Warehouse.children.StagingCheckout,
+                Constants.Modules.Container.children.Container,
+                Constants.Modules.Container.children.ContainerStatus,
+                Constants.Modules.Container.children.EmptyContainer,
+                Constants.Modules.Container.children.FillContainer,
+                Constants.Modules.Container.children.RemoveFromContainer
+            ]
+        };
+        this.navigation.push(menuWarehouse);
+        let menuReports = {
+            caption:    Constants.Modules.Administrator.children.Reports.caption,
+            navigation: Constants.Modules.Administrator.children.Reports.nav,
+            id:         Constants.Modules.Administrator.children.Reports.id,
+            icon:       'assignment'
+        }
+        this.navigation.push(menuReports);
+        // Containers Menu
+        //const menuContainer = {
+        //    caption: 'Container',
+        //    id: 'Containers',
+        //    icon: 'new_releases',
+        //    children: [
+        //        Constants.Modules.Container.children.Container,
+        //        Constants.Modules.Container.children.ContainerStatus,
+        //        Constants.Modules.Container.children.EmptyContainer,
+        //        Constants.Modules.Container.children.FillContainer,
+        //        Constants.Modules.Container.children.RemoveFromContainer
+        //    ]
+        //};
+        //jh 07/31/2019 #790: I just discovered that in v2019, we removed the "Container" application option.  Module is available for all sites now.
+        //if ((applicationOptions.container != undefined) && (applicationOptions.container.enabled != null) && (applicationOptions.container.enabled)) {
+        //this.navigation.push(menuContainer);
+        //}
+        // Transfers Menu
+        //const menuTransfers = {
+        //    caption: 'Transfers',
+        //    id: 'Transfers',
+        //    icon: 'new_releases',
+        //    children: [
+        //        Constants.Modules.Transfers.children.TransferIn,
+        //        Constants.Modules.Transfers.children.Manifest,
+        //        Constants.Modules.Transfers.children.TransferOrder,
+        //        Constants.Modules.Transfers.children.TransferOut,
+        //        Constants.Modules.Transfers.children.TransferReceipt,
+        //        Constants.Modules.Transfers.children.TransferStatus,
+        //    ]
+        //};
+        //if ((applicationOptions.multiwarehouse != undefined) && (applicationOptions.multiwarehouse.enabled != null) && (applicationOptions.multiwarehouse.enabled) && (applicationOptions.multiwarehouse.value !== 1)) {
+        //if (JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse) {
+        //    this.navigation.push(menuTransfers);
+        //}
+
+        // Utilities Menu
+        let menuUtilities = {
+            caption: 'Utilities',
+            id: 'Utilities',
+            icon: 'build',
+            children: [
+                Constants.Modules.Utilities.children.ChangeICodeUtility,
+                Constants.Modules.Utilities.children.ChangeOrderStatus,
+                Constants.Modules.Utilities.children.CurrencyProvisioningUtility,
+                Constants.Modules.Utilities.children.Dashboard,
+                Constants.Modules.Utilities.children.InventoryPurchaseUtility,
+                Constants.Modules.Utilities.children.InventoryRetireUtility,
+                Constants.Modules.Utilities.children.InventorySequenceUtility,
+                Constants.Modules.Utilities.children.MigrateOrders,
+                Constants.Modules.Utilities.children.InvoiceProcessBatch,
+                Constants.Modules.Utilities.children.ReceiptProcessBatch,
+                Constants.Modules.Utilities.children.VendorInvoiceProcessBatch,
+                Constants.Modules.Utilities.children.QuikActivityCalendar,
+                Constants.Modules.Utilities.children.RateUpdateUtility,
+                Constants.Modules.Utilities.children.RefreshGLHistory,
+            ]
+        };
+        this.navigation.push(menuUtilities);
+
+        let menuSettings = {
+            caption:    Constants.Modules.Administrator.children.Settings.caption,
+            navigation: Constants.Modules.Administrator.children.Settings.nav,
+            id:         Constants.Modules.Administrator.children.Settings.id,
+            icon:       'settings'
+        }
+        this.navigation.push(menuSettings);
+
+        // Administrator Menu
+        let menuAdministrator = {
+            caption: 'Administrator',
+            id: 'Administrator',
+            icon: 'security',
+            children: [
+                Constants.Modules.Administrator.children.Alert,
+                Constants.Modules.Administrator.children.CustomField,
+                Constants.Modules.Administrator.children.CustomForm,
+                Constants.Modules.Administrator.children.CustomReportLayout,
+                Constants.Modules.Administrator.children.DataHealth,
+                Constants.Modules.Administrator.children.DuplicateRule,
+                Constants.Modules.Administrator.children.EmailHistory,
+                Constants.Modules.Administrator.children.EmailTemplate,
+                Constants.Modules.Administrator.children.Group,
+                //Constants.Modules.Administrator.children.Reports,
+                //Constants.Modules.Administrator.children.Settings,
+                Constants.Modules.Administrator.children.SystemUpdate,
+                Constants.Modules.Administrator.children.User
+            ]
+        };
+        this.navigation.push(menuAdministrator);
+
+        // Settings
+        this.settings = Constants.Modules.Settings.children;
+        //this.settings.push(
+        //    Constatnts
+        //    {
+        //        caption: 'Accounting',
+        //        id: 'JF6Fj2eEJY6c',
+        //        children: [
+        //            Constants.Modules.Settings.children.Account.children.AccountingSettings,
+        //            Constants.Modules.Settings.children.Account.children.ChartOfAccounts,
+        //            Constants.Modules.Settings.children.Account.children.GlDistribution,
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Address',
+        //        id: 'PCkcrN7fWLfL',
+        //        children: [
+        //            Constants.Modules.Settings.children.Address.children.Country,
+        //            Constants.Modules.Settings.children.Address.children.StateProvince
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Billing',
+        //        id: 'sGPbm7rvSBqt',
+        //        children: [
+        //            Constants.Modules.Settings.children.Billing.children.BillingCycle
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Company Department',
+        //        id: 'DjG7ktoV3nCE',
+        //        children: [
+        //            Constants.Modules.Settings.children.CompanyDepartment.children.CompanyDepartment
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Contact',
+        //        id: 'RbtoIAj5hUUH',
+        //        children: [
+        //            Constants.Modules.Settings.children.Contact.ContactEvent,
+        //            Constants.Modules.Settings.children.Contact.ContactTitle,
+        //            Constants.Modules.Settings.children.Contact.MailList
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Currency',
+        //        id: '0IlJUgChYxN8',
+        //        children: [
+        //            Constants.Modules.Settings.children.Currency.Currency
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Customer',
+        //        id: 'Sxz7v8QTDAIe',
+        //        children: [
+        //            Constants.Modules.Settings.children.Customer.children.CreditStatus,
+        //            Constants.Modules.Settings.children.Customer.children.CustomerCategory,
+        //            Constants.Modules.Settings.children.Customer.children.CustomerStatus,
+        //            Constants.Modules.Settings.children.Customer.children.CustomerType
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Deal',
+        //        id: 'mBstcBfAhOef',
+        //        children: [
+        //            Constants.Modules.Settings.children.Deal.DealClassification,
+        //            Constants.Modules.Settings.children.Deal.DealType,
+        //            Constants.Modules.Settings.children.Deal.DealStatus,
+        //            Constants.Modules.Settings.children.Deal.ProductionType,
+        //            Constants.Modules.Settings.children.Deal.ScheduleType,
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Discount Template',
+        //        id: 'Jn1E43g161dR',
+        //        children: [
+        //            Constants.Modules.Settings.children.DiscountTemplate.children.DiscountTemplate
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Document',
+        //        id: 'UhSkDzYb2osR',
+        //        children: [
+        //            Constants.Modules.Settings.children.Document.children.DocumentType,
+        //            Constants.Modules.Settings.children.Document.children.CoverLetter,
+        //            Constants.Modules.Settings.children.Document.children.TermsAndConditions
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Event',
+        //        id: 'jmFqqwQPAdBQ',
+        //        children: [
+        //            Constants.Modules.Settings.children.Event.EventCategory,
+        //            Constants.Modules.Settings.children.Event.EventType,
+        //            Constants.Modules.Settings.children.Event.PersonnelType,
+        //            Constants.Modules.Settings.children.Event.PhotographyType
+        //        ]
+        //    },
+        //    {
+        //        caption: 'Facilities',
+        //        id: 'aVn1wUS1Gjrj',
+        //        children: [
+        //            Constants.Modules.Settings.children.Facilities.Building,
+        //            Constants.Modules.Settings.children.Facilities.FacilityType,
+        //            Constants.Modules.Settings.children.Facilities.FacilityRate,
+        //            Constants.Modules.Settings.children.Facilities.FacilityScheduleStatus,
+        //            Constants.Modules.Settings.children.Facilities.FacilityStatus,
+        //            Constants.Modules.Settings.children.Facilities.FacilityCategory,
+        //            Constants.Modules.Settings.children.Facilities.FacilitySpaceType
+        //        ]
+        //    }
+        //);
+        
     }
     //----------------------------------------------------------------------------------------------
     buildMainMenu(): (MenuCategory | MenuModule)[] {

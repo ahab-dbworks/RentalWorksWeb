@@ -36,7 +36,7 @@ namespace WebApi.Modules.Settings.DepartmentSettings.Department
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype
         [HttpGet]
-        [FwControllerMethod(Id:"nOw1UydiCIXJ", ActionType: FwControllerActionTypes.Browse)]
+        [FwControllerMethod(Id:"nOw1UydiCIXJ", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public async Task<ActionResult<IEnumerable<DepartmentLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<DepartmentLogic>(pageno, pagesize, sort);

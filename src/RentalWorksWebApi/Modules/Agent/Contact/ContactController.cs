@@ -14,6 +14,7 @@ using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 using WebApi.Modules.Settings.WarehouseSettings.Warehouse;
 using WebApi;
 using WebApi.Modules.HomeControls.CompanyContact;
+using WebApi.Modules.Settings.DepartmentSettings.Department;
 
 namespace WebApi.Modules.Agent.Contact
 {
@@ -168,5 +169,17 @@ namespace WebApi.Modules.Agent.Contact
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/contact/validatedepartment/browse
+        [HttpPost("validatedepartment/browse")]
+        [FwControllerMethod(Id:"nkfAopV2ENNt", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDepartmentBrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            browseRequest.searchfields.Add("Inactive");
+            browseRequest.searchfieldvalues.Add("T");
+            browseRequest.searchfieldoperators.Add("<>");
+            return await DoBrowseAsync<DepartmentLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------
     }
 }

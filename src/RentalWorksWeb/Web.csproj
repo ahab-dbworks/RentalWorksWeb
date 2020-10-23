@@ -1142,6 +1142,7 @@
     <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\BankAccountValidation\BankAccountValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
+    <Content Include="Source\Validations\ContactDepartmentValidation\ContactDepartmentValidationBrowse.htm" />
     <Content Include="Source\Validations\CurrencyCodeValidation\CurrencyCodeValidationBrowse.htm" />
     <Content Include="Source\Validations\VendorInvoiceValidation\VendorInvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectNumberValidation\ProjectNumberValidationBrowse.htm" />
