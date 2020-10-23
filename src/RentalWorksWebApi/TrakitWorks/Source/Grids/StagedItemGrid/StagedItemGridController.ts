@@ -12,8 +12,8 @@
         //----------------------------------------------------------------------------------------------
         function moveStagedItemToOut($control, $tr) {
             const $form = $control.closest('.fwform');
-            $form.find('.right-arrow').addClass('arrow-clicked');
-            $form.find('.left-arrow').removeClass('arrow-clicked');
+            $form.find('.right-arrow').addClass('btn-active');
+            $form.find('.left-arrow').removeClass('btn-active');
 
             const barCode = $tr.find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
             const iCode = $tr.find('[data-formdatafield="ICode"]').attr('data-originalvalue');

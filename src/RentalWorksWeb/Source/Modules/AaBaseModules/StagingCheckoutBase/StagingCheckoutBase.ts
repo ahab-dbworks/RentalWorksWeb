@@ -1178,14 +1178,17 @@ abstract class StagingCheckoutBase {
             const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
 
             if (e.which == 13 && barCodeFieldValue !== '') {
-                if ($form.find('.right-arrow').hasClass('arrow-clicked')) {
+                if ($form.find('.right-arrow').hasClass('btn-active')) {
                     this.moveItems($form, true);
-                } else if ($form.find('.left-arrow').hasClass('arrow-clicked')) {
+                } else if ($form.find('.left-arrow').hasClass('btn-active')) {
                     this.moveItems($form, false);
+
+                } else if ($form.find('.unstage-all').hasClass('btn-active')) {
+                    this.unstageAllItems($form);
                 } else {
                     this.moveItems($form, true);
-                    $form.find('.right-arrow').addClass('arrow-clicked');
-                    $form.find('.left-arrow').removeClass('arrow-clicked');
+                    $form.find('.right-arrow').addClass('btn-active');
+                    $form.find('.left-arrow').removeClass('btn-active');
                 }
             }
         });
