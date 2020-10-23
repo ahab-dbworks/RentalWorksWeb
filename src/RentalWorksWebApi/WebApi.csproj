@@ -530,20 +530,6 @@
       <ResolvedFileToPublish Include="@(FinalDocFile)" RelativePath="@(FinalDocFile->'%(Filename)%(Extension)')" />
     </ItemGroup>
   </Target>
-  <Target Name="MyAfterClean" AfterTargets="Clean"> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" /> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
-	<!--<Exec Command="npm i" />
-	<Exec Command="npm run build-web-install" />
-	<Exec Command="npm run build-trakitworks-install" />
-	<Exec Command="npm run build-quikscan-install" />
-	<Exec Command="npm run build-web-typescript" />
-	<Exec Command="npm run build-trakitworks-typescript" />
-	<Exec Command="npm run build-quikscan-typescript" />
-	<Exec Command="npm run build-web-dev" />
-	<Exec Command="npm run build-trakitworks-dev" />
-	<Exec Command="npm run build-quikscan-dev" />-->
-  </Target>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
