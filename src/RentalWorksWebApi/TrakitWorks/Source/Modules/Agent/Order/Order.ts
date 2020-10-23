@@ -285,7 +285,6 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.find('.buttonbar').hide();
 
         this.events($form);
-        this.getSoundUrls($form);
 
         if (mode === 'NEW') {
             const today = FwFunc.getDate();
@@ -1136,11 +1135,6 @@ class Order extends OrderBase {
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, data.CountryId, data.Country);
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls = ($form): void => {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-    }
-    //----------------------------------------------------------------------------------------------
     //cancelPickList(pickListId, pickListNumber, $form) {
     //    var $confirmation, $yes, $no;
     //    var orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -1172,8 +1166,6 @@ class Order extends OrderBase {
         let sessionId, $lossAndDamageItemGridControl;
         const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const errorSound = new Audio(this.errorSoundFileName);
-        const successSound = new Audio(this.successSoundFileName);
         const HTML: Array<string> = [];
         HTML.push(
             `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
@@ -1322,10 +1314,10 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         $popup.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         FwBrowse.search($lossAndDamageItemGridControl);
                     }
                 }, function onError(response) {
@@ -1342,11 +1334,11 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         FwBrowse.search($lossAndDamageItemGridControl);
                         $popup.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         FwBrowse.search($lossAndDamageItemGridControl); //justin 01/31/2019
                     }
                 }, function onError(response) {
