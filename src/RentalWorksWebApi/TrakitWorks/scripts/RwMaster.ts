@@ -11,6 +11,7 @@
         let menuTrakitWorks = {
             caption: 'Agent',
             id: 'Agent',
+            icon: 'person',
             children: []
         };
         if (userType == 'USER')
@@ -36,6 +37,7 @@
             let menuInventory = {
                 caption: 'Inventory',
                 id: 'Inventory',
+                icon: 'storage',
                 children: [
                     Constants.Modules.Inventory.children.Asset,
                     Constants.Modules.Inventory.children.InventoryItem,
@@ -47,6 +49,7 @@
             let menuWarehouse = {
                 caption: 'Warehouse',
                 id: 'Warehouse',
+                icon: 'store',
                 children: [
                     Constants.Modules.Warehouse.children.AssignBarCodes,
                     Constants.Modules.Warehouse.children.CheckIn,
@@ -61,9 +64,18 @@
             };
             this.navigation.push(menuWarehouse);
 
+            let menuReports = {
+                caption: Constants.Modules.Administrator.children.Reports.caption,
+                navigation: Constants.Modules.Administrator.children.Reports.nav,
+                id: Constants.Modules.Administrator.children.Reports.id,
+                icon: 'assignment'
+            }
+            this.navigation.push(menuReports);
+
             let menuUtilities = {
                 caption: 'Utilities',
                 id: 'Utilities',
+                icon: 'build',
                 children: [
                     Constants.Modules.Utilities.children.Dashboard,
                     Constants.Modules.Utilities.children.DashboardSettings,
@@ -72,9 +84,18 @@
             };
             this.navigation.push(menuUtilities);
 
+            let menuSettings = {
+                caption: Constants.Modules.Administrator.children.Settings.caption,
+                navigation: Constants.Modules.Administrator.children.Settings.nav,
+                id: Constants.Modules.Administrator.children.Settings.id,
+                icon: 'settings'
+            }
+            this.navigation.push(menuSettings);
+
             let menuAdministrator = {
                 caption: 'Administrator',
                 id: 'Administrator',
+                icon: 'security',
                 children: [
                     Constants.Modules.Administrator.children.Alert,
                     Constants.Modules.Administrator.children.CustomField,
