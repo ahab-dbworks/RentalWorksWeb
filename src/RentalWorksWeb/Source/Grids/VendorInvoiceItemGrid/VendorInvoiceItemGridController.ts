@@ -34,8 +34,8 @@
         let type;
 
         HTML.push(
-            `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form">
-                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+            `<div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
+            <div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" style="margin-top:2.5em;">
                 <div class="wideflexrow">
                    <div data-control="FwGrid" data-grid="VendorInvoiceItemCorrespondingDealInvoicesGrid" data-securitycaption=""></div>
                  </div>
