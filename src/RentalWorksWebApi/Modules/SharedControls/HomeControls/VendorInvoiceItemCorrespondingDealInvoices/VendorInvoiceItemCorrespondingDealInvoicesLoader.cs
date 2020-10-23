@@ -2,6 +2,7 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using WebApi.Data;
 namespace WebApi.Modules.HomeControls.VendorInvoiceItemCorrespondingDealInvoices
 {
@@ -38,8 +39,10 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceItemCorrespondingDealInvoices
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("OrderId", "orderid", select, request);
-            select.AddWhere(" (billingend >= '" + BillingEnd + "')");
-            select.AddWhere(" (billingstart <= '" + BillingStart + "')");
+            DateTime billingEnd = GetUniqueIdAsDate("BillingEndDate", request) ?? DateTime.MinValue;
+            DateTime billingStart = GetUniqueIdAsDate("BillingStartDate", request) ?? DateTime.MinValue;
+            addDateFilterToSelect("BillingEnd", billingEnd, select, ">=", "billingend");
+            addDateFilterToSelect("BillingStart", billingStart, select, "<=", "billingstart");
             select.AddWhereIn("and", "invoicetype", RwConstants.INVOICE_TYPE_BILLING + ", " + RwConstants.INVOICE_TYPE_CREDIT);
             select.AddWhere(" (invoicestatus <> '" + RwConstants.INVOICE_STATUS_VOID + "')");
         }
