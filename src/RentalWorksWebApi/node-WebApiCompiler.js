@@ -323,15 +323,12 @@ class WebApiCompiler {
             await fs.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
             await fs.copy(`./version.txt`, `${destDir}/version.txt`);
         }
-        //console.log('//------------------------------------------------------------------------------------');
-        console.log(`Building TrakItWorks TypeScript...`);
-        //delete TypScript generated files
-        await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/tsconfig.json'), '--clean'], { stdio: 'inherit' });
-        // compile TypeScript
-        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
-            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/tsconfig.json')], { stdio: 'inherit' });
-        }
-        else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+            console.log('//------------------------------------------------------------------------------------');
+            console.log(`Building TrakItWorks TypeScript...`);
+            // clean TypScript
+            await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/tsconfig.json'), '--clean'], { stdio: 'inherit' });
+            // compile TypeScript
             await spawn('npx', ['tsc', '--build', path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks/tsconfig.json')], { stdio: 'inherit' });
         }
         console.log(`Finished TrakItWorks TypeScript`);
