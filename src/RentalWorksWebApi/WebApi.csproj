@@ -519,22 +519,30 @@
     <TypeScriptCompile Include="QuikScan\scripts\RwVirtualNumpad.ts" />
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-      <!--<Exec Command="npm i" />-->
 	  <Exec Command="npm run build-web-dev" />
+	  <Exec Command="npm run build-trakitworks-dev" />
 	  <Exec Command="npm run build-quikscan-dev" />
   </Target>
+  <!--<Target Name="MyAfterBuildTarget" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'"></Target>-->
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">
     <ItemGroup>
       <ResolvedFileToPublish Include="@(FinalDocFile)" RelativePath="@(FinalDocFile->'%(Filename)%(Extension)')" />
     </ItemGroup>
-    <!--<Exec Command="npm i" />
-    <Exec Command="npm run build-prod-reports" />
-    <Exec Command="npm run clean-tempfiles" />-->
   </Target>
-  <Target Name="AfterClean"> 
+  <Target Name="MyAfterClean" AfterTargets="Clean"> 
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" /> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" /> 
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
+	<!--<Exec Command="npm i" />
+	<Exec Command="npm run build-web-install" />
+	<Exec Command="npm run build-trakitworks-install" />
+	<Exec Command="npm run build-quikscan-install" />
+	<Exec Command="npm run build-web-typescript" />
+	<Exec Command="npm run build-trakitworks-typescript" />
+	<Exec Command="npm run build-quikscan-typescript" />
+	<Exec Command="npm run build-web-dev" />
+	<Exec Command="npm run build-trakitworks-dev" />
+	<Exec Command="npm run build-quikscan-dev" />-->
   </Target>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
