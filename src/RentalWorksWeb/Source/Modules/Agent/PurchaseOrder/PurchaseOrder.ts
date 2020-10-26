@@ -2915,7 +2915,7 @@ class PurchaseOrder implements IModule {
                     FwNotification.renderNotification('SUCCESS', `Purchase Order Successfully Copied`);
                     FwConfirmation.destroyConfirmation($confirmation);
                     const uniqueids: any = {};
-                    uniqueids.purchaseOrderId = response.purchaseOrderId;
+                    uniqueids.PurchaseOrderId = response.PurchaseOrder.PurchaseOrderId;
                     const $control = PurchaseOrderController.loadForm(uniqueids);
                     FwModule.openModuleTab($control, "", true, 'FORM', true);
                 }, function onError(response) {
