@@ -2914,17 +2914,23 @@ class PurchaseOrder implements IModule {
                 $yes.off('click');
                 const $confirmationbox = jQuery('.fwconfirmationbox');
                 FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copy`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', `Purchase Order Successfully Copied`);
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    const uniqueids: any = {};
-                    uniqueids.PurchaseOrderId = response.PurchaseOrder.PurchaseOrderId;
-                    const $control = PurchaseOrderController.loadForm(uniqueids);
-                    FwModule.openModuleTab($control, "", true, 'FORM', true);
+                    if (response.success) {
+                        FwNotification.renderNotification('SUCCESS', `Purchase Order Successfully Copied`);
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        const uniqueids: any = {};
+                        uniqueids.PurchaseOrderId = response.PurchaseOrder.PurchaseOrderId;
+                        const $control = PurchaseOrderController.loadForm(uniqueids);
+                        FwModule.openModuleTab($control, "", true, 'FORM', true);
+                    } else {
+                        $yes.on('click', makeACopy);
+                        $yes.text('Copy');
+                        FwNotification.renderNotification(`ERROR`, `${response.msg}`);
+                        FwFormField.enable($yes);
+                    }
                 }, function onError(response) {
                     $yes.on('click', makeACopy);
                     $yes.text('Copy');
                     FwFunc.showError(response);
-                    FwFormField.enable($confirmation.find('.fwformfield'));
                     FwFormField.enable($yes);
                 }, $confirmationbox);
             };
