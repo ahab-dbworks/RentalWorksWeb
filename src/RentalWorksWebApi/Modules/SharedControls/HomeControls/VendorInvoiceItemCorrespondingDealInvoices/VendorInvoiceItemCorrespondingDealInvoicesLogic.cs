@@ -12,6 +12,8 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceItemCorrespondingDealInvoices
             dataLoader = vendorInvoiceItemCorrespondingDealInvoicesLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "0ER4D9RgSNSM", IsReadOnly: true, IsPrimaryKey: true)]
+        public string OrderInvoiceId { get; set; }
         [FwLogicProperty(Id: "1rqCJrcRz2pH", IsReadOnly: true)]
         public string OrderId { get; set; }
         [FwLogicProperty(Id: "2U2pUVNybwUW", IsReadOnly: true)]

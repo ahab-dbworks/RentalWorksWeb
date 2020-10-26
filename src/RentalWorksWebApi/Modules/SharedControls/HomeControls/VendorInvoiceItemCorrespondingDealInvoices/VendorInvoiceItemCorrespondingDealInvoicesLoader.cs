@@ -10,6 +10,9 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceItemCorrespondingDealInvoices
     public class VendorInvoiceItemCorrespondingDealInvoicesLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderinvoiceid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string OrderInvoiceId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -41,8 +44,8 @@ namespace WebApi.Modules.HomeControls.VendorInvoiceItemCorrespondingDealInvoices
             addFilterToSelect("OrderId", "orderid", select, request);
             DateTime billingEnd = GetUniqueIdAsDate("BillingEndDate", request) ?? DateTime.MinValue;
             DateTime billingStart = GetUniqueIdAsDate("BillingStartDate", request) ?? DateTime.MinValue;
-            addDateFilterToSelect("BillingEnd", billingEnd, select, ">=", "billingend");
-            addDateFilterToSelect("BillingStart", billingStart, select, "<=", "billingstart");
+            addDateFilterToSelect("billingstart", billingEnd, select, ">=", "billingend");
+            addDateFilterToSelect("billingend", billingStart, select, "<=", "billingstart");
             select.AddWhereIn("and", "invoicetype", RwConstants.INVOICE_TYPE_BILLING + ", " + RwConstants.INVOICE_TYPE_CREDIT);
             select.AddWhere(" (invoicestatus <> '" + RwConstants.INVOICE_STATUS_VOID + "')");
         }
