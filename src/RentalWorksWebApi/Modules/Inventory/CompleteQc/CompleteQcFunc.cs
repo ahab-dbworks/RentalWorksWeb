@@ -22,6 +22,10 @@ namespace WebApi.Modules.Inventory.CompleteQc
         public int RequiredFootCandles { get; set; }
         public bool ShowSoftwareVersion { get; set; }
         public string RequiredSoftwareVersion { get; set; }
+        public bool ShowAssetUsage { get; set; }
+        public bool ShowLampUsage { get; set; }
+        public bool ShowStrikes { get; set; }
+        public int LampCount { get; set; }
     }
 
     public class UpdateQcItemResponse : TSpStatusResponse
@@ -51,6 +55,10 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 qry.AddParameter("@minfootcandles", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@tracksoftware", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@softwareversion", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@trackassetusage", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@tracklampusage", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@trackstrikes", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@lampcount", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
@@ -68,8 +76,12 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 response.msg = qry.GetParameter("@msg").ToString();
                 response.ShowFootCandles = FwConvert.ToBoolean(qry.GetParameter("@trackfootcandles").ToString());
                 response.ShowSoftwareVersion = FwConvert.ToBoolean(qry.GetParameter("@tracksoftware").ToString());
+                response.ShowAssetUsage = FwConvert.ToBoolean(qry.GetParameter("@trackassetusage").ToString());
+                response.ShowLampUsage = FwConvert.ToBoolean(qry.GetParameter("@tracklampusage").ToString());
+                response.ShowStrikes = FwConvert.ToBoolean(qry.GetParameter("@trackstrikes").ToString());
                 response.RequiredFootCandles = FwConvert.ToInt32(qry.GetParameter("@minfootcandles").ToString());
                 response.RequiredSoftwareVersion = qry.GetParameter("@softwareversion").ToString();
+                response.LampCount = FwConvert.ToInt32(qry.GetParameter("@lampcount").ToString());
             }
             return response;
         }
@@ -85,7 +97,14 @@ namespace WebApi.Modules.Inventory.CompleteQc
                 qry.AddParameter("@conditionid", SqlDbType.NVarChar, ParameterDirection.Input, request.ConditionId);
                 qry.AddParameter("@footcandles", SqlDbType.Int, ParameterDirection.Input, FwConvert.ToInt32(request.CurrentFootCandles));
                 qry.AddParameter("@currentsoftware", SqlDbType.NVarChar, ParameterDirection.Input, request.CurrentSoftwareVersion);
+                qry.AddParameter("@softwareeffectivedate", SqlDbType.NVarChar, ParameterDirection.Input, request.SoftwareEffectiveDate);
                 qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, request.Note);
+                qry.AddParameter("@assethours", SqlDbType.Int, ParameterDirection.Input, request.AssetHours);
+                qry.AddParameter("@strikes", SqlDbType.Int, ParameterDirection.Input, request.Strikes);
+                qry.AddParameter("@lamphours1", SqlDbType.Int, ParameterDirection.Input, request.LampHours1);
+                qry.AddParameter("@lamphours2", SqlDbType.Int, ParameterDirection.Input, request.LampHours2);
+                qry.AddParameter("@lamphours3", SqlDbType.Int, ParameterDirection.Input, request.LampHours3);
+                qry.AddParameter("@lamphours4", SqlDbType.Int, ParameterDirection.Input, request.LampHours4);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();

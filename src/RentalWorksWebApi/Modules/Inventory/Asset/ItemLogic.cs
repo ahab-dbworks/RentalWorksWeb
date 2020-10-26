@@ -446,6 +446,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "OhSQLIh5t6Ho")]
         public int? AssetHours { get { return item.AssetHours; } set { item.AssetHours = value; } }
 
+        [FwLogicProperty(Id: "OUVHZGmTBCl7", IsReadOnly: true)]
+        public int? LampCount { get; set; }
+
         [FwLogicProperty(Id: "FVq1lIagvdBJ")]
         public int? LampHours1 { get { return item.LampHours1; } set { item.LampHours1 = value; } }
 
@@ -463,6 +466,15 @@ namespace WebApi.Modules.Inventory.Asset
 
         [FwLogicProperty(Id: "Uw1mE7akfw01")]
         public int? FootCandles { get { return item.FootCandles; } set { item.FootCandles = value; } }
+
+        [FwLogicProperty(Id: "M2ByaEjO6Oa2", IsReadOnly: true)]
+        public int? MinimumFootCandles { get; set; }
+
+        [FwLogicProperty(Id: "37cRhdOJ2qrY")]
+        public string SoftwareVersion { get { return item.SoftwareVersion; } set { item.SoftwareVersion = value; } }
+
+        [FwLogicProperty(Id: "LghShZjmaAq1")]
+        public string SoftwareEffectiveDate { get { return item.SoftwareEffectiveDate; } set { item.SoftwareEffectiveDate = value; } }
 
         [FwLogicProperty(Id: "AxOjLblF6wH1", IsReadOnly: true)]
         public string Pattern { get; set; }
