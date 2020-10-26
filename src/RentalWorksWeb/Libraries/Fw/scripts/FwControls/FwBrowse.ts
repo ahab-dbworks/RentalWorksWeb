@@ -2594,10 +2594,6 @@ class FwBrowseClass {
 
             $control.find('.runtime table').append($tbody);
 
-            //if ($control.data('hasmultirowediting')) {
-            //    FwBrowse.showMultiRowSelector($control);
-            //}
-
             if ($control.attr('data-type') === 'Grid') {
                 if ($control.attr('data-manualsorting') === 'true') {
                     this.addManualSorting($control);
@@ -4650,22 +4646,6 @@ class FwBrowseClass {
             FwFunc.showError(ex);
         }
     }
-    //----------------------------------------------------------------------------------------------
-    //showMultiRowSelector($control: JQuery) {
-    //    try {
-    //        if ($control.data('showmultirowselect')) {
-    //            $control.find('td.tdselectrow:hidden').show();
-    //            $control.find('.submenu .caption:contains("Show Multi-Row Selector")').text('Hide Multi-Row Selector');
-    //        } else {
-    //            $control.data('showmultirowselect', false);
-    //            $control.find('td.tdselectrow:visible').hide();
-    //            $control.find('td.tdselectrow input[type="checkbox"]').prop('checked', false);
-    //            $control.find('.submenu .caption:contains("Hide Multi-Row Selector")').text('Show Multi-Row Selector');
-    //        }
-    //    } catch (ex) {
-    //        FwFunc.showError(ex);
-    //    }
-    //}
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {
         let $form;

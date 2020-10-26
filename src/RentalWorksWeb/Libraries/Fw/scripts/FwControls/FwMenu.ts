@@ -795,14 +795,6 @@ class FwMenuClass {
                         if ($selectedRows.length === 0) {
                             $selectedRows = $browse.find('tr.selected');
                         }
-
-                        //let $selectedRows;
-                        //if ($browse.data('showmultirowselect')) {
-                        //    $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
-                           
-                        //} else {
-                        //    $selectedRows = $browse.find('tr.selected');
-                        //}
                  
                         if ($selectedRows.length > 1) {
                             FwBrowse.openMultiRowEditForm($browse, $selectedRows);
@@ -1311,21 +1303,6 @@ class FwMenuClass {
                 }
             });
         }
-
-        //if (options.hasMultiRowEditing) {
-        //    FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
-        //        try {
-        //            if (options.$browse.data('showmultirowselect')) {
-        //                options.$browse.data('showmultirowselect', false);
-        //            } else {
-        //                options.$browse.data('showmultirowselect', true);
-        //            }
-        //            FwBrowse.showMultiRowSelector(options.$browse);
-        //        } catch (ex) {
-        //            FwFunc.showError(ex);
-        //        }
-        //    });
-        //}
     }
     //----------------------------------------------------------------------------------------------
     addFormMenuButtons(options: IAddFormMenuOptions) {
