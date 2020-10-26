@@ -334,6 +334,9 @@ namespace WebApi.Modules.Inventory.Repair
         [FwLogicProperty(Id: "FNMEbmfeCtmwr", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwLogicProperty(Id: "xMRHByioyLa2", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id: "hUwDMUDvHLNnC", IsReadOnly: true)]
         public string CurrencyColor { get; set; }
 
