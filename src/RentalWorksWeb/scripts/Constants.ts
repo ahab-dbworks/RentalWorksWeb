@@ -1058,6 +1058,7 @@ var Constants = {
         VendorGrid:                             { id: 'cwytGLEcUzJdn', caption: 'Vendor' },
         VendorInvoiceExportBatchGrid:           { id: 'QriRQnYpPbxn',  caption: 'Vendor Invoice Export Batch' },
         VendorInvoiceItemGrid:                  { id: 'mEYOByOhi5yT0', caption: 'Vendor Invoice Item' },
+        VendorInvoiceIteCorrespondingDealInvoicesGrid: { id: '06qm2k830e7D', caption: 'Corresponding Deal Invoices' },
         VendorInvoiceNoteGrid:                  { id: '8YECGu7qFOty',  caption: 'Vendor Invoice Note' },
         VendorInvoicePaymentGrid:               { id: 'cD51xfgax4oY',  caption: 'Vendor Invoice Payment' },
         VendorInvoiceStatusHistoryGrid:         { id: 'laMVsOwWI4Wkj', caption: 'Vendor Invoice Status History' },
