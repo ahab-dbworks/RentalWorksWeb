@@ -83,6 +83,9 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
         [FwSqlDataField(column: "purchamtwithtaxcurrconvextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? CostWithTaxCurrencyConvertedExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oec", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? OriginalEquipmentCost{ get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasecurrencyid", modeltype: FwDataTypes.Text)]
         public string PurchaseCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -115,6 +118,15 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whcurrencysymbolandcode", modeltype: FwDataTypes.Text)]
         public string WarehouseCurrencySymbolAndCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasepono", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasepodesc", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasevendor", modeltype: FwDataTypes.Text)]
+        public string PurchaseVendor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "asofmonthbegin", modeltype: FwDataTypes.Date)]
         public string AsOfMonthBeginDate { get; set; }
@@ -164,7 +176,7 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "PurchaseQuantity", "CostWithTaxCurrencyConvertedExtended", "AsOfMonthDepreciation", "TotalDepreciation", "BookValue" };
+                string[] totalFields = new string[] { "PurchaseQuantity", "OriginalEquipmentCost", "AsOfMonthDepreciation", "TotalDepreciation", "BookValue", "SalvageValue" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);

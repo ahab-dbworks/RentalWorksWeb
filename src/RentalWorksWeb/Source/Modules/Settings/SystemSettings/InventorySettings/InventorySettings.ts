@@ -102,15 +102,28 @@ class InventorySettings {
             }
         });
 
+        $form.find('[data-datafield="IncludeTaxInOriginalEquipmentCost"] input').on('change', e => {
+            const originalVal = ($form.find('[data-datafield="IncludeTaxInOriginalEquipmentCost"]').attr('data-originalvalue') === "true");
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="IncludeTaxInOriginalEquipmentCost"]'));
+
+            if (originalVal == newVal) {
+                $form.find('.depreciationoecwarning').hide();
+            }
+            else {
+                $form.find('.depreciationoecwarning').show();
+            }
+        });
+
+
         $form.find('[data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived"] input').on('change', e => {
             const originalVal = ($form.find('[data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived"]').attr('data-originalvalue') === "true");
             const newVal = FwFormField.getValue2($form.find('[data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived"]'));
 
             if (originalVal == newVal) {
-                $form.find('.depreciationwarning').hide();
+                $form.find('.depreciationmonthwarning').hide();
             }
             else {
-                $form.find('.depreciationwarning').show();
+                $form.find('.depreciationmonthwarning').show();
             }
         });
 

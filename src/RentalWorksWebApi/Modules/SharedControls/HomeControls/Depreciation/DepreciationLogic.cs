@@ -32,6 +32,12 @@ namespace WebApi.Modules.HomeControls.Depreciation
         public string DepreciationDate { get { return depreciation.DepreciationDate; } set { depreciation.DepreciationDate = value; } }
         [FwLogicProperty(Id: "WmBh7OZx4d3WI")]
         public string PurchaseId { get { return depreciation.PurchaseId; } set { depreciation.PurchaseId = value; } }
+        [FwLogicProperty(Id: "McmSrm4PkuW0")]
+        public string WarehouseId { get { return depreciation.WarehouseId; } set { depreciation.WarehouseId = value; } }
+        [FwLogicProperty(Id: "bFmRwOJO2odc", IsReadOnly: true)]
+        public string Warehouse { get; set; }
+        [FwLogicProperty(Id: "mFt8rkxsxEUz", IsReadOnly: true)]
+        public string WarehouseCode { get; set; }
         [FwLogicProperty(Id: "wmorvSA2WKXiu", IsReadOnly: true)]
         public string PurchaseDate { get; set; }
         [FwLogicProperty(Id: "WmzlGKcMDzsaz", IsReadOnly: true)]

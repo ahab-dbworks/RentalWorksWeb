@@ -141,11 +141,24 @@
               <div class="flexrow">
                 <div class="flexcolumn" style="flex:1 1 650px;">
                   <div class="flexrow">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Tax in Original Equipment Cost (OEC)" data-datafield="IncludeTaxInOriginalEquipmentCost" style="float:left;width:200px;"></div>
+                  </div>
+                  <div class="flexrow depreciationoecwarning" style="display:none;">
+                    <div style="color:red;font-size:.8em">Warning: Changing this setting will not affect historical purchases.</div>
+                  </div>
+
+
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Apply partial-month Depreciation to Fixed Assets when retired in the middle of a month" data-datafield="DepreciateFixedAssetsWhenRetired" style="float:left;width:200px;"></div>
+                  </div>
+
+                  <div class="flexrow">
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Start depreciating Fixed Assets the last day of the NEXT month AFTER they are received.  (If unchecked, then Fixed Assets will start depreciating the last day of the same month they are received.)" data-datafield="StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived" style="float:left;width:200px;"></div>
                   </div>
-                  <div class="flexrow depreciationwarning" style="display:none;">
+                  <div class="flexrow depreciationmonthwarning" style="display:none;">
                     <div style="color:red;font-size:.8em">Warning: Changing this setting will not affect historical depreciation.</div>
                   </div>
+
                 </div>
               </div>
             </div>

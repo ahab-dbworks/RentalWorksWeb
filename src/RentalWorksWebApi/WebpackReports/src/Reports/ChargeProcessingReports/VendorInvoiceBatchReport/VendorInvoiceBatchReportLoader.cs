@@ -55,6 +55,18 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.VendorInvoiceBatchRepor
         [FwSqlDataField(column: "chgbatchdate", modeltype: FwDataTypes.Date)]
         public string BatchDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbolAndCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(VendorInvoiceBatchReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -62,7 +74,7 @@ namespace WebApi.Modules.Reports.ChargeProcessingReports.VendorInvoiceBatchRepor
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry);

@@ -72,7 +72,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         public string InvoiceDate { get { return vendorInvoice.InvoiceDate; } set { vendorInvoice.InvoiceDate = value; } }
 
         [FwLogicProperty(Id: "EEu0kqcEV1B6", IsReadOnly: true)]
-        public string InvoiceDueDate { get; set; }
+        public string InvoiceDueDate { get { return vendorInvoice.DueDate; } set { vendorInvoice.DueDate = value; } }
 
         [FwLogicProperty(Id: "PQbf0GLvV6PV")]
         public string BillingStartDate { get { return vendorInvoice.BillingStartDate; } set { vendorInvoice.BillingStartDate = value; } }

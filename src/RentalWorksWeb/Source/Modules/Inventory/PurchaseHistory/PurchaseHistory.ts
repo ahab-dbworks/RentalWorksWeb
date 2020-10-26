@@ -118,11 +118,40 @@ class PurchaseHistory {
                 this.updateDepreciationFormValues($form);
             },
         });
+        // ----------
+        const glTotalFields = ["Debit", "Credit"];
+        FwBrowse.renderGrid({
+            nameGrid: 'GlDistributionGrid',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            getBaseApiUrl: () => `${this.apiurl}/gldistribution`,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId'),
+                };
+                request.totalfields = glTotalFields;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
+            },
+        });
+        // ----------
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         const $depreciationGrid = $form.find('[data-name="DepreciationGrid"]');
         FwBrowse.search($depreciationGrid);
+
+        const $glDistributionGrid = $form.find('[data-name="GlDistributionGrid"]');
+        FwBrowse.search($glDistributionGrid);
+
         this.showHideWarehouseRow($form);
 
 
@@ -208,6 +237,7 @@ class PurchaseHistory {
           <div id="purchasehistoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="purchasetab" class="tab" data-tabpageid="purchasetabpage" data-caption="General"></div>
+              <div data-type="tab" id="gldistributiontab" class="tab gldistributiontab" data-tabpageid="gldistributiontabpage" data-caption="G/L Distribution"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -257,7 +287,7 @@ class PurchaseHistory {
                         <div class="fwcontrol fwcontainer fwform-section fixed-asset" data-control="FwContainer" data-type="section" data-caption="Value">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="FixedAsset" data-datafield="FixedAsset" style="display:none;"></div>
-                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Purchase Value" data-datafield="CostWithTaxCurrencyConvertedExtended" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Equipment Cost" data-datafield="OriginalEquipmentCost" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
                             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="float:left;width:200px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="TotalDepreciation" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
                             <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Current Book Value" data-datafield="TotalBookValue" data-currencysymbol="WarehouseDefaultCurrencySymbol" data-enabled="false" style="float:left;width:200px;"></div>
@@ -269,6 +299,29 @@ class PurchaseHistory {
                     <div class="flexrow fixed-asset">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
                         <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- G/L DISTRIBUTION TAB -->
+                <div data-type="tabpage" id="gldistributiontabpage" class="tabpage" data-tabid="gldistributiontab">
+                  <div class="flexrow">
+                    <div class="flexcolumn" style="flex:1 1 650px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="G/L Distribution">
+                        <div class="flexrow">
+                          <div data-control="FwGrid" data-grid="GlDistributionGrid" data-securitycaption="G/L Distribution"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flexcolumn gldistribution-totals" style="flex:0 0 250px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Distribution Totals">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Debit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Debit" style="flex:1 1 100px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Credit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Credit" style="flex:1 1 75px;"></div>
+                        </div>
                       </div>
                     </div>
                   </div>

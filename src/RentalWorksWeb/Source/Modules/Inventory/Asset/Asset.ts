@@ -832,7 +832,7 @@ class RwAsset {
                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Outside PO Number" data-datafield="OutsidePurchaseOrderNumber" data-enabled="false" style="flex:1 1 150px;"></div>
                          </div>
-                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCost" data-currencysymbol="PurchaseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                        </div>
                      </div>
 
@@ -868,8 +868,11 @@ class RwAsset {
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Purchase Currency" data-datafield="PurchaseCurrencyCode" data-enabled="false" style="flex:1 1 100px;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse Currency" data-datafield="WarehouseCurrencyCode" data-enabled="false" style="flex:1 1 100px;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange Rate" data-datafield="PurchaseCurrencyExchangeRate" data-enabled="false" style="flex:1 1 100px;"></div>
+                           <!--
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost (with Tax)" data-datafield="UnitCostWithTaxCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
+                           -->
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Equipment Cost" data-datafield="OriginalEquipmentCost" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="Depreciation" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Current Book Value" data-datafield="BookValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>

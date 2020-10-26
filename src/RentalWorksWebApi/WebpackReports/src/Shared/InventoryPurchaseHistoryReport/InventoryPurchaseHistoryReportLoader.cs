@@ -52,6 +52,9 @@ namespace WebApi.Modules.Reports.Shared.InventoryPurchaseHistoryReport
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
+        public bool? IsFixedAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -103,6 +106,9 @@ namespace WebApi.Modules.Reports.Shared.InventoryPurchaseHistoryReport
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer)]
         public int? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -111,6 +117,42 @@ namespace WebApi.Modules.Reports.Shared.InventoryPurchaseHistoryReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extendedcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ExtendedCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitcostwithtax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitCostWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "extendedcostwithtax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? ExtendedCostWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oec", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? OriginalEquipmentCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salvagevalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? SalvageValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrency", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencycode", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasecurrencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string PurchaseCurrencySymbolAndCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrency", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencycode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencysymbol", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcurrencysymbolandcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCurrencySymbolAndCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
@@ -128,16 +170,28 @@ namespace WebApi.Modules.Reports.Shared.InventoryPurchaseHistoryReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhere("(availfor = '" + AvailableForFilter + "')");
-                    addDateFilterToSelect("purchasedate", request.PurchasedFromDate, select, ">=", "purchasefromdate");
-                    addDateFilterToSelect("purchasedate", request.PurchasedToDate, select, "<=", "purchasetodate");
-                    addDateFilterToSelect("receivedate", request.ReceivedFromDate, select, ">=", "receivefromdate");
-                    addDateFilterToSelect("receivedate", request.ReceivedToDate, select, "<=", "receivetodate");
+                    if (request.PurchasedFromDate != null)
+                    {
+                        addDateFilterToSelect("purchasedate", request.PurchasedFromDate, select, ">=", "purchasefromdate");
+                    }
+                    if (request.PurchasedToDate != null)
+                    {
+                        addDateFilterToSelect("purchasedate", request.PurchasedToDate.Value.AddDays(1), select, "<", "purchasetodate");
+                    }
+                    if (request.ReceivedFromDate != null)
+                    {
+                        addDateFilterToSelect("receivedate", request.ReceivedFromDate, select, ">=", "receivefromdate");
+                    }
+                    if (request.ReceivedToDate != null)
+                    {
+                        addDateFilterToSelect("receivedate", request.ReceivedToDate.Value.AddDays(1), select, "<", "receivetodate");
+                    }
 
                     select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);

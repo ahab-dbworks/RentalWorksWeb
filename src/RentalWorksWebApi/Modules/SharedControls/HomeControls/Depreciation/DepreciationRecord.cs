@@ -16,6 +16,9 @@ namespace WebApi.Modules.HomeControls.Depreciation
         [FwSqlDataField(column: "purchaseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string PurchaseId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "depreciationqty", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? DepreciationQuantity { get; set; }
         //------------------------------------------------------------------------------------ 

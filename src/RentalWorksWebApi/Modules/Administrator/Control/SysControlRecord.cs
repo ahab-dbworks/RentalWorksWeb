@@ -566,6 +566,12 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "depreciationstartsnextmonth", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciateonretire", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DepreciateFixedAssetsWhenRetired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oecincludetax", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? IncludeTaxInOriginalEquipmentCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enablepayments", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? EnablePayments { get; set; }
         //------------------------------------------------------------------------------------ 
