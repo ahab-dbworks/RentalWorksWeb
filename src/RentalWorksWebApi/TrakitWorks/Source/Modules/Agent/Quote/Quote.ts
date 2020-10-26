@@ -436,7 +436,7 @@ class Quote {
         //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderStatusHistoryGrid',
-            gridSecurityId: 'GVa1yJY2edEl',
+            gridSecurityId: 'lATsdnAx7B4s',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -479,7 +479,7 @@ class Quote {
         FwBrowse.renderGrid({
             nameGrid: 'QuoteItemGrid',
             gridSelector: '.rentalgrid div[data-grid="QuoteItemGrid"]',
-            gridSecurityId: '0urUow0W9krD',
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -519,7 +519,7 @@ class Quote {
         //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
-            gridSecurityId: 'LAQkGf7X3I5o',
+            gridSecurityId: '8aq0E3nK2upt',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -553,7 +553,7 @@ class Quote {
         //FwBrowse.renderRuntimeHtml($orderContactGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderContactGrid',
-            gridSecurityId: 'MV7F8hvcH8xq',
+            gridSecurityId: '7CUe9WvpWNat',
             moduleSecurityId: this.id,
 
             $form: $form,
