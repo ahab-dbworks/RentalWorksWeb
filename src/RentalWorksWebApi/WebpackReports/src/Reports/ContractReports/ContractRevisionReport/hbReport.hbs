@@ -1,14 +1,16 @@
 ﻿<!--ContractRevisionReport-->
-<div data-section="header" class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Invoice From: {{FromDate}} To: {{ToDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
@@ -31,22 +33,22 @@
     </thead>
     <tbody>
       {{#each this}}
-        {{#ifEquals RowType "OfficeLocationheader"}}
+      {{#ifEquals RowType "OfficeLocationheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="12" class="header-row">Office: {{OfficeLocation}}</td>
       </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="12" class="lower header-row">Department: {{Department}}</td>
       </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "RevisionTypeheader"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "RevisionTypeheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
         <td colspan="12" class="lower header-row">Change Type: {{RevisionType}}</td>
       </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="ContractNumber" class="nowrap" data-value="{{ContractNumber}}"></td>
         <td data-linkedcolumn="ContractDate" data-value="{{ContractDate}}"></td>
@@ -61,8 +63,8 @@
         <td data-linkedcolumn="NewValue" data-value="{{NewValue}}"></td>
         <td data-linkedcolumn="RevisionDate" data-value="{{RevisionDate}}"></td>
       </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">{{OfficeLocation}}:&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
@@ -71,8 +73,8 @@
         <td data-linkedcolumn="NewValue" class="empty-td"></td>
         <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
       </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">{{Department}}:&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
@@ -81,8 +83,8 @@
         <td data-linkedcolumn="NewValue" class="empty-td"></td>
         <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
       </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "RevisionTypefooter"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "RevisionTypefooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">{{RevisionType}}:&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
@@ -91,8 +93,8 @@
         <td data-linkedcolumn="NewValue" class="empty-td"></td>
         <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
       </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
         <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{Quantity}}"></td>
@@ -101,7 +103,7 @@
         <td data-linkedcolumn="NewValue" class="empty-td"></td>
         <td data-linkedcolumn="RevisionDate" class="empty-td"></td>
       </tr>
-        {{/ifEquals}}
+      {{/ifEquals}}
       {{/each}}
     </tbody>
   </table>

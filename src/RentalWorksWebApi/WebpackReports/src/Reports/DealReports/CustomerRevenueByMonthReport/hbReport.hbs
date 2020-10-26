@@ -1,21 +1,23 @@
 ﻿<!--CustomerRevenueByMonth-->
-<div data-section="header" class="rpt-flexrow" style="width:1555px;">
+<div data-section="header" style="width:1555px;">
   <style type="text/css" media="print">
     @page {
       size: landscape;
       margin: 10px 10px 10px 10px;
     }
   </style>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Calendar Months From: {{FromDate}} To: {{ToDate}}</span>
-    <span class="rpt-header-center">Revenue Types: {{RevenueTypes}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Calendar Months From: {{FromDate}} To: {{ToDate}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Revenue Types: {{RevenueTypes}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
 <!--SUMMARY VIEW TABLE-->

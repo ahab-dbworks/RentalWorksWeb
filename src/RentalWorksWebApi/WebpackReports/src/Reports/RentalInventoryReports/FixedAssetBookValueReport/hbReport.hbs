@@ -1,16 +1,18 @@
 ﻿<!--Fixed Asset Book Value Report-->
-<div data-section="header" class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
+  <div data-section="header">
+    <div class="rpt-flexrow">
+      <div class="rpt-flexcolumn">
+        <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+      </div>
+      <div class="rpt-flexcolumn">
+        <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+        <div class="rpt-nested-flexrow rpt-header-center"><span>As Of: {{AsOfDate}}</span></div>
+      </div>
+      <div class="rpt-flexcolumn">
+        <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+      </div>
+    </div>
   </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">As Of: {{AsOfDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
-  </div>
-</div>
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
   <table>
     <thead id="columnHeader">

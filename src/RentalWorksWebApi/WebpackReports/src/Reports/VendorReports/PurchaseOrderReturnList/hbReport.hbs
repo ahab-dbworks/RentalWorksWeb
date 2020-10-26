@@ -1,14 +1,16 @@
 ﻿<!--PO Return List Report-->
-<div data-section="header" class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
-  <div class="rpt-flexcolumn" style="padding-bottom:5px;">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div style="max-width: 300px;" class="rpt-flexcolumn">
-    <span class="list-title blue">{{Report}}</span>
-    <span class="sub-title">As Of: {{PrintDate}} &nbsp; {{PrintTime}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+    <div class="rpt-flexcolumn" style="padding-bottom:5px;">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title list-title blue"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow sub-title"><span>As Of: {{AsOfDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
 <div data-section="table" class="rpt-flexrow">
