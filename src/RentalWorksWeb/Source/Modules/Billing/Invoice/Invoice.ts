@@ -1379,7 +1379,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     browseVoidInvoice($browse: JQuery) {
         let ids: Array<string> = [];
-        if ($browse.data('hasmultirowediting') && $browse.data('showmultirowselect')) {
+        if ($browse.data('hasmultirowediting')) {
             let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
             if ($selectedRows.length === 0) {
                 $selectedRows = $browse.find('tbody tr.selected');
@@ -1502,7 +1502,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     browseApproveInvoice($browse: JQuery) {
         let ids: Array<string> = [];
-        if ($browse.data('hasmultirowediting') && $browse.data('showmultirowselect')) {
+        if ($browse.data('hasmultirowediting')) {
             let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
             if ($selectedRows.length === 0) {
                 $selectedRows = $browse.find('tbody tr.selected');
@@ -1579,7 +1579,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     browseUnapproveInvoice($browse: JQuery) {
         let ids: Array<string> = [];
-        if ($browse.data('hasmultirowediting') && $browse.data('showmultirowselect')) {
+        if ($browse.data('hasmultirowediting')) {
             let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
             if ($selectedRows.length === 0) {
                 $selectedRows = $browse.find('tbody tr.selected');
