@@ -26,6 +26,9 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "podesc", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requisitionno", modeltype: FwDataTypes.Text)]
         public string RequistionNumber { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -53,9 +56,6 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
-        public string OrderDescription { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -67,6 +67,12 @@ namespace WebApi.Modules.Billing.VendorInvoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string Location { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTotal { get; set; }

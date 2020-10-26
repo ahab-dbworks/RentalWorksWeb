@@ -47,6 +47,9 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "BWgU1hFaxksh", IsReadOnly: true)]
         public string PurchaseOrderNumber { get; set; }
 
+        [FwLogicProperty(Id: "MLXSDL6C0kJE", IsReadOnly: true)]
+        public string PurchaseOrderDescription { get; set; }
+
         [FwLogicProperty(Id: "cqBjiMNbok04", IsReadOnly: true)]
         public string RequistionNumber { get; set; }
 
@@ -86,8 +89,6 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "hS6DjWdIrRdg")]
         public string StatusDate { get { return vendorInvoice.StatusDate; } set { vendorInvoice.StatusDate = value; } }
 
-        [FwLogicProperty(Id: "2gIjGGRWiyRU", IsReadOnly: true)]
-        public string OrderDescription { get; set; }
 
         [FwLogicProperty(Id: "WiEZTOSP16lW", IsReadOnly: true)]
         public string DepartmentId { get; set; }
@@ -95,8 +96,14 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "1qg4eux9mj7I", IsReadOnly: true)]
         public string Department { get; set; }
 
-        [FwLogicProperty(Id: "XUT1BHUBqYoK")]
-        public string OrderNumber { get { return vendorInvoice.OrderNumber; } set { vendorInvoice.OrderNumber = value; } }
+        //[FwLogicProperty(Id: "XUT1BHUBqYoK")]
+        //public string OrderNumber { get { return vendorInvoice.OrderNumber; } set { vendorInvoice.OrderNumber = value; } }
+
+        [FwLogicProperty(Id: "ZC6vSxMXCA07")]
+        public string OrderNumber { get; set; }
+
+        [FwLogicProperty(Id: "2gIjGGRWiyRU", IsReadOnly: true)]
+        public string OrderDescription { get; set; }
 
         [FwLogicProperty(Id: "lHvxzPFzwB7r")]
         public string PurchaseOrderDealId { get { return vendorInvoice.PurchaseOrderDealId; } set { vendorInvoice.PurchaseOrderDealId = value; } }
