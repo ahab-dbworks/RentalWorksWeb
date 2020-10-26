@@ -221,7 +221,6 @@ class Repair {
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'RepairDate', today);
             const office = JSON.parse(sessionStorage.getItem('location'));
-            FwFormField.setValueByDataField($form, 'Location', office.location);
             const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
             FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
@@ -229,8 +228,8 @@ class Repair {
             //07/28/2020 justin hoffman - moved to API layer
             //const userId = JSON.parse(sessionStorage.getItem('userid'));
             //FwFormField.setValueByDataField($form, 'InputByUserId', userId.webusersid);
-            const locationId = JSON.parse(sessionStorage.getItem('location'));
-            FwFormField.setValueByDataField($form, 'LocationId', locationId.locationid);
+            FwFormField.setValueByDataField($form, 'LocationId', office.locationid, office.location);
+            FwFormField.setValueByDataField($form, 'CurrencyId', office.defaultcurrencyid, office.defaultcurrencycode);
 
             $form.find('div[data-datafield="PendingRepair"] input').prop('checked', false);
             $form.find('div[data-datafield="PoPending"] input').prop('checked', true);
@@ -969,6 +968,12 @@ class Repair {
             case 'WarehouseId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouselocation`);
                 break;
+            case 'BillingLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
+                break;
+            case 'BillingWarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouselocation`);
+                break;
             case 'CurrencyId':
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecurrency`);
                 break;
@@ -1106,12 +1111,10 @@ class Repair {
                     <div class="flexcolumn" style="flex:1 1 775px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Location / Warehouse / Department">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-enabled="false"   style="flex:1 1 200px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Office" data-datafield="Location" data-enabled="false"       style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Location" data-datafield="LocationId" data-displayfield="Location" data-validationname="LocationValidation" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-enabled="false" style="flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 200px;"></div>
                           <!--Hidden Fields-->
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="LocationId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="BillingWarehouseId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InputByUserId" data-enabled="false" data-visible="false" style="float:left;width:0px;display:none;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="QcRequired" data-enabled="false" style="float:left;width:0px;display:none;"></div>
                         </div>
@@ -1289,8 +1292,8 @@ class Repair {
                   <div class="flexcolumn" style="float:left;max-width:450px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Location">
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="LocationId" data-displayfield="Location" data-validationname="OfficeLocationValidation" style="float:left;max-width:200px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="float:left;max-width:200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="BillingLocationId" data-displayfield="BillingLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:200px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="BillingWarehouseId" data-displayfield="BillingWarehouse" data-validationname="WarehouseValidation" style="float:left;max-width:200px;"></div>
                       </div>
                     </div>
                   </div>
@@ -1313,7 +1316,7 @@ class Repair {
                     <div class="flexcolumn" style="float:left;max-width:400px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax and Currency">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-validationname="CurrencyCodeValidation" style="float:left;max-width:150px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-validationname="CurrencyCodeValidation" data-required="true" style="float:left;max-width:150px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Tax Option" data-datafield="TaxOptionId" data-displayfield="TaxOption" data-validationname="TaxOptionValidation" style="float:left;max-width:450px;"></div>
                         </div>
                       </div>
