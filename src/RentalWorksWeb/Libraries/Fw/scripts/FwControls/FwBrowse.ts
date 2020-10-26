@@ -132,18 +132,18 @@ class FwBrowseClass {
                 try {
                     code = e.keyCode || e.which;
                     switch (code) {
-                        //case 90: // Ctrl + Z
-                        //    if ($control.attr('data-type') === 'Browse') {
-                        //        const $deleteMenuBarBtn = $control.find('.fwbrowse-menu .buttonbar [data-type="DeleteMenuBarButton"]');
-                        //        if ($deleteMenuBarBtn.attr('data-visible') === 'true') { // need options.hasDelete == true
-                        //            if (e.ctrlKey) {
-                        //                e.preventDefault();
-                        //                e.stopPropagation();
-                        //                $deleteMenuBarBtn.click();
-                        //            }
-                        //        }
-                        //    }
-                        //    break;
+                        case 8: // Ctrl + delete
+                            if ($control.attr('data-type') === 'Browse') {
+                                const $deleteMenuBarBtn = $control.find('.fwbrowse-menu .buttonbar [data-type="DeleteMenuBarButton"]');
+                                if ($deleteMenuBarBtn.attr('data-visible') === 'true') { // need options.hasDelete == true
+                                    if (e.ctrlKey) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        $deleteMenuBarBtn.click();
+                                    }
+                                }
+                            }
+                            break;
                         case 13: //Enter Key
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                                 e.preventDefault();
