@@ -74,7 +74,7 @@ namespace WebApi.Controllers
             string directory = FwDownloadController.GetDownloadsDirectory();
             string path = Path.Combine(directory, filename);
 
-            using (var tw = new StreamWriter(path, false))
+            using (var tw = new StreamWriter(path, false, Encoding.UTF8))
             {
                 tw.Write(result);
                 tw.Flush();
