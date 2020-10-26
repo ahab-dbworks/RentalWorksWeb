@@ -1241,8 +1241,6 @@ class PurchaseOrder implements IModule {
     };
     //----------------------------------------------------------------------------------------------
     applyPurchaseOrderTypeToForm($form) {
-        let self = this;
-
         // find all the grids on the form
         let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         let $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
@@ -1272,7 +1270,7 @@ class PurchaseOrder implements IModule {
             }
             let hiddenSubRentals, hiddenSubSales, hiddenLabor, hiddenMisc, hiddenPurchase, hiddenSubLabor, hiddenSubMisc;
 
-            FwAppData.apiMethod(true, 'GET', "api/v1/potype/" + purchaseOrderTypeId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', "api/v1/potype/" + purchaseOrderTypeId, null, FwServices.defaultTimeout, response => {
                 hiddenSubRentals = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.SubRentalShowFields))
@@ -1295,7 +1293,7 @@ class PurchaseOrder implements IModule {
                     return !this.has(field)
                 }, new Set(response.SubMiscShowFields))
 
-                self.CachedPurchaseOrderTypes[purchaseOrderTypeId] = {
+                this.CachedPurchaseOrderTypes[purchaseOrderTypeId] = {
                     hiddenSubRentals: hiddenSubRentals,
                     hiddenSubSales: hiddenSubSales,
                     hiddenLabor: hiddenLabor,
@@ -1304,7 +1302,7 @@ class PurchaseOrder implements IModule {
                     hiddenSubLabor: hiddenSubLabor,
                     hiddenSubMisc: hiddenSubMisc
                 }
-                applyPurchaseOrderTypeToColumns($form, self.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
+                applyPurchaseOrderTypeToColumns($form, this.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
             }, null, null);
         }
 
@@ -1345,30 +1343,29 @@ class PurchaseOrder implements IModule {
             $form.removeAttr('data-opensearch data-searchtype data-activetabid');
         }
 
-
         function applyPurchaseOrderTypeToColumns($form, purchaseOrderTypeData) {
-            for (var i = 0; i < purchaseOrderTypeData.hiddenSubRentals.length; i++) {
+            for (let i = 0; i < purchaseOrderTypeData.hiddenSubRentals.length; i++) {
                 jQuery($subRentalGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubRentals[i] + '"]')).parent().hide();
             }
-            for (var j = 0; j < purchaseOrderTypeData.hiddenSubSales.length; j++) {
-                jQuery($subSalesGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubSales[j] + '"]')).parent().hide();
+            for (let i = 0; i < purchaseOrderTypeData.hiddenSubSales.length; i++) {
+                jQuery($subSalesGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubSales[i] + '"]')).parent().hide();
             }
-            for (var k = 0; k < purchaseOrderTypeData.hiddenLabor.length; k++) {
-                jQuery($laborGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenLabor[k] + '"]')).parent().hide();
+            for (let i = 0; i < purchaseOrderTypeData.hiddenLabor.length; i++) {
+                jQuery($laborGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenLabor[i] + '"]')).parent().hide();
             }
-            for (var l = 0; l < purchaseOrderTypeData.hiddenMisc.length; l++) {
-                jQuery($miscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenMisc[l] + '"]')).parent().hide();
+            for (let i = 0; i < purchaseOrderTypeData.hiddenMisc.length; i++) {
+                jQuery($miscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenMisc[i] + '"]')).parent().hide();
             }
-            for (var m = 0; m < purchaseOrderTypeData.hiddenPurchase.length; m++) {
-                jQuery($rentalGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[m] + '"]')).parent().hide();
-                jQuery($salesGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[m] + '"]')).parent().hide();
-                jQuery($partsGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[m] + '"]')).parent().hide();
+            for (let i = 0; i < purchaseOrderTypeData.hiddenPurchase.length; i++) {
+                jQuery($rentalGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[i] + '"]')).parent().hide();
+                jQuery($salesGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[i] + '"]')).parent().hide();
+                jQuery($partsGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[i] + '"]')).parent().hide();
             }
-            for (let o = 0; o < purchaseOrderTypeData.hiddenSubLabor.length; o++) {
-                jQuery($subLaborGrid.find(`[data-mappedfield="${purchaseOrderTypeData.hiddenSubLabor[o]}"]`)).parent().hide();
+            for (let i = 0; i < purchaseOrderTypeData.hiddenSubLabor.length; i++) {
+                jQuery($subLaborGrid.find(`[data-mappedfield="${purchaseOrderTypeData.hiddenSubLabor[i]}"]`)).parent().hide();
             }
-            for (let p = 0; p < purchaseOrderTypeData.hiddenSubMisc.length; p++) {
-                jQuery($subMiscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubMisc[p] + '"]')).parent().hide();
+            for (let i = 0; i < purchaseOrderTypeData.hiddenSubMisc.length; i++) {
+                jQuery($subMiscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubMisc[i] + '"]')).parent().hide();
             }
 
             if (purchaseOrderTypeData.hiddenSubRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
@@ -1441,6 +1438,14 @@ class PurchaseOrder implements IModule {
         isSubMisc ? $form.find('.submisc-pl').show() : $form.find('.submisc-pl').hide();
 
         if (!isMisc && !isLabor && !isSubRent && !isSubSale && !isSubMisc && !isSubLabor) $scheduleDateFields.hide();
+
+        // Sub-PO cannot be copied. Disabling form menu option for Copy Purchase Order
+        if (isSubRent || isSubSale || isSubMisc || isSubLabor) {
+            $form.find('.submenu-btn[data-securityid="fuUHEQthEdtv"]').css({
+                'pointer-events': 'none',
+                'color': '#dcdcdc',
+            });
+        }
 
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
