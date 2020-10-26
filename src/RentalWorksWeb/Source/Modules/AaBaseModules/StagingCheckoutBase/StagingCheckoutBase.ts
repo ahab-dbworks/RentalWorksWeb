@@ -649,6 +649,8 @@ abstract class StagingCheckoutBase {
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the CheckedOutItem Grid / StagedItemGrid controllers
     moveItems($form: JQuery, isRightArrow: boolean): void {
+        $form.find('.unstage-all').removeClass('btn-active');
+
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
         let $selectedCheckBoxes, url;
@@ -657,9 +659,13 @@ abstract class StagingCheckoutBase {
         if (isRightArrow) {
             $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
             url = 'movestageditemtoout';
+            $form.find('.right-arrow').addClass('btn-active');
+            $form.find('.left-arrow').removeClass('btn-active');
         } else {
             $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
             url = 'moveoutitemtostaged';
+            $form.find('.left-arrow').addClass('btn-active');
+            $form.find('.right-arrow').removeClass('btn-active');
         }
 
         const request: any = {};
@@ -1092,22 +1098,15 @@ abstract class StagingCheckoutBase {
         });
         // Move Out Item to Staged / Move Staged Item to Out
         $form.find('.dbl-angle').on('click', e => {
-            $form.find('.unstage-all').removeClass('btn-active');
             const isRightArrow = jQuery(e.currentTarget).hasClass('right-arrow');
             if (isRightArrow) {
                 this.moveItems($form, isRightArrow);
-                $form.find('.right-arrow').addClass('bth-active');
-                $form.find('.left-arrow').removeClass('btn-active');
             } else {
                 this.moveItems($form, isRightArrow);
-                $form.find('.left-arrow').addClass('btn-active');
-                $form.find('.right-arrow').removeClass('btn-active');
             }
         });
         // Unstage All button
         $form.find('.unstage-all').on('click', e => {
-            $form.find('.dbl-angle').removeClass('btn-active');
-            $form.find('.unstage-all').addClass('btn-active');
             this.unstageAllItems($form);
         });
         // Complete Checkout Contract
@@ -1182,13 +1181,10 @@ abstract class StagingCheckoutBase {
                     this.moveItems($form, true);
                 } else if ($form.find('.left-arrow').hasClass('btn-active')) {
                     this.moveItems($form, false);
-
                 } else if ($form.find('.unstage-all').hasClass('btn-active')) {
                     this.unstageAllItems($form);
                 } else {
                     this.moveItems($form, true);
-                    $form.find('.right-arrow').addClass('btn-active');
-                    $form.find('.left-arrow').removeClass('btn-active');
                 }
             }
         });
@@ -1400,6 +1396,8 @@ abstract class StagingCheckoutBase {
     }
     //----------------------------------------------------------------------------------------------
     unstageAllItems($form: JQuery): void {
+        $form.find('.dbl-angle').removeClass('btn-active');
+        $form.find('.unstage-all').addClass('btn-active');
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
         const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
