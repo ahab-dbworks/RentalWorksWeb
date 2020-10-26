@@ -2852,14 +2852,16 @@ class PurchaseOrder implements IModule {
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="width:400px;float:left;"></div>');
             html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Vendor" data-datafield="CopyToVendorId" data-browsedisplayfield="Vendor" data-validationname="VendorValidation"></div>');
-            html.push('  </div>');
-            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            //html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            //html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Vendor" data-datafield="CopyToVendorId" data-browsedisplayfield="Vendor" data-validationname="VendorValidation"></div>');
+            //html.push('  </div>');
+            //html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             //html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Rates for Items on New PO" data-datafield="CopyRatesFromInventory">');
             //html.push('      <div data-value="C" data-caption="Copy Rates from Existing PO"> </div>');
-            //html.push('      <div data-value="D" data-caption="Use Default Cost from Inventory"> </div></div><br>');
-            html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
+            //html.push('      <div data-value="D" data-caption="Use Default Cost from Inventory"> </div>');
+            //html.push('</div>');
+            //html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
+            //html.push('</div>');
             html.push('</div>');
 
             FwConfirmation.addControls($confirmation, html.join(''));
@@ -2868,15 +2870,15 @@ class PurchaseOrder implements IModule {
             FwFormField.setValueByDataField($confirmation, 'PurchaseOrderNumber', purchaseOrderNumber);
             const vendor = FwFormField.getTextByDataField($form, 'VendorId');
             FwFormField.setValueByDataField($confirmation, 'Vendor', vendor);
+            //FwFormField.setValueByDataField($confirmation, 'CopyToVendorId', vendorId, vendor);
             const description = FwFormField.getValueByDataField($form, 'Description');
             FwFormField.setValueByDataField($confirmation, 'Description', description);
-            FwFormField.setValueByDataField($confirmation, 'CopyToVendorId', vendorId, vendor);
 
-            FwFormField.disable($confirmation.find('div[data-caption="No"]'));
-            FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
-            FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
+            FwFormField.disable($confirmation.find('div[data-datafield="PurchaseOrderNumber"]'));
+            FwFormField.disable($confirmation.find('div[data-datafield="Vendor"]'));
+            FwFormField.disable($confirmation.find('div[data-datafield="Description"]'));
 
-            $confirmation.find('div[data-datafield="CopyLineItemNotes"] input').prop('checked', true);
+            //$confirmation.find('div[data-datafield="CopyLineItemNotes"] input').prop('checked', true);
 
             const $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
             const $no = FwConfirmation.addButton($confirmation, 'Cancel');
