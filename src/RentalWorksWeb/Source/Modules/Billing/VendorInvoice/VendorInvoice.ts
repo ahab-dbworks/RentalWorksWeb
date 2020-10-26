@@ -434,7 +434,7 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.rental-totals [data-type="money"]');
+        const $totalFields = $form.find('.rental-totals [data-type="money"], .invoice-totals [data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
