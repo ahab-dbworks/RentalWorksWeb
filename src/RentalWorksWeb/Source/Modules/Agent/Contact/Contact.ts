@@ -86,7 +86,7 @@ class Contact {
             }
         });
 
-        $form.on('change', 'div[data-datafield="WebAccess"] .fwformfield-value', function() {
+        $form.on('change', 'div[data-datafield="WebAccess"] .fwformfield-value', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 $form.find('div[data-datafield="DepartmentId"]').attr('data-required', 'true');
@@ -310,7 +310,7 @@ class Contact {
             $form.find('div[data-datafield="DefaultDealId"]').attr('data-required', 'true');
             $form.find('div[data-datafield="LocationId"]').attr('data-required', 'true');
             $form.find('div[data-datafield="WarehouseId"]').attr('data-required', 'true');
-        }}
+        }
     }
     //--------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
