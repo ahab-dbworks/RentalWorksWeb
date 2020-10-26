@@ -4,20 +4,21 @@
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
-            const $browsecontextmenu = $tr.find('.browsecontextmenu');
-            $browsecontextmenu.data('contextmenuoptions', $tr => {
-                //View Corresponding Deal Invoices
-                FwContextMenu.addMenuItem($browsecontextmenu, `View Corresponding Deal Invoices`, () => {
-                    try {
-                        this.renderInvoicePopup($control, $tr);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
+            const orderId = FwBrowse.getValueByDataField($control, $tr, 'OrderId');
+            if (orderId != '') {
+                const $browsecontextmenu = $tr.find('.browsecontextmenu');
+                $browsecontextmenu.data('contextmenuoptions', $tr => {
+                    //View Corresponding Deal Invoices
+                    FwContextMenu.addMenuItem($browsecontextmenu, `View Corresponding Deal Invoices`, () => {
+                        try {
+                            this.renderInvoicePopup($control, $tr);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                    $browsecontextmenu.find('.viewcorrespondingdealinvoicesoption').css('white-space', 'break-spaces');
                 });
-            });
-        });
-
-        $generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
+            }
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -31,8 +32,6 @@
     //----------------------------------------------------------------------------------------------
     renderInvoicePopup($control: JQuery, $tr: JQuery) {
         let HTML: Array<string> = [], $popupHtml, $popup;
-        let type;
-
         HTML.push(
             `<div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
             <div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" style="margin-top:2.5em;">
@@ -64,7 +63,6 @@
             }
         });
 
-        //FwBrowse.disableGrid($grid);
         FwBrowse.search($grid);
 
         // Close modal
