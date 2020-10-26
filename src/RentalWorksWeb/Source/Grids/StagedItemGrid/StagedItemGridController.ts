@@ -26,6 +26,7 @@
         //----------------------------------------------------------------------------------------------
         function moveStagedItemToOut($control, $tr) {
             const $form = $control.closest('.fwform');
+            $form.find('.unstage-all').removeClass('btn-active');
             $form.find('.right-arrow').addClass('btn-active');
             $form.find('.left-arrow').removeClass('btn-active');
 

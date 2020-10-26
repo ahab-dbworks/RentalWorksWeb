@@ -11,18 +11,16 @@
         });
         //----------------------------------------------------------------------------------------------
         function moveOutItemToStaged($control, $tr) {
-            let $form, $stagedItemGrid, $checkedOutItemGrid, barCode, iCode, orderItemId, vendorId, request: any = {}
+            const $form = $control.closest('.fwform');
+            $form.find('.unstage-all').removeClass('btn-active');
+            $form.find('.right-arrow').addClass('btn-active');
+            $form.find('.left-arrow').removeClass('btn-active');
 
-            $form = $control.closest('.fwform');
-            $form.find('.left-arrow').addClass('btn-active');
-            $form.find('.right-arrow').removeClass('btn-active');
-
-            $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-            $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-            barCode = $tr.find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
-            iCode = $tr.find('[data-formdatafield="ICode"]').attr('data-originalvalue');
-            orderItemId = $tr.find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-            vendorId = $tr.find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
+            const barCode = $tr.find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+            const iCode = $tr.find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+            const orderItemId = $tr.find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            const vendorId = $tr.find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
+            const request: any = {}
             request.OrderId = $tr.find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
             request.Quantity = +$tr.find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
             request.ContractId = $control.data('ContractId');
@@ -37,7 +35,9 @@
 
             if (typeof $control.data('ContractId') !== 'undefined') {
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
+                    const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
                     FwBrowse.search($checkedOutItemGrid);
+                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
                     FwBrowse.search($stagedItemGrid);
                 }, function onError(response) {
                     FwFunc.showError(response);
