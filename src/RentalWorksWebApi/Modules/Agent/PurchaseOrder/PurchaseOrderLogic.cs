@@ -988,6 +988,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             bool isValid = true;
             string rateType = string.Empty;
             bool misc = false, labor = false, subRent = false, subSale = false, repair = false, subMisc = false, subLabor = false;
+            string currencyId = string.Empty;
 
             if (saveMode.Equals(TDataRecordSaveMode.smInsert))
             {
@@ -1000,7 +1001,6 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 subMisc = SubMiscellaneous.GetValueOrDefault(false);
                 subLabor = SubLabor.GetValueOrDefault(false);
 
-
                 if (!string.IsNullOrEmpty(VendorId))
                 {
                     // load the Vendor object once here for use downstream
@@ -1009,6 +1009,17 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     insertingVendor.VendorId = VendorId;
                     bool b = insertingVendor.LoadAsync<VendorLogic>().Result;
                 }
+
+                if (string.IsNullOrEmpty(CurrencyId))
+                {
+                    if (insertingVendor != null)
+                    {
+                        CurrencyId = insertingVendor.DefaultCurrencyId;
+                    }
+                }
+
+                currencyId = CurrencyId;
+
 
             }
             else
@@ -1026,6 +1037,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     subMisc = (SubMiscellaneous ?? lOrig.SubMiscellaneous).GetValueOrDefault(false);
                     subLabor = (SubLabor ?? lOrig.SubLabor).GetValueOrDefault(false);
 
+                    currencyId = CurrencyId ?? lOrig.CurrencyId;
+
                     if (isValid)
                     {
                         if (lOrig.Status.Equals(RwConstants.PURCHASE_ORDER_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.PURCHASE_ORDER_STATUS_SNAPSHOT) || lOrig.Status.Equals(RwConstants.PURCHASE_ORDER_STATUS_VOID))
@@ -1034,6 +1047,15 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                             validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
                         }
                     }
+                }
+            }
+
+            if (isValid)
+            {
+                if (string.IsNullOrEmpty(currencyId))
+                {
+                    isValid = false;
+                    validateMsg = "Currency cannot be blank.";
                 }
             }
 

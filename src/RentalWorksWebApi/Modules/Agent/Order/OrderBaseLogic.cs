@@ -1344,6 +1344,7 @@ namespace WebApi.Modules.Agent.Order
             }
 
             OrderBaseLogic lOrig = null;
+            string currencyId = string.Empty;
 
             if (isValid)
             {
@@ -1364,11 +1365,22 @@ namespace WebApi.Modules.Agent.Order
                         insertingDeal.DealId = DealId;
                         bool b = insertingDeal.LoadAsync<DealLogic>().Result;
                     }
+
+                    if (string.IsNullOrEmpty(CurrencyId))
+                    {
+                        if (insertingDeal != null)
+                        {
+                            CurrencyId = insertingDeal.CurrencyId;
+                        }
+                    }
+                    currencyId = CurrencyId;
+
                 }
                 else  //  (updating)
                 {
                     if (original != null)
                     {
+
                         if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
                         {
                             lOrig = ((QuoteLogic)original);
@@ -1377,6 +1389,9 @@ namespace WebApi.Modules.Agent.Order
                         {
                             lOrig = ((OrderLogic)original);
                         }
+
+                        currencyId = CurrencyId ?? lOrig.CurrencyId;
+
                         tempB = (Rental ?? lOrig.Rental);
                         rental = tempB.GetValueOrDefault(false);
 
@@ -1448,6 +1463,15 @@ namespace WebApi.Modules.Agent.Order
                         }
                     }
 
+                }
+            }
+
+            if (isValid)
+            {
+                if (string.IsNullOrEmpty(currencyId))
+                {
+                    isValid = false;
+                    validateMsg = "Currency cannot be blank.";
                 }
             }
 
