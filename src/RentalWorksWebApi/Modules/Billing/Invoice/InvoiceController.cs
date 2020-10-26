@@ -19,6 +19,7 @@ using WebApi.Modules.Settings.CurrencySettings.Currency;
 using WebApi.Modules.Settings.TaxSettings.TaxOption;
 using WebApi.Modules.Utilities.GLDistribution;
 using WebApi.Modules.Administrator.EmailHistory;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Billing.Invoice
 {
@@ -80,6 +81,16 @@ namespace WebApi.Modules.Billing.Invoice
         public async Task<ActionResult<InvoiceLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<InvoiceLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoice/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "w8a6t06U6eAZ")]
+        public async Task<List<ActionResult<InvoiceLogic>>> PostAsync([FromBody] List<InvoiceLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<InvoiceLogic>(l2);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoice 

@@ -132,6 +132,18 @@ class FwBrowseClass {
                 try {
                     code = e.keyCode || e.which;
                     switch (code) {
+                        //case 90: // Ctrl + Z
+                        //    if ($control.attr('data-type') === 'Browse') {
+                        //        const $deleteMenuBarBtn = $control.find('.fwbrowse-menu .buttonbar [data-type="DeleteMenuBarButton"]');
+                        //        if ($deleteMenuBarBtn.attr('data-visible') === 'true') { // need options.hasDelete == true
+                        //            if (e.ctrlKey) {
+                        //                e.preventDefault();
+                        //                e.stopPropagation();
+                        //                $deleteMenuBarBtn.click();
+                        //            }
+                        //        }
+                        //    }
+                        //    break;
                         case 13: //Enter Key
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                                 e.preventDefault();
@@ -1275,7 +1287,8 @@ class FwBrowseClass {
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     //if ($control.attr('data-hasmultirowselect') !== 'false') {
-                    html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-hasmultirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                    //html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-hasmultirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                    html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
                     //}
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
@@ -2580,6 +2593,10 @@ class FwBrowseClass {
             }
 
             $control.find('.runtime table').append($tbody);
+
+            //if ($control.data('hasmultirowediting')) {
+            //    FwBrowse.showMultiRowSelector($control);
+            //}
 
             if ($control.attr('data-type') === 'Grid') {
                 if ($control.attr('data-manualsorting') === 'true') {
@@ -4634,22 +4651,21 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    showMultiRowSelector($control: JQuery, $menuOption: JQuery) {
-        try {
-            if ($menuOption.hasClass('multi-edit-active')) {
-                $menuOption.removeClass('multi-edit-active');
-                $control.find('td.tdselectrow:visible').hide();
-                $control.find('td.tdselectrow input[type="checkbox"]').prop('checked', false);
-                $menuOption.find('.caption').text('Show Multi-Row Selector');
-            } else {
-                $menuOption.addClass('multi-edit-active');
-                $control.find('td.tdselectrow:hidden').show();
-                $menuOption.find('.caption').text('Hide Multi-Row Selector');
-            }
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    }
+    //showMultiRowSelector($control: JQuery) {
+    //    try {
+    //        if ($control.data('showmultirowselect')) {
+    //            $control.find('td.tdselectrow:hidden').show();
+    //            $control.find('.submenu .caption:contains("Show Multi-Row Selector")').text('Hide Multi-Row Selector');
+    //        } else {
+    //            $control.data('showmultirowselect', false);
+    //            $control.find('td.tdselectrow:visible').hide();
+    //            $control.find('td.tdselectrow input[type="checkbox"]').prop('checked', false);
+    //            $control.find('.submenu .caption:contains("Hide Multi-Row Selector")').text('Show Multi-Row Selector');
+    //        }
+    //    } catch (ex) {
+    //        FwFunc.showError(ex);
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     customizeColumns($control: JQuery, name: any, type: any) {
         let $form;
