@@ -1085,7 +1085,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string OutDeliveryRequiredByDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryrequiredbytime", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryRequiredbyTime { get; set; }
+        public string OutDeliveryRequiredByTime { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "outdeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
         //public string OutDeliveryRequiredByDateTime { get; set; }
@@ -1163,7 +1163,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string InDeliveryRequiredByDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryrequiredbytime", modeltype: FwDataTypes.Text)]
-        public string InDeliveryRequiredbyTime { get; set; }
+        public string InDeliveryRequiredByTime { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "indeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
         //public string InDeliveryRequiredByDateTime { get; set; }

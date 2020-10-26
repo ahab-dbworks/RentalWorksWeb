@@ -69,6 +69,8 @@ export abstract class WebpackReport {
             data.System = parameters.systemName;
         }
 
+        console.log('report data: ', data);
+
         // convert all ISO dates to locale dates
         let fieldIsDate: boolean = false;
         let dataIsArray: boolean = Array.isArray(data);

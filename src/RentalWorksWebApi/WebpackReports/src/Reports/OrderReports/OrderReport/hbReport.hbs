@@ -20,12 +20,12 @@
   <div class="rpt-flexcolumn" style="flex:0 0 30%;">
     <table>
       <tr>
-        <td style="width:50%;font-size:18px;font-weight:700;text-align:right;vertical-align:middle;">No:</td>
-        <td class="rptNumberSection" style="width:50%;">{{OrderNumber}}</td>
+        <td style="width:30%;font-size:18px;font-weight:700;text-align:right;vertical-align:middle;">No:</td>
+        <td class="rptNumberSection" style="width:70%;">{{OrderNumber}}</td>
       </tr>
       <tr>
-        <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
-        <td style="width:50%;font-size:18px;text-align:center;">{{PrintDate}}</td>
+        <td style="width:30%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
+        <td style="width:70%;font-size:18px;text-align:center;">{{PrintDate}}</td>
       </tr>
     </table>
   </div>
@@ -196,16 +196,11 @@
         <td class="">{{OutDeliveryCity}}, {{OutDeliveryState}} {{OutDeliveryZipCode}} {{OutDeliveryCountry}}</td>
       </tr>
       {{/ifCond}}
-      {{#ifCond OutDeliveryRequiredByDate '!==' ""}}
+      {{#if OutDeliveryRequiredByDate}}
       <tr>
-        <td class="">
-          <span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDate}}
-          {{#ifCond OutDeliveryRequiredbyTime '!=' "  :"}}
-          &nbsp;{{OutDeliveryRequiredbyTime}}
-          {{/ifCond}}
-        </td>
+        <td class=""><span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDate}} {{#ifCond OutDeliveryRequiredByTime '!==' "  :  "}} {{OutDeliveryRequiredByTime}} {{/ifCond}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
     </table>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin-left:10px;">
@@ -235,16 +230,11 @@
         <td class="">{{InDeliveryCity}}, {{InDeliveryState}} {{InDeliveryZipCode}} {{InDeliveryCountry}}</td>
       </tr>
       {{/ifCond}}
-      {{#ifCond InDeliveryRequiredByDate '!==' ""}}
+      {{#if InDeliveryRequiredByDate}}
       <tr>
-        <td class="">
-          <span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDate}}
-          {{#ifCond InDeliveryRequiredbyTime '!=' "  :"}}
-          &nbsp;{{InDeliveryRequiredbyTime}}
-          {{/ifCond}}
-        </td>
+        <td class=""><span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDate}} {{#ifCond InDeliveryRequiredByTime '!==' "  :  "}} {{InDeliveryRequiredByTime}} {{/ifCond}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
     </table>
     {{/ifCond}}
   </div>
