@@ -132,7 +132,7 @@ class FwBrowseClass {
                 try {
                     code = e.keyCode || e.which;
                     switch (code) {
-                        case 8: // Ctrl + delete
+                        case 8 || 46: // Ctrl + DEL or Ctrl + Backspace
                             if ($control.attr('data-type') === 'Browse') {
                                 const $deleteMenuBarBtn = $control.find('.fwbrowse-menu .buttonbar [data-type="DeleteMenuBarButton"]');
                                 if ($deleteMenuBarBtn.attr('data-visible') === 'true') { // need options.hasDelete == true
