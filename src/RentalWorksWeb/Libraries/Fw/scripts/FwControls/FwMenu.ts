@@ -1297,7 +1297,8 @@ class FwMenuClass {
             const type = options.$browse.data('type');
             FwMenu.addSubMenuItem(options.$groupOptions, 'Customize', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    FwBrowse.customizeColumns(options.$browse, name, type);
+                    const $tab = FwTabs.getTabPageByElement(options.$browse);
+                    FwBrowse.customizeColumns(options.$browse, name, type, $tab.hasClass('submodule'));
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

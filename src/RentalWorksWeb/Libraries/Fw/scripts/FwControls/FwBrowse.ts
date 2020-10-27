@@ -4651,7 +4651,7 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    customizeColumns($control: JQuery, name: any, type: any) {
+    customizeColumns($control: JQuery, name: any, type: any, isSubModule: boolean) {
         let $form;
         const isCustomBrowse = $control.data('iscustombrowse');
         const fullName = sessionStorage.getItem('fullname');
@@ -4664,6 +4664,8 @@ class FwBrowseClass {
                 FwModule.openModuleTab($form, `${name} ${type} - ${fullName}`, true, 'FORM', true);
                 $form.attr('data-mode', 'EDIT');
                 $form.data('selfassign', true);
+                $form.data('issubmodule', isSubModule);
+                $form.data('$browse', $control);
                 CustomFormController.enableSave($form);
             }
         } else {
@@ -4676,6 +4678,8 @@ class FwBrowseClass {
                 FwFormField.setValueByDataField($form, 'AssignTo', 'USERS');
                 $form.attr('data-mode', 'NEW');
                 $form.data('selfassign', true);
+                $form.data('issubmodule', isSubModule);
+                $form.data('$browse', $control);
                 CustomFormController.enableSave($form);
             } catch (ex) {
                 FwFunc.showError(ex);
