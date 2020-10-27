@@ -42,6 +42,39 @@ export abstract class WebpackReport {
         }
     }
     //----------------------------------------------------------------------------------------------
+    // convert all ISO dates to locale dates
+    convertIsoDatesToLocalDates(data: any, locale: string, dateFields: Array<string>) {
+        let dataIsArray: boolean = Array.isArray(data);
+        if (dataIsArray) {
+            for (var rec of data) {
+                this.convertIsoDatesToLocalDates(rec, locale, dateFields);  // recursive call
+            }
+        }
+        else {
+            for (var field in data) {
+                let fieldIsArray: boolean = Array.isArray(data[field]);
+                if (fieldIsArray) {
+                    for (var fieldRec of data[field]) {
+                        this.convertIsoDatesToLocalDates(fieldRec, locale, dateFields);  // recursive call
+                    }
+                }
+                else {
+                    if (data[field]) {
+                        let fieldIsDate: boolean = false;
+                        for (var dateField of dateFields) {
+                            if (dateField.toLowerCase() === field.toLowerCase()) {
+                                fieldIsDate = true;
+                            }
+                        }
+                        if (fieldIsDate) {
+                            data[field] = moment(data[field]).locale(locale).format('L');
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     setReportMetadata(parameters: any, data: any, reportResponse: any) {  // parameters included here for future expansion
         var localemoment = moment().locale(parameters.Locale);
         data.Locale = parameters.Locale;
@@ -69,44 +102,7 @@ export abstract class WebpackReport {
             data.System = parameters.systemName;
         }
 
-        console.log('report data: ', data);
-
-        // convert all ISO dates to locale dates
-        let fieldIsDate: boolean = false;
-        let dataIsArray: boolean = Array.isArray(data);
-        if (dataIsArray) {
-            for (var rec of data) {
-                for (var field in rec) {
-                    if (rec[field]) {
-                        fieldIsDate = false;
-                        for (var dateField of data.DateFields) {
-                            if (dateField.toLowerCase() === field.toLowerCase()) {
-                                fieldIsDate = true;
-                            }
-                        }
-                        if (fieldIsDate) {
-                            rec[field] = moment(rec[field]).locale(parameters.Locale).format('L');
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            for (var field in data) {
-                if (data[field]) {
-                    fieldIsDate = false;
-                    for (var dateField of data.DateFields) {
-                        if (dateField.toLowerCase() === field.toLowerCase()) {
-                            fieldIsDate = true;
-                        }
-                    }
-                    if (fieldIsDate) {
-                        data[field] = moment(data[field]).locale(parameters.Locale).format('L');
-                    }
-                }
-            }
-        }
-
+        this.convertIsoDatesToLocalDates(data, parameters.Locale, data.DateFields);
         console.log('report data: ', data);
     }
     //----------------------------------------------------------------------------------------------

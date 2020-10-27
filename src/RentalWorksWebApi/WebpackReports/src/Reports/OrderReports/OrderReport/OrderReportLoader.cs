@@ -1278,7 +1278,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
+        //public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
+        public List<OrderDatesLoader> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLoader>(new OrderDatesLoader[] { new OrderDatesLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderActivitySummaryLogic> ActivitySummary { get; set; } = new List<OrderActivitySummaryLogic>(new OrderActivitySummaryLogic[] { new OrderActivitySummaryLogic() });
         //------------------------------------------------------------------------------------ 
@@ -1382,9 +1383,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         activityDatesAndTimesRequest.uniqueids = new Dictionary<string, object>();
                         activityDatesAndTimesRequest.uniqueids.Add("OrderId", request.OrderId);
 
-                        OrderDatesLogic l = new OrderDatesLogic();
+                        OrderDatesLoader l = new OrderDatesLoader();
                         l.SetDependencies(AppConfig, UserSession);
-                        Order.ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLogic>(activityDatesAndTimesRequest);
+                        Order.ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLoader>(activityDatesAndTimesRequest);
 
                         //activity summary
                         BrowseRequest activitySummaryRequest = new BrowseRequest();

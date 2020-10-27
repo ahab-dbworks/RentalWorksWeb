@@ -50,7 +50,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteReport
         //------------------------------------------------------------------------------------ 
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
-            return request.parameters["QuoteId"].ToString().TrimEnd(); 
+            return request.parameters["QuoteId"].ToString().TrimEnd();
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/quotereport/render 
@@ -75,7 +75,7 @@ namespace WebApi.Modules.Reports.OrderReports.QuoteReport
             {
                 QuoteReportLoader l = new QuoteReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                return new OkObjectResult(await l.RunReportAsync(request));               
+                return new OkObjectResult(await l.RunReportAsync(request));
             }
             catch (Exception ex)
             {
