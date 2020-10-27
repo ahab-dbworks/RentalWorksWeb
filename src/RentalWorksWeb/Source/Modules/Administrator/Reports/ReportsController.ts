@@ -30,7 +30,7 @@
                 const secNodeCategory = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeCategory.id);
                 if (secNodeCategory !== null && secNodeCategory.properties.visible === 'T') {
                     for (let keyReport in constNodeCategory.children) {
-                        if (!controlDefaults.enablereceipts && (keyReport === 'DailyReceiptsReport' || keyReport === 'ReceiptBatchReport')) {
+                        if (!controlDefaults.enablereceipts && (keyReport === 'DailyReceiptsReport' || keyReport === 'ReceiptBatchReport') || keyReport === 'ReturnListReport') {
                             continue;
                         }
                         const constNodeReport = constNodeCategory.children[keyReport];
