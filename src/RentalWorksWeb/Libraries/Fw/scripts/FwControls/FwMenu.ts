@@ -827,8 +827,8 @@ class FwMenuClass {
                     let $selectedRows;
                     if (typeof window[controller]['deleteRecord'] === 'function') {
                         const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete this record?`);
-                        const $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                        const $no = FwConfirmation.addButton($confirmation, 'No', false);
+                        const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
                         $yes.focus();
                         $yes.on('click', e => {
                             $selectedRows = $browse.find('tr.selected');
@@ -863,9 +863,9 @@ class FwMenuClass {
 
                         if ($selectedRows.length > 0) {
                             const confirmationText = $selectedRows.length === 1 ? 'this record' : $selectedRows.length + ' records';
-                            const $confirmation = FwConfirmation.renderConfirmation(`Delete Record${$selectedRows.length > 1 ? 's' : ''}`, `Are you sure you want to delete ${confirmationText}?`);
-                            const $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                            const $no = FwConfirmation.addButton($confirmation, 'No', false);
+                            const $confirmationPrompt = FwConfirmation.renderConfirmation(`Delete Record${$selectedRows.length > 1 ? 's' : ''}`, `Are you sure you want to delete ${confirmationText}?`);
+                            const $yes = FwConfirmation.addButton($confirmationPrompt, 'Yes', false);
+                            const $no = FwConfirmation.addButton($confirmationPrompt, 'Cancel');
                             $yes.focus();
                             $yes.on('click', async e => {
                                 const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
@@ -881,6 +881,7 @@ class FwMenuClass {
                                 }
                                 finally {
                                     FwConfirmation.destroyConfirmation($confirmation);
+                                    FwConfirmation.destroyConfirmation($confirmationPrompt);
                                     await FwBrowse.databind(options.$browse);
                                 }
                             });
@@ -910,7 +911,7 @@ class FwMenuClass {
                             //    });
 
                             // hotkey support for confirmation buttons
-                            $confirmation.on('keyup', e => {
+                            $confirmationPrompt.on('keyup', e => {
                                 e.preventDefault();
                                 if (e.which === 89) { // 'y'
                                     $yes.click();
