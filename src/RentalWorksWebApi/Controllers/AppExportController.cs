@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
+using System.Text;
 using WebApi.Data;
 
 namespace WebApi.Controllers

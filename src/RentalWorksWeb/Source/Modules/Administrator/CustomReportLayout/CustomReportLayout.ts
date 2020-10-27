@@ -185,7 +185,8 @@ class CustomReportLayout {
                 let allValidFields: any = [];
                 const fieldsToExclude = ['DateStamp', 'RecordTitle', '_Custom', '_Fields', 'DateFields'];
                 for (let key of Object.keys(response)) {
-                    if (!fieldsToExclude.includes(key)) {
+                    //if (!fieldsToExclude.includes(key)) {
+                    if (fieldsToExclude.indexOf(key) <0 ) {
                         if (Array.isArray(response[key])) {
                             const unorderedItems = response[key][0];
                             const orderedItems = {};
