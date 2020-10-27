@@ -471,6 +471,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     to.TaxId = "";
                     to.OfficeLocationId = newLocationId;
                     to.WarehouseId = newWarehouseId;
+                    to.PurchaseOrderDate = DateTime.Today.ToString("yyyy-MM-dd");  // probably a method for this on the date-format branch
 
                     //save the new 
                     await to.SaveAsync(original: null, conn: conn);
@@ -514,6 +515,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                             ids.TryGetValue(i.NestedOrderItemId, out newGrandParentId);
                             i.NestedOrderItemId = newGrandParentId;
                         }
+                        i.ReturnToWarehouseId = "";
+                        i.WarehouseId = request.WarehouseId;
 
                         i.copying = true; // don't perform the typical checking in BeforeSaves
                         await i.SaveAsync(conn: conn);
