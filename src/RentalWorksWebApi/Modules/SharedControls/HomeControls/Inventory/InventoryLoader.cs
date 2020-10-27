@@ -4,6 +4,7 @@ using WebApi.Modules.HomeControls.Master;
 
 namespace WebApi.Modules.HomeControls.Inventory
 {
+    [FwSqlTable("inventoryview")]
     public abstract class InventoryLoader : InventoryBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -430,6 +431,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         public string DescriptionWithAkas { get; set; }
         //------------------------------------------------------------------------------------
 
+        [FwSqlDataField(column: "costcalculation", modeltype: FwDataTypes.Text)]
+        public string CostCalculation { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         // for cusomizing browse 

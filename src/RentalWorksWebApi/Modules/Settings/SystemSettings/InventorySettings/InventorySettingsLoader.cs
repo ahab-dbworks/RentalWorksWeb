@@ -65,13 +65,13 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         public bool? IncludeTaxInOriginalEquipmentCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "assetcostcalculation", modeltype: FwDataTypes.Text)]
-        public string RentalQuantityInventoryValueMethod { get; set; }
+        public string DefaultRentalQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salescostcalculation", modeltype: FwDataTypes.Text)]
-        public string SalesQuantityInventoryValueMethod { get; set; }
+        public string DefaultSalesQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "partscostcalculation", modeltype: FwDataTypes.Text)]
-        public string PartsQuantityInventoryValueMethod { get; set; }
+        public string DefaultPartsQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enableconsignment", modeltype: FwDataTypes.Boolean)]
         public bool? EnableConsignment { get; set; }

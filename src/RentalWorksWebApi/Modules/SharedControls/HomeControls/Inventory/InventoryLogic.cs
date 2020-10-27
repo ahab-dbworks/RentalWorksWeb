@@ -382,6 +382,11 @@ namespace WebApi.Modules.HomeControls.Inventory
         public string DescriptionWithAkas { get; set; }
 
 
+        [FwLogicProperty(Id: "dONXERvrzrsk")]
+        public string CostCalculation { get { return master.CostCalculation; } set { master.CostCalculation = value; } }
+
+
+
         // for cusomizing browse 
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "Wx00gon6g1PRz", IsReadOnly: true)]
@@ -462,6 +467,34 @@ namespace WebApi.Modules.HomeControls.Inventory
                 PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.KitPackagePrice));
                 string[] acceptableValues = { "", RwConstants.INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_ITEM_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.CostCalculation));
+                string[] acceptableValues = { RwConstants.COST_CALCULATION_FIFO, RwConstants.COST_CALCULATION_LIFO, RwConstants.COST_CALCULATION_AVERAGE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg, (saveMode.Equals(TDataRecordSaveMode.smUpdate)));
+            }
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    InventoryLogic orig = (InventoryLogic)original;
+
+                    if (CostCalculation != null)
+                    {
+                        if (!CostCalculation.Equals(orig.CostCalculation))
+                        {
+                            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchase", new string[] { "masterid" }, new string[] { InventoryId }).Result;
+                            if (purchasesExist)
+                            {
+                                isValid = false;
+                                validateMsg = "Cannot change the Cost Calculation once Inventory has been received.";
+                            }
+                        }
+                    }
+                }
             }
 
             return isValid;

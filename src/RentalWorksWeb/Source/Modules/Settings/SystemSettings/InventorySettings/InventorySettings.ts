@@ -46,25 +46,22 @@ class InventorySettings {
 
 
         //Toggle Buttons
-        FwFormField.loadItems($form.find('div[data-datafield="RentalQuantityInventoryValueMethod"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="DefaultRentalQuantityInventoryCostCalculation"]'), [
             { value: 'FIFO', caption: 'First In, First Out' },
             { value: 'LIFO', caption: 'Last In, First Out' },
-            { value: 'AVERAGEVALUE', caption: 'Average Value' },
-            { value: 'UNITVALUE', caption: 'Inventory Unit Value only' }
+            { value: 'AVERAGEVALUE', caption: 'Average Value' }
         ]);
 
-        FwFormField.loadItems($form.find('div[data-datafield="SalesQuantityInventoryValueMethod"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="DefaultSalesQuantityInventoryCostCalculation"]'), [
             { value: 'FIFO', caption: 'First In, First Out' },
             { value: 'LIFO', caption: 'Last In, First Out' },
-            { value: 'AVERAGEVALUE', caption: 'Average Value' },
-            { value: 'UNITVALUE', caption: 'Inventory Unit Value only' }
+            { value: 'AVERAGEVALUE', caption: 'Average Value' }
         ]);
 
-        FwFormField.loadItems($form.find('div[data-datafield="PartsQuantityInventoryValueMethod"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="DefaultPartsQuantityInventoryCostCalculation"]'), [
             { value: 'FIFO', caption: 'First In, First Out' },
             { value: 'LIFO', caption: 'Last In, First Out' },
-            { value: 'AVERAGEVALUE', caption: 'Average Value' },
-            { value: 'UNITVALUE', caption: 'Inventory Unit Value only' }
+            { value: 'AVERAGEVALUE', caption: 'Average Value' }
         ]);
 
         return $form;
@@ -127,39 +124,39 @@ class InventorySettings {
             }
         });
 
-        $form.find('[data-datafield="RentalQuantityInventoryValueMethod"]').on('change', e => {
-            const originalVal = $form.find('[data-datafield="RentalQuantityInventoryValueMethod"]').attr('data-originalvalue');
-            const newVal = FwFormField.getValue2($form.find('[data-datafield="RentalQuantityInventoryValueMethod"]'));
-
+        $form.find('[data-datafield="DefaultRentalQuantityInventoryCostCalculation"]').on('change', e => {
+            const originalVal = $form.find('[data-datafield="DefaultRentalQuantityInventoryCostCalculation"]').attr('data-originalvalue');
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="DefaultRentalQuantityInventoryCostCalculation"]'));
+        
             if (originalVal == newVal) {
-                $form.find('.rentalvaluewarning').hide();
+                $form.find('.rentalcostwarning').hide();
             }
             else {
-                $form.find('.rentalvaluewarning').show();
+                $form.find('.rentalcostwarning').show();
             }
         });
-
-        $form.find('[data-datafield="SalesQuantityInventoryValueMethod"]').on('change', e => {
-            const originalVal = $form.find('[data-datafield="SalesQuantityInventoryValueMethod"]').attr('data-originalvalue');
-            const newVal = FwFormField.getValue2($form.find('[data-datafield="SalesQuantityInventoryValueMethod"]'));
-
+        
+        $form.find('[data-datafield="DefaultSalesQuantityInventoryCostCalculation"]').on('change', e => {
+            const originalVal = $form.find('[data-datafield="DefaultSalesQuantityInventoryCostCalculation"]').attr('data-originalvalue');
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="DefaultSalesQuantityInventoryCostCalculation"]'));
+        
             if (originalVal == newVal) {
-                $form.find('.salesvaluewarning').hide();
+                $form.find('.salescostwarning').hide();
             }
             else {
-                $form.find('.salesvaluewarning').show();
+                $form.find('.salescostwarning').show();
             }
         });
-
-        $form.find('[data-datafield="PartsQuantityInventoryValueMethod"]').on('change', e => {
-            const originalVal = $form.find('[data-datafield="PartsQuantityInventoryValueMethod"]').attr('data-originalvalue');
-            const newVal = FwFormField.getValue2($form.find('[data-datafield="PartsQuantityInventoryValueMethod"]'));
-
+        
+        $form.find('[data-datafield="DefaultPartsQuantityInventoryCostCalculation"]').on('change', e => {
+            const originalVal = $form.find('[data-datafield="DefaultPartsQuantityInventoryCostCalculation"]').attr('data-originalvalue');
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="DefaultPartsQuantityInventoryCostCalculation"]'));
+        
             if (originalVal == newVal) {
-                $form.find('.partsvaluewarning').hide();
+                $form.find('.partscostwarning').hide();
             }
             else {
-                $form.find('.partsvaluewarning').show();
+                $form.find('.partscostwarning').show();
             }
         });
 

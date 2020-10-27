@@ -400,7 +400,9 @@ namespace WebApi
 
         public const string INVENTORY_QUANTITY_TRANSACTION_TYPE_PURCHASE = "PURCHASE INVENTORY";
 
-
+        public const string COST_CALCULATION_FIFO = "FIFO";
+        public const string COST_CALCULATION_LIFO = "LIFO";
+        public const string COST_CALCULATION_AVERAGE = "AVERAGEVALUE";
 
         // ORDERTRAN
         public const string ORDERTRAN_ITEMSTATUS_STAGED = "S";

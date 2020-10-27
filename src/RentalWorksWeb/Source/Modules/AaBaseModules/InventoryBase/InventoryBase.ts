@@ -169,6 +169,14 @@ abstract class InventoryBase {
             window[controller]['openFormInventory']($form);
         }
 
+        //Toggle Buttons
+        FwFormField.loadItems($form.find('div[data-datafield="CostCalculation"]'), [
+            { value: 'FIFO', caption: 'First In, First Out' },
+            { value: 'LIFO', caption: 'Last In, First Out' },
+            { value: 'AVERAGEVALUE', caption: 'Average Value' },
+        ]);
+
+
         this.events($form);
         return $form;
     }
@@ -775,6 +783,20 @@ abstract class InventoryBase {
             FwSchedulerDetailed.refresh($realScheduler);
             FwScheduler.refresh($calendar);
         });
+
+        //cost calculation
+        $form.find('[data-datafield="CostCalculation"]').on('change', e => {
+            const originalVal = $form.find('[data-datafield="CostCalculation"]').attr('data-originalvalue');
+            const newVal = FwFormField.getValue2($form.find('[data-datafield="CostCalculation"]'));
+
+            if (originalVal == newVal) {
+                $form.find('.costcalculationwarning').hide();
+            }
+            else {
+                $form.find('.costcalculationwarning').show();
+            }
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {

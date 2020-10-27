@@ -150,11 +150,11 @@ class RentalInventoryValueReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any): void {
-        const rentalquantityinventoryvaluemethod = JSON.parse(sessionStorage.getItem('controldefaults')).rentalquantityinventoryvaluemethod;
-        if ((rentalquantityinventoryvaluemethod != 'FIFO') && (rentalquantityinventoryvaluemethod != 'LIFO')) {
-            FwFormField.setValueByDataField($form, 'QuantityValueBasedOn', 'C');
-            FwFormField.disableDataField($form, 'QuantityValueBasedOn');
-        }
+        //const rentalquantityinventoryvaluemethod = JSON.parse(sessionStorage.getItem('controldefaults')).rentalquantityinventoryvaluemethod;
+        //if ((rentalquantityinventoryvaluemethod != 'FIFO') && (rentalquantityinventoryvaluemethod != 'LIFO')) {
+        //    FwFormField.setValueByDataField($form, 'QuantityValueBasedOn', 'C');
+        //    FwFormField.disableDataField($form, 'QuantityValueBasedOn');
+        //}
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

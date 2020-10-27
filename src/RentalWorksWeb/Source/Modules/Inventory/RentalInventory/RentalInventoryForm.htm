@@ -120,7 +120,7 @@
                     </div>
                   </div>
                   <div class="flexcolumn" style="flex:0 1 550px;">
-                    <!-- options section -->
+                    <!-- Options -->
                     <div class="fwcontrol fwcontainer fwform-section optionssection" data-control="FwContainer" data-type="section" data-caption="Options">
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Non-Discountable" data-datafield="NonDiscountable" style="flex:0 1 200px"></div>
@@ -128,7 +128,15 @@
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Fixed Asset" data-datafield="IsFixedAsset" style="flex:0 1 75px"></div>
                       </div>
                     </div>
-
+                    <!-- Cost Calculation -->
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quantity Inventory Cost Calculation">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Quantity Inventory Cost Calculation" data-datafield="CostCalculation" style="flex:1 1 600px;"></div>
+                      </div>
+                      <div class="flexrow costcalculationwarning" style="display:none;">
+                        <div style="color:red;font-size:.8em">Warning:  Cost Calculation cannot be changed once Inventory has been received.</div>
+                      </div>
+                    </div>
                     <!-- wall section (hidden by default) -->
                     <div class="fwcontrol fwcontainer fwform-section wallsection" data-control="FwContainer" data-type="section" data-caption="Wall" style="display:none;">
                       <div class="formrow">
@@ -145,7 +153,6 @@
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="SetConditionId" data-displayfield="SetCondition" data-validationname="SetConditionValidation" style="float:left;width:300px;"></div>
                         </div>
                       </div>
-
                       <div class="formrow">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                           <div class="formcolumn" style="width:150px;">
@@ -169,9 +176,6 @@
                         </div>
                       </div>
                     </div>
-
-
-
                   </div>
                 </div>
               </div>
@@ -186,28 +190,18 @@
               </div>
             </div>
           </div>
-          <!-- Warehouse grid -->
+          <!-- Warehouse Quantity grid -->
           <div class="wideflexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse Inventory">
               <div data-control="FwGrid" data-grid="RentalInventoryWarehouseGrid" data-securitycaption="Rental Inventory Warehouse"></div>
               <div data-control="FwGrid" data-grid="ContainerWarehouseGrid" data-securitycaption="Container Warehouse" style="display:none;"></div>
             </div>
           </div>
+          <!-- Warehouse Pricing grid -->
           <div class="wideflexrow warehouse-pricing">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse Pricing">
               <div data-control="FwGrid" data-grid="RentalInventoryWarehousePricingGrid" data-securitycaption="Rental Inventory Warehouse"></div>
             </div>
-          </div>
-          <!-- Remove section once new listboxes are configured -->
-          <div class="flexrow">
-            <!--
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="vendor.modifiedby" style="float:left;width:700px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Number" data-datafield="vendor.modifieddate" style="float:left;width:125px;"></div>
-              </div>
-            </div>
-            -->
           </div>
         </div>
       </div>

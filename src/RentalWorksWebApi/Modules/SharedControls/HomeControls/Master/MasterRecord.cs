@@ -340,6 +340,11 @@ namespace WebApi.Modules.HomeControls.Master
         //------------------------------------------------------------------------------------ 
 
 
+        [FwSqlDataField(column: "costcalculation", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 15)]
+        public string CostCalculation { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
 
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]

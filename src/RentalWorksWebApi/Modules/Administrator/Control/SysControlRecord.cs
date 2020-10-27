@@ -579,13 +579,13 @@ namespace WebApi.Modules.Administrator.Control
         public bool? AllowDeleteExportedPayments { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "assetcostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-        public string RentalQuantityInventoryValueMethod { get; set; }
+        public string DefaultRentalQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salescostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-        public string SalesQuantityInventoryValueMethod { get; set; }
+        public string DefaultSalesQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "partscostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-        public string PartsQuantityInventoryValueMethod { get; set; }
+        public string DefaultPartsQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowdeleteinvoice", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? AllowDeleteInvoices { get; set; }
