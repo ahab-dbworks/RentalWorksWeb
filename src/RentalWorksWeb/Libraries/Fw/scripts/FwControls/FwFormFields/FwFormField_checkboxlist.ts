@@ -8,7 +8,8 @@
             html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
         }
         html.push('<div class="fwformfield-control">');
-        html.push('  <ol style="min-height:1200px;min-width:200px;">');
+        //html.push('  <ol style="min-height:1200px;min-width:200px;">');
+        html.push('  <ol style="min-width:200px;">');
         html.push('  </ol>');
         html.push('</div>');
         $control.html(html.join(''));
