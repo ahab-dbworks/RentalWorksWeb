@@ -13,11 +13,23 @@ const returnListTemplate = `
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
+        <!--
         <div data-control="FwFormField" data-datafield="DealId" data-type="text" class="fwcontrol fwformfield" data-caption="" style="flex:0 1 100px;display:none;" data-enabled="false" data-savesetting="false"></div>
         <div data-control="FwFormField" data-datafield="DepartmentId" data-type="text" class="fwcontrol fwformfield" data-caption="" style="flex:0 1 100px;display:none;" data-enabled="false" data-savesetting="false"></div>
         <div data-control="FwFormField" data-datafield="ContractId" data-type="text" class="fwcontrol fwformfield" data-caption="" style="flex:0 1 100px;display:none;" data-enabled="false" data-savesetting="false"></div>
         <div data-control="FwFormField" data-datafield="OrderId" data-type="text" class="fwcontrol fwformfield" data-caption="" style="flex:0 1 100px;display:none;" data-enabled="false" data-savesetting="false"></div>
+        -->
           <div class="row" style="display:flex;flex-wrap:wrap;">
+            <div class="flexcolumn" style="max-width:380px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dealid" data-caption="Deal Number" data-datafield="DealId"  data-validationname="DealValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield departmentid" data-caption="Department Number" data-datafield="ContractId"  data-validationname="DepartmentValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield contractid" data-caption="Contract Number" data-datafield="ContractId"  data-validationname="ContractValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield orderid" data-caption="Order Number" data-datafield="ContractId"  data-validationname="OrderValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
+                </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:380px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

@@ -75,11 +75,11 @@ try {
 
         # Reports
         'Modules\Reports\DealOutstandingItemsReport',
-        'Modules\Reports\LateReturnDueBackReport',,
+        'Modules\Reports\LateReturnsReport',,
         'Modules\Reports\OrderReport',
         'Modules\Reports\OrderStatusDetailReport',
         'Modules\Reports\OrderStatusSummaryReport',
-        'Modules\Reports\OutContract',
+        'Modules\Reports\OutContractReport',
         'Modules\Reports\PickListReport',
         'Modules\Reports\PurchaseOrderReturnListReport',
         'Modules\Reports\QuoteReport'

@@ -13,10 +13,26 @@ const outContractReportTemplate = `
     <div class="tabpages">
       <div id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
-          <div class="formcolumn">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contract">
+          <div class="formcolumn" style="width:260px">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Out Contract">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield contractid" data-caption="Contract Number" data-datafield="ContractId" data-formbeforevalidate="beforeValidate" data-validationname="ContractValidation" data-savesetting="false" style="float:left;max-width:300px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield contractid" data-caption="Contract Number" data-datafield="ContractId"  data-validationname="ContractValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flexcolumn" style="max-width:210px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Asset Details">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeBarCodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Bar Codes" style="float:left;max-width:420px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeSerialNumbers" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Serial Numbers" style="float:left;max-width:420px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeRfids" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="RFIDs" style="float:left;max-width:420px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="IncludeManufacturerPartNumbers" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Manufacturer Part Numbers" style="float:left;max-width:420px;"></div>
               </div>
             </div>
           </div>
@@ -24,14 +40,14 @@ const outContractReportTemplate = `
       </div>
     </div>
   </div>
-</div>
-`;
+</div>`;
 
 class OutContractReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('OutContractReport', 'api/v1/outcontractreport', outContractReportTemplate);
         this.reportOptions.HasDownloadExcel = false;
+        this.designerProvisioned = true;
     };
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -62,13 +78,13 @@ class OutContractReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         request.uniqueids = {};
 
-        switch (validationName) {
-            case 'ContractValidation':
+        switch (datafield) {
+            case 'ContractId':
                 request.uniqueids.ContractType = 'OUT';
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontract`);
                 break;
         };
     };

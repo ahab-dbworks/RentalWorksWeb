@@ -1,2 +1,2 @@
-Last Synced on: 10/21/2020 11:24:22
+Last Synced on: 10/26/2020 15:27:55
 Source Path: RentalWorksWeb\src\RentalWorksWeb\Source\Modules\Reports\RentalInventoryValueReport
