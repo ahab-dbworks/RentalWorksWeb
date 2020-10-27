@@ -14,7 +14,7 @@ export class RentalInventoryRepairHistoryReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryrepairhistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rental Inventory Repair History Report';

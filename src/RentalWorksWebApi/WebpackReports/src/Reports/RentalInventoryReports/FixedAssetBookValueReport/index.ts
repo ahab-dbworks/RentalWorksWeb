@@ -16,7 +16,7 @@ export class FixedAssetBookValueReport extends WebpackReport {
                     const data: any = DataTable.toObjectList(response);
                     this.setReportMetadata(parameters, data, response);
                     data.AsOfDate = moment(parameters.AsOfDate).locale(parameters.Locale).format('L');
-                    data.Report = 'Fixed Asset Book Value Report';
+                    data.Report = 'Rental Inventory Fixed Asset Book Value Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
