@@ -95,9 +95,9 @@ class WarehouseDispatchReport extends FwWebApiReport {
         // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'FromDate', today);
-        const aMonthAway = FwFunc.getDate(today, 30);
+        const aMonthAway = FwLocale.getDate(today, null, { Quantity: 1, ObjectModified: 'months' });
         FwFormField.setValueByDataField($form, 'ToDate', aMonthAway);
     }
     //----------------------------------------------------------------------------------------------

@@ -3,6 +3,9 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebApi;
 using System.Threading.Tasks;
+using System.Globalization;
+using System.Collections.Generic;
+
 namespace WebApi.Modules.Reports.Billing.InvoiceSummaryReport
 {
     [FwSqlTable("invoicesummaryrptview")]
@@ -118,7 +121,7 @@ namespace WebApi.Modules.Reports.Billing.InvoiceSummaryReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
@@ -145,6 +148,16 @@ namespace WebApi.Modules.Reports.Billing.InvoiceSummaryReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
+
+            //if (!string.IsNullOrEmpty(request.Locale))
+            //{
+            //    CultureInfo localeCulture = new CultureInfo(request.Locale);
+            //    foreach (List<object> row in dt.Rows)
+            //    {
+            //        foreach (  in dt.Columns)
+            //    }
+            //    //dt.ToString("d", localeCulture);
+            //}
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {

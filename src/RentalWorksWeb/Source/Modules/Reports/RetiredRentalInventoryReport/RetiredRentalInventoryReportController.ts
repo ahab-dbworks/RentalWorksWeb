@@ -87,9 +87,9 @@ class RetiredRentalInventoryReport extends FwWebApiReport {
         // Default settings for first time running
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'ToDate', today);
-        const aMonthAgo = FwFunc.getDate(today, -30);
+        const aMonthAgo = FwLocale.getDate(today, null, { Quantity: -1, ObjectModified: 'months' });
         FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
 
         FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);

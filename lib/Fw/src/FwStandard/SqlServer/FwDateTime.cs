@@ -168,7 +168,7 @@ namespace FwStandard.SqlServer
             else
             {
                 datetime = DateTime.Parse(Val, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None);            
-                result   =  FwConvert.ToShortTime24(datetime);
+                result   =  FwConvert.ToShortTime(datetime);
                 return result; 
             }
         }

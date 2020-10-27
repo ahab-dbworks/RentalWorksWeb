@@ -13,7 +13,7 @@ export class RepairOrderStatusReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/repairorderstatusreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Repair Order Status Report';
                     data.IncludeDamageNotes = parameters.IncludeDamageNotes;
                     if (parameters.IsSummary === 'true') {

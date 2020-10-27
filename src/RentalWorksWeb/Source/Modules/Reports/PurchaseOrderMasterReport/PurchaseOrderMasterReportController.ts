@@ -96,9 +96,9 @@ class PurchaseOrderMasterReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
         const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="Department"]', department.departmentid, department.department);
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'ToDate', today);
-        const aMonthAgo = FwFunc.getDate(today, -30);
+        const aMonthAgo = FwLocale.getDate(today, null, { Quantity: -1, ObjectModified: 'months' });
         FwFormField.setValueByDataField($form, 'FromDate', aMonthAgo);
     }
     //----------------------------------------------------------------------------------------------

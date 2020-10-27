@@ -132,7 +132,7 @@ class BillingWorksheet {
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
 
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
             FwFormField.setValueByDataField($form, 'WorksheetDate', today);
 
             FwFormField.enable($form.find('[data-datafield="StatusDate"]'));

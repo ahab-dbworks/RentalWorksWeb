@@ -74,7 +74,7 @@ namespace WebApi.Modules.Agent.Order
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.ORDER_STATUS_CONFIRMED;
-                OrderDate = FwConvert.ToString(DateTime.Today);
+                OrderDate = FwConvert.ToShortDate(DateTime.Today);
             }
         }
         //------------------------------------------------------------------------------------ 

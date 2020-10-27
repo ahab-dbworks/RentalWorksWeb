@@ -132,7 +132,7 @@ class TransferOrder {
             const userName = sessionStorage.getItem('name');
             FwFormField.setValueByDataField($form, 'AgentId', userId, userName);
 
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
             FwFormField.setValueByDataField($form, 'PickDate', today);
             FwFormField.setValueByDataField($form, 'ShipDate', today);
 

@@ -18,7 +18,7 @@ export class ReceiveContractReport extends WebpackReport {
                     Ajax.post<any>(`${apiUrl}/api/v1/receivecontractreport/runreport`, authorizationHeader, parameters)
                         .then((response: any) => {
                             const data: any = response;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             data.Report = 'RECEIVE CONTRACT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

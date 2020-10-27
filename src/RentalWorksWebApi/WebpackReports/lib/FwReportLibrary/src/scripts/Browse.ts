@@ -7,6 +7,7 @@
     TotalPages: number;
     TotalRows: number;
     ColumnNameByIndex: any;
+    DateFields: Array<string>;
 
     static toObjectList<T>(dt: DataTable): Array<T> {
         let objects = [];

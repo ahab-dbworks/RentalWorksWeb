@@ -49,7 +49,7 @@ class AvailabilityConflicts {
         FwFormField.setValueByDataField($form, 'ConflictType', 'N');
 
 
-        const toDate = FwFunc.getDate(new Date().toString(), 30);
+        const toDate = FwLocale.getDate(null, null, { Quantity: 1, ObjectModified: 'months' });;
         FwFormField.setValueByDataField($form, 'ToDate', toDate);
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

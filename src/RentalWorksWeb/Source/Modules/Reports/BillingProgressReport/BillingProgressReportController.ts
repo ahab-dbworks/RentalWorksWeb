@@ -109,7 +109,7 @@ class BillingProgressReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
         const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'AsOfDate', today);
         FwFormField.setValue($form, 'div[data-datafield="ExcludeBilled100"]', 'T')
 

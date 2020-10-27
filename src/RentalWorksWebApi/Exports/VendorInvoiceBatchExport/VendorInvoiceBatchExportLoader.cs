@@ -100,8 +100,8 @@ namespace WebApi.Modules.Exports.VendorInvoiceBatchExport
                     BatchInvoice i = new BatchInvoice();
                     i.VendorInvoiceId = row[dt.GetColumnNo("vendorinvoiceid")].ToString();
                     i.InvoiceNumber = row[dt.GetColumnNo("invno")].ToString();
-                    i.InvoiceDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoicedate")].ToString());   // US specific #jhtodo: add format for user
-                    i.InvoiceDueDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoiceduedate")].ToString());   // US specific #jhtodo: add format for user
+                    i.InvoiceDate = FwConvert.ToShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
+                    i.InvoiceDueDate = FwConvert.ToShortDate(row[dt.GetColumnNo("invoiceduedate")].ToString());
                     i.PurchaseOrderNumber= row[dt.GetColumnNo("pono")].ToString();
                     i.PurchaseOrderDescription= row[dt.GetColumnNo("podesc")].ToString();
                     i.Vendor = row[dt.GetColumnNo("vendor")].ToString();

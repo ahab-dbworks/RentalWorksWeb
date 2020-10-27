@@ -105,7 +105,7 @@ class LateReturnsReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'LateReturns', 'T');
         FwFormField.setValueByDataField($form, 'DaysPastDue', 1);
         FwFormField.setValueByDataField($form, 'DueBackFewer', 0);
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'DueBackDate', today)
         FwFormField.setValueByDataField($form, 'ShowUnit', 'T');
         FwFormField.setValueByDataField($form, 'ShowReplacement', 'T');

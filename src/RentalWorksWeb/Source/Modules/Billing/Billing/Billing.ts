@@ -208,7 +208,7 @@ class Billing {
         });
 
         //defaults bill as of date to today
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($popup, 'BillAsOfDate', today);
 
         const location = JSON.parse(sessionStorage.getItem('location'));

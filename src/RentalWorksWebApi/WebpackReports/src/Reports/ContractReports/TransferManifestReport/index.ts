@@ -19,7 +19,7 @@ export class TransferManifestReport extends WebpackReport {
                     Ajax.post<any>(`${apiUrl}/api/v1/transfermanifestreport/runreport`, authorizationHeader, parameters)
                         .then((response: any) => {
                             const data: any = response;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             data.Report = 'TRANSFER MANIFEST';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

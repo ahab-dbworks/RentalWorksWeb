@@ -615,7 +615,7 @@ namespace WebApi.Modules.Billing.Invoice
             {
                 Status = RwConstants.INVOICE_STATUS_NEW;
                 InvoiceType = RwConstants.INVOICE_TYPE_BILLING;
-                StatusDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
                 InputByUserId = UserSession.UsersId;
                 IsStandAloneInvoice = true;  // invoice created from "New" option
 

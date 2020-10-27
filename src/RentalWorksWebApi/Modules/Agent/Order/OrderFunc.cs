@@ -1081,7 +1081,7 @@ namespace WebApi.Modules.Agent.Order
                     q2.SetDependencies(appConfig, userSession);
                     q2.QuoteId = fromId;
                     q2.Status = RwConstants.QUOTE_STATUS_ORDERED;
-                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    q2.StatusDate = FwConvert.ToShortDate(DateTime.Today);
                     q2.ConvertedToOrderId = toId;
                     await q2.SaveAsync(original: from, conn: conn);
                 }
@@ -1092,7 +1092,7 @@ namespace WebApi.Modules.Agent.Order
                     q2.SetDependencies(appConfig, userSession);
                     q2.QuoteId = fromId;
                     q2.Status = RwConstants.QUOTE_STATUS_CLOSED;
-                    q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                    q2.StatusDate = FwConvert.ToShortDate(DateTime.Today);
                     await q2.SaveAsync(original: from, conn: conn);
                 }
 
@@ -1223,7 +1223,7 @@ namespace WebApi.Modules.Agent.Order
                 q2.SetDependencies(appConfig, userSession);
                 q2.QuoteId = quote.QuoteId;
                 q2.Status = (quote.Status.Equals(RwConstants.QUOTE_STATUS_RESERVED) ? RwConstants.QUOTE_STATUS_ACTIVE : RwConstants.QUOTE_STATUS_RESERVED);
-                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                q2.StatusDate = FwConvert.ToShortDate(DateTime.Today);
                 await q2.SaveAsync(original: quote);
                 await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
                 response.Quote = q2;
@@ -1252,7 +1252,7 @@ namespace WebApi.Modules.Agent.Order
                 q2.SetDependencies(appConfig, userSession);
                 q2.QuoteId = quote.QuoteId;
                 q2.Status = RwConstants.QUOTE_STATUS_CANCELLED;
-                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                q2.StatusDate = FwConvert.ToShortDate(DateTime.Today);
                 await q2.SaveAsync(original: quote);
                 await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
                 response.Quote = q2;
@@ -1281,7 +1281,7 @@ namespace WebApi.Modules.Agent.Order
                 q2.SetDependencies(appConfig, userSession);
                 q2.QuoteId = quote.QuoteId;
                 q2.Status = ((string.IsNullOrEmpty(quote.DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
-                q2.StatusDate = FwConvert.ToUSShortDate(DateTime.Today);
+                q2.StatusDate = FwConvert.ToShortDate(DateTime.Today);
                 await q2.SaveAsync(original: quote);
                 await QuoteOrderAvailabilityRequestRecalc(appConfig, userSession, quote.QuoteId);
                 response.Quote = q2;

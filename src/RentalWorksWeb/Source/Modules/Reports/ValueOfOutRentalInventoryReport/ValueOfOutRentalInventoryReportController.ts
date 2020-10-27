@@ -109,7 +109,7 @@ class ValueOfOutRentalInventoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'AsOfDate', today);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);

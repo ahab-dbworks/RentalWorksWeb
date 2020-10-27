@@ -413,12 +413,12 @@ namespace WebApi.Modules.Inventory.Repair
             {
                 RepairNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR, LocationId, e.SqlConnection).Result;
                 Status = RwConstants.REPAIR_STATUS_NEW;
-                StatusDate = FwConvert.ToString(DateTime.Today);
-                InputDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
+                InputDate = FwConvert.ToShortDate(DateTime.Today);
 
                 if (string.IsNullOrEmpty(RepairDate))
                 {
-                    RepairDate = FwConvert.ToString(DateTime.Today);
+                    RepairDate = FwConvert.ToShortDate(DateTime.Today);
                 }
                 if (string.IsNullOrEmpty(Priority))
                 {

@@ -1556,12 +1556,12 @@ class FwBrowseClass {
 
                 // mv 2018-07-08 this is really the wrong place for this.  This needs to be in one of the column files.  Need a way to edit the header html from the column files
                 (<any>$control.find('.value')).datepicker({
-                    endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
-                    autoclose: true,
-                    format: "mm/dd/yyyy",
+                    endDate:        (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
+                    autoclose:      true,
+                    format:         FwLocale.getDateFormat().toLowerCase(),
                     todayHighlight: true,
-                    todayBtn: 'linked',
-                    weekStart: FwFunc.getWeekStartInt(),
+                    todayBtn:       'linked',
+                    weekStart:      FwFunc.getWeekStartInt(),
                 }).off('focus');
 
                 $control.on('click', '.btndate', e => {
@@ -2069,7 +2069,11 @@ class FwBrowseClass {
         $fields.each(function (index, element) {
             $field = jQuery(element);
             $txtSearch = $field.find('> div.search > input');
-            value = $txtSearch.val();
+            if ($field.attr('data-browsedatatype') === 'date') {
+                value = FwLocale.formatLocaleDateToIso($txtSearch.val());
+            } else {
+                value = $txtSearch.val();
+            }
             sort = $field.attr('data-sort');
             sortSequence = $field.attr('data-sortsequence');
             fieldtype = $field.attr('data-browsedatatype') || $field.attr('data-datatype');

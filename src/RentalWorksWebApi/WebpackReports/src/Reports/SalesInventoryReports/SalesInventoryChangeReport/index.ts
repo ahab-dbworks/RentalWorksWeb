@@ -15,7 +15,7 @@ export class SalesInventoryChangeReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/SalesInventoryChangeReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Sales Inventory Change Report';

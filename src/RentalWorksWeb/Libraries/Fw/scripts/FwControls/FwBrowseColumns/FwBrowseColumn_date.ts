@@ -8,18 +8,18 @@
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
             var $value = $field.find('input.value');
             if ($value.length > 0) {
-                field.value = $field.find('input.value').val();
+                field.value = FwLocale.formatLocaleDateToIso($field.find('input.value').val());
             } else {
-                field.value = originalvalue;
+                field.value = FwLocale.formatLocaleDateToIso(originalvalue);
             }
         }
     };
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
         if ($field.attr('data-formreadonly') === 'true') {
-            $field.find('.fieldvalue').text(data.value);
+            $field.find('.fieldvalue').text(FwLocale.formatDateToLocale(data.value));
         } else {
-            $field.find('input.value').val(data.value);
+            $field.find('input.value').val(FwLocale.formatDateToLocale(data.value));
         }
     }
     //---------------------------------------------------------------------------------
@@ -36,7 +36,7 @@
     setFieldViewMode($browse, $tr, $field): void {
         $field.data('autoselect', false);
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        $field.html(originalvalue);
+        $field.html(FwLocale.formatDateToLocale(originalvalue));
         $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
@@ -52,13 +52,13 @@
         let htmlString = html.join('');
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
-        $field.find('input.value').inputmask('mm/dd/yyyy');
+        $field.find('input.value').inputmask(FwLocale.getDateFormat().toLowerCase());
 
         $field.find('input.value').datepicker({
-            autoclose: true,
-            format: "m/d/yyyy",
+            autoclose:      true,
+            format:         FwLocale.getDateFormat().toLowerCase(),
             todayHighlight: true,
-            weekStart: FwFunc.getWeekStartInt(),
+            weekStart:      FwFunc.getWeekStartInt(),
         }).off('focus');
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');

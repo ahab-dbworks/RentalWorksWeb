@@ -32,7 +32,7 @@ export class LateReturnsReport extends WebpackReport {
                     data.Report = 'Late Return / Due Back Report';
                     data.Type = parameters.Type;
                     data.subtitle = parameters.headerText;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     if (parameters.ShowUnit) { data.ShowUnit = true };
                     if (parameters.ShowReplacement) { data.ShowReplacement = true };
                     if (parameters.ShowBarCode) { data.ShowBarCode = true };

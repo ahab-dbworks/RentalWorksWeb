@@ -117,6 +117,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "quikactivitysetting", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string QuikActivitySetting { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "locale", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)]
+        public string Locale { get; set; }
+        //------------------------------------------------------------------------------------
         public async Task<bool> SaveFavoritesJsonAsync(string Note)
         {
             return await AppFunc.SaveNoteAsync(AppConfig, UserSession, WebUserId, RwConstants.WEBUSER_NOTE_TYPE_FAVORITES, "", Note);

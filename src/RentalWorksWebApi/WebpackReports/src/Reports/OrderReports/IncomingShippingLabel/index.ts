@@ -17,8 +17,8 @@ export class IncomingShippingLabel extends WebpackReport {
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/incomingshippinglabel/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
-                            //data.AsOfDate = parameters.AsOfDate;
+                    this.setReportMetadata(parameters, data, response);
+                            //data.AsOfDate = moment(parameters.AsOfDate).locale(parameters.Locale).format('L');
                             //data.Report = 'Incoming Shipping Label';
                             //this.renderFooterHtml(data);
                             if (logoObject.LogoImage != '') {

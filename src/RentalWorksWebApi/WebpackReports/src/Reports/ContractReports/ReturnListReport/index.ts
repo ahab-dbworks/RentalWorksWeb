@@ -25,7 +25,7 @@ export class ReturnListReport extends WebpackReport {
                                 .then((response: any) => {
                                     const data: any = response;
                                     data.Items = DataTable.toObjectList(response.ItemsTable);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                                     data.Report = 'RETURN LIST';
                                     data.Session = sessionNumber;
                                     data.DealName = DealName;

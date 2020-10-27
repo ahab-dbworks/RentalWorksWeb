@@ -117,7 +117,7 @@ namespace WebApi.Modules.Warehouse.Activity
                         }
                         if (!string.IsNullOrEmpty(ActivityTime))
                         {
-                            ActivityDateTime = FwConvert.ToDateTime(FwConvert.ToUSShortDate(ActivityDateTime.GetValueOrDefault(DateTime.MinValue).Date), ActivityTime, "");
+                            ActivityDateTime = FwConvert.ToDateTime(FwConvert.ToShortDate(ActivityDateTime.GetValueOrDefault(DateTime.MinValue).Date), ActivityTime);
                         }
                     }
                 }
@@ -137,11 +137,11 @@ namespace WebApi.Modules.Warehouse.Activity
 
                         if (!string.IsNullOrEmpty(ActivityDate))
                         {
-                            ActivityDateTime = FwConvert.ToDateTime(ActivityDate, origActivityTime, "");
+                            ActivityDateTime = FwConvert.ToDateTime(ActivityDate, origActivityTime);
                         }
                         if (!string.IsNullOrEmpty(ActivityTime))
                         {
-                            ActivityDateTime = FwConvert.ToDateTime(FwConvert.ToUSShortDate(ActivityDateTime.GetValueOrDefault(DateTime.MinValue).Date), ActivityTime, "");
+                            ActivityDateTime = FwConvert.ToDateTime(FwConvert.ToShortDate(ActivityDateTime.GetValueOrDefault(DateTime.MinValue).Date), ActivityTime);
                         }
                     }
                 }

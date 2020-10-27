@@ -14,7 +14,7 @@ export class PartsInventoryPurchaseHistoryReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventorypurchasehistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.PurchasedFromDate = parameters.PurchasedFromDate;
                     data.PurchasedToDate = parameters.PurchasedToDate;
                     data.ReceivedFromDate = parameters.ReceivedFromDate;

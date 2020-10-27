@@ -210,7 +210,7 @@ class PurchaseOrder implements IModule {
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
             //$form.find('div[data-datafield="Labor"] input').prop('checked', true);
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
             FwFormField.setValueByDataField($form, 'PurchaseOrderDate', today);
 
             const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

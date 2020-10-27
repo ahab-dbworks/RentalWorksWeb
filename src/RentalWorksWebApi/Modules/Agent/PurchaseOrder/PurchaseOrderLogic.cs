@@ -1088,7 +1088,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 Status = RwConstants.PURCHASE_ORDER_STATUS_NEW;
                 if (string.IsNullOrEmpty(PurchaseOrderDate))
                 {
-                    PurchaseOrderDate = FwConvert.ToString(DateTime.Today);
+                    PurchaseOrderDate = FwConvert.ToShortDate(DateTime.Today);
                 }
 
                 if (string.IsNullOrEmpty(BillingCycleId))
@@ -1304,7 +1304,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 bool x = purchaseOrder.SetNumber(e.SqlConnection).Result;
-                StatusDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
                 if (string.IsNullOrEmpty(TaxOptionId))
                 {
                     TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;

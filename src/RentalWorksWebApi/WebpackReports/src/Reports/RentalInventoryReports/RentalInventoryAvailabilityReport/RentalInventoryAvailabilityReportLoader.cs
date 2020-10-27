@@ -671,8 +671,8 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
                                     reservationRow[dt.GetColumnNo("OrderNumber")] = reservation.OrderNumber;
                                     reservationRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
                                     reservationRow[dt.GetColumnNo("Deal")] = reservation.Deal;
-                                    reservationRow[dt.GetColumnNo("FromDate")] = FwConvert.ToString(reservation.FromDateTime);
-                                    reservationRow[dt.GetColumnNo("ToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToString(reservation.ToDateTime));
+                                    reservationRow[dt.GetColumnNo("FromDate")] = FwConvert.ToShortDate(reservation.FromDateTime);
+                                    reservationRow[dt.GetColumnNo("ToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
                                     reservationRow[dt.GetColumnNo("SubRentQuantity")] = reservation.QuantitySub;
                                     reservationRow[dt.GetColumnNo("LateQuantity")] = reservation.QuantityLate.Total;
 
@@ -744,7 +744,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
             x = 1;
             while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
             {
-                dt.Columns[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))].DataField = "Available " + FwConvert.ToString(theDate);
+                dt.Columns[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))].DataField = "Available " + FwConvert.ToShortDate(theDate);
                 theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
                 x++;
             }

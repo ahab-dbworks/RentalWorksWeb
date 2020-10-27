@@ -80,7 +80,7 @@ class InventoryPurchaseUtility {
     setDefaults($form) {
         const office = JSON.parse(sessionStorage.getItem('location'));
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
         FwFormField.setValueByDataField($form, 'Quantity', 1);
         FwFormField.setValueByDataField($form, 'PurchaseDate', today);
@@ -136,8 +136,7 @@ class InventoryPurchaseUtility {
 
         $form.find('[data-datafield="WarrantyDays"]').on('change', e => {
             const days = FwFormField.getValueByDataField($form, 'WarrantyDays');
-            const today = FwFunc.getDate();
-            const expiration = FwFunc.getDate(today, parseInt(days));
+            const expiration = FwLocale.getDate(null, null, { Quantity: parseInt(days), ObjectModified: 'days' });
             FwFormField.setValueByDataField($form, 'WarrantyExpiration', expiration);
         });
 

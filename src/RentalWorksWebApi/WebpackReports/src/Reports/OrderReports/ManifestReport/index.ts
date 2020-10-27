@@ -26,7 +26,7 @@ export class ManifestReport extends WebpackReport {
                             data.OrderNumber = parameters.orderno;
                             data.Report = "Value Sheet";
                             data.WhichReport = parameters.manifestReportItems;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

@@ -37,16 +37,22 @@
         html.push('</div>');
         $control.html(html.join(''));
 
-        $control.find('.fwformfield-value').inputmask('mm/dd/yyyy');
+        $control.data({
+            'OriginalValue': '',
+            'ISOFormat': '',
+            'LocalizedValue': ''
+        });
 
         $control.find('.fwformfield-value').datepicker({
-            endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
-            autoclose: true,
-            format: "mm/dd/yyyy",
+            endDate:        (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
+            autoclose:      true,
+            format:         FwLocale.getDateFormat().toLowerCase(),
             todayHighlight: true,
-            todayBtn: 'linked',
-            weekStart: FwFunc.getWeekStartInt(),
-        }).off('focus'); //MY 1/5/2015: Suppresses the date picker from opening on focus.
+            todayBtn:       'linked',
+            weekStart:      FwFunc.getWeekStartInt(),
+        }).off('focus');
+
+        $control.find('.fwformfield-value').inputmask(FwLocale.getDateFormat().toLowerCase());
 
         $control
             .on('change', '.fwformfield-value', function () {
@@ -69,9 +75,19 @@
                         } else {
                             $control.removeClass('error');
                             jQuery(this).datepicker('update');
+
+                            $control.data({
+                                'ISOFormat': FwLocale.formatLocaleDateToIso(datevalue),
+                                'LocalizedValue': datevalue
+                            });
                         }
                     } else {
                         jQuery(this).datepicker('update');
+
+                        $control.data({
+                            'ISOFormat':      FwLocale.formatLocaleDateToIso(datevalue),
+                            'LocalizedValue': datevalue
+                        });
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -86,31 +102,24 @@
                     FwFunc.showError(ex);
                 }
             })
-            .on('click', '.today', function () {
-                var today;
-                try {
-                    today = FwFunc.getDate();
-                    $control.find('.fwformfield-value').val(today).change();
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
             .on('click', '.yesterday', function () {
-                var date, value;
                 try {
-                    value = $control.find('.fwformfield-value').val();
-                    date = FwFunc.getDate(value, -1);
-                    $control.find('.fwformfield-value').val(date).change();
+                    if ($control.attr('data-enabled') === 'true') {
+                        var value = $control.data('ISOFormat');
+                        var date = FwLocale.getDate(value, true, { Quantity: -1, ObjectModified: 'days' });
+                        $control.find('.fwformfield-value').val(date).change();
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
             .on('click', '.tomorrow', function () {
-                var date, value;
                 try {
-                    value = $control.find('.fwformfield-value').val();
-                    date = FwFunc.getDate(value, 1);
-                    $control.find('.fwformfield-value').val(date).change();
+                    if ($control.attr('data-enabled') === 'true') {
+                        var value = $control.data('ISOFormat');
+                        var date = FwLocale.getDate(value, true, { Quantity: 1, ObjectModified: 'days' });
+                        $control.find('.fwformfield-value').val(date).change();
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -124,10 +133,16 @@
     //---------------------------------------------------------------------------------
     loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
-            .attr('data-originalvalue', value)
+            .attr('data-originalvalue', FwLocale.formatDateToLocale(value))
             .find('.fwformfield-value')
-            .val(value);
+            .val(FwLocale.formatDateToLocale(value));
         $fwformfield.find('.fwformfield-value').datepicker('update');
+
+        $fwformfield.data({
+            'OriginalValue':  value,
+            'ISOFormat':      value,
+            'LocalizedValue': FwLocale.formatDateToLocale(value)
+        });
     }
     //---------------------------------------------------------------------------------
     disable($control: JQuery<HTMLElement>): void {
@@ -139,15 +154,20 @@
     }
     //---------------------------------------------------------------------------------
     getValue2($fwformfield: JQuery<HTMLElement>): any {
-        var value = $fwformfield.find('.fwformfield-value').val();
+        var value = FwLocale.formatLocaleDateToIso($fwformfield.find('.fwformfield-value').val());
         return value;
     }
     //---------------------------------------------------------------------------------
     setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
         var $inputvalue = $fwformfield.find('.fwformfield-value');
-        $inputvalue.val(value);
+        $inputvalue.val(FwLocale.formatDateToLocale(value));
         $inputvalue.datepicker('update');
         if (firechangeevent) $inputvalue.change();
+
+        $fwformfield.data({
+            'ISOFormat':      value,
+            'LocalizedValue': FwLocale.formatDateToLocale(value)
+        });
     }
     //---------------------------------------------------------------------------------
 }

@@ -35,7 +35,7 @@
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        const today = FwFunc.getDate();
+        const today = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'ProcessInvoices', true);
 
         const allowinvoicedatechange = JSON.parse(sessionStorage.getItem('controldefaults')).allowinvoicedatechange;

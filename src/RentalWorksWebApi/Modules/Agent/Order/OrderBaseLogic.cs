@@ -1905,7 +1905,7 @@ namespace WebApi.Modules.Agent.Order
                 {
                     bool x = dealOrder.SetNumber(e.SqlConnection).Result;
                 }
-                StatusDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
                 if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
                 {
                     TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid", e.SqlConnection).Result;

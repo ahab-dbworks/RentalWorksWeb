@@ -220,7 +220,7 @@ class SearchInterface {
             case 'Main':
                 const department = JSON.parse(sessionStorage.getItem('department')); 
                 const location = JSON.parse(sessionStorage.getItem('location')); 
-                const today = FwFunc.getDate();
+                const today = FwLocale.getDate();
                 const addToTypes = [{ value: 'Quote',    caption: 'Quote', checked: 'T' },
                                     { value: 'Order',    caption: 'Order' },
                                     { value: 'Purchase', caption: 'Purchase' },

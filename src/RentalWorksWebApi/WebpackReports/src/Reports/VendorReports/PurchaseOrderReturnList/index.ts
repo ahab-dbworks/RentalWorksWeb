@@ -15,7 +15,7 @@ export class PurchaseOrderReturnList extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/purchaseorderreturnlist/runreport`, authorizationHeader, parameters)
                 .then((response: any) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'VENDOR RETURN LIST';
                     data.Department = parameters.department;
 
