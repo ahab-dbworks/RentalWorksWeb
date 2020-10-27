@@ -8,13 +8,10 @@ class PlugIn implements IModule {
     id: string = Constants.Modules.Administrator.children.PlugIn.id;
     //---------------------------------------------------------------------------------
     getModuleScreen() {
-        let $form;
         const screen: IModuleScreen = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
-        screen.viewModel = {};
-        screen.properties = {};
 
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
 
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
@@ -33,7 +30,12 @@ class PlugIn implements IModule {
             }); 
             this.events($form, isHubSpotConnected.hasRefreshToken);
         })()
-        
+
+        //for (var plugin of $form.find('.plugin')) {
+        //    var $plugin = jQuery(plugin);
+        //    $plugin.find('.status').addClass('disabled').html('Disabled');
+        //}
+
         return $form;
     }
     //---------------------------------------------------------------------------------

@@ -1,32 +1,107 @@
 ﻿<div id="pluginform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Plug-In" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="PlugInController">
-  <div id="pluginform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
-    <div class="tabs">
-      <div data-type="tab" id="plugintab" class="usersettingstab tab" data-tabpageid="plugintabpage" data-caption="Plug-In"></div>
-    </div>
-    <div class="tabpages">
-      <div data-type="tabpage" id="plugintabpage" class="tabpage" data-tabid="plugintab">
-        <div class="flexpage">
-          <div class="flexcolumn">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Plug-In">
-              <div class="plugin-card flexrow">
-                <div class="flexcolumn">
-                  <div class="flexrow">
-                    <div class="bgothm plugin-title">HubSpot</div>
-                  </div>
-                </div>
-                <div class="plugin-settings flexcolumn">
-                  <div class="flexrow">
-                    <div class="plugin-button hubspot-btn"></div>
-                  </div>
-                  <div class="flexrow">
-                    <div class="plugin-button sync-contacts-btn">Sync Contacts</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <div class="plugins">
+
+    <div class="plugin azuread">
+      <div class="plugin-title">
+        <div class="title">Azure Active Directory</div>
+        <div class="synop">Connect to Microsoft Azure Active Directory to authenticate RentalWorks access against your AD accounts.</div>
+      </div>
+      <div class="plugin-settings">
+        <div class="setting">
+          <div class="setting-caption">Enabled:</div>
+          <div class="setting-control">
+            <div data-control="FwFormField" data-type="toggleswitch" class="fwcontrol fwformfield" data-caption="" data-datafield="TenantId"></div>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Tenant ID:</div>
+          <div class="setting-control">
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="TenantId"></div>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Client ID:</div>
+          <div class="setting-control">
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ClientId"></div>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Client Secret:</div>
+          <div class="setting-control">
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ClientSecret"></div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="plugin hubspot">
+      <div class="plugin-title">
+        <div class="title">HubSpot</div>
+        <div class="synop">Enables syncing of contacts between RentalWorks and Hubspot</div>
+      </div>
+      <div class="plugin-settings">
+        <div class="setting">
+          <div class="setting-caption">Connect to Hubspot:</div>
+          <div class="setting-control">
+            <div class="plugin-button hubspot-btn"></div>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Manually sync contacts with Hubspot:</div>
+          <div class="setting-control">
+            <div class="plugin-button sync-contacts-btn">Sync Contacts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plugin okta">
+      <div class="plugin-title">
+        <div class="title">OKTA</div>
+      </div>
+      <div class="plugin-settings">
+
+      </div>
+    </div>
+
+    <div class="plugin quickbooksonline">
+      <div class="plugin-title">
+        <div class="title">QuickBooks Online</div>
+        <div class="synop">Enables syncing of invoices, credit memos, and reciepits between RentalWorks and QuickBooks Online.</div>
+      </div>
+      <div class="plugin-settings">
+        <div class="setting">
+          <div class="setting-caption">Connect to QuickBooks Online:</div>
+          <div class="setting-control">
+            <div class="plugin-button">Connect</div>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Refresh the connection token:</div>
+          <div class="setting-control">
+            <div class="plugin-button">Refresh Token</div>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Revoke the connection token:</div>
+          <div class="setting-control">
+            <div class="plugin-button">Revoke Token</div>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Last connected:</div>
+          <div class="setting-control">
+            
+          </div>
+        </div>
+        <div class="setting">
+          <div class="setting-caption">Expires in:</div>
+          <div class="setting-control">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
