@@ -166,7 +166,7 @@ abstract class InventoryBase {
 
         const controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
-            window[controller]['openFormInventory']($form);
+            window[controller]['openFormInventory']($form, mode);
         }
 
         //Toggle Buttons
@@ -797,6 +797,15 @@ abstract class InventoryBase {
             }
         });
 
+        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
+            const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+            if (trackedBy === 'QUANTITY') {
+                $form.find('.costcalculationsection').show();
+            } else {
+                $form.find('.costcalculationsection').hide();
+            }
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
@@ -1383,6 +1392,15 @@ abstract class InventoryBase {
             }
             $tab.addClass('tabGridsLoaded');
         });
+
+        //show/hide Cost Calculation
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        if (trackedBy === 'QUANTITY') {
+            $form.find('.costcalculationsection').show();
+        } else {
+            $form.find('.costcalculationsection').hide();
+        }
+
 
         //Enable/disable grid based on packageprice
         let classificationName;

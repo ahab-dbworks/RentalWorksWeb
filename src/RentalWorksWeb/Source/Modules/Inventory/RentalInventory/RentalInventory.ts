@@ -26,6 +26,12 @@ class RentalInventory extends InventoryBase {
 
     };
     //----------------------------------------------------------------------------------------------
+    setupNewMode($form: any) {
+        super.setupNewMode($form);
+        const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultrentalquantityinventorycostcalculation);
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const maxPageSize = 20;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

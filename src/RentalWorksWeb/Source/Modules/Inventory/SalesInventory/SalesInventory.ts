@@ -8,8 +8,9 @@ class SalesInventory extends InventoryBase {
     //----------------------------------------------------------------------------------------------
     setupNewMode($form: any) {
         super.setupNewMode($form);
-        //----------------------------------------------------------------------------------------------
         FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');  //justin hoffman 10/12/2020 #3177
+        const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultsalesquantityinventorycostcalculation);
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

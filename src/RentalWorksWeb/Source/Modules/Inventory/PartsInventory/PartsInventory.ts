@@ -8,6 +8,12 @@ class PartsInventory extends InventoryBase {
     id: string = Constants.Modules.Inventory.children.PartsInventory.id;
     AvailableFor: string = "P";
     //----------------------------------------------------------------------------------------------
+    setupNewMode($form: any) {
+        super.setupNewMode($form);
+        const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultpartsquantityinventorycostcalculation);
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         // ----------
