@@ -649,6 +649,13 @@ abstract class StagingCheckoutBase {
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the CheckedOutItem Grid / StagedItemGrid controllers
     moveItems($form: JQuery, isRightArrow: boolean): void {
+        const debouncedRefreshBothGrids = FwFunc.debounce(function () {
+            const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+            FwBrowse.search($stagedItemGrid);
+            const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+            FwBrowse.search($checkOutPendingItemGrid);
+        }, 2000, false);
+
         $form.find('.unstage-all').removeClass('btn-active');
 
         const errorMsg = $form.find('.error-msg:not(.qty)');
@@ -686,10 +693,7 @@ abstract class StagingCheckoutBase {
                     $form.find('.partial-contract-barcode input').val('');
                     $form.find('.partial-contract-quantity input').val('');
                     $form.find('.partial-contract-barcode input').select();
-                    setTimeout(() => {
-                        FwBrowse.search($checkedOutItemGrid);
-                        FwBrowse.search($stagedItemGrid);
-                    }, 500);
+                    debouncedRefreshBothGrids();
                 }
                 if (response.status === 107) {
                     errorMsg.html('');
@@ -728,10 +732,7 @@ abstract class StagingCheckoutBase {
                         responseCount++;
 
                         if (responseCount === $selectedCheckBoxes.length) {
-                            setTimeout(() => {
-                                FwBrowse.search($checkedOutItemGrid);
-                                FwBrowse.search($stagedItemGrid);
-                            }, 0);
+                            debouncedRefreshBothGrids();
                         }
                     }, function onError(response) {
                         FwFunc.showError(response);
