@@ -968,7 +968,7 @@ class FwModule {
                     module: controller.Module,
                     ids: rowuniqueids
                 };
-               
+
                 let ids: any = [];
                 for (let key in request.data.ids) {
                     ids.push(request.data.ids[key].value);
@@ -1008,31 +1008,31 @@ class FwModule {
     //        }
 
     //        if ($selectedRows.length > 0) {
-                //const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete ${confirmationText}?`);
-                //const $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                //const $no = FwConfirmation.addButton($confirmation, 'No');
-                //$yes.focus();
-                //$yes.on('click', e => {
-                //    const controller = $browse.attr('data-controller');
-                //    for (let i = 0; i < $selectedRows.length; i++) {
-                //        const ids = FwBrowse.getRowFormUniqueIds($browse, jQuery($selectedRows[i]));
-                //        const request: any = {
-                //            module: (<any>window[controller]).Module,
-                //            ids: ids
-                //        };
-                //        FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
-                //            const $form = FwModule.getFormByUniqueIds(ids);
-                //            if ((typeof $form != 'undefined') && ($form.length > 0)) {
-                //                const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
-                //                FwModule.closeFormTab($tab, $form, true);
-                //            }
-                //            FwBrowse.databind($browse);
-                //        });
-                //    }
-                //});
+    //const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete ${confirmationText}?`);
+    //const $yes = FwConfirmation.addButton($confirmation, 'Yes');
+    //const $no = FwConfirmation.addButton($confirmation, 'No');
+    //$yes.focus();
+    //$yes.on('click', e => {
+    //    const controller = $browse.attr('data-controller');
+    //    for (let i = 0; i < $selectedRows.length; i++) {
+    //        const ids = FwBrowse.getRowFormUniqueIds($browse, jQuery($selectedRows[i]));
+    //        const request: any = {
+    //            module: (<any>window[controller]).Module,
+    //            ids: ids
+    //        };
+    //        FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
+    //            const $form = FwModule.getFormByUniqueIds(ids);
+    //            if ((typeof $form != 'undefined') && ($form.length > 0)) {
+    //                const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
+    //                FwModule.closeFormTab($tab, $form, true);
+    //            }
+    //            FwBrowse.databind($browse);
+    //        });
+    //    }
+    //});
 
 
-                // hotkey support for confirmation buttons
+    // hotkey support for confirmation buttons
     //            $confirmation.on('keyup', e => {
     //                e.preventDefault();
     //                if (e.which === 89) { // 'y'
