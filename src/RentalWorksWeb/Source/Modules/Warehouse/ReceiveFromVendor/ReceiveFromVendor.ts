@@ -334,13 +334,8 @@ class ReceiveFromVendor {
     resetForm($form) {
         $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
         let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-        $receiveItemsGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                ContractId: '',
-                PurchaseOrderId: ''
-            }
-        })
-        FwBrowse.search($receiveItemsGridControl);
+        $receiveItemsGridControl.find('tbody').empty();
+
         FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
         let date = new Date(),
             currentDate = date.toLocaleString(),
