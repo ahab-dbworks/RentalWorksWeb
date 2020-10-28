@@ -77,6 +77,9 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date)]
+        public string InputDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
