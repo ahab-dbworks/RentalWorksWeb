@@ -50,7 +50,7 @@ class FwModule {
                             </div>
                           </div>`);
             const $closeTabButton = jQuery(iconHtml.join(''));
-            $tabControl.find('.closetabbutton:first').append($closeTabButton); 
+            $tabControl.find('.closetabbutton:first').append($closeTabButton);
         } else {
             $tabControl.find('.closetabbutton').html('');
         }
@@ -935,7 +935,7 @@ class FwModule {
             const modifiedFields = $form.data('modifiedfields');
 
             for (let i = 0; i < uniqueids.length; i++) {
-                const fields = { ...uniqueids[i], ...modifiedFields }; 
+                const fields = { ...uniqueids[i], ...modifiedFields };
                 request.push(fields);
             }
 
