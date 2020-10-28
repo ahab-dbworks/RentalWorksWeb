@@ -88,6 +88,9 @@ namespace WebApi.Modules.HomeControls.RepairPart
         [FwLogicProperty(Id:"o3kqZfQtT7de")]
         public string ItemOrder { get { return repairPart.ItemOrder; } set { repairPart.ItemOrder = value; } }
 
+        [FwLogicProperty(Id: "JgZbQGdj8nRf", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id:"G96C8POf3bCn")]
         public string DateStamp { get { return repairPart.DateStamp; } set { repairPart.DateStamp = value; } }
 

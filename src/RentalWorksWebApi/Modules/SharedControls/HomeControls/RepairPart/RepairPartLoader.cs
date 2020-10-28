@@ -76,6 +76,9 @@ namespace WebApi.Modules.HomeControls.RepairPart
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

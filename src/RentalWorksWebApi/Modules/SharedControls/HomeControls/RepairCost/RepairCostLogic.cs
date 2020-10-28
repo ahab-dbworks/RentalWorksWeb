@@ -62,6 +62,9 @@ namespace WebApi.Modules.HomeControls.RepairCost
         [FwLogicProperty(Id:"tH8VOGTmCkIL")]
         public string Note { get { return repairCost.Note; } set { repairCost.Note = value; } }
 
+        [FwLogicProperty(Id: "jBAsNeMKbsq9", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
+
         [FwLogicProperty(Id:"9Nznde1Vsifs")]
         public string DateStamp { get { return repairCost.DateStamp; } set { repairCost.DateStamp = value; } }
 
