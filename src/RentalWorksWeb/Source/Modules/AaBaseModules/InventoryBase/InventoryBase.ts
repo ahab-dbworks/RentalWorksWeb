@@ -174,6 +174,7 @@ abstract class InventoryBase {
             { value: 'FIFO', caption: 'First In, First Out' },
             { value: 'LIFO', caption: 'Last In, First Out' },
             { value: 'AVERAGEVALUE', caption: 'Average Value' },
+            { value: 'UNITVALUE', caption: 'Inventory Value' },  // will be removed
         ]);
 
 

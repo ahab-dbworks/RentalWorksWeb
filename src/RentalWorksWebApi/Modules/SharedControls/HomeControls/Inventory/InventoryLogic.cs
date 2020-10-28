@@ -472,7 +472,7 @@ namespace WebApi.Modules.HomeControls.Inventory
             if (isValid)
             {
                 PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.CostCalculation));
-                string[] acceptableValues = { RwConstants.COST_CALCULATION_FIFO, RwConstants.COST_CALCULATION_LIFO, RwConstants.COST_CALCULATION_AVERAGE };
+                string[] acceptableValues = { RwConstants.COST_CALCULATION_FIFO, RwConstants.COST_CALCULATION_LIFO, RwConstants.COST_CALCULATION_AVERAGE, RwConstants.COST_CALCULATION_UNIT_VALUE };  // unit value will be removed
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg, (saveMode.Equals(TDataRecordSaveMode.smUpdate)));
             }
 
