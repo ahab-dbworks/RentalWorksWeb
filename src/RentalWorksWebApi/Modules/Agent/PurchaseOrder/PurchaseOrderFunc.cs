@@ -471,7 +471,8 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     to.TaxId = "";
                     to.OfficeLocationId = newLocationId;
                     to.WarehouseId = newWarehouseId;
-                    to.PurchaseOrderDate = DateTime.Today.ToString("yyyy-MM-dd");  // probably a method for this on the date-format branch
+                    //to.PurchaseOrderDate = DateTime.Today.ToString("yyyy-MM-dd");  // probably a method for this on the date-format branch
+                    to.PurchaseOrderDate = FwConvert.ToShortDate(DateTime.Today);
 
                     //save the new 
                     await to.SaveAsync(original: null, conn: conn);
