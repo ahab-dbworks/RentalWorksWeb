@@ -649,6 +649,8 @@ abstract class StagingCheckoutBase {
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the CheckedOutItem Grid / StagedItemGrid controllers
     moveItems($form: JQuery, isRightArrow: boolean): void {
+        $form.find('.unstage-all').removeClass('btn-active');
+
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
         let $selectedCheckBoxes, url;
@@ -657,9 +659,13 @@ abstract class StagingCheckoutBase {
         if (isRightArrow) {
             $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
             url = 'movestageditemtoout';
+            $form.find('.right-arrow').addClass('btn-active');
+            $form.find('.left-arrow').removeClass('btn-active');
         } else {
             $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
             url = 'moveoutitemtostaged';
+            $form.find('.left-arrow').addClass('btn-active');
+            $form.find('.right-arrow').removeClass('btn-active');
         }
 
         const request: any = {};
@@ -985,7 +991,7 @@ abstract class StagingCheckoutBase {
                         $form.find('[data-datafield="Code"] input').select();
                     }
                     if (response.ShowStageIncompleteContainer === true) {
-                        $form.find('.stage-incomplete-container').data('triggeredevent', { datafield: 'Code' , keycode: e.which}).show();
+                        $form.find('.stage-incomplete-container').data('triggeredevent', { datafield: 'Code', keycode: e.which }).show();
                     } else {
                         $form.find('.stage-incomplete-container').hide();
                     }
@@ -1021,7 +1027,7 @@ abstract class StagingCheckoutBase {
                     if (typeof $form.data('stageincompletecontainer') != 'undefined') {
                         request.StageIncompleteContainer = true;
                     }
-                    
+
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                         if (response.success === true) {
                             FwFunc.playSuccessSound();
@@ -1095,13 +1101,13 @@ abstract class StagingCheckoutBase {
             const isRightArrow = jQuery(e.currentTarget).hasClass('right-arrow');
             if (isRightArrow) {
                 this.moveItems($form, isRightArrow);
-                $form.find('.right-arrow').addClass('arrow-clicked');
-                $form.find('.left-arrow').removeClass('arrow-clicked');
             } else {
                 this.moveItems($form, isRightArrow);
-                $form.find('.left-arrow').addClass('arrow-clicked');
-                $form.find('.right-arrow').removeClass('arrow-clicked');
             }
+        });
+        // Unstage All button
+        $form.find('.unstage-all').on('click', e => {
+            this.unstageAllItems($form);
         });
         // Complete Checkout Contract
         $form.find('.complete-checkout-contract').on('click', e => {
@@ -1171,14 +1177,14 @@ abstract class StagingCheckoutBase {
             const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
 
             if (e.which == 13 && barCodeFieldValue !== '') {
-                if ($form.find('.right-arrow').hasClass('arrow-clicked')) {
+                if ($form.find('.right-arrow').hasClass('btn-active')) {
                     this.moveItems($form, true);
-                } else if ($form.find('.left-arrow').hasClass('arrow-clicked')) {
+                } else if ($form.find('.left-arrow').hasClass('btn-active')) {
                     this.moveItems($form, false);
+                } else if ($form.find('.unstage-all').hasClass('btn-active')) {
+                    this.unstageAllItems($form);
                 } else {
                     this.moveItems($form, true);
-                    $form.find('.right-arrow').addClass('arrow-clicked');
-                    $form.find('.left-arrow').removeClass('arrow-clicked');
                 }
             }
         });
@@ -1389,6 +1395,95 @@ abstract class StagingCheckoutBase {
         $form.find('[data-datafield="Code"] input').select();
     }
     //----------------------------------------------------------------------------------------------
+    unstageAllItems($form: JQuery): void {
+        $form.find('.dbl-angle').removeClass('btn-active');
+        $form.find('.unstage-all').addClass('btn-active');
+        const errorMsg = $form.find('.error-msg:not(.qty)');
+
+        const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+        const $selectedCheckBoxes = $form.find('.staged-checked-grid .cbselectrow:checked');
+
+        const request: any = {};
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
+        const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
+        if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
+            request.ContractId = this.contractId;
+            request.Code = barCodeFieldValue;
+            request.OrderId = orderId;
+            if (quantityFieldValue !== '') {
+                request.Quantity = quantityFieldValue
+            }
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
+                if (response.success === true && response.status != 107) {
+                    errorMsg.html('');
+                    FwFunc.playSuccessSound();
+                    $form.find('.partial-contract-barcode input').val('');
+                    $form.find('.partial-contract-quantity input').val('');
+                    $form.find('.partial-contract-barcode input').select();
+                    setTimeout(() => {
+                        FwBrowse.search($checkedOutItemGrid);
+                        FwBrowse.search($stagedItemGrid);
+                    }, 500);
+                }
+                if (response.status === 107) {
+                    errorMsg.html('');
+                    FwFunc.playSuccessSound();
+                    $form.find('.partial-contract-quantity input').focus();
+                }
+                if (response.success === false && response.status !== 107) {
+                    FwFunc.playErrorSound();
+                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                    $form.find('.partial-contract-barcode input').focus();
+                }
+            }, null, null);
+        } else {
+            if ($selectedCheckBoxes.length !== 0) {
+                let responseCount = 0;
+
+                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                    const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+                    const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+                    const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+                    const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                    const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
+
+                    request.OrderId = orderId;
+                    request.ContractId = this.contractId;
+                    request.Quantity = quantity;
+
+                    if (barCode !== '') {
+                        request.Code = barCode;
+                    } else {
+                        request.Code = iCode;
+                        request.OrderItemId = orderItemId;
+                        request.VendorId = vendorId;
+                    }
+                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
+                        responseCount++;
+
+                        if (responseCount === $selectedCheckBoxes.length) {
+                            setTimeout(() => {
+                                FwBrowse.search($checkedOutItemGrid);
+                                FwBrowse.search($stagedItemGrid);
+                            }, 0);
+                        }
+                    }, function onError(response) {
+                        FwFunc.showError(response);
+                    }, null);
+                }
+
+                $form.find('.partial-contract-barcode input').val('');
+                $form.find('.partial-contract-quantity input').val('');
+                $form.find('.partial-contract-barcode input').focus();
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select rows in Contract Items or use Bar Code input in order to perform this function.');
+                $form.find('.partial-contract-barcode input').focus();
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     resetForm($form) {
         $form.find('.form-alert-container').remove(); // banner alerts
         $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
@@ -1569,10 +1664,10 @@ abstract class StagingCheckoutBase {
                       <div class="flexrow">
                         <div class="flexcolumn summaryview">
                           <div class="flexrow staged-item-grid">
-                            <div data-control="FwGrid" data-grid="StagedItemGrid" data-securitycaption="Staged Items"></div>
+                            <div class="staged-checked-grid" data-control="FwGrid" data-grid="StagedItemGrid"></div>
                           </div>
                           <div class="flexrow pending-item-grid">
-                            <div class="pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid" data-securitycaption=""></div>
+                            <div class="staged-checked-grid pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid"></div>
                           </div>
                           <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
                             <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 145px; margin-left:8px; text-align:center;">${statusBtnCaption}</div>
@@ -1581,14 +1676,15 @@ abstract class StagingCheckoutBase {
                           <div class="fwformcontrol abort-checkout-contract" data-type="button" style="max-width:fit-content;display:none;">${backToBtnCaption}</div>
                         </div>
                         <div class="flexcolumn partial-contract" style="max-width:125px;justify-content:center;">
-                          <button type="submit" class="dbl-angle right-arrow"><img src="theme/images/icons/integration/dbl-angle-right.svg" alt="Add" /></button>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield partial-contract-inputs partial-contract-barcode clearable" data-caption="Bar Code / I-Code" data-datafield="" style="margin-top:30px;"></div>
+                          <button type="submit" class="staging-btn dbl-angle right-arrow"><img src="theme/images/icons/integration/dbl-angle-right.svg" alt="Add" /></button>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield partial-contract-inputs partial-contract-barcode clearable" data-caption="Bar Code / I-Code" data-datafield="" style="margin-top:15px;"></div>
                           <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield partial-contract-inputs partial-contract-quantity clearable" data-caption="Quantity" data-datafield="" style="max-width:72px;"></div>
-                          <button type="submit" class="dbl-angle left-arrow" style="margin-top:40px;"><img src="theme/images/icons/integration/dbl-angle-left.svg" alt="Remove" /></button>
+                          <button type="submit" class="staging-btn dbl-angle left-arrow" style="margin-top:25px;"><img src="theme/images/icons/integration/dbl-angle-left.svg" alt="Remove" /></button>
+                          <button type="submit" alt="Unstage All" class="staging-btn unstage-all" style="margin-top:20px;"><i class="material-icons md-48">remove_circle_outline</i></button>
                         </div>
                         <div class="flexcolumn partial-contract">
                           <div class="flexrow">
-                            <div data-control="FwGrid" data-grid="CheckedOutItemGrid" data-securitycaption="Contract Items"></div>
+                            <div data-control="FwGrid" data-grid="CheckedOutItemGrid"></div>
                           </div>
                           <div class="flexrow" style="align-items:space-between;">
                             <div class="fwformcontrol complete-checkout-contract" data-type="button" style="max-width:140px;">${createBtnCaption}</div>
