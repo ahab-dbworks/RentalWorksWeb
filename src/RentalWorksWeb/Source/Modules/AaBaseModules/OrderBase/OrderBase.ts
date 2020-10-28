@@ -4605,7 +4605,9 @@ class OrderBase {
         this.renderScheduleDateAndTimeSection($form, response);
         this.showHideDeliveryLocationField($form);
         this.applyTaxOptions($form, response);
-        this.applyCurrencySymbolToTotalFields($form, response);
+        const $totalFields = $form.find('.totals[data-type="money"], .frame[data-type="money"], .manifest-totals [data-type="money"]');
+        const $grids = $form.find('[data-name="OrderItemGrid"], [data-name="OrderManifestGrid"]');
+        this.applyCurrencySymbolToTotalFields($form, response, $totalFields, $grids);
 
 
         $form.find('[data-datafield="Currency"]').attr('data-originaltext', FwFormField.getValueByDataField($form, 'Currency'));
@@ -4614,8 +4616,7 @@ class OrderBase {
 
     }
     //----------------------------------------------------------------------------------------------
-    applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.totals[data-type="money"], .frame[data-type="money"], .manifest-totals [data-type="money"]');
+    applyCurrencySymbolToTotalFields($form: JQuery, response: any, $totalFields, $grids) {
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
@@ -4641,8 +4642,6 @@ class OrderBase {
         });
 
         //add to grids
-        const $grids = $form.find('[data-name="OrderItemGrid"], [data-name="OrderManifestGrid"]');
-
         $grids.each((index, element) => {
             let $grid, currencySymbol;
             $grid = jQuery(element);

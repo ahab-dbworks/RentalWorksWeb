@@ -418,7 +418,7 @@ class Repair {
         $form.find('.releasesection').show();
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: JQuery): void {
+    afterLoad($form: JQuery, response): void {
         const qcRequired = FwFormField.getValueByDataField($form, 'QcRequired');
         if (qcRequired === false) {
             $form.find('[data-type="tab"][data-caption="QC"]').hide();
@@ -507,6 +507,10 @@ class Repair {
             getUniqueid2Value: () => ''
         });
         FwBrowse.search($form.find('[data-name="RepairDocumentGrid"]'));
+
+        const $totalFields = $form.find('.totals[data-type="money"]');
+        const $grids = $form.find('[data-name="RepairCostGrid"], [data-name="RepairPartGrid"]');
+        OrderBaseController.applyCurrencySymbolToTotalFields($form, response, $totalFields, $grids);
     };
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -1257,11 +1261,11 @@ class Repair {
                 </div>
                   <div class="formrow" style="display: flex; justify-content: flex-end;">
                     <div class="formcolumn costtotals" style="width:auto;">
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield=""  data-enabled="false" data-totalfield="RepairCostGrossTotal" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="RepairCostDiscount" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Extended" data-datafield="" data-enabled="false" data-totalfield="RepairCostExtended" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="RepairCostTax" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="RepairCostTotal" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield=""  data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairCostGrossTotal" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairCostDiscount" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Extended" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairCostExtended" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairCostTax" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairCostTotal" style="max-width:125px; float:left;"></div>
                     </div>
                   </div>
               </div>
@@ -1276,11 +1280,11 @@ class Repair {
                 </div>
                   <div class="formrow" style="display: flex; justify-content: flex-end;">
                     <div class="formcolumn parttotals" style="width:auto;">
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="RepairPartGrossTotal" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="RepairPartDiscount" style="max-width:125px; float:left"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Extended" data-datafield="" data-enabled="false" data-totalfield="RepairPartExtended" style="max-width:125px; float:left"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="RepairPartTax" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="RepairPartTotal" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairPartGrossTotal" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairPartDiscount" style="max-width:125px; float:left"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Extended" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairPartExtended" style="max-width:125px; float:left"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairPartTax" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-currencysymbol="CurrencySymbol" data-totalfield="RepairPartTotal" style="max-width:125px; float:left;"></div>
                     </div>
                   </div>
               </div>
@@ -1317,6 +1321,7 @@ class Repair {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax and Currency">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency Code" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-validationname="CurrencyCodeValidation" data-required="true" style="float:left;max-width:150px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="CurrencySymbol" style="flex:1 1 150px;display:none;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Tax Option" data-datafield="TaxOptionId" data-displayfield="TaxOption" data-validationname="TaxOptionValidation" style="float:left;max-width:450px;"></div>
                         </div>
                       </div>
