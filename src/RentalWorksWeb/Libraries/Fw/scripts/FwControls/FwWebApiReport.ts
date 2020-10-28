@@ -10,7 +10,8 @@ abstract class FwWebApiReport {
         HasEmailHtml: boolean,
         HasEmailPdf: boolean,
         HasEmailMePdf: boolean,
-        HasDownloadExcel: boolean
+        HasDownloadExcel: boolean,
+        //HasCustomize: boolean
     };
     designerProvisioned: boolean;
     //----------------------------------------------------------------------------------------------
@@ -24,7 +25,8 @@ abstract class FwWebApiReport {
             HasEmailHtml: true,
             HasEmailPdf: true,
             HasEmailMePdf: true,
-            HasDownloadExcel: true
+            HasDownloadExcel: true,
+            //HasCustomize: false
         };
         designerProvisioned: false;
     }
@@ -458,7 +460,7 @@ abstract class FwWebApiReport {
                                         }
 
                                         //FwFormField.setValue2($this, emailList, emailList);
-                          
+
                                         break;
                                     case 8:  //Backspace
                                         $this = jQuery(e.currentTarget);
@@ -637,6 +639,22 @@ abstract class FwWebApiReport {
                 }
             });
         }
+
+        //Customize
+        //if ((typeof reportOptions.HasCustomize === 'undefined') || (reportOptions.HasCustomize === true)) {
+            FwMenu.addVerticleSeparator($menuObject);
+            const $btnCustomize = FwMenu.addStandardBtn($menuObject, 'Customize');
+            $btnCustomize.on('click', (event: JQuery.Event) => {
+                const $popupForm = CustomReportLayoutController.openForm('NEW');
+                const $popupControl = FwPopup.renderPopup($popupForm, undefined, 'Custom Report Layout');
+                FwFormField.setValueByDataField($popupForm, 'BaseReport', $form.attr('data-reportname'), '', true);
+                $popupControl.find('.fwconfirmationbox').css({ 'width': '80vw', 'height': '80vh', 'overflow': 'auto' });
+                $popupForm.data('usereportlayout', true);
+                $popupForm.data('$reportfrontend', $form);
+                FwFormField.disable($popupForm.find('[data-datafield="BaseReport"]'));
+                FwPopup.showPopup($popupControl);
+            });
+        //}
 
         if (typeof (<any>window[$form.attr('data-controller')]).addReportMenuItems === 'function') {
             $menuObject = (<any>window[$form.attr('data-controller')]).addReportMenuItems($menuObject, $form);

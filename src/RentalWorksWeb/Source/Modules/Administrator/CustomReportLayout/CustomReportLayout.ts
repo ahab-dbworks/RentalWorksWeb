@@ -80,9 +80,16 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
-        FwFormField.disable($form.find('[data-datafield="BaseReport"]'));
-        $form.attr('data-modified', 'false');
-        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+        if ($form.data('usereportlayout')) {
+            const customReportLayoutId = FwFormField.getValueByDataField($form, 'CustomReportLayoutId');
+            const customReportLayoutDesc = FwFormField.getValueByDataField($form, 'Description');
+            FwFormField.setValueByDataField($form.data('$reportfrontend'), 'CustomReportLayoutId', customReportLayoutId, customReportLayoutDesc);
+            FwPopup.destroyPopup($form.closest('.fwpopup'));
+        } else {
+            FwFormField.disable($form.find('[data-datafield="BaseReport"]'));
+            $form.attr('data-modified', 'false');
+            $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
