@@ -1095,12 +1095,12 @@ abstract class StagingCheckoutBase {
             const isRightArrow = jQuery(e.currentTarget).hasClass('right-arrow');
             if (isRightArrow) {
                 this.moveItems($form, isRightArrow);
-                $form.find('.right-arrow').addClass('arrow-clicked');
-                $form.find('.left-arrow').removeClass('arrow-clicked');
+                $form.find('.right-arrow').addClass('btn-active');
+                $form.find('.left-arrow').removeClass('btn-active');
             } else {
                 this.moveItems($form, isRightArrow);
-                $form.find('.left-arrow').addClass('arrow-clicked');
-                $form.find('.right-arrow').removeClass('arrow-clicked');
+                $form.find('.left-arrow').addClass('btn-active');
+                $form.find('.right-arrow').removeClass('btn-active');
             }
         });
         // Complete Checkout Contract
@@ -1171,14 +1171,14 @@ abstract class StagingCheckoutBase {
             const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
 
             if (e.which == 13 && barCodeFieldValue !== '') {
-                if ($form.find('.right-arrow').hasClass('arrow-clicked')) {
+                if ($form.find('.right-arrow').hasClass('btn-active')) {
                     this.moveItems($form, true);
-                } else if ($form.find('.left-arrow').hasClass('arrow-clicked')) {
+                } else if ($form.find('.left-arrow').hasClass('btn-active')) {
                     this.moveItems($form, false);
                 } else {
                     this.moveItems($form, true);
-                    $form.find('.right-arrow').addClass('arrow-clicked');
-                    $form.find('.left-arrow').removeClass('arrow-clicked');
+                    $form.find('.right-arrow').addClass('btn-active');
+                    $form.find('.left-arrow').removeClass('btn-active');
                 }
             }
         });
