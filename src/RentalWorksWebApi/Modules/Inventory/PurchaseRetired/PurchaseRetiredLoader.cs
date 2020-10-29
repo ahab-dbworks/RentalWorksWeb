@@ -33,6 +33,9 @@ namespace WebApi.Modules.Inventory.PurchaseRetired
         [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? CostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyexchangerate", modeltype: FwDataTypes.Decimal)]
         public decimal? CurrencyExchangeRate { get; set; }
         //------------------------------------------------------------------------------------ 

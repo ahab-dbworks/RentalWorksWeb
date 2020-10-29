@@ -1,9 +1,9 @@
-﻿class InventorySubstituteGrid {
-    Module: string = 'InventorySubstituteGrid';
-    apiurl: string = 'api/v1/inventorysubstitute';
+﻿class RentalInventorySubstituteGrid {
+    Module: string = 'RentalInventorySubstituteGrid';
+    apiurl: string = 'api/v1/inventorySubstitute';
 
     generateRow($control, $generatedtr) {
-        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+        $generatedtr.find('div[data-browsedatafield="SubstituteInventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
@@ -16,5 +16,5 @@
     }
 }
 
-var InventorySubstituteGridController = new InventorySubstituteGrid();
+var RentalInventorySubstituteGridController = new RentalInventorySubstituteGrid();
 //----------------------------------------------------------------------------------------------

@@ -219,7 +219,7 @@ class RetiredHistory {
           <div id="retiredhistoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="retiredtab" class="tab" data-tabpageid="retiredtabpage" data-caption="General"></div>
-              <div data-type="tab" id="purchasetab" class="tab purchasetab" data-tabpageid="purchasetabpage" data-caption="Puchase History"></div>
+              <div data-type="tab" id="purchasetab" class="tab purchasetab" data-tabpageid="purchasetabpage" data-caption="Purchase History"></div>
               <div data-type="tab" id="gldistributiontab" class="tab gldistributiontab" data-tabpageid="gldistributiontabpage" data-caption="G/L Distribution"></div>
             </div>
             <div class="tabpages">

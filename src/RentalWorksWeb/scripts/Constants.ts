@@ -901,7 +901,7 @@ var Constants = {
         GlDistributionGrid:                     { id: 'UuKB0PPalR9p',  caption: 'G/L Distribution' },
         InventoryAttributeValueGrid:            { id: 'CntxgVXDQtQ7',  caption: 'Inventory Attribute Value' },
         InventoryAvailabilityGrid:              { id: 'g8sCuKjUVrW1',  caption: 'Inventory Availability' },
-        InventoryCompatibilityGrid:             { id: 'mlAKf5gRPNNI',  caption: 'Inventory Compatibility' },
+        RentalInventoryCompatibilityGrid:       { id: 'mlAKf5gRPNNI',  caption: 'Rental Inventory Compatibility' },
         InventoryCompleteGrid:                  { id: 'ABL0XJQpsQQo',  caption: 'Inventory Complete',
             menuItems: {
                 QuikSearch: { id: '{A3EEC381-6D45-485D-8E12-5DA6B38BB71A}' }
@@ -927,7 +927,7 @@ var Constants = {
         InventorySequenceItemsGrid:             { id: 'UgfInM2AmF6B',  caption: 'Items' },
         InventorySequenceSubCategoryGrid:       { id: 'vHMa0l5PUysXo', caption: 'Sub-Category' },
         InventorySequenceTypeGrid:              { id: 'aFLFxVNukHJt',  caption: 'Inventory Type' },
-        InventorySubstituteGrid:                { id: '5sN9zKtGzNTq',  caption: 'Inventory Substitute' },
+        RentalInventorySubstituteGrid:          { id: '5sN9zKtGzNTq',  caption: 'Rental Inventory Substitute' },
         InventorySummaryOutItemsGrid:           { id: '0LZv8tP11itN2', caption: 'Inventory Summary Out Items' },
         InventorySummaryPhysicalInventoryGrid:  { id: '3ZMKqWS2A4CDO', caption: 'Inventory Summary Physical Inventory' },
         InventorySummaryRetiredHistoryGrid:     { id: '5LpDkxSK6jqMz', caption: 'Inventory Summary Retired History' },

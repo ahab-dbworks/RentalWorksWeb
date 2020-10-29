@@ -28,6 +28,8 @@ namespace WebApi.Modules.Inventory.PurchaseRetired
         public string ReceiveDate { get; set; }
         [FwLogicProperty(Id: "0Hx8hx3xT0qGh  ", IsReadOnly: true)]
         public decimal? UnitCost { get; set; }
+        [FwLogicProperty(Id: "G4p3FoWHy8STH  ", IsReadOnly: true)]
+        public decimal? CostExtended { get; set; }
         [FwLogicProperty(Id: "0IFCb87sHldS", IsReadOnly: true)]
         public decimal? CurrencyExchangeRate { get; set; }
         [FwLogicProperty(Id: "0IhBlQ9UatVp8  ", IsReadOnly: true)]
