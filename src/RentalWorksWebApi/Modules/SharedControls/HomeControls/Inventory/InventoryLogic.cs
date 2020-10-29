@@ -486,11 +486,23 @@ namespace WebApi.Modules.HomeControls.Inventory
                     {
                         if (!CostCalculation.Equals(orig.CostCalculation))
                         {
-                            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchase", new string[] { "masterid" }, new string[] { InventoryId }).Result;
-                            if (purchasesExist)
+                            bool retireExists = AppFunc.DataExistsAsync(AppConfig, "retired", new string[] { "masterid" }, new string[] { InventoryId }).Result;
+                            bool transferExists = AppFunc.DataExistsAsync(AppConfig, "ordertranview", new string[] { "masterid", "istransfer" }, new string[] { InventoryId, "T" }).Result;
+                            if (isValid)
                             {
-                                isValid = false;
-                                validateMsg = "Cannot change the Cost Calculation once Inventory has been received.";
+                                if (retireExists)
+                                {
+                                    isValid = false;
+                                    validateMsg = "Cannot change the Cost Calculation once Inventory has been sold or retired.";
+                                }
+                            }
+                            if (isValid)
+                            {
+                                if (transferExists)
+                                {
+                                    isValid = false;
+                                    validateMsg = "Cannot change the Cost Calculation once Inventory has been transferred.";
+                                }
                             }
                         }
                     }
