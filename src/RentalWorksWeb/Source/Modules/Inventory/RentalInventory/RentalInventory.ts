@@ -30,6 +30,16 @@ class RentalInventory extends InventoryBase {
         super.setupNewMode($form);
         const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
         FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultrentalquantityinventorycostcalculation);
+
+        //show/hide Cost Calculation
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        if (trackedBy === 'QUANTITY') {
+            $form.find('.costcalculationsection').show();
+        } else {
+            $form.find('.costcalculationsection').hide();
+        }
+
+
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
