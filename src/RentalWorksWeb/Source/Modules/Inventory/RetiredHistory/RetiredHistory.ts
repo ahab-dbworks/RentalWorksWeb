@@ -116,10 +116,56 @@ class RetiredHistory {
     }
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
+        FwBrowse.renderGrid({
+            nameGrid: 'RetiredPurchaseGrid',
+            gridSecurityId: '0F5WIgzZ01nd',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RetiredId: FwFormField.getValueByDataField($form, 'RetiredId'),
+                };
+            },
+        });
+        // ----------
+        const glTotalFields = ["Debit", "Credit"];
+        FwBrowse.renderGrid({
+            nameGrid: 'GlDistributionGrid',
+            gridSecurityId: '5xgHiF8dduf',
+            moduleSecurityId: this.id,
+            $form: $form,
+            getBaseApiUrl: () => `${this.apiurl}/gldistribution`,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    RetiredId: FwFormField.getValueByDataField($form, 'RetiredId'),
+                };
+                request.totalfields = glTotalFields;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
+            },
+        });
+        // ----------
 
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
+        const $retiredPurchaseGrid = $form.find('[data-name="RetiredPurchaseGrid"]');
+        FwBrowse.search($retiredPurchaseGrid);
+
+        const $glDistributionGrid = $form.find('[data-name="GlDistributionGrid"]');
+        FwBrowse.search($glDistributionGrid);
 
     };
     //---------------------------------------------------------------------------------------------
@@ -173,6 +219,8 @@ class RetiredHistory {
           <div id="retiredhistoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="retiredtab" class="tab" data-tabpageid="retiredtabpage" data-caption="General"></div>
+              <div data-type="tab" id="purchasetab" class="tab purchasetab" data-tabpageid="purchasetabpage" data-caption="Puchase History"></div>
+              <div data-type="tab" id="gldistributiontab" class="tab gldistributiontab" data-tabpageid="gldistributiontabpage" data-caption="G/L Distribution"></div>
             </div>
             <div class="tabpages">
               <!-- General tab -->
@@ -192,7 +240,7 @@ class RetiredHistory {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Serial No." data-datafield="SerialNumber" data-enabled="false" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Retired Date" data-datafield="RetiredDate" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Retired Date" data-datafield="RetiredDate" data-enabled="false" style="flex:1 1 200px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Retired By" data-datafield="RetiredByUserId" data-validationname="UserValidation" data-displayfield="RetiredBy" data-enabled="false" style="flex:1 1 200px;"></div>
                         </div>
                         <div class="flexrow">
@@ -213,6 +261,46 @@ class RetiredHistory {
                   </div>
                 </div>
               </div>
+
+                <!-- PURCHASE HISTORY TAB -->
+                <div data-type="tabpage" id="purchasetabpage" class="tabpage" data-tabid="purchasetab">
+                  <div class="flexrow">
+                    <div class="flexcolumn" style="flex:1 1 650px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase History">
+                        <div class="flexrow">
+                          <div data-control="FwGrid" data-grid="RetiredPurchaseGrid" data-securitycaption="Purchase History"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- G/L DISTRIBUTION TAB -->
+                <div data-type="tabpage" id="gldistributiontabpage" class="tabpage" data-tabid="gldistributiontab">
+                  <div class="flexrow">
+                    <div class="flexcolumn" style="flex:1 1 650px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="G/L Distribution">
+                        <div class="flexrow">
+                          <div data-control="FwGrid" data-grid="GlDistributionGrid" data-securitycaption="G/L Distribution"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flexcolumn gldistribution-totals" style="flex:0 0 250px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Distribution Totals">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Debit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Debit" style="flex:1 1 100px;"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Credit" data-currencysymbol="CurrencySymbol" data-datafield="" data-enabled="false" data-totalfield="Credit" style="flex:1 1 75px;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
             </div>
           </div>
         </div>`;

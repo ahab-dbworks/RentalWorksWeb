@@ -112,6 +112,28 @@ class PurchaseHistory {
             },
         });
         // ----------
+        const retiredTotalFields = ["Quantity"];
+        FwBrowse.renderGrid({
+            nameGrid: 'PurchaseRetiredGrid',
+            gridSecurityId: '0F5WIgzZ01nd',
+            moduleSecurityId: this.id,
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId'),
+                };
+                request.totalfields = retiredTotalFields;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue2($form.find('.retired-totals [data-totalfield="Quantity"]'), dt.Totals.Quantity);
+            },
+        });
+        // ----------
         const glTotalFields = ["Debit", "Credit"];
         FwBrowse.renderGrid({
             nameGrid: 'GlDistributionGrid',
@@ -133,29 +155,6 @@ class PurchaseHistory {
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
                 FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
                 FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
-            },
-        });
-        // ----------
-        const retiredTotalFields = ["Quantity"];
-        FwBrowse.renderGrid({
-            nameGrid: 'PurchaseRetiredGrid',
-            gridSecurityId: '0F5WIgzZ01nd',
-            moduleSecurityId: this.id,
-            $form: $form,
-            //getBaseApiUrl: () => `${this.apiurl}/purchaseretired`,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasEdit = false;
-                options.hasDelete = false;
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId'),
-                };
-                request.totalfields = retiredTotalFields;
-            },
-            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                FwFormField.setValue2($form.find('.retired-totals [data-totalfield="Quantity"]'), dt.Totals.Quantity);
             },
         });
         // ----------
