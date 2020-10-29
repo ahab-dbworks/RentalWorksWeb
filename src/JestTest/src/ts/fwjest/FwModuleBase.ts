@@ -1230,7 +1230,9 @@ export class FwModuleBase {
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
             .then(async done => {
                 const afterSaveMsg = await page.$eval('.advisory', el => el.textContent);
-                if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error'))) {
+                //400 Bad RequestGeneratorFuelType cannot be saved because of Duplicate Rule "Duplicate GeneratorFuelType"Scroll for more...OK
+
+                if ((afterSaveMsg.includes('saved')) && (!afterSaveMsg.includes('Error')) && (!afterSaveMsg.includes('Bad Request'))) {
                     FwLogging.logInfo(`${this.moduleCaption} Record saved: ${afterSaveMsg}`);
 
                     //make the "record saved" toaster message go away
@@ -1243,7 +1245,7 @@ export class FwModuleBase {
 
                     response.saved = true;
                     response.errorMessage = "";
-                } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('resolve')) {
+                } else if (afterSaveMsg.includes('Error') || afterSaveMsg.includes('Bad Request') || afterSaveMsg.includes('resolve')) {
                     FwLogging.logInfo(`${this.moduleCaption} Record not saved: ${afterSaveMsg}`);
                     response.saved = false;
                     response.errorMessage = afterSaveMsg;
