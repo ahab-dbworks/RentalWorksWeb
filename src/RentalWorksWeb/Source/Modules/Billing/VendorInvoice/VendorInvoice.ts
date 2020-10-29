@@ -232,6 +232,15 @@ class VendorInvoice {
                 options.hasNew = false;
                 options.hasEdit = false;
                 options.hasDelete = false;
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
+                FwMenu.addSubMenuItem($optionsgroup, 'Preview G/L Distribution', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        this.previewGlDistribution($form);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                })
             },
             onDataBind: (request: any) => {
                 request.uniqueids = {
@@ -397,6 +406,13 @@ class VendorInvoice {
             FwModule.setFormReadOnly($form);
         }
 
+        //enables/disables GL distribution grid preview option
+        if (status != 'NEW' && status != 'APPROVED') {
+            $form.find('.submenu-btn').filter(function () {
+                return jQuery(this).text() === 'Preview G/L Distribution';
+            }).css({ 'pointer-events': 'none', 'color': '#E0E0E0' });
+        }
+
         //Click Event on tabs to load grids/browses
         $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
         $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
@@ -504,6 +520,20 @@ class VendorInvoice {
             $form.find(`[data-datafield="RentalTaxRate2"], [data-datafield="SalesTaxRate2"], [data-datafield="LaborTaxRate2"]`).hide();
         }
     }
+    //----------------------------------------------------------------------------------------------
+    previewGlDistribution($form: JQuery) {
+        const $glDistributionGrid = $form.find('[data-name="GlDistributionGrid"]');
+        const onDataBind = $glDistributionGrid.data('ondatabind');
+        if (typeof onDataBind == 'function') {
+            $glDistributionGrid.data('ondatabind', request => {
+                onDataBind(request);
+                request.miscfields = {
+                    Preview: true
+                }
+            });
+        }
+        FwBrowse.search($glDistributionGrid);
+    };
     //----------------------------------------------------------------------------------------------
     afterSave($form: JQuery) {
         $form.find('.continue').hide();

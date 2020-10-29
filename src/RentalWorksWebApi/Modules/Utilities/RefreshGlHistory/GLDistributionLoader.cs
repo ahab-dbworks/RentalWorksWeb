@@ -77,10 +77,26 @@ namespace WebApi.Modules.Utilities.GLDistribution
                         _previewing = false;
                     }
                 }
+                else if (!string.IsNullOrEmpty(vendorInvoiceId))
+                {
+                    string vendorInvoiceStatus = AppFunc.GetStringDataAsync(AppConfig, "vendorinvoice", "vendorinvoiceid", vendorInvoiceId, "status").Result;
+                    if ((vendorInvoiceStatus != RwConstants.VENDOR_INVOICE_STATUS_NEW) && (vendorInvoiceStatus != RwConstants.VENDOR_INVOICE_STATUS_APPROVED))
+                    {
+                        _previewing = false;
+                    }
+                }
+
 
                 if (_previewing)
                 {
-                    bool b = GLDistributionFunc.PostGlForInvoice(AppConfig, invoiceId, true).Result;
+                    if (!string.IsNullOrEmpty(invoiceId))
+                    {
+                        bool b = GLDistributionFunc.PostGlForInvoice(AppConfig, invoiceId, true).Result;
+                    }
+                    else if (!string.IsNullOrEmpty(vendorInvoiceId))
+                    {
+                        bool b = GLDistributionFunc.PostGlForVendorInvoice(AppConfig, vendorInvoiceId, true).Result;
+                    }
                 }
             }
 
@@ -142,8 +158,17 @@ namespace WebApi.Modules.Utilities.GLDistribution
         {
             if (_previewing)
             {
-                string invoiceId = e.Request.uniqueids.InvoiceId;
-                bool b = GLDistributionFunc.DeleteGlForInvoice(AppConfig, invoiceId).Result;
+                string invoiceId = GetUniqueIdAsString("InvoiceId", e.Request) ?? "";
+                string vendorInvoiceId = GetUniqueIdAsString("VendorInvoiceId", e.Request) ?? "";
+                if (!string.IsNullOrEmpty(invoiceId))
+                {
+                    bool b = GLDistributionFunc.DeleteGlForInvoice(AppConfig, invoiceId).Result;
+                }
+                else if (!string.IsNullOrEmpty(vendorInvoiceId))
+                {
+                    bool b = GLDistributionFunc.DeleteGlForVendorInvoice(AppConfig, vendorInvoiceId).Result;
+                }
+
             }
         }
         //------------------------------------------------------------------------------------ 
