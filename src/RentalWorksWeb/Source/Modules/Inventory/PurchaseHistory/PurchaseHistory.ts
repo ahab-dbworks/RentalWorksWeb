@@ -5,8 +5,6 @@ class PurchaseHistory {
     caption: string = Constants.Modules.Inventory.children.PurchaseHistory.caption;
     nav: string = Constants.Modules.Inventory.children.PurchaseHistory.nav;
     id: string = Constants.Modules.Inventory.children.PurchaseHistory.id;
-    //nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
-    //nameItemQcGrid: string = 'ItemQcGrid';
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
@@ -89,11 +87,6 @@ class PurchaseHistory {
         FwModule.saveForm(this.Module, $form, parameters);
     };
     //---------------------------------------------------------------------------------------------
-    //loadAudit($form: JQuery) {
-    //    var uniqueid = FwFormField.getValueByDataField($form, 'ItemId');
-    //    FwModule.loadAudit($form, uniqueid);
-    //};
-    //---------------------------------------------------------------------------------------------
     renderGrids($form) {
         //Depreciation Grid
         FwBrowse.renderGrid({
@@ -143,11 +136,37 @@ class PurchaseHistory {
             },
         });
         // ----------
+        const retiredTotalFields = ["Quantity"];
+        FwBrowse.renderGrid({
+            nameGrid: 'PurchaseRetiredGrid',
+            gridSecurityId: '0F5WIgzZ01nd',
+            moduleSecurityId: this.id,
+            $form: $form,
+            //getBaseApiUrl: () => `${this.apiurl}/purchaseretired`,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId'),
+                };
+                request.totalfields = retiredTotalFields;
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                FwFormField.setValue2($form.find('.retired-totals [data-totalfield="Quantity"]'), dt.Totals.Quantity);
+            },
+        });
+        // ----------
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         const $depreciationGrid = $form.find('[data-name="DepreciationGrid"]');
         FwBrowse.search($depreciationGrid);
+
+        const $purchaseRetiredGrid = $form.find('[data-name="PurchaseRetiredGrid"]');
+        FwBrowse.search($purchaseRetiredGrid);
 
         const $glDistributionGrid = $form.find('[data-name="GlDistributionGrid"]');
         FwBrowse.search($glDistributionGrid);
@@ -237,6 +256,7 @@ class PurchaseHistory {
           <div id="purchasehistoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="purchasetab" class="tab" data-tabpageid="purchasetabpage" data-caption="General"></div>
+              <div data-type="tab" id="retiredtab" class="tab retiredtab" data-tabpageid="retiredtabpage" data-caption="Retired History"></div>
               <div data-type="tab" id="gldistributiontab" class="tab gldistributiontab" data-tabpageid="gldistributiontabpage" data-caption="G/L Distribution"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
@@ -299,6 +319,26 @@ class PurchaseHistory {
                     <div class="flexrow fixed-asset">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
                         <div data-control="FwGrid" data-grid="DepreciationGrid"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- RETIRED HISTORY TAB -->
+                <div data-type="tabpage" id="retiredtabpage" class="tabpage" data-tabid="retiredtab">
+                  <div class="flexrow">
+                    <div class="flexcolumn" style="flex:1 1 650px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Retired History">
+                        <div class="flexrow">
+                          <div data-control="FwGrid" data-grid="PurchaseRetiredGrid" data-securitycaption="Retired History"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flexcolumn retired-totals" style="flex:0 0 250px;">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Total">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Total Retired" data-datafield="" data-enabled="false" data-totalfield="Quantity" style="flex:1 1 75px;"></div>
+                        </div>
                       </div>
                     </div>
                   </div>

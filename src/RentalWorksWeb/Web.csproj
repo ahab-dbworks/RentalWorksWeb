@@ -164,6 +164,7 @@
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
+    <Content Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoiceItemCorrespondingDealInvoicesGrid\VendorInvoiceItemCorrespondingDealInvoicesGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySummaryPhysicalInventoryGrid\InventorySummaryPhysicalInventoryGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySummaryOutItemsGrid\InventorySummaryOutItemsGridBrowse.htm" />
@@ -354,6 +355,7 @@
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceItemCorrespondingDealInvoicesGrid\VendorInvoiceItemCorrespondingDealInvoicesGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySummaryPhysicalInventoryGrid\InventorySummaryPhysicalInventoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySummaryOutItemsGrid\InventorySummaryOutItemsGridController.ts" />
