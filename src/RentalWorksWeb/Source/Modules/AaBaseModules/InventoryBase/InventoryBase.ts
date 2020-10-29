@@ -151,10 +151,6 @@ abstract class InventoryBase {
         const $menuControl = $realScheduler.find('.fwmenu');
         this.renderSchedulerSortMenu($realScheduler, $menuControl);
 
-        if (mode === 'NEW') {
-            this.setupNewMode($form);
-        }
-
         let userassignedicodes = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedicodes;
         if (userassignedicodes) {
             FwFormField.enable($form.find('[data-datafield="ICode"]'));
@@ -178,6 +174,9 @@ abstract class InventoryBase {
             { value: 'UNITVALUE', caption: 'Inventory Value' },  // will be removed
         ]);
 
+        if (mode === 'NEW') {
+            this.setupNewMode($form);
+        }
 
         this.events($form);
         return $form;
