@@ -10,6 +10,7 @@ using WebApi.Modules.Inventory.Asset;
 using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.Purchase;
 using WebApi.Modules.Inventory.RentalInventory;
+using WebApi.Modules.Settings.FiscalYear;
 
 namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
 {
@@ -253,6 +254,42 @@ namespace WebApi.Modules.Utilities.InventoryPurchaseUtility
                 {
                     isValidRequest = false;
                     response.msg = "Quantity must be greater than zero.";
+                }
+            }
+
+            if (isValidRequest)
+            {
+                if (request.PurchaseDate == null)
+                {
+                    isValidRequest = false;
+                    response.msg = "Purchase Date is required.";
+                }
+            }
+
+            if (isValidRequest)
+            {
+                if (request.ReceiveDate == null)
+                {
+                    isValidRequest = false;
+                    response.msg = "Receive Date is required.";
+                }
+            }
+
+            if (isValidRequest)
+            {
+                if (request.ReceiveDate < request.PurchaseDate)
+                {
+                    isValidRequest = false;
+                    response.msg = "Receive Date cannot be prior to Purchase Date.";
+                }
+            }
+
+            if (isValidRequest)
+            {
+                if (FiscalFunc.DateIsInClosedMonth(appConfig, userSession, request.ReceiveDate.GetValueOrDefault(DateTime.MinValue)).Result)
+                {
+                    isValidRequest = false;
+                    response.msg = "Cannot Purchase or Receive Inventory in a Closed month.";
                 }
             }
 

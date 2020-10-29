@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Utilities.GLDistribution;
+
 namespace WebApi.Modules.Home.Retired
 {
     [Route("api/v1/[controller]")]
@@ -71,5 +73,13 @@ namespace WebApi.Modules.Home.Retired
         //    return await DoDeleteAsync<RetiredLogic>(id);
         //}
         ////------------------------------------------------------------------------------------ 
+        // POST api/v1/retired/gldistribution/browse 
+        [HttpPost("gldistribution/browse")]
+        [FwControllerMethod(Id: "hOSpd7SYLZgmj", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> GLDistribution_BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<GLDistributionLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

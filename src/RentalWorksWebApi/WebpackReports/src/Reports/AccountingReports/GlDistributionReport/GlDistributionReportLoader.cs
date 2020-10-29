@@ -35,6 +35,9 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
         [FwSqlDataField(column: "glacctdesc", modeltype: FwDataTypes.Text)]
         public string AccountDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "gldate", modeltype: FwDataTypes.Date)]
+        public string GlDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -47,17 +50,35 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
         [FwSqlDataField(column: "invoicebillingend", modeltype: FwDataTypes.Date)]
         public string InvoiceBillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "gldate", modeltype: FwDataTypes.Date)]
-        public string GlDate { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemdescription", modeltype: FwDataTypes.Text)]
-        public string ItemDescription { get; set; }
+        [FwSqlDataField(column: "vendorinvoiceno", modeltype: FwDataTypes.Text)]
+        public string VendorInvoiceNumber{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorinvoicestatus", modeltype: FwDataTypes.Text)]
+        public string VendorInvoiceStatus{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorinvoicebillingstart", modeltype: FwDataTypes.Date)]
+        public string VendorInvoiceBillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorinvoicebillingend", modeltype: FwDataTypes.Date)]
+        public string VendorInvoiceBillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
+        public string Vendor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
+        public string ICode{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "debit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Debit { get; set; }
@@ -65,6 +86,17 @@ namespace WebApi.Modules.Reports.AccountingReports.GlDistributionReport
         [FwSqlDataField(column: "credit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Credit { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "docnumber", modeltype: FwDataTypes.Text)]
+        public string DocumentNumber{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
+        public string Company { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemdescription", modeltype: FwDataTypes.Text)]
+        public string ItemDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         public async Task<FwJsonDataTable> RunReportAsync(GlDistributionReportRequest request)
         {
             FwJsonDataTable dt = null;

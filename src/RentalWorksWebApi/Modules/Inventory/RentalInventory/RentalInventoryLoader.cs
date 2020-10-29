@@ -7,7 +7,6 @@ using WebApi;
 
 namespace WebApi.Modules.Inventory.RentalInventory
 {
-    [FwSqlTable("inventoryview")]
     public class RentalInventoryLoader : InventoryLoader
     {
 

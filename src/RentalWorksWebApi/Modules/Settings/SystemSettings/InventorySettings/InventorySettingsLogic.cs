@@ -68,13 +68,13 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get { return sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived; } set { sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived = value; } }
 
         [FwLogicProperty(Id: "l5fLvzCpHrDf")]
-        public string RentalQuantityInventoryValueMethod { get { return sysControl.RentalQuantityInventoryValueMethod; } set { sysControl.RentalQuantityInventoryValueMethod = value; } }
+        public string DefaultRentalQuantityInventoryCostCalculation { get { return sysControl.DefaultRentalQuantityInventoryCostCalculation; } set { sysControl.DefaultRentalQuantityInventoryCostCalculation = value; } }
 
         [FwLogicProperty(Id: "P3zXTZxunprL")]
-        public string SalesQuantityInventoryValueMethod { get { return sysControl.SalesQuantityInventoryValueMethod; } set { sysControl.SalesQuantityInventoryValueMethod = value; } }
+        public string DefaultSalesQuantityInventoryCostCalculation { get { return sysControl.DefaultSalesQuantityInventoryCostCalculation; } set { sysControl.DefaultSalesQuantityInventoryCostCalculation = value; } }
 
         [FwLogicProperty(Id: "LwSmXksF727e")]
-        public string PartsQuantityInventoryValueMethod { get { return sysControl.PartsQuantityInventoryValueMethod; } set { sysControl.PartsQuantityInventoryValueMethod = value; } }
+        public string DefaultPartsQuantityInventoryCostCalculation { get { return sysControl.DefaultPartsQuantityInventoryCostCalculation; } set { sysControl.DefaultPartsQuantityInventoryCostCalculation = value; } }
 
         [FwLogicProperty(Id: "of86azr3dnOr")]
         public bool? EnableConsignment { get { return sysControl.EnableConsignment; } set { sysControl.EnableConsignment = value; } }
@@ -94,51 +94,51 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
                 isValid = false;
                 validateMsg = "Cannot add new records to " + this.BusinessLogicModuleName;
             }
-            else // dmUpdate
-            {
-                InventorySettingsLogic orig = (InventorySettingsLogic)original;
-
-                if (RentalQuantityInventoryValueMethod != null)
-                {
-                    if (!RentalQuantityInventoryValueMethod.Equals(orig.RentalQuantityInventoryValueMethod))
-                    {
-                        bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_RENT }).Result;
-                        if (purchasesExist)
-                        {
-                            isValid = false;
-                            validateMsg = "Cannot change the Rental Quantity Inventory Valuation Method once Rental Inventory has been purchased.";
-                        }
-                    }
-                }
-
-
-                if (SalesQuantityInventoryValueMethod != null)
-                {
-                    if (!SalesQuantityInventoryValueMethod.Equals(orig.SalesQuantityInventoryValueMethod))
-                    {
-                        bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_SALE }).Result;
-                        if (purchasesExist)
-                        {
-                            isValid = false;
-                            validateMsg = "Cannot change the Sales Quantity Inventory Valuation Method once Sales Inventory has been purchased.";
-                        }
-                    }
-                }
-
-                if (PartsQuantityInventoryValueMethod != null)
-                {
-                    if (!PartsQuantityInventoryValueMethod.Equals(orig.PartsQuantityInventoryValueMethod))
-                    {
-                        bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_PARTS }).Result;
-                        if (purchasesExist)
-                        {
-                            isValid = false;
-                            validateMsg = "Cannot change the Parts Quantity Inventory Valuation Method once Parts Inventory has been purchased.";
-                        }
-                    }
-                }
-
-            }
+            //else // dmUpdate
+            //{
+            //    InventorySettingsLogic orig = (InventorySettingsLogic)original;
+            //
+            //    if (RentalQuantityInventoryValueMethod != null)
+            //    {
+            //        if (!RentalQuantityInventoryValueMethod.Equals(orig.RentalQuantityInventoryValueMethod))
+            //        {
+            //            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_RENT }).Result;
+            //            if (purchasesExist)
+            //            {
+            //                isValid = false;
+            //                validateMsg = "Cannot change the Rental Quantity Inventory Valuation Method once Rental Inventory has been purchased.";
+            //            }
+            //        }
+            //    }
+            //
+            //
+            //    if (SalesQuantityInventoryValueMethod != null)
+            //    {
+            //        if (!SalesQuantityInventoryValueMethod.Equals(orig.SalesQuantityInventoryValueMethod))
+            //        {
+            //            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_SALE }).Result;
+            //            if (purchasesExist)
+            //            {
+            //                isValid = false;
+            //                validateMsg = "Cannot change the Sales Quantity Inventory Valuation Method once Sales Inventory has been purchased.";
+            //            }
+            //        }
+            //    }
+            //
+            //    if (PartsQuantityInventoryValueMethod != null)
+            //    {
+            //        if (!PartsQuantityInventoryValueMethod.Equals(orig.PartsQuantityInventoryValueMethod))
+            //        {
+            //            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_PARTS }).Result;
+            //            if (purchasesExist)
+            //            {
+            //                isValid = false;
+            //                validateMsg = "Cannot change the Parts Quantity Inventory Valuation Method once Parts Inventory has been purchased.";
+            //            }
+            //        }
+            //    }
+            //
+            //}
 
 
             return isValid;

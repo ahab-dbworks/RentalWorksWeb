@@ -1,5 +1,5 @@
-﻿class InventoryCompatibilityGrid {
-    Module: string = 'InventoryCompatibilityGrid';
+﻿class RentalInventoryCompatibilityGrid {
+    Module: string = 'RentalInventoryCompatibilityGrid';
     apiurl: string = 'api/v1/inventorycompatible';
 
     generateRow($control, $generatedtr) {
@@ -16,5 +16,5 @@
     }
 }
 
-var InventoryCompatibilityGridController = new InventoryCompatibilityGrid();
+var RentalInventoryCompatibilityGridController = new RentalInventoryCompatibilityGrid();
 //----------------------------------------------------------------------------------------------

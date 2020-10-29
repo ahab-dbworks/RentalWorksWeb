@@ -112,6 +112,9 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "purchamtwithtax", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCostWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oec", modeltype: FwDataTypes.Decimal)]
+        public decimal? OriginalEquipmentCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtwithtaxextended", modeltype: FwDataTypes.Decimal)]
         public decimal? CostWithTaxExtended { get; set; }
         //------------------------------------------------------------------------------------ 

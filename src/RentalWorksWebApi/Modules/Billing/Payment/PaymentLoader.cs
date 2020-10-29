@@ -2,12 +2,18 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.Billing.Payment
 {
     [FwSqlTable("paymentwebview")]
     public class PaymentLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public PaymentLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paymentid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string PaymentId { get; set; }
@@ -93,6 +99,13 @@ namespace WebApi.Modules.Billing.Payment
         [FwSqlDataField(column: "chgbatchno", modeltype: FwDataTypes.Text)]
         public string ChargeBatchNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor
+        {
+            get { return getCurrencyColor(CurrencyId, OfficeLocationDefaultCurrencyId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
@@ -108,5 +121,30 @@ namespace WebApi.Modules.Billing.Payment
             //select.AddParameter("@paramboolean", paramBoolean); 
         }
         //------------------------------------------------------------------------------------ 
+        protected string getCurrencyColor(string currencyId, string officeLocationCurrencyId)
+        {
+            string color = null;
+            if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationCurrencyId)))
+            {
+                color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("CurrencyColor")] = getCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

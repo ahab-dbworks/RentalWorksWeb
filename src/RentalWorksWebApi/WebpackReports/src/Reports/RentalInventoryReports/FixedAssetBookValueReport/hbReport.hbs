@@ -24,31 +24,32 @@
         <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="Quantity">Qty.</th>
         <th data-linkedcolumn="BarCode" data-valuefield="BarCode">Bar Code</th>
         <th data-linkedcolumn="Received" data-valuefield="Received">Received</th>
-        <th data-linkedcolumn="PurchaseAmount" data-valuefield="PurchaseAmount" class="number">Purchase Amount</th>
+        <th data-linkedcolumn="OriginalEquipmentCost" data-valuefield="OriginalEquipmentCost" class="number">Original Equipment Cost</th>
         <th data-linkedcolumn="Depreciation" data-valuefield="Depreciation" class="number">Depreciation</th>
         <th data-linkedcolumn="BookValue" data-valuefield="BookValue" class="number">Book Value</th>
+        <th data-linkedcolumn="SalvageValue" data-valuefield="SalvageValue" class="number">Salvage Value</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       {{#ifEquals RowType "Warehouseheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="10" class="header-row">Purchase Warehouse: {{Warehouse}}</td>
+        <td colspan="11" class="header-row lower">Purchase Warehouse: {{Warehouse}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="10" class="header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="11" class="header-row lower">Inventory Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="10" class="header-row">Category: {{Category}}</td>
+        <td colspan="11" class="header-row lower">Category: {{Category}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "SubCategoryheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="10" class="header-row">Sub Category: {{SubCategory}}</td>
+        <td colspan="11" class="header-row lower">Sub Category: {{SubCategory}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
@@ -60,9 +61,10 @@
         <td data-linkedcolumn="Quantity" class="number" data-value="{{PurchaseQuantity}}"></td>
         <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
         <td data-linkedcolumn="Received" data-value="{{ReceiveDate}}"></td>
-        <td data-linkedcolumn="PurchaseAmount" class="number" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="OriginalEquipmentCost" class="number" data-value="{{OriginalEquipmentCost}}"></td>
         <td data-linkedcolumn="Depreciation" class="number" data-value="{{TotalDepreciation}}"></td>
         <td data-linkedcolumn="BookValue" class="number" data-value="{{BookValue}}"></td>
+        <td data-linkedcolumn="SalvageValue" class="number" data-value="{{SalvageValue}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryfooter"}}
@@ -70,9 +72,10 @@
         <td colspan="4" class="total-name">{{Category}}&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
         <td colspan="2" class="total-name"></td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="OriginalEquipmentCost" class="total-val" data-value="{{OriginalEquipmentCost}}"></td>
         <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
         <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+        <td data-linkedcolumn="SalvageValue" class="total-val" data-value="{{SalvageValue}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypefooter"}}
@@ -80,9 +83,10 @@
         <td colspan="4" class="total-name">{{InventoryType}}&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
         <td colspan="2" class="total-name"></td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="OriginalEquipmentCost" class="total-val" data-value="{{OriginalEquipmentCost}}"></td>
         <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
         <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+        <td data-linkedcolumn="SalvageValue" class="total-val" data-value="{{SalvageValue}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Warehousefooter"}}
@@ -90,9 +94,10 @@
         <td colspan="4" class="total-name">{{Warehouse}}&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
         <td colspan="2" class="total-name"></td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="OriginalEquipmentCost" class="total-val" data-value="{{OriginalEquipmentCost}}"></td>
         <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
         <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+        <td data-linkedcolumn="SalvageValue" class="total-val" data-value="{{SalvageValue}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
@@ -100,9 +105,10 @@
         <td colspan="4" class="total-name">Grand Total&nbsp;</td>
         <td data-linkedcolumn="Quantity" class="total-val" data-value="{{PurchaseQuantity}}"></td>
         <td colspan="2" class="total-name"></td>
-        <td data-linkedcolumn="PurchaseAmount" class="total-val" data-value="{{CostWithTaxCurrencyConvertedExtended}}"></td>
+        <td data-linkedcolumn="OriginalEquipmentCost" class="total-val" data-value="{{OriginalEquipmentCost}}"></td>
         <td data-linkedcolumn="Depreciation" class="total-val" data-value="{{TotalDepreciation}}"></td>
         <td data-linkedcolumn="BookValue" class="total-val" data-value="{{BookValue}}"></td>
+        <td data-linkedcolumn="SalvageValue" class="total-val" data-value="{{SalvageValue}}"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}

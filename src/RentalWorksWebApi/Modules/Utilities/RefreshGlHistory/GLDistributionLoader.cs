@@ -63,6 +63,8 @@ namespace WebApi.Modules.Utilities.GLDistribution
             string receiptId = GetUniqueIdAsString("ReceiptId", request) ?? ""; 
             string vendorInvoiceId = GetUniqueIdAsString("VendorInvoiceId", request) ?? "";
             string paymentId = GetUniqueIdAsString("PaymentId", request) ?? "";
+            string purchaseId = GetUniqueIdAsString("PurchaseId", request) ?? "";
+            string retiredId = GetUniqueIdAsString("RetiredId", request) ?? "";
             _previewing = GetMiscFieldAsBoolean("Preview", request) ?? false;
 
             if (_previewing)
@@ -98,6 +100,14 @@ namespace WebApi.Modules.Utilities.GLDistribution
             {
                 OverrideTableName = "dbo.funcpaymentglweb(@paymentid)";
             }
+            else if (!purchaseId.Equals(string.Empty))
+            {
+                OverrideTableName = "dbo.funcpurchaseglweb(@purchaseid)";
+            }
+            else if (!retiredId.Equals(string.Empty))
+            {
+                OverrideTableName = "dbo.funcretiredglweb(@retiredid)";
+            }
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
@@ -117,6 +127,14 @@ namespace WebApi.Modules.Utilities.GLDistribution
             if (!paymentId.Equals(string.Empty))
             {
                 select.AddParameter("@paymentid", paymentId);
+            }
+            if (!purchaseId.Equals(string.Empty))
+            {
+                select.AddParameter("@purchaseid", purchaseId);
+            }
+            if (!retiredId.Equals(string.Empty))
+            {
+                select.AddParameter("@retiredid", retiredId);
             }
         }
         //------------------------------------------------------------------------------------ 

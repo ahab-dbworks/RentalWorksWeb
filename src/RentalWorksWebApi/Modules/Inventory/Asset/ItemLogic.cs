@@ -320,11 +320,20 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "itaUv87Fv7Auv", IsReadOnly: true)]
         public decimal? PurchaseCurrencyExchangeRate { get; set; }
 
+        [FwLogicProperty(Id: "U0BgTg5E5aqj", IsReadOnly: true)]
+        public decimal? UnitCost { get; set; }
+
+        [FwLogicProperty(Id: "uh3VT8CnQYM9", IsReadOnly: true)]
+        public decimal? UnitCostWithTax { get; set; }
+
         [FwLogicProperty(Id: "gTc527SfDc8nn", IsReadOnly: true)]
         public decimal? UnitCostCurrencyConverted { get; set; }
 
         [FwLogicProperty(Id: "06NuSh9OT08Qu", IsReadOnly: true)]
         public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
+
+        [FwLogicProperty(Id: "CNzJq0Xtn8gM", IsReadOnly: true)]
+        public decimal? OriginalEquipmentCost { get; set; }
 
         [FwLogicProperty(Id: "ZMLnlOGiZ0bCV", IsReadOnly: true)]
         public decimal? Depreciation { get; set; }

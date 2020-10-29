@@ -1,0 +1,26 @@
+﻿<div data-name="InventoryQuantityHistoryGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Inventory Quantity History" data-rendermode="template" data-showsearch="false" data-controller="InventoryQuantityHistoryGridController">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-datafield="InventoryId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-datafield="WarehouseId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Date Change" data-datafield="DateChange" data-datatype="date" data-sort="desc" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Quantity Change" data-datafield="QuantityChange" data-datatype="number" data-sort="none" data-formreadonly="true"></div>
+  </div>
+  <div class="column flexcolumn" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Unit Cost" data-datafield="UnitCost" data-datatype="money" data-currencysymbol="CurrencySymbol" data-digits="2" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column flexcolumn" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Extended" data-datafield="CostExtended" data-datatype="money" data-currencysymbol="CurrencySymbol" data-digits="2" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Change Type" data-datafield="Type" data-datatype="text" data-sort="none" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Description" data-datafield="ChangeDescription" data-datatype="text" data-sort="none" data-formreadonly="true"></div>
+  </div>
+</div>

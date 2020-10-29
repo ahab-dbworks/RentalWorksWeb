@@ -17,7 +17,7 @@ export class FixedAssetDepreciationReport extends WebpackReport {
                     this.setReportMetadata(parameters, data, response);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Report = 'Fixed Asset Depreciation Report';
+                    data.Report = 'Rental Inventory Fixed Asset Depreciation Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

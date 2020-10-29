@@ -72,9 +72,9 @@
       <tr data-row="main-header">
         <th data-linkedcolumn="AccountNumber" data-valuefield="AccountNumber">G/L No.</th>
         <th data-linkedcolumn="AccountDescription" data-valuefield="AccountDescription">Account Description</th>
-        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice Number</th>
         <th data-linkedcolumn="GlDate" data-valuefield="GlDate">Date</th>
-        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="DocumentNumber" data-valuefield="DocumentNumber">Document Number</th>
+        <th data-linkedcolumn="Company" data-valuefield="Company">Company</th>
         <th data-linkedcolumn="Debit" data-valuefield="Debit" class="number">Debit</th>
         <th data-linkedcolumn="Credit" data-valuefield="Credit" class="number">Credit</th>
       </tr>
@@ -95,9 +95,9 @@
       <tr data-row="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="AccountNumber" data-value="{{AccountNumber}}"></td>
         <td data-linkedcolumn="AccountDescription" data-value="{{AccountDescription}}"></td>
-        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
         <td data-linkedcolumn="GlDate" data-value="{{GlDate}}"></td>
-        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="DocumentNumber" data-value="{{DocumentNumber}}"></td>
+        <td data-linkedcolumn="Company" data-value="{{Company}}"></td>
         <td data-linkedcolumn="Debit" class="number" data-value="{{Debit}}"></td>
         <td data-linkedcolumn="Credit" class="number" data-value="{{Credit}}"></td>
       </tr>
@@ -135,10 +135,10 @@
     <thead id="columnHeader">
       <tr data-row="main-header">
         <th data-linkedcolumn="AccountNumber">G/L No.</th>
-        <th data-linkedcolumn="GlDate" data-valuefield="GlDate">Date</th>
         <th data-linkedcolumn="AccountDescription" data-valuefield="AccountDescription">Account Description</th>
-        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
-        <th data-linkedcolumn="Deal" data-valuefield="Deal">Deal</th>
+        <th data-linkedcolumn="GlDate" data-valuefield="GlDate">Date</th>
+        <th data-linkedcolumn="DocumentNumber" data-valuefield="DocumentNumber">Document No.</th>
+        <th data-linkedcolumn="Company" data-valuefield="Company">Company</th>
         <th data-linkedcolumn="ItemDescription" data-valuefield="ItemDescription">Item Description</th>
         <th data-linkedcolumn="Debit" data-valuefield="Debit" class="number">Debit</th>
         <th data-linkedcolumn="Credit" data-valuefield="Credit" class="number">Credit</th>
@@ -164,10 +164,10 @@
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}">
         <td data-linkedcolumn="AccountNumber" class="no-border"></td>
-        <td data-linkedcolumn="GlDate" data-value="{{GlDate}}"></td>
         <td data-linkedcolumn="AccountDescription" data-value="{{AccountDescription}}"></td>
-        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
-        <td data-linkedcolumn="Deal" data-value="{{Deal}}"></td>
+        <td data-linkedcolumn="GlDate" data-value="{{GlDate}}"></td>
+        <td data-linkedcolumn="DocumentNumber" data-value="{{DocumentNumber}}"></td>
+        <td data-linkedcolumn="Company" data-value="{{Company}}"></td>
         <td data-linkedcolumn="ItemDescription" data-value="{{ItemDescription}}"></td>
         <td data-linkedcolumn="Debit" class="number" data-value="{{Debit}}"></td>
         <td data-linkedcolumn="Credit" class="number" data-value="{{Credit}}"></td>

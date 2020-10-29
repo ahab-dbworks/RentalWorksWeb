@@ -19,6 +19,7 @@
       <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
       <div data-type="tab" id="purchasetab" class="tab ckcstab" data-submodulename="PurchaseHistory" data-tabpageid="purchasetabpage" data-caption="Purchase History"></div>
       <div data-type="tab" id="retiredhistorytab" class="tab ckcstab" data-submodulename="RetiredHistory" data-tabpageid="retiredhistorytabpage" data-caption="Retired History"></div>
+      <div data-type="tab" id="qtyhistorytab" class="tab ckcstab" data-tabpageid="qtyhistorytabpage" data-caption="Quantity History"></div>
       <div data-type="tab" id="ordertab" data-submodulename="Order" class="tab" data-tabpageid="ordertabpage" data-caption="Orders"></div>
       <div data-type="tab" id="invoicetab" data-submodulename="Invoice" class="tab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
       <div data-type="tab" id="transfertab" data-submodulename="TransferOrder" class="tab" data-tabpageid="transfertabpage" data-caption="Transfers"></div>
@@ -87,7 +88,15 @@
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Non-Discountable" data-datafield="NonDiscountable" style="flex:0 1 200px"></div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Hazardous Material" data-datafield="IsHazardousMaterial" style="flex:0 1 200px"></div>
-                        <!--<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Fixed Asset" data-datafield="IsFixedAsset" style="flex:0 1 75px"></div>-->
+                      </div>
+                    </div>
+                    <!-- Cost Calculation -->
+                    <div class="fwcontrol fwcontainer fwform-section costcalculationsection" data-control="FwContainer" data-type="section" data-caption="Quantity Inventory Cost Calculation">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Quantity Inventory Cost Calculation" data-datafield="CostCalculation" style="flex:1 1 600px;"></div>
+                      </div>
+                      <div class="flexrow costcalculationwarning" style="display:none;">
+                        <div style="color:red;font-size:.8em">Warning:  Cost Calculation cannot be changed once Inventory has been sold, retired, or transferred.</div>
                       </div>
                     </div>
                   </div>
@@ -119,6 +128,18 @@
       <div data-type="tabpage" id="purchasetabpage" class="tabpage submodule rwSubModule" data-tabid="purchasetab"></div>
       <!-- RETIRED HISTORY SUBMODULE-->
       <div data-type="tabpage" id="retiredhistorytabpage" class="tabpage submodule rwSubModule" data-tabid="retiredhistorytab"></div>
+      <!-- QUANTITY HISTORY TAB -->
+      <div data-type="tabpage" id="qtyhistorytabpage" class="tabpage" data-tabid="qtyhistorytab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:1 1 650px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quantity History">
+              <div class="flexrow">
+                <div data-control="FwGrid" data-grid="InventoryQuantityHistoryGrid" data-securitycaption="Quantity History"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- ORDER SUBMODULE-->
       <div data-type="tabpage" id="ordertabpage" class="tabpage submodule rwSubModule" data-tabid="ordertab"></div>
       <!-- INVOICE SUBMODULE-->

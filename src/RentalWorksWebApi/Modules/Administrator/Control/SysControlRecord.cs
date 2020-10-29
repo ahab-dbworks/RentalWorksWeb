@@ -566,6 +566,12 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "depreciationstartsnextmonth", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depreciateonretire", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DepreciateFixedAssetsWhenRetired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oecincludetax", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? IncludeTaxInOriginalEquipmentCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enablepayments", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? EnablePayments { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -573,13 +579,13 @@ namespace WebApi.Modules.Administrator.Control
         public bool? AllowDeleteExportedPayments { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "assetcostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-        public string RentalQuantityInventoryValueMethod { get; set; }
+        public string DefaultRentalQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salescostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-        public string SalesQuantityInventoryValueMethod { get; set; }
+        public string DefaultSalesQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "partscostcalculation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-        public string PartsQuantityInventoryValueMethod { get; set; }
+        public string DefaultPartsQuantityInventoryCostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowdeleteinvoice", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? AllowDeleteInvoices { get; set; }
