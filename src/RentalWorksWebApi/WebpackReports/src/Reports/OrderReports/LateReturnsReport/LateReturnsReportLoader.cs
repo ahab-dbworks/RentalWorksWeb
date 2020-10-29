@@ -205,10 +205,11 @@ namespace WebApi.Modules.Reports.OrderReports.LateReturnsReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                string[] headerFieldsOrderNumber = new string[] { "OrderDate", "OrderDescription", "Agent", "OrderedByName", "BillDateRange", "OrderFromDate", "OrderToDate", "OrderPastDue" };
                 string[] totalFields = new string[] { "Quantity", "ItemUnitValueExtended", "ItemReplacementCostExtended" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields, headerFieldsOrderNumber);
             }
 
             return dt;
