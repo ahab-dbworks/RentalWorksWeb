@@ -249,8 +249,8 @@ class VendorInvoice {
                 request.totalfields = ["Debit", "Credit"];
             },
             afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                //FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
-                //FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Debit"]'), dt.Totals.Debit);
+                FwFormField.setValue2($form.find('.gldistribution-totals [data-totalfield="Credit"]'), dt.Totals.Credit);
             },
         });
         // ----------
@@ -450,7 +450,7 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.rental-totals [data-type="money"], .invoice-totals [data-type="money"]');
+        const $totalFields = $form.find('.rental-totals [data-type="money"], .invoice-totals [data-type="money"], .gldistribution-totals [data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;
