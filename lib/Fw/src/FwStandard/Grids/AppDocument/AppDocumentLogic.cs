@@ -113,7 +113,8 @@ namespace FwStandard.Grids.AppDocument
                 if (e.SaveMode == TDataRecordSaveMode.smUpdate)
                 {
                     // delete any existing images
-                    await appImageLogic.DeleteAsync(this.appDocument.UniqueId1, this.appDocument.UniqueId2, "");
+                    //ag 10/28/2020 - should not delete images based on uniqueid
+                    //await appImageLogic.DeleteAsync(this.appDocument.UniqueId1, this.appDocument.UniqueId2, "");
                 }
 
                 // add the new image
