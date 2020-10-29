@@ -254,7 +254,7 @@ namespace WebApi.Modules.HomeControls.InventorySearchPreview
                                     row[dt.GetColumnNo("QuantityAvailable")] = qtyAvailable;
                                     if (conflictDate != null)
                                     {
-                                        row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
+                                        row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
                                     }
 
                                     row[dt.GetColumnNo("QuantityAvailableColor")] = availColor;

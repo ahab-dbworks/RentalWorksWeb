@@ -255,7 +255,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         {
             get
             {
-                string display = FwConvert.ToUSShortDate(FromDateTime);
+                string display = FwConvert.ToShortDate(FromDateTime);
                 return display;
             }
         }
@@ -264,7 +264,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         {
             get
             {
-                string display = FwConvert.ToUSShortDate(ToDateTime);
+                string display = FwConvert.ToShortDate(ToDateTime);
                 //if (ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
                 if (Late)
                 {
@@ -3452,8 +3452,8 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                                     responseItem.FromDateTime = reservation.FromDateTime;
                                     responseItem.ToDateTime = reservation.ToDateTime;
 
-                                    responseItem.FromDateTimeString = FwConvert.ToString(reservation.FromDateTime);
-                                    responseItem.ToDateTimeString = (reservation.ToDateTime.Equals(LateDateTime) ? "LATE" : FwConvert.ToString(reservation.ToDateTime));
+                                    responseItem.FromDateTimeString = FwConvert.ToShortDate(reservation.FromDateTime);
+                                    responseItem.ToDateTimeString = (reservation.ToDateTime.Equals(LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
 
                                     TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(reservation.FromDateTime, reservation.ToDateTime);
                                     if ((!minAvail.IsStale) && (reservation.QuantitySub > 0) && (minAvail.MinimumAvailable.Total > reservation.QuantitySub))

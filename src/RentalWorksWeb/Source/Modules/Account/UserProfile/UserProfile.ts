@@ -27,6 +27,15 @@
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        FwFormField.loadItems($form.find('div[data-datafield="Locale"]'), [
+            { value: 'en-CA', text: 'English (Canada)' },
+            { value: 'en-GB', text: 'English (United Kingdom)' },
+            { value: 'en-US', text: 'English (United States)' },
+            { value: 'fr', text: 'French' },
+            { value: 'de', text: 'German' },
+            { value: 'it', text: 'Italian' }
+        ], false);
+
         const $browsedefaultrows = $form.find('div[data-datafield="BrowseDefaultRows"]');
         FwFormField.loadItems($browsedefaultrows, [
             { value: '5', text: '5' },
@@ -251,6 +260,7 @@
         //FirstDayOfWeek set to sessionStorage
         const userid = JSON.parse(sessionStorage.getItem('userid'));
         userid.firstdayofweek = +FwFormField.getValueByDataField($form, 'FirstDayOfWeek');
+        userid.locale = FwFormField.getValueByDataField($form, 'Locale');
         sessionStorage.setItem('userid', JSON.stringify(userid));
 
         sessionStorage.setItem('browsedefaultrows', FwFormField.getValueByDataField($form, 'BrowseDefaultRows'));
@@ -290,6 +300,9 @@
         FwFormField.setValueByDataField($form, 'OldPassword', '');
         FwFormField.setValueByDataField($form, 'NewPassword', '');
 
+        if (FwFormField.getValueByDataField($form, 'Locale') === '') {
+            $form.find('.localenote').html(`Using: ${window.navigator.language}`)
+        }
     }
     //----------------------------------------------------------------------------------------------
     searchFavorites($form: JQuery) {

@@ -1,8 +1,9 @@
-﻿using FwCore.Api;
+using FwCore.Api;
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -11,10 +12,20 @@ namespace FwCore.AppManager
     public class FwAmUserClaimsProvider
     {
         //---------------------------------------------------------------------------------------------
-        internal static async Task<ClaimsIdentity> GetClaimsIdentity(SqlServerConfig dbConfig, string WebUsersId)
+        internal static async Task<ClaimsIdentity> GetClaimsIdentityAsync(SqlServerConfig dbConfig, string webUsersId)
         {
-            ClaimsIdentity identity = null;
+            ClaimsIdentity identity = new ClaimsIdentity();
+            identity.AddClaim(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
             using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                await AddWebUserClaimsAsync(dbConfig, identity, webUsersId, conn);
+            }
+            return identity;
+        }
+        //---------------------------------------------------------------------------------------------
+        internal static async Task AddWebUserClaimsAsync(SqlServerConfig dbConfig, ClaimsIdentity identity, string webUsersId, FwSqlConnection conn)
+        {
+            if (!string.IsNullOrEmpty(webUsersId))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                 {
@@ -23,14 +34,11 @@ namespace FwCore.AppManager
                     qry.Add("  join groups g  with (nolock) on (wuv.groupsid = g.groupsid)");
                     qry.Add("where webusersid = @webusersid");
                     qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
-                    qry.AddParameter("@webusersid", WebUsersId);
+                    qry.AddParameter("@webusersid", webUsersId);
 
                     await qry.ExecuteAsync();
                     if (qry.RowCount > 0)
                     {
-                        //identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
-                        identity = new ClaimsIdentity();
-                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
                         if (qry.FieldNames.Contains("webusersid"))
                         {
                             string webusersid = qry.GetField("webusersid").ToString().TrimEnd();
@@ -98,14 +106,19 @@ namespace FwCore.AppManager
                     }
                 }
             }
-            return identity;
         }
         //---------------------------------------------------------------------------------------------
-        internal static async Task<ClaimsIdentity> GetIntegrationClaimsIdentity(SqlServerConfig dbConfig, string client_id, string client_secret)
+        internal static async Task<ClaimsIdentity> GetIntegrationClaimsIdentityAsync(SqlServerConfig dbConfig, string client_id, string client_secret)
         {
-            ClaimsIdentity identity = null;
+            ClaimsIdentity identity = new ClaimsIdentity();
             using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
             {
+                string dealid = string.Empty;
+                string campusid = string.Empty;
+                int errno = 0;
+                string errmsg = string.Empty;
+                string webusersid = string.Empty;
+                identity.AddClaim(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
                 using (FwSqlCommand qryAuthenticate = new FwSqlCommand(conn, "appintegrationauthenticate", dbConfig.QueryTimeout))
                 {
                     qryAuthenticate.AddParameter("@clientid", client_id);
@@ -116,22 +129,40 @@ namespace FwCore.AppManager
                     qryAuthenticate.AddParameter("@errmsg", System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
                     await qryAuthenticate.ExecuteAsync();
 
-                    if (qryAuthenticate.GetParameter("@errno").ToInt32().Equals(0))
+                    dealid = qryAuthenticate.GetParameter("@dealid").ToString().TrimEnd();
+                    if (!string.IsNullOrEmpty(dealid))
                     {
-                        identity = new ClaimsIdentity();
-
-                        string dealid = qryAuthenticate.GetParameter("@dealid").ToString().TrimEnd();
-                        if (!string.IsNullOrEmpty(dealid))
-                        {
-                            identity.AddClaim(new Claim(AuthenticationClaimsTypes.DealId, dealid));
-                        }
-
-                        string campusid = qryAuthenticate.GetParameter("@campusid").ToString().TrimEnd();
-                        if (!string.IsNullOrEmpty(campusid))
-                        {
-                            identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusid));
-                        }
+                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.DealId, dealid));
                     }
+
+                    campusid = qryAuthenticate.GetParameter("@campusid").ToString().TrimEnd();
+                    if (!string.IsNullOrEmpty(campusid))
+                    {
+                        identity.AddClaim(new Claim(AuthenticationClaimsTypes.CampusId, campusid));
+                    }
+
+                    errno = qryAuthenticate.GetParameter("@errno").ToInt32();
+                    errmsg = qryAuthenticate.GetParameter("@errmsg").ToString().TrimEnd();
+                }
+                if (errno.Equals(0))
+                {
+                    using (FwSqlCommand qryAppIntegrationAccount = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                    {
+                        qryAppIntegrationAccount.Add("select top 1 webusersid");
+                        qryAppIntegrationAccount.Add("from appintegrationaccount aia with(nolock)");
+                        qryAppIntegrationAccount.Add("where aia.clientid = @clientid");
+                        qryAppIntegrationAccount.Add("  and aia.clientsecret = @clientsecret");
+                        qryAppIntegrationAccount.AddParameter("@clientid", client_id);
+                        qryAppIntegrationAccount.AddParameter("@clientsecret", client_secret);
+                        await qryAppIntegrationAccount.ExecuteAsync();
+                        webusersid = qryAppIntegrationAccount.GetField("webusersid").ToString().TrimEnd();
+                    }
+
+                    await AddWebUserClaimsAsync(dbConfig, identity, webusersid, conn);
+                }
+                else
+                {
+                    throw new Exception(errmsg);
                 }
             }
 

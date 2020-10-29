@@ -1,4 +1,4 @@
-//routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
 
 class Contact {
     Module: string = 'Contact';
@@ -68,7 +68,7 @@ class Contact {
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
 
             FwFormField.setValueByDataField($form, 'ActiveDate', today);
 
@@ -97,6 +97,22 @@ class Contact {
                 FwFunc.showError(ex);
             }
         });
+
+        $form.on('change', 'div[data-datafield="WebAccess"] .fwformfield-value', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                $form.find('div[data-datafield="DepartmentId"]').attr('data-required', 'true');
+                $form.find('div[data-datafield="DefaultDealId"]').attr('data-required', 'true');
+                $form.find('div[data-datafield="LocationId"]').attr('data-required', 'true');
+                $form.find('div[data-datafield="WarehouseId"]').attr('data-required', 'true');
+            } else {
+                $form.find('div[data-datafield="DepartmentId"]').attr('data-required', 'false');
+                $form.find('div[data-datafield="DefaultDealId"]').attr('data-required', 'false');
+                $form.find('div[data-datafield="LocationId"]').attr('data-required', 'false');
+                $form.find('div[data-datafield="WarehouseId"]').attr('data-required', 'false');
+            }
+        })
+
         //FwFormField.getDataField($form, 'WarehouseId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
         //    request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'LocationId');
         //});
@@ -256,7 +272,7 @@ class Contact {
         $form.find('[data-datafield="Inactive"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
-                const today = FwFunc.getDate();
+                const today = FwLocale.getDate();
                 FwFormField.enable($form.find('div[data-datafield="InactiveDate"]'));
                 FwFormField.setValueByDataField($form, 'InactiveDate', today);
             }
@@ -301,6 +317,12 @@ class Contact {
             }
             $tab.addClass('tabGridsLoaded');
         });
+        if (FwFormField.getValueByDataField($form, 'WebAccess') === true) {
+            $form.find('div[data-datafield="DepartmentId"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="DefaultDealId"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="LocationId"]').attr('data-required', 'true');
+            $form.find('div[data-datafield="WarehouseId"]').attr('data-required', 'true');
+        }
     }
     //--------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
@@ -543,6 +565,8 @@ class Contact {
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Requests" style="flex:0 1 500px;">
                       <div class="flexrow">
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="ContactDepartmentValidation" style="flex:1 1 300px;"></div>
+                      </div>  <div class="flexrow">
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Deal" data-datafield="DefaultDealId" data-displayfield="DefaultDeal" data-validationname="ContactDealValidation" style="flex:1 1 300px;"></div>
                       </div>
                       <div class="flexrow">

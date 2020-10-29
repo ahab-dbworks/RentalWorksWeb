@@ -497,74 +497,98 @@ namespace WebApi.Modules.Billing.Invoice
         {
             bool isValid = true;
 
-
             SystemSettingsLogic s = new SystemSettingsLogic();
             s.SetDependencies(AppConfig, UserSession);
             s.SystemSettingsId = RwConstants.CONTROL_ID;
             bool b = s.LoadAsync<SystemSettingsLogic>().Result;
 
-            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
-            {
-                if (!string.IsNullOrEmpty(DealId))
-                {
-                    // load the Deal object once here for use downstream
-                    insertingDeal = new DealLogic();
-                    insertingDeal.SetDependencies(AppConfig, UserSession);
-                    insertingDeal.DealId = DealId;
-                    bool b2 = insertingDeal.LoadAsync<DealLogic>().Result;
-                }
+            string currencyId = string.Empty;
 
-                if (isValid)
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
-                    if (!s.AllowInvoiceDateChange.GetValueOrDefault(false))
+                    if (!string.IsNullOrEmpty(DealId))
                     {
-                        if (!FwConvert.ToDateTime(InvoiceDate).Equals(DateTime.Today))
+                        // load the Deal object once here for use downstream
+                        insertingDeal = new DealLogic();
+                        insertingDeal.SetDependencies(AppConfig, UserSession);
+                        insertingDeal.DealId = DealId;
+                        bool b2 = insertingDeal.LoadAsync<DealLogic>().Result;
+                    }
+
+                    if (string.IsNullOrEmpty(CurrencyId))
+                    {
+                        if (insertingDeal != null)
+                        {
+                            CurrencyId = insertingDeal.CurrencyId;
+                        }
+                    }
+                    currencyId = CurrencyId;
+
+                    if (isValid)
+                    {
+                        if (!s.AllowInvoiceDateChange.GetValueOrDefault(false))
+                        {
+                            if (!FwConvert.ToDateTime(InvoiceDate).Equals(DateTime.Today))
+                            {
+                                isValid = false;
+                                validateMsg = "Invoice Date cannot be changed.";
+                            }
+                        }
+                    }
+                }
+                else //smUpdate
+                {
+                    InvoiceLogic lOrig = null;
+                    if (original != null)
+                    {
+                        lOrig = ((InvoiceLogic)original);
+                    }
+
+                    currencyId = CurrencyId ?? lOrig.CurrencyId;
+
+                    // cannot change Currency if this Invoice is associated to an Order
+                    if (isValid)
+                    {
+                        if ((CurrencyId != null) && (!CurrencyId.Equals(lOrig.CurrencyId)) && (!string.IsNullOrEmpty(lOrig.OrderId)))
                         {
                             isValid = false;
-                            validateMsg = "Invoice Date cannot be changed.";
+                            validateMsg = "Cannot modify the Currency of this " + BusinessLogicModuleName + ".  Instead void the " + BusinessLogicModuleName + ", correct the Order, and create a new " + BusinessLogicModuleName + ".";
+                        }
+                    }
+
+                    // no changes allowed at all if processed, closed, or void
+                    if (isValid)
+                    {
+                        if (lOrig.Status.Equals(RwConstants.INVOICE_STATUS_PROCESSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_VOID))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                        }
+                    }
+
+                    // cannot change the Invoice date if system is configured so
+                    if (isValid)
+                    {
+                        if (!s.AllowInvoiceDateChange.GetValueOrDefault(false))
+                        {
+                            if ((InvoiceDate != null) && (!InvoiceDate.Equals(lOrig.InvoiceDate)))
+                            {
+                                isValid = false;
+                                validateMsg = "Invoice Date cannot be changed.";
+                            }
                         }
                     }
                 }
             }
-            else //smUpdate
+
+            if (isValid)
             {
-                InvoiceLogic lOrig = null;
-                if (original != null)
+                if (string.IsNullOrEmpty(currencyId))
                 {
-                    lOrig = ((InvoiceLogic)original);
-                }
-
-                // cannot change Currency if this Invoice is associated to an Order
-                if (isValid)
-                {
-                    if ((CurrencyId != null) && (!CurrencyId.Equals(lOrig.CurrencyId)) && (!string.IsNullOrEmpty(lOrig.OrderId)))
-                    {
-                        isValid = false;
-                        validateMsg = "Cannot modify the Currency of this " + BusinessLogicModuleName + ".  Instead void the " + BusinessLogicModuleName + ", correct the Order, and create a new " + BusinessLogicModuleName + ".";
-                    }
-                }
-
-                // no changes allowed at all if processed, closed, or void
-                if (isValid)
-                {
-                    if (lOrig.Status.Equals(RwConstants.INVOICE_STATUS_PROCESSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_VOID))
-                    {
-                        isValid = false;
-                        validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
-                    }
-                }
-
-                // cannot change the Invoice date if system is configured so
-                if (isValid)
-                {
-                    if (!s.AllowInvoiceDateChange.GetValueOrDefault(false))
-                    {
-                        if ((InvoiceDate != null) && (!InvoiceDate.Equals(lOrig.InvoiceDate)))
-                        {
-                            isValid = false;
-                            validateMsg = "Invoice Date cannot be changed.";
-                        }
-                    }
+                    isValid = false;
+                    validateMsg = "Currency cannot be blank.";
                 }
             }
 
@@ -591,7 +615,7 @@ namespace WebApi.Modules.Billing.Invoice
             {
                 Status = RwConstants.INVOICE_STATUS_NEW;
                 InvoiceType = RwConstants.INVOICE_TYPE_BILLING;
-                StatusDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
                 InputByUserId = UserSession.UsersId;
                 IsStandAloneInvoice = true;  // invoice created from "New" option
 

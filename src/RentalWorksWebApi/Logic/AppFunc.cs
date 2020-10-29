@@ -738,6 +738,7 @@ namespace WebApi.Logic
         {
             public string locationid { get; set; } = string.Empty;
             public string location { get; set; } = string.Empty;
+            public string locationcode { get; set; } = string.Empty;
             public string companyname { get; set; } = string.Empty;
             public string locationcolor { get; set; } = string.Empty;
             public string ratetype { get; set; } = string.Empty;
@@ -756,7 +757,7 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select locationid, location, locationcolor, company, ratetype, ratetypedisplay, defaultcurrencyid, defaultcurrency, defaultcurrencycode, defaultcurrencysymbol, ");
+                    qry.Add("select locationid, location, loccode, locationcolor, company, ratetype, ratetypedisplay, defaultcurrencyid, defaultcurrency, defaultcurrencycode, defaultcurrencysymbol, ");
                     qry.Add("       countryid, country                                                                                                                ");
                     qry.Add("from locationview with (nolock)                                                                                                          ");
                     qry.Add("where locationid = @locationid                                                                                                           ");
@@ -764,6 +765,7 @@ namespace WebApi.Logic
                     await qry.ExecuteAsync();
                     response.locationid = qry.GetField("locationid").ToString().TrimEnd();
                     response.location = qry.GetField("location").ToString().TrimEnd();
+                    response.locationcode = qry.GetField("loccode").ToString().TrimEnd();
                     response.companyname = qry.GetField("company").ToString().TrimEnd();
                     response.locationcolor = qry.GetField("locationcolor").ToHtmlColor();
                     response.ratetype = qry.GetField("ratetype").ToString().TrimEnd();
@@ -783,6 +785,7 @@ namespace WebApi.Logic
         {
             public string warehouseid { get; set; } = string.Empty;
             public string warehouse { get; set; } = string.Empty;
+            public string warehousecode { get; set; } = string.Empty;
             public bool promptforcheckoutexceptions { get; set; } = true;
             public bool promptforcheckinexceptions { get; set; } = true;
         }
@@ -793,13 +796,14 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select warehouseid, warehouse, promptforcheckoutexceptions, promptforcheckinexceptions");
+                    qry.Add("select warehouseid, warehouse, whcode, promptforcheckoutexceptions, promptforcheckinexceptions");
                     qry.Add("from warehouse with (nolock)");
                     qry.Add("where warehouseid = @warehouseid");
                     qry.AddParameter("@warehouseid", warehouseid);
                     await qry.ExecuteAsync();
                     response.warehouseid = qry.GetField("warehouseid").ToString().TrimEnd();
                     response.warehouse = qry.GetField("warehouse").ToString().TrimEnd();
+                    response.warehousecode = qry.GetField("whcode").ToString().TrimEnd();
                     response.promptforcheckoutexceptions = qry.GetField("promptforcheckoutexceptions").ToBoolean();
                     response.promptforcheckinexceptions = qry.GetField("promptforcheckinexceptions").ToBoolean();
                 }

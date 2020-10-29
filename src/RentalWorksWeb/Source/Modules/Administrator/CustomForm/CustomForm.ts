@@ -177,9 +177,20 @@ class CustomForm {
             sessionStorage.setItem('customForms', JSON.stringify(customForms));
             $form.removeData('selfassign');
             const controller = $form.find('[data-datafield="BaseForm"] option:selected').data('controllername');
-            if (controller != 'undefined') {
-                const nav = (<any>window)[controller].nav;
-                program.navigate(nav);
+            if ($form.data('issubmodule')) {
+                const $tab = FwTabs.getTabByElement($form);
+                const $browse = $form.data('$browse');
+                const onDataBind = $browse.data('ondatabind');
+                const $newBrowse = (<any>window)[controller].openBrowse();
+                $newBrowse.data('ondatabind', onDataBind);
+                $browse.replaceWith($newBrowse);
+                FwModule.closeForm($form, $tab);
+                FwBrowse.search($newBrowse);
+            } else {
+                if (controller != 'undefined') {
+                    const nav = (<any>window)[controller].nav;
+                    program.navigate(nav);
+                }
             }
         }
 

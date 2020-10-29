@@ -8,8 +8,12 @@ using FwStandard.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using OfficeOpenXml.ConditionalFormatting;
 using Swashbuckle.AspNetCore.Swagger;
@@ -39,12 +44,13 @@ namespace FwCore.Api
         protected IHostingEnvironment HostingEnvironment;
         protected IConfigurationRoot Configuration;
         protected FwApplicationConfig ApplicationConfig;
-        protected string SystemName;
+        public static string SystemName;
         //------------------------------------------------------------------------------------
         public FwStartup(IHostingEnvironment env, string systemName)
         {
             HostingEnvironment = env;
             SystemName = systemName;
+            FwSqlConnection.ApplicationName = systemName;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -133,8 +139,8 @@ namespace FwCore.Api
             services.Configure<FwJwtIssuerOptions>(options =>
             {
                 options.Authority = ApplicationConfig.JwtIssuerOptions.Authority;
-                options.Issuer    = ApplicationConfig.JwtIssuerOptions.Issuer;
-                options.Audience  = ApplicationConfig.JwtIssuerOptions.Audience;
+                options.Issuer = ApplicationConfig.JwtIssuerOptions.Issuer;
+                options.Audience = ApplicationConfig.JwtIssuerOptions.Audience;
             });
 
             // this is the new ASP.NET Core 2.0 stuff for JWT (not sure about any other JWT stuff in this file anymore)
@@ -214,7 +220,16 @@ namespace FwCore.Api
             //        }
             //    }
             //}
-            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.Sql2012;
+            if (this.ApplicationConfig.DatabaseSettings.SQLCompatibility == "PreSql2012")
+            {
+                FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
+                Console.WriteLine("SqlSelect Paging Compatibility: PreSql2012");
+            }
+            else
+            {
+                FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.Sql2012;
+                Console.WriteLine("SqlSelect Paging Compatibility: Sql2012");
+            }
             AlertFunc.RefreshAlerts(ApplicationConfig);
         }
         //------------------------------------------------------------------------------------
@@ -252,6 +267,45 @@ namespace FwCore.Api
             //{
             //    app.UseDeveloperExceptionPage();
             //}
+
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    await Task.CompletedTask;
+                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();   
+                    if (exceptionHandlerPathFeature?.Error is ArgumentException)
+                    {
+                        context.Response.StatusCode = 400;
+                        context.Response.ContentType = "application/json";
+                        context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+                        var argumentException = (ArgumentException)exceptionHandlerPathFeature?.Error;
+                        ModelStateDictionary modelState = new ModelStateDictionary();
+                        modelState.AddModelError(argumentException.ParamName, argumentException.Message);
+                        var serializableModelState = new SerializableError(modelState);
+                        string argumentExceptionJson = JsonConvert.SerializeObject(serializableModelState);
+                        await context.Response.WriteAsync(argumentExceptionJson);
+                        return;
+                    }
+                    var apiException = new FwApiException();
+                    if (exceptionHandlerPathFeature?.Error is Exception)
+                    {
+                        apiException.Message = exceptionHandlerPathFeature.Error.Message;
+                        apiException.StackTrace = exceptionHandlerPathFeature.Error.StackTrace;
+                    }
+                    else
+                    {
+                        apiException.Message = "An unknown error has occured.";
+                    }
+                    apiException.StatusCode = 500;
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "application/json";
+                    context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+                    string json = JsonConvert.SerializeObject(apiException);
+                    await context.Response.WriteAsync(json);
+                    return;
+                });
+            });
 
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder =>

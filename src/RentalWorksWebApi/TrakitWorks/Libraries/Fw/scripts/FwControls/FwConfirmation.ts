@@ -1,6 +1,6 @@
 ﻿class FwConfirmation {
     //----------------------------------------------------------------------------------------------
-    static renderConfirmation(title: string, message: string) {
+    static renderConfirmation(title: string, message: string): JQuery {
         var html, $control, maxZIndex, $body, $more;
 
         html = [];
@@ -30,7 +30,7 @@
         return $control;
     }
     //----------------------------------------------------------------------------------------------
-    static addButton($confirmation: JQuery, buttontext: string, hasDefaultEvent?: boolean) {
+    static addButton($confirmation: JQuery, buttontext: string, hasDefaultEvent?: boolean): JQuery {
         var $button = jQuery('<div>')
             .addClass('fwconfirmation-button')
             .attr('role', 'button')
@@ -53,7 +53,7 @@
         return $button;
     }
     //----------------------------------------------------------------------------------------------
-    static destroyConfirmation($confirmation) {
+    static destroyConfirmation($confirmation: JQuery) {
         $confirmation.remove();
     }
     //----------------------------------------------------------------------------------------------

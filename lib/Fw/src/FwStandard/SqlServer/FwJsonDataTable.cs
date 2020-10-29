@@ -19,6 +19,7 @@ namespace FwStandard.SqlServer
         public int PageSize { get; set; }
         public int TotalPages { get; set; }
         public int TotalRows { get; set; }
+        public List<string> DateFields { get; set; }
         public Dictionary<string, decimal> Totals = new Dictionary<string, decimal>();
         public Dictionary<int, string> ColumnNameByIndex
         {

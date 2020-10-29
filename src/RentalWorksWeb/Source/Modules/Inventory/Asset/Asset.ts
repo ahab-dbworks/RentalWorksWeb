@@ -457,6 +457,20 @@ class RwAsset {
             $form.find('[data-datafield="PurchaseCurrencyExchangeRate"], [data-datafield="WarehouseCurrencyCode"]').hide();
         }
 
+        const count = response["LampCount"];
+        if (typeof count == 'number') {
+            switch (count) {
+                case 0: $form.find('.lamp-hours').hide();
+                    break;
+                case 1: $form.find('[data-datafield="LampHours2"]').hide();
+                case 2: $form.find('[data-datafield="LampHours3"]').hide();
+                case 3: $form.find('[data-datafield="LampHours4"]').hide();
+                case 4: $form.find('.lamp-hours .fwform-section-title').text(`Lamp Hours (${count} Lamp${count > 1 ? 's' : ''})`);
+                    break;
+            }
+        }
+
+
         this.applyCurrencySymbolToTotalFields($form, response);
     };
     //---------------------------------------------------------------------------------------------
@@ -592,6 +606,7 @@ class RwAsset {
               <div data-type="tab" id="assettab" class="tab" data-tabpageid="assettabpage" data-caption="General"></div>
               <div data-type="tab" id="locationtab" class="tab" data-tabpageid="locationtabpage" data-caption="Location"></div>
               <div data-type="tab" id="manufacturertab" class="tab" data-tabpageid="manufacturertabpage" data-caption="Manufacturer"></div>
+              <div data-type="tab" id="usagetab" class="tab" data-tabpageid="usagetabpage" data-caption="Usage"></div>
               <div data-type="tab" id="purchasetab" class="tab" data-tabpageid="purchasetabpage" data-caption="Purchase"></div>
               <div data-type="tab" id="attributetab" class="tab" data-tabpageid="attributetabpage" data-caption="Attribute"></div>
               <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="Quality Control"></div>
@@ -775,6 +790,33 @@ class RwAsset {
                   </div>
                 </div>
               </div>
+              <!-- Usage tab -->
+              <div data-type="tabpage" id="usagetabpage" class="tabpage" data-tabid="usagetab">
+                <div class="flexcolumn" style="max-width:600px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Current Usage">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Asset Hours" data-datafield="AssetHours" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="No. Strikes" data-datafield="Strikes" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Foot-Candles" data-datafield="FootCandles" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Minimum Foot Candles" data-datafield="MinimumFootCandles" data-enabled="false" style="flex:0 1 130px;"></div>                
+                    </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section lamp-hours" data-control="FwContainer" data-type="section" data-caption="Lamp Hours">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 1" data-datafield="LampHours1" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 2" data-datafield="LampHours2" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 3" data-datafield="LampHours3" data-enabled="false" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Lamp 4" data-datafield="LampHours4" data-enabled="false" style="flex:0 1 130px;"></div>
+                      </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Software">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Software Version" data-datafield="SoftwareVersion" style="flex:0 1 130px;"></div>
+                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="SoftwareEffectiveDate" style="flex:0 1 130px;"></div>
+                      </div>
+                    </div>
+                </div>
+              </div>
               <!-- Purchase tab -->
               <div data-type="tabpage" id="purchasetabpage" class="tabpage" data-tabid="purchasetab">
                 <div class="flexpage">
@@ -790,7 +832,7 @@ class RwAsset {
                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Outside PO Number" data-datafield="OutsidePurchaseOrderNumber" data-enabled="false" style="flex:1 1 150px;"></div>
                          </div>
-                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
+                         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="UnitCost" data-currencysymbol="PurchaseCurrencySymbol" data-enabled="false" style="flex:1 1 75px;"></div>
                        </div>
                      </div>
 
@@ -826,8 +868,11 @@ class RwAsset {
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Purchase Currency" data-datafield="PurchaseCurrencyCode" data-enabled="false" style="flex:1 1 100px;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse Currency" data-datafield="WarehouseCurrencyCode" data-enabled="false" style="flex:1 1 100px;"></div>
                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Exchange Rate" data-datafield="PurchaseCurrencyExchangeRate" data-enabled="false" style="flex:1 1 100px;"></div>
+                           <!--
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost" data-datafield="UnitCostCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Unit Cost (with Tax)" data-datafield="UnitCostWithTaxCurrencyConverted" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
+                           -->
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Original Equipment Cost" data-datafield="OriginalEquipmentCost" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Depreciation Months" data-datafield="DepreciationMonths" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Accumulated Depreciation" data-datafield="Depreciation" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>
                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Current Book Value" data-datafield="BookValue" data-currencysymbol="WarehouseCurrencySymbol" data-enabled="false" style="flex:1 1 150px;"></div>

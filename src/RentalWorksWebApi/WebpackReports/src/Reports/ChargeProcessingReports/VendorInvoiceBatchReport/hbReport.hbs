@@ -1,14 +1,16 @@
 ﻿<!-- Vendor Invoice Batch Report-->
-<div data-section="header" class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Batch No. {{BatchNumber}} {{BatchDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+<div data-section="header">
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow rpt-header-center"><span>Batch No. {{BatchNumber}} {{BatchDate}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
   </div>
 </div>
 <div data-section="table" class="rpt-flexrow" style="margin-top:40px;">
@@ -18,6 +20,7 @@
         <th data-valuefield="InvoiceNumber" data-linkedcolumn="InvoiceNumber">Invoice No.</th>
         <th data-valuefield="InvoiceDate" data-linkedcolumn="InvoiceDate">Invoice Date</th>
         <th data-valuefield="PurchaseOrderNumber" data-linkedcolumn="PurchaseOrderNumber">PO No.</th>
+        <th data-valuefield="CurrencySymbolAndCode" data-linkedcolumn="CurrencySymbolAndCode">Currency</th>
         <th data-valuefield="InvoiceTotal" data-linkedcolumn="InvoiceTotal" class="number">Total</th>
       </tr>
     </thead>
@@ -25,12 +28,12 @@
       {{#each this}}
       {{#ifEquals RowType "Locationheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="4" class="header-row">Office: {{Location}}</td>
+        <td colspan="5" class="header-row">Office: {{Location}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Vendorheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="4" class="lower header-row">Vendor: {{Vendor}}</td>
+        <td colspan="5" class="lower header-row">Vendor: {{Vendor}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
@@ -38,24 +41,25 @@
         <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}"></td>
         <td data-linkedcolumn="InvoiceDate" data-value="{{InvoiceDate}}"></td>
         <td data-linkedcolumn="PurchaseOrderNumber" data-value="{{PurchaseOrderNumber}}"></td>
+        <td data-linkedcolumn="CurrencySymbolAndCode" data-value="{{CurrencySymbolAndCode}}"></td>
         <td data-linkedcolumn="InvoiceTotal" data-value="{{InvoiceTotal}}" class="number"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Vendorfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="3" class="total-name">{{Vendor}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{Vendor}}&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Locationfooter"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="3" class="total-name">{{Location}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{Location}}&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
       <tr data-row="footer" data-rowtype="{{RowType}}">
-        <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
       </tr>
       {{/ifEquals}}

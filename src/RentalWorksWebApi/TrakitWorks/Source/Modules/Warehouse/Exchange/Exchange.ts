@@ -6,9 +6,6 @@ class Exchange {
     id:                        string = Constants.Modules.Warehouse.children.Exchange.id;
     ContractId:                string = '';
     ExchangeResponse:          any    = {};
-    successSoundFileName:      string;
-    errorSoundFileName:        string;
-    notificationSoundFileName: string;
     Type:                      string = 'Order';
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
@@ -77,7 +74,7 @@ class Exchange {
                 $yes.on('click', () => {
                     try {
                         const request: any = { ContractId: contractId };
-                        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/cancelcontract`, request, FwServices.defaultTimeout,
                             response => {
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 ExchangeController.resetForm($form);
@@ -339,23 +336,29 @@ class Exchange {
         });
     };
     //----------------------------------------------------------------------------------------------
-    beforeValidateOrder($browse, $grid, request) {
-        const $form = $grid.closest('.fwform');
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const DealId: string = FwFormField.getValueByDataField($form, 'DealId');
-        if (DealId.length > 0) {
-            request.uniqueids = {
-                'DealId': DealId
-            }
+        switch (datafield) {
+            case 'DealId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
+                break;
+            case 'OrderId':
+                let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+                let warehouseId = warehouse.warehouseid;
+                if (DealId.length > 0) {
+                    request.uniqueids = {
+                        'DealId': DealId
+                    }
+                }
+                request.miscfields = {
+                    Exchange: true,
+                    ExchangeWarehouseId: warehouseId
+                }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
+                break;
         }
 
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
-        request.miscfields = {
-            Exchange: true,
-            ExchangeWarehouseId: warehouseId
-        }
-
-    };
+    }
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
         const fields = $form.find('.fwformfield');
@@ -378,7 +381,7 @@ class Exchange {
         let typeHTML;
         switch (this.Module) {
             case 'Exchange':
-                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 125px;" data-formbeforevalidate="beforeValidateOrder"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 125px;"></div>`;
                 break;
             case 'ExchangeContainerItem':
                 typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:1 1 125px;"></div>`;

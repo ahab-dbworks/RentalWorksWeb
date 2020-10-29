@@ -15,10 +15,10 @@ export class ReturnOnAssetReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Return On Asset Report';
                     if (parameters.UseDateRange) {
-                        data.FromDate = parameters.FromDate;
+                        data.FromDate = moment(parameters.FromDate).locale(parameters.Locale).format('L');
                         data.ToDate = parameters.ToDate
                         data.UseDateRange = parameters.UseDateRange;
                     } else {

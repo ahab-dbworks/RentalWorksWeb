@@ -320,11 +320,20 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "itaUv87Fv7Auv", IsReadOnly: true)]
         public decimal? PurchaseCurrencyExchangeRate { get; set; }
 
+        [FwLogicProperty(Id: "U0BgTg5E5aqj", IsReadOnly: true)]
+        public decimal? UnitCost { get; set; }
+
+        [FwLogicProperty(Id: "uh3VT8CnQYM9", IsReadOnly: true)]
+        public decimal? UnitCostWithTax { get; set; }
+
         [FwLogicProperty(Id: "gTc527SfDc8nn", IsReadOnly: true)]
         public decimal? UnitCostCurrencyConverted { get; set; }
 
         [FwLogicProperty(Id: "06NuSh9OT08Qu", IsReadOnly: true)]
         public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
+
+        [FwLogicProperty(Id: "CNzJq0Xtn8gM", IsReadOnly: true)]
+        public decimal? OriginalEquipmentCost { get; set; }
 
         [FwLogicProperty(Id: "ZMLnlOGiZ0bCV", IsReadOnly: true)]
         public decimal? Depreciation { get; set; }
@@ -446,6 +455,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwLogicProperty(Id: "OhSQLIh5t6Ho")]
         public int? AssetHours { get { return item.AssetHours; } set { item.AssetHours = value; } }
 
+        [FwLogicProperty(Id: "OUVHZGmTBCl7", IsReadOnly: true)]
+        public int? LampCount { get; set; }
+
         [FwLogicProperty(Id: "FVq1lIagvdBJ")]
         public int? LampHours1 { get { return item.LampHours1; } set { item.LampHours1 = value; } }
 
@@ -463,6 +475,15 @@ namespace WebApi.Modules.Inventory.Asset
 
         [FwLogicProperty(Id: "Uw1mE7akfw01")]
         public int? FootCandles { get { return item.FootCandles; } set { item.FootCandles = value; } }
+
+        [FwLogicProperty(Id: "M2ByaEjO6Oa2", IsReadOnly: true)]
+        public int? MinimumFootCandles { get; set; }
+
+        [FwLogicProperty(Id: "37cRhdOJ2qrY")]
+        public string SoftwareVersion { get { return item.SoftwareVersion; } set { item.SoftwareVersion = value; } }
+
+        [FwLogicProperty(Id: "LghShZjmaAq1")]
+        public string SoftwareEffectiveDate { get { return item.SoftwareEffectiveDate; } set { item.SoftwareEffectiveDate = value; } }
 
         [FwLogicProperty(Id: "AxOjLblF6wH1", IsReadOnly: true)]
         public string Pattern { get; set; }

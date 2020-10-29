@@ -26,55 +26,17 @@ class RentalInventory extends InventoryBase {
 
     };
     //----------------------------------------------------------------------------------------------
+    setupNewMode($form: any) {
+        super.setupNewMode($form);
+        const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultrentalquantityinventorycostcalculation);
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const maxPageSize = 20;
+        super.renderGrids($form, 'Rental');
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
-        //Inventory Location Tax grid
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryLocationTaxGrid',
-            gridSecurityId: 'dpDtvVrXRZrd',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
-            },
-            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; }, 
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
-        //Rental Inventory Warehouse Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'RentalInventoryWarehouseGrid',
-            gridSecurityId: 'g8sCuKjUVrW1',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-                request.miscfields = {
-                    UserWarehouseId: warehouse.warehouseid
-                };
-                request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
+        // ----------
         //Container Warehouse Grid
         FwBrowse.renderGrid({
             nameGrid: 'ContainerWarehouseGrid',
@@ -97,150 +59,7 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-
-        //Rental Inventory Warehouse Pricing Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'RentalInventoryWarehousePricingGrid',
-            gridSecurityId: 'g8sCuKjUVrW1',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
-                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
-                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'local');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'specific');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'all');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-                request.miscfields = {
-                    UserWarehouseId: warehouse.warehouseid
-                };
-                request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-            },
-            beforeSave: (request: any, $browse, $tr) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
-            }
-        });
-
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryWarehouseCompletePricingGrid',
-            gridSecurityId: 'g8sCuKjUVrW1',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
-                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
-                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'local');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'specific');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'all');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-                request.miscfields = {
-                    UserWarehouseId: warehouse.warehouseid
-                };
-                request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-            },
-            beforeSave: (request: any, $browse, $tr) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
-            }
-        });
-
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryWarehouseKitPricingGrid',
-            gridSecurityId: 'g8sCuKjUVrW1',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew = false;
-                options.hasDelete = false;
-                const $viewcolumn = FwMenu.addSubMenuColumn(options.$menu);
-                const $viewgroup = FwMenu.addSubMenuGroup($viewcolumn, 'View', 'securityid1');
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in local Currencies', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'local');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in a specific Currency', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'specific');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-                FwMenu.addSubMenuItem($viewgroup, 'View Rates in All Currencies', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.currencyViewForPricingGrids(e, 'all');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-                request.miscfields = {
-                    UserWarehouseId: warehouse.warehouseid
-                };
-                request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
-            },
-            beforeSave: (request: any, $browse, $tr) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
-            }
-        });
-
-
+        // ----------
         //Inventory Availability Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryAvailabilityGrid',
@@ -260,7 +79,7 @@ class RentalInventory extends InventoryBase {
             //    request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             //}
         });
-
+        // ----------
         //Inventory Consignment Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryConsignmentGrid',
@@ -281,57 +100,7 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-
-        //Inventory Complete/Kit Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryCompleteKitGrid',
-            gridSecurityId: 'gflkb5sQf7it',
-            moduleSecurityId: this.id,
-            $form: $form,
-            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
-        //Inventory Substitute Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'InventorySubstituteGrid',
-            gridSecurityId: '5sN9zKtGzNTq',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    WarehouseId: warehouse.warehouseid
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
-        //Inventory Compatibility Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryCompatibilityGrid',
-            gridSecurityId: 'mlAKf5gRPNNI',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
+        // ----------
         //Inventory QC Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryQcGrid',
@@ -369,24 +138,7 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-
-        //Inventory Attribute Value Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryAttributeValueGrid',
-            gridSecurityId: 'CntxgVXDQtQ7',
-            moduleSecurityId: this.id,
-            $form: $form,
-            // getBaseApiUrl: (): string => { return `${this.apiurl}/${FwFormField.getValueByDataField($form, 'InventoryId')}/aka`; },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
+        // ----------
         //Inventory Vendor Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryVendorGrid',
@@ -402,23 +154,7 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-
-        //Inventory Prep Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'InventoryPrepGrid',
-            gridSecurityId: 'CzNh6kOVsRO4',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
+        // ----------
         //Inventory Container Item Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryContainerItemGrid',
@@ -448,36 +184,7 @@ class RentalInventory extends InventoryBase {
                 request.ContainerId = FwFormField.getValueByDataField($form, 'ContainerId');
             }
         });
-
-        //Inventory Complete Grid
-        const $inventoryCompleteGrid = FwBrowse.renderGrid({
-            nameGrid: 'InventoryCompleteGrid',
-            gridSecurityId: 'ABL0XJQpsQQo',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
-                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.quikSearch(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    //WarehouseId: warehouse.warehouseid
-                };
-            },
-            beforeSave: (request: any) => {
-                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId')
-            }
-        });
-
+        // ----------
         // InventoryWarehouseSpecificGrid for Completes
         FwBrowse.renderGrid({
             nameGrid: 'InventoryWarehouseSpecificGrid',
@@ -502,7 +209,7 @@ class RentalInventory extends InventoryBase {
                 $browse.addClass('complete');
             },
         });
-
+        // ----------
         //Inventory Warehouse Staging Grid
         FwBrowse.renderGrid({
             nameGrid: 'InventoryWarehouseStagingGrid',
@@ -523,37 +230,7 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-
-        //Inventory Kit Grid
-        const $inventoryKitGrid = FwBrowse.renderGrid({
-            nameGrid: 'InventoryKitGrid',
-            gridSecurityId: 'ABL0XJQpsQQo',
-            moduleSecurityId: this.id,
-            $form: $form,
-            addGridMenu: (options: IAddGridMenuOptions) => {
-                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
-                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1')
-                FwMenu.addSubMenuItem($optionsgroup, 'QuikSearch', '', (e: JQuery.ClickEvent) => {
-                    try {
-                        this.quikSearch(e);
-                    }
-                    catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            },
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    PackageId: FwFormField.getValueByDataField($form, 'InventoryId'),
-                    //WarehouseId: warehouse.warehouseid
-                };
-            },
-            beforeSave: (request: any) => {
-                request.PackageId = FwFormField.getValueByDataField($form, 'InventoryId');
-            },
-            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
-            }
-        });
+        // ----------
         // InventoryWarehouseSpecificGrid for Kits
         FwBrowse.renderGrid({
             nameGrid: 'InventoryWarehouseSpecificGrid',
@@ -578,7 +255,7 @@ class RentalInventory extends InventoryBase {
                 $browse.addClass('kit');
             },
         });
-
+        // ----------
         //Wardrobe Inventory Color Grid
         FwBrowse.renderGrid({
             nameGrid: 'WardrobeInventoryColorGrid',
@@ -594,7 +271,7 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-
+        // ----------
         //Wardrobe Inventory Material Grid
         FwBrowse.renderGrid({
             nameGrid: 'WardrobeInventoryMaterialGrid',
@@ -610,40 +287,7 @@ class RentalInventory extends InventoryBase {
                 request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
             }
         });
-
-        //Purchase Vendor Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'PurchaseVendorGrid',
-            gridSecurityId: '15yjeHiHe1x99',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
-
-        //Alternative Description Grid
-        FwBrowse.renderGrid({
-            nameGrid: 'AlternativeDescriptionGrid',
-            gridSecurityId: '2BkAgaVVrDD3',
-            moduleSecurityId: this.id,
-            $form: $form,
-            onDataBind: (request: any) => {
-                request.uniqueids = {
-                    InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
-                };
-            },
-            beforeSave: (request: any) => {
-                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-            }
-        });
         // ----------
-
         FwBrowse.renderGrid({
             nameGrid: 'ContractHistoryGrid',
             gridSecurityId: 'fY1Au6CjXlodD',
@@ -655,7 +299,7 @@ class RentalInventory extends InventoryBase {
                 };
             }
         });
-
+        // ----------
         //hide columns
         $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="Price"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="Price"]').parent('td').hide();
@@ -665,7 +309,6 @@ class RentalInventory extends InventoryBase {
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="AverageCost"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseCompletePricingGrid"] div[data-browsedatafield="RestockingFee"]').parent('td').hide();
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="RestockingFee"]').parent('td').hide();
-
     };
     //-----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
@@ -814,61 +457,6 @@ class RentalInventory extends InventoryBase {
                 FwFunc.showError(ex);
             }
         }, null, $form);
-    }
-    //----------------------------------------------------------------------------------------------
-    quikSearch(event) {
-        const $form = jQuery(event.currentTarget).closest('.fwform');
-        const controllerName = $form.attr('data-controller');
-
-        let gridInventoryType: string;
-        if (controllerName === 'RentalInventoryController') {
-            gridInventoryType = 'Rental';
-        } else if (controllerName === 'SalesInventoryController') {
-            gridInventoryType = 'Sales';
-        }
-
-        if ($form.attr('data-mode') === 'NEW') {
-            let isValid = FwModule.validateForm($form);
-            if (isValid) {
-                let activeTabId = jQuery($form.find('[data-type="tab"].active')).attr('id');
-                (<any>window)[controllerName].saveForm($form, { closetab: false });
-                $form.attr('data-opensearch', 'true');
-                $form.data('opensearch', event);
-                $form.attr('data-searchtype', gridInventoryType);
-                $form.attr('data-activetabid', activeTabId);
-                FwNotification.renderNotification('WARNING', 'Saving record...')
-                return;
-            } else {
-                FwNotification.renderNotification('ERROR', 'Save the record before adding items.')
-                return;
-            }
-        }
-
-        const classification = FwFormField.getValueByDataField($form, 'Classification');
-        if (classification == 'C') {
-            const $completeGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-            if ($completeGrid.find('tbody tr:not(.empty)').length === 0) {
-                FwNotification.renderNotification('ERROR', 'Add a primary item manually before using QuikSearch.');
-                return;
-            }
-        }
-        let type: string;
-        const grid = jQuery(event.currentTarget).parents('[data-control="FwGrid"]').attr('data-grid');
-        if (grid === 'InventoryKitGrid') {
-            type = 'Kit';
-        }
-        if (grid === 'InventoryCompleteGrid') {
-            type = 'Complete';
-        }
-        if (grid === 'InventoryContainerItemGrid') {
-            type = 'Container';
-        }
-        const id = FwFormField.getValueByDataField($form, 'InventoryId');
-        const search = new SearchInterface();
-        search.renderSearchPopup($form, id, type, gridInventoryType);
-
-        $form.removeData('opensearch');
-        $form.removeAttr('data-opensearch');
     }
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {

@@ -10,85 +10,69 @@ namespace FwStandard.SqlServer
     {
         //---------------------------------------------------------------------------------------------
         /// <summary>
+        /// Convert a string or DateTime object into a date string in the format: yyyy-MM-dd.
+        /// </summary>
+        public static string ToShortDate(object value)
+        {
+            string str = string.Empty;
+            DateTime dateTime;
+            if (value is DateTime)
+            {
+                dateTime = (DateTime)value;
+                str = dateTime.ToString("yyyy-MM-dd");
+            }
+            else if ((value is String) && (!string.IsNullOrEmpty((string)value)))
+            {
+                dateTime = DateTime.Parse((string)value);
+                str = dateTime.ToString("yyyy-MM-dd");
+            }
+            return str;
+        }
+        //---------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert a string or DateTime object to a time string in the format: HH:mm:ss.
+        /// </summary>
+        public static string ToShortTime(object value)
+        {
+            string str = string.Empty;
+            DateTime dateTime;
+            if (value is DateTime)
+            {
+                dateTime = (DateTime)value;
+                str = dateTime.ToString("HH:mm:ss");
+            }
+            else if ((value is String) && (!string.IsNullOrEmpty((string)value)))
+            {
+                dateTime = DateTime.Parse((string)value);
+                str = dateTime.ToString("HH:mm:ss");
+            }
+            return str;
+        }
+        //---------------------------------------------------------------------------------------------
+        /// <summary>
         /// Convert a date string into a DateTime.
         /// </summary>
         public static DateTime ToDateTime(string date)
-        {   
+        {
             DateTime result = DateTime.MinValue;
             if (!DateTime.TryParse(date, out result))
             {
-                result = DateTime.MinValue;    
+                result = DateTime.MinValue;
             }
             return result;
         }
         //---------------------------------------------------------------------------------------------
         /// <summary>
-        ///Gets the current date.
+        /// Combine a strings for date and time into a DateTime.
         /// </summary>
-        public static DateTime GetDate()
-        {
-            return DateTime.Today;
-        }
-        //---------------------------------------------------------------------------------------------
-        ///// <summary>
-        ///// Gets the current date and time string.
-        ///// </summary>
-        //public static string GetDateTime()
-        //{
-        //    return DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-        //}
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Combine a strings for date, time, and AM/PM into a DateTime.
-        /// </summary>
-        public static DateTime ToDateTime(string date, string time, string ampm)
+        public static DateTime ToDateTime(string date, string time)
         {
             DateTime result = DateTime.MinValue;
-            if (!DateTime.TryParse(date + " " + time + " " + ampm, out result))
-            {
-                result = DateTime.MinValue;    
-            }
-            return result;
-        }
-        //---------------------------------------------------------------------------------------------
-        public static DateTime ToUSDateTime(DateTime date, String time)
-        {
-            DateTime result = DateTime.MinValue;
-            if (!DateTime.TryParse(date.ToString("MM/dd/yyyy") + " " + time, out result))
-            {
-                result = DateTime.MinValue;    
-            }
-            return result;       
-        }
-        //---------------------------------------------------------------------------------------------
-        public static string ToUSShortDate(string dateTime)
-        {
-            DateTime result = DateTime.MinValue;
-            if (!DateTime.TryParse(dateTime, out result))
+            if (!DateTime.TryParse(date + " " + time, out result))
             {
                 result = DateTime.MinValue;
             }
-            return result.ToString("MM/dd/yyyy");
-        }
-        //---------------------------------------------------------------------------------------------
-        public static string ToUSShortDate(DateTime value)
-        {
-            string datestr = string.Empty;
-            if (value != DateTime.MinValue)
-            {
-                datestr = value.ToString("MM/dd/yyyy");    
-            }
-            return datestr;    
-        }
-        //---------------------------------------------------------------------------------------------
-        public static string ToUSShortDateTime(DateTime value)
-        {
-            string datestr = string.Empty;
-            if (value != DateTime.MinValue)
-            {
-                datestr = value.ToString("MM/dd/yyyy hh:mm tt");    
-            }
-            return datestr;    
+            return result;
         }
         //---------------------------------------------------------------------------------------------
         /// <summary>
@@ -104,111 +88,7 @@ namespace FwStandard.SqlServer
             {
                 datestr = value.ToString("yyyy-MM-dd HH:mm:ss");
             }
-            return datestr;    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert DateTime to time string in the format: 99:99.
-        /// </summary>
-        public static string ToShortTime12(string dateTime)
-        {
-            DateTime result = DateTime.MinValue;
-            if (!DateTime.TryParse(dateTime, out result))
-            {
-                result = DateTime.MinValue;
-            }
-            return result.ToString("hh:mm");
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert DateTime to time string in the format: 99:99.
-        /// </summary>
-        public static string ToShortTime12(DateTime dateTime)
-        {
-            return dateTime.ToString("hh:mm");    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert DateTime to time string in the format: 99:99:99.
-        /// </summary>
-        public static string ToTime12(DateTime dateTime)
-        {
-            return dateTime.ToString("hh:mm:ss");    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert DateTime to time string in the format: 99:99.
-        /// </summary>
-        public static string ToShortTime24(DateTime dateTime)
-        {
-            return dateTime.ToString("HH:mm");    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Combine a strings for date, time, and AM/PM into a DateTime.
-        /// </summary>
-        public static string ToShortTime12(string time, string ampm)
-        {
-            DateTime result = DateTime.MinValue;
-            if (!DateTime.TryParse(time + " " + ampm, out result))
-            {
-                result = DateTime.MinValue;
-            }
-            return result.ToString("HH:mm");
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert DateTime to time string in the format: 99:99:99.
-        /// </summary>
-        public static string ToTime24(DateTime dateTime)
-        {
-            return dateTime.ToString("HH:mm:ss");    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Combine a strings for date, time, and AM/PM into a DateTime.
-        /// </summary>
-        public static string ToTime24(string time, string ampm)
-        {
-            DateTime result = DateTime.MinValue;
-            if (!DateTime.TryParse(time + " " + ampm, out result))
-            {
-                result = DateTime.MinValue;
-            }
-            return result.ToString("HH:mm:ss");    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Combine a strings for date, time, and AM/PM into a DateTime.
-        /// </summary>
-        public static string ToShortTime24(string time, string ampm)
-        {
-            DateTime result = DateTime.MinValue;
-            if (!DateTime.TryParse(time + " " + ampm, out result))
-            {
-                result = DateTime.MinValue;
-            }
-            return result.ToString("HH:mm");    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert DateTime to AM or PM string.
-        /// </summary>
-        public static string ToTimeAMPM(DateTime dateTime)
-        {
-            return dateTime.ToString("tt");    
-        }
-        //---------------------------------------------------------------------------------------------
-        /// <summary>
-        /// </summary>
-        public static string ToString(DateTime date)
-        {
-            string result = string.Empty;
-            if (date != DateTime.MinValue)
-            {
-                result = date.ToString("MM/dd/yyyy");
-            }
-            return result;
+            return datestr;
         }
         //---------------------------------------------------------------------------------------------
         /// <summary>
@@ -256,7 +136,7 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         public static string LogicalToCharacter(bool value)
         {
-            return (value ? "T": "F");
+            return (value ? "T" : "F");
         }
         //---------------------------------------------------------------------------------------------
         public static string ToUpperCamelCase(string value)
@@ -298,7 +178,7 @@ namespace FwStandard.SqlServer
                         else
                         {
                             formattedPhone.Insert(0, " ");
-                        }   
+                        }
                     }
                 }
             }
@@ -368,7 +248,7 @@ namespace FwStandard.SqlServer
             {
                 dec = (Decimal)Convert.ToDecimal(value);
             }
-            return dec; 
+            return dec;
         }
         //---------------------------------------------------------------------------------------------
         public static float ToFloat(object value)
@@ -383,7 +263,7 @@ namespace FwStandard.SqlServer
             {
                 result = (float)Convert.ToSingle(value);
             }
-            return result; 
+            return result;
         }
         //---------------------------------------------------------------------------------------------
         public static Double ToDouble(object value)
@@ -398,7 +278,7 @@ namespace FwStandard.SqlServer
             {
                 dou = (Double)Convert.ToDouble(value);
             }
-            return dou; 
+            return dou;
         }
         //---------------------------------------------------------------------------------------------        
         public static string ToJsonArray(string array)
@@ -406,7 +286,7 @@ namespace FwStandard.SqlServer
             StringBuilder json = new StringBuilder();
             bool isFirst = true;
             json.Append("[");
-            foreach (string field in new List<string>(array.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries)))
+            foreach (string field in new List<string>(array.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
             {
                 if (isFirst)
                 {
@@ -454,14 +334,14 @@ namespace FwStandard.SqlServer
         /// </summary>
         public static string ToString(bool value)
         {
-            return (value? "T": "F");
-        }        
+            return (value ? "T" : "F");
+        }
         //---------------------------------------------------------------------------------------------
         public static string HtmlEncodeString(string str)
         {
             str = str.Replace("\r", "&#13;");
             str = str.Replace("\n", "&#10;");
-            str = str.Replace("'",  "&#39;");
+            str = str.Replace("'", "&#39;");
             str = str.Replace("\"", "&quot;");
             str = str.Replace("<", "&lt;");
             str = str.Replace(">", "&gt;");
@@ -472,7 +352,7 @@ namespace FwStandard.SqlServer
         {
             str = str.Replace("\\", "\\\\");
             str = str.Replace("'", "\\'");
-            str = str.Replace("\"", "\\\""); 
+            str = str.Replace("\"", "\\\"");
             str = str.Replace("\r", "\\r");
             str = str.Replace("\n", "\\n");
             return str;
@@ -494,7 +374,7 @@ namespace FwStandard.SqlServer
             List<string> result;
 
             result = new List<string>();
-            for(int i = 0; i < items.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
                 result.Add(items[i].ToString());
             }
@@ -508,7 +388,7 @@ namespace FwStandard.SqlServer
             string result;
 
             sb = new StringBuilder();
-            for(int i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
                 if (i > 0) sb.Append(",");
                 sb.Append(items[i].Replace("'", "''"));
@@ -575,7 +455,7 @@ namespace FwStandard.SqlServer
             roundedAmt = Math.Round(amount);
             intAmt = Convert.ToInt32(roundedAmt);
             val = intAmt.ToString();
-            if (intAmt < 0) 
+            if (intAmt < 0)
             {
                 val = "(" + val.Replace("-", "") + ")";
             }
@@ -592,7 +472,7 @@ namespace FwStandard.SqlServer
         {
             StringBuilder sb;
             string phone;
-            
+
             if (string.IsNullOrWhiteSpace(value))
             {
                 phone = String.Empty;
@@ -628,7 +508,7 @@ namespace FwStandard.SqlServer
             StringBuilder sb;
             string zip;
             bool breakout;
-            
+
             if (value.Length > 10) value = value.Substring(0, 10);
             if (value.Length < 10) value = value.PadRight(10, ' ');
             sb = new StringBuilder();
@@ -637,10 +517,10 @@ namespace FwStandard.SqlServer
             {
                 switch (charno)
                 {
-                    case 6: 
+                    case 6:
                         if ((value[6] != ' ') || (value[7] != ' ') || (value[8] != ' ') || (value[9] != ' '))
                         {
-                            sb.Append("-"); 
+                            sb.Append("-");
                         }
                         else
                         {

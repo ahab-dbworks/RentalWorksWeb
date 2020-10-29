@@ -231,7 +231,7 @@ class FwFormFieldClass {
 
                         if ((typeof window['FwFormField_' + data_type] === 'object') &&
                             (typeof window['FwFormField_' + data_type].loadForm === 'function')) {
-                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text);
+                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text, model);
                         }
                         else {
                             $fwformfield
@@ -258,7 +258,7 @@ class FwFormFieldClass {
 
                         if ((typeof window['FwFormField_' + data_type] === 'object') &&
                             (typeof window['FwFormField_' + data_type].loadForm === 'function')) {
-                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text);
+                            window['FwFormField_' + data_type].loadForm($fwformfield, table, field, value, text, model);
                         }
                         else {
                             $fwformfield
@@ -369,11 +369,13 @@ class FwFormFieldClass {
     //---------------------------------------------------------------------------------
     getValueByDataField($parent: JQuery, datafield: string) {
         var selector, value;
-        selector = 'div[data-datafield="' + datafield + '"]';
+        selector = `div[data-datafield="${datafield}"]`;
         try {
             value = this.getValue($parent, selector);
         } catch (ex) {
-            throw 'this.getValueByDataField: Unable to get value for datafield: ' + datafield;
+            //throw new Error(`this.getValueByDataField: Unable to get value for datafield: ${datafield}`);
+            value = null;  //justin hoffman & matt young 07/16/2020 - If Form has been customized and the field is not found, return a Null without throwing an error.  The Null return value will have to be handled on the Form controller
+            console.error(`FwFormField.getValueByDataField: Unable to get value for datafield: ${datafield}`);
         }
         return value;
     }
@@ -407,7 +409,9 @@ class FwFormFieldClass {
         try {
             value = this.getText($parent, selector);
         } catch (ex) {
-            throw 'FwFormField.getTextByDataField: Unable to get value for datafield: ' + datafield;
+            //throw 'FwFormField.getTextByDataField: Unable to get value for datafield: ' + datafield;
+            //throw `FwFormField.getTextByDataField: Unable to get value for datafield: ${datafield}. ${ex}`;  
+            throw new Error(`FwFormField.getTextByDataField: Unable to get value for datafield: ${datafield}. ${ex}`);  // justin hoffman 02/10/2020 #1852 - bubbling up the exception for visibility
         }
         return value;
     }
@@ -502,7 +506,7 @@ class FwFormFieldClass {
         return controller;
     }
     //---------------------------------------------------------------------------------
-    getDataField($parent: JQuery<HTMLElement>, datafield: string) {
+    getDataField($parent: JQuery, datafield: string) {
         var $field = $parent.find(`div[data-datafield="${datafield}"]`);
         return $field;
     }

@@ -10,6 +10,23 @@
                 $tr.css('text-decoration', 'line-through');
                 $tr.find('td.column div.field').css('background-color', '#00ffff');
             }
+
+            //set validation dynamically
+            const recType = FwBrowse.getValueByDataField($control, $tr, 'RecType');
+            const $td = $tr.find('[data-browsedatafield="InventoryId"]');
+            let peekForm;
+            switch (recType) {
+                case 'R':
+                    peekForm = 'RentalInventory';
+                    break;
+                case 'S':
+                    peekForm = 'SalesInventory';
+                    break;
+                case 'P':
+                    peekForm = 'PartsInventory';
+                    break;
+            }
+            $td.attr('data-peekForm', peekForm);
         });
     }
 

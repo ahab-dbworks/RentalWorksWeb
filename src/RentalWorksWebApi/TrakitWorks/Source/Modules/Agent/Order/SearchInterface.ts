@@ -849,7 +849,7 @@ class SearchInterface {
                 $popup.find('.addToOrder').css('cursor', 'wait');
                 $popup.off('click', '.addToOrder');
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                    FwPopup.destroyPopup(jQuery('body').find('.fwpopup'));
                     let $combinedGrid           = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
                         $orderItemGridRental    = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
                         $quoteItemGrid          = $form.find('div[data-name="QuoteItemGrid"]');

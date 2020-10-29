@@ -5,25 +5,20 @@
     "noEmitOnError": true,
     "removeComments": true,
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
     "target": "ES5",
-    "noEmit": false,
     "lib": [
-      "dom",
-      "es5",
-      "es2015.promise"
+      "DOM",
+      "ES5",
+      "ES2015.Core",
+      "ES2015.Promise"
     ],
     "typeRoots": [
-      "../node_modules/@types",
-      "./@types"
+      "../node_modules/@types"
     ]
   },
-  "files": [
-    "../node_modules/moment/moment.d.ts"
-  ],
   "include": [
-    "./@types",
+    "../node_modules/moment/moment.d.ts",
+    "./@types/**/*.d.ts",
     "**/*.ts"
   ]
 }

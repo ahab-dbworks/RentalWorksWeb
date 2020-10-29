@@ -25,7 +25,7 @@ export class OrderStatusSummaryReport extends WebpackReport {
                             data.Items = DataTable.toObjectList(response.ItemsTable);
                             data.Order = parameters.orderno;
                             data.Report = "Order Status Summary";                     
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

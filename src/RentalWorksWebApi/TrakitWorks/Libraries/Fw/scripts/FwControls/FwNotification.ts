@@ -1,20 +1,22 @@
 ﻿class FwNotification {
     static $notification: JQuery;
     //----------------------------------------------------------------------------------------------
-    static renderNotification(type: 'SUCCESS'|'ERROR'|'INFO'|'PERSISTENTINFO'|'WARNING', message: string, css?: any) {
-        var html, $notification, maxZIndex;
+    static renderNotification(type: 'SUCCESS' | 'ERROR' | 'INFO' | 'PERSISTENTINFO' | 'WARNING', message: string, css?: any, delay?: number) {
+        if (delay === null || typeof delay !== 'number') {
+            delay = 4500;
+        }
         jQuery('.fwnotification').each((index: number, element: HTMLElement) => {
-            let $this = jQuery(element);
-            let top: number = parseInt($this.css('top').substr(0, $this.css('top').length - 2));
-            let bottom: number = parseInt($this.css('bottom').substr(0, $this.css('bottom').length - 2));
+            const $this = jQuery(element);
+            const top: number = parseInt($this.css('top').substr(0, $this.css('top').length - 2));
+            const bottom: number = parseInt($this.css('bottom').substr(0, $this.css('bottom').length - 2));
             $this.css({
-                top: (top - 60) + 'px',
-                bottom: (bottom + 60) + 'px'
+                top: `${(top - 60)}px`,
+                bottom: `${(bottom + 60)}px`
             });
         });
         //FwNotification.closeNotification(jQuery('.fwnotification'));
 
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="fwnotification advisory');
         switch (type) {
             case 'SUCCESS':
@@ -32,13 +34,12 @@
                 break;
         }
         html.push('">');
-        html.push('<div class="message">' + message + '</div>');
+        html.push(`<div class="message">${message}</div>`);
         html.push('<div class="messageclose"><i class="material-icons">&#xE5CD;</i></div>');
         html.push('</div>');
-        html = html.join('');
-        $notification = jQuery(html);
+        const $notification = jQuery(html.join(''));
 
-        maxZIndex = FwFunc.getMaxZ('*');
+        const maxZIndex = FwFunc.getMaxZ('*');
 
         if (css !== undefined) {
             $notification.css(css)
@@ -48,13 +49,13 @@
             .css('z-index', maxZIndex)
             .appendTo(jQuery('body'))
             .fadeIn('slow', function () {
-                var el = jQuery(this);
+                const el = jQuery(this);
                 if (type !== 'PERSISTENTINFO') {
                     setTimeout(function () {
                         el.fadeOut('slow', function () {
                             FwNotification.closeNotification(jQuery(this));
                         });
-                    }, 4500);
+                    }, delay);
                 }
             })
             .on('click', '.messageclose', function () {
@@ -68,7 +69,9 @@
     };
     //----------------------------------------------------------------------------------------------
     static closeNotification($notification) {
-        $notification.remove();
+        if ($notification) {
+            $notification.remove();
+        }
     };
     //----------------------------------------------------------------------------------------------
     static fieldNotification($field, type, message) {

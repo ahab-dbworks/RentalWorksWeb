@@ -109,7 +109,7 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
                 {
                     BatchReceipt r = new BatchReceipt();
                     r.ReceiptId = row[dt.GetColumnNo("arid")].ToString();
-                    r.ReceiptDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("ardate")].ToString());
+                    r.ReceiptDate = FwConvert.ToShortDate(row[dt.GetColumnNo("ardate")].ToString());
                     r.CheckNumber = row[dt.GetColumnNo("checkno")].ToString();
                     r.PaymentType = row[dt.GetColumnNo("paytype")].ToString();
                     r.PaymentBy = row[dt.GetColumnNo("paymentby")].ToString();
@@ -154,7 +154,7 @@ namespace WebApi.Modules.Exports.ReceiptBatchExport
                             ReceiptInvoice i = new ReceiptInvoice();
                             i.InvoiceId = row[dt.GetColumnNo("invoiceid")].ToString();
                             i.InvoiceNumber = row[dt.GetColumnNo("invoiceno")].ToString();
-                            i.InvoiceDate = FwConvert.ToUSShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
+                            i.InvoiceDate = FwConvert.ToShortDate(row[dt.GetColumnNo("invoicedate")].ToString());
                             i.InvoiceDescription = row[dt.GetColumnNo("invoicedesc")].ToString();
                             i.Customer = row[dt.GetColumnNo("arcustomer")].ToString();
                             i.Deal = row[dt.GetColumnNo("ardeal")].ToString();

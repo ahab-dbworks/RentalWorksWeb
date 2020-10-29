@@ -37,7 +37,7 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void {
         if (typeof value === 'string') {
             $fwformfield.attr('data-originalvalue', ((value === 'T') ? 'T' : 'F'));
             if (value === 'T') {
@@ -51,7 +51,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
@@ -59,7 +59,7 @@
 
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         var controller = FwFormField.getController($fwformfield);
         var value;
         if ((typeof controller != 'undefined') && (typeof controller.apiurl !== 'undefined')) {
@@ -70,7 +70,7 @@
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         var $inputvalue = $fwformfield.find('input');
         $inputvalue.prop('checked', value);
         if (firechangeevent) $inputvalue.change();

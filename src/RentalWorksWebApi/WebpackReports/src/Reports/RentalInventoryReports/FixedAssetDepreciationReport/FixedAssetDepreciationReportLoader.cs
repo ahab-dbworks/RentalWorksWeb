@@ -155,6 +155,15 @@ namespace WebApi.Modules.Reports.FixedAssetDepreciationReport
         [FwSqlDataField(column: "purchamtwithtaxcurrconvextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ExtendedCostWithTaxCurrencyConvertedExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasepono", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasepodesc", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasevendor", modeltype: FwDataTypes.Text)]
+        public string PurchaseVendor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salvagevalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? SalvageValue { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -1,4 +1,5 @@
 ﻿//import * as  Handlebars from 'handlebars/dist/cjs/handlebars';
+import moment from 'moment';
 
 export class HandlebarsHelpers {
     static registerHelpers(custom: boolean = false) {
@@ -116,6 +117,17 @@ export class HandlebarsHelpers {
             else {
                 return options.fn(this);
             }
+        });
+        //--------------------------------------------------------------------------------------------------------------
+        Handlebars.registerHelper('formatDate', function (value, locale) {
+            if (!value) {
+                return '';
+            }
+            var localmoment = moment(value);
+
+            if (locale) { localmoment.locale(locale); }
+
+            return localmoment.format('L');
         });
         //--------------------------------------------------------------------------------------------------------------
     }

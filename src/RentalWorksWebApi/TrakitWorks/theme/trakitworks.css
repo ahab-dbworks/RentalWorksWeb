@@ -233,10 +233,115 @@ html.theme-material .fwform-section {
 #previewHtml {height:100%;}
 /*#endregion*/
 
+/***************************
+ProgressBar
+***************************/
+
+/* Reset the default appearance */
+progress[value]::-webkit-progress-value {
+    background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), -webkit-linear-gradient(left, #335EC4, #1F71F4);
+    border-radius: 45px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+progress::-webkit-progress-bar {
+    background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), -webkit-linear-gradient(left, #333, #666);
+    border-radius: 45px;
+    background-size: 35px 20px, 100% 100%, 100% 100%
+}
+
+progress {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 300px;
+    height: 25px;
+    font-family: 'Material Icons';
+}
+
+.progress_bar {
+    position: fixed;
+    left: 42%;
+    top: 42%;
+    z-index: 100;
+    text-align: center;
+    background-color: #dcdcdc;
+    border-radius: 10px;
+    padding: 22px 5px 0 5px;
+}
+
+progress::-webkit-progress-value {
+    background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0,0, 0, .1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), -webkit-linear-gradient(left, #09c, #f44);
+    border-radius: 5px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+/***************************
+Form tables
+***************************/
+.form-table {  border-collapse: collapse; font-size:.8em;}
+.form-table .header { background-color: #E0E0E0;}
+.form-table th { border: .75px solid black;padding:5px; }
+.form-table td { border: .75px solid black;padding:5px;margin:0; }
+.form-table td:not(.invoice-amount) { vertical-align:text-top; }
+.form-table .text { text-align:left; }
+.form-table .decimal { text-align:right; }
+.form-table input { height:100%;width:97%;padding:3px 0px 0px 0px;font-family:inherit; }
+.form-table i { left:3px;float:right;position:relative;cursor:pointer; }
+.form-table tr:nth-child(even) { background-color:#f1eded; }
+
 .twSubModule > div {
   margin: 10px;
   border-left: 1px solid #9e9e9e;
   border-right: 1px solid #9e9e9e;
+}
+
+/* Styling for play buttons */
+.play-btn {
+    outline: none;
+    background-color: transparent;
+    border-color: transparent;
+    border-width: 0px 0px 0px 0px;
+    margin-top: 22px;
+    height: 24px;
+    width: 24px;
+}
+
+    .play-btn > img {
+        cursor: pointer;
+    }
+
+        .play-btn > img:active {
+            cursor: pointer;
+            background-color: lightgray;
+            border-radius: 50%;
+        }
+
+.staging-btn {
+    outline: none;
+    background-color: transparent;
+    border-color: transparent;
+    border-width: 0px 0px 0px 0px;
+}
+
+.unstage-all > i {
+    cursor: pointer;
+}
+
+.dbl-angle > img {
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+}
+
+.dbl-angle > img:active {
+    background-color: #64f364;
+    border-radius: 6px;
+}
+
+.btn-active > img, .btn-active > i {
+    background-color: #76f776;
+    border-radius: 6px;
 }
 
 /* Styling for error message text */
@@ -259,6 +364,6 @@ html.theme-material .fwform-section {
   cursor: pointer;
 }
 
-  .original-buttons .material-icons:hover {
-    background-color: #BDBDBD;
-  }
+.original-buttons .material-icons:hover {
+background-color: #BDBDBD;
+}

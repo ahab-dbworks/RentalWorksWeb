@@ -165,7 +165,7 @@ namespace WebApi.Modules.Agent.Contact
             set
             {
                 user.Password = value;
-                user.PasswordUpdatedDateTime = FwConvert.ToUSShortDate(DateTime.Today);
+                user.PasswordUpdatedDateTime = FwConvert.ToShortDate(DateTime.Today);
 
                 webUser.WebPassword = value;
             }
@@ -220,7 +220,13 @@ namespace WebApi.Modules.Agent.Contact
 
         [FwLogicProperty(Id:"CRSHb9L0gpcD")]
         public bool? WebQuoteRequest { get { return webUser.WebQuoteRequest; } set { webUser.WebQuoteRequest = value; } }
-
+        
+        [FwLogicProperty(Id:"M8eJpxkOpa4a")]
+        public string  DepartmentId { get { return contact.DepartmentId; } set { contact.DepartmentId = value; } }
+        
+        [FwLogicProperty(Id:"1qIvgytjNcQK")]
+        public string Department { get; set; }
+        
         //------------------------------------------------------------------------------------
         private void BeforeValidateContact(object sender, BeforeValidateEventArgs e)
         {

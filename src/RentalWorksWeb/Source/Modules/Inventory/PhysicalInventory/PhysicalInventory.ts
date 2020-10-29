@@ -82,7 +82,7 @@
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            let today = FwFunc.getDate();
+            let today = FwLocale.getDate();
             FwFormField.setValueByDataField($form, 'ScheduleDate', today);
 
             const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));

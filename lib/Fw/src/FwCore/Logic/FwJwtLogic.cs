@@ -1,4 +1,4 @@
-﻿using FwCore.Api;
+using FwCore.Api;
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -155,14 +155,14 @@ namespace FwCore.Logic
             public List<string> ControllerIds = new List<string>();
             public List<string> MethodIds = new List<string>();
             public DateTime? Expiration = DateTime.Now.AddMinutes(15);
-            public List<Claim> Claims;
+            public List<Claim> Claims = new List<Claim>();
         }
 
         public static async Task<string> GetServiceTokenAsync(FwApplicationConfig appConfig, ServiceTokenOptions serviceTokenOptions)
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(AuthenticationClaimsTypes.Version, FwProgram.ServerVersion));
-            claims.Add(new Claim(AuthenticationClaimsTypes.TokenType, "SERVICE"));
+            claims.Add(new Claim(AuthenticationClaimsTypes.TokenType, TokenTypes.Service));
 
             if (serviceTokenOptions.ControllerIds.Count > 0)
             {

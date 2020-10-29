@@ -12,6 +12,7 @@ abstract class FwWebApiReport {
         HasEmailMePdf: boolean,
         HasDownloadExcel: boolean
     };
+    designerProvisioned: boolean;
     //----------------------------------------------------------------------------------------------
     constructor(reportName, apiurl, frontEndHtml) {
         this.reportName = reportName;
@@ -25,6 +26,7 @@ abstract class FwWebApiReport {
             HasEmailMePdf: true,
             HasDownloadExcel: true
         };
+        designerProvisioned: false;
     }
     abstract convertParameters(parameters: any);
     //----------------------------------------------------------------------------------------------
@@ -70,9 +72,15 @@ abstract class FwWebApiReport {
         const urlHtmlReport = `${applicationConfig.apiurl}Reports/${this.reportName}/index.html`;
         const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
         const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
-        let companyName;
-        if (JSON.parse(sessionStorage.getItem('controldefaults')).companyname != null) {
-            companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
+        let companyName = '';
+        if (sessionStorage.getItem('controldefaults') !== null) {
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            if (typeof controlDefaults !== 'undefined' && typeof controlDefaults.companyname === 'string') {
+                companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
+            }
+        }
+        if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
+            companyName = sessionStorage.getItem('clientCode');
         }
 
         // Preview Button
@@ -85,21 +93,12 @@ abstract class FwWebApiReport {
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Preview';
-
-                        if (request.parameters.CustomReportLayoutId != "" && request.parameters.CustomReportLayoutId != undefined) {
-                            const customReportLayout = FwAjax.callWebApi<any, any>({
-                                httpMethod: 'GET',
-                                url: `${applicationConfig.apiurl}api/v1/customreportlayout/${request.parameters.CustomReportLayoutId}`,
-                                $elementToBlock: $form
-                            });
-
-                            await customReportLayout
-                                .then((values: any) => {
-                                    request.parameters.ReportTemplate = values.Html;
-                                });
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
                         }
 
                         const reportPageMessage = new ReportPageMessage();
@@ -134,27 +133,30 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             const $btnPrintPdf = FwMenu.addStandardBtn($menuObject, 'Print HTML');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnPrintPdf.on('click', (event: JQuery.Event) => {
+            $btnPrintPdf.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Html';
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF';
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
+
                         const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                         jQuery('.application').append($iframe);
                         $iframe.on('load', () => {
-                            setTimeout(() => {
-                                const message: any = new ReportPageMessage();
-                                message.action = 'PrintHtml';
-                                message.apiUrl = apiUrl;
-                                message.authorizationHeader = authorizationHeader;
-                                message.request = request;
-                                $iframe[0].focus();
-                                (<any>$iframe[0]).contentWindow.postMessage(message, '*');
-                            }, 0);
+                            const message: any = new ReportPageMessage();
+                            message.action = 'PrintHtml';
+                            message.apiUrl = apiUrl;
+                            message.authorizationHeader = authorizationHeader;
+                            message.request = request;
+                            $iframe[0].focus();
+                            (<any>$iframe[0]).contentWindow.postMessage(message, '*');
                         });
                     }
                 } catch (ex) {
@@ -166,7 +168,7 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
             const $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnDownloadExcel.on('click', event => {
+            $btnDownloadExcel.on('click', async event => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
@@ -189,7 +191,11 @@ abstract class FwWebApiReport {
                         $confirmation.find('.sub-headings input').prop('checked', false);
                         const request: any = this.getRenderRequest($form);
                         request.downloadPdfAsAttachment = true;
-                        const convertedparameters = this.convertParameters(this.getParameters($form));
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
+                        const convertedparameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         for (let key in convertedparameters) {
                             request[key] = convertedparameters[key];
                         }
@@ -228,16 +234,20 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             const $btnOpenPdf = FwMenu.addStandardBtn($menuObject, 'View PDF');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnOpenPdf.on('click', (event: JQuery.Event) => {
+            $btnOpenPdf.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
                         const request: any = this.getRenderRequest($form);
                         request.renderMode = 'Pdf';
                         request.downloadPdfAsAttachment = false;
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
                         request.parameters.companyName = companyName;
                         request.parameters.action = 'Print/PDF'
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
                         const win = window.open('', '_blank');
                         const head = win.document.head || win.document.getElementsByTagName('head')[0];
                         const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
@@ -332,7 +342,7 @@ abstract class FwWebApiReport {
         if ((typeof reportOptions.HasEmailMePdf === 'undefined') || (reportOptions.HasEmailMePdf === true)) {
             const $btnEmailMePdf = FwMenu.addStandardBtn($menuObject, 'E-mail (to me)');
             FwMenu.addVerticleSeparator($menuObject);
-            $btnEmailMePdf.on('click', (event: JQuery.Event) => {
+            $btnEmailMePdf.on('click', async (event: JQuery.Event) => {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
@@ -341,15 +351,20 @@ abstract class FwWebApiReport {
                         request.email.from = '[me]';
                         request.email.to = '[me]';
                         request.email.cc = '';
-                        request.email.subject = '[reportname]';
+                        request.email.subject = $form.attr('data-caption');
                         request.email.body = '';
-                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters = await this.getParameters($form).then((value) => this.convertParameters(value));
+                        //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                        if (request.parameters.hasOrderNo) {
+                            request.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                        }
 
                         const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                         request.parameters.companyName = companyName;
                         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                             (successResponse: RenderResponse) => {
                                 try {
+                                    FwNotification.renderNotification('SUCCESS', 'Email Sent');
                                 } catch (ex) {
                                     FwFunc.showError(ex);
                                 } finally {
@@ -376,9 +391,143 @@ abstract class FwWebApiReport {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
                         const $confirmation = FwConfirmation.renderConfirmation(FwLanguages.translate('E-mail PDF'), '');
-                        FwConfirmation.addControls($confirmation, this.getEmailTemplate());
-                        const $btnSend = FwConfirmation.addButton($confirmation, 'Send');
+                        FwConfirmation.addControls($confirmation, this.getEmailTemplate($form.attr('data-controller')));
+                        const $btnSend = FwConfirmation.addButton($confirmation, 'Send', false);
                         FwConfirmation.addButton($confirmation, 'Cancel');
+
+                        if ($form.find('.order-contact-field').length) {
+                            this.populateEmailToField($form, $confirmation);
+                        }
+                        const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField');
+                        FwFormField.setValueByDataField($confirmation, 'CompanyIdField', companyId);
+
+                        const $emailToCC = $confirmation.find('.tousers, .ccusers');
+                        $emailToCC.off('keydown').on('keydown', e => {
+                            let $this;
+                            const code = e.keyCode || e.which;
+                            try {
+                                switch (code) {
+                                    case 9: //TAB key
+                                        if (jQuery(e.currentTarget).find('.addItem').text().length === 0) {
+                                            break;
+                                        }
+                                    case 13://Enter Key
+                                        e.preventDefault();
+                                        $this = jQuery(e.currentTarget);
+                                        let emailList = FwFormField.getValue2($this);
+                                        if (emailList.length > 0) {
+                                            emailList = emailList.split(',');
+                                        } else {
+                                            emailList = [];
+                                        }
+                                        const value = $this.find('.multiselectitems .addItem').text();
+                                        if (emailList.indexOf(value) === -1) {
+                                            emailList.push(value);
+                                            if (emailList.length) {
+                                                emailList = emailList.join(',');
+                                            }
+
+                                            const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${value}">
+                                                <span>${value}</span>
+                                                <i class="material-icons">clear</i>
+                                            </div>`
+
+                                            jQuery($email).insertBefore($this.find('.multiselectitems .addItem'));
+                                            $this.find('.fwformfield-value').val(emailList);
+                                            $this.find('.addItem').text('');
+                                        }
+
+                                        //FwFormField.setValue2($this, emailList, emailList);
+
+                                        break;
+                                    case 8:  //Backspace
+                                        $this = jQuery(e.currentTarget);
+                                        const inputLength = $this.find('span.addItem').text().length;
+                                        const $item = $this.find('div.multiitem:last');
+                                        if (inputLength === 0) {
+                                            e.preventDefault();
+                                            if ($item.length > 0) {
+                                                $item.find('i').click();
+                                            }
+                                        }
+                                        break;
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        })
+                            .off('click', '.multiselectitems i')
+                            .on('click', '.multiselectitems i', e => {
+                                try {
+                                    const $this = jQuery(e.currentTarget);
+                                    const $browse = $this.closest('.fwformfield').data('browse');
+                                    const $selectedRows = $browse.data('selectedrows');
+                                    const selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+                                    const $item = $this.parent('div.multiitem');
+                                    const $valuefield = $item.parent('.multiselectitems').siblings('.fwformfield-value');
+                                    //removes item from values
+                                    const itemValue = $item.attr('data-multivalue');
+                                    let value: any = $valuefield.val();
+                                    value = value
+                                        .split(',')
+                                        .map(s => s.trim())
+                                        .filter((value) => {
+                                            return value !== itemValue;
+                                        })
+                                        .join(',');
+                                    $valuefield.val(value).change();
+                                    //removes item from text
+                                    const itemText = $item.find('span').text();
+                                    const $textField = $valuefield.siblings('.fwformfield-text');
+                                    let text: any = $textField.val();
+                                    text = text
+                                        .split(',')
+                                        .filter((text) => {
+                                            return text !== itemText;
+                                        })
+                                        .join(',');
+                                    $textField.val(text);
+                                    $item.remove();
+                                    if ($selectedRows !== undefined && selectedRowUniqueIds !== undefined) {
+                                        if (typeof $selectedRows[itemValue] !== 'undefined') {
+                                            delete $selectedRows[itemValue];
+                                        }
+                                        const index = selectedRowUniqueIds.indexOf(itemValue);
+                                        if (index != -1) {
+                                            selectedRowUniqueIds.splice(index, 1);
+                                        }
+                                    }
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            })
+                            .on('blur', 'div[contenteditable="true"]', e => {
+                                const $this = jQuery(e.currentTarget);
+                                if ($this.find('.addItem').text().length !== 0) {
+                                    const $fwformfield = $this.parents('.fwformfield');
+                                    const $input = $this.find('span.addItem');
+                                    const value = $input.text();
+
+                                    let emails = FwFormField.getValue2($fwformfield);
+                                    if (emails.length) {
+                                        emails = emails + ',' + value;
+                                    } else {
+                                        emails = value;
+                                    }
+                                    FwFormField.setValue2($fwformfield, emails, emails, false);
+                                    $this.find('span.addItem').text('')
+                                }
+                            });
+
+                        if (companyId != '' && companyId != null) {
+                            this.addViewAllContacts($confirmation);
+                        }
+
+                        const signature = sessionStorage.getItem('emailsignature');
+                        if (typeof signature != 'undefined' && signature != '') {
+                            $confirmation.find('.signature').show();
+                            $confirmation.find('.signature .value').html(signature);
+                        }
 
                         let email = '[me]';
                         if (sessionStorage.getItem('email') !== null && sessionStorage.getItem('email') !== '') {
@@ -388,24 +537,30 @@ abstract class FwWebApiReport {
                             $btnSend.css({ 'pointer-events': 'none', 'background-color': 'light-gray' });
                         }
                         FwFormField.setValueByDataField($confirmation, 'from', email);
-                        FwFormField.setValueByDataField($confirmation, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
+                        FwFormField.setValueByDataField($confirmation, 'subject', $form.attr('data-caption'));
 
-                        $btnSend.click((event: JQuery.Event) => {
+                        $btnSend.click(async (event: JQuery.Event) => {
                             try {
                                 const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                                 const requestEmailPdf: any = this.getRenderRequest($form);
+                                let body = '<pre>' + FwFormField.getValueByDataField($confirmation, 'body') + '</pre>' + '<p>' + signature + '</p>';
                                 requestEmailPdf.renderMode = 'Email';
                                 requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
-                                requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-text').val();
-                                requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-text').val();
+                                requestEmailPdf.email.to = FwFormField.getValueByDataField($confirmation, 'tousers');
+                                requestEmailPdf.email.cc = FwFormField.getValueByDataField($confirmation, 'ccusers');
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
-                                requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
-                                requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
-                                if (requestEmailPdf.parameters != null) {
+                                requestEmailPdf.email.body = body;
+                                requestEmailPdf.parameters = await this.convertParameters(this.getParameters($form));
+                                //set orderno as a parameter from front end if the orderid text box exists, some reports are not getting orderno from db.
+                                if (requestEmailPdf.parameters.hasOrderNo) {
+                                    requestEmailPdf.parameters.orderno = $form.find(`div.fwformfield[data-datafield="OrderId"] .fwformfield-text`).val();
+                                }
+                                if (requestEmailPdf.parameters != null && requestEmailPdf.email.to != '') {
                                     requestEmailPdf.parameters.companyName = companyName;
                                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
                                         (successResponse) => {
                                             try {
+                                                FwConfirmation.destroyConfirmation($confirmation);
                                                 FwNotification.renderNotification('SUCCESS', 'Email Sent');
                                             } catch (ex) {
                                                 FwFunc.showError(ex);
@@ -483,32 +638,55 @@ abstract class FwWebApiReport {
         const reportName = $form.attr('data-reportname');
 
         //render grid
-        const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
-        const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
-        $reportSettingsGrid.empty().append($reportSettingsGridControl);
-        $reportSettingsGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                , ReportName: reportName
+        //const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
+        //const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
+        //$reportSettingsGrid.empty().append($reportSettingsGridControl);
+        //$reportSettingsGridControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+        //        , ReportName: reportName
+        //    }
+        //})
+        //FwBrowse.init($reportSettingsGridControl);
+        //FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+
+        let loadDefaults: boolean = true;
+        FwBrowse.renderGrid({
+            nameGrid: 'ReportSettingsGrid',
+            gridSecurityId: 'arqFEggnNSrA6',
+            moduleSecurityId: 'arqFEggnNSrA6',
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasDelete = true;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid,
+                    ReportName: reportName
+                }
+            },
+            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+                if (loadDefaults) {
+                    $form.find('.load-settings').click();
+                    loadDefaults = false;
+                };
+            },
+            beforeSave: (request: any) => {
+                request.uniqueids = {
+                    WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid,
+                    ReportName: reportName,
+
+                }
             }
-        })
-        FwBrowse.init($reportSettingsGridControl);
-        FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+        });
+        const $reportSettingsGridControl = $form.find('[data-name="ReportSettingsGrid"]');
+        FwBrowse.search($reportSettingsGridControl);
 
         const $reportLayoutValidation = $form.find('[data-datafield="CustomReportLayoutId"]');
         $reportLayoutValidation.data('beforevalidate', ($form, $reportLayoutValidation, request) => {
             request.uniqueids = {
                 'BaseReport': reportName
-            }
-        });
-
-        //load default settings
-        let loadDefaults: boolean = true;
-        FwBrowse.search($reportSettingsGridControl);
-        $reportSettingsGridControl.data('afterdatabindcallback', function () {
-            if (loadDefaults) {
-                $form.find('.load-settings').click();
-                loadDefaults = false;
             }
         });
 
@@ -528,7 +706,7 @@ abstract class FwWebApiReport {
                             DataField: datafield
                             , DataType: type
                             , Value: FwFormField.getValue2($this)
-                            , Text: FwFormField.getTextByDataField($form, datafield)
+                            , Text: FwFormField.getText2($this)
                         });
                     }
                     $settingsObj = JSON.stringify($settingsObj);
@@ -566,7 +744,7 @@ abstract class FwWebApiReport {
                 if ($tr.length === 0) { //if none are selected, choose default
                     $tr = $reportSettingsGridControl.find(`tr [data-originalvalue="(default)"]`).parents('tr');
                 }
-                if ($tr.length !== 0) {
+                if ($tr.length) {
                     $settings = $tr.find('[data-browsedatafield="Settings"]').attr('data-originalvalue');
                     $settings = JSON.parse($settings);
                     for (let i = 0; i < $settings.length; i++) {
@@ -603,7 +781,238 @@ abstract class FwWebApiReport {
         });
     }
     //----------------------------------------------------------------------------------------------
-    getParameters($form: JQuery): any {
+    addOpenEmailToListButton($confirmation: JQuery, fieldname: string) {
+        const $btn = jQuery(`<div class="email-${fieldname}">
+                        <i class="material-icons" style="color: #4caf50; cursor:pointer;">add_box</i>
+                      </div>`);
+
+        $confirmation.find(`[data-datafield="${fieldname}"] .fwformfield-control`).append($btn);
+
+        return $btn;
+    }
+    //----------------------------------------------------------------------------------------------
+    populateEmailToField($form: JQuery, $confirmation: JQuery) {
+        const request: any = {};
+        request.uniqueids = {
+            OrderId: FwFormField.getValue2($form.find('.order-contact-field'))
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/ordercontact/browse`, request, FwServices.defaultTimeout,
+            (successResponse) => {
+                try {
+                    if (successResponse.Rows.length) {
+                        const rows = successResponse.Rows;
+                        const isOrderedByIndex = successResponse.ColumnIndex.IsOrderedBy;
+                        const emailIndex = successResponse.ColumnIndex.Email;
+                        const emails = rows.filter(item => item[isOrderedByIndex] == true).map(item => item[emailIndex]).join(',');
+                        FwFormField.setValueByDataField($confirmation, 'tousers', emails);
+                        //FwFormField.setValueByDataField($confirmation, 'tousers', emails);
+                        //for (let i = 0; i < emails.length; i++) {
+                        //    const $email = `<div contenteditable="false" class="multiitem" data-multivalue="${emails[i][emailIndex]}">
+                        //                        <span>${emails[i][emailIndex]}</span>
+                        //                        <i class="material-icons">clear</i>
+                        //                    </div>`
+                        //    jQuery($email).insertBefore($confirmation.find('.tousers .multiselectitems .addItem'));
+                        //}
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            null, $confirmation.find('.fwconfirmationbox'));
+    }
+    //----------------------------------------------------------------------------------------------
+    getContacts($form: JQuery, $confirmation: JQuery, datafield: string) {
+        const request: any = {};
+        const companyId = FwFormField.getValueByDataField($form, 'CompanyIdField') ?? '';
+        let apiurl = 'api/v1/companycontact/browse';;
+
+        companyId == '' ? request.uniqueids = {} : request.uniqueids = { CompanyId: companyId };
+
+        FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
+            (successResponse) => {
+                try {
+                    this.renderContactsList($form, $confirmation, successResponse, companyId, datafield);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            null, $confirmation.find('.fwconfirmationbox'));
+    }
+    //----------------------------------------------------------------------------------------------
+    addViewAllContacts($confirmation: JQuery) {
+        const $controls = $confirmation.find('.tousers, .ccusers');
+        const companyId = FwFormField.getValueByDataField($confirmation, 'CompanyIdField');
+        for (let i = 0; i < $controls.length; i++) {
+            const $browse = jQuery($controls[i]).data('browse');
+            const $viewAll = jQuery(`<div class="view-contacts ${companyId != '' ? '' : 'active'}">View ${companyId != '' ? 'All' : 'Company'} Contacts</div>`);
+
+            $viewAll.css({ 'font-size': '.9em', 'text-align': 'center', 'cursor': 'pointer', 'color': '#0D47A1', 'float': 'right', 'clear': 'right' });
+
+            $viewAll.on('click', e => {
+                const $this = jQuery(e.currentTarget);
+
+                if ($this.hasClass('active')) {
+                    $this.removeClass('active');
+                    if (companyId != '') {
+                        $browse.data('ondatabind', request => {
+                            request.uniqueids = { CompanyId: companyId };
+                        })
+                        FwBrowse.search($browse);
+                    }
+                    $this.text('View All Contacts')
+                } else {
+                    $this.addClass('active');
+                    $browse.data('ondatabind', request => {
+                        request.uniqueids = {};
+                    })
+                    FwBrowse.search($browse);
+                    $this.text('View Company Contacts')
+                }
+            });
+
+            $browse.find('.pager').append($viewAll);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    renderContactsList($form: JQuery, $confirmation: JQuery, response: any, companyId: string, datafield: string, $contactList?: JQuery) {
+        const rows = response.Rows;
+        const personIndex = response.ColumnIndex.Person;
+        const contactTitleIndex = response.ColumnIndex.ContactTitle;
+        const emailIndex = response.ColumnIndex.Email;
+        const companyIndex = response.ColumnIndex.Company;
+
+        if (!$contactList) {
+            $contactList = FwConfirmation.renderConfirmation('Contacts', '');
+            FwConfirmation.addButton($contactList, 'Close');
+        }
+        rows.sort((a, b) => (a[personIndex] > b[personIndex]) ? 1 : ((b[personIndex] > a[personIndex]) ? -1 : 0));
+        const html: any = [];
+        html.push('<div class="contact-list">')
+        html.push('<div class="table" style="overflow:auto;">')
+        html.push('<table>');
+        html.push('<thead>');
+        html.push('<tr>');
+        html.push('<th></th>');
+        html.push('<th>Contact</th>');
+        html.push('<th>Contact Title</th>');
+        html.push('<th>Company</th>');
+        html.push('<th>E-Mail</th>');
+        html.push('</tr>');
+        html.push('</thead>');
+        html.push('<tbody>');
+
+        for (let i = 0; i < rows.length; i++) {
+            html.push(`<tr><td><input type="checkbox" class="value"></td>
+                           <td class="contact-person">${rows[i][personIndex]}</td>
+                           <td class="contact-title">${rows[i][contactTitleIndex]}</td>
+                           <td class="contact-company">${rows[i][companyIndex]}</td>
+                           <td class="contact-email">${rows[i][emailIndex]}</td>
+                      </tr>`);
+        }
+        html.push('</tbody>');
+        html.push('</table>');
+        html.push('</div>');
+        if (companyId != '') {
+            html.push('<div class="show-all" style="text-align:center;margin-top: 1rem;">');
+            html.push('<span style="font-size:.8rem;text-decoration:underline; color:blue; cursor:pointer;">Show All Contacts</span>');
+            html.push('</div>');
+        }
+        html.push('</div>');
+        FwConfirmation.addControls($contactList, html.join(''));
+
+        const toUsers = FwFormField.getValueByDataField($confirmation, 'tousers');
+        let toEmails: any = [];
+
+        if (toUsers.length) {
+            toEmails = toUsers.split(',').map(item => {
+                return item.trim();
+            });
+
+            //check boxes for emails already in list
+            for (let i = 0; i < toEmails.length; i++) {
+                $contactList.find(`td.contact-email:contains(${toEmails[i]})`)
+                    .parents('tr')
+                    .addClass('checked tousers')
+                    .find('input.value')
+                    .prop('checked', true);
+            }
+        }
+
+        const ccUsers = FwFormField.getValueByDataField($confirmation, 'ccusers');
+        let ccEmails: any = [];
+
+        if (ccUsers.length) {
+            ccEmails = ccUsers.split(',').map(item => {
+                return item.trim();
+            });
+
+            //check boxes for emails already in list
+            for (let i = 0; i < ccEmails.length; i++) {
+                $contactList.find(`td.contact-email:contains(${ccEmails[i]})`)
+                    .parents('tr')
+                    .addClass('checked ccusers')
+                    .find('input.value')
+                    .prop('checked', true);
+            }
+        }
+        $contactList.off('click', 'tbody tr td input.value');
+        $contactList.on('click', 'tbody tr td input.value', e => {
+            e.stopPropagation();
+            const $this = jQuery(e.currentTarget);
+            let emailList;
+            let isChecked = $this.prop('checked');
+            const $tr = $this.parents('tr');
+            const email = $tr.find('.contact-email').text();
+
+            if (datafield === 'tousers') {
+                emailList = toEmails;
+            } else if (datafield === 'ccusers') {
+                emailList = ccEmails;
+            }
+
+            if (isChecked) {
+                emailList.push(email);
+                $tr.addClass(`checked ${datafield}`);
+                FwFormField.setValueByDataField($confirmation, datafield, emailList.join(', '));
+            } else {
+                if ($tr.hasClass('tousers')) {
+                    toEmails = toEmails.filter(item => item !== email);
+                    $tr.removeClass('tousers');
+                    FwFormField.setValueByDataField($confirmation, 'tousers', toEmails.join(', '));
+                } else if ($tr.hasClass('ccusers')) {
+                    ccEmails = ccEmails.filter(item => item !== email);
+                    $tr.removeClass('ccusers');
+                    FwFormField.setValueByDataField($confirmation, 'ccusers', ccEmails.join(', '));
+                }
+                $tr.removeClass('checked');
+            }
+        });
+
+        $contactList.off('click', 'tbody tr');
+        $contactList.on('click', 'tbody tr', e => {
+            jQuery(e.currentTarget).find('input.value').click();
+        });
+
+        $contactList.off('click', '.show-all');
+        $contactList.on('click', '.show-all', e => {
+            const request: any = {};
+            request.uniqueids = {};
+            let apiurl = 'api/v1/companycontact/browse';
+
+            FwAppData.apiMethod(true, 'POST', apiurl, request, FwServices.defaultTimeout,
+                (successResponse) => {
+                    try {
+                        $contactList.find('.contact-list').empty();
+                        this.renderContactsList($form, $confirmation, successResponse, '', datafield, $contactList);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                },
+                null, $contactList.find('.fwconfirmationbox'));
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    async getParameters($form: JQuery): Promise<any> {
         try {
             const parameters: any = {};
             const isvalid = FwModule.validateForm($form);
@@ -618,6 +1027,20 @@ abstract class FwWebApiReport {
             } else {
                 throw 'Please fill in the required fields.';
             }
+
+            if (parameters.CustomReportLayoutId != "" && parameters.CustomReportLayoutId != undefined) {
+                const customReportLayout = FwAjax.callWebApi<any, any>({
+                    httpMethod: 'GET',
+                    url: `${applicationConfig.apiurl}api/v1/customreportlayout/${parameters.CustomReportLayoutId}`,
+                    $elementToBlock: $form
+                });
+
+                await customReportLayout
+                    .then((values: any) => {
+                        parameters.ReportTemplate = values.Html;
+                    });
+            }
+
             return parameters;
         } catch (ex) {
             FwFunc.showError(ex)
@@ -637,7 +1060,7 @@ abstract class FwWebApiReport {
                         <span style="float:right; padding-left:10px;">Save</span>
                     </div>
                 </div>
-                <div class="flexrow settings-grid">
+                <div class="flexrow settings-grid" style="margin-left:5px;">
                     <div data-control="FwGrid" data-grid="ReportSettingsGrid"></div>
                     <div class="fwformcontrol load-settings" data-type="button" style="max-width:60px; margin-top:15px; margin-left:10px;">
                         <i class="material-icons" style="padding-top:5px; margin:0px -10px;">open_in_browser</i>
@@ -647,27 +1070,36 @@ abstract class FwWebApiReport {
             </div>`;
     }
     //----------------------------------------------------------------------------------------------
-    getEmailTemplate() {
+    getEmailTemplate(controller: string) {
         return `
-              <div style="width:540px;">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>
-               </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-allcaps="false" data-enabled="true"></div>
-                </div>
+        <div class="fwform" data-controller="${controller}">
+              <div style="min-width:540px; max-width:40vw;">
+                  <div class="formrow">
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>
+                      </div>    
+                      <div class="flexrow">
+                          <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers email" data-allcaps="false" data-caption="To (Users)" data-validationname="ReportCompanyContactValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
+                      </div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers email" data-allcaps="false" data-caption="CC (Users)" data-validationname="ReportCompanyContactValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
+                      /div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-allcaps="false" data-enabled="true"></div>
+                      </div>
+                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-allcaps="false" data-enabled="true"></div>
+                      </div>
+                      <div class="fwformfield signature" style="display:none;padding:.5rem;">
+                          <div class="fwformfield-caption">Signature</div>
+                          <div class="value"></div>
+                      </div>
+                      <div data-datafield="CompanyIdField" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-allcaps="false" data-enabled="true" style="display:none;"></div>
+                  </div>
               </div>
             </div>`;
+        //<div data-datafield="ccusers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield ccusers email" data-caption="CC" data-allcaps="false" style="box-sizing:border-box;"></div>
+        //<div data-datafield="tousers" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield tousers email" data-caption="To" data-allcaps="false" style="box-sizing:border-box;"></div>          
     }
     //----------------------------------------------------------------------------------------------
 }

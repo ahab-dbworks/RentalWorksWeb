@@ -21,7 +21,7 @@ export class RepairOrderReport extends WebpackReport {
                     Ajax.post<Repair>(`${apiUrl}/api/v1/repairorderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Repair) => {
                             const data: any = response;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             data.Report = 'REPAIR';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

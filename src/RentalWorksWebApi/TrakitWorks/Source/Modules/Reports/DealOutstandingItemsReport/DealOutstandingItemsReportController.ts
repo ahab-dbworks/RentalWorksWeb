@@ -29,21 +29,21 @@ const dealOutstandingItemsTemplate = `
             </div>
             <div class="flexcolumn" style="max-width:375px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <!-- <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ShowBarcodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Bar Code / Serial Number" style="float:left;max-width:420px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ShowVendors" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Vendors" style="float:left;max-width:420px;"></div>
-                </div>
+                </div> -->
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="IncludeContainersOnly" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Containers Only" style="float:left;max-width:420px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ExcludePendingExchanges" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude Pending Exchanges" style="float:left;max-width:420px;"></div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <!-- <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ShowResponsiblePerson" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Responsible Person" style="float:left;max-width:420px;"></div>
-                </div>
+                </div> -->
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="IncludeFullImages" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield include-full-images" data-caption="Include Full Images" style="float:left;max-width:420px;"></div>
                 </div>
@@ -77,22 +77,22 @@ const dealOutstandingItemsTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal"  data-validationname="DealValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="Order" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="Order"  data-validationname="OrderValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="RentalCategoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category"  data-validationname="RentalCategoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-formbeforevalidate="beforeValidate" data-validationname="SubCategoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory"  data-validationname="SubCategoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-formbeforevalidate="beforeValidate" data-validationname="RentalInventoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode"  data-validationname="RentalInventoryValidation" data-showinactivemenu="true" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -110,6 +110,7 @@ class DealOutstandingItemsReport extends FwWebApiReport {
     constructor() {
         super('DealOutstandingItemsReport', 'api/v1/dealoutstandingitemsreport', dealOutstandingItemsTemplate);
         this.reportOptions.HasDownloadExcel = true;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -177,36 +178,100 @@ class DealOutstandingItemsReport extends FwWebApiReport {
         FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
+    //beforeValidate($browse, $form, request) {
+    //    const validationName = request.module;
+    //    const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+    //    const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+    //    const dealId = FwFormField.getValueByDataField($form, 'DealId');
+    //    const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+    //    const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+
+    //    request.uniqueids = {};
+
+    //    switch (validationName) {
+    //        case 'InventoryTypeValidation':
+    //            request.uniqueids.Rental = true;
+    //            break;
+    //        case 'DealValidation':
+    //            if (customerId !== "") {
+    //                request.uniqueids.CustomerId = customerId;
+    //            }
+    //            break;
+    //        case 'OrderValidation':
+    //            if (dealId !== "") {
+    //                request.uniqueids.DealId = dealId;
+    //            }
+    //            break;
+    //        case 'RentalCategoryValidation':
+    //            if (inventoryTypeId !== "") {
+    //                request.uniqueids.InventoryTypeId = inventoryTypeId;
+    //                break;
+    //            }
+    //        case 'SubCategoryValidation':
+    //            request.uniqueids.Rental = true;
+    //            if (inventoryTypeId !== "") {
+    //                request.uniqueids.TypeId = inventoryTypeId;
+    //            }
+    //            if (categoryId !== "") {
+    //                request.uniqueids.CategoryId = categoryId;
+    //            }
+    //            break;
+    //        case 'RentalInventoryValidation':
+    //            if (inventoryTypeId !== "") {
+    //                request.uniqueids.InventoryTypeId = inventoryTypeId;
+    //            }
+    //            if (categoryId !== "") {
+    //                request.uniqueids.CategoryId = categoryId;
+    //            }
+    //            if (subCategoryId !== "") {
+    //                request.uniqueids.SubCategoryId = subCategoryId;
+    //            }
+    //            break;
+    //    };
+    //};
+    //----------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
         const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'InventoryTypeValidation':
-                request.uniqueids.Rental = true;
+        switch (datafield) {
+            case 'OfficeLocationId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateofficelocation`);
                 break;
-            case 'DealValidation':
+            case 'DepartmentId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedepartment`);
+                break;
+            case 'OrderTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateordertype`);
+                break;
+            case 'CustomerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecustomer`);
+                break;
+            case 'DealId':
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatedeal`);
                 break;
-            case 'OrderValidation':
+            case 'OrderId':
                 if (dealId !== "") {
                     request.uniqueids.DealId = dealId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateorder`);
                 break;
-            case 'RentalCategoryValidation':
+            case 'InventoryTypeId':
+                request.uniqueids.Rental = true;
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'CategoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    break;
                 }
-            case 'SubCategoryValidation':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecategory`);
+                break;
+            case 'SubCategoryId':
                 request.uniqueids.Rental = true;
                 if (inventoryTypeId !== "") {
                     request.uniqueids.TypeId = inventoryTypeId;
@@ -214,8 +279,9 @@ class DealOutstandingItemsReport extends FwWebApiReport {
                 if (categoryId !== "") {
                     request.uniqueids.CategoryId = categoryId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubcategory`);
                 break;
-            case 'RentalInventoryValidation':
+            case 'InventoryId':
                 if (inventoryTypeId !== "") {
                     request.uniqueids.InventoryTypeId = inventoryTypeId;
                 }
@@ -225,10 +291,10 @@ class DealOutstandingItemsReport extends FwWebApiReport {
                 if (subCategoryId !== "") {
                     request.uniqueids.SubCategoryId = subCategoryId;
                 }
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventory`);
                 break;
-        };
-    };
-    //----------------------------------------------------------------------------------------------
+        }
+    }
 };
 
 var DealOutstandingItemsReportController: any = new DealOutstandingItemsReport();

@@ -14,10 +14,10 @@ export class FixedAssetDepreciationReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/fixedassetdepreciationreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Report = 'Fixed Asset Depreciation Report';
+                    data.Report = 'Rental Inventory Fixed Asset Depreciation Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

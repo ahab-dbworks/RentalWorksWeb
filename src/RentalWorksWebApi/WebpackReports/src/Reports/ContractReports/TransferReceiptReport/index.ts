@@ -19,7 +19,7 @@ export class TransferReceiptReport extends WebpackReport {
                     Ajax.post<any>(`${apiUrl}/api/v1/transferreceiptreport/runreport`, authorizationHeader, parameters)
                         .then((response: any) => {
                             const data: any = response;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             data.Report = 'TRANSFER RECEIPT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

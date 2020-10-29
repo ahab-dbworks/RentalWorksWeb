@@ -51,8 +51,8 @@ namespace WebApi.Modules.Agent.Quote
             base.OnBeforeSave(sender, e);
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
-                StatusDate = FwConvert.ToString(DateTime.Today);
-                QuoteDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
+                QuoteDate = FwConvert.ToShortDate(DateTime.Today);
                 Status = ((string.IsNullOrEmpty(DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
                 if ((VersionNumber == null) || (VersionNumber.Equals(0)))
                 {
@@ -81,7 +81,7 @@ namespace WebApi.Modules.Agent.Quote
                 {
                     if ((e.Original != null) && (!Status.Equals(((QuoteLogic)e.Original).Status)))
                     {
-                        StatusDate = FwConvert.ToString(DateTime.Today);
+                        StatusDate = FwConvert.ToShortDate(DateTime.Today);
                     }
                 }
             }

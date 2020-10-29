@@ -8,12 +8,26 @@
             $tr.dblclick(() => {
                 moveStagedItemToOut($control, $tr);
             })
+
+            const $browsecontextmenu = $tr.find('.browsecontextmenu');
+            const $form = $control.closest('.fwform');
+            const controller = $form.attr('data-controller');
+            $browsecontextmenu.data('contextmenuoptions', $tr => {
+                FwContextMenu.addMenuItem($browsecontextmenu, `Unstage Item`, () => {
+                    try {
+                        $control.data('selectedcheckbox', $tr.find('.tdselectrow input'));
+                        (<any>window)[controller].unstageItems($form, event);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            });
         });
         //----------------------------------------------------------------------------------------------
         function moveStagedItemToOut($control, $tr) {
             const $form = $control.closest('.fwform');
-            $form.find('.right-arrow').addClass('arrow-clicked');
-            $form.find('.left-arrow').removeClass('arrow-clicked');
+            $form.find('.right-arrow').addClass('btn-active');
+            $form.find('.left-arrow').removeClass('btn-active');
 
             const barCode = $tr.find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
             const iCode = $tr.find('[data-formdatafield="ICode"]').attr('data-originalvalue');

@@ -62,7 +62,7 @@ class FwModule {
         function closeModifiedForms() {
             let $bodyContainer, $openForms, $modifiedForms, $form, $tab, $activeTabId, $tabId;
             $activeTabId = jQuery('body').data('activeTabId');
-            $bodyContainer = jQuery('#master-body');
+            $bodyContainer = jQuery('#fw-app-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
 
             for (let i = 0; i < $modifiedForms.length; i++) {
@@ -104,7 +104,7 @@ class FwModule {
             $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
             $activeTabId = $activeTab.attr('data-tabpageid');
             jQuery('body').data('activeTabId', $activeTabId);
-            $bodyContainer = jQuery('#master-body');
+            $bodyContainer = jQuery('#fw-app-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
 
@@ -130,7 +130,7 @@ class FwModule {
         $tabControl.find('.close-all').click(() => {
             let $rootTab, $bodyContainer, $openForms, moduleNav, controller;
             $rootTab = $tabControl.find('div[data-tabpageid="tabpage1"]');
-            $bodyContainer = jQuery('#master-body');
+            $bodyContainer = jQuery('#fw-app-body');
             $openForms = $bodyContainer.find('div[data-type="form"]');
             controller = $rootTab.closest('#moduleMaster').attr('data-module');
             moduleNav = window[`${controller}`].nav;
@@ -223,15 +223,37 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openBrowse($browse: JQuery) {
+        let isCustomTemplate = false;
+        let $customBrowse;
         if (sessionStorage.getItem('customForms') !== null) {
             const controller = $browse.attr('data-controller');
             const baseForm = controller.replace('Controller', 'Browse');
             const customForms = JSON.parse(sessionStorage.getItem('customForms')).filter(a => a.BaseForm == baseForm);
             if (customForms.length > 0) {
-                $browse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                $customBrowse = jQuery(jQuery(`#tmpl-custom-${baseForm}`)[0].innerHTML);
+                if ($customBrowse.length > 0) {
+                    isCustomTemplate = true;
+                    const attributes = $browse.each(function () { // replacing attributes/classes previously assigned to $browse when using a $customBrowse template
+                        jQuery.each(this.attributes, function () {
+                            // this.attributes is not a plain object, but an array of attribute nodes, which contain both the name and value
+                            if (this.specified) {
+                                $customBrowse.attr(this.name, this.value)
+                            }
+                        });
+                    });
+
+                    if (customForms[0].ThisUserOnly) {
+                        $customBrowse.attr('data-iscustombrowse', true);
+                        $customBrowse.data('customformid', customForms[0].CustomFormId);
+                    }
+                } else {
+                    throw new Error(`${baseForm} custom template not found.`)
+                }
             }
         }
-
+        if (isCustomTemplate) {
+            $browse = $customBrowse
+        }
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         const options: IAddBrowseMenuOptions = this.getDefaultBrowseMenuOptions($browse);
         FwModule.addBrowseMenu(options);
@@ -246,7 +268,7 @@ class FwModule {
         const $colOptions = FwMenu.addSubMenuColumn($subMenu);
         const $groupOptions = FwMenu.addSubMenuGroup($colOptions, 'Options');
         const $colExport = FwMenu.addSubMenuColumn($subMenu);
-        const $groupExport = FwMenu.addSubMenuGroup($colExport, 'Export');
+        const $groupExport = FwMenu.addSubMenuGroup($colExport, 'Import / Export');
         const options: IAddBrowseMenuOptions = {
             $browse,
             $menu: $menu,
@@ -260,7 +282,8 @@ class FwModule {
             hasDelete: true,
             hasFind: true,
             hasDownloadExcel: true,
-            hasInactive: true
+            hasInactive: true,
+            hasCustomize: true
         };
         return options;
     }
@@ -276,7 +299,15 @@ class FwModule {
         }
 
         // add the Active/Inactive dropdown to the browse menu
-        //if ((typeof options.$browse !== null) && (typeof options.$browse.attr('data-hasinactive') === 'string') && (options.$browse.attr('data-hasinactive') === 'true')) {
+        if (typeof options.$browse !== null) {
+            if (typeof options.$browse.attr('data-hasinactive') === 'string') {
+                options.hasInactive = (options.$browse.attr('data-hasinactive') === 'true');
+                //console.warn(`HasInactive for browse control: ${options.$browse.attr('data-controller')} should be updated to define hasinactive in the TypeScript code.`);
+            } else {
+                // mv 2019-12-12 Not sure if this is needed, just adding this in case some legacy code needs this
+                options.$browse.attr('data-hasinactive', options.hasInactive.toString());
+            }
+        }
         if (options.hasInactive) {
             if (typeof options.$browse.attr('data-activeinactiveview') === 'undefined') {
                 options.$browse.attr('data-activeinactiveview', 'active');
@@ -330,8 +361,8 @@ class FwModule {
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
         var $fwcontrols, formid, $formTabControl, auditTabIds, controller,
-            nodeModule=null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
-        
+            nodeModule = null, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeControl, $grids, $tabcontrol, args;
+
         controller = $form.attr('data-controller');
 
         if (sessionStorage.getItem('customForms') !== null) {
@@ -361,24 +392,6 @@ class FwModule {
         FwControl.renderRuntimeControls($fwcontrols);
         FwControl.setIds($fwcontrols, formid);
 
-        FwModule.addFormMenu($form);
-
-        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
-        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
-
-        $form.attr('data-modified', 'false');
-        if (typeof window[controller]['renderGrids'] === 'function') {
-            window[controller]['renderGrids']($form);
-        }
-        $form.data('grids', $form.find('div[data-control="FwGrid"]'));
-        if (typeof window[controller]['setFormProperties'] === 'function') {
-            window[controller]['setFormProperties']($form);
-        }
-
-        if (typeof window[controller]['addButtonMenu'] === 'function') {
-            window[controller]['addButtonMenu']($form);
-        }
-
         $formTabControl = $form.find('.fwtabs');
         if (typeof $form.data('customformdata') !== 'undefined') {
             //add custom form info tab
@@ -391,7 +404,7 @@ class FwModule {
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Form" style="max-width:900px;">
                               <div class="flexrow">
                                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Base Form" data-datafield="CustomFormBaseForm" data-enabled="false" data-formreadonly="true" style="flex:1 1 200px;"></div>
-                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Description" data-datafield="CustomFormId" data-displayfield="Description" data-validationname="CustomFormValidation" data-validationpeek="true" data-enabled="false" data-formreadonly="true" style="flex:1 1 300px;"></div>
+                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Description" data-datafield="CustomFormId" data-displayfield="CustomFormDescription" data-validationname="CustomFormValidation" data-validationpeek="true" data-enabled="false" data-formreadonly="true" style="flex:1 1 300px;"></div>
                               </div>
                           </div>
                     </div>`);
@@ -407,11 +420,11 @@ class FwModule {
             let $keys = $form.find('.fwformfield[data-type="key"]');
             if ($keys.length !== 0) {
                 auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-                const moduleControllerName = $form.data('controller'); 
+                const moduleControllerName = $form.data('controller');
                 if (moduleControllerName !== undefined) {
-                    const moduleController = (<any>window)[moduleControllerName]; 
+                    const moduleController = (<any>window)[moduleControllerName];
                     if (moduleController !== undefined) {
-                        const moduleSecurityId = moduleController.id; 
+                        const moduleSecurityId = moduleController.id;
                         if (moduleSecurityId !== undefined) {
                             const $auditControl = FwBrowse.renderGrid({
                                 moduleSecurityId: moduleSecurityId,
@@ -420,11 +433,20 @@ class FwModule {
                                 gridSecurityId: 'xepjGBf0rdL',
                                 pageSize: 10,
                                 onDataBind: request => {
-                                    const apiurl = (<any>window[controller]).apiurl;
-                                    const sliceIndex = apiurl.lastIndexOf('/');
-                                    const moduleName = apiurl.slice(sliceIndex + 1);
-                                    request.uniqueids = {};
-                                    request.uniqueids.ModuleName = moduleName;
+                                    //const apiurl = (<any>window[controller]).apiurl;
+                                    //const sliceIndex = apiurl.lastIndexOf('/');                    // jason h - 06/19/20
+                                    //const moduleName = apiurl.slice(sliceIndex + 1);               // retrieving the module name from the controller instead of slicing up the apiurl
+                                    request.uniqueids = {};                                          // (for cases like the Asset module where the apiurl doesnt match the module name (Item instead of Asset))
+                                    //request.uniqueids.ModuleName = moduleController.Module;
+
+                                    //justin hoffman 09/15/2020 - allow developer to override the name of the module being audited
+                                    if (moduleController.AuditModule !== null) {
+                                        request.uniqueids.ModuleName = moduleController.AuditModule;
+                                    }
+                                    else {
+                                        request.uniqueids.ModuleName = moduleController.Module;
+                                    }
+
                                     for (let i = 0; i < 2; i++) {
                                         let uniqueIdValue = jQuery($keys[i]).find('input').val();
                                         if (typeof uniqueIdValue !== 'undefined') {
@@ -458,6 +480,8 @@ class FwModule {
                 }
             }
         }
+
+        this.focusOnFirstField($form);
 
         $form
             .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {
@@ -570,9 +594,27 @@ class FwModule {
         //    }
         //});
 
+        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
+
+        $form.attr('data-modified', 'false');
+        if (typeof window[controller]['renderGrids'] === 'function') {
+            window[controller]['renderGrids']($form);
+        }
+        $form.data('grids', $form.find('div[data-control="FwGrid"]'));
+        if (typeof window[controller]['setFormProperties'] === 'function') {
+            window[controller]['setFormProperties']($form);
+        }
+
+        if (typeof window[controller]['addButtonMenu'] === 'function') {
+            window[controller]['addButtonMenu']($form);
+        }
+
+        FwModule.addFormMenu($form);
+
         // hide grids based on security tree
         const nodeControls = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, (node: any, args2: any) => {
-           return node.nodetype === 'Controls';
+            return node.nodetype === 'Controls';
         });
         const $securitycontrols = $form.find('[data-secid]');
         $securitycontrols.each(function (index, element) {
@@ -722,6 +764,14 @@ class FwModule {
                 window[controller]['afterLoad']($form, response);
             }
         }
+
+        // work around for when devs add fields in the afterLoad
+        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"]):not(.find-field)')); // excludes browse "Find" fields from a parent form within a submodule
+        $form.data('grids', $form.find('div[data-control="FwGrid"]'));
+        if ($form.data('mode') !== undefined && $form.data('mode') === 'READONLY') {
+            FwModule.setFormReadOnly($form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; refreshRootTab?: boolean }) {
@@ -749,10 +799,25 @@ class FwModule {
                 if (typeof controller.apiurl !== 'undefined') {
                     if (parameters.closetab === false) {
                         //Refresh the browse window on saving a record.
-                        $browse = jQuery('.fwbrowse[data-controller="' + controllername + '"]')
+                        //$browse = jQuery('.fwbrowse[data-controller="' + controllername + '"]')
+                        //05/06/2020 Jason Hoang, Justin Hoffman
+                        //  We are supressing this refresh functionality for Browses that are sub-modules because it is possible for multiple Forms to be open, each with a separate copy of a Sub Module open.
+                        //  Performing the databind on multiple browses causes issues in how the "order by" fields are added to the request for each browse.
+                        //$browse = jQuery('.tabpage:not(.submodule) > .fwbrowse[data-controller="' + controllername + '"]')
+
+                        const $tab = FwTabs.getTabByElement($form);
+                        if ($tab.hasClass('submodule')) {
+                            const $parentTab = jQuery(`#${$tab.data('parenttabid')}`);
+                            const $parentTabPage = FwTabs.getTabPageByTab($parentTab);
+                            $browse = $parentTabPage.find('.fwbrowse[data-controller="' + controllername + '"]');
+                        } else {
+                            $browse = jQuery('.tabpage:not(.submodule) > .fwbrowse[data-controller="' + controllername + '"]')
+                        }
+
                         if ($browse.length > 0) {
                             FwBrowse.databind($browse);
                         }
+
                         var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
                         $tab.find('.caption').html(tabname);
                         $form.closest('.fwpopupbox').find('.popuptitle').html(tabname); // If popout
@@ -763,10 +828,16 @@ class FwModule {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
                             $form.find('.submenu-btn').css({ 'pointer-events': 'auto', 'color': '' });
+                            FwFormField.loadForm($formfields, response);
+
+                            // Update FwAppImage control to edit mode rendering
+                            const $fwcontrols = $form.find('.fwappimage');
+                            FwControl.loadControls($fwcontrols);
                         } else {
                             $formfields = $form.data('fields');
+                            FwFormField.loadForm($formfields, response);
                         }
-                        FwFormField.loadForm($formfields, response);
+
                         $form.attr('data-modified', 'false');
                         if (typeof controller['afterLoad'] === 'function') {
                             controller['afterLoad']($form, response);
@@ -854,6 +925,34 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
+    static multiEditSave($form: JQuery, $browse: JQuery) {
+        try {
+            let request: any = [];
+            const controllername = $form.attr('data-controller');
+            const controller = window[controllername];
+            const apiurl = controller.apiurl;
+            const uniqueids = $form.data('multirowedituniqueids');
+            const modifiedFields = $form.data('modifiedfields');
+
+            for (let i = 0; i < uniqueids.length; i++) {
+                const fields = { ...uniqueids[i], ...modifiedFields };
+                request.push(fields);
+            }
+
+            FwAppData.apiMethod(true, 'POST', apiurl + '/many', request, FwServices.defaultTimeout, function onSuccess(response) {
+                $form.attr('data-modified', 'false');
+                const $tab = FwTabs.getTabByElement($form);
+                $tab.find('.modified').text('');
+                FwModule.closeForm($form, $tab);
+                FwBrowse.showMultiRowSelector($browse, $browse.find('[data-type="MultiRowEditButton"]'));
+                FwBrowse.search($browse);
+                FwNotification.renderNotification('SUCCESS', 'Records successfully updated.');
+            }, ex => FwFunc.showError(ex), $form);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     static deleteRecord(module: string, $control: JQuery) {
         try {
             const $browse = $control;
@@ -863,7 +962,7 @@ class FwModule {
                 const $yes = FwConfirmation.addButton($confirmation, 'Yes');
                 const $no = FwConfirmation.addButton($confirmation, 'No');
                 $yes.focus();
-                $yes.on('click', function () {
+                $yes.on('click', e => {
                     const controller = $browse.attr('data-controller');
                     const ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
                     const request: any = {
@@ -879,6 +978,17 @@ class FwModule {
                         FwBrowse.databind($browse);
                     });
                 });
+                // hotkey support for confirmation buttons
+                $confirmation.on('keyup', e => {
+                    e.preventDefault();
+                    if (e.which === 89) { // 'y'
+                        $yes.click();
+                    }
+                    if (e.which === 78) { // 'n'
+                        $no.click();
+                    }
+                });
+
             } else {
                 FwNotification.renderNotification('WARNING', 'Please select a row.');
             }
@@ -902,13 +1012,14 @@ class FwModule {
 
         const options: IAddFormMenuOptions = {
             $form: $form,
-            $menu: $menu, 
-            $subMenu: $subMenu, 
-            $colOptions: $colOptions, 
+            $menu: $menu,
+            $subMenu: $subMenu,
+            $colOptions: $colOptions,
             $groupOptions: $groupOptions,
             hasSave: true,
             hasNext: false,
-            hasPrevious: false
+            hasPrevious: false,
+            hasMultiEdit: false
         };
         //if (typeof $form.data('addFormMenuItems') === 'function') {
         //    $form.data('addFormMenuItems')(options);
@@ -919,7 +1030,6 @@ class FwModule {
         else {
             FwMenu.addFormMenuButtons(options);
         }
-        
 
         // Refresh form button
         if (typeof (<any>window[controller])['loadForm'] === 'function') {
@@ -1007,7 +1117,7 @@ class FwModule {
                             $cancel.click();
                         }
                     }
-                })
+                });
 
                 $dontsave.on('click', e => {
                     FwModule.beforeCloseForm($form);
@@ -1061,7 +1171,7 @@ class FwModule {
             FwTabs.removeTab($tab);
 
             // remove 'elipsis menu' if less than 2 forms open
-            const $openForms = jQuery('#master-body').find('div[data-type="form"]');
+            const $openForms = jQuery('#fw-app-body').find('div[data-type="form"]');
             if ($openForms.length < 2) {
                 jQuery('#moduletabs').find('.closetabbutton').html('');
             }
@@ -1247,23 +1357,20 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static validateForm($form: JQuery) {
-        var isvalid, $fields;
-
-        isvalid = true;
+        let isValid = true;
 
         if ($form.parent().data('type') === 'settings-row') {
             $form.data('fields', $form.find('.fwformfield'))
         }
 
-        $fields = $form.data('fields');
-
+        const $fields = $form.data('fields');
         $fields.each(function (index) {
             var $field = jQuery(this);
 
             if (($field.attr('data-required') == 'true') && ($field.attr('data-enabled') == 'true')) {
                 if ($field.find('.fwformfield-value').val() == '') {
                     var errorTab = $field.closest('.tabpage').attr('data-tabid');
-                    isvalid = false;
+                    isValid = false;
                     $field.addClass('error');
                     $field.parents('.fwcontrol .fwtabs').find('#' + errorTab).addClass('error');
                 } else if ($field.find('.fwformfield-value').val() != '' && !$field.hasClass('dev-err')) {
@@ -1271,23 +1378,23 @@ class FwModule {
                 }
             }
             if (($field.attr('data-noduplicate') == 'true') && ($field.hasClass('error'))) {
-                isvalid = false;
+                isValid = false;
             }
             if ($field.hasClass('error')) {
-                isvalid = false;
+                isValid = false;
             }
-            if (isvalid) {
+            if (isValid) {
                 $field.removeClass('error');
             }
         });
 
-        if (!isvalid) {
+        if (!isValid) {
             FwNotification.renderNotification('ERROR', 'Please resolve the error(s) on the form.');
         } else {
             $form.find('[data-type="tab"].error').removeClass('error');
         }
 
-        return isvalid;
+        return isValid;
     }
     //----------------------------------------------------------------------------------------------
     static getData($object: JQuery, request: any, responseFunc: Function, $elementToBlock: JQuery, timeout?: number) {
@@ -1404,12 +1511,24 @@ class FwModule {
         const $grids = $form.data('grids');
         $grids.each(function (index, element) {
             const $grid = jQuery(element).find('div[data-control="FwBrowse"][data-type="Grid"]');
-            FwBrowse.disableGrid($grid);
+            if ($grid.attr('data-overridedisablegrid') != 'true') {
+                FwBrowse.disableGrid($grid);
+            }
         });
 
         const $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
         $save.addClass('disabled');
         $save.off('click');
+    }
+    //----------------------------------------------------------------------------------------------
+    static focusOnFirstField($form: JQuery) {
+        // Focus cursor in first non-uniqueid enabled formfield on form open
+        setTimeout(() => {
+            const $fields = $form.find('div[data-control="FwFormField"][data-enabled="true"][data-isuniqueid="false"]:visible');
+            if ($fields.length > 1) {
+                $fields.eq(0).find('input').focus();
+            }
+        }, 1000);
     }
     //----------------------------------------------------------------------------------------------
     static loadFormFromTemplate(modulename: string) {
@@ -1486,16 +1605,16 @@ class FwModule {
 }
 
 interface IFwFormField {
-    initControl?($control: JQuery<HTMLElement>): void;
-    disable($control: JQuery<HTMLElement>): void;
-    enable($control: JQuery<HTMLElement>): void;
-    getText2?($fwformfield: JQuery<HTMLElement>): string;
-    getValue2($fwformfield: JQuery<HTMLElement>): any;
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void;
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void;
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void;
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void;
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void;
+    initControl?($control: JQuery): void;
+    disable($control: JQuery): void;
+    enable($control: JQuery): void;
+    getText2?($fwformfield: JQuery): string;
+    getValue2($fwformfield: JQuery): any;
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void;
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void;
+    renderDesignerHtml($control: JQuery, html: string[]): void;
+    renderRuntimeHtml($control: JQuery, html: string[]): void;
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void;
 }
 
 interface IModule {
@@ -1518,4 +1637,3 @@ interface IModuleScreen {
     [key: string]: any
 }
 
- 

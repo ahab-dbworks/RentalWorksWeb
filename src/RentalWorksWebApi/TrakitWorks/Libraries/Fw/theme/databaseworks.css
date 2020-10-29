@@ -1,5 +1,5 @@
-html {overflow:auto;overflow-y:scroll;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select: none;-webkit-tap-highlight-color: rgba(0,0,0,0);height:100%;min-height:100%;}
-body { font-family: -apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:0;min-height:100%;position: relative;}
+html {overflow:auto;/*overflow-y:scroll;*/-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select: none;-webkit-tap-highlight-color: rgba(0,0,0,0);height:100%;min-height:100%;}
+body { font-family: -apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:0;/*min-height:100%;position: relative;*/}
 input,textarea {-webkit-touch-callout:default;-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;}
 
 /*#region Material Icons*/
@@ -7,12 +7,7 @@ input,textarea {-webkit-touch-callout:default;-webkit-user-select:text;-khtml-us
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url('fwfonts/materialicons/MaterialIcons-Regular.eot'); /* For IE6-8 */
-  src: local('Material Icons'),
-       local('MaterialIcons-Regular'),
-       url('fwfonts/materialicons/MaterialIcons-Regular.woff2') format('woff2'),
-       url('fwfonts/materialicons/MaterialIcons-Regular.woff') format('woff'),
-       url('fwfonts/materialicons/MaterialIcons-Regular.ttf') format('truetype');
+  src: url('fwfonts/materialicons/MaterialIcons-Regular.woff2') format('woff2');
 }
 .material-icons {font-family: 'Material Icons';font-weight: normal;font-style: normal;display: inline-block;width: 1em;height: 1em;line-height: 1;text-transform: none;letter-spacing: normal;
                  font-size: 24px;                      /* Preferred icon size */
@@ -49,6 +44,7 @@ FwLogin
 ***************************/
 .login-page {height:100vh;background-color:#e5e5e5;overflow:auto;}
 .login-page .login-container {background-color: #fefefe;box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px;padding:30px;max-width:500px;margin:10% auto 30px auto;}
+.login-page .login-container .change-password-caption {text-align: center; font-size: 1rem; margin: 5px auto;}
 .login-page .login-container .programlogo {text-align:center;font-size:3.5em;color: #2f2f2f;}
 .login-page .login-container .programlogo img {display:block;margin:0 auto;max-width:75%;}
 .login-page .login-container .login-fields {margin:40px auto 20px auto;max-width: 400px;overflow:auto;}
@@ -119,41 +115,3 @@ flexrow
 .flexcolumn {display:flex;flex-direction:column;}
 .flexwrap {flex-wrap:wrap;}
 .flexalignitemscenter {align-items:center;}
-
-/***************************
-Mobile Page Styles from quikscan.css
-***************************/
-#master #master-header {background-color: rgba(0,0,0,.4);background-image: linear-gradient(rgba(92,92,92,.3),rgba(36,36,36,.3));width:100%;}
-#master #master-header #master-header-row1 {height:50px;}
-#master #master-header #master-header-row1:after {content:"";display:table;clear:both;}
-#master #master-header #master-header-row1 #btnmenu {width:30px;padding:10px;float:left;cursor:pointer;}
-#master #master-header #master-header-row1 #btnmenu #btnmenu-icon {background-size:30px 30px;background-image:url("fwimages/icons/128/menu.001.png");height:30px;width:30px;}
-#master #master-header #master-header-row1 #master-header-caption {line-height:50px;float:left;margin-left:5px;font-size:20px;color:#f2f2f2;}
-#master #master-header #master-header-row1 #module-controls {float:right;padding:10px;height:30px;}
-#master #master-header #master-header-row1 #module-controls i {font-size:30px;}
-#master #master-header #master-header-row1 #module-controls:not(:empty) {cursor:pointer;}
-#master #master-header #master-header-row1 #module-controls #add-icon {background-size:30px 30px;background-image:url("fwimages/icons/128/add.001.png");height:30px;width:30px;cursor:pointer;}
-#master #master-header #master-header-row2:after {content:"";display:table;clear:both;}
-#master #master-header #master-header-row2 .title {padding:4px;font-size:.75em;background: #424242;color: rgba(245,245,245,1);font-weight: bold;}
-#master #master-header #master-header-row3 {color:#ffffff;background-color:#2196f3;}
-#master #master-header #master-header-row3:after {content:"";display:table;clear:both;}
-#master #master-header #master-header-row3 .btn {cursor:pointer;line-height:20px;padding:10px;font-size:18px;display:flex;align-items:center;}
-#master #master-header #master-header-row3 .btn:hover {background-color:#1976d2;}
-#master #master-header #master-header-row3 .btn i.material-icons {margin:0 .3em;}
-#master #master-header #master-header-row3 #save {float:right;}
-#master #master-header #master-header-row3 #save::before {background-image:url("fwimages/icons/128/save.001.png");}
-#master #master-header #master-header-row3 #continue {float:right;}
-#master #master-header #master-header-row3 #continue::before {background-image:url("fwimages/icons/128/continue.001.png");}
-#master #master-header #master-header-row3 #cancel {float:left;}
-#master #master-header #master-header-row3 #cancel::before {background-image:url("fwimages/icons/128/cancel.001.png");}
-#master #master-header #master-header-row3 #back {float:left;}
-#master #master-header #master-header-row3 #back::before {background-image:url("fwimages/icons/128/back.001.png");}
-#master #master-header #master-header-row3 .print::before {background-image:url("fwimages/icons/128/print.001.png");}
-
-#master #master-header #master-header-row3 .btn.left {float:left;}
-#master #master-header #master-header-row3 .btn.right {float:right;}
-#master #master-header #master-header-row3 .btn.save::before {background-image:url("fwimages/icons/128/save.001.png");}
-#master #master-header #master-header-row3 .btn.continue::before {background-image:url("fwimages/icons/128/continue.001.png");}
-#master #master-header #master-header-row3 .btn.cancel::before {background-image:url("fwimages/icons/128/cancel.001.png");}
-#master #master-header #master-header-row3 .btn.back::before {background-image:url("fwimages/icons/128/back.001.png");}
-#master #master-header #master-header-row3 .btn.new::before {background-image:url("fwimages/icons/128/add.001.png");}

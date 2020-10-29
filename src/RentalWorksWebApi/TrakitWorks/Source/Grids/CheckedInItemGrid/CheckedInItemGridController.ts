@@ -4,6 +4,8 @@
 
     addLegend($control) {
         FwBrowse.addLegend($control, 'Swapped Item', '#dc407e');
+        FwBrowse.addLegend($control, 'Sub Vendor', '#ebb58e');
+        FwBrowse.addLegend($control, 'Consignor', '#857cfa');
     }
 }
 

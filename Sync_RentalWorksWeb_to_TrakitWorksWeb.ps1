@@ -20,9 +20,9 @@ try {
     $modules = @(
     
         # Modules: Base
-        'Modules\-BaseModules\CheckInBase',
-        'Modules\-BaseModules\OrderStatusBase',
-        'Modules\-BaseModules\StagingCheckoutBase', 
+        'Modules\AaBaseModules\CheckInBase',
+        'Modules\AaBaseModules\OrderStatusBase',
+        'Modules\AaBaseModules\StagingCheckoutBase', 
         
         # Modules: Administator
         'Modules\Administrator\Alert',
@@ -75,10 +75,13 @@ try {
 
         # Reports
         'Modules\Reports\DealOutstandingItemsReport',
-        'Modules\Reports\LateReturnDueBackReport',,
+        'Modules\Reports\LateReturnsReport',,
         'Modules\Reports\OrderReport',
-        'Modules\Reports\OutContract',
+        'Modules\Reports\OrderStatusDetailReport',
+        'Modules\Reports\OrderStatusSummaryReport',
+        'Modules\Reports\OutContractReport',
         'Modules\Reports\PickListReport',
+        'Modules\Reports\PurchaseOrderReturnListReport',
         'Modules\Reports\QuoteReport'
         'Modules\Reports\RentalInventoryAttributesReport',
         'Modules\Reports\RentalInventoryCatalogReport',
@@ -86,6 +89,7 @@ try {
         'Modules\Reports\RentalInventoryPurchaseHistoryReport',
         'Modules\Reports\RentalInventoryValueReport',
         'Modules\Reports\RetiredRentalInventoryReport',
+        'Modules\Reports\ReturnListReport',
         'Modules\Reports\UnretiredRentalInventoryReport',
 
         # Grids
@@ -161,7 +165,7 @@ try {
 
     echo 'Compiling TypeScript...'
     cd "$Env:DwRentalWorksWebPath\src\RentalWorksWebApi\TrakitWorks"
-    tsc
+    npx tsc
 
     echo ''
     echo ''

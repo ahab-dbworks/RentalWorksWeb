@@ -28,7 +28,7 @@ html.theme-material .fwscheduler .month_default_cell {border:1px solid #cccccc;}
 html.theme-material .fwscheduler .month_default_cell_header {color:#000000;border-radius: 5px;}
 html.theme-material .fwscheduler .selecteddate .month_default_cell_header {color:#ffffff;background-color:rgba(0,0,100,1);}
 html.theme-material .fwscheduler .month_default_event_inner {border:0px solid transparent;text-align:center;padding-top:.4em;}
-html.theme-material .fwscheduler .month_default_event {border:1px solid rgb(160,160,160);border-radius:5px;margin-top:3px;}
+html.theme-material .fwscheduler .month_default_event {border:1px solid rgb(160,160,160);border-radius:10px;margin-top:3px;}
 
 html.theme-material .fwscheduler .topnavigation button {float:left;cursor:pointer;box-sizing: border-box;border: none;background-color: transparent;color: inherit;font-size: inherit;padding: 0 10px;transition: .3s;}
 
@@ -38,3 +38,11 @@ html.theme-material .fwscheduler .changeview[data-selected="true"] {background-c
 html.theme-material .fwscheduler .topnavigation button {border-top:4px solid transparent;line-height: 36px;}
 html.theme-material .fwscheduler .topnavigation button:hover{border-top:4px solid #2e7d32;}
 
+html.theme-material .fwscheduler div.jumpdate { display:inline;padding:.9em .3em .3em 1.3em; }
+html.theme-material .fwscheduler div.jumpdate span { line-height: 41px; }
+html.theme-material .fwscheduler div.jumpdate input { width:75px;height:20px; }
+html.theme-material .fwscheduler div.jumpdate i { cursor:pointer;position:absolute;top:12px; }
+
+
+html.theme-material div[data-control="FwSchedulerDetailed"] .scheduler_default_event_inner { border-radius: 6px;margin: 4px 0 0 0; } 
+html.theme-material div[data-control="FwScheduler"] .scheduler_default_event_inner { border-radius: 6px;margin: 4px 0 0 0; } 

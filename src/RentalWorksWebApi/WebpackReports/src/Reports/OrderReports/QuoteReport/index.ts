@@ -25,7 +25,7 @@ export class QuoteReport extends WebpackReport {
                             //data.SalesItems = DataTable.toObjectList(response.SalesItems);
                             //data.MiscItems = DataTable.toObjectList(response.MiscItems);
                             //data.LaborItems = DataTable.toObjectList(response.LaborItems);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }

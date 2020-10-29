@@ -520,8 +520,8 @@ namespace WebApi.Modules.Transfers.TransferOrder
             {
                 bool x = transferOrder.SetNumber(e.SqlConnection).Result;
                 Status = RwConstants.TRANSFER_STATUS_NEW;
-                StatusDate = FwConvert.ToString(DateTime.Today);
-                TransferDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
+                TransferDate = FwConvert.ToShortDate(DateTime.Today);
             }
         }
         //------------------------------------------------------------------------------------

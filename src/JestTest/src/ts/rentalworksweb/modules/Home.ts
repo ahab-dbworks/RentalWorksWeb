@@ -1946,8 +1946,8 @@ export class RentalInventory extends InventoryModule {
         completeKitGrid.canEdit = false;
         completeKitGrid.canDelete = false;
 
-        let substituteGrid: GridBase = new GridBase("Substitute Grid", "InventorySubstituteGrid");
-        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "InventoryCompatibilityGrid");
+        let substituteGrid: GridBase = new GridBase("Substitute Grid", "RentalInventorySubstituteGrid");
+        let compatibilityGrid: GridBase = new GridBase("Compatibility Grid", "RentalInventoryCompatibilityGrid");
 
         let purchaseVendorGrid: GridBase = new GridBase("Purchase Vendor Grid", "PurchaseVendorGrid");
         purchaseVendorGrid.canNew = false;

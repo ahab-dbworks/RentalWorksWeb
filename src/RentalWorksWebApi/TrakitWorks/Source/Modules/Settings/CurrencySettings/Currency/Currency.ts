@@ -5,18 +5,16 @@ class Currency {
     nav: string = Constants.Modules.Settings.children.CurrencySettings.children.Currency.nav;
     id: string = Constants.Modules.Settings.children.CurrencySettings.children.Currency.id;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Currency', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,18 +26,14 @@ class Currency {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         return $form;
@@ -55,11 +49,29 @@ class Currency {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    renderGrids($form: JQuery): void {
+        FwBrowse.renderGrid({
+            nameGrid: 'CurrencyExchangeRateGrid',
+            gridSecurityId: 'UfURKoOaUi87C',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    FromCurrencyId: FwFormField.getValueByDataField($form, 'CurrencyId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.FromCurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        FwBrowse.search($form.find('[data-name="CurrencyExchangeRateGrid"]'));
     }
 }
 //----------------------------------------------------------------------------------------------

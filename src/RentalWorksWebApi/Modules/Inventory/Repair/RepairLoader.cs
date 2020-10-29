@@ -142,15 +142,6 @@ namespace WebApi.Modules.Inventory.Repair
         [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
         public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
-        public string CurrencyId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
-        public string OfficeLocationDefaultCurrencyId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
-        public string CurrencyCode { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 

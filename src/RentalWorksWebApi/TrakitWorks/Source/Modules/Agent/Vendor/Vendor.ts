@@ -166,7 +166,7 @@ class Vendor {
 
         FwBrowse.renderGrid({
             nameGrid: 'VendorTaxOptionGrid',
-            gridSecurityId: 'YRHvf8VmpQVQ',
+            gridSecurityId: 'B9CzDEmYe1Zf',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -193,7 +193,7 @@ class Vendor {
 
         FwBrowse.renderGrid({
             nameGrid: 'VendorNoteGrid',
-            gridSecurityId: 'Wt91OSBXgBd4',
+            gridSecurityId: 'zuywROD73X60O',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,

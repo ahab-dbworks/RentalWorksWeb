@@ -28,7 +28,7 @@
     //---------------------------------------------------------------------------------
     init($grid: JQuery, options: GridOptions) {
         var me = this;
-        options = {...me.options, ...options};
+        options = {...this.options, ...options};
 
         if (options.title) {
             this._renderTitle($grid, options);
@@ -43,12 +43,12 @@
         this._renderBody($grid, options);
 
         if (options.pager) {
-            if (options.pager === true) options.pager = me.options.pager;
+            if (options.pager === true) options.pager = this.options.pager;
             this._renderPager($grid, options);
         }
 
         $grid.data('options', options)
-            .addClass(me.GRID);
+            .addClass(this.GRID);
     }
     //---------------------------------------------------------------------------------
     private _renderTitle($grid: JQuery, options: GridOptions) {
@@ -62,17 +62,19 @@
     }
     //---------------------------------------------------------------------------------
     private _renderMenu($grid: JQuery, options: GridOptions) {
-        var me                    = this;
-        var definedmenu: GridMenu = options.menu as GridMenu;
+        var me             = this;
+        var menu: GridMenu = options.menu as GridMenu;
 
         var $menu = jQuery('<div>')
             .addClass('grid-menu')
             .appendTo($grid);
 
-        if (definedmenu.objects) {
-            for (var i = 0; i < definedmenu.objects.length; i++) {
-                var object = definedmenu.objects[i];
-                
+        if (menu.options) {
+            this._addOptions($grid, $menu, menu.options);
+        }
+
+        if (menu.objects) {
+            for (let object of menu.objects) {
                 if (object === 'seperator') {
                     jQuery('<div>')
                         .addClass('grid-menu-seperator')
@@ -88,13 +90,80 @@
         }
     }
     //---------------------------------------------------------------------------------
+    private _addOptions($grid: JQuery, $menu: JQuery, options: (GridMenuOption | GridMenuExcel)[]) {
+        var me = this;
+        var $dropdownbutton = jQuery('<div>')
+            .addClass('grid-menu-dropdownbutton')
+            .attr('tabindex', '-1')
+            .on('focusout', (e) => {
+                setTimeout(function() {
+                    if (document.hasFocus() && !jQuery.contains($dropdownbutton[0], e.currentTarget) && e) {
+                        $dropdown.removeClass('active');
+                    }
+                }, 0);
+            });
+
+        var $button = jQuery('<div>')
+            .addClass('grid-menu-button')
+            .html('<i class="material-icons">more_vert</i>')
+            .appendTo($dropdownbutton)
+            .on('click', function(e) {
+                //e.stopPropagation();
+                if ($dropdown.is(':visible')) {
+                    $dropdown.removeClass('active');
+                } else {
+                    $dropdown.addClass('active');
+                }
+            });
+
+        var $dropdown = jQuery('<div>')
+            .addClass('grid-menu-dropdown')
+            .appendTo($dropdownbutton);
+        let hasChildItems = false;
+        for (let option of options) {
+            if (FwApplicationTree.isVisibleInSecurityTree(option.securityid)) {
+                hasChildItems = true;
+                if (option.type === 'option') {
+                    let $item = jQuery('<div>')
+                        .addClass('dropdown-item')
+                        .appendTo($dropdown)
+                        .on('click', (e) => {
+                            (option as GridMenuOption).action($grid, e);
+                            $dropdown.removeClass('active');
+                        });
+
+                    let $caption = jQuery('<div>')
+                        .addClass('dropdown-item-caption')
+                        .html(option.caption)
+                        .appendTo($item);
+                } else if (option.type === 'excel') {
+                    let $item = jQuery('<div>')
+                        .addClass('dropdown-item')
+                        .appendTo($dropdown)
+                        .on('click', (e) => {
+                            this._downloadExcelWorkbook($grid);
+                            $dropdown.removeClass('active');
+                        });
+
+                    let $caption = jQuery('<div>')
+                        .addClass('dropdown-item-caption')
+                        .html('Export to Excel')
+                        .appendTo($item);
+                }
+            }
+        }
+        if (hasChildItems) {
+            $dropdownbutton.appendTo($menu)
+        }
+    }
+    //---------------------------------------------------------------------------------
     private _addButton($grid: JQuery, $menu: JQuery, button: GridMenuButton) {
-        if (FwApplicationTree.isVisibleInSecurityTree(button.secid)) {
+        if (FwApplicationTree.isVisibleInSecurityTree(button.securityid)) {
             const $button = jQuery('<div>')
                 .addClass('grid-menu-button')
                 .html(button.caption)
                 .appendTo($menu)
-                .on('click', jQuery.proxy(button.action, this, $grid));
+                .on('click', (e) => button.action($grid, e));
 
             if (button.icon) {
                 jQuery(`<i class="material-icons left">${button.icon}</i>`).prependTo($button);
@@ -106,47 +175,54 @@
         var me = this;
 
         var $dropdownbutton = jQuery('<div>')
-            .addClass('grid-menu-dropdownbutton');
+            .addClass('grid-menu-dropdownbutton')
+            .attr('tabindex', '-1')
+            .on('focusout', (e) => {
+                setTimeout(function() {
+                    if (document.hasFocus() && !jQuery.contains($dropdownbutton[0], e.currentTarget) && e) {
+                        $dropdown.removeClass('active');
+                    }
+                }, 0);
+            });
 
         var $button = jQuery('<div>')
             .addClass('grid-menu-button')
             .html(`${button.caption}<i class="material-icons right">arrow_drop_down</i>`)
             .appendTo($dropdownbutton)
             .on('click', function(e) {
-                e.stopPropagation();
+                //e.stopPropagation();
                 if ($dropdown.is(':visible')) {
                     $dropdown.removeClass('active');
                 } else {
                     $dropdown.addClass('active');
-
-                    jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
-                        if (!$dropdownbutton.has(e.target).length) {
-                            $dropdown.removeClass('active');
-                        } else {
-                            jQuery(document).one('click', closeMenu);
-                        }
-                    });
                 }
             });
+
+        if (button.icon) {
+            jQuery(`<i class="material-icons left">${button.icon}</i>`).prependTo($button);
+        }
 
         var $dropdown = jQuery('<div>')
             .addClass('grid-menu-dropdown')
             .appendTo($dropdownbutton);
         let hasChildItems = false;
-        for (var i = 0; i < button.items.length; i++) {
-            const item = button.items[i];
+        for (let item of button.items) {
             if (item === 'seperator') {
                 jQuery('<div>')
                     .addClass('dropdown-seperator')
                     .appendTo($dropdown);
             } else {
                 const dropDownButtonItem = <GridMenuDropDownButtonItem>item;
-                if (FwApplicationTree.isVisibleInSecurityTree(dropDownButtonItem.secid)) {
+                if (FwApplicationTree.isVisibleInSecurityTree(dropDownButtonItem.securityid)) {
                     hasChildItems = true;
                     let $item = jQuery('<div>')
                         .addClass('dropdown-item')
                         .appendTo($dropdown)
-                        .on('click', jQuery.proxy(item.action, me, $grid))
+                        .on('click', (e) => {
+                            (item as GridMenuDropDownButtonItem).action($grid, e);
+                            $dropdown.removeClass('active');
+                        });
+
 
                     let $caption = jQuery('<div>')
                         .addClass('dropdown-item-caption')
@@ -167,26 +243,26 @@
             .addClass('grid-menu-filter')
             .attr('data-value', filter.value)
             .attr('data-type', filter.filtertype)
-            .appendTo($menu);
+            .attr('tabindex', '-1')
+            .appendTo($menu)
+            .on('focusout', (e) => {
+                setTimeout(function() {
+                    if (document.hasFocus() && !jQuery.contains($filter[0], e.currentTarget) && e) {
+                        $dropdown.removeClass('active');
+                    }
+                }, 0);
+            });
 
         var $button = jQuery('<div>')
             .addClass('grid-menu-button')
             .html(`${filter.caption}<i class="material-icons right">arrow_drop_down</i>`)
             .appendTo($filter)
             .on('click', function(e) {
-                e.stopPropagation();
+                //e.stopPropagation();
                 if ($dropdown.is(':visible')) {
                     $dropdown.removeClass('active');
                 } else {
                     $dropdown.addClass('active');
-
-                    jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
-                        if ($filter.has(e.target).length === 0) {
-                            $dropdown.removeClass('active');
-                        } else {
-                            jQuery(document).one('click', closeMenu);
-                        }
-                    });
                 }
             });
 
@@ -194,9 +270,7 @@
             .addClass('grid-menu-dropdown')
             .appendTo($filter);
 
-        for (var i = 0; i < filter.items.length; i++) {
-            let item = filter.items[i];
-
+        for (let item of filter.items) {
             if (item === 'seperator') {
                 jQuery('<div>')
                     .addClass('dropdown-seperator')
@@ -324,6 +398,8 @@
             .attr('role', 'row')
             .appendTo($thead);
 
+        $grid.data('thead', $thead);
+
         if (options.filterable !== false) {
             if ((typeof options.filterable === 'boolean') && (options.filterable === true)) {
                 options.filterable = {
@@ -338,9 +414,32 @@
             }
         }
 
-        for (var i = 0; i < options.columns.length; i++) {
-            let column = options.columns[i];
+        if (options.selectable === 'checkbox') {
+            let $col = jQuery('<col>')
+                .css('width', '52px')
+                .appendTo($colgroup);
 
+            let $column = jQuery(`<th>`)
+                .addClass('header')
+                .attr('style', 'text-align:center;')
+                .appendTo($tr);
+
+            let $headercheckbox = jQuery('<input>')
+                .attr('type', 'checkbox')
+                .attr('aria-label', 'Select all rows')
+                .attr('aria-checked', 'false')
+                .addClass('fw-checkbox toggleall-select')
+                .appendTo($column)
+                .on('change', function(e) {
+                    me._headerCheckboxClick($grid, e);
+                });
+
+            if (options.filterable !== false) {
+                me._addColumnFilter($grid, options.filterable, $trfilter, $column, null, false);
+            }
+        }
+
+        for (let column of options.columns) {
             if (!column.hidden) {
                 let $col = jQuery('<col>')
                     .appendTo($colgroup);
@@ -352,12 +451,20 @@
                 let $column = jQuery(`<th>`)
                     .addClass('header')
                     .attr('data-column', column.field)
-                    .html(column.title)
                     .appendTo($tr);
+
+                let $headerbody = jQuery('<div>')
+                    .addClass('header-body')
+                    .html(column.title)
+                    .appendTo($column);
 
                 if (column.sort !== false) {
                     $column.addClass('sortable');
-                    $column.on('click', jQuery.proxy(me._columnHeaderClick, me, $grid));
+                    $headerbody.on('click', (e) => {
+                        //me._columnHeaderClick($grid, e)
+                        me._setSort($grid, jQuery(e.currentTarget).parent());
+                        me.databind($grid);
+                    });
                     if (typeof column.sort === 'string') {
                         me._setSort($grid, $column, column.sort);
                     }
@@ -400,8 +507,7 @@
                         } else {
                             $filtercontainer.removeClass('filtered')
                         }
-                        me._pageNumber($grid, 1);
-                        me.databind($grid);
+                        me.applyFilter($grid);
                     });
 
                 var $filterclear = jQuery('<span>')
@@ -416,22 +522,27 @@
             var $filter = jQuery('<span>')
                 .addClass('filter-menu')
                 .attr('data-column', columnoptions.field)
-                .html('<i class="material-icons">filter_list</i>')
+                //.html('<i class="material-icons">filter_list</i>')
+                .attr('tabindex', '-1')
                 .appendTo($column)
+                .on('focusout', (e) => {
+                    setTimeout(function() {
+                        if (document.hasFocus() && !jQuery.contains($filter[0], e.currentTarget) && e) {
+                            $filter.removeClass('active');
+                        }
+                    }, 0);
+                });
+
+            var $filterbtn = jQuery('<div>')
+                .addClass('filter-menu-button')
+                .html('<i class="material-icons">filter_alt</i>')
+                .appendTo($filter)
                 .on('click', function(e) {
-                    e.stopPropagation();
+                    //e.stopPropagation();
                     if ($filterdropdown.is(':visible')) {
                         $filter.removeClass('active');
                     } else {
                         $filter.addClass('active');
-
-                        jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
-                            if ($filterdropdown.has(e.target).length === 0) {
-                                $filter.removeClass('active');
-                            } else {
-                                jQuery(document).one('click', closeMenu);
-                            }
-                        });
                     }
                 });
 
@@ -494,22 +605,22 @@
             }
         }
 
-        $column.find('.header-sort').remove();
+        $column.find('.header-body .header-sort').remove();
         me._removeOrderBy($grid, $column.attr('data-column'));
 
         if (sortdirection === 'asc' || sortdirection === 'desc') {
             var icon = sortdirection === 'asc' ? 'arrow_upward' : 'arrow_downward';
-            $column.append(`<span class="header-sort"><i class="material-icons">${icon}</i></span>`);
+            $column.find('.header-body').append(`<span class="header-sort"><i class="material-icons">${icon}</i></span>`);
 
             me._addOrderBy($grid, $column.attr('data-column'), sortdirection);
         }
         $column.data('sort', sortdirection);
     }
     //---------------------------------------------------------------------------------
-    private _columnHeaderClick($grid: JQuery, e: JQuery.ClickEvent) {
-        this._setSort($grid, jQuery(e.currentTarget));
-        this.databind($grid);
-    }
+    //private _columnHeaderClick($grid: JQuery, e: JQuery.ClickEvent) {
+    //    this._setSort($grid, jQuery(e.currentTarget));
+    //    this.databind($grid);
+    //}
     //---------------------------------------------------------------------------------
     private _addOrderBy($grid: JQuery, field: string, sortdirection: string) {
         var orderby = $grid.data('orderby');
@@ -544,7 +655,6 @@
     //---------------------------------------------------------------------------------
     private _renderBody($grid: JQuery, options: GridOptions) {
         var me = this;
-
         let $body = jQuery('<div>')
             .addClass('grid-content')
             .appendTo($grid);
@@ -557,9 +667,18 @@
             .attr('role', 'rowgroup')
             .appendTo($table);
 
-        for (var i = 0; i < options.columns.length; i++) {
-            let column = options.columns[i];
+        $grid.data('table', $table);
+        $grid.data('tbody', $tbody);
 
+        if (options.selectable === 'checkbox') {
+            let $col = jQuery('<col>')
+                .css('width', '52px')
+                .appendTo($colgroup);
+        } else {
+            $table.attr('tabindex', '0');
+        }
+
+        for (let column of options.columns) {
             if (!column.hidden) {
                 let $col = jQuery('<col>')
                     .appendTo($colgroup);
@@ -570,35 +689,132 @@
             }
         }
 
-        if (options.selectable) {
-            $table.on('click', 'tr', jQuery.proxy(me._select, me, $grid));
-        }
-        $table.on('keydown', 'tr', jQuery.proxy(me._keydown, me, $grid));
-        $table.on('click', 'tr', jQuery.proxy(me._singleclick, me, $grid));
-        $table.on('dblclick', 'tr', jQuery.proxy(me._doubleclick, me, $grid));
+        $table.on('keydown',  (e) => me._tableKeyDown($grid, e))
+              .on('focus',    (e) => me._tableFocus($grid, e))
+              .on('focusout', (e) => me._tableBlur($grid, e));
     }
     //---------------------------------------------------------------------------------
-    private _select($grid: JQuery, e: JQuery.ClickEvent) {
-        var $target: JQuery      = jQuery(e.currentTarget);
-        var options: GridOptions = $grid.data('options');
-
-        if ((options.selectable !== 'multiple') || (options.selectable == 'multiple') && (!e.ctrlKey)) {
-            $target.siblings().removeClass('state-selected');
-        }
-
-        $target.addClass('state-selected');
+    focus($grid: JQuery, $element?: JQuery) {
+        return this._setFocus($grid, $element);
     }
     //---------------------------------------------------------------------------------
-    private _singleclick($grid: JQuery, e: JQuery.ClickEvent) {
+    private _setFocus($grid: JQuery, $element: JQuery) {
+        var $current = $grid.data('focusedElement');
+        if ($element.length) {
+            if (!$current || $current !== $element) {
+                this._updateFocus($grid, $current, $element);
+            }
+        }
+
+        return $grid.data('focusedElement');
+    }
+    //---------------------------------------------------------------------------------
+    private _updateFocus($grid: JQuery, $current: JQuery, $next: JQuery) {
+        $grid.data('focusedElement', $next);
+    }
+    //---------------------------------------------------------------------------------
+    private _removeFocus($grid: JQuery) {
+        if ($grid.data('focusedElement')) {
+            $grid.data('focusedElement', null);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    select($grid: JQuery, $rows: JQuery) {
+        var me                   = this;
+        var options: GridOptions = $grid.data('options');
+
+        if (($rows.length) && (options.selectable)) {
+            if (options.selectable === true) {
+                me.clearSelection($grid);
+                $rows.first().addClass('state-selected');
+            } else if (options.selectable === 'multiple') {
+                $rows.each(function () {
+                    jQuery(this).addClass('state-selected');
+                })
+            } else if (options.selectable === 'checkbox') {
+                me._checkRows($grid, $rows);
+                if ($grid.data('tbody').find('tr').length === $grid.data('tbody').find('tr.state-selected').length) {
+                    me._toggleHeaderCheckState($grid, true);
+                }
+            }
+            this._scrollSelected($grid, $rows.first())
+        }
+
+        $grid.data('selected', $grid.data('tbody').find('tr.state-selected'));
+    }
+    //---------------------------------------------------------------------------------
+    clearSelection($grid: JQuery, $rows?: JQuery) {
+        var me                   = this;
+        var options: GridOptions = $grid.data('options');
+
+        if (!$rows) {
+            $rows = $grid.data('tbody').find('tr');
+        }
+
+        if (options.selectable && options.selectable !== 'checkbox') {
+            $rows.each(function () {
+                jQuery(this).removeClass('state-selected');
+            });
+        } else if (options.selectable === 'checkbox') {
+            me._deselectCheckRows($grid, $rows);
+        }
+
+        $grid.data('selected', null);
+    }
+    //---------------------------------------------------------------------------------
+    private _scrollSelected($grid: JQuery, $row: JQuery) {
+        var me                   = this;
+        var options: GridOptions = $grid.data('options');
+        var $gridContent         = $grid.data('table').parent();
+        var containerScroll      = $gridContent[0].scrollTop;
+        var containerHeight      = $gridContent[0].clientHeight;
+        var elementOffset        = $row[0].offsetTop;
+        var elementHeight        = $row[0].offsetHeight;
+        var bottomDistance       = elementOffset + elementHeight;
+        var result               = 0;
+
+        if (containerScroll > elementOffset) {
+            result = elementOffset;
+        } else if (bottomDistance > containerScroll + containerHeight) {
+            if (elementHeight <= containerHeight) {
+                result = bottomDistance - containerHeight;
+            } else {
+                result = elementOffset;
+            }
+        } else {
+            result = containerScroll;
+        }
+        $gridContent.scrollTop(result);
+    }
+    //---------------------------------------------------------------------------------
+    private _rowSingleClick($grid: JQuery, e: JQuery.ClickEvent) {
         var $target: JQuery      = jQuery(e.currentTarget);
         var options: GridOptions = $grid.data('options');
+        var $row                 = jQuery(e.target).closest('tr');
+
+        this._setFocus($grid, $row);
+
+        if ((options.selectable) && (options.selectable !== 'checkbox')) {
+            if (options.selectable === true) {
+                this.select($grid, $row);
+            } else if (options.selectable === 'multiple') {
+                if (!e.ctrlKey) {
+                    this.clearSelection($grid);
+                }
+                if ($row.hasClass('state-selected')) {
+                    this.clearSelection($grid, $row);
+                } else {
+                    this.select($grid, $row);
+                }
+            }
+        }
 
         if (options.singleclick) {
             options.singleclick($grid, e);
         }
     }
     //---------------------------------------------------------------------------------
-    private _doubleclick($grid: JQuery, e: JQuery.DoubleClickEvent) {
+    private _rowDoubleClick($grid: JQuery, e: JQuery.DoubleClickEvent) {
         var $target: JQuery      = jQuery(e.currentTarget);
         var options: GridOptions = $grid.data('options');
 
@@ -607,28 +823,127 @@
         }
     }
     //---------------------------------------------------------------------------------
-    private _keydown($grid: JQuery, e: JQuery.KeyDownEvent) {
-        var $target: JQuery      = jQuery(e.currentTarget);
+    private _tableFocus($grid: JQuery, e: JQuery.FocusEvent) {
+        var $current             = $grid.data('focusedElement');
         var options: GridOptions = $grid.data('options');
-        var keycode: number      = e.keyCode;
 
-        switch (keycode) {
+        if ((!$current) && ($grid.data('tbody').find('tr').length)) {
+            this._setFocus($grid, $grid.data('tbody').find('tr').first());
+
+            setTimeout(() => {
+                if (((options.selectable === true) || (options.selectable === 'multiple')) && (!$grid.data('selected'))) {
+                    this.select($grid, $grid.data('tbody').find('tr').first());
+                }
+            }, 125);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _tableBlur($grid: JQuery, e: JQuery.FocusOutEvent) {
+
+    }
+    //---------------------------------------------------------------------------------
+    private _tableKeyDown($grid: JQuery, e: JQuery.KeyDownEvent) {
+        //var $target: JQuery      = jQuery(e.currentTarget);
+        var options: GridOptions = $grid.data('options');
+        var $currentFocus        = $grid.data('focusedElement');
+        var handled              = false;
+
+        switch (e.keyCode) {
             case FwFunc.keys.ENTER:
-                //this._handleEnerKey($grid, e)
+                handled = this._handleEnterKey($grid, $currentFocus)
                 break;
             case FwFunc.keys.LEFT:
                 
                 break;
             case FwFunc.keys.UP:
-                
+                handled = this._handleUpKey($grid, $currentFocus, e.shiftKey);
                 break;
             case FwFunc.keys.RIGHT:
                 
                 break;
             case FwFunc.keys.DOWN:
-
+                handled = this._handleDownKey($grid, $currentFocus, e.shiftKey);
                 break;
         }
+
+        if (handled) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+    //---------------------------------------------------------------------------------
+    //#region Key Bind Functions
+    private _handleEnterKey($grid: JQuery, $currentFocus: JQuery): boolean {
+        var options: GridOptions = $grid.data('options');
+
+        return false;
+    }
+    //---------------------------------------------------------------------------------
+    private _handleUpKey($grid: JQuery, $currentFocus: JQuery, shiftKey: boolean): boolean {
+        var options: GridOptions = $grid.data('options');
+        var $tbody               = $grid.data('tbody');
+        var $nextElement;
+
+        if (options.selectable) {
+            $nextElement = this._previousVerticalRow($grid, $tbody, $currentFocus);
+            if ($nextElement.length) {
+                if (options.selectable === true) {
+                    this.select($grid, $nextElement);
+                } else if (options.selectable === 'multiple') {
+                    if (!shiftKey) {
+                        this.clearSelection($grid);
+                    }
+                    if ($nextElement.hasClass('state-selected')) {
+                        this.clearSelection($grid, $currentFocus);
+                    } else {
+                        this.select($grid, $nextElement);
+                    }
+                }
+            }
+        } else if (options.editable) {
+
+        }
+
+        this._setFocus($grid, $nextElement);
+        return true;
+    }
+    //---------------------------------------------------------------------------------
+    private _handleDownKey($grid: JQuery, $currentFocus: JQuery, shiftKey: boolean): boolean {
+        var options: GridOptions = $grid.data('options');
+        var $tbody               = $grid.data('tbody');
+        var $nextElement;
+
+        if (options.selectable) {
+            $nextElement = this._nextVerticalRow($grid, $tbody, $currentFocus);
+            if ($nextElement.length) {
+                if (options.selectable === true) {
+                    this.select($grid, $nextElement);
+                } else if (options.selectable === 'multiple') {
+                    if (!shiftKey) {
+                        this.clearSelection($grid);
+                    }
+                    if ($nextElement.hasClass('state-selected')) {
+                        this.clearSelection($grid, $currentFocus);
+                    } else {
+                        this.select($grid, $nextElement);
+                    }
+                }
+            }
+        } else if (options.editable) {
+
+        }
+
+        this._setFocus($grid, $nextElement);
+        return true;
+    }
+    //#endregion
+    //---------------------------------------------------------------------------------
+    private _previousVerticalRow($grid: JQuery, $tbody: JQuery, $currentRow: JQuery) {
+        return $currentRow.prev();
+    }
+    //---------------------------------------------------------------------------------
+    private _nextVerticalRow($grid: JQuery, $tbody: JQuery, $currentRow: JQuery) {
+        return $currentRow.next();
     }
     //---------------------------------------------------------------------------------
     private _renderPager($grid: JQuery, options: GridOptions) {
@@ -639,13 +954,15 @@
             .addClass('grid-pager')
             .appendTo($grid);
 
+        $grid.data('pager', $pager);
+
         if (pager.refresh) {
             let $refresh = jQuery('<div>')
                 .addClass('pager-refresh')
                 .attr({'aria-label': pager.messages.refresh, 'title': pager.messages.refresh})
                 .html('<i class="material-icons">refresh</i>')
                 .appendTo($pager)
-                .on('click', jQuery.proxy(me._refreshClick, me, $grid));
+                .on('click', (e) => me._refreshClick($grid, e));
         }
 
         let $info = jQuery('<div>')
@@ -663,7 +980,7 @@
             .addClass('pager-control')
             .html(pagercontrol)
             .appendTo($pager)
-            .on('click', '.pager-nav, .pager-page', jQuery.proxy(me._pageChange, me, $grid));
+            .on('click', '.pager-nav, .pager-page', (e) => me._pageChange($grid, e));
         me._pageNumber($grid, 1);
 
         if (pager.pagesizes) {
@@ -674,7 +991,7 @@
             let $select = jQuery('<select>')
                 .html(pageSizeOptions.join(''))
                 .val(pager.pagesize)
-                .on('change', jQuery.proxy(me._pageSizeChange, me, $grid));
+                .on('change', (e) => me._pageSizeChange($grid, e));
 
             let $sizeselector = jQuery('<div>')
                 .addClass('pager-sizes')
@@ -723,6 +1040,14 @@
         }
     }
     //---------------------------------------------------------------------------------
+    private _totalRows($grid: JQuery, totalrows?: number) {
+        if (totalrows) {
+            $grid.data('totalrows', totalrows);
+        } else {
+            return $grid.data('totalrows');
+        }
+    }
+    //---------------------------------------------------------------------------------
     async databind($grid: JQuery): Promise<any> {
         var me                   = this;
         var options: GridOptions = $grid.data('options');
@@ -733,8 +1058,10 @@
 
         return new Promise<any>(async (resolve, reject) => {
             let request = me._getRequest($grid);
-            FwServices.module.method(request, request.module, options.datasource, $grid, function (response) {
+            FwServices.module.method(request, request.module, `${options.datasource === request.module.toLowerCase() ? '' : options.datasource + '/'}browse`, $grid, function (response) {
                 try {
+                    me.clearSelection($grid);
+                    me._removeFocus($grid);
                     me._databindCallback($grid, request, response);
                     resolve();
                 } catch (ex) {
@@ -754,18 +1081,33 @@
         var totalpages           = response.TotalPages;
         var $tbody               = $grid.find('.grid-content tbody');
 
+        me._totalRows($grid, response.TotalRows);
+
         $tbody.empty();
-        for (var i = 0; i < response.Rows.length; i++) {
-            var row  = response.Rows[i];
+        for (let row of response.Rows) {
             var $row = jQuery('<tr>')
                 .attr('role', 'row')
                 .attr('data-rowid', row[response.ColumnIndex[options.rowid]])
-                .appendTo($tbody);
+                .appendTo($tbody)
+                .on('click',    (e) => me._rowSingleClick($grid, e))
+                .on('dblclick', (e) => me._rowDoubleClick($grid, e));
 
-            for (var j = 0; j < options.columns.length; j++) {
-                let column      = options.columns[j];
-                var columnIndex = response.ColumnIndex[column.field];
+            if (options.selectable === 'checkbox') {
+                let $column = jQuery(`<td>`)
+                    .attr('role', 'gridcell')
+                    .attr('style', 'text-align:center;')
+                    .appendTo($row);
 
+                let $checkbox = jQuery('<input>')
+                    .attr('type', 'checkbox')
+                    .attr('aria-label', 'Select row')
+                    .attr('aria-checked', 'false')
+                    .addClass('fw-checkbox row-select')
+                    .appendTo($column)
+                    .on('change', (e) => me._checkboxClick($grid, e));
+            }
+
+            for (let column of options.columns) {
                 if (!column.hidden) {
                     let $column = jQuery('<td>')
                         .attr('role', 'gridcell')
@@ -773,12 +1115,12 @@
                         .appendTo($row);
 
                     if (column.datatype == 'tag') {
-                        var $tag = jQuery('<div>')
-                            .addClass('tag')
-                            .attr('data-tagtype', row[columnIndex])
-                            .html(row[columnIndex])
-                            .appendTo($column);
+                        for (let tag of column.tags) {
+                            var columnIndex = response.ColumnIndex[tag.field];
+                            tag.taglogic($grid, $column, row[columnIndex]);
+                        }
                     } else {
+                        var columnIndex = response.ColumnIndex[column.field];
                         $column.html(row[columnIndex]);
                     }
                 }
@@ -791,6 +1133,9 @@
             }
             $row.data('recorddata', rowdata);
             //--------------------------------------------------------
+            if ((typeof response.ColumnIndex['Inactive'] === 'number') && (row[response.ColumnIndex['Inactive']] === true)) {
+                $row.addClass('inactive');
+            }
         }
 
         if (options.pager !== false) {
@@ -835,6 +1180,67 @@
         }
     }
     //---------------------------------------------------------------------------------
+    private _headerCheckboxClick($grid: JQuery, e: JQuery.ChangeEvent) {
+        var me        = this;
+        var $checkbox = jQuery(e.target);
+        var checked   = $checkbox.prop('checked');
+        var $rows     = $grid.data('tbody').find('tr');
+
+        if (checked) {
+            me.select($grid, $rows)
+        } else {
+            me.clearSelection($grid);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _toggleHeaderCheckState($grid: JQuery, checked: boolean) {
+        var me = this;
+        if (checked) {
+            $grid.data('thead').find('input.toggleall-select').attr('aria-checked', 'true').prop('checked', true).attr('aria-label', 'Deselect all rows');
+        } else {
+            $grid.data('thead').find('input.toggleall-select').attr('aria-checked', 'false').prop('checked', false).attr('aria-label', 'Select all rows');
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _checkboxClick($grid: JQuery, e: JQuery.ChangeEvent) {
+        var me          = this;
+        var $row        = jQuery(e.target).closest('tr');
+        var isSelecting = !$row.hasClass('state-selected');
+
+        if (isSelecting) {
+            me.select($grid, $row);
+        } else {
+            me._deselectCheckRows($grid, $row);
+        }
+    }
+    //---------------------------------------------------------------------------------
+    private _checkRows($grid: JQuery, $rows: JQuery) {
+        $rows.each(function () {
+            jQuery(this).addClass('state-selected').find('input.row-select').attr('aria-checked', 'true').prop('checked', true).attr('aria-label', 'Deselect row');
+        })
+    }
+    //---------------------------------------------------------------------------------
+    private _deselectCheckRows($grid: JQuery, $rows: JQuery) {
+        var me = this;
+        $rows.each(function () {
+            jQuery(this).removeClass('state-selected').find('input.row-select').attr('aria-checked', 'false').prop('checked', false).attr('aria-label', 'Select row');
+        });
+        me._toggleHeaderCheckState($grid, false);
+    }
+    //---------------------------------------------------------------------------------
+    addTag($grid: JQuery, $column: JQuery, htmlvalue: string, backgroundcolor: string, color: string) {
+        var $tag = jQuery('<div>')
+            .addClass('tag')
+            .css({'background-color': backgroundcolor, 'color': color})
+            .html(htmlvalue)
+            .appendTo($column);
+    }
+    //---------------------------------------------------------------------------------
+    async applyFilter($grid: JQuery): Promise<any> {
+        this._pageNumber($grid, 1);
+        return await this.databind($grid);
+    }
+    //---------------------------------------------------------------------------------
     private _getRequest($grid: JQuery): BrowseRequest {
         var me                   = this;
         var options: GridOptions = $grid.data('options');
@@ -844,7 +1250,7 @@
         request.pageno       = this._pageNumber($grid);
         request.pagesize     = this._pageSize($grid);
         request.orderby      = this._getOrderBy($grid);
-        request.filterfields = this._getFilters($grid);
+        request.filterfields = this._getFilters($grid); 
 
         if (options.filter) {
             request.filterfields = {...request.filterfields, ...options.filter($grid)};
@@ -876,10 +1282,190 @@
         return request;
     }
     //---------------------------------------------------------------------------------
+    private _downloadExcelWorkbook($grid: JQuery): void {
+        var me                   = this;
+        var options: GridOptions = $grid.data('options');
+        var totalrows            = me._totalRows($grid);
+
+        if (totalrows >= 1) {
+            const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
+            const $yes          = FwConfirmation.addButton($confirmation, 'Download', false);
+            const $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+            let html = `<div class="fwform" data-controller="none">
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Download All ${totalrows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} Records" data-datafield="allrecords"></div>
+                          </div>
+                          <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="userdefinedrecords" style="float:left;width:30px;"></div>
+                            </div>
+                            <span style="margin:18px 0px 0px 0px;">First</span>
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">
+                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="userdefinedrecordscount" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>
+                            </div>
+                            <span style="margin:18px 0px 0px 0px;">Records</span>
+                          </div>
+                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include All Fields" data-datafield="allfields" style="float:left;width:100px;"></div>
+                          </div>
+                          <div class="flexrow fieldsrow" style="display:none;">
+                            <div class="flexcolumn">
+                              <div class="flexrow" style="margin-left:8px;width:350px;">
+                                <div class="check-uncheck" style="color:#2626f3;cursor:pointer;flex:1;">Uncheck All Fields</div>
+                                <div class="sort-list" style="color:#2626f3;cursor:pointer;flex:1;text-align:right;">Sort List By Name</div>
+                              </div>
+                              <div class="flexrow">
+                                <div data-control="FwFormField" class="fwcontrol fwformfield" data-checkboxlist="persist" data-type="checkboxlist" data-sortable="true" data-orderby="false" data-caption="Include these fields" data-datafield="FieldList" style="flex:1 1 550px;"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>`;
+            FwConfirmation.addControls($confirmation, html);
+
+            FwFormField.setValue($confirmation, 'div[data-datafield="userdefinedrecordscount"]', (me._pageSize($grid) > totalrows) ? totalrows : me._pageSize($grid));
+            FwFormField.setValue($confirmation, 'div[data-datafield="allrecords"]', true);
+            FwFormField.setValue($confirmation, 'div[data-datafield="allfields"]', true);
+
+            $confirmation
+                .on('change', 'div[data-datafield="allrecords"] input.fwformfield-value', function() {
+                    FwFormField.setValue($confirmation, 'div[data-datafield="userdefinedrecords"]', !(FwFormField.getValue($confirmation, 'div[data-datafield="allrecords"]') === 'T'));
+                })
+                .on('change', 'div[data-datafield="userdefinedrecords"] input.fwformfield-value', function() {
+                    FwFormField.setValue($confirmation, 'div[data-datafield="allrecords"]', !(FwFormField.getValue($confirmation, 'div[data-datafield="userdefinedrecords"]') === 'T'));
+                })
+                .on('change', 'div[data-datafield="userdefinedrecordscount"] input.fwformfield-value', function() {
+                    FwFormField.setValue($confirmation, 'div[data-datafield="userdefinedrecords"]', true);
+                    FwFormField.setValue($confirmation, 'div[data-datafield="allrecords"]', false);
+                })
+                .on('change', 'div[data-datafield="allfields"] input.fwformfield-value', function () {
+                    if (FwFormField.getValueByDataField($confirmation, 'allfields') === 'T') {
+                        $confirmation.find('.fieldsrow').hide();
+                    } else {
+                        $confirmation.find('.fieldsrow').show();
+                        if ($confirmation.find('div[data-datafield="FieldList"]').attr('api-req') !== 'true') {
+                            FwAppData.apiMethod(true, 'GET', `${(<any>window[options.module + 'Controller']).apiurl}/${options.datasource === options.module.toLowerCase() ? '' : options.datasource + '/'}emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                                const fieldsAllCheckedUnsorted = [];
+                                const fieldsNoneCheckedUnsorted = [];
+
+                                for (let key in response) {
+                                    if (!key.startsWith('_')) {
+                                        fieldsAllCheckedUnsorted.push({
+                                            'value': key,
+                                            'text': key,
+                                            'selected': 'T',
+                                        });
+                                        fieldsNoneCheckedUnsorted.push({
+                                            'value': key,
+                                            'text': key,
+                                            'selected': 'F',
+                                        })
+                                    }
+                                }
+                                FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fieldsAllCheckedUnsorted, false);
+                                $confirmation.find('div[data-datafield="FieldList"]').attr('api-req', 'true');
+                                $confirmation.find('.fieldsrow').data('fieldsAllCheckedUnsorted', fieldsAllCheckedUnsorted)
+                                $confirmation.find('.fieldsrow').data('fieldsNoneCheckedUnsorted', fieldsNoneCheckedUnsorted);
+
+                                const allChecked = fieldsAllCheckedUnsorted.slice();
+                                $confirmation.find('.fieldsrow').data('fieldsAllCheckedSorted', allChecked.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); }));
+                                const noneChecked = fieldsNoneCheckedUnsorted.slice();
+                                $confirmation.find('.fieldsrow').data('fieldsNoneCheckedSorted', noneChecked.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); }));
+
+                            }, function onError(response) {
+                                FwFunc.showError(response);
+                            }, null);
+                        }
+                    }
+                })
+                .on('click', '.check-uncheck', e => {
+                    if ($confirmation.find('.check-uncheck').text() === 'Check All Fields') {
+                        // caption uncheck all
+                        $confirmation.find('.check-uncheck').text('Uncheck All Fields');
+                        if ($confirmation.find('.sort-list').text() === 'Sort List By Name') {
+                            // check all, sorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedUnsorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        } else {
+                            // check all, unsorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedSorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        }
+                    } else {
+                        //caption check all
+                        $confirmation.find('.check-uncheck').text('Check All Fields');
+                        if ($confirmation.find('.sort-list').text() === 'Sort List By Name') {
+                            // uncheck all, unsorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedUnsorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        } else {
+                            // uncheck all, unsorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedSorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        }
+                    }
+                })
+                .on('click', '.sort-list', e => {
+                    if ($confirmation.find('.sort-list').text() === 'Sort List By Name') {
+                        //caption unsort
+                        $confirmation.find('.sort-list').text('Unsort List By Name')
+                        if ($confirmation.find('.check-uncheck').text() === 'Check All Fields') {
+                            // uncheck all, sorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedSorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        } else {
+                            // check all, sorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedSorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        }
+                    } else {
+                        //caption sort
+                        $confirmation.find('.sort-list').text('Sort List By Name')
+                        if ($confirmation.find('.check-uncheck').text() === 'Check All Fields') {
+                            // uncheck all, unsorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsNoneCheckedUnsorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        } else {
+                            // check all, unsorted
+                            const fields = $confirmation.find('.fieldsrow').data('fieldsAllCheckedUnsorted');
+                            FwFormField.loadItems($confirmation.find('div[data-datafield="FieldList"]'), fields, false);
+                        }
+                    }
+                })
+            ;
+
+            $yes.on('click', () => {
+                const request: any = me._getRequest($grid);
+                request.pagesize = (FwFormField.getValue($confirmation, 'div[data-datafield="userdefinedrecords"]') === 'T') ? Number(FwFormField.getValue($confirmation, 'div[data-datafield="userdefinedrecordscount"]')) : totalrows;
+                if (FwFormField.getValueByDataField($confirmation, 'allfields') === 'T') {
+                    request.includeallcolumns = true;
+                } else {
+                    request.includeallcolumns = false;
+                    request.excelfields = FwFormField.getValueByDataField($confirmation, 'FieldList');
+                }
+
+                FwServices.module.method(request, request.module, `${options.datasource === request.module.toLowerCase() ? '' : options.datasource + '/'}exportexcelxlsx`, $grid, function (response) {
+                    try {
+                        const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
+                        jQuery('#application').append($iframe);
+                        setTimeout(function () {
+                            $iframe.remove();
+                        }, 500);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+            });
+        } else {
+            FwNotification.renderNotification('WARNING', 'There are no records to export.');
+        }
+    }
+    //---------------------------------------------------------------------------------
 }
 
 var FwGrid = new FwGridClass();
-
 
 interface GridOptions {
     module?: string;
@@ -889,11 +1475,10 @@ interface GridOptions {
     pager?: boolean|GridPager;
     editable?: boolean|GridEditable;
     rowid?: string;
-    selectable?: boolean|string;
+    selectable?: boolean|'multiple'|'checkbox'; //string;
     menu?: boolean|GridMenu;
     filterable?: boolean|GridFilterable;
-
-    filter?: ($grid: JQuery) => Object;
+    filter?:($grid: JQuery) => Object;
     singleclick?($grid: JQuery, e: JQuery.ClickEvent): void;
     doubleclick?($grid: JQuery, e: JQuery.DoubleClickEvent): void;
     beforedatabind?($grid: JQuery): void;
@@ -901,7 +1486,7 @@ interface GridOptions {
 }
 
 interface GridFilterable {
-    mode?: 'row'|'menu';
+    mode: 'row'|'menu';
 }
 
 interface GridColumn {
@@ -912,10 +1497,16 @@ interface GridColumn {
     title: string;
     width?: string|number;
     filterable?: boolean|GridColumnFilterable;
+    tags?: GridTag[];
 }
 
 interface GridColumnFilterable {
-    datatype?: string;
+    datatype: string;
+}
+
+interface GridTag {
+    field: string;
+    taglogic($grid: JQuery, $column: JQuery, datavalue): void;
 }
 
 interface GridEditable {
@@ -923,35 +1514,47 @@ interface GridEditable {
 }
 
 interface GridMenu {
-    //objects?: (GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator')[];
-    objects?: GridMenuObject[];
+    options?: (GridMenuOption | GridMenuExcel)[];
+    objects?: (GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator')[];
 }
 
-type GridMenuObject = GridMenuButton | GridMenuFilter | GridMenuDropDownButton | 'seperator';
+interface GridMenuOption {
+    type: 'option';
+    caption: string;
+    securityid?: string;
+    action?($grid: JQuery, e: JQuery.ClickEvent): void;
+    validateSecurity?($grid: JQuery): boolean;
+}
+
+interface GridMenuExcel {
+    type: 'excel';
+    securityid: string;
+}
 
 interface GridMenuButton {
     type: 'button';
     caption?: string;
-    secid?: string;
-    validateSecurity?($grid: JQuery): boolean;
+    securityid?: string;
     icon?: string;
     id?: string;
     action?($grid: JQuery, e: JQuery.ClickEvent): void;
+    validateSecurity?($grid: JQuery): boolean;
 }
 
 interface GridMenuDropDownButton {
     type: 'dropdownbutton';
     caption?: string;
+    icon?: string;
     items?: (GridMenuDropDownButtonItem | 'seperator')[];
 }
 
 interface GridMenuDropDownButtonItem {
     caption?: string;
-    secid?: string;
-    validateSecurity?($grid: JQuery): boolean;
+    securityid?: string;
     icon?: string;
     id?: string;
     action?($grid: JQuery, e: JQuery.ClickEvent): void;
+    validateSecurity?($grid: JQuery): boolean;
 }
 
 interface GridMenuFilter {

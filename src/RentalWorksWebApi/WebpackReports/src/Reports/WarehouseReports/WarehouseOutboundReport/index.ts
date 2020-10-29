@@ -15,9 +15,9 @@ export class WarehouseOutboundReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/warehouseoutboundreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    this.setReportMetadata(parameters, data, response);
+                    data.FromDate = moment(parameters.FromDate).locale(parameters.Locale).format('L');
+                    data.ToDate = moment(parameters.ToDate).locale(parameters.Locale).format('L');
                     data.Report = 'Warehouse Outbound Report';
                     if (data[0] && data[0].Warehouse) {
                         data.Warehouse = data[0].Warehouse;

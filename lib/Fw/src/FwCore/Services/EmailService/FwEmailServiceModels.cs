@@ -19,13 +19,14 @@ namespace FwCore.Services.EmailService
     public class BeforeSendEmailResponse
     {
         public bool LetSendEmail { get; set; } = true;
+        public bool AttachMessageBody { get; set; } = true;
         public BeforeSendEmailResponse(BeforeSendEmailRequest request)
         {
             this.LetSendEmail = request.LetSendEmail;
         }
     }
-    
-    
+
+
     [XmlRoot(ElementName = "ReportEmail")]
     public class ReportEmail
     {

@@ -8,6 +8,8 @@ class FwApplication {
     audioSuccess: HTMLAudioElement;
     audioError: HTMLAudioElement;
     localStoragePrefix: string;
+    runningInCordova: boolean;
+    htmlname: string;
     //---------------------------------------------------------------------------------
     constructor() {
         this.setAudioMode('NativeAudio');
@@ -208,6 +210,16 @@ class FwApplication {
         } else {
             var media = localStorage.getItem('media');
             this.setMedia(media);
+        }
+
+        //2020-09-11 MY: Remove when TrakitWorks is its own application
+        if (applicationConfig.appCaption) {
+            Constants.appCaption = applicationConfig.appCaption;
+            program.name = applicationConfig.appCaption;
+        }
+        if (applicationConfig.appTitle) {
+            Constants.appTitle = applicationConfig.appTitle;
+            program.title = applicationConfig.appTitle;
         }
     }
     //---------------------------------------------------------------------------------

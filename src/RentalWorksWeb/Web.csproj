@@ -21,7 +21,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
@@ -164,6 +164,10 @@
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryQuantityHistoryGrid\InventoryQuantityHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridBrowse.htm" />
+    <Content Include="Source\Grids\RetiredPurchaseGrid\RetiredPurchaseGridBrowse.htm" />
+    <Content Include="Source\Grids\VendorInvoiceItemCorrespondingDealInvoicesGrid\VendorInvoiceItemCorrespondingDealInvoicesGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySummaryPhysicalInventoryGrid\InventorySummaryPhysicalInventoryGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySummaryOutItemsGrid\InventorySummaryOutItemsGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySummaryRetiredHistoryGrid\InventorySummaryRetiredHistoryGridBrowse.htm" />
@@ -299,7 +303,7 @@
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
     <Content Include="Source\Grids\DealShipperGrid\DealShipperGridBrowse.htm" />
-    <Content Include="Source\Grids\InventoryCompatibilityGrid\InventoryCompatibilityGridBrowse.htm" />
+    <Content Include="Source\Grids\RentalInventoryCompatibilityGrid\RentalInventoryCompatibilityGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryCompleteKitGrid\InventoryCompleteKitGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryConsignmentGrid\InventoryConsignmentGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryKitGrid\InventoryKitGridBrowse.htm" />
@@ -314,7 +318,7 @@
     <Content Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridBrowse.htm" />
-    <Content Include="Source\Grids\InventorySubstituteGrid\InventorySubstituteGridBrowse.htm" />
+    <Content Include="Source\Grids\RentalInventorySubstituteGrid\InventorySubstituteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryGroupInvGrid\InventoryGroupInvGridBrowse.htm" />
     <Content Include="Source\Grids\ItemQcGrid\ItemQcGridBrowse.htm" />
     <Content Include="Source\Grids\ItemAttributeValueGrid\ItemAttributeValueGridBrowse.htm" />
@@ -353,6 +357,10 @@
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryQuantityHistoryGrid\InventoryQuantityHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RetiredPurchaseGrid\RetiredPurchaseGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\VendorInvoiceItemCorrespondingDealInvoicesGrid\VendorInvoiceItemCorrespondingDealInvoicesGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySummaryPhysicalInventoryGrid\InventorySummaryPhysicalInventoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySummaryOutItemsGrid\InventorySummaryOutItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySummaryRetiredHistoryGrid\InventorySummaryRetiredHistoryGridController.ts" />
@@ -485,7 +493,7 @@
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealNoteGrid\DealNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealShipperGrid\DealShipperGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\InventoryCompatibilityGrid\InventoryCompatibilityGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RentalInventoryCompatibilityGrid\RentalInventoryCompatibilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteKitGrid\InventoryCompleteKitGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryConsignmentGrid\InventoryConsignmentGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryKitGrid\InventoryKitGridController.ts" />
@@ -500,7 +508,7 @@
     <TypeScriptCompile Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\InventorySubstituteGrid\InventorySubstituteGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RentalInventorySubstituteGrid\InventorySubstituteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryGroupInvGrid\InventoryGroupInvGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ItemQcGrid\ItemQcGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ItemAttributeValueGrid\ItemAttributeValueGridController.ts" />
@@ -1145,6 +1153,7 @@
     <Content Include="Source\Validations\ActivityStatusValidation\ActivityStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\BankAccountValidation\BankAccountValidationBrowse.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
+    <Content Include="Source\Validations\ContactDepartmentValidation\ContactDepartmentValidationBrowse.htm" />
     <Content Include="Source\Validations\CurrencyCodeValidation\CurrencyCodeValidationBrowse.htm" />
     <Content Include="Source\Validations\VendorInvoiceValidation\VendorInvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\ProjectNumberValidation\ProjectNumberValidationBrowse.htm" />

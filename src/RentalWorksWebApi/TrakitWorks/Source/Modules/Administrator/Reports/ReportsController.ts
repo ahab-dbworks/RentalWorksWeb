@@ -3,7 +3,7 @@
     caption: string = Constants.Modules.Administrator.children.Reports.caption;
     nav: string = Constants.Modules.Administrator.children.Reports.nav
     id: string = Constants.Modules.Administrator.children.Reports.id;
-    reportsMenuId = Constants.MainMenu.Reports.id;
+    reportsMenuId = Constants.Modules.Administrator.children.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -19,7 +19,8 @@
         $reports = this.openReports();
 
         screen.load = () => {
-            FwModule.openModuleTab($reports, this.caption, false, 'REPORTS', true)
+            FwModule.openModuleTab($reports, this.caption, false, 'REPORTS', true);
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             //var nodeReports = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
             const rootConstNodeReports = Constants.Modules.Reports;
             var moduleArray = [];
@@ -27,10 +28,14 @@
             for (let keyCategory in rootConstNodeReports.children) {
                 const constNodeCategory = rootConstNodeReports.children[keyCategory];
                 const secNodeCategory = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeCategory.id);
-                if (secNodeCategory.properties.visible === 'T') {
+                if (secNodeCategory !== null && secNodeCategory.properties.visible === 'T') {
                     for (let keyReport in constNodeCategory.children) {
+                        if (!controlDefaults.enablereceipts && (keyReport === 'DailyReceiptsReport' || keyReport === 'ReceiptBatchReport') || keyReport === 'ReturnListReport') {
+                            continue;
+                        }
                         const constNodeReport = constNodeCategory.children[keyReport];
                         const secNodeReport = FwApplicationTree.getNodeById(FwApplicationTree.tree, constNodeReport.id);
+                        if (secNodeReport === null) { console.error(`${keyReport} not found. Check report API controller and/ or security ids`); }
                         if (secNodeReport !== null && secNodeReport.properties.visible === 'T') {
                             var moduleObj = [];
                             moduleObj.push(constNodeReport.caption, keyReport, constNodeCategory.caption, constNodeReport.description, constNodeCategory.caption);

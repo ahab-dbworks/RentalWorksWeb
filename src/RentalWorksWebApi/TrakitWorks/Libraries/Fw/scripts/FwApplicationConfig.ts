@@ -16,4 +16,6 @@
     OktaEnabled = false;
     oktaSignIn: FwOktaSignIn;
     oktaApiUrl = '';
+    appCaption;
+    appTitle;
 }

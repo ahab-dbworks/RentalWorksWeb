@@ -69,7 +69,7 @@ namespace FwCore.Controllers
                 {
                     pdfFileName = baseFileName;
                 }
-                else 
+                else
                 {
                     pdfFileName = reportFileName;
                 }

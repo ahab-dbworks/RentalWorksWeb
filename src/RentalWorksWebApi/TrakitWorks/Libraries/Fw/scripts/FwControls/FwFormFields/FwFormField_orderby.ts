@@ -1,10 +1,10 @@
 ﻿class FwFormField_orderbyClass implements IFwFormField {
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderDesignerHtml($control: JQuery, html: string[]): void {
 
     }
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderRuntimeHtml($control: JQuery, html: string[]): void {
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
         html.push('<div class="fwformfield-control">');
         html.push('  <ol>');
@@ -21,7 +21,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void {
         var html, hasorderby, checkboxid;
 
         html = [];
@@ -87,19 +87,19 @@
         });
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void {
 
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>): void {
+    enable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         var value = [];
         $fwformfield.find('li[data-selected="T"]').each(function (index, element) {
             var $li, item;
@@ -114,7 +114,7 @@
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         var $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();

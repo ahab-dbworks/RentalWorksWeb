@@ -1278,7 +1278,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         row[dt.GetColumnNo("AvailableQuantity")] = qtyAvailable;
                         if (conflictDate != null)
                         {
-                            row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
+                            row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
                         }
                         row[dt.GetColumnNo("AvailabilityState")] = availabilityState;
 
@@ -1286,7 +1286,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         row[dt.GetColumnNo("AvailableQuantityAllWarehouses")] = qtyAvailableAllWarehouses;
                         if (conflictDateAllWarehouses != null)
                         {
-                            row[dt.GetColumnNo("ConflictDateAllWarehouses")] = FwConvert.ToUSShortDate(conflictDateAllWarehouses.GetValueOrDefault(DateTime.MinValue));
+                            row[dt.GetColumnNo("ConflictDateAllWarehouses")] = FwConvert.ToShortDate(conflictDateAllWarehouses.GetValueOrDefault(DateTime.MinValue));
                         }
                         row[dt.GetColumnNo("AvailabilityStateAllWarehouses")] = availabilityStateAllWarehouses;
 

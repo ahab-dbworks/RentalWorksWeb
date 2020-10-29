@@ -85,6 +85,17 @@ class InventoryRank {
     afterLoad($form: any) {
         this.requiredFalse();
     }
+    //-------------------------------------------------------------------------------------------------------
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'WarehouseId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatewarehouse`);
+                break;
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+        }
+    }
 }
 
 var InventoryRankController = new InventoryRank();

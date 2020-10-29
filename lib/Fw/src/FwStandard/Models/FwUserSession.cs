@@ -106,5 +106,25 @@ namespace FwStandard.Models
             }
         }
         //------------------------------------------------------------------------------------
+        public string DealId
+        {
+            get
+            {
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.DealId);
+                string dealid = (claim != null) ? claim.Value : string.Empty;
+                return dealid;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public string TokenType
+        {
+            get
+            {
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == AuthenticationClaimsTypes.TokenType);
+                string dealid = (claim != null) ? claim.Value : string.Empty;
+                return dealid;
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

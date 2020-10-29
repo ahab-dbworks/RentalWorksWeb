@@ -1,2 +1,2 @@
-Last Synced on: 12/02/2019 16:45:20
+Last Synced on: 10/26/2020 15:27:56
 Source Path: RentalWorksWeb\src\RentalWorksWeb\Source\Grids\QuikActivityGrid

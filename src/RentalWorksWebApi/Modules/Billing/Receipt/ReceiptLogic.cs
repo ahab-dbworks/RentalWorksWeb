@@ -12,6 +12,7 @@ using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 using WebApi.Modules.Settings.SystemSettings;
 using WebApi.Modules.Settings.SystemSettings.SystemSettings;
 using WebApi;
+using WebApi.Modules.Settings.FiscalYear;
 
 namespace WebApi.Modules.Billing.Receipt
 {
@@ -419,6 +420,30 @@ namespace WebApi.Modules.Billing.Receipt
                     validateMsg = "Payment amount cannot be negative.";
                 }
             }
+
+
+            if (isValid)
+            {
+                string receiptDate = ReceiptDate;
+
+                if (string.IsNullOrEmpty(receiptDate))
+                {
+                    if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                    {
+                        receiptDate = orig.ReceiptDate;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(receiptDate))
+                {
+                    if (FiscalFunc.DateIsInClosedMonth(AppConfig, UserSession, FwConvert.ToDateTime(receiptDate)).Result)
+                    {
+                        isValid = false;
+                        validateMsg = $"{BusinessLogicModuleName} cannot be added to a Closed month.";
+                    }
+                }
+            }
+
 
             if (isValid)
             {

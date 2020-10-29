@@ -21,12 +21,12 @@
   <div class="rpt-flexcolumn" style="flex:0 0 30%;">
     <table>
       <tr>
-        <td style="width:50%;font-size:18px;font-weight:700;text-align:right;vertical-align:middle;">No:</td>
-        <td class="rptNumberSection" style="width:50%;">{{OrderNumber}}</td>
+        <td style="width:30%;font-size:18px;font-weight:700;text-align:right;vertical-align:middle;">No:</td>
+        <td class="rptNumberSection" style="width:70%;">{{OrderNumber}}</td>
       </tr>
       <tr>
-        <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
-        <td style="width:50%;font-size:18px;text-align:center;">{{PrintDate}}</td>
+        <td style="width:30%;color:black;font-size:18px;font-weight:700;text-align:right;">Date:</td>
+        <td style="width:70%;font-size:18px;text-align:center;">{{PrintDate}}</td>
       </tr>
     </table>
   </div>
@@ -80,24 +80,23 @@
   <!-- Billing Dates, Usage Dates, Terms, Billing Cycle-->
   <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin-left:10px;">
     <table>
-      {{#ifCond BillingDates '!==' "N/A"}}
+      {{#if HasRecurring}}
       <tr>
         <td style="width:105px;" class="shaded-block">Billing Period:</td>
-        <td class="">{{BillingDates}}</td>
+        <td class="">{{BillingStartDate}} - {{BillingStopDate}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond UsageDates '!==' "N/A"}}
+      {{/if}}
+      {{#if HasRecurring}}
       <tr>
         <td style="width:105px;" class="shaded-block">Usage Period:</td>
-        <td class="">{{UsageDates}}</td>
+        <td class="">{{EstimatedStartDate}} - {{EstimatedStopDate}}</td>
       </tr>
-      {{/ifCond}}
-      {{#ifCond UsageDates '===' "N/A"}}
+      {{else}}
       <tr>
         <td style="width:105px;" class="shaded-block">Start Date:</td>
         <td class="">{{EstimatedStartDate}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
       <tr>
         <td style="width:105px;" class="shaded-block">Terms:</td>
         <td class="">{{PaymentTerms}}</td>
@@ -108,7 +107,7 @@
       </tr>
       {{#if ReferenceNumber}}
       <tr>
-        <td style="width:105px;;" class="shaded-block">Reference No:</td>
+        <td style="width:105px;" class="shaded-block">Reference No:</td>
         <td class="">{{ReferenceNumber}}</td>
       </tr>
       {{/if}}
@@ -198,11 +197,11 @@
         <td class="">{{OutDeliveryCity}}, {{OutDeliveryState}} {{OutDeliveryZipCode}} {{OutDeliveryCountry}}</td>
       </tr>
       {{/ifCond}}
-      {{#ifCond OutDeliveryRequiredByDateTime '!==' ""}}
+      {{#if OutDeliveryRequiredByDate}}
       <tr>
-        <td class=""><span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDateTime}}</td>
+        <td class=""><span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDate}} {{#ifCond OutDeliveryRequiredByTime '!==' "  :"}} {{OutDeliveryRequiredByTime}} {{/ifCond}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
     </table>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 321px;margin-left:10px;">
@@ -232,11 +231,11 @@
         <td class="">{{InDeliveryCity}}, {{InDeliveryState}} {{InDeliveryZipCode}} {{InDeliveryCountry}}</td>
       </tr>
       {{/ifCond}}
-      {{#ifCond InDeliveryRequiredByDateTime '!==' ""}}
+      {{#if InDeliveryRequiredByDate}}
       <tr>
-        <td class=""><span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDateTime}}</td>
+        <td class=""><span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDate}} {{#ifCond InDeliveryRequiredByTime '!==' "  :"}} {{InDeliveryRequiredByTime}} {{/ifCond}}</td>
       </tr>
-      {{/ifCond}}
+      {{/if}}
     </table>
     {{/ifCond}}
 

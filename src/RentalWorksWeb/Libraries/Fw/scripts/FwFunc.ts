@@ -26,7 +26,9 @@
             FwNotification.renderNotification('ERROR', `${status} - ${error}`, `Url: ${fullurl}`);
             setTimeout(() => {
                 sessionStorage.clear();
-                window.location.reload(true);
+                if (!applicationConfig.debugMode) {
+                    window.location.reload(true);
+                }
             }, 3000);
             //FwConfirmation.showMessage(`${status} - ${error}`, `Url: ${fullurl}`, false, true, 'OK',
             //    (event) => {

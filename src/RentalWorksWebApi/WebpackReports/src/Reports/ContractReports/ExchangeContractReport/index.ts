@@ -20,7 +20,7 @@ export class ExchangeContractReport extends WebpackReport {
                         .then((response: ExchangeContract) => {
                             const data: any = response;
                             data.Items = DataTable.toObjectList(response.Items);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             data.Report = 'EXCHANGE CONTRACT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

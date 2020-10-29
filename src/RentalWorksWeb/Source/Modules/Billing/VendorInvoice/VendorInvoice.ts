@@ -117,7 +117,7 @@ class VendorInvoice {
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            const today = FwFunc.getDate();
+            const today = FwLocale.getDate();
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
 
             const location = JSON.parse(sessionStorage.getItem('location'));
@@ -183,6 +183,30 @@ class VendorInvoice {
                 FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', dt.Totals.Tax1);
                 FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax2"]', dt.Totals.Tax2);
                 FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTotal"]', dt.Totals.LineTotalWithTax);
+
+                const req: BrowseRequest = new BrowseRequest();
+                req.uniqueids = {
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                };
+                req.totalfields = ['TotalCost', 'ReceivedCost', 'TotalInvoiced', 'CostRemaining', 'Tax', 'TaxReceived', 'TaxRemaining', 'InvoiceTax', 'TotalInvoiceWithTax', 'TotalCostWithTax', 'TotalReceivedWithTax', 'TotalRemainingWithTax'];
+                req.orderby = "ICode asc";
+                req.pageno = 1;
+                req.pagesize = 50;
+                FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderitemvendorinvoicestatus/browse`, req, FwServices.defaultTimeout, function onSuccess(response) {
+                    const totals = response.Totals;
+                    FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="SubTotal"]`), totals.TotalCost);
+                    FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="Tax"]`), totals.Tax);
+                    FwFormField.setValue2($form.find(`.invtotals-po [data-totalfield="Total"]`), totals.TotalCostWithTax);
+                    FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="SubTotal"]`), totals.ReceivedCost);
+                    FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="Tax"]`), totals.TaxReceived);
+                    FwFormField.setValue2($form.find(`.invtotals-received [data-totalfield="Total"]`), totals.TotalReceivedWithTax);
+                    FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="SubTotal"]`), totals.TotalInvoiced);
+                    FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="Tax"]`), totals.InvoiceTax);
+                    FwFormField.setValue2($form.find(`.invtotals-invoice [data-totalfield="Total"]`), totals.TotalInvoiceWithTax);
+                    FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="SubTotal"]`), totals.CostRemaining);
+                    FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="Tax"]`), totals.TaxRemaining);
+                    FwFormField.setValue2($form.find(`.invtotals-remaining [data-totalfield="Total"]`), totals.TotalRemainingWithTax);
+                }, null, $form);
             },
         });
         // ----------
@@ -410,7 +434,7 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
-        const $totalFields = $form.find('.rental-totals [data-type="money"]');
+        const $totalFields = $form.find('.rental-totals [data-type="money"], .invoice-totals [data-type="money"]');
 
         $totalFields.each((index, element) => {
             let $fwformfield, currencySymbol;

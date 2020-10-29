@@ -132,6 +132,19 @@ class FwBrowseClass {
                 try {
                     code = e.keyCode || e.which;
                     switch (code) {
+                        case 8:  // Ctrl + Backspace or
+                        case 46: // Ctrl + DEL
+                            if ($control.attr('data-type') === 'Browse') {
+                                const $deleteMenuBarBtn = $control.find('.fwbrowse-menu .buttonbar [data-type="DeleteMenuBarButton"]');
+                                if ($deleteMenuBarBtn.attr('data-visible') === 'true') { // need options.hasDelete == true
+                                    if (e.ctrlKey) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        $deleteMenuBarBtn.click();
+                                    }
+                                }
+                            }
+                            break;
                         case 13: //Enter Key
                             if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                                 e.preventDefault();
@@ -1275,7 +1288,8 @@ class FwBrowseClass {
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     //if ($control.attr('data-hasmultirowselect') !== 'false') {
-                    html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-hasmultirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                    //html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-hasmultirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                    html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
                     //}
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
@@ -1543,12 +1557,12 @@ class FwBrowseClass {
 
                 // mv 2018-07-08 this is really the wrong place for this.  This needs to be in one of the column files.  Need a way to edit the header html from the column files
                 (<any>$control.find('.value')).datepicker({
-                    endDate: (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
-                    autoclose: true,
-                    format: "mm/dd/yyyy",
+                    endDate:        (($control.attr('data-nofuture') == 'true') ? '+0d' : Infinity),
+                    autoclose:      true,
+                    format:         FwLocale.getDateFormat().toLowerCase(),
                     todayHighlight: true,
-                    todayBtn: 'linked',
-                    weekStart: FwFunc.getWeekStartInt(),
+                    todayBtn:       'linked',
+                    weekStart:      FwFunc.getWeekStartInt(),
                 }).off('focus');
 
                 $control.on('click', '.btndate', e => {
@@ -2056,7 +2070,11 @@ class FwBrowseClass {
         $fields.each(function (index, element) {
             $field = jQuery(element);
             $txtSearch = $field.find('> div.search > input');
-            value = $txtSearch.val();
+            if ($field.attr('data-browsedatatype') === 'date') {
+                value = FwLocale.formatLocaleDateToIso($txtSearch.val());
+            } else {
+                value = $txtSearch.val();
+            }
             sort = $field.attr('data-sort');
             sortSequence = $field.attr('data-sortsequence');
             fieldtype = $field.attr('data-browsedatatype') || $field.attr('data-datatype');
@@ -4634,24 +4652,7 @@ class FwBrowseClass {
         }
     }
     //----------------------------------------------------------------------------------------------
-    showMultiRowSelector($control: JQuery, $menuOption: JQuery) {
-        try {
-            if ($menuOption.hasClass('multi-edit-active')) {
-                $menuOption.removeClass('multi-edit-active');
-                $control.find('td.tdselectrow:visible').hide();
-                $control.find('td.tdselectrow input[type="checkbox"]').prop('checked', false);
-                $menuOption.find('.caption').text('Show Multi-Row Selector');
-            } else {
-                $menuOption.addClass('multi-edit-active');
-                $control.find('td.tdselectrow:hidden').show();
-                $menuOption.find('.caption').text('Hide Multi-Row Selector');
-            }
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    customizeColumns($control: JQuery, name: any, type: any) {
+    customizeColumns($control: JQuery, name: any, type: any, isSubModule: boolean) {
         let $form;
         const isCustomBrowse = $control.data('iscustombrowse');
         const fullName = sessionStorage.getItem('fullname');
@@ -4664,6 +4665,8 @@ class FwBrowseClass {
                 FwModule.openModuleTab($form, `${name} ${type} - ${fullName}`, true, 'FORM', true);
                 $form.attr('data-mode', 'EDIT');
                 $form.data('selfassign', true);
+                $form.data('issubmodule', isSubModule);
+                $form.data('$browse', $control);
                 CustomFormController.enableSave($form);
             }
         } else {
@@ -4676,6 +4679,8 @@ class FwBrowseClass {
                 FwFormField.setValueByDataField($form, 'AssignTo', 'USERS');
                 $form.attr('data-mode', 'NEW');
                 $form.data('selfassign', true);
+                $form.data('issubmodule', isSubModule);
+                $form.data('$browse', $control);
                 CustomFormController.enableSave($form);
             } catch (ex) {
                 FwFunc.showError(ex);

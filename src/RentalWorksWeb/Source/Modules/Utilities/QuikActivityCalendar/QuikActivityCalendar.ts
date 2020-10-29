@@ -128,8 +128,8 @@ class QuikActivityCalendar {
 
         $calendar
             .data('ongetevents', request => {
-                const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
-                const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
+                const startOfMonth = FwLocale.getDate(request.start.value);
+                const endOfMonth = FwLocale.getDate(request.start.value, null, {ObjectModified: 'days', Quantity: request.days});
                 const summary = FwFormField.getValueByDataField($popup, 'Summary');
                 let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
                 let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
@@ -186,8 +186,8 @@ class QuikActivityCalendar {
             .data('ontimerangeselect', event => {
                 try {
                     const $overlay = FwOverlay.showPleaseWaitOverlay($form, null);
-                    const fromDate = moment(event.start.value).format('MM/DD/YYYY');
-                    const toDate = moment(event.start.value).format('MM/DD/YYYY');
+                    const fromDate = FwLocale.getDate(event.start.value);
+                    const toDate = FwLocale.getDate(event.start.value);
                     const summary = FwFormField.getValueByDataField($popup, 'Summary');
                     let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                     if (FwFormField.getValueByDataField($form, 'AllWarehouses')) {
@@ -196,7 +196,7 @@ class QuikActivityCalendar {
                     let officeLocationId: string = '';//FwFormField.getValueByDataField($form, 'OfficeLocationId');
                     let departmentId: string = FwFormField.getValueByDataField($form, 'DepartmentId');
                     let dealId: string = FwFormField.getValueByDataField($form, 'DealId');
-                    $popup.find('.activities-header .fwform-section-title').text(`Activities for ${fromDate}`);
+                    $popup.find('.activities-header .fwform-section-title').text(`Activities for ${FwLocale.getDate(event.start.value, true)}`);
                     FwPopup.showPopup($popup);
                     $quikActivityGridControl.data('ondatabind', request => {
                         request.uniqueids = {
@@ -265,8 +265,8 @@ class QuikActivityCalendar {
                 try {
                     const $overlay = FwOverlay.showPleaseWaitOverlay($form, null);
                     const data = e.e.data;
-                    const fromDate = moment(data.start.value).format('MM/DD/YYYY');
-                    const toDate = moment(data.end.value).format('MM/DD/YYYY');
+                    const fromDate = FwLocale.getDate(data.start.value);
+                    const toDate = FwLocale.getDate(data.end.value);
                     const activityType = data.activityType;
                     const summary = FwFormField.getValueByDataField($popup, 'Summary');
                     let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');

@@ -1,18 +1,20 @@
 ﻿<!--TransferReport-->
 <!--SUMMARY VIEW TABLE-->
 {{#ifEquals IsSummary true}}
-<div class="rpt-flexrow" ">
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
+  <div data-section="header">
+    <div class="rpt-flexrow">
+      <div class="rpt-flexcolumn">
+        <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+      </div>
+      <div class="rpt-flexcolumn">
+        <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+        <div class="rpt-nested-flexrow rpt-header-center"><span>Invoice From: {{FromDate}} To: {{ToDate}}</span></div>
+      </div>
+      <div class="rpt-flexcolumn">
+        <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+      </div>
+    </div>
   </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
-  </div>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
-  </div>
-</div>
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table id="summary">
     <thead>

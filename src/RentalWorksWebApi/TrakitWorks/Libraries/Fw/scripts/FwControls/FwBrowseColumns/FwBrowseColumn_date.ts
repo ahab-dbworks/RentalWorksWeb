@@ -16,7 +16,11 @@
     };
     //---------------------------------------------------------------------------------
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void {
-        $field.find('input.value').val(data.value);
+        if ($field.attr('data-formreadonly') === 'true') {
+            $field.find('.fieldvalue').text(data.value);
+        } else {
+            $field.find('input.value').val(data.value);
+        }
     }
     //---------------------------------------------------------------------------------
     isModified($browse, $tr, $field): boolean {
@@ -49,10 +53,12 @@
         $field.html(htmlString);
         this.setFieldValue($browse, $tr, $field, { value: originalvalue });
         $field.find('input.value').inputmask('mm/dd/yyyy');
+
         $field.find('input.value').datepicker({
             autoclose: true,
             format: "m/d/yyyy",
-            todayHighlight: true
+            todayHighlight: true,
+            weekStart: FwFunc.getWeekStartInt(),
         }).off('focus');
         $field.on('click', '.btndate', function () {
             $field.find('input').datepicker('show');

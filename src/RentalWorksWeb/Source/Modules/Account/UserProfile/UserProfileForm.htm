@@ -29,16 +29,28 @@
                 </div>
               </div>
             </div>
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User Profile">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Default Rows per Page (Browse)" data-datafield="BrowseDefaultRows" style="float:left;max-width:250px;">
-                </div>
-              </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Theme" data-datafield="ApplicationTheme" data-required="true" style="float:left;max-width:250px;"></div>
-              </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Home Page">
               <div class="flexrow" style="width:243px;">
                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Default Home Page" data-datafield="HomeMenuGuid" style="flex:1 1 350px;"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Dates and Calendars">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="User Locale" data-datafield="Locale" style="max-width:250px;"></div>
+                <div class="localenote"></div>
+              </div>
+              <div class="flexrow" style="width:243px;">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Calendar Start Day" data-datafield="FirstDayOfWeek" style="flex:1 1 350px;"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Browses">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Default Rows per Page (Browse)" data-datafield="BrowseDefaultRows" style="float:left;max-width:250px;"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Theme and Sounds">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Theme" data-datafield="ApplicationTheme" data-required="true" style="float:left;max-width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div class="flexrow">
@@ -53,9 +65,6 @@
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield soundid" data-caption="Notification Sound" data-datafield="NotificationSoundId" data-displayfield="NotificationSound" data-validationname="SoundValidation" style="flex:1 1 225px;"></div>
                   <button type="submit" class="play-btn"><img src="theme/images/icons/settings/play_button.svg" alt="Play" /></button>
                 </div>
-              </div>
-              <div class="flexrow" style="width:243px;">
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Calendar Start Day" data-datafield="FirstDayOfWeek" style="flex:1 1 350px;"></div>
               </div>
               <!--Hidden Sound fields-->
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

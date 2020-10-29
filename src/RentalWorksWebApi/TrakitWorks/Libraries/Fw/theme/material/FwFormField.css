@@ -208,6 +208,8 @@ html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield
 html.theme-material .fwformfield[data-type="multiselectvalidation"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control input.fwformfield-text {flex:1 1 0;width:100%;background-color: transparent;border:0;outline:0;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .clearall {cursor:pointer;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control .clearall {display:none;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .btnpeek {cursor:pointer;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .btnvalidate {cursor:pointer;color: #616161;padding:0;font-size:1.5em;margin:auto 5px;box-sizing:border-box;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control input.fwformfield-text {color: #757575;}
@@ -216,8 +218,10 @@ html.theme-material .fwformfield[data-type="multiselectvalidation"].focused .fwf
 html.theme-material .fwformfield[data-type="multiselectvalidation"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .3s;}
 
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems {display:flex;width:100%; line-height:2em; flex-wrap:wrap;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control .multiselectitems {-webkit-user-modify: read-only;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems span {min-height:2em;height:auto;line-height:2em; font-size:.9em; margin:0px 5px;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem {border:1px solid #DCDCDC; background-color:#EFEFEF; margin:2px 3px; border-radius:5px; height:1.5em;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control .multiitem i {display:none;} 
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem i {cursor:pointer; padding:0px 2px; font-size:1em; font-weight:bolder; white-space:nowrap;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem span {font-size:.9em; padding-left:3px; position:relative; top:-4px;}
 /*#endregion*/
@@ -301,11 +305,22 @@ html.theme-material .fwformfield[data-type="percent"].focused .fwformfield-contr
 /*#endregion*/
 
 /*#region data-type="phone" */
+html.theme-material .fwformfield[data-type="phone"] {min-width:175px;}
 html.theme-material .fwformfield[data-type="phone"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
 html.theme-material .fwformfield[data-type="phone"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="phone"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
-html.theme-material .fwformfield[data-type="phone"] .fwformfield-value {border:0 !important;}
+html.theme-material .fwformfield[data-type="phone"] .fwformfield-value {width:100%;border:0 !important;}
 html.theme-material .fwformfield[data-type="phone"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
+/*#endregion*/
+
+/*#region data-type="phoneinternational" */
+html.theme-material .fwformfield[data-type="phoneinternational"] {min-width:240px;}
+html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
+html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-control .iti {flex: 1 1 0;}
+html.theme-material .fwformfield[data-type="phoneinternational"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
+html.theme-material .fwformfield[data-type="phoneinternational"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
+html.theme-material .fwformfield[data-type="phoneinternational"] .fwformfield-value {border:0 !important;width:100%;padding:9px 0 5px 0;}
+html.theme-material .fwformfield[data-type="phoneinternational"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 /*#endregion*/
 
 /*#region data-type="radio" */
@@ -376,8 +391,10 @@ html.theme-material .fwformfield[data-type="toggleswitch"][data-enabled="false"]
 html.theme-material .fwformfield[data-type="url"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
 html.theme-material .fwformfield[data-type="url"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="url"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
-html.theme-material .fwformfield[data-type="url"] .fwformfield-value {border:0 !important;width:100%;height:100%;box-sizing: border-box;}
+html.theme-material .fwformfield[data-type="url"] .fwformfield-value {border:0 !important;width:100%;height:100%;box-sizing: border-box;padding: 0 .375em;}
 html.theme-material .fwformfield[data-type="url"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
+html.theme-material .fwformfield[data-type="url"] span.material-icons { padding:3px;border-radius:1px; }
+html.theme-material .fwformfield[data-type="url"] span.material-icons:hover { background-color:#2196F3; }
 /*#endregion*/
 
 /*#region data-type="validation" */
@@ -443,7 +460,7 @@ html.theme-material .button.theme:hover {color:#ffffff;}
 
 /*#region data-type="togglebuttons" */
 html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control {/*display:inline-flex;*/}
-html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item {display:inline-block;position:relative;flex-grow:1;}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item {display:inline-block;position:relative;flex-grow:1;white-space:nowrap;}
 html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item input.fwformfield-value {opacity:0;position:absolute;z-index:-1;top:0;left:0;}
 html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item .togglebutton-button {display:block;border:1px solid rgba(0, 0, 0, 0.12);text-align:center;padding: 0.30rem 1rem;cursor: pointer;}
 html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item:first-child .togglebutton-button {border-top-left-radius: 2px;border-bottom-left-radius: 2px;}
@@ -452,3 +469,5 @@ html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control
 html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item input.fwformfield-value:checked + .togglebutton-button {border-color:#2196F3;background-color:#E3F2FD;}
 html.theme-material .fwformfield[data-type="togglebuttons"][data-enabled="false"] .fwformfield-control .togglebutton-item .togglebutton-button {cursor:default;background-color: #F5F5F5;color:rgb(84, 84, 84);}
 /*#endregion*/
+/*Hide validation magnifying glass input formfields when disabled*/
+html.theme-material.desktop .fwformfield[data-type="validation"] i.btnvalidate[data-enabled="false"] { display:none; }

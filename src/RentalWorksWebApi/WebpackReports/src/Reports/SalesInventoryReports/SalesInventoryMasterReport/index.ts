@@ -14,7 +14,7 @@ export class SalesInventoryMasterReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorymasterreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.FromDate = parameters.RevenueFromDate;
                     data.ToDate = parameters.RevenueToDate;
                     data.Report = 'Sales Inventory Master Report';

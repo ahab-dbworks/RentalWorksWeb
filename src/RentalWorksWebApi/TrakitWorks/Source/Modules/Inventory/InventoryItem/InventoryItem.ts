@@ -76,7 +76,14 @@ class InventoryItem {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/inventoryavailability/calendarandscheduledata`,
+                    {
+                        InventoryId: inventoryId,
+                        WarehouseId: [warehouseId],
+                        FromDate: startOfMonth,
+                        ToDate: endOfMonth,
+                        SortReservationsBy: 'OrderNumber'
+                    }, FwServices.defaultTimeout, function onSuccess(response) {
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (var i = 0; i < calendarevents.length; i++) {
@@ -295,7 +302,7 @@ class InventoryItem {
         });
     }
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
+    addBrowseMenuItems(options: IAddBrowseMenuOptions) {
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true, "I");
         const $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false, "A");
@@ -305,16 +312,16 @@ class InventoryItem {
         const $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false, "M");
         const $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false, "N");
 
-        FwMenu.addVerticleSeparator($menuObject);
+        FwMenu.addVerticleSeparator(options.$menu);
 
         var viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $item, $accessory, $complete, $kit, $set, $misc);
         if (this.AvailableFor === "R") {
             viewSubitems.push($container);
         }
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Classification");
+        FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Classification");
 
-        return $menuObject;
+        return options;
     }
     //----------------------------------------------------------------------------------------------
     afterLoadSetClassification($form: any) {

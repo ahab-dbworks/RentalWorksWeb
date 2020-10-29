@@ -28,7 +28,7 @@ class FwAppData {
         var useWebApi = false;
         me = this;
         var fullurl = '';
-        fullurl = applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + url;
+        fullurl = applicationConfig.apiurl + url;
         if (url.indexOf('api/') === 0) {
             useWebApi = true;
             fullurl = applicationConfig.apiurl + url;
@@ -160,8 +160,8 @@ class FwAppData {
         return request.requestid;
     };
     //----------------------------------------------------------------------------------------------
-    static apiMethod(requiresApiToken: boolean, method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, request: any, timeoutSeconds: number, onSuccess: (response: any) => void, onError: (response: any) => void, $elementToBlock: JQuery<HTMLElement>, progressBarSessionId?: any) {
-        let $overlay: JQuery<HTMLElement>;
+    static apiMethod(requiresApiToken: boolean, method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, request: any, timeoutSeconds: number, onSuccess: (response: any) => void, onError: (response: any) => void, $elementToBlock: JQuery, progressBarSessionId?: any) {
+        let $overlay: JQuery;
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
 

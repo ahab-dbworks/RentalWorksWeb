@@ -88,7 +88,11 @@ class Alert {
             gridSecurityId: 'REgcmntq4LWE',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = true;
+                options.hasEdit = true;
+                options.hasDelete = true;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     AlertId: FwFormField.getValueByDataField($form, 'AlertId'),
@@ -115,7 +119,6 @@ class Alert {
             gridSecurityId: 'x6SZhutIpRi2',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             addGridMenu: (options: IAddGridMenuOptions) => {
                 options.hasNew = false;
                 options.hasEdit = false;
@@ -132,7 +135,7 @@ class Alert {
     loadModules($form) {
         // Load Modules dropdown with sorted list of Modules and Grids
         const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
-            if (moduleController.hasOwnProperty('apiurl')) {
+            if ((moduleController.hasOwnProperty('apiurl')) && (hasView)) {
                 modules.push({ value: moduleName, text: moduleCaption, apiurl: moduleController.apiurl });
             }
         });
@@ -387,9 +390,9 @@ class Alert {
                             <div class="flexrow condition-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="AlertConditionId" style="display:none;"></div>
                               <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName1" data-allcaps="false" style="flex:1 1 0; max-width:400px;"></div>
-                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:150px;"></div>
-                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName2" data-allcaps="false" style="flex:1 1 0; max-width:400px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-enabled="false"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Comparison" data-datafield="Condition" style="flex:1 1 0; max-width:150px;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Compared with Data Field" data-datafield="FieldName2" data-allcaps="false" style="flex:1 1 0; max-width:400px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Literal Value" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-enabled="false"></div>
                               <i class="material-icons delete-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
                               <i class="material-icons add-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">add_circle_outline</i>
                             </div>`);
@@ -398,15 +401,13 @@ class Alert {
         if (moduleName != '') {
             const $datafield1 = $conditionRow.find('[data-datafield="FieldName1"]');
             FwFormField.loadItems($datafield1, this.datafields);
-            jQuery($datafield1).find('select option:first-of-type')
-                .after(`<option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
-                        <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
+            //jQuery($datafield1).find('select option:first-of-type')
+            //    .after(`<option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
+            //            <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
             const $datafield2 = $conditionRow.find('[data-datafield="FieldName2"]');
             FwFormField.loadItems($datafield2, this.datafields);
             jQuery($datafield2).find('select option:first-of-type')
-                .after(`<option value="LITERALVALUE">Literal Value</option>
-                        <option value="DATACHANGEDBYUSER">Data Changed by User Name</option>
-                        <option value="DATACHANGEDATETIME">Data Change Date/Time</option>`);
+                .after(`<option value="LITERALVALUE">Literal Value</option>`);
 
             const $conditionSelect = $conditionRow.find('[data-datafield="Condition"]');
             FwFormField.loadItems($conditionSelect, [

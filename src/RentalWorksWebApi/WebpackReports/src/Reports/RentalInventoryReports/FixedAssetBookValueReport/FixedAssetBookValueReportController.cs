@@ -41,7 +41,7 @@ namespace WebApi.Modules.Reports.FixedAssetBookValue
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "FixedAssetBookValue"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Fixed Asset Book Value Report"; }
+        protected override string GetReportFriendlyName() { return "Rental Inventory Fixed Asset Book Value Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {

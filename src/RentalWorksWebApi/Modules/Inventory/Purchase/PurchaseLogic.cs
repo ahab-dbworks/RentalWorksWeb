@@ -84,6 +84,8 @@ namespace WebApi.Modules.Inventory.Purchase
         public decimal? CostExtended { get; set; }
         [FwLogicProperty(Id: "9rRsW9GEbnF6B", DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? UnitCostWithTax { get { return purchase.UnitCostWithTax; } set { purchase.UnitCostWithTax = value; } }
+        [FwLogicProperty(Id: "7Jb8fuhsdQeo", DisableDirectAssign: true, DisableDirectModify: true)]
+        public decimal? OriginalEquipmentCost { get { return purchase.OriginalEquipmentCost; } set { purchase.OriginalEquipmentCost = value; } }
         [FwLogicProperty(Id: "z76rgA0RhX7of", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public decimal? CostWithTaxExtended { get; set; }
         [FwLogicProperty(Id: "Q4iHVXmTjzPdu", IsReadOnly: true, DisableDirectAssign: true, DisableDirectModify: true)]
@@ -207,6 +209,11 @@ namespace WebApi.Modules.Inventory.Purchase
                         CurrencyExchangeRate = AppFunc.GetCurrencyExchangeRate(AppConfig, CurrencyId, warehouse.CurrencyId).Result;
                     }
                 }
+                if (OriginalEquipmentCost == null)
+                {
+                    OriginalEquipmentCost = (UnitCostWithTax * CurrencyExchangeRate);
+                }
+
             }
         }
         //------------------------------------------------------------------------------------ 

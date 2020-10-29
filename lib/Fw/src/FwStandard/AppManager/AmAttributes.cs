@@ -1,5 +1,4 @@
-﻿using FwStandard.BusinessLogic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -89,6 +88,7 @@ namespace FwStandard.AppManager
             this.DisableDirectModify  = DisableDirectModify;
         }
         //---------------------------------------------------------------------------------------------------------------------------
+
     }
 
     public enum FwControlTypes { Grid, AppImage }

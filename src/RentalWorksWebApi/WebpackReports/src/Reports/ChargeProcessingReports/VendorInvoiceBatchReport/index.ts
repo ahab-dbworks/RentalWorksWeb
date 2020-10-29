@@ -23,7 +23,7 @@ export class VendorInvoiceBatchReport extends WebpackReport {
                         }
                     }
 
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Vendor Invoice Batch Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

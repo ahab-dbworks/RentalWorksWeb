@@ -165,9 +165,9 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "i035summarizesr", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? I035SummarizesR { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poorderno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
-        public string OrderNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "poorderno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        //public string OrderNumber { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "podealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PurchaseOrderDealId { get; set; }
         //------------------------------------------------------------------------------------ 

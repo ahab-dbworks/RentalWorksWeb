@@ -790,13 +790,12 @@ class FwMenuClass {
                 try {
                     const $browse = options.$browse;
                     if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
-                        let $selectedRows;
-                        if ($browse.find('.multi-edit-active').length) {
-                            $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
-                        } else {
+                        let $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+
+                        if ($selectedRows.length === 0) {
                             $selectedRows = $browse.find('tr.selected');
                         }
-                 
+
                         if ($selectedRows.length > 1) {
                             FwBrowse.openMultiRowEditForm($browse, $selectedRows);
                         } else if ($selectedRows.length === 1) {
@@ -822,12 +821,106 @@ class FwMenuClass {
             $menubarbutton.attr('data-type', 'DeleteMenuBarButton');
             $menubarbutton.on('click', function () {
                 try {
+                    const $browse = options.$browse;
                     const controller = options.$browse.attr('data-controller');
                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                    let $selectedRows;
                     if (typeof window[controller]['deleteRecord'] === 'function') {
-                        window[controller]['deleteRecord'](options.$browse);
+                        const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete this record?`);
+                        const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                        $yes.focus();
+                        $yes.on('click', e => {
+                            $selectedRows = $browse.find('tr.selected');
+                            window[controller]['deleteRecord'](options.$browse, $selectedRows);
+                        });
+                        // hotkey support for confirmation buttons
+                        $confirmation.on('keyup', e => {
+                            e.preventDefault();
+                            if (e.which === 89) { // 'y'
+                                $yes.click();
+                            }
+                            if (e.which === 78) { // 'n'
+                                $no.click();
+                            }
+                        });
                     } else {
-                        FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
+                        //FwModule['deleteRecord']((<any>window[controller]).Module, options.$browse);
+                        if (typeof options.hasMultiRowEditing === 'boolean' && options.hasMultiRowEditing) {
+                            $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+
+                            if ($selectedRows.length === 0) {
+                                $selectedRows = $browse.find('tr.selected');
+                            } else {
+                                const $highlightedRow = FwBrowse.getSelectedRow($browse);
+                                if (!$highlightedRow.find('.tdselectrow input').prop('checked')) {
+                                    throw new Error('Ambiguous delete. Select the record(s) you want to delete, then try the Delete again.');
+                                }
+                            }
+                        } else {
+                            $selectedRows = $browse.find('tr.selected');
+                        }
+
+                        if ($selectedRows.length > 0) {
+                            const confirmationText = $selectedRows.length === 1 ? 'this record' : $selectedRows.length + ' records';
+                            const $confirmationPrompt = FwConfirmation.renderConfirmation(`Delete Record${$selectedRows.length > 1 ? 's' : ''}`, `Are you sure you want to delete ${confirmationText}?`);
+                            const $yes = FwConfirmation.addButton($confirmationPrompt, 'Yes', false);
+                            const $no = FwConfirmation.addButton($confirmationPrompt, 'Cancel');
+                            $yes.focus();
+                            $yes.on('click', async e => {
+                                const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
+                                FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${$selectedRows.length}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${$selectedRows.length}<div>`);
+                                try {
+                                    for (let i = 0; i < $selectedRows.length; i++) {
+                                        $confirmation.find('.recordno').html((i + 1).toString());
+                                        $confirmation.find('.progress').attr('value', (i + 1).toString());
+                                        await FwModule.deleteRecord($browse, jQuery($selectedRows[i]));
+                                    }
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                                finally {
+                                    FwConfirmation.destroyConfirmation($confirmation);
+                                    FwConfirmation.destroyConfirmation($confirmationPrompt);
+                                    await FwBrowse.databind(options.$browse);
+                                }
+                            });
+                            //J.Pace commented out this way of rendering the confirmation and buttons in order to attach keyup listeners to the $confirmation
+                            //$confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedRows.length > 1 ? 's' : ''), `Are you sure you want to delete ${confirmationText}?`,
+                            //    //on yes
+                            //    async function onyes() {
+                            //        const $confirmation = FwConfirmation.renderConfirmation('Deleting...', '');
+                            //        FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${$selectedRows.length}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;">Deleting Record <span class="recordno">1</span> of ${$selectedRows.length}<div>`);
+                            //        try {
+                            //            for (let i = 0; i < $selectedRows.length; i++) {
+                            //                $confirmation.find('.recordno').html((i + 1).toString());
+                            //                $confirmation.find('.progress').attr('value', (i + 1).toString());
+                            //                await FwModule.deleteRecord($browse, jQuery($selectedRows[i]));
+                            //            }
+                            //        } catch (ex) {
+                            //            FwFunc.showError(ex);
+                            //        }
+                            //        finally {
+                            //            FwConfirmation.destroyConfirmation($confirmation);
+                            //            await FwBrowse.databind(options.$browse);
+                            //        }
+                            //    },
+                            //    // on no
+                            //    async function onno() {
+                            //        // do nothing
+                            //    });
+
+                            // hotkey support for confirmation buttons
+                            $confirmationPrompt.on('keyup', e => {
+                                e.preventDefault();
+                                if (e.which === 89) { // 'y'
+                                    $yes.click();
+                                }
+                                if (e.which === 78) { // 'n'
+                                    $no.click();
+                                }
+                            });
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -842,9 +935,9 @@ class FwMenuClass {
             <div class="findbutton-dropdown">
                 <div class="query">
                     <div class="queryrow">
-                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field andor" data-caption="" data-datafield="AndOr" style="flex:1 1 75px;"></div>
                         <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
-                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
+                        <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 155px;"></div>
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield find-field textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield find-field datequery" data-enabled="true" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
                         <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield find-field booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
@@ -1248,19 +1341,8 @@ class FwMenuClass {
             const type = options.$browse.data('type');
             FwMenu.addSubMenuItem(options.$groupOptions, 'Customize', gridSecurityId, (e: JQuery.ClickEvent) => {
                 try {
-                    FwBrowse.customizeColumns(options.$browse, name, type);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        }
-
-        if (options.hasMultiRowEditing) {
-            FwMenu.addSubMenuItem(options.$groupOptions, 'Show Multi-Row Selector', gridSecurityId, (e: JQuery.ClickEvent) => {
-                try {
-                    const $menuOption = jQuery(e.currentTarget);
-                    $menuOption.attr('data-type', 'MultiRowEditButton')
-                    FwBrowse.showMultiRowSelector(options.$browse, $menuOption);
+                    const $tab = FwTabs.getTabPageByElement(options.$browse);
+                    FwBrowse.customizeColumns(options.$browse, name, type, $tab.hasClass('submodule'));
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

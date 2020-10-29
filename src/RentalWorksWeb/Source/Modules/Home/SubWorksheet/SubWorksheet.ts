@@ -476,7 +476,11 @@ class SubWorksheet {
             });
 
             const $totalFields = $form.find('[data-totalfield][data-type="money"]');
-            let currencySymbol = response.Rows[0][response.ColumnIndex['VendorCurrencySymbol']];
+            let currencySymbol;
+            if (response.Rows.length) {
+                currencySymbol = response.Rows[0][response.ColumnIndex['VendorCurrencySymbol']];
+            };
+
             $totalFields.each((index, element) => {
                 let $fwformfield;
                 $fwformfield = jQuery(element);
@@ -554,7 +558,9 @@ class SubWorksheet {
                 request.SessionId = this.SessionId;
             },
             afterDataBindCallback: ($browse, dt) => {
-                this.showConvertedCurrency($browse, dt);
+                if (dt.Rows.length) {
+                    this.showConvertedCurrency($browse, dt);
+                }
             }
         });
     }

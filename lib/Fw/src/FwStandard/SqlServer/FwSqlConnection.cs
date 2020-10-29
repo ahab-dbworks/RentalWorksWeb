@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FwStandard.SqlServer
@@ -16,13 +19,26 @@ namespace FwStandard.SqlServer
         private SqlTransaction activeTransaction;
 
         public bool LogSql { get; set; } = true;
+        public static string ApplicationName { get; set; }
         //---------------------------------------------------------------------------------------------
         //public FwDatabases DatabaseConnection {get;private set;}
         //---------------------------------------------------------------------------------------------
         public FwSqlConnection(string connectionString)
         {
             sqlConnection = new SqlConnection();
-            sqlConnection.ConnectionString = connectionString;
+            ClaimsPrincipal userClaimsPrincipal = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            string webuserid = "N/A";
+            if (userClaimsPrincipal != null)
+            {
+                //Claim claim = userClaimsPrincipal.Claims.FirstOrDefault(c => c.Type == "http://www.dbworks.com/claims/webusersid");
+                var claims = userClaimsPrincipal.Claims.Where(c => c.Type == "http://www.dbworks.com/claims/webusersid");
+                foreach (var claim in claims)
+                {
+                    webuserid = claim.Value;
+                    break;
+                }
+            }
+            sqlConnection.ConnectionString = $"{connectionString};Application Name={ApplicationName}-{webuserid}";
         }
 
         /// <summary>

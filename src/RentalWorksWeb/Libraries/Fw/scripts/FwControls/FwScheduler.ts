@@ -118,11 +118,11 @@ class FwSchedulerClass {
 
         // menu date input
         const $datebtn = $control.find('div[data-control="FwMenu"] .schedulerbtns .jumpdate input.value')
-        $datebtn.inputmask('mm/dd/yyyy');
+        $datebtn.inputmask(FwLocale.getDateFormat().toLowerCase());
 
         $datebtn.datepicker({
             autoclose: true,
-            format: "m/d/yyyy",
+            format: FwLocale.getDateFormat().toLowerCase(),
             todayHighlight: true,
             weekStart: FwFunc.getWeekStartInt(),
         }).off('focus');
@@ -348,7 +348,7 @@ class FwSchedulerClass {
         $control.on('change', '.jumpdate input', e => {
             e.stopPropagation();
             try {
-                const date = new Date(`${jQuery(e.currentTarget).val()}`);
+                const date = new Date(`${FwLocale.formatLocaleDateToIso(jQuery(e.currentTarget).val())}`);
                 const dayPilotDate = new DayPilot.Date(date);
                 FwScheduler.navigate($control, dayPilotDate);
 

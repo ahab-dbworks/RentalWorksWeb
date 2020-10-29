@@ -67,7 +67,7 @@ class PurchaseOrder {
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    //addBrowseMenuItems($menuObject: any) {
+    //addBrowseMenuItems(options: IAddBrowseMenuOptions) {
     //    const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
     //    const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
     //    const $open = FwMenu.generateDropDownViewBtn('Open', false, "OPEN");
@@ -78,7 +78,7 @@ class PurchaseOrder {
         
     //    const viewSubitems: Array<JQuery> = [];
     //    viewSubitems.push($all, $new, $open, $received, $complete, $void, $closed);
-    //    FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+    //    FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
     //    //Location Filter
     //    const location = JSON.parse(sessionStorage.getItem('location'));
@@ -91,8 +91,8 @@ class PurchaseOrder {
         
     //    const viewLocation: Array<JQuery> = [];
     //    viewLocation.push($userLocation, $allLocations);
-    //    FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-    //    return $menuObject;
+    //    FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    //    return options;
     //};
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
@@ -289,7 +289,7 @@ class PurchaseOrder {
         //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderStatusHistoryGrid',
-            gridSecurityId: 'k6GqKM4CQRme',
+            gridSecurityId: 'lATsdnAx7B4s',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -332,7 +332,7 @@ class PurchaseOrder {
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
-            gridSecurityId: 'Vw70Sf1kT0HR',
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -394,7 +394,7 @@ class PurchaseOrder {
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.subrentalgrid div[data-grid="OrderItemGrid"]',
-            gridSecurityId: '4xH0ub5zREgD',
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -441,7 +441,7 @@ class PurchaseOrder {
         //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
-            gridSecurityId: 'rf47IV47DeSX',
+            gridSecurityId: '8aq0E3nK2upt',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,

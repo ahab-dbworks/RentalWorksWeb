@@ -47,6 +47,9 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "BWgU1hFaxksh", IsReadOnly: true)]
         public string PurchaseOrderNumber { get; set; }
 
+        [FwLogicProperty(Id: "MLXSDL6C0kJE", IsReadOnly: true)]
+        public string PurchaseOrderDescription { get; set; }
+
         [FwLogicProperty(Id: "cqBjiMNbok04", IsReadOnly: true)]
         public string RequistionNumber { get; set; }
 
@@ -62,6 +65,9 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "TNEZCloHOwi4")]
         public string InvoiceBatchId { get { return vendorInvoice.InvoiceBatchId; } set { vendorInvoice.InvoiceBatchId = value; } }
 
+        [FwLogicProperty(Id: "4YSEIDInrE4N", DisableDirectAssign: true, DisableDirectModify: true)]
+        public string InputDate { get { return vendorInvoice.InputDate; } set { vendorInvoice.InputDate = value; } }
+
         [FwLogicProperty(Id: "TAsEhqdwaEos", IsRecordTitle: true)]
         public string InvoiceNumber { get { return vendorInvoice.InvoiceNumber; } set { vendorInvoice.InvoiceNumber = value; } }
 
@@ -69,7 +75,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         public string InvoiceDate { get { return vendorInvoice.InvoiceDate; } set { vendorInvoice.InvoiceDate = value; } }
 
         [FwLogicProperty(Id: "EEu0kqcEV1B6", IsReadOnly: true)]
-        public string InvoiceDueDate { get; set; }
+        public string InvoiceDueDate { get { return vendorInvoice.DueDate; } set { vendorInvoice.DueDate = value; } }
 
         [FwLogicProperty(Id: "PQbf0GLvV6PV")]
         public string BillingStartDate { get { return vendorInvoice.BillingStartDate; } set { vendorInvoice.BillingStartDate = value; } }
@@ -77,17 +83,12 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "2Y7as3SDnyBG")]
         public string BillingEndDate { get { return vendorInvoice.BillingEndDate; } set { vendorInvoice.BillingEndDate = value; } }
 
-        [FwLogicProperty(Id: "I4nqAJPzhgDV", IsReadOnly: true)]
-        public string BillingStartAndEndDates { get; set; }
-
         [FwLogicProperty(Id: "3Z558g3cC1Tl")]
         public string Status { get { return vendorInvoice.Status; } set { vendorInvoice.Status = value; } }
 
         [FwLogicProperty(Id: "hS6DjWdIrRdg")]
         public string StatusDate { get { return vendorInvoice.StatusDate; } set { vendorInvoice.StatusDate = value; } }
 
-        [FwLogicProperty(Id: "2gIjGGRWiyRU", IsReadOnly: true)]
-        public string OrderDescription { get; set; }
 
         [FwLogicProperty(Id: "WiEZTOSP16lW", IsReadOnly: true)]
         public string DepartmentId { get; set; }
@@ -95,8 +96,14 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "1qg4eux9mj7I", IsReadOnly: true)]
         public string Department { get; set; }
 
-        [FwLogicProperty(Id: "XUT1BHUBqYoK")]
-        public string OrderNumber { get { return vendorInvoice.OrderNumber; } set { vendorInvoice.OrderNumber = value; } }
+        //[FwLogicProperty(Id: "XUT1BHUBqYoK")]
+        //public string OrderNumber { get { return vendorInvoice.OrderNumber; } set { vendorInvoice.OrderNumber = value; } }
+
+        [FwLogicProperty(Id: "ZC6vSxMXCA07")]
+        public string OrderNumber { get; set; }
+
+        [FwLogicProperty(Id: "2gIjGGRWiyRU", IsReadOnly: true)]
+        public string OrderDescription { get; set; }
 
         [FwLogicProperty(Id: "lHvxzPFzwB7r")]
         public string PurchaseOrderDealId { get { return vendorInvoice.PurchaseOrderDealId; } set { vendorInvoice.PurchaseOrderDealId = value; } }
@@ -131,7 +138,7 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwLogicProperty(Id: "Oa4U4uhNvtb", IsReadOnly: true)]
         public string PurchaseOrderPaymentTerms { get; set; }
 
-        [FwLogicProperty(Id: "r3ZPOUz3dSaZ")]
+        [FwLogicProperty(Id: "r3ZPOUz3dSaZ", DisableDirectAssign: true, DisableDirectModify: true)]
         public string ApprovedDate { get { return vendorInvoice.ApprovedDate; } set { vendorInvoice.ApprovedDate = value; } }
 
         [FwLogicProperty(Id: "t9PRHkZMhPw9")]
@@ -346,7 +353,8 @@ namespace WebApi.Modules.Billing.VendorInvoice
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.VENDOR_INVOICE_STATUS_NEW;
-                StatusDate = FwConvert.ToString(DateTime.Today);
+                StatusDate = FwConvert.ToShortDate(DateTime.Today);
+                InputDate = FwConvert.ToShortDate(DateTime.Today);
             }
             else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {

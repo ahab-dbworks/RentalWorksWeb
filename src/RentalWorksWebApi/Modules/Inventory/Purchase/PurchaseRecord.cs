@@ -119,6 +119,9 @@ namespace WebApi.Modules.Inventory.Purchase
         [FwSqlDataField(column: "purchamtwithtax", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 3)]
         public decimal? UnitCostWithTax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oec", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 3)]
+        public decimal? OriginalEquipmentCost { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ConsignorAgreementId { get; set; }
         //------------------------------------------------------------------------------------ 

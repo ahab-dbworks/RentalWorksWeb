@@ -1,4 +1,4 @@
-﻿class FwReportsPageClass {
+class FwReportsPageClass {
     filter = [];
     //----------------------------------------------------------------------------------------------
     init() {
@@ -6,15 +6,18 @@
     }
     //----------------------------------------------------------------------------------------------
     renderRuntimeHtml($control) {
-        var html = [];
+        const me = this;
+        const html: Array<string> = [];
 
         html.push('<div class="fwreportsheader">');
         html.push('  <div class="reports-header-title">Reports</div>');
         html.push('  <div class="input-group pull-right">');
+        html.push('    <div style="display:flex;width:255px;">');
         html.push('    <input type="text" id="reportsSearch" class="form-control" placeholder="Search..." autofocus>');
-        html.push('    <span class="input-group-clear">');
+        html.push('    <span class="input-group-clear" style="display:none;">');
         html.push('      <i class="material-icons">clear</i>');
         html.push('    </span>');
+        html.push('    </div>');
         html.push('    <span class="input-group-search">');
         html.push('      <i class="material-icons">search</i>');
         html.push('    </span>');
@@ -28,211 +31,94 @@
         html.push('  <div class="well"></div>');
         html.push('</div>');
 
-        var reportsMenu = this.getHeaderView($control);
+        const reportsMenu = this.getHeaderView($control);
         reportsMenu.append('<div class="flexcolumn menu-collapse"><i class="material-icons">keyboard_arrow_left</i></div>');
         $control.html(html.join(''));
-        let menuCollapse = reportsMenu.find('.menu-collapse');
-        let menuExpand = $control.find('.menu-expand');
 
-        menuExpand.on('click', function () {
+        const menuExpand = $control.find('.menu-expand');
+        menuExpand.on('click', e => {
             menuCollapse.closest('.navigation').show();
-            jQuery(this).hide();
+            jQuery(e.currentTarget).hide();
+            FwSettings.updateUserIdNavExpanded('reports', true);
         });
 
-        menuCollapse.on('click', function () {
+        const menuCollapse = reportsMenu.find('.menu-collapse');
+        menuCollapse.on('click', e => {
             menuExpand.show();
-            jQuery(this).closest('.navigation').hide();
+            jQuery(e.currentTarget).closest('.navigation').hide();
+            FwSettings.updateUserIdNavExpanded('reports', false);
         });
 
         reportsMenu.addClass('flexrow');
         reportsMenu.find('.menu').addClass('flexcolumn');
 
         $control.find('.navigation-menu').append(reportsMenu);
-    }
-    //----------------------------------------------------------------------------------------------
-    getCaptions(screen) {
-        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
-        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
-        for (var i = 0; i < modules.length; i++) {
-            var moduleName = modules[i].caption + 'Controller';
-            if (typeof (<any>window[moduleName]) != 'undefined') {
-                if (typeof (<any>window[moduleName]).openForm === 'function') {
-                    var $form = (<any>window[moduleName]).openForm();
-                    var $fwformfields = $form.find('.fwformfield[data-caption]');
-                    for (var j = 0; j < $fwformfields.length; j++) {
-                        var $field = $fwformfields.eq(j);
-                        var caption = $field.attr('data-caption').toUpperCase();
-                        if ($field.attr('data-type') === 'radio') {
-                            var radioCaptions = $field.find('div');
-                            for (var k = 0; k < radioCaptions.length; k++) {
-                                var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
-                                screen.moduleCaptions[radioCaption] = {};
-                                screen.moduleCaptions[radioCaption][moduleName] = [];
-                                screen.moduleCaptions[radioCaption][moduleName].push($field);
-                            }
-                        }
-                        if (typeof screen.moduleCaptions[caption] === 'undefined') {
-                            screen.moduleCaptions[caption] = {};
-                        }
-                        if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
-                            screen.moduleCaptions[caption][moduleName] = [];
-                        }
-                        screen.moduleCaptions[caption][moduleName].push($field);
-                    }
-                    //add section headings to search
-                    const $sectionHeadings = $form.find('.fwform-section[data-caption]');
-                    for (let l = 0; l < $sectionHeadings.length; l++) {
-                        const $section = $sectionHeadings.eq(l);
-                        const sectionCaption = $section.attr('data-caption').toUpperCase();
-                        if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
-                            screen.moduleCaptions[sectionCaption] = {};
-                        }
-                        if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
-                            screen.moduleCaptions[sectionCaption][moduleName] = [];
-                        }
-                        screen.moduleCaptions[sectionCaption][moduleName].push($section);
+
+        // Remembering user last navigation column state
+        setTimeout(() => {
+            const userid = JSON.parse(sessionStorage.getItem('userid'));
+            if (userid) {
+                if (userid.reportsnavexpanded) {
+                    if (userid.reportsnavexpanded === 'true') {
+                        menuExpand.click()
+                    } else {
+                        menuCollapse.click();
                     }
                 }
             }
-        }
-    }
-    //---------------------------------------------------------------------------------------------- 
-    renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
-        var me = this;
-        var html = [], $reportsPageModules, $rowBody, $modulecontainer, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
+        }, 0);
 
-        $modulecontainer = $control.find('#' + moduleName);
-        $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
-        html.push('  <div class="panel panel-primary">');
-        html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
-        html.push('      <div class="flexrow" style="max-width:none;">');
-        html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
-        html.push('        <h4 class="panel-title">');
-        html.push('          <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
-        html.push('          <div id="myDropdown" class="dropdown-content">');
-        html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
-        html.push('          </div>');
-        html.push('        <div style="margin-left:auto;">');
-        html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
-        html.push('          <i class="material-icons heading-menu">more_vert</i>');
-        html.push('        </div>');
-        html.push('      </h4>');
-        html.push('      </div>');
-        if (description === "") {
-            html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
-        } else {
-            html.push('      <small id="description" style="display:none;">' + description + '</small>');
-            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
-        }
-        html.push('    </div>');
-        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
-        html.push('  </div>');
-        html.push('</div>');
-        $reportsPageModules = jQuery(html.join(''));
-
-        $control.find('.well').append($reportsPageModules);
-
-        $reportsPageModules.on('click', '.btn', function (e) {
-            $reportsPageModules.find('.heading-menu').next().css('display', 'none');
-            $body = $control.find('#' + moduleName + '.panel-body');
+        var screen = {
+            moduleCaptions: {}
+        };
+        // Clear 'X' button
+        $control.find('.input-group-clear').on('click', e => {
+            const $this = jQuery(e.currentTarget);
+            const event = jQuery.Event("keyup", { which: 13 });
+            $this.parent().find('#reportsSearch').val('').trigger(event);
         });
-
-        $reportsPageModules.on('click', '.pop-out', function (e) {
-            e.stopPropagation();
-            program.popOutTab(`#/reports/${moduleName}`);
-            if (jQuery(this).closest('#myDropdown').length !== 0) {
-                jQuery(this).parent().hide();
+        // Search Input and icon
+        $control.find('.input-group-search').on('click', e => {
+            const $search = jQuery(e.currentTarget).parent().find('#reportsSearch');
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.find('#reportsSearch').on('change', e => {
+            const $search = jQuery(e.currentTarget).parent().find('#reportsSearch');
+            const event = jQuery.Event("keyup", { which: 13 });
+            $search.trigger(event);
+        });
+        $control.find('#reportsSearch').on('keyup', function (e) {
+            const val = jQuery.trim(this.value).toUpperCase();
+            const $searchClear = jQuery(this).parent().find('.input-group-clear');
+            if ($searchClear.is(":hidden") && val !== '') {
+                $searchClear.show();
+            } else if (val === '') {
+                $searchClear.hide();
             }
-        });
-
-        $reportsPageModules
-            .on('click', '.panel-heading', function (e) {
-                var $this, moduleName, $reports, $body;
-
-                $this = jQuery(this);
-                moduleName = $this.closest('.panel-group').attr('id');
-                $body = $control.find('#' + moduleName + '.panel-body');
-
-                if ($body.is(':empty')) {
-                    $reports = window[moduleName + 'Controller'].openForm();
-                    window[moduleName + 'Controller'].onLoadForm($reports);
-                    $body.append($reports);
-
-                    for (var i = 0; i < me.filter.length; i++) {
-                        var filterField = $reports.find('[data-datafield="' + me.filter[i] + '"]');
-                        if (filterField.length > 0 && filterField.attr('data-type') === 'checkbox') {
-                            $reports.find('[data-datafield="' + me.filter[i] + '"] label').addClass('highlighted');
-                        } else if (filterField.length > 0) {
-                            $reports.find('[data-datafield="' + me.filter[i] + '"]').find('.fwformfield-caption').addClass('highlighted');
-                        }
-                    };
-                }
-
-                if ($reportsPageModules.find('.panel-collapse').css('display') === 'none') {
-                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_up')
-                    $reportsPageModules.find('.panel-collapse').show("fast");
-                } else {
-                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_down')
-                    $reportsPageModules.find('.panel-collapse').hide('fast');
-                }
-            })
-            .on('click', '.heading-menu', function (e) {
-                e.stopPropagation();
-                let activeMenu = $control.find('.active-menu');
-                let $this: any = jQuery(this);
-                let $dropdown = $this.closest('.panel-title').find('#myDropdown');
-                if ($dropdown.css('display') === 'none') {
-                    $dropdown.css('display', 'block').addClass('active-menu');
-                    jQuery(document).one('click', function closeMenu(e) {
-                        if ($this.has(e.target).length === 0) {
-                            $dropdown.removeClass('active-menu').css('display', 'none');
-                        } else {
-                            $dropdown.css('display', 'block');
-                        }
-                    })
-                } else {
-                    $dropdown.removeClass('active-menu').css('display', 'none');
-                }
-
-                if (activeMenu.length > 0) {
-                    activeMenu.removeClass('active-menu').hide();
-                }
-            })
-
-        $control.on('click', '.input-group-clear', function (e) {
-            let event = jQuery.Event('keypress');
-            event.which = 13;
-            jQuery(this).parent().find('#reportsSearch').val('').trigger(event);
-            jQuery(this).css('display', 'none');
-        });
-
-        $control.on('keypress', '#reportsSearch', function (e) {
             if (e.which === 13) {
                 e.stopImmediatePropagation();
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').parent().find('.row-heading').click();
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').empty();
-                jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
 
                 if (Object.keys(screen.moduleCaptions).length === 0 && screen.moduleCaptions.constructor === Object) {
                     me.getCaptions(screen);
                 }
 
-                filter = [];
-                const $reportDescriptions = jQuery('small#description');
+                const filter = [];
+                const $reportDescriptions = jQuery('#description');
                 const $reportTitles = jQuery('a#title');
-                const val = jQuery.trim(this.value).toUpperCase();
                 const $reports = jQuery('.panel-group');
                 if (val === "") {
-                    jQuery(this).parent().find('.input-group-clear').css('display', 'none');
                     $control.find('.highlighted').removeClass('highlighted');
-                    $reportDescriptions.closest('div.panel-group').show();
+                    //$reportDescriptions.closest('div.panel-group').show();
+                    $reports.show();
                 } else {
                     var results = [];
                     results.push(val);
-                    $reportDescriptions.closest('div.panel-group').hide();
+                    //$reportDescriptions.closest('div.panel-group').hide();
+                    $reports.hide();
                     for (var caption in screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1) {
                             for (var moduleName in screen.moduleCaptions[caption]) {
@@ -278,7 +164,7 @@
 
                     var matchDescriptionTitle = function ($control) {
                         for (var j = 0; j < $control.length; j++) {
-                            let description = jQuery($control[j]).find('small#description-text');
+                            let description = jQuery($control[j]).find('#description-text');
                             let title = jQuery($control[j]).find('a#title');
                             let descriptionIndex = jQuery(description).text().toUpperCase().indexOf(val);
                             let titleIndex = jQuery(title).text().toUpperCase().indexOf(val);
@@ -332,22 +218,172 @@
                     }
                 }
             }
+            jQuery(this).focus();
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    getCaptions(screen) {
+        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'Reports');
+        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+        for (var i = 0; i < modules.length; i++) {
+            var moduleName = modules[i].caption + 'Controller';
+            if (typeof (<any>window[moduleName]) != 'undefined') {
+                if (typeof (<any>window[moduleName]).openForm === 'function') {
+                    var $form = (<any>window[moduleName]).openForm();
+                    var $fwformfields = $form.find('.fwformfield[data-caption]');
+                    for (var j = 0; j < $fwformfields.length; j++) {
+                        var $field = $fwformfields.eq(j);
+                        var caption = $field.attr('data-caption').toUpperCase();
+                        if ($field.attr('data-type') === 'radio') {
+                            var radioCaptions = $field.find('div');
+                            for (var k = 0; k < radioCaptions.length; k++) {
+                                var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                                screen.moduleCaptions[radioCaption] = {};
+                                screen.moduleCaptions[radioCaption][moduleName] = [];
+                                screen.moduleCaptions[radioCaption][moduleName].push($field);
+                            }
+                        }
+                        if (typeof screen.moduleCaptions[caption] === 'undefined') {
+                            screen.moduleCaptions[caption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[caption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[caption][moduleName].push($field);
+                    }
+                    //add section headings to search
+                    const $sectionHeadings = $form.find('.fwform-section[data-caption]');
+                    for (let l = 0; l < $sectionHeadings.length; l++) {
+                        const $section = $sectionHeadings.eq(l);
+                        const sectionCaption = $section.attr('data-caption').toUpperCase();
+                        if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption] = {};
+                        }
+                        if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
+                            screen.moduleCaptions[sectionCaption][moduleName] = [];
+                        }
+                        screen.moduleCaptions[sectionCaption][moduleName].push($section);
+                    }
+                }
+            }
+        }
+    }
+    //---------------------------------------------------------------------------------------------- 
+    renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
+        var me = this;
+        var $rowBody, $body, browseKeys = [], rowId;
+
+        const $modulecontainer = $control.find(`#${moduleName}`);
+        const $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
+        const html = [];
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
+        html.push('  <div class="panel panel-primary">');
+        html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
+        html.push('      <div class="flexrow" style="max-width:none;">');
+        html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
+        html.push('        <h4 class="panel-title">');
+        html.push('          <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
+        html.push('          <div id="myDropdown" class="dropdown-content">');
+        html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+        html.push('          </div>');
+        html.push('        <div style="margin-left:auto;">');
+        html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
+        html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </div>');
+        html.push('      </h4>');
+        html.push('      </div>');
+        if (description === "") {
+            html.push('      <div id="description" style="display:none;">' + moduleName + '</div>');
+            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + moduleName + '</div>');
+        } else {
+            html.push('      <div id="description" style="display:none;">' + description + '</div>');
+            html.push('      <div style="margin:0 0 0 32px;font-size:.9em;" id="description-text">' + description + '</div>');
+        }
+        html.push('    </div>');
+        html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        const $reportsPageModules = jQuery(html.join(''));
+        $control.find('.well').append($reportsPageModules);
+
+        $reportsPageModules.on('click', '.btn', e => {
+            $reportsPageModules.find('.heading-menu').next().css('display', 'none');
+            $body = $control.find('#' + moduleName + '.panel-body');
+        });
+
+        $reportsPageModules.on('click', '.pop-out', function (e) {
+            e.stopPropagation();
+            program.popOutTab(`#/reports/${moduleName}`);
+            if (jQuery(this).closest('#myDropdown').length !== 0) {
+                jQuery(this).parent().hide();
+            }
+        });
+
+        $reportsPageModules
+            .on('click', '.panel-heading', function (e) {
+
+                const $this = jQuery(this);
+                const moduleName = $this.closest('.panel-group').attr('id');
+                const $body = $control.find('#' + moduleName + '.panel-body');
+
+                if ($body.is(':empty')) {
+                    const $reports = window[moduleName + 'Controller'].openForm();
+                    window[moduleName + 'Controller'].onLoadForm($reports);
+                    $body.append($reports);
+
+                    for (var i = 0; i < me.filter.length; i++) {
+                        var filterField = $reports.find('[data-datafield="' + me.filter[i] + '"]');
+                        if (filterField.length > 0 && filterField.attr('data-type') === 'checkbox') {
+                            $reports.find('[data-datafield="' + me.filter[i] + '"] label').addClass('highlighted');
+                        } else if (filterField.length > 0) {
+                            $reports.find('[data-datafield="' + me.filter[i] + '"]').find('.fwformfield-caption').addClass('highlighted');
+                        }
+                    };
+                }
+
+                if ($reportsPageModules.find('.panel-collapse').css('display') === 'none') {
+                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_up')
+                    $reportsPageModules.find('.panel-collapse').show("fast");
+                } else {
+                    $reportsPageModules.find('.arrow-selector').html('keyboard_arrow_down')
+                    $reportsPageModules.find('.panel-collapse').hide('fast');
+                }
+            })
+            .on('click', '.heading-menu', function (e) {
+                e.stopPropagation();
+                let activeMenu = $control.find('.active-menu');
+                let $this: any = jQuery(this);
+                let $dropdown = $this.closest('.panel-title').find('#myDropdown');
+                if ($dropdown.css('display') === 'none') {
+                    $dropdown.css('display', 'block').addClass('active-menu');
+                    jQuery(document).one('click', function closeMenu(e) {
+                        if ($this.has(e.target).length === 0) {
+                            $dropdown.removeClass('active-menu').css('display', 'none');
+                        } else {
+                            $dropdown.css('display', 'block');
+                        }
+                    })
+                } else {
+                    $dropdown.removeClass('active-menu').css('display', 'none');
+                }
+
+                if (activeMenu.length > 0) {
+                    activeMenu.removeClass('active-menu').hide();
+                }
+            })
+            ;
 
         return $reportsPageModules;
     };
     //---------------------------------------------------------------------------------------------- 
     getHeaderView($control) {
-        var $view;
+        const $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
 
-        $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
-
-        var baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
-
-        baseiconurl = 'theme/images/icons/home/';
         this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
         //const nodeReports = FwApplicationTree.getNodeByFuncRecursive(FwApplicationTree.tree, {}, (node: any, args: any) => node.id === 'Reports');
         const constNodeReports = (<any>window).Constants.Modules.Reports;
+        let dropDownMenuItems;
         for (const keyCategory in constNodeReports.children) {
             const constNodeCategory = constNodeReports.children[keyCategory];
             dropDownMenuItems = [];
@@ -403,7 +439,7 @@
                     let navigationCaption = $modulebtn.data('navigation');
                     let panels = $control.find('.panel-group');
                     if (navigationCaption === 'All Reports') {
-                        let event = jQuery.Event('keypress');
+                        let event = jQuery.Event('keyup');
                         event.which = 13;
                         $control.find('.selected').removeClass('selected');
                         $control.find('#reportsSearch').val('').trigger(event);

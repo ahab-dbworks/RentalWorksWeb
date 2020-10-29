@@ -793,27 +793,27 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text)]
         public string EstimatedStopTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "estrentfromdatetime", modeltype: FwDataTypes.Text)]
-        public string EstimatedStartDateTime { get; set; }
+        //[FwSqlDataField(column: "estrentfromdatetime", modeltype: FwDataTypes.Text)]
+        //public string EstimatedStartDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "estrenttodatetime", modeltype: FwDataTypes.Text)]
-        public string EstimatedStopDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usagedates", modeltype: FwDataTypes.Text)]
-        public string UsageDates { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usagedatesandtimes", modeltype: FwDataTypes.Text)]
-        public string UsageDatesAndTimes { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "estrenttodatetime", modeltype: FwDataTypes.Text)]
+        //public string EstimatedStopDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "usagedates", modeltype: FwDataTypes.Text)]
+        //public string UsageDates { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "usagedatesandtimes", modeltype: FwDataTypes.Text)]
+        //public string UsageDatesAndTimes { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date)]
         public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date)]
         public string BillingStopDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
-        public string BillingDates { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
+        //public string BillingDates { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
         public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1042,9 +1042,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "outdeliveryontime", modeltype: FwDataTypes.Text)]
         public string OutDeliveryOnTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outdeliveryondatetime", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryOnDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "outdeliveryondatetime", modeltype: FwDataTypes.Text)]
+        //public string OutDeliveryOnDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryattention", modeltype: FwDataTypes.Text)]
         public string OutDeliveryAttention { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1085,11 +1085,11 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string OutDeliveryRequiredByDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryrequiredbytime", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryRequiredbyTime { get; set; }
+        public string OutDeliveryRequiredByTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outdeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryRequiredByDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "outdeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
+        //public string OutDeliveryRequiredByDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverycarrierid", modeltype: FwDataTypes.Text)]
         public string OutDeliveryCarrierId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1120,9 +1120,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "indeliveryontime", modeltype: FwDataTypes.Text)]
         public string InDeliveryOnTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "indeliveryondatetime", modeltype: FwDataTypes.Text)]
-        public string InDeliveryOnDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "indeliveryondatetime", modeltype: FwDataTypes.Text)]
+        //public string InDeliveryOnDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryattention", modeltype: FwDataTypes.Text)]
         public string InDeliveryAttention { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1163,11 +1163,11 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public string InDeliveryRequiredByDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryrequiredbytime", modeltype: FwDataTypes.Text)]
-        public string InDeliveryRequiredbyTime { get; set; }
+        public string InDeliveryRequiredByTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "indeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
-        public string InDeliveryRequiredByDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "indeliveryrequiredbydatetime", modeltype: FwDataTypes.Text)]
+        //public string InDeliveryRequiredByDateTime { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliverycarrierid", modeltype: FwDataTypes.Text)]
         public string InDeliveryCarrierId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1259,6 +1259,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "multipleactivities", modeltype: FwDataTypes.Boolean)]
         public bool? HasMultipleActivities { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrecurringitems", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRecurring { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         public List<RentalOrderItemReportLoader> RentalItems { get; set; } = new List<RentalOrderItemReportLoader>(new RentalOrderItemReportLoader[] { new RentalOrderItemReportLoader() });
@@ -1275,7 +1278,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<OrderItemReportLoader> Items { get; set; } = new List<OrderItemReportLoader>(new OrderItemReportLoader[] { new OrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
+        //public List<OrderDatesLogic> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLogic>(new OrderDatesLogic[] { new OrderDatesLogic() });
+        public List<OrderDatesLoader> ActivityDatesAndTimes { get; set; } = new List<OrderDatesLoader>(new OrderDatesLoader[] { new OrderDatesLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderActivitySummaryLogic> ActivitySummary { get; set; } = new List<OrderActivitySummaryLogic>(new OrderActivitySummaryLogic[] { new OrderActivitySummaryLogic() });
         //------------------------------------------------------------------------------------ 
@@ -1379,9 +1383,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         activityDatesAndTimesRequest.uniqueids = new Dictionary<string, object>();
                         activityDatesAndTimesRequest.uniqueids.Add("OrderId", request.OrderId);
 
-                        OrderDatesLogic l = new OrderDatesLogic();
+                        OrderDatesLoader l = new OrderDatesLoader();
                         l.SetDependencies(AppConfig, UserSession);
-                        Order.ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLogic>(activityDatesAndTimesRequest);
+                        Order.ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLoader>(activityDatesAndTimesRequest);
 
                         //activity summary
                         BrowseRequest activitySummaryRequest = new BrowseRequest();

@@ -85,7 +85,7 @@ class POReceiveItemGrid {
                         },
                         function onError(response) {
                             $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
-                        }, null);
+                        }, $control);
                 }
             });
         });

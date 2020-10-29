@@ -3,12 +3,10 @@
   <div id="customreportlayoutform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
-      <!--<div data-type="tab" id="designertab" class="tab" data-tabpageid="designertabpage" data-caption="Designer"></div>-->
       <div data-type="tab" id="htmltab" class="tab" data-tabpageid="htmltabpage" data-caption="HTML"></div>
       <div data-type="tab" id="assigntotab" class="tab" data-tabpageid="assigntotabpage" data-caption="Assign To"></div>
-      <!--<div data-type="tab" id="previewtab" class="tab" data-tabpageid="previewtabpage" data-caption="Preview"></div>-->
     </div>
-    <div class="tabpages">
+    <div class="tabpages" style="overflow:unset;">
       <!-- GENERAL: TAB-->
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Report Layout">
@@ -16,35 +14,59 @@
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web User Id" data-datafield="WebUserId" data-required="true" style="display:none"></div>
             <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules" data-caption="Base Report" data-datafield="BaseReport" data-enabled="false" data-required="true" style="flex:1 1 0;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="flex:1 1 200px;"></div>
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Category" data-datafield="Category" data-required="false" style="flex:1 1 100px;"></div>
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Active" data-datafield="Active" style="flex:1 1 0;"></div>
+          </div>
+          <div class="wideflexrow">
+            <div class="flexcolumn" style="max-width:75vw;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Designer">
+                <div id="reportDesigner"></div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:12vw;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Properties" style="position:sticky; top:2em;">
+                <div id="controlProperties" style="display:none;">
+                  <div class="table-controls">
+                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Table" data-datafield="TableName" style="flex:auto"></div>
+                    <div class="flexrow">
+                      <div style="text-align:center; margin:1em 0em; width:140px;">
+                        <div class="fwformcontrol addRow" data-type="button">Add Row</div>
+                      </div>
+                    </div>
+                    <div class="flexrow">
+                      <div style="text-align:center; margin-bottom:1em; width:140px;">
+                        <div class="fwformcontrol addColumn" data-type="button">Add Column</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="header-controls">
+                    <div style="text-align:center; margin:1em; display:flex; justify-content:center;">
+                      <div class="fwformcontrol add-text-field" data-type="btnmenu" data-caption="Add Text Field"></div>
+                    </div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Field" data-allcaps="false" data-datafield="HeaderField" style="flex:1 1 0;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Styling" data-allcaps="false" data-datafield="HeaderFieldStyle" style="flex:1 1 0;"></div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fields" style="margin-top:1em;">
+                      <div class="header-fields-drag"></div>
+                    </div>
+                    <div style="text-align:center; margin:1em;">
+                      <div class="fwformcontrol delete-component" data-type="button" style="margin-top:1em;">Delete Component</div>
+                    </div>
+                  </div>
+                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Value Field" data-datafield="ValueField" style="flex:1 1 0;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Caption" data-allcaps="false" data-datafield="CaptionField" style="flex:1 1 0;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Cell Styling" data-allcaps="false" data-datafield="CellStyleField" style="flex:1 1 0;"></div>
+                  <div style="text-align:center; margin:1em;">
+                    <div class="fwformcontrol delete-row" data-type="button">Delete Row</div>
+                  </div>
+                  <div style="text-align:center; margin:1em;">
+                    <div class="fwformcontrol delete-column" data-type="button">Delete Column</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <!-- DESIGNER TAB-->
-      <!--<div data-type="tabpage" id="designertabpage" class="tabpage" data-tabid="designertab">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Report Layout">
-          <div class="flexrow">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web User Id" data-datafield="WebUserId" data-required="true" style="display:none"></div>
-            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules" data-caption="Base Report" data-datafield="BaseForm" data-enabled="false" data-required="true" style="flex:1 1 0;"></div>
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="flex:1 1 200px;"></div>
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Active" data-datafield="Active" style="flex:1 1 0;"></div>
-          </div>
-        </div>
-        <div class="flexrow" style="max-width:1750px;">
-          <div class="flexcolumn" style="max-width:1350px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Designer">
-              <div id="designerContent"></div>
-            </div>
-          </div>
-          <div class="flexcolumn" style="max-width:400px; max-height:700px; overflow:auto;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Properties">
-              <div class="fwformcontrol addColumn" data-type="button" style="display:none; margin-bottom:10px;">Add New Column</div>
-              <div class="fwformcontrol addColumn" data-type="btnmenu" style="display:none; margin-bottom:10px;" data-caption="Add New Field"></div>
-              <div id="controlProperties"></div>
-            </div>
-          </div>
-        </div>
-      </div>-->
       <!-- ASSIGN TO TAB-->
       <div data-type="tabpage" id="assigntotabpage" class="tabpage" data-tabid="assigntotab">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Assign To">
@@ -79,10 +101,6 @@
           </div>
         </div>
       </div>
-      <!-- PREVIEW TAB-->
-      <!--<div data-type="tabpage" id="previewtabpage" class="tabpage" data-tabid="previewtab">
-        <div id="previewWebForm"></div>
-      </div>-->
     </div>
   </div>
 </div>

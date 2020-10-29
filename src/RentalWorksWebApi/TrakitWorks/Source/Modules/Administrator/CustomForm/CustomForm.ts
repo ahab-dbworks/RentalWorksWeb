@@ -14,7 +14,6 @@ class CustomForm {
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
-
         const $browse = this.openBrowse();
 
         screen.load = () => {
@@ -65,11 +64,29 @@ class CustomForm {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    enableSave($form: any) {
+        FwFormField.enable($form.data('fields'));
+        FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
+        $form.find('[data-caption="Assign To"]').hide();
+        $form.find('[data-type="RefreshMenuBarButton"]').hide();
+
+        if (FwApplicationTree.isVisibleInSecurityTree('ddXtKGS07Iko')) {
+            const $saveButton = $form.find('[data-type="SaveMenuBarButton"]');
+            $saveButton.removeClass('disabled').show();
+            $saveButton.off('click');
+            $saveButton.on('click', e => {
+                this.saveForm($form, { closetab: false });
+            });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         $form.find('#codeEditor').change();
         const $customForm = $form.find(`#designerContent`);
         const $fields = $customForm.find('.fwformfield');
+        //const $errorMsg = $form.find('.error-msg');
         let hasDuplicates: boolean = false;
+        const duplicateFields: any = [];
         $fields.each(function (i, e) {
             const $fwFormField = jQuery(e);
             const dataField = $fwFormField.attr('data-datafield');
@@ -78,8 +95,10 @@ class CustomForm {
                 if ($fieldFound.length > 1) {
                     $fieldFound.addClass('error');
                     hasDuplicates = true;
-                    FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
-                    return false;
+                    if (duplicateFields.indexOf(dataField) === -1) {
+                        duplicateFields.push(dataField);
+                    }
+                    //return false;
                 } else {
                     $customForm.find(`[data-datafield="${dataField}"]`).removeClass('error');
                 }
@@ -89,13 +108,82 @@ class CustomForm {
         //for retaining position in code editor after saving
         $form.find('[data-datafield="Html"]').addClass('reload');
 
-        if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
+        //Removes fields from the Designer tab so they are ignored in isValid check.
+        $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]').not('#designerContent .fwformfield, #previewWebForm .fwformfield'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])').not('#designerContent .fwformfield,  #previewWebForm .fwformfield'));
+
+        if (typeof $form.data('selfassign') != 'undefined') {
+            const request: any = {
+                BaseForm: FwFormField.getValueByDataField($form, 'BaseForm'),
+                SelfAssign: $form.data('selfassign'),
+                Html: FwFormField.getValueByDataField($form, 'Html'),
+                Description: FwFormField.getValueByDataField($form, 'Description'),
+                Active: FwFormField.getValueByDataField($form, 'Active'),
+                WebUserId: FwFormField.getValueByDataField($form, 'WebUserId'),
+                AssignTo: 'USERS'
+            };
+            const $tab = FwTabs.getTabByElement($form);
+            const saveMode = $form.attr('data-mode');
+            if (saveMode == 'NEW') {
+                FwAppData.apiMethod(true, 'POST', `api/v1/customform/selfassign`, request, FwServices.defaultTimeout, response => {
+                    FwFormField.setValueByDataField($form, 'CustomFormId', response.CustomFormId);
+                    this.afterSave($form);
+                }, ex => FwFunc.showError(ex), $form);
+            } else if (saveMode == 'EDIT') {
+                const customFormId = FwFormField.getValueByDataField($form, 'CustomFormId');
+                request.CustomFormId = customFormId;
+                FwAppData.apiMethod(true, 'PUT', `api/v1/customform/selfassign/${customFormId}`, request, FwServices.defaultTimeout, response => {
+                    FwFormField.setValueByDataField($form, 'CustomFormId', customFormId);
+                    this.afterSave($form);
+                }, ex => FwFunc.showError(ex), $form);
+            }
+        } else {
+            if (hasDuplicates) {
+                //$errorMsg.text(`Duplicate fields: ${duplicateFields.join(', ')}`);
+                //FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
+                let duplicatedFields: string = duplicateFields.join(', ');
+                FwNotification.renderNotification(`ERROR`, `The following data fields are duplicated on this form: ${duplicatedFields}.<br><br>Set the "data-enabled" property to false on duplicates.`);
+            } else {
+                //$errorMsg.text('');
+                FwModule.saveForm(this.Module, $form, parameters);
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
         FwFormField.disable($form.find('[data-datafield="BaseForm"]'));
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+
+        const baseForm = FwFormField.getValueByDataField($form, 'BaseForm');
+        const html = FwFormField.getValueByDataField($form, 'Html');
+        if (typeof $form.data('selfassign') != 'undefined') {
+            jQuery('head').prepend(`<template id="tmpl-custom-${baseForm}">${html}</template>`);
+
+            const newCustomForm: any = {
+                BaseForm: baseForm,
+                CustomFormId: FwFormField.getValueByDataField($form, 'CustomFormId'),
+                Description: FwFormField.getValueByDataField($form, 'Description'),
+                ThisUserOnly: true
+            }
+
+            let customForms = JSON.parse(sessionStorage.getItem('customForms'));
+            if (customForms) {
+                customForms.unshift(newCustomForm);
+            } else {
+                customForms = [newCustomForm];
+            }
+
+            sessionStorage.setItem('customForms', JSON.stringify(customForms));
+            $form.removeData('selfassign');
+            const controller = $form.find('[data-datafield="BaseForm"] option:selected').data('controllername');
+            if (controller != 'undefined') {
+                const nav = (<any>window)[controller].nav;
+                program.navigate(nav);
+            }
+        }
+
+        this.displayHiddenElements($form);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -140,6 +228,17 @@ class CustomForm {
             $form.attr('data-modified', 'true');
             $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
         });
+
+
+        //check if this form is for this user only
+        //const customFormId = FwFormField.getValueByDataField($form, 'CustomFormId');
+        //const $customForms = JSON.parse(sessionStorage.getItem('customForms'));
+        //const matchingForm = $customForms.find(obj => obj.CustomFormId == customFormId);
+        //if (typeof matchingForm != 'undefined') {
+        //    if (matchingForm.ThisUserOnly) {
+        //        $form.data('selfassign', true);
+        //    }
+        //}
     }
     //----------------------------------------------------------------------------------------------
     codeMirrorEvents($form) {
@@ -157,10 +256,11 @@ class CustomForm {
 
         //Select module event
         $form.find('div.modules').on('change', e => {
-            let $this = $form.find('[data-datafield="BaseForm"] option:selected');
-            let moduleName = $this.val();
-            let type = $this.attr('data-type');
-            let controller: any = $this.attr('data-controllername');
+            const $this = $form.find('[data-datafield="BaseForm"] option:selected');
+            const moduleName = $this.val();
+            const moduleCaption = $this.text();
+            const type = $this.attr('data-type');
+            const controller: any = $this.attr('data-controllername');
             let modulehtml;
 
             //get the html from the template and set it as codemirror's value
@@ -184,6 +284,9 @@ class CustomForm {
 
             this.addValidFields($form, controller);
             this.renderTab($form, 'Designer');
+
+            const fullName = sessionStorage.getItem('fullname');
+            FwFormField.setValueByDataField($form, 'Description', `${fullName}'s ${moduleCaption}`);
         });
 
         //Updates value for form fields
@@ -206,7 +309,7 @@ class CustomForm {
             case 'Grid':
             case 'Browse':
                 if (apiurl !== "undefined") {
-                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptybrowseobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         let columnNames = Object.keys(response);
                         let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                         let allValidFields: any = [];
@@ -227,7 +330,7 @@ class CustomForm {
                             });
                         }
 
-                        $form.data('validdatafields', allValidFields.sort(compare));
+                        $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
 
                         for (let i = 0; i < allValidFields.length; i++) {
                             modulefields.append(`
@@ -259,7 +362,7 @@ class CustomForm {
                         });
                     }
 
-                    $form.data('validdatafields', allValidFields.sort(compare));
+                    $form.data('validdatafields', allValidFields.sort((a, b) => a.Field < b.Field ? -1 : 1));
 
                     for (let i = 0; i < allValidFields.length; i++) {
                         modulefields.append(`
@@ -268,14 +371,6 @@ class CustomForm {
                     }
                 }, null, $form);
                 break;
-        }
-
-        function compare(a, b) {
-            if (a.Field < b.Field)
-                return -1;
-            if (a.Field > b.Field)
-                return 1;
-            return 0;
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -293,7 +388,7 @@ class CustomForm {
     loadModules($form: JQuery) {
         // Load Modules dropdown with sorted list of Modules and Grids
         const modules = FwApplicationTree.getAllModules(false, false, (modules: any[], moduleCaption: string, moduleName: string, category: string, currentNode: any, nodeModule: IGroupSecurityNode, hasView: boolean, hasNew: boolean, hasEdit: boolean, moduleController: any) => {
-            if (moduleController.hasOwnProperty('apiurl')) {
+            if (moduleController.hasOwnProperty('apiurl') && moduleController.Module != 'BlankHomePage') {
                 modules.push({ value: `${moduleName}Browse`, text: `${moduleCaption} Browse`, type: 'Browse', controllername: moduleName + 'Controller', apiurl: moduleController.apiurl });
                 if (hasView || hasNew || hasEdit) {
                     modules.push({ value: `${moduleName}Form`, text: `${moduleCaption} Form`, type: 'Form', controllername: moduleName + 'Controller', apiurl: moduleController.apiurl });
@@ -307,7 +402,7 @@ class CustomForm {
         });
         const allModules = modules.concat(grids);
         FwApplicationTree.sortModules(allModules);
-         let $moduleSelect = $form.find('.modules');
+        let $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.codeMirrorEvents($form);
@@ -354,6 +449,7 @@ class CustomForm {
         //Load Design Tab
         $form.on('click', '[data-type="tab"][data-caption="Designer"]', e => {
             this.renderTab($form, 'Designer');
+            this.displayHiddenElements($form);
         });
 
         //Refreshes and shows CodeMirror upon clicking HTML tab
@@ -445,9 +541,13 @@ class CustomForm {
             let $this = jQuery($grids[i]);
             let gridName = $this.attr('data-grid');
             let $gridControl = FwBrowse.loadGridFromTemplate(gridName);
-            $this.empty().append($gridControl);
-            FwBrowse.init($gridControl);
-            FwBrowse.renderRuntimeHtml($gridControl);
+            if ($gridControl.length) {
+                $this.empty().append($gridControl);
+                FwBrowse.init($gridControl);
+                FwBrowse.renderRuntimeHtml($gridControl);
+            } else {
+                $this.text(`[${gridName}]`);
+            }
         }
 
         function disableControls() {
@@ -456,6 +556,8 @@ class CustomForm {
             $customForm.find('[data-type="Browse"] tbody, [data-type="Browse"] tfoot, [data-type="Grid"] tbody, [data-type="Grid"] tfoot').hide();
             FwFormField.disable($customForm.find('[data-type="Browse"], [data-type="Grid"]'));
             $customForm.find('tr.fieldnames .column >, .submenu-btn').off('click');
+
+            $customForm.find(`[data-control="FwAppImage"]`).replaceWith('[Image Control]');
 
             //disables availability calendar
             $customForm.find('[data-control="FwSchedulerDetailed"]').unbind('onactivatetab');
@@ -498,7 +600,7 @@ class CustomForm {
                         }
                     }
                     self.find('.fieldcaption').css(`background-color`, `#f9f9f9`);
-                    self.css('display', 'table-cell');
+                    //self.css('display', 'table-cell');
                     self.find('.caption').css('color', 'red');
                 }
             }
@@ -532,21 +634,21 @@ class CustomForm {
             function addDatafields() {
                 const validFields = $form.data('validdatafields');
                 if (typeof validFields === 'object') {
-                let datafieldOptions = $form.find('#controlProperties .propval .datafields');
-                for (let z = 0; z < datafieldOptions.length; z++) {
-                    let field = jQuery(datafieldOptions[z]);
-                    field.append(`<option value="" disabled>Select field</option>`)
-                   
-                    for (let i = 0; i < validFields.length; i++) {
-                        let $this = validFields[i];
-                        field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
-                    }
-                    let value = jQuery(field).attr('value');
-                    if (value) {
-                        jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
-                    } else {
-                        jQuery(field).find(`option[disabled]`).prop('selected', true);
-                    };
+                    let datafieldOptions = $form.find('#controlProperties .propval .datafields');
+                    for (let z = 0; z < datafieldOptions.length; z++) {
+                        let field = jQuery(datafieldOptions[z]);
+                        field.append(`<option value="" disabled>Select field</option>`)
+
+                        for (let i = 0; i < validFields.length; i++) {
+                            let $this = validFields[i];
+                            field.append(`<option data-iscustomfield=${$this.IsCustom} value="${$this.Field}" data-type="${$this.FieldType}">${$this.Field}</option>`);
+                        }
+                        let value = jQuery(field).attr('value');
+                        if (value) {
+                            jQuery(field).find(`option[value="${value}"]`).prop('selected', true);
+                        } else {
+                            jQuery(field).find(`option[disabled]`).prop('selected', true);
+                        };
                     }
                 }
             };
@@ -581,13 +683,34 @@ class CustomForm {
                         `;
 
             let addPropertiesHtml =
-                `   <div class="addproperties" style="width:100%; display:flex;">
+                `   <div class="addproperties adv-property" style="width:100%; display:flex;">
                         <div class="addpropname" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property"></div>
                         <div class="addpropval" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
                     </div>
                  </div>`; //closing div for propertyContainer
 
-            let deleteComponentHtml = '<div class="fwformcontrol deleteObject" data-type="button" style="margin-left:27%; margin-top:15px;">Delete Component</div>';
+            const showAdvancedPropertiesHtml = `<div style="text-align:right;">
+                                                    <span class="show-advanced-properties">Show Advanced Properties</span>
+                                                </div>`;
+
+            const deleteComponentHtml = () => {
+                let caption;
+                if (type == 'Grid' || type == 'Browse') {
+                    caption = $form.find('.propname:contains("data-caption")').siblings('.propval').find('input').val();
+                    if (caption == 'New Column') {
+                        caption = 'Delete New Column';
+                    } else {
+                        caption = `Delete ${caption} Column`;
+                    }
+                } else {
+                    caption = 'Delete Component';
+                }
+
+                const btn = `<div style="text-align:center;margin-top: 1em;">
+                                <div class="fwformcontrol deleteObject" data-type="button">${caption}</div>
+                             </div>`;
+                return btn;
+            }
 
             let lastIndex = Number(jQuery($customFormClone).find('div:last').attr('data-index'));
 
@@ -834,7 +957,8 @@ class CustomForm {
                         e.stopPropagation();
                         originalHtml = e.currentTarget;
                         controlType = jQuery(originalHtml).attr('data-control');
-                        let properties = e.currentTarget.attributes;
+                        let properties = jQuery(e.currentTarget.attributes).sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));  //sorts attributes list
+                        const basicProperties: any = ['data-browsedatafield', 'data-caption', 'data-datafield'];
                         let html: any = [];
                         html.push(propertyContainerHtml);
                         for (let i = 0; i < properties.length; i++) {
@@ -858,7 +982,7 @@ class CustomForm {
                                 case "data-browsedatafield":
                                 case "data-displayfield":
                                 case "data-browsedisplayfield":
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties ${basicProperties.includes(name) ? 'basic-property' : 'adv-property'}">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="datafields" value="${value}"></select></div>
                                    </div>
@@ -875,16 +999,23 @@ class CustomForm {
                                 case "data-formrequired":
                                 case "data-required":
                                 case "data-enabled":
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties adv-property">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><select style="width:92%" class="valueOptions" value="${value}"></select></div>
+                                   </div>
+                                  `);
+                                    break;
+                                case 'data-caption':
+                                    html.push(`<div class="properties basic-property">
+                                      <div class="propname">${name === "" ? "&#160;" : name}</div>
+                                      <div class="propval"><input value="${value}"></div>
                                    </div>
                                   `);
                                     break;
                                 case "class":
                                     value = value.replace('focused', '');
                                 default:
-                                    html.push(`<div class="properties">
+                                    html.push(`<div class="properties adv-property">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
                                       <div class="propval"><input value="${value}"></div>
                                    </div>
@@ -904,7 +1035,7 @@ class CustomForm {
                         addValueOptions();
 
                         //delete object
-                        $form.find('#controlProperties').append(deleteComponentHtml);
+                        $form.find('#controlProperties').append(showAdvancedPropertiesHtml, deleteComponentHtml());
 
                         //disables grids and browses in forms
                         if (type === 'Form') {
@@ -913,7 +1044,11 @@ class CustomForm {
                                 $form.find('#controlProperties .propval >').attr('disabled', 'disabled');
                                 $form.find('#controlProperties .addproperties, #controlProperties .deleteObject').remove();
                             }
+                        } else if (type === 'Browse') {
+                            this.highlightColumn($form, jQuery(originalHtml));
                         }
+
+                        this.showAdvancedProperties($form);
                     });
 
             $form
@@ -951,12 +1086,72 @@ class CustomForm {
                                     break;
                                 case 'data-datafield':
                                 case 'data-browsedatafield':
+                                    const $field = jQuery($customFormClone).find(`div[data-index="${index}"]`);
+                                    if ($field.length > 0) {
+                                        //jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
+                                        $field.attr('data-datafield', value);
+                                        $field.attr('data-browsedatafield', value);
+                                        jQuery(originalHtml).attr('data-datafield', value);
+                                        jQuery(originalHtml).attr('data-browsedatafield', value);
+                                        //jQuery(originalHtml).attr(`${attribute}`, `${value}`);
+                                        $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
+                                        isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
+                                        if (isCustomField === "true") {
+                                            //update caption and datatypes
+                                            let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
+                                            switch (datatype) {
+                                                case 'integer':
+                                                    datatype = "number";
+                                                    break;
+                                                case 'float':
+                                                    datatype = "decimal";
+                                                    break;
+                                                case 'date':
+                                                    datatype = "date";
+                                                    break;
+                                                case 'true/false':
+                                                    datatype = "checkbox";
+                                                    break;
+                                                default:
+                                                    datatype = "text";
+                                                    break;
+                                            }
+                                            jQuery(originalHtml).attr('data-customfield', 'true');
+                                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
+                                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                                            jQuery(originalHtml).attr(`data-caption`, `${value}`);
+                                            jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
+                                            jQuery(originalHtml).attr(`data-datatype`, datatype);
+                                            $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
+                                        }
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                                    }
+                                    break;
+                                case 'data-datatype':
+                                case 'data-formdatatype':
+                                    $form.find(`#controlProperties .propname:contains('data-browsedatatype')`).siblings('.propval').find('select').val(value);
+                                case 'data-browsedatatype':
+                                    $form.find(`#controlProperties .propname:contains('data-formdatatype')`).siblings('.propval').find('select').val(value);
+                                    $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(value);
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr({ 'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value });
+                                    jQuery(originalHtml).attr({ 'data-datatype': value, 'data-formdatatype': value, 'data-browsedatatype': value });
+                                    break;
+                                default:
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
                                     jQuery(originalHtml).attr(`${attribute}`, `${value}`);
-
+                            }
+                        } else if (type === 'Form') {
+                            switch (attribute) {
+                                case 'data-datafield':
                                     isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
+
+                                    //update caption when datafield is changed
+                                    jQuery(originalHtml).attr('data-caption', value);
+                                    jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
+                                    $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
+
                                     if (isCustomField === "true") {
-                                        //update caption and datatypes
+                                        //update datatype
                                         let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
                                         switch (datatype) {
                                             case 'integer':
@@ -975,60 +1170,28 @@ class CustomForm {
                                                 datatype = "text";
                                                 break;
                                         }
+                                        jQuery(originalHtml).attr('data-type', datatype);
+                                        $form.find(`#controlProperties .propname:contains('data-type')`).siblings('.propval').find('select').val(datatype);
+                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-type', datatype);
                                         jQuery(originalHtml).attr('data-customfield', 'true');
                                         jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
-                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
-                                        jQuery(originalHtml).attr(`data-caption`, `${value}`);
-                                        $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
-                                        jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-datatype`, datatype);
-                                        jQuery(originalHtml).attr(`data-datatype`, datatype);
-                                        $form.find(`#controlProperties .propname:contains('data-datatype')`).siblings('.propval').find('select').val(datatype);
+                                    }
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
+                                    break;
+                                case 'data-caption':
+                                    if (jQuery(originalHtml).attr('data-type') === 'section') {
+                                        jQuery(originalHtml).attr('data-caption', value);
+                                        jQuery(originalHtml).find('.fwform-section-title').text(value);
+                                    } else {
+                                        jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
                                     }
                                     break;
-                                default:
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-                                    jQuery(originalHtml).attr(`${attribute}`, `${value}`);
-                            }
-                        } else if (type === 'Form') {
-                            if (attribute === 'data-datafield') {
-                                isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
-
-                                //update caption when datafield is changed
-                                jQuery(originalHtml).attr('data-caption', value);
-                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
-                                $form.find(`#controlProperties .propname:contains('data-caption')`).siblings('.propval').find('input').val(value);
-
-                                if (isCustomField === "true") {
-                                    //update datatype
-                                    let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
-                                    switch (datatype) {
-                                        case 'integer':
-                                            datatype = "number";
-                                            break;
-                                        case 'float':
-                                            datatype = "decimal";
-                                            break;
-                                        case 'date':
-                                            datatype = "date";
-                                            break;
-                                        case 'true/false':
-                                            datatype = "checkbox";
-                                            break;
-                                        default:
-                                            datatype = "text";
-                                            break;
+                                case 'data-type':
+                                    jQuery(originalHtml).attr('data-type', value);
+                                    if (typeof jQuery(originalHtml).data('rendered') === 'boolean') {
+                                        jQuery(originalHtml).data('rendered', false)
                                     }
-                                    jQuery(originalHtml).attr('data-type', datatype);
-                                    $form.find(`#controlProperties .propname:contains('data-type')`).siblings('.propval').find('select').val(datatype);
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-type', datatype);
-                                    jQuery(originalHtml).attr('data-customfield', 'true');
-                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
-                                }
-                                jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`data-caption`, `${value}`);
-                            }
-
-                            if (attribute === 'data-caption') {
-                                jQuery(originalHtml).find(`.fwformfield-caption`).text(value);
+                                    break;
                             }
 
                             let isTab = jQuery(originalHtml).attr('data-type');
@@ -1040,7 +1203,6 @@ class CustomForm {
                             };
 
                             jQuery($customFormClone).find(`div[data-index="${index}"]`).attr(`${attribute}`, `${value}`);
-
                         }
                     } else {
                         if (attribute !== "data-datafield") { //for adding new fields
@@ -1054,13 +1216,16 @@ class CustomForm {
                     }
 
                     switch (type) {
-                        case 'Form': let a = 0;
-                            a += (controlType == 'FwFormField') ? 1 : 0;
-                            a += (controlType == 'FwContainer') ? 1 : 0;
-
-                            if (a) {
+                        case 'Form':
+                            if (controlType == 'FwFormField' || controlType == 'FwContainer') {
                                 FwControl.init(jQuery(originalHtml));
                                 FwControl.renderRuntimeHtml(jQuery(originalHtml));
+
+                                if (attribute === 'data-type' && value === 'radio') {
+                                    const $radioControl = jQuery(originalHtml).find('> .fwformfield-control')
+                                    $radioControl.find('.fwformfield-caption').remove();
+                                    $radioControl.find('label').text('Option');
+                                }
                             }
                             break;
                         case 'Browse':
@@ -1142,9 +1307,21 @@ class CustomForm {
                 //delete button
                 .off('click', '.deleteObject')
                 .on('click', '.deleteObject', e => {
-                    let $confirmation = FwConfirmation.renderConfirmation('Delete', 'Delete this object?');
+                    let caption;
+                    if (type == 'Grid' || type == 'Browse') {
+                        caption = $form.find('.propname:contains("data-caption")').siblings('.propval').find('input').val();
+                        if (caption == 'New Column') {
+                            caption = 'Delete New Column?';
+                        } else {
+                            caption = `Delete ${caption} Column?`;
+                        }
+                    } else {
+                        caption = 'Delete this component?';
+                    }
+
+                    let $confirmation = FwConfirmation.renderConfirmation('Delete', caption);
                     let $yes = FwConfirmation.addButton($confirmation, 'Delete', false);
-                    let $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                    FwConfirmation.addButton($confirmation, 'Cancel');
 
                     $yes.off('click');
                     $yes.on('click', e => {
@@ -1198,7 +1375,6 @@ class CustomForm {
                         let newColumn = jQuery(html.join(''));
 
                         hasSpacer === true ? newColumn.insertBefore($control.find('div.spacer')) : $control.append(newColumn);
-
                         originalHtml = newColumn.find('.field');
 
                         //build properties column
@@ -1206,34 +1382,36 @@ class CustomForm {
                         let fields: any = [];
 
                         propertyHtml.push(propertyContainerHtml);
-                        fields = ['data-datafield', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'data-caption', 'class'];
+                        fields = ['data-datafield', 'data-caption', 'data-datatype', 'data-sort', 'data-width', 'data-visible', 'class'];
                         for (let i = 0; i < fields.length; i++) {
-                            var value;
-                            var field = fields[i];
+                            let value, isBasicProp;
+                            const field = fields[i];
                             switch (field) {
                                 case 'data-datafield':
-                                    value = ""
+                                    value = "";
+                                    isBasicProp = true;
                                     break;
                                 case 'data-datatype':
-                                    value = "text"
+                                    value = "text";
                                     break;
                                 case 'data-sort':
-                                    value = "off"
+                                    value = "off";
                                     break;
                                 case 'data-width':
-                                    value = "100px"
+                                    value = "100px";
                                     break;
                                 case 'data-visible':
-                                    value = "true"
+                                    value = "true";
                                     break;
                                 case 'data-caption':
-                                    value = "New Column"
+                                    value = "New Column";
+                                    isBasicProp = true;
                                     break;
                                 case 'class':
                                     value = 'field';
                             }
                             propertyHtml.push(
-                                `<div class="properties">
+                                `<div class="properties ${isBasicProp ? 'basic-property' : 'adv-property'}">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1246,7 +1424,7 @@ class CustomForm {
                         let newProperties = $form.find('#controlProperties');
                         newProperties
                             .empty()
-                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .append(propertyHtml.join(''))
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
@@ -1264,10 +1442,13 @@ class CustomForm {
                             .replaceWith(`<select style="width:92%" class="valueOptions" value="text">`);
 
                         addValueOptions();
-
+                        newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
                         $form.find('#controlProperties input').change();
-
-                        lastIndex = newFieldIndex
+                        this.showAdvancedProperties($form);
+                        lastIndex = newFieldIndex;
+                        const $newDesignerField = $form.find(`[data-index="${newFieldIndex}"]`);
+                        this.highlightColumn($form, $newDesignerField);
+                        $newDesignerField[0].scrollIntoViewIfNeeded();
                     } else if (type === 'Form') {
                         let $tabpage = $customForm.find('[data-type="tabpage"]:visible');
                         let tabpageIndex = $tabpage.attr('data-index');
@@ -1285,11 +1466,12 @@ class CustomForm {
                         propertyHtml.push(propertyContainerHtml);
                         fields = ['data-datafield', 'data-type', 'data-caption', 'class', 'data-control'];
                         for (let i = 0; i < fields.length; i++) {
-                            var value;
-                            var field = fields[i];
+                            let value, isBasicProp;
+                            const field = fields[i];
                             switch (field) {
                                 case 'data-datafield':
                                     value = ""
+                                    isBasicProp = true;
                                     break;
                                 case 'data-control':
                                     value = "FwFormField"
@@ -1298,13 +1480,14 @@ class CustomForm {
                                     value = "text"
                                     break;
                                 case 'data-caption':
-                                    value = "New Field"
+                                    value = "New Field";
+                                    isBasicProp = true;
                                     break;
                                 case 'class':
                                     value = 'fwcontrol fwformfield';
                             }
                             propertyHtml.push(
-                                `<div class="properties">
+                                `<div class="properties  ${isBasicProp ? 'basic-property' : 'adv-property'}">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1317,7 +1500,7 @@ class CustomForm {
                         let newProperties = $form.find('#controlProperties');
                         newProperties
                             .empty()
-                            .append(propertyHtml.join(''), deleteComponentHtml)
+                            .append(propertyHtml.join(''), showAdvancedPropertiesHtml, deleteComponentHtml())
                             .find('.properties:even')
                             .css('background-color', '#f7f7f7');
 
@@ -1342,6 +1525,7 @@ class CustomForm {
                         $draggableElements = $customForm.find('div.fwformfield');
                         $draggableElements.attr('draggable', 'true');
                         $form.find('#controlProperties input').change();
+                        this.showAdvancedProperties($form);
                     }
                 })
                 .off('click', '.addNewContainer')
@@ -1377,7 +1561,7 @@ class CustomForm {
                                 break;
                         }
                         propertyHtml.push(
-                            `<div class="properties">
+                            `<div class="properties basic-prop">
                                 <div class="propname" style="border:.5px solid #efefef;">${field}</div>
                                 <div class="propval" style="border:.5px solid #efefef;"><input value="${value}"></div>
                              </div>
@@ -1390,7 +1574,7 @@ class CustomForm {
                     let newProperties = $form.find('#controlProperties');
                     newProperties
                         .empty()
-                        .append(propertyHtml.join(''), deleteComponentHtml)
+                        .append(propertyHtml.join(''))
                         .find('.properties:even')
                         .css('background-color', '#f7f7f7');
 
@@ -1400,6 +1584,8 @@ class CustomForm {
                     $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
                     $draggableElements.attr('draggable', 'true');
                     $form.find('#controlProperties input').change();
+                    newProperties.append(showAdvancedPropertiesHtml, deleteComponentHtml());
+                    this.showAdvancedProperties($form);
                 })
                 .off('click', '.addNewTab')
                 .on('click', '.addNewTab', e => {
@@ -1433,9 +1619,56 @@ class CustomForm {
 
                     $draggableElements = $customForm.find('div.fwformfield, div.flexrow, div.flexcolumn, div[data-type="tab"]');
                     $draggableElements.attr('draggable', 'true');
+                })
+                .off('click', '.show-advanced-properties')
+                .on('click', '.show-advanced-properties', e => {
+                    if (typeof $form.data('show-advanced') == 'undefined') {
+                        $form.data('show-advanced', true);
+                    } else {
+                        $form.data('show-advanced') ? $form.data('show-advanced', false) : $form.data('show-advanced', true)
+                    }
+                    this.showAdvancedProperties($form);
+                })
+                .off('change', '[data-datafield="ShowHidden"]')
+                .on('change', '[data-datafield="ShowHidden"]', e => {
+                    this.displayHiddenElements($form);
                 });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    displayHiddenElements($form: JQuery) {
+        let $hiddenElements, showClassName;
+        const moduleType = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
+        const showHidden = FwFormField.getValueByDataField($form, 'ShowHidden');
+        const $designer = $form.find('#designerContent');
+        if (moduleType === 'Form') {
+            showClassName = 'dsgn-show-hidden';
+            $hiddenElements = jQuery($designer).find('div[data-datafield][style*="display:none"], div.flexrow[style*="display:none"], div.flexcolumn[style*="display:none"], div.flexrow[style*="display:none"] div[data-datafield], div.flexcolumn[style*="display:none"] div[data-datafield]');
+        } else {
+            showClassName = 'dsgn-show-hidden-browse';
+            $hiddenElements = jQuery($designer).find('td[data-visible="false"]');
+        }
 
+        if (showHidden) {
+            $hiddenElements.addClass(showClassName);
+        } else {
+            $hiddenElements.removeClass(showClassName);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    showAdvancedProperties($form: JQuery) {
+        const $this = $form.find('.show-advanced-properties');
 
+        if (typeof $form.data('show-advanced') == 'undefined') {
+            $form.data('show-advanced', false);
+        }
+
+        if ($form.data('show-advanced')) {
+            $this.text('Hide Advanced Properties');
+            $form.find('#controlProperties div.adv-property').css('display', 'flex');
+        } else {
+            $this.text('Show Advanced Properties');
+            $form.find('#controlProperties div.adv-property').css('display', 'none');
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -1486,6 +1719,11 @@ class CustomForm {
                 break;
         }
         return values;
+    };
+    //----------------------------------------------------------------------------------------------
+    highlightColumn($form: JQuery, $field: JQuery) {
+        $form.find('#designerContent [data-type="Browse"] div.highlight').removeClass('highlight');
+        $field.addClass('highlight');
     }
 };
 //----------------------------------------------------------------------------------------------

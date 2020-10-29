@@ -172,6 +172,9 @@ namespace WebApi.Modules.Settings.UserProfile
             }
         }
 
+        [FwLogicProperty(Id: "IfHBCokntKnP0")]
+        public string Locale { get { return webUser.Locale; } set { webUser.Locale = value; } }
+
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)

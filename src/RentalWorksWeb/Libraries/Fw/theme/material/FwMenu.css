@@ -23,15 +23,15 @@ html.theme-material .fwbrowse[data-enabled="false"] .fwmenu.grid .buttonbar .btn
 /*#region FwMenu: (Browses/Forms)*/
 html.theme-material .fwmenu.default {display:flex;align-items:center;background-color:#fafafa;border-top: 1px solid #9e9e9e;border-bottom: 1px solid #9e9e9e;}
 
-html.theme-material .fwmenu.default .buttonbar {flex:1 0 auto;height:2.5em;margin-left:.625em;display:flex;align-items:center;}
+html.theme-material .fwmenu.default .buttonbar {flex:1 1 auto;line-height:2.5em;margin-left:.625em;display:flex;align-items:center;flex-wrap:wrap;}
 html.theme-material .fwmenu.default .buttonbar .vr {height:30px;width:1px;margin:0 5px;background-color:rgba(0,0,0,0.4);}
-html.theme-material .fwmenu.default .buttonbar > .btn {cursor:pointer;padding:0 10px .25em 10px;display:flex;align-items: center;height: 100%;box-sizing: border-box;border-top: .25em solid transparent;transition: .3s;outline:0;}
+html.theme-material .fwmenu.default .buttonbar > .btn {cursor:pointer;padding:0 10px 0 10px;display:flex;align-items: center;height: 100%;box-sizing: border-box;border-top: .25em solid transparent;transition: .3s;outline:0;}
 html.theme-material .fwmenu.default .buttonbar .btn .findbutton-dropdown { display:none;position: absolute; top: 40px; -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12); -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); background: #fafafa; border: 1px solid #d6d6d6; color: #263248;}
-html.theme-material .fwmenu.default .buttonbar .btn .findbutton-dropdown .queryrow { display: flex; flex-wrap: nowrap; }
+html.theme-material .fwmenu.default .buttonbar .btn .findbutton-dropdown .queryrow { display: flex; flex-wrap: nowrap; line-height:1em;}
 html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown {display:block;cursor:default;}
 html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .andor { visibility:hidden; }
 html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .delete-query { visibility:hidden; cursor:pointer; margin: .9em 0 0 0;}
-html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .add-query {cursor:pointer; margin: .9em 0 0 0;}
+html.theme-material .fwmenu.default .buttonbar .btn.active .findbutton-dropdown .add-query {cursor:pointer; margin: .9em 0 0 0;padding-right:3px;}
 html.theme-material .fwmenu.default .buttonbar .btn:hover:not(.disabled) {border-top:.25em solid #2e7d32;}
 html.theme-material .fwmenu.default .buttonbar .btn.disabled {opacity:0.6;}
 html.theme-material .fwmenu.default .buttonbar .btn > i {font-size:1.5em;}

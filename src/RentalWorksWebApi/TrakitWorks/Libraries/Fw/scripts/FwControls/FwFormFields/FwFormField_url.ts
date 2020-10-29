@@ -1,6 +1,6 @@
 ﻿class FwFormField_urlClass implements IFwFormField {
     //---------------------------------------------------------------------------------
-    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderDesignerHtml($control: JQuery, html: string[]): void {
         html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
@@ -13,7 +13,7 @@
         $control.html(html.join(''));
     }
     //---------------------------------------------------------------------------------
-    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void {
+    renderRuntimeHtml($control: JQuery, html: string[]): void {
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="url" autocapitalize="none"');
@@ -21,35 +21,69 @@
             html.push(' disabled="disabled"');
         }
         html.push(' />');
+        html.push('<span class="material-icons" style="cursor:pointer;">link</span>');
         html.push('</div>');
         $control.html(html.join(''));
+
+        $control.find('span.material-icons').on('click', e => {
+            let url = `${$control.find('input').val()}`;
+            if (!url.match(/^https?:\/\//i)) {
+                if (url.match(/^https?:\\\\/i)) { // http or https:\\
+                    url = url.replace(/^https?:\\\\/i, '');
+                }
+                if (url.match(/^https?:\\/i)) { // http or https:\
+                    url = url.replace(/^https?:\\/i, '');
+                }
+                if (url.match(/^https?:\//i)) { // http or https:/
+                    url = url.replace(/^https?:\//i, '');
+                }
+                url = `http://${url}`;
+            }
+
+            if (isValidURL(url)) {
+                const win = window.open(url, '_blank');
+                win.focus();
+            } else {
+                FwNotification.renderNotification('WARNING', 'URL is not valid');
+            }
+
+            function isValidURL(str) {
+                const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                    '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+                return pattern.test(str);
+            }
+        });
     }
     //---------------------------------------------------------------------------------
-    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void {
+    loadItems($control: JQuery, items: any, hideEmptyItem: boolean): void {
 
     }
     //---------------------------------------------------------------------------------
-    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
+    loadForm($fwformfield: JQuery, table: string, field: string, value: any, text: string, model: any): void {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('.fwformfield-value')
             .val(value);
     }
     //---------------------------------------------------------------------------------
-    disable($control: JQuery<HTMLElement>): void {
+    disable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    enable($control: JQuery<HTMLElement>): void {
+    enable($control: JQuery): void {
 
     }
     //---------------------------------------------------------------------------------
-    getValue2($fwformfield: JQuery<HTMLElement>): any {
+    getValue2($fwformfield: JQuery): any {
         var value = $fwformfield.find('.fwformfield-value').val();
         return value;
     }
     //---------------------------------------------------------------------------------
-    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void {
+    setValue($fwformfield: JQuery, value: any, text: string, firechangeevent: boolean): void {
         var $inputvalue = $fwformfield.find('.fwformfield-value');
         $inputvalue.val(value);
         if (firechangeevent) $inputvalue.change();

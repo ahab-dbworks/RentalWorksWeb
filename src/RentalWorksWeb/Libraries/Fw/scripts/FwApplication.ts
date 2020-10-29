@@ -210,6 +210,11 @@ class FwApplication {
             this.setMedia(media);
         }
 
+        if (sessionStorage.getItem('userid')) {
+            const userid = JSON.parse(sessionStorage.getItem('userid'));
+            FwLocale.setLocale(userid.locale);
+        }
+
         //2020-09-11 MY: Remove when TrakitWorks is its own application
         if (applicationConfig.appCaption) {
             Constants.appCaption = applicationConfig.appCaption;

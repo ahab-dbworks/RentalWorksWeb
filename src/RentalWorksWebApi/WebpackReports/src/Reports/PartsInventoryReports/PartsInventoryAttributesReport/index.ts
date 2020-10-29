@@ -15,7 +15,7 @@ export class PartsInventoryAttributesReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventoryattributesreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Parts Inventory Attributes Report';
 
                     this.renderFooterHtml(data);

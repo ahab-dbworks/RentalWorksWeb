@@ -8,11 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using WebApi.Data;
-using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Controllers
 {
@@ -65,7 +62,7 @@ namespace WebApi.Controllers
 
             if (downloadFileName.Contains("{{BatchDateTime}}"))
             {
-                string dateTime = FwConvert.ToString((DateTime)loader.BatchDateTime).Replace("/", "-");
+                string dateTime = FwConvert.ToShortDate((DateTime)loader.BatchDateTime);
                 downloadFileName = downloadFileName.Replace("{{BatchDateTime}}", dateTime);
             }
             var fileNameTemplate = Handlebars.Compile(downloadFileName);
@@ -74,7 +71,7 @@ namespace WebApi.Controllers
             string directory = FwDownloadController.GetDownloadsDirectory();
             string path = Path.Combine(directory, filename);
 
-            using (var tw = new StreamWriter(path, false))
+            using (var tw = new StreamWriter(path, false, Encoding.UTF8))
             {
                 tw.Write(result);
                 tw.Flush();

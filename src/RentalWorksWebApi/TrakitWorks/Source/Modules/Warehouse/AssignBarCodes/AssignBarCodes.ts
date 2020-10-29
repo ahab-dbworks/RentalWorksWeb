@@ -1,11 +1,11 @@
 //routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarCodesController.getModuleScreen(); } });
 
 class AssignBarCodes {
-    Module:                    string = 'AssignBarCodes';
-    apiurl:                    string = 'api/v1/assignbarcodes';
-    caption:                   string = Constants.Modules.Warehouse.children.AssignBarCodes.caption;
-    nav:                       string = Constants.Modules.Warehouse.children.AssignBarCodes.nav;
-    id:                        string = Constants.Modules.Warehouse.children.AssignBarCodes.id;
+    Module: string = 'AssignBarCodes';
+    apiurl: string = 'api/v1/assignbarcodes';
+    caption: string = Constants.Modules.Warehouse.children.AssignBarCodes.caption;
+    nav: string = Constants.Modules.Warehouse.children.AssignBarCodes.nav;
+    id: string = Constants.Modules.Warehouse.children.AssignBarCodes.id;
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -13,15 +13,15 @@ class AssignBarCodes {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Assign Bar Codes', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -50,22 +50,44 @@ class AssignBarCodes {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
+        const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         FwBrowse.renderGrid({
-            nameGrid:         'POReceiveBarCodeGrid',
-            gridSecurityId:   'qH0cLrQVt9avI',
+            nameGrid: 'POReceiveBarCodeGrid',
+            gridSecurityId: 'qH0cLrQVt9avI',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
+            pageSize: 50,  // for regression test to be able to see all bar codes
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = true;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
-                let contractid = FwFormField.getValueByDataField($form, 'ContractId');
+                const contractid = FwFormField.getValueByDataField($form, 'ContractId');
                 request.uniqueids = {
+                    WarehouseId: warehouseId,
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     ...(contractid != '') && { ReceiveContractId: contractid }
                 };
+            },
+            beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
+                $browse.on('keydown', '[data-browsedatafield="BarCode"], [data-browsedatafield="SerialNumber"]', e => {
+                    const keycode = e.keyCode || e.which;
+                    if (keycode === 13) {
+                        const $tr = jQuery(e.currentTarget).parents('tr');
+                        const datafield = jQuery(e.currentTarget).attr('data-browsedatafield');
+                        let $nextRow = FwBrowse.selectNextRow($browse);
+                        const nextIndex = FwBrowse.getSelectedIndex($browse);
+                        FwBrowse.saveRow($browse, $tr)
+                            .then((value) => {
+                                if (nextIndex != -1) {
+                                    $nextRow = FwBrowse.selectRowByIndex($browse, nextIndex);
+                                    FwBrowse.setRowEditMode($browse, $nextRow);
+                                    $browse.data('selectedfield', datafield);
+                                }
+                            });
+                    }
+                });
             }
         });
     }
@@ -79,6 +101,7 @@ class AssignBarCodes {
         FwFormField.disable($form.find('[data-datafield="DepartmentId"]'));
         //PO No. Change
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
+
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
             FwFormField.setValueByDataField($form, 'VendorId', $tr.find('[data-browsedatafield="VendorId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Vendor"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
@@ -99,12 +122,13 @@ class AssignBarCodes {
 
         //Add items button
         $form.find('.additems').on('click', e => {
-            let request: any = {};
-            request = {
+            const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            const request: any = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                WarehouseId: warehouseId
             }
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/receivebarcodeadditems', request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/additems`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success) {
                     FwNotification.renderNotification('SUCCESS', `${response.ItemsAdded} items added.`);
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', '', '');
@@ -122,30 +146,35 @@ class AssignBarCodes {
 
         //Assign Bar Codes button
         $form.find('.assignbarcodes').on('click', e => {
-            let request: any = {};
-            request = {
+            const request: any = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
             }
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/assignbarcodesfromreceive', request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/assignbarcodes`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.search($poReceiveBarCodeGridControl);
             }, null, $form);
         });
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidatePONumber($browse: any, $form: any, request: any) {
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let warehouseId = warehouse.warehouseid;
-        request.miscfields = {
-            AssignBarCodes: true,
-            AssigningWarehouseId: warehouseId
-        };
-    };
-    //----------------------------------------------------------------------------------------------
-    beforeValidateContractNumber($browse: any, $form: any, request: any) {
-        request.uniqueIds = {
-            PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-        };
+    beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
+        switch (datafield) {
+            case 'PurchaseOrderId':
+                const warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+                request.miscfields = {
+                    AssignBarCodes: true,
+                    AssigningWarehouseId: warehouseId
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepurchaseorder`);
+                break;
+            case 'ContractId':
+                request.uniqueids = {
+                    PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+                };
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecontract`);
+                break;
+        }
+
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -153,18 +182,18 @@ class AssignBarCodes {
         <div id="assignbarcodesform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Assign Bar Codes" data-hasaudit="false" data-controller="AssignBarCodesController">
           <div class="flexpage">
             <div class="flexrow">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Barcodes / Serial Numbers" style="flex:1 1 750px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Codes / Serial Numbers" style="flex:1 1 1400px;min-width:1400px;max-width:1400px;">
                 <div class="flexrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidatePONumber" style="flex:1 1 125px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 125px;"></div>
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PODate" style="flex:1 1 125px;" data-enabled="false"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:2 1 350px;" data-enabled="false"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:2 1 350px;" data-enabled="false"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 225px;" data-enabled="false"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contract No." data-datafield="ContractId" data-displayfield="ContractNumber" data-validationname="ContractValidation" data-formbeforevalidate="beforeValidateContractNumber" style="float:left; flex:0 1 200px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contract No." data-datafield="ContractId" data-displayfield="ContractNumber" data-validationname="ContractValidation" style="float:left; flex:0 1 200px;"></div>
                 </div>
-                <div class="flexrow">
+                <div class="flexrow" style="min-width:1475px;max-width:1475px;">
                   <div data-control="FwGrid" data-grid="POReceiveBarCodeGrid" data-securitycaption="Purchase Order Receive Bar Code"></div>
                 </div>
                 <div class="flexrow" style="margin-top:15px;justify-content:center;">

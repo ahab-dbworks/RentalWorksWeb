@@ -13,12 +13,6 @@ namespace WebApi.Modules.Billing.VendorInvoice
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
         public string InvoiceBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billingstartend", modeltype: FwDataTypes.Text)]
-        public string BillingStartAndEndDates { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poorderno", modeltype: FwDataTypes.Text)]
-        public string OrderNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "podealid", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderDealId { get; set; }
         //------------------------------------------------------------------------------------ 

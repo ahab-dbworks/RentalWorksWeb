@@ -50,7 +50,7 @@ class FwModule {
                             </div>
                           </div>`);
             const $closeTabButton = jQuery(iconHtml.join(''));
-            $tabControl.find('.closetabbutton:first').append($closeTabButton); 
+            $tabControl.find('.closetabbutton:first').append($closeTabButton);
         } else {
             $tabControl.find('.closetabbutton').html('');
         }
@@ -935,7 +935,7 @@ class FwModule {
             const modifiedFields = $form.data('modifiedfields');
 
             for (let i = 0; i < uniqueids.length; i++) {
-                const fields = { ...uniqueids[i], ...modifiedFields }; 
+                const fields = { ...uniqueids[i], ...modifiedFields };
                 request.push(fields);
             }
 
@@ -944,7 +944,7 @@ class FwModule {
                 const $tab = FwTabs.getTabByElement($form);
                 $tab.find('.modified').text('');
                 FwModule.closeForm($form, $tab);
-                FwBrowse.showMultiRowSelector($browse, $browse.find('[data-type="MultiRowEditButton"]'));
+                //FwBrowse.showMultiRowSelector($browse);
                 FwBrowse.search($browse);
                 FwNotification.renderNotification('SUCCESS', 'Records successfully updated.');
             }, ex => FwFunc.showError(ex), $form);
@@ -953,49 +953,103 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
-    static deleteRecord(module: string, $control: JQuery) {
-        try {
-            const $browse = $control;
-            const $selectedRow = $browse.find('tr.selected');
-            if ($selectedRow.length > 0) {
-                const $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Are you sure you want to delete this record?');
-                const $yes = FwConfirmation.addButton($confirmation, 'Yes');
-                const $no = FwConfirmation.addButton($confirmation, 'No');
-                $yes.focus();
-                $yes.on('click', e => {
-                    const controller = $browse.attr('data-controller');
-                    const ids = FwBrowse.getRowFormUniqueIds($browse, $selectedRow);
-                    const request: any = {
-                        module: (<any>window[controller]).Module,
-                        ids: ids
-                    };
-                    FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
-                        const $form = FwModule.getFormByUniqueIds(ids);
-                        if ((typeof $form != 'undefined') && ($form.length > 0)) {
-                            const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
-                            FwModule.closeFormTab($tab, $form, true);
-                        }
-                        FwBrowse.databind($browse);
-                    });
-                });
-                // hotkey support for confirmation buttons
-                $confirmation.on('keyup', e => {
-                    e.preventDefault();
-                    if (e.which === 89) { // 'y'
-                        $yes.click();
-                    }
-                    if (e.which === 78) { // 'n'
-                        $no.click();
-                    }
-                });
+    static async deleteRecord($control: JQuery, $tr: JQuery): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                const name = $control.attr('data-name');
+                const controller: any = window[name + 'Controller'];
+                if (typeof controller === 'undefined') {
+                    throw new Error(`${name}Controller is not defined.`);
 
-            } else {
-                FwNotification.renderNotification('WARNING', 'Please select a row.');
+                }
+                const rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
+                const request = new FwAjaxRequest<any>();
+                request.data = {
+                    module: controller.Module,
+                    ids: rowuniqueids
+                };
+
+                let ids: any = [];
+                for (let key in request.data.ids) {
+                    ids.push(request.data.ids[key].value);
+                }
+                ids = ids.join('');
+
+                let url = controller.apiurl;
+                url += `/${ids}`;
+                request.url = applicationConfig.apiurl + url;
+                request.httpMethod = 'DELETE';
+                const response = await FwAjax.callWebApi<any, any>(request);
+                if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                    const $form = FwModule.getFormByUniqueIds(rowuniqueids);
+                    if ((typeof $form != 'undefined') && ($form.length > 0)) {
+                        const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
+                        FwModule.closeFormTab($tab, $form, true);
+                    }
+                    resolve();
+                } else {
+                    reject(response);
+                }
             }
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
+            catch (ex) {
+                reject(ex);
+            }
+        });
     }
+    //----------------------------------------------------------------------------------------------
+    //static deleteRecord(module: string, $control: JQuery) {
+    //    try {
+    //        const $browse = $control;
+    //        let $selectedRows;
+    //        if ($control.data('hasmultirowselect') && $control.data('showmultirowselect') == 'true') {
+    //            $selectedRows = $browse.find('tbody .tdselectrow input:checked').closest('tr');
+    //        } else {
+    //            $selectedRows = $browse.find('tr.selected');
+    //        }
+
+    //        if ($selectedRows.length > 0) {
+    //const $confirmation = FwConfirmation.renderConfirmation('Delete Record', `Are you sure you want to delete ${confirmationText}?`);
+    //const $yes = FwConfirmation.addButton($confirmation, 'Yes');
+    //const $no = FwConfirmation.addButton($confirmation, 'No');
+    //$yes.focus();
+    //$yes.on('click', e => {
+    //    const controller = $browse.attr('data-controller');
+    //    for (let i = 0; i < $selectedRows.length; i++) {
+    //        const ids = FwBrowse.getRowFormUniqueIds($browse, jQuery($selectedRows[i]));
+    //        const request: any = {
+    //            module: (<any>window[controller]).Module,
+    //            ids: ids
+    //        };
+    //        FwServices.module.method(request, (<any>window[controller]).Module, 'Delete', $browse, function (response) {
+    //            const $form = FwModule.getFormByUniqueIds(ids);
+    //            if ((typeof $form != 'undefined') && ($form.length > 0)) {
+    //                const $tab = jQuery(`#${$form.closest('div.tabpage').attr('data-tabid')}`);
+    //                FwModule.closeFormTab($tab, $form, true);
+    //            }
+    //            FwBrowse.databind($browse);
+    //        });
+    //    }
+    //});
+
+
+    // hotkey support for confirmation buttons
+    //            $confirmation.on('keyup', e => {
+    //                e.preventDefault();
+    //                if (e.which === 89) { // 'y'
+    //                    $yes.click();
+    //                }
+    //                if (e.which === 78) { // 'n'
+    //                    $no.click();
+    //                }
+    //            });
+
+    //        } else {
+    //            FwNotification.renderNotification('WARNING', 'Please select a row.');
+    //        }
+    //    } catch (ex) {
+    //        FwFunc.showError(ex);
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
     static addFormMenuBarButton($menu: JQuery, caption: string, onclick: (e: JQuery.ClickEvent) => void) {
         const $menubarbutton = FwMenu.addStandardBtn($menu, caption);

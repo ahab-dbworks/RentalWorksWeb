@@ -1,22 +1,20 @@
 ﻿class Department {
     Module: string = 'Department';
     apiurl: string = 'api/v1/department';
-    caption: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.caption;
-    nav: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.nav;
-    id: string = Constants.Modules.Settings.children.CompanyDepartmentSettings.children.Department.id;
-
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    caption: string = Constants.Modules.Settings.children.DepartmentSettings.children.Department.caption;
+    nav: string = Constants.Modules.Settings.children.DepartmentSettings.children.Department.nav;
+    id: string = Constants.Modules.Settings.children.DepartmentSettings.children.Department.id;
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen(filter?: { datafield: string, search: string }) {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Company Department', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -26,20 +24,16 @@
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
@@ -48,23 +42,42 @@
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DepartmentId"] input').val(uniqueids.DepartmentId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
-    afterLoad($form: any) {
+    //---------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'DepartmentInventoryTypeGrid',
+            gridSecurityId: 'TEiHWtIOkGrX0',
+            moduleSecurityId: this.id,
+            $form: $form,
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+                };
+            },
+            beforeSave: (request: any) => {
+                request.DepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
+            }
+        });
     }
+    //---------------------------------------------------------------------------------------------
+    afterLoad($form: any) {
+        const $departmentInventoryTypeGrid = $form.find('[data-name="DepartmentInventoryTypeGrid"]');
+        FwBrowse.search($departmentInventoryTypeGrid);
+    }
+    //---------------------------------------------------------------------------------------------
 }
 
 var DepartmentController = new Department();

@@ -22,7 +22,7 @@ export class PurchaseOrderReport extends WebpackReport {
                     Ajax.post<Order>(`${apiUrl}/api/v1/purchaseorderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Order) => {
                             const data: any = response;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
                             }

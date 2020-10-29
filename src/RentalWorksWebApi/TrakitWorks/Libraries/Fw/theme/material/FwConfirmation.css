@@ -5,9 +5,9 @@
 @keyframes         fwconfirmation-fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
 html.no-flexbox .fwconfirmation {-webkit-transform-style:flat;-moz-transform-style:flat;transform-style:flat;}
 html.flexbox .fwconfirmation {display:flex;justify-content:center;align-items:center;}
-.fwconfirmation .fwconfirmationbox {overflow:hidden;min-width:300px;max-width:100vw;box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.3);}
+.fwconfirmation .fwconfirmationbox { border-radius:5px;overflow:hidden;min-width:300px;max-width:100vw;box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.3);}
 html.no-flexbox .fwconfirmation .fwconfirmationbox {position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}
-html.flexbox .fwconfirmation .fwconfirmationbox {}
+html.flexbox .fwconfirmation .fwconfirmationbox { }
 
 .fwconfirmationbox {-webkit-animation:fwconfirmation-pop-in 0.1s;-moz-animation:fwconfirmation-pop-in 0.1s;-ms-animation:fwconfirmation-pop-in 0.1s;}
 @-webkit-keyframes fwconfirmation-pop-in { 0% { opacity: 0; -webkit-transform: scale(0.8); } 100% { opacity: 1; -webkit-transform: scale(1); } }
@@ -20,8 +20,6 @@ html.flexbox .fwconfirmation .fwconfirmationbox {}
 .fwconfirmation .fwconfirmationbox .body .message {cursor: default;-webkit-touch-callout: none;-webkit-user-select: text;-moz-user-select: text;-ms-user-select: text;user-select: text;}
 .fwconfirmation .fwconfirmationbox .body .controls:after {content:"";display:table;clear:both;}
 html.no-touch .fwconfirmation .fwconfirmationbox .more {display:none !important;}
-.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar {padding:10px 0;text-align:center;}
-.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button {margin:0 4px;padding:.4em;cursor:pointer;min-width:4em;font-size:1em;display:inline-block;}
 
 /* jquery.FwPopup.js and FwPopup.js (FwPopup.attach) */
 .FwPopup-divOverlay {background-color:rgba(0,0,0,0.5);position:fixed;top:0;left:0;bottom:0;right:0;cursor:pointer;}
@@ -33,6 +31,8 @@ html.flexbox .FwPopup-divPopup {}
 
 /* FwPopup.js for validations (renderPopup) */
 .fwpopup {background-color:rgba(0,0,0,0.5);position:fixed;top:0;left:0;bottom:0;right:0;}
+.close-modal { display:flex;position:absolute;top:10px;right:15px;cursor:pointer; }
+
 html.no-flexbox .fwpopup {-webkit-transform-style:flat;-moz-transform-style:flat;transform-style:flat;}
 html.flexbox .fwpopup {display:flex;justify-content:center;align-items:center;}
 html.no-flexbox .fwpopup .popuptitle {color:#fafafa;background-color: #2196f3;font-size: 1.1em;padding:.8em;}
@@ -46,9 +46,16 @@ html.no-flexbox .fwpopupbox {position:absolute;top:50%;left:50%;-webkit-transfor
 .fwconfirmation .fwconfirmationbox .body {}
 .fwconfirmation .fwconfirmationbox .body .message {color:#333333;}
 .fwconfirmation .fwconfirmationbox .more {background-color:#000077;color:#ffffff;text-align:center;font-size:12px;border-top:1px solid #777777;border-bottom:1px solid #777777;padding:2px 0 0 0;}
-.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar {}
-.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button {background-color: #9e9e9e;color: #fafafa;}
+.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar { padding:10px 0;text-align:center; }
+.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button { text-align:center;margin:0 4px;padding:.4em;cursor:pointer;min-width:4em;font-size:1em;display:inline-block;background-color:#9e9e9e;color: #fafafa;border-radius:4px;}
 .fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button:hover {background-color:#757575;}
 .fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button:active {background-color:rgba(0,0,0,.2);}
 /*#endregion Default Theme*/
 
+.fwconfirmation .fwconfirmationbox div.table {max-height:50vh;overflow: auto;border: 1px solid #e0e0e0;}
+.fwconfirmation .fwconfirmationbox div.table th,
+.fwconfirmation .fwconfirmationbox div.table td  {padding: .3rem; border: 1px solid #ddd; font-size:.9rem;}
+.fwconfirmation .fwconfirmationbox div.table table {border-collapse:collapse; border:1px solid #ddd;}
+.fwconfirmation .fwconfirmationbox div.table table thead tr {background-color:#eee;}
+.fwconfirmation .fwconfirmationbox div.table table tbody tr {cursor:pointer;}
+.fwconfirmation .fwconfirmationbox div.table table tbody tr.checked {background-color:#ddf0fe;}

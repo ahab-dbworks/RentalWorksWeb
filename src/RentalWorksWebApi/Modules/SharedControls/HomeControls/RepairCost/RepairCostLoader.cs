@@ -58,6 +58,9 @@ namespace WebApi.Modules.HomeControls.RepairCost
         [FwSqlDataField(column: "repairid", modeltype: FwDataTypes.Text)]
         public string RepairId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

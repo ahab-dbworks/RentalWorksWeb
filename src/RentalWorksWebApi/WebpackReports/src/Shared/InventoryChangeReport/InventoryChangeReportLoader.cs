@@ -145,6 +145,15 @@ namespace WebApi.Modules.Reports.InventoryChangeReport
         [FwSqlDataField(column: "runningtotalvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? RunningTotalValue { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasepono", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasepodesc", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchasevendor", modeltype: FwDataTypes.Text)]
+        public string PurchaseVendor { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(InventoryChangeReportRequest request)
         {
             FwJsonDataTable dt = null;

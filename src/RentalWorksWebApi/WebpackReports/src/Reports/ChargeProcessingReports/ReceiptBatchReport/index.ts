@@ -23,7 +23,7 @@ export class ReceiptBatchReport extends WebpackReport {
                         }
                     }
 
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                     data.Report = 'Receipt Batch Report';
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

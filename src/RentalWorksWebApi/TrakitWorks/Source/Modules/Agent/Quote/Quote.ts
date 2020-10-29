@@ -81,7 +81,7 @@ class Quote {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    //addBrowseMenuItems($menuObject: any) {
+    //addBrowseMenuItems(options: IAddBrowseMenuOptions) {
     //    const $all:       JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
     //    const $new:       JQuery = FwMenu.generateDropDownViewBtn('New', false, "NEW");
     //    const $request:   JQuery = FwMenu.generateDropDownViewBtn('Request', false, "REQUEST");
@@ -91,11 +91,11 @@ class Quote {
     //    const $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
     //    const $closed:    JQuery = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
 
-    //    FwMenu.addVerticleSeparator($menuObject);
+    //    FwMenu.addVerticleSeparator(options.$menu);
 
     //    let viewSubitems: Array<JQuery> = [];
     //    viewSubitems.push($all, $new, $request, $active, $reserved, $ordered, $cancelled, $closed);
-    //    FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+    //    FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
     //    if (sessionStorage.getItem('userType') === 'USER') {
     //        //Location Filter
@@ -109,7 +109,7 @@ class Quote {
 
     //        let viewLocation: Array<JQuery> = [];
     //        viewLocation.push($userLocation, $allLocations);
-    //        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+    //        FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
     //    }
     //    else if (sessionStorage.getItem('userType') === 'CONTACT') {
     //        //Deal Filter
@@ -119,7 +119,7 @@ class Quote {
     //        }
     //    }
 
-    //    return $menuObject;
+    //    return options;
     //}
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
@@ -174,7 +174,7 @@ class Quote {
 
             //let viewLocation: Array<JQuery> = [];
             //viewLocation.push($userLocation, $allLocations);
-            //FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+            //FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -436,7 +436,7 @@ class Quote {
         //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderStatusHistoryGrid',
-            gridSecurityId: 'GVa1yJY2edEl',
+            gridSecurityId: 'lATsdnAx7B4s',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -479,7 +479,7 @@ class Quote {
         FwBrowse.renderGrid({
             nameGrid: 'QuoteItemGrid',
             gridSelector: '.rentalgrid div[data-grid="QuoteItemGrid"]',
-            gridSecurityId: '0urUow0W9krD',
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -519,7 +519,7 @@ class Quote {
         //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
-            gridSecurityId: 'LAQkGf7X3I5o',
+            gridSecurityId: '8aq0E3nK2upt',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -553,7 +553,7 @@ class Quote {
         //FwBrowse.renderRuntimeHtml($orderContactGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderContactGrid',
-            gridSecurityId: 'MV7F8hvcH8xq',
+            gridSecurityId: '7CUe9WvpWNat',
             moduleSecurityId: this.id,
 
             $form: $form,

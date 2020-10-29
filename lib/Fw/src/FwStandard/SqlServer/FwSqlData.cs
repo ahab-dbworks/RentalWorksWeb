@@ -32,16 +32,7 @@ namespace FwStandard.SqlServer
                     qry.Add("   and ((email     = @username) or");
                     qry.Add("        (loginname = @username))");
                     qry.AddParameter("@username", username);
-                    await qry.ExecuteAsync();
-                    if (qry.RowCount > 0)
-                    {
-                        userauthdata              = new ExpandoObject();
-                        userauthdata.webusersid   = qry.GetField("webusersid").ToString().TrimEnd();
-                        userauthdata.usersid      = qry.GetField("usersid").ToString().TrimEnd();
-                        userauthdata.password     = qry.GetField("password").ToString();
-                        userauthdata.failedlogins = qry.GetField("failedlogins").ToInt32();
-                        userauthdata.usertype     = qry.GetField("usertype").ToString().TrimEnd();
-                    }
+                    userauthdata = await qry.QueryToDynamicObject2Async();
                 }
 
                 if (userauthdata != null)
@@ -704,11 +695,11 @@ namespace FwStandard.SqlServer
             if (active)
             {
                 inactivedate = DBNull.Value;
-                activedate = FwConvert.ToUSShortDate(DateTime.Now);
+                activedate = FwConvert.ToShortDate(DateTime.Now);
             }
             else 
             {
-                inactivedate = FwConvert.ToUSShortDate(DateTime.Now);
+                inactivedate = FwConvert.ToShortDate(DateTime.Now);
             }
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 

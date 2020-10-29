@@ -80,7 +80,7 @@ class Order extends OrderBase {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    //addBrowseMenuItems($menuObject) {
+    //addBrowseMenuItems(options: IAddBrowseMenuOptions) {
     //    const $all       = FwMenu.generateDropDownViewBtn('All', true, "ALL");
     //    const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
     //    const $active    = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
@@ -91,7 +91,7 @@ class Order extends OrderBase {
       
     //    let viewSubitems: Array<JQuery> = [];
     //    viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
-    //    FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+    //    FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
 
     //    //Location Filter
     //    const location      = JSON.parse(sessionStorage.getItem('location'));
@@ -104,8 +104,8 @@ class Order extends OrderBase {
 
     //    let viewLocation: Array<JQuery> = [];
     //    viewLocation.push($userLocation, $allLocations);
-    //    FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
-    //    return $menuObject;
+    //    FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+    //    return options;
     //}
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         options.hasDelete = false;
@@ -285,7 +285,6 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.find('.buttonbar').hide();
 
         this.events($form);
-        this.getSoundUrls($form);
 
         if (mode === 'NEW') {
             const today = FwFunc.getDate();
@@ -417,7 +416,7 @@ class Order extends OrderBase {
         //FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderStatusHistoryGrid',
-            gridSecurityId: 'y5ubfAn7ByWa',
+            gridSecurityId: 'lATsdnAx7B4s',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -471,7 +470,7 @@ class Order extends OrderBase {
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.rentalgrid div[data-grid="OrderItemGrid"]',
-            gridSecurityId: 'BHdfY4bPXSQf',
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -531,7 +530,7 @@ class Order extends OrderBase {
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.lossdamagegrid div[data-grid="OrderItemGrid"]',
-            gridSecurityId: 'OEl7qBcnJkln',
+            gridSecurityId: 'RFgCJpybXoEb', 
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -570,7 +569,7 @@ class Order extends OrderBase {
         //FwBrowse.renderRuntimeHtml($orderNoteGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderNoteGrid',
-            gridSecurityId: 'waVxYhlGKc0G',
+            gridSecurityId: '8aq0E3nK2upt',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -603,7 +602,7 @@ class Order extends OrderBase {
         //FwBrowse.renderRuntimeHtml($orderContactGridControl);
         FwBrowse.renderGrid({
             nameGrid: 'OrderContactGrid',
-            gridSecurityId: 'bPukYoWry0R4',
+            gridSecurityId: '7CUe9WvpWNat',
             moduleSecurityId: this.id,
 
             $form: $form,
@@ -1136,11 +1135,6 @@ class Order extends OrderBase {
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, data.CountryId, data.Country);
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls = ($form): void => {
-        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
-        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-    }
-    //----------------------------------------------------------------------------------------------
     //cancelPickList(pickListId, pickListNumber, $form) {
     //    var $confirmation, $yes, $no;
     //    var orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -1172,8 +1166,6 @@ class Order extends OrderBase {
         let sessionId, $lossAndDamageItemGridControl;
         const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         const dealId = FwFormField.getValueByDataField($form, 'DealId');
-        const errorSound = new Audio(this.errorSoundFileName);
-        const successSound = new Audio(this.successSoundFileName);
         const HTML: Array<string> = [];
         HTML.push(
             `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
@@ -1322,10 +1314,10 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         $popup.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         FwBrowse.search($lossAndDamageItemGridControl);
                     }
                 }, function onError(response) {
@@ -1342,11 +1334,11 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
-                        errorSound.play();
+                        FwFunc.playErrorSound();
                         FwBrowse.search($lossAndDamageItemGridControl);
                         $popup.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
                     } else {
-                        successSound.play();
+                        FwFunc.playSuccessSound();
                         FwBrowse.search($lossAndDamageItemGridControl); //justin 01/31/2019
                     }
                 }, function onError(response) {

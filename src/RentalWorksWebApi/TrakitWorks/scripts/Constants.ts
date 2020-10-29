@@ -15,7 +15,7 @@
             nodetype: 'Category',
             children: {
                 Alert:         { id: 'gFfpaR5mDAzX',  caption: 'Alert',          nav: 'module/alert', nodetype: 'Module' },
-                CustomField:   { id: 'cZHPJQyBxolS',  caption: 'Custom Fields',   nav: 'module/customfield', nodetype: 'Module' },
+                CustomField:   { id: 'cZHPJQyBxolS', caption: 'Custom Fields', nav: 'module/customfield', nodetype: 'Module' },
                 CustomForm:    { id: '11txpzVKVGi2',  caption: 'Custom Forms',    nav: 'module/customform', nodetype: 'Module' },
                 CustomReportLayout: { id: 'EtrF5NHJ7dRg6', caption: 'Custom Report Layouts', nav: 'module/customreportlayout' },
                 DuplicateRule: { id: 'v7oBspDLjli8',  caption: 'Duplicate Rules', nav: 'module/duplicaterule', nodetype: 'Module' },
@@ -76,7 +76,6 @@
                             Search: { id: '{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}' },
                             PrintQuote: { id: '{CC3F3DB4-21A4-4E70-8992-30886B2D1515}' },
                             CreateOrder: { id: '{F9B8EAC3-07BD-4286-B4F8-CCBE53710B1F}' },
-                            //NewVersion: { id: '{18ECF5BB-18E0-45F5-AB9A-98A377E38D1F}' },
                             CancelUncancel: { id: '{8F3E3263-B5AE-4CB4-8CBB-E9F680AA8C11}' }
                         }
                     }    
@@ -158,7 +157,217 @@
             caption: 'Reports',
             nodetype: 'Category',
             children: {
-
+                //AccountingReports: {
+                //    id: 'Reports.AccountingReports',
+                //    caption: 'Accounting Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        ArAgingReport: { id: 'KHw5yX5TubQ', caption: 'A/R Aging', nav: 'reports/aragingreport', nodetype: 'Module', description: 'List unpaid Invoices, and their corresponding aging totals.  Report is subtotalled by Deal and Customer.' },
+                //        DailyReceiptsReport: { id: 'OLyFIS7rBvr8', caption: 'Daily Receipts', nav: 'reports/dailyreceiptsreport', nodetype: 'Module', description: 'List Daily Receipts.  Report is subtotalled by Deal and Customer.' },
+                //        GlDistributionReport: { id: 'ClMQ5QkZq4PY', caption: 'G/L Distribution', nav: 'reports/gldistributionreport', nodetype: 'Module', description: 'Summarize transaction totals by Account over a date range.' },
+                //    }
+                //},
+                //BillingReports: {
+                //    id: 'Reports.Billing',
+                //    caption: 'Billing Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        AgentBillingReport: { id: 'qx65UNbCoUW', caption: 'Agent Billing', nav: 'reports/agentbillingreport', nodetype: 'Module', description: 'Shows Invoice Activity Totals, subtotalled by Agent.' },
+                //        BillingAnalysisReport: { id: 'c2AwOP9UmJFw', caption: 'Billing Analysis', nav: 'reports/billinganalysisreport', nodetype: 'Module', description: 'List all Orders created within a specified date range, showing Order Total vs. Billed Total and Estimated Cost Total vs. Vendor Invoice Total.' },
+                //        BillingProgressReport: { id: 'Y5ssGcXnxL2', caption: 'Billing Progress', nav: 'reports/billingprogressreport', nodetype: 'Module', description: 'List all Orders and their percentage of total Billing, subtotalled by Customer and Deal.' },
+                //        BillingStatementReport: { id: 'wd7t1jPI4ztQH', caption: 'Billing Statement', nav: 'reports/billingstatementreport', nodetype: 'Module', description: 'Create a printable Billing Statement which itemizes all Billing and Receipt activity per Deal over a specific date range.' },
+                //        CreateInvoiceProcessReport: { id: 'qhb1dkFRrS6T', caption: 'Create Invoice Process', nav: 'reports/createinvoiceprocessreport', nodetype: 'Module', description: 'List all Invoices and Exceptions based on a Creation Batch.' },
+                //        InvoiceDiscountReport: { id: 'PwAjD9UxITIp', caption: 'Invoice Discount', nav: 'reports/invoicediscountreport', nodetype: 'Module', description: 'List all Invoices which have a Discount.' },
+                //        InvoiceReport: { id: 'o5nbWmTr7xy0n', caption: 'Invoices', nav: 'reports/invoicereport', nodetype: 'Module', description: 'Invoice document.' },
+                //        InvoiceSummaryReport: { id: 'LeLwkS6yUBfV', caption: 'Invoice Summary', nav: 'reports/invoicesummaryreport', nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Customer and Deal.' },
+                //        ProfitLossReport: { id: 'gUCH9E3ZYdRIm', caption: 'Profit and Loss', nav: 'reports/profitlossreport', nodetype: 'Module', description: 'List Profit or Loss for all Orders that start within a specified date range.' },
+                //        ProjectManagerBillingReport: { id: 'lTDdAGi63jRVL', caption: 'Project Manager Billing', nav: 'reports/projectmanagerbillingreport', nodetype: 'Module', description: 'Shows Invoice Activity Totals, subtotalled by Project Manager.' },
+                //        SalesQuoteBillingReport: { id: 'L8WwjlirkzC55', caption: 'Sales Quote Billing Analysis', nav: 'reports/salesquotebillingreport', nodetype: 'Module', description: 'List Profitability of Sales Quotes.' },
+                //        SalesRepresentativeBillingReport: { id: 'SgF8AMJVjKARN', caption: 'Sales Representative Billing', nav: 'reports/salesrepresentativebillingreport', nodetype: 'Module', description: 'Shows Invoice Activity Totals, subtotalled by Sales Representative.' },
+                //        SalesTaxCanadaReport: { id: 'UX8GjEXNteJz', caption: 'Sales Tax - Canada', nav: 'reports/salestaxcanadareport', nodetype: 'Module', description: 'List all Invoices for a specific date range, grouped and totaled by Tax Option' },
+                //        SalesTaxUSAReport: { id: 'TaaSgS14rWsCL', caption: 'Sales Tax - USA', nav: 'reports/salestaxusareport', nodetype: 'Module', description: 'List all Invoices for a specific date range, grouped and totaled by Tax Option' },
+                //    }
+                //},
+                //ChangeAuditReports: {
+                //    id: 'Reports.ChangeAuditReports',
+                //    caption: 'Change Audit Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        ChangeAuditReport: { id: 'hfM1GHEQCWBJ', caption: 'Change Audit', nav: 'reports/changeauditreport', nodetype: 'Module', description: 'List all data changes made to any module by any user over a specific date range.' },
+                //    }
+                //},
+                //ChargeProcessingReports: {
+                //    id: 'Reports.ChargeProcessingReports',
+                //    caption: 'Charge Processing Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        DealInvoiceBatchReport: { id: 't3byQWNa3hZ4H', caption: 'Deal Invoice Batch', nav: 'reports/dealinvoicebatchreport', nodetype: 'Module', description: 'List all Invoices processed in a selected Batch.' },
+                //        ReceiptBatchReport: { id: 'jB7p9OvmCibhx', caption: 'Receipt Batch', nav: 'reports/receiptbatchreport', nodetype: 'Module', description: 'List all Receipts processed in a selected Batch.' },
+                //        VendorInvoiceBatchReport: { id: '6gc3QbSGD5BX', caption: 'Vendor Invoice Batch', nav: 'reports/vendorinvoicebatchreport', nodetype: 'Module', description: 'List all Vendor Invoices processed in a selected Batch.' },
+                //    }
+                //},
+                ContractReports: {
+                    id: 'Reports.ContractReports',
+                    caption: 'Contract Reports',
+                    nodetype: 'Category',
+                    children: {
+                        //ExchangeContractReport: { id: 'MAR5QYKd01qwx', caption: 'Exchange Contract', nav: 'reports/exchangecontractreport', nodetype: 'Module', description: 'Exchange Contract document.' },
+                        //ContractRevisionReport: { id: 'ZDRzzkgcqTb57', caption: 'Contract Revision Activity', nav: 'reports/contractrevisionreport', nodetype: 'Module', description: 'List all modifications made to Contracts over a specified date range.' },
+                        //InContractReport: { id: 'DQ0kEL13GYyEg', caption: 'In Contract', nav: 'reports/Incontractreport', nodetype: 'Module', description: 'Check-In Contract document.' },
+                        //LostContractReport: { id: 'F6uNUdehIUVSB', caption: 'Lost Contract', nav: 'reports/lostcontractreport', nodetype: 'Module', description: 'Lost Contract document.' },
+                        OutContractReport: { id: 'p2tH0HSDc930', caption: 'Out Contract', nav: 'reports/outcontractreport', nodetype: 'Module', description: 'Check-Out Contract document.' },
+                        //ReceiveContractReport: { id: 'KXKz4J1x0t71K', caption: 'Receive Contract', nav: 'reports/receivecontractreport', nodetype: 'Module', description: 'Receive Contract document.' },
+                        //ReturnContractReport: { id: 'gkK2yG12BU8kk', caption: 'Return Contract', nav: 'reports/returncontractreport', nodetype: 'Module', description: 'Return Contract document.' },
+                        ReturnListReport: { id: 'cYzbGgLOUMRz', caption: 'Return List', nav: 'reports/returnlistreport', nodetype: 'Module', description: 'Return List document.' },
+                        //TransferManifestReport: { id: 'wf68uZe0JPXDt', caption: 'Transfer Manifest ', nav: 'reports/transfermanifesttreport', nodetype: 'Module', description: 'Transfer Manifest document.' },
+                        //TransferReceiptReport: { id: 'F6XtBsrOH4cjm', caption: 'Transfer Receipt', nav: 'reports/transferreceiptreport', nodetype: 'Module', description: 'Transfer Receipt document.' },
+                    }
+                },
+                //CrewReports: {
+                //    id: 'Reports.CrewReports',
+                //    caption: 'Crew Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        CrewSignInReport: { id: 'kvDH1delOiUT', caption: 'Crew Sign-In', nav: 'reports/crewsigninreport', nodetype: 'Module', description: 'Lists the Sign In and Out activity for Crew members over a specific date range.' },
+                //    }
+                //},
+                DealReports: {
+                    id: 'Reports.DealReports',
+                    caption: 'Deal Reports',
+                    nodetype: 'Category',
+                    children: {
+                        //CreditsOnAccountReport: { id: '9JCPjgemNM8D', caption: 'Credits On Account', nav: 'reports/creditsonaccountreport', nodetype: 'Module', description: 'List each Deal that has an outstanding Credit Memo, Depleting Deposit, or Overpayment.' },
+                        //CustomerRevenueByMonthReport: { id: '40SdfVGkZPtA6', caption: 'Customer Revenue By Month', nav: 'reports/customerrevenuebymonthreport', nodetype: 'Module', description: 'List all revenue per Customer, per Deal, per Month.' },
+                        //CustomerRevenueByTypeReport: { id: 'mIieqY1nHrJP', caption: 'Customer Revenue By Type', nav: 'reports/customerrevenuebytypereport', nodetype: 'Module', description: 'List each Invoice for a specific date range.  Revenue amounts are broken down by Activity Type (ie. Rentals, Sales, etc).  Revenue is subtotalled by Customer and Deal.' },
+                        //DealInvoiceDetailReport: { id: 'u5mTLIfmUKWfH', caption: 'Deal Invoice Detail', nav: 'reports/dealinvoicedetailreport', nodetype: 'Module', description: 'List each Invoice for a specific date range, grouped by Deal and Order.  Review revenue broken down by Activity Type (ie. Rental, Sales, etc).  Analyze profits net of Sub Vendor Costs.' },
+                        DealOutstandingItemsReport: { id: 'i5RTw0gXIWhU', caption: 'Deal Outstanding Items', nav: 'reports/dealoutstandingitemsreport', nodetype: 'Module', description: 'List all items still Checked-Out to a specific Deal.' },
+                        //OrdersByDealReport: { id: 'ltXuVM54H5dYe', caption: 'Orders By Deal', nav: 'reports/ordersbydealreport', nodetype: 'Module', description: 'List all Orders for specific date ranges, grouped by Deal.' },
+                        //ReturnReceiptReport: { id: 'N9wTkNBeCgJQz', caption: 'Return Receipt', nav: 'reports/returnreceiptreport', nodetype: 'Module', description: 'List all inventory checked-in without an Order (ie. Return Receipt) including all reconciliations.' },
+                    }
+                },
+                //MultiLocationReports: {
+                //    id: 'Reports.MultiLocationReports',
+                //    caption: 'Multi Location Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        TransferReport: { id: 'XerdM2ZaD51uw', caption: 'Transfer Report', nav: 'reports/transferreport', nodetype: 'Module', description: 'List all Transfer Orders as well as transferred Inventory over a specific date range.' },
+                //    }
+                //},
+                OrderReports: {
+                    id: 'Reports.OrderReports',
+                    caption: 'Order Reports',
+                    nodetype: 'Category',
+                    children: {
+                        //IncomingShippingLabel: { id: 'U2RQ1fjYwkIZ6', caption: 'Incoming Shipping Label', nav: 'reports/incomingshippinglabel', nodetype: 'Module', description: 'Print Incoming Shipping Label' },
+                        LateReturnsReport: { id: 'gOtEnqxlXIOt', caption: 'Late Return / Due Back', nav: 'reports/latereturnsreport', nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
+                        //ManifestReport: { id: '8lSfSBPXlYh5', caption: 'Order Item Value Sheet', nav: 'reports/manifestreport', nodetype: 'Module', description: 'Gets item manifest information' },
+                        //OrderConflictReport: { id: 'kXV9ZCJogLiwe', caption: 'Availability Item Conflict', nav: 'reports/orderconflictreport', nodetype: 'Module', description: 'List all Negative and Positive Availability Conflicts over a specified date range.' },
+                        OrderReport: { id: 'Q89Ni6FvVL92', caption: 'Print Order', nav: 'reports/orderreport', nodetype: 'Module', description: 'Order document.' },
+                        OrderStatusDetailReport: { id: 'EY9uBXnssjv1', caption: 'Order Status Detail', nav: 'reports/orderstatusdetailreport', nodetype: 'Module', description: 'Gets status detail for specified order.' },
+                        OrderStatusSummaryReport: { id: '44jjIwel6TP0d', caption: 'Order Status Summary', nav: 'reports/orderstatussummaryreport', nodetype: 'Module', description: 'Gets status summary for specified order.' },
+                        //OutgoingShippingLabel: { id: 'tzTGi6kzrelFp', caption: 'Outgoing Shipping Label', nav: 'reports/outgoingshippinglabel', nodetype: 'Module', description: 'Print Outgoing Shipping Label' },
+                        //OutstandingSubRentalReport: { id: 'NCFNATdQRx5E', caption: 'Outstanding Sub-Rental', nav: 'reports/outstandingsubrentalreport', nodetype: 'Module', description: 'List all Sub-Rental items currently Staged, Out, or in Holding.' },
+                        PickListReport: { id: 'Rk38wHmvgXTg', caption: 'Pick List', nav: 'reports/picklistreport', nodetype: 'Module', description: 'Pick List document.' },
+                        //QuikActivityReport: { id: '4hamhMOWKXD9', caption: 'QuikActivity', nav: 'reports/quikactivityreport', nodetype: 'Module', description: 'List all Quote, Order, Transfer, Purchase, and Repair activities over a specific date range.' },
+                        QuoteReport: { id: 'SZ80uvR5NjI7', caption: 'Print Quote', nav: 'reports/quotereport', nodetype: 'Module', description: 'Quote document.' },
+                        //QuoteOrderMasterReport: { id: 'yx1quQL9wJ9mg', caption: 'Quote / Order Master Report', nav: 'reports/quoteordermasterreport', nodetype: 'Module', description: 'List all Quotes and Orders, filtered by date range, and grouped by Deal.' },
+                        //SubSalesStagedItemsReport: { id: '2GIJvJlbIFQN', caption: 'Sub-Sales Staged Items', nav: 'reports/subsalesstageditemsreport', nodetype: 'Module', description: 'List all Sub Sale Inventory currently Staged on Orders.' },
+                    }
+                },
+                //PartsInventoryReports: {
+                //    id: 'Reports.PartsInventoryReports',
+                //    caption: 'Parts Inventory Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        PartsInventoryAttributesReport: { id: 'qyi6CvOObXr', caption: 'Parts Inventory Attributes', nav: 'reports/partsinventoryattributesreport', nodetype: 'Module', description: 'List all Parts Inventory with their Attributes and Values.' },
+                //        PartsInventoryCatalogReport: { id: '5KHdCAEfEbEVo', caption: 'Parts Inventory Catalog', nav: 'reports/partsinventorycatalogreport', nodetype: 'Module', description: 'List all Parts Inventory, current Rates, and Quantity on Hand.' },
+                //        PartsInventoryChangeReport: { id: 'PYSHE3LpB2yf', caption: 'Parts Inventory Change', nav: 'reports/partsinventorychangereport', nodetype: 'Module', description: 'List all changes to Parts Inventory quantities over a date range.' },
+                //        PartsInventoryPurchaseHistoryReport: { id: 's3JHeEZYfEu', caption: 'Parts Inventory Purchase History', nav: 'reports/partsinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Parts Inventory Purchase History.' },
+                //        PartsInventoryReorderReport: { id: '2KtGO1TfYVe', caption: 'Parts Inventory Reorder', nav: 'reports/partsinventoryreorderreport', nodetype: 'Module', description: 'List all Parts Inventory to reorder. Filter items with quantity levels at or below their Reorder Point.' },
+                //        PartsInventoryTransactionReport: { id: 'p4MdfH1e38wLE', caption: 'Parts Inventory Transactions', nav: 'reports/partsinventorytransactionreport', nodetype: 'Module', description: 'List all Parts Inventory Transactions, including Cost and Price, over a specific date range.' },
+                //    }
+                //},
+                RentalInventoryReports: {
+                    id: 'Reports.RentalInventoryReports',
+                    caption: 'Rental Inventory Reports',
+                    nodetype: 'Category',
+                    children: {
+                        //FixedAssetBookValueReport: { id: '03HEFOHpPOEm', caption: 'Fixed Asset Book Value', nav: 'reports/fixedassetbookvaluereport', nodetype: 'Module', description: 'List all Fixed Asset Inventory items and get a current or historical Book Value.' },
+                        //FixedAssetDepreciationReport: { id: '3KJaC5Kc7149', caption: 'Fixed Asset Depreciation', nav: 'reports/fixedassetdepreciationreport', nodetype: 'Module', description: 'List Depreciation for all Fixed Asset Inventory items over a given date range.' },
+                        //RentalInventoryActivityByDateReport: { id: 'nh7dhdTKT9U0Q', caption: 'Rental Inventory Activity By Date', nav: 'reports/rentalinventoryactivitybydatereport', nodetype: 'Module', description: 'List all Rental Inventory Out and In Activity over a specific date range.' },
+                        RentalInventoryAttributesReport: { id: 'CgvKJwiD2ew', caption: 'Rental Inventory Attributes', nav: 'reports/rentalinventoryattributesreport', nodetype: 'Module', description: 'List all Rental Inventory with their Attributes and Values.' },
+                        //RentalInventoryAvailabilityReport: { id: 'LQj6R2GQBfLfS', caption: 'Rental Inventory Availability', nav: 'reports/rentalinventoryavailabilityreport', nodetype: 'Module', description: 'List all Rental Inventory with projected Availability for up to 30 days.' },
+                        RentalInventoryCatalogReport: { id: '9cNlsCNNeCPV', caption: 'Rental Inventory Catalog', nav: 'reports/rentalinventorycatalogreport', nodetype: 'Module', description: 'List all Rental Inventory, current Rates, Replacement Cost, and Owned Quantity.' },
+                        RentalInventoryChangeReport: { id: '38oJf9KIuq4x', caption: 'Rental Inventory Change', nav: 'reports/rentalinventorychangereport', nodetype: 'Module', description: 'List all changes to Rental Inventory quantities over a date range.' },
+                        //RentalInventoryMasterReport: { id: 'hVovGdrneLrzq', caption: 'Rental Inventory Master', nav: 'reports/rentalinventorymasterreport', nodetype: 'Module', description: 'List all Rental Inventory with their Quantities, Status, Cost, and Value.' },
+                        //RentalInventoryMovementReport: { id: '3fjXnYy5gTPR', caption: 'Rental Inventory Movement', nav: 'reports/rentalinventorymovementreport', nodetype: 'Module', description: 'List all Rental Inventory with changes in quantity over a date range.' },
+                        RentalInventoryPurchaseHistoryReport: { id: 'kI5HgFqlPzr', caption: 'Rental Inventory Purchase History', nav: 'reports/rentalinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Rental Inventory Purchase History.' },
+                        RentalInventoryQCRequiredReport: { id: 'LzwbAbB86Hlvs', caption: 'Rental Inventory QC Required', nav: 'reports/rentalinventoryqcrequiredreport', nodetype: 'Module', description: 'List all Rental Inventory that require QC.' },
+                        //RentalInventoryRepairHistoryReport: { id: 'bLX4YBftwJvw', caption: 'Rental Inventory Repair History', nav: 'reports/rentalinventoryrepairhistoryreport', nodetype: 'Module', description: 'List all Rental Inventory that has been In Repair over a specified date range.' },
+                        //RentalInventoryStatusAndRevenueReport: { id: 'uCEqKxMHdcT', caption: 'Rental Inventory Status and Revenue', nav: 'reports/rentalinventorystatusandrevenuereport', nodetype: 'Module', description: 'List all Rental Inventory including current status counts and revenue over a given date range.' },
+                        //RentalInventoryUnusedItemsReport: { id: 'Xb4w7HOWs9vww', caption: 'Rental Inventory Unused Items', nav: 'reports/rentalinventoryunuseditemsreport', nodetype: 'Module', description: 'List all Rental Inventory that has not been rented for the the specified number of days.' },
+                        RentalInventoryUsageReport: { id: 'BplzDmql7vG48', caption: 'Rental Inventory Usage', nav: 'reports/rentalinventoryusagereport', nodetype: 'Module', description: 'List all Rental Inventory and Usage, with owned revenue and sub-rental revenue.' },
+                        RentalInventoryValueReport: { id: 'UZkDL1Yyby6kN', caption: 'Rental Inventory Value', nav: 'reports/rentalinventoryvaluereport', nodetype: 'Module', description: 'List all Rental Inventory and get a current value, historical value, or change in value over a date range.' },
+                        //RentalLostAndDamagedBillingHistoryReport: { id: '37O4QUBc8nM8t', caption: 'Rental Lost And Damaged Billing History', nav: 'reports/rentallostanddamagedbillinghistoryreport', nodetype: 'Module', description: 'List all Billing for Lost and Damaged inventory.' },
+                        RetiredRentalInventoryReport: { id: 'L8qgvB6nFhAV', caption: 'Retired Rental Inventory', nav: 'reports/retiredrentalinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory Retired during a specified date range.' },
+                        ReturnedToInventoryReport: { id: 'jXgzMRhDOFMY', caption: 'Returned To Inventory', nav: 'reports/returnedtoinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory Returned during a specified date range.' },
+                        //ReturnOnAssetReport: { id: '15TIjoDzY09G', caption: 'Return On Asset', nav: 'reports/returnonassetreport', nodetype: 'Module', description: 'Calculate the Revenue, Value, Utilization, and Return on Asset for all Rental Inventory for various date ranges.' },
+                        UnretiredRentalInventoryReport: { id: 'UaCdIoXMNFyiT', caption: 'Unretired Rental Inventory', nav: 'reports/unretiredrentalinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory unretired during a specified date range.' },
+                        ValueOfOutRentalInventoryReport: { id: 'n4gdQ6awebnX', caption: 'Value Of Out Rental Inventory', nav: 'reports/valueofoutrentalinventoryreport', nodetype: 'Module', description: 'List all Rental Inventory Out on a specific date, including Cost and Value for each.' },
+                    }
+                },
+                //RepairOrderReports: {
+                //    id: 'Reports.RepairOrderReports',
+                //    caption: 'Repair Order Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        RepairOrderReport: { id: 'tqBQZCgmOUDcE', caption: 'Repair Order', nav: 'reports/repairorderreport', nodetype: 'Module', description: 'Repair Order Document.' },
+                //        RepairOrderStatusReport: { id: 'KFP6Nq17ZuDPO', caption: 'Repair Order Status', nav: 'reports/repairorderstatusreport', nodetype: 'Module', description: 'List all Repair Orders, including Damage Notes.  Filter by Status, Type, Priority, Days In Repair, and more.' },
+                //        RepairTag: { id: 'TNvVB0kI42ngF', caption: 'Repair Tag', nav: 'reports/repairtag', nodetype: 'Module', description: 'Print a specialized tag/label with information about the item to be repaired.' },
+                //    }
+                //},
+                //SalesInventoryReports: {
+                //    id: 'Reports.SalesInventoryReports',
+                //    caption: 'Sales Inventory Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        SalesBackorderReport: { id: 'KMdFiy9SEIQEU', caption: 'Sales Inventory Backorder', nav: 'reports/salesbackorderreport', nodetype: 'Module', description: 'List all Orders with Sales Inventory partially checked-out and items still on backorder.' },
+                //        SalesHistoryReport: { id: '0qFfabkzl5Vi', caption: 'Sales History', nav: 'reports/saleshistoryreport', nodetype: 'Module', description: 'List all Sales over a specific date range.' },
+                //        SalesInventoryAttributesReport: { id: 'IKtnIOnt3tS', caption: 'Sales Inventory Attributes', nav: 'reports/salesinventoryattributesreport', nodetype: 'Module', description: 'List all Sales Inventory with their Attributes and Values.' },
+                //        SalesInventoryCatalogReport: { id: 'psk5v7y4gImL', caption: 'Sales Inventory Catalog', nav: 'reports/salesinventorycatalogreport', nodetype: 'Module', description: 'List all Sales Inventory, current Rates, and Quantity on Hand.' },
+                //        SalesInventoryChangeReport: { id: 'ICUgr2QYcrPE', caption: 'Sales Inventory Change', nav: 'reports/salesinventorychangereport', nodetype: 'Module', description: 'List all changes to Sales Inventory quantities over a date range.' },
+                //        SalesInventoryMasterReport: { id: 'iZlMgIbbp6iK2', caption: 'Sales Inventory Master', nav: 'reports/salesinventorymasterreport', nodetype: 'Module', description: 'List all Sales Inventory with their Quantities, Costs, and Revenue Totals.' },
+                //        SalesInventoryPurchaseHistoryReport: { id: 'mSjHvRjNvI0', caption: 'Sales Inventory Purchase History', nav: 'reports/salesinventorypurchasehistoryreport', nodetype: 'Module', description: 'List all Sales Inventory Purchase History.' },
+                //        SalesInventoryReorderReport: { id: 'h1ag1lcZCgd', caption: 'Sales Inventory Reorder', nav: 'reports/salesinventoryreorderreport', nodetype: 'Module', description: 'List all Sales Inventory to reorder. Filter items with quantity levels at or below their Reorder Point.' },
+                //        SalesInventoryRepairHistoryReport: { id: 'ZpC5S5veTzD0', caption: 'Sales Inventory Repair History', nav: 'reports/salesinventoryrepairhistoryreport', nodetype: 'Module', description: 'List all Sales Inventory that has been In Repair over a specified date range.' },
+                //        SalesInventoryTransactionReport: { id: 'uUxuUabbhO7ah', caption: 'Sales Inventory Transactions', nav: 'reports/salesinventorytransactionreport', nodetype: 'Module', description: 'List all Sales Inventory Transactions, including Cost and Price, over a specific date range.' },
+                //    }
+                //},
+                VendorReports: {
+                    id: 'Reports.VendorReports',
+                    caption: 'Vendor Reports',
+                    nodetype: 'Category',
+                    children: {
+                        //PurchaseOrderMasterReport: { id: 'zJJl8Frw1U7U7', caption: 'Purchase Order Master', nav: 'reports/purchaseordermasterreport', nodetype: 'Module', description: 'List all Purchase Orders for a specified date range.' },
+                        //PurchaseOrderReport: { id: 'ZcNjp0seMeWi', caption: 'Purchase Order', nav: 'reports/purchaseorderreport', nodetype: 'Module', description: 'Purchase Order Document.' },
+                        PurchaseOrderReturnList: { id: 'tM8if9Yclmiv6', caption: 'Purchase Order Return List', nav: 'reports/purchaseorderreturnlist', nodetype: 'Module', description: 'Purchase Order Return List.' },
+                        //PurchaseOrderSummaryReport: { id: 'yrvMp4sG8CzF', caption: 'Purchase Order Summary', nav: 'reports/purchaseordersummaryreport', nodetype: 'Module', description: 'List all Purchase Orders for a specified date range.' },
+                        //SubItemStatusReport: { id: 'fL9dlJfzzJf8U', caption: 'Sub Item Status', nav: 'reports/subitemstatusreport', nodetype: 'Module', description: 'List all Sub-Rentals, Sub-Sales, Sub-Misc, and Sub-Labor over a specified date range. Evaluate profitability of each.' },
+                        //SubRentalBillingAnalysisReport: { id: 'KIE1O1i2tvtsu', caption: 'Sub-Rental Billing Analysis', nav: 'reports/subrentalbillinganalysisreport', nodetype: 'Module', description: 'List all Sub-Rental Billing activity and compare Deal billing amounts with Vendor billing amounts.' },
+                        //VendorInvoiceSummaryReport: { id: 'J2Lczm4sL14Ze', caption: 'Vendor Invoice Summary', nav: 'reports/vendorinvoicesummaryreport', nodetype: 'Module', description: 'List all Invoices for a specific date range, subtotalled by Purchase Order and Deal.' },
+                    }
+                },
+                //WarehouseReports: {
+                //    id: 'Reports.WarehouseReports',
+                //    caption: 'Warehouse Reports',
+                //    nodetype: 'Category',
+                //    children: {
+                //        RateUpdateReport: { id: 'Nxb4NonfG10c9', caption: 'Rate Update', nav: 'reports/rateupdatereport', nodetype: 'Module', description: 'List all rates updated in a selected Batch.' },
+                //        WarehouseDispatchReport: { id: 'gs5q3h0v0HzXF', caption: 'Warehouse Dispatch', nav: 'reports/warehousedispatchreport', nodetype: 'Module', description: 'List all Warehouse Dispatch Activities for a specific date range.' },
+                //        WarehouseInboundReport: { id: 'gQLKq8L9zC32b', caption: 'Warehouse Inbound', nav: 'reports/warehouseinboundreport', nodetype: 'Module', description: 'List all Warehouse Inbound Activities for a specific date range.' },
+                //        WarehouseOutboundReport: { id: 'gPuvfa4B1tHuE', caption: 'Warehouse Outbound', nav: 'reports/warehouseoutboundreport', nodetype: 'Module', description: 'List all Warehouse Outbound Activities for a specific date range.' },
+                //    }
+                //}
             }
 
         },
@@ -207,6 +416,14 @@
                         DealClassification: { id: 'uRRVPMAFf61J', caption: 'Deal Classification', nav: 'settings/currencysettings/dealclassification', nodetype: 'Module', description: '' },
                         DealStatus: { id: 'CHOTGdFVlnFK', caption: 'Deal Status', nav: 'settings/currencysettings/dealstatus', nodetype: 'Module', description: '' },
                         DealType: { id: 'jZCS1X5BzeyS', caption: 'DealType', nav: 'settings/currencysettings/dealtype', nodetype: 'Module', description: '' }
+                    }
+                },
+                DepartmentSettings: {
+                    caption: 'Department',
+                    id: 'Settings.CompanyDepartmentSettings',
+                    nodetype: 'Category',
+                    children: {
+                        Department: { id: 'kuYqT9d6TDEg', caption: 'Department', nav: 'module/companydepartment', nodetype: 'Module', description: '' },
                     }
                 },
                 InventorySettings: {

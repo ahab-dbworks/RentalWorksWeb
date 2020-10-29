@@ -1062,6 +1062,8 @@ abstract class FwWebApiReport {
                     });
             }
 
+            parameters.Locale = FwLocale.Locale;
+
             return parameters;
         } catch (ex) {
             FwFunc.showError(ex)

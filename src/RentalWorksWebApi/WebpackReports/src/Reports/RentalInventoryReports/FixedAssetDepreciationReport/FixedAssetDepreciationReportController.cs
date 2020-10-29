@@ -42,7 +42,7 @@ namespace WebApi.Modules.Reports.FixedAssetDepreciationReport
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "FixedAssetDepreciationReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Fixed Asset Depreciation Report"; }
+        protected override string GetReportFriendlyName() { return "Rental Inventory Fixed Asset Depreciation Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {

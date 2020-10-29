@@ -47,6 +47,9 @@ namespace FwStandard.Data
         [JsonIgnore]
         public bool ReloadOnSave { get; set; }
 
+        [JsonIgnore]
+        public StringBuilder Cte { get; set; } = new StringBuilder();
+
         public event EventHandler<BeforeBrowseEventArgs> BeforeBrowse;
         public event EventHandler<AfterBrowseEventArgs> AfterBrowse;
         public event EventHandler<AfterLoadEventArgs> AfterLoad;
@@ -1166,7 +1169,7 @@ namespace FwStandard.Data
                                     }
                                     break;
                                 }
-                            case "sw":
+                            case "sw": //starts with
                                 if (needsWhere)
                                 {
                                     select.Add("where");
@@ -1175,7 +1178,7 @@ namespace FwStandard.Data
                                 select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
                                 select.AddParameter(parameterName, $"%{fieldSqlValue}");
                                 break;
-                            case "ew":
+                            case "ew": // ends with
                                 if (needsWhere)
                                 {
                                     select.Add("where");
@@ -1184,7 +1187,7 @@ namespace FwStandard.Data
                                 select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
                                 select.AddParameter(parameterName, $"%{fieldSqlValue}");
                                 break;
-                            case "co":
+                            case "co":  // contains
                                 if (needsWhere)
                                 {
                                     select.Add("where");
@@ -1193,7 +1196,7 @@ namespace FwStandard.Data
                                 select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
                                 select.AddParameter(parameterName, $"%{fieldSqlValue}%");
                                 break;
-                            case "dnc":
+                            case "dnc":  // does not contain
                                 if (needsWhere)
                                 {
                                     select.Add("where");
@@ -1209,7 +1212,7 @@ namespace FwStandard.Data
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} > {parameterName}");
-                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
+                                select.AddParameter(parameterName, fieldSqlValue);
                                 break;
                             case "gte":
                                 if (needsWhere)
@@ -1218,7 +1221,7 @@ namespace FwStandard.Data
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} >= {parameterName}");
-                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
+                                select.AddParameter(parameterName, fieldSqlValue);
                                 break;
                             case "lt":
                                 if (needsWhere)
@@ -1227,7 +1230,7 @@ namespace FwStandard.Data
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} < {parameterName}");
-                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
+                                select.AddParameter(parameterName, fieldSqlValue);
                                 break;
                             case "lte":
                                 if (needsWhere)
@@ -1236,7 +1239,7 @@ namespace FwStandard.Data
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} <= {parameterName}");
-                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
+                                select.AddParameter(parameterName, fieldSqlValue);
                                 break;
                         }
                         if (conjunction == string.Empty)
@@ -1286,7 +1289,7 @@ namespace FwStandard.Data
                             p.GetCustomAttribute<GetRequestPropertyAttribute>() != null &&
                             p.GetCustomAttribute<GetRequestPropertyAttribute>().EnableSorting == true)
                         .FirstOrDefault<PropertyInfo>();
-                    if (recordPropInfo == null && requestPropInfo == null)
+                    if (recordPropInfo == null || requestPropInfo == null)
                     {
                         throw new ArgumentException($"Invalid column name: '{sortField}' in sort expression.", sortField);
                     }
@@ -1356,6 +1359,7 @@ namespace FwStandard.Data
                 using (FwSqlConnection conn = GetDatabaseConnection())
                 {
                     FwSqlSelect select = new FwSqlSelect();
+                    select.Cte = this.Cte;
                     select.EnablePaging = request.pageno != 0 || request.pagesize > 0;
                     select.PageNo = request.pageno;
                     select.PageSize = request.pagesize;
@@ -1432,12 +1436,13 @@ namespace FwStandard.Data
                 conn = GetDatabaseConnection();
             }
             FwSqlSelect select = new FwSqlSelect();
+            select.Cte = this.Cte;
             using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
             {
                 SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
                 select.SetQuery(qry);
                 MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
-                MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                MethodInfo generic = method.MakeGenericMethod(typeof(T));
                 dynamic result = generic.Invoke(qry, new object[] { customFields });
                 dynamic records = await result;
                 return records;
@@ -1451,6 +1456,7 @@ namespace FwStandard.Data
                 conn = GetDatabaseConnection();
             }
             FwSqlSelect select = new FwSqlSelect();
+            select.Cte = this.Cte;
             using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
             {
                 SetBaseGetManyQuery<T>(select, qry, request, customFields);
@@ -1463,9 +1469,9 @@ namespace FwStandard.Data
 
                 // call the generic method SelectAsync<T> on the qry using reflection
                 MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
-                MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                Task<GetResponse<T>> result = (Task<GetResponse<T>>)generic.Invoke(qry, new object[] { customFields });
-                var response = await result;
+                MethodInfo generic = method.MakeGenericMethod(typeof(T));
+                dynamic result = generic.Invoke(qry, new object[] { customFields, this.GetType() });
+                dynamic response = await result;
                 return response;
             }
         }
@@ -1515,6 +1521,7 @@ namespace FwStandard.Data
                         conn = GetDatabaseConnection();
                     }
                     FwSqlSelect select = new FwSqlSelect();
+                    select.Cte = this.Cte;
                     using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
                         SetBaseSelectQuery(select, qry, customFields);

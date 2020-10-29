@@ -382,6 +382,11 @@ namespace WebApi.Modules.HomeControls.Inventory
         public string DescriptionWithAkas { get; set; }
 
 
+        [FwLogicProperty(Id: "dONXERvrzrsk")]
+        public string CostCalculation { get { return master.CostCalculation; } set { master.CostCalculation = value; } }
+
+
+
         // for cusomizing browse 
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "Wx00gon6g1PRz", IsReadOnly: true)]
@@ -462,6 +467,46 @@ namespace WebApi.Modules.HomeControls.Inventory
                 PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.KitPackagePrice));
                 string[] acceptableValues = { "", RwConstants.INVENTORY_PACKAGE_PRICE_COMPLETEKIT_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_ITEM_PRICE, RwConstants.INVENTORY_PACKAGE_PRICE_SPECIAL_ITEM_PRICE };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.CostCalculation));
+                string[] acceptableValues = { RwConstants.COST_CALCULATION_FIFO, RwConstants.COST_CALCULATION_LIFO, RwConstants.COST_CALCULATION_AVERAGE, RwConstants.COST_CALCULATION_UNIT_VALUE };  // unit value will be removed
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg, (saveMode.Equals(TDataRecordSaveMode.smUpdate)));
+            }
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    InventoryLogic orig = (InventoryLogic)original;
+
+                    if (CostCalculation != null)
+                    {
+                        if (!CostCalculation.Equals(orig.CostCalculation))
+                        {
+                            bool retireExists = AppFunc.DataExistsAsync(AppConfig, "retired", new string[] { "masterid" }, new string[] { InventoryId }).Result;
+                            bool transferExists = AppFunc.DataExistsAsync(AppConfig, "ordertranview", new string[] { "masterid", "istransfer" }, new string[] { InventoryId, "T" }).Result;
+                            if (isValid)
+                            {
+                                if (retireExists)
+                                {
+                                    isValid = false;
+                                    validateMsg = "Cannot change the Cost Calculation once Inventory has been sold or retired.";
+                                }
+                            }
+                            if (isValid)
+                            {
+                                if (transferExists)
+                                {
+                                    isValid = false;
+                                    validateMsg = "Cannot change the Cost Calculation once Inventory has been transferred.";
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             return isValid;

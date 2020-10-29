@@ -18,7 +18,7 @@ export class LostContractReport extends WebpackReport {
                     Ajax.post<any>(`${apiUrl}/api/v1/lostcontractreport/runreport`, authorizationHeader, parameters)
                         .then((response: any) => {
                             const data: any = response;
-                    this.setReportMetadata(parameters, data);
+                    this.setReportMetadata(parameters, data, response);
                             data.Report = 'LOST CONTRACT';
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;

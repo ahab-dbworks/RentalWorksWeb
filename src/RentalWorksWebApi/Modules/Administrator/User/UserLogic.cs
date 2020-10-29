@@ -68,7 +68,7 @@ namespace WebApi.Modules.Administrator.User
                     passwordChanged = true;
                 }
                 user.Password = value;
-                user.PasswordUpdatedDateTime = FwConvert.ToUSShortDate(DateTime.Today);
+                user.PasswordUpdatedDateTime = FwConvert.ToShortDate(DateTime.Today);
 
                 webUser.WebPassword = value;
             }
@@ -447,6 +447,8 @@ namespace WebApi.Modules.Administrator.User
         public bool? WebQuoteRequest { get { return webUser.WebQuoteRequest; } set { webUser.WebQuoteRequest = value; } }
         [FwLogicProperty(Id: "KH1Ukq1EJ0T1M")]
         public string EmailSignature { get; set; }
+        [FwLogicProperty(Id: "QwK3LZn4atcye")]
+        public string Locale { get { return webUser.Locale; } set { webUser.Locale = value; } }
         //------------------------------------------------------------------------------------
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {

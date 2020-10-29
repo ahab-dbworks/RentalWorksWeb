@@ -15,6 +15,11 @@
             this.nav = 'module/group';
         }
 
+        addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+            options.hasInactive = false;
+            FwMenu.addBrowseMenuButtons(options);
+        }
+
         getModuleScreen() {
             let screen: any = {};
             screen.$view = FwModule.getModuleControl(this.Module + 'Group');
@@ -79,9 +84,9 @@
 
             $editgrouptree_children = jQuery('<ul class="grouptree"></ul>');
             $editgrouptree.empty()
-                //.append('<div class="title">Edit Group Tree</div>')
                 .append($editgrouptree_children);
-            this.renderNode('edit', $form, $editgrouptree_children, applicationtree);
+            const hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
+            this.renderNode('edit', $form, $editgrouptree_children, applicationtree, hidenewmenuoptionsbydefault);
 
             var $searchbar = $form.find('.searchbar');
             searchbarHtml.push('<form id="groupsearch">')
@@ -134,7 +139,8 @@
             $previewgrouptree_children = jQuery('<ul class="grouptree"></ul>');
             $previewgrouptree.empty().append('<div class="title">Preview Group Tree</div>', $previewgrouptree_children);
             applicationtree = $previewgrouptree.data('applicationtree');
-            this.renderNode('preview', $form, $previewgrouptree_children, applicationtree);
+            const hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
+            this.renderNode('preview', $form, $previewgrouptree_children, applicationtree, hidenewmenuoptionsbydefault);
             var $previewSubModules = jQuery('.previewgrouptree li[data-property-id="712A2E4B-4387-4D55-9B35-0C2DCBD9B284"]');
             if ($previewSubModules.find('> .childrencontainer > ul.children > li').length === 0) {
                 $previewSubModules.remove();
@@ -145,7 +151,7 @@
             }
         }
 
-        renderNode(mode, $form: JQuery, $container: JQuery, node: IGroupSecurityNode) {
+        renderNode(mode, $form: JQuery, $container: JQuery, node: IGroupSecurityNode, hidenewmenuoptionsbydefault) {
             var me = this;
             var hidenewmenuoptionsbydefault, haschildren, $node: JQuery, $content, $iconexpander, $icon, $iconvisible, $iconeditable,
                 $caption, nodedescription, $childrencontainer, $children;
@@ -154,9 +160,9 @@
             if (node.nodetype === 'System') {
                $waitOverlay = FwOverlay.showPleaseWaitOverlay($form.find('.securitytabpage'), FwAppData.generateUUID());
             }
-            hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
             haschildren = (node.children.length > 0);
             $node = jQuery('<li class="node">');
+
             switch (node.nodetype) {
                 case 'ModuleActions':
                     if ((node.children.length === 0) ||
@@ -222,21 +228,6 @@
                     break;
             }
             $node.append($iconexpander);
-            if (haschildren) {
-                $iconexpander.on('click', function () {
-                    var showchildren;
-                    try {
-                        showchildren = ($node.attr('data-expanded') === 'F');
-                        jQuery(this).closest('.content').siblings('.childrencontainer').toggle(showchildren);
-                        $node.attr('data-expanded', showchildren ? 'T' : 'F');
-                        //if ($node.attr('data-nodetype') === 'Module') {
-                        //    $node.find('li.node:not([data-nodetype="Control"],[data-nodetype="ModuleAction"],[data-nodetype="ModuleOptions"],[data-nodetype="ControlAction"],[data-nodetype="ControlOptions"])').attr('data-expanded', showchildren);
-                        //}
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
-            }
 
             $icon = jQuery('<i class="material-icons nodetypeicon"></i>');
             $node.append($icon);
@@ -252,133 +243,104 @@
                     
                     $iconvisible = jQuery('<i class="material-icons iconvisible"></i>');
                     $content.append($iconvisible);
-                    $iconvisible.on('click', function () {
-                        try {
-                            let $li = jQuery(this).closest('li');
-                            let visible = ($li.attr('data-property-visible') === 'T');
-                            $li.attr('data-property-visible', visible ? 'F' : 'T');
-                            if (!visible) {
-                                let $parents = $li.parents('li.node');
-                                for (let i = 0; i < $parents.length; i++) {
-                                    let $parent = $parents.eq(i);
-                                    if (typeof $parent.attr('data-property-visible') !== 'undefined') {
-                                        $parent.attr('data-property-visible', 'T');
-                                    }
-                                }
-                            }
-                            let $li_children = $li.find('li[data-property-visible]');
-                            // mv this is the code that prompts you if you want to toggle all children on or off.  I'm finding it more pestering than useful lately, so I have disabled it for now
-                            //if ($li_children.length > 0) {
-                            //    let $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible ? 'Off' : 'On') + ') all the children of this node?');
-                            //    let $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
-                            //    $btnYes.on('click', function () {
-                            //        $li_children.attr('data-property-visible', visible ? 'F' : 'T');
-                            //        me.updateSecurityField($form);
-                            //    });
-                            //    let $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
-                            //    $btnNo.on('click', function () {
-                            //        me.updateSecurityField($form);
-                            //    });
-                            //} else {
-                            //    me.updateSecurityField($form);
-                            //}
-                            $li_children.attr('data-property-visible', visible ? 'F' : 'T');
-                            me.updateSecurityField($form);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
                 } 
             }
 
-            if ((mode === 'edit') && (typeof $node.attr('data-property-editable') === 'string')) {
-                $iconeditable = jQuery('<div class="iconeditable">');
-                $content.append($iconeditable);
-                $iconeditable.on('click', function () {
-                    var $li, visible, editable;
-                    try {
-                        $li = jQuery(this).closest('li');
-                        visible = ($li.attr('data-property-visible') === 'T');
-                        if (visible) {
-                            editable = ($li.attr('data-property-editable') === 'T');
-                            $li.attr('data-property-editable', (!editable) ? 'T' : 'F');
-                            this.updateSecurityField($form);
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                });
+            //if ((mode === 'edit') && (typeof $node.attr('data-property-editable') === 'string')) {
+            //    $iconeditable = jQuery('<div class="iconeditable">');
+            //    $content.append($iconeditable);
+            //    $iconeditable.on('click', function () {
+            //        var $li, visible, editable;
+            //        try {
+            //            $li = jQuery(this).closest('li');
+            //            visible = ($li.attr('data-property-visible') === 'T');
+            //            if (visible) {
+            //                editable = ($li.attr('data-property-editable') === 'T');
+            //                $li.attr('data-property-editable', (!editable) ? 'T' : 'F');
+            //                this.updateSecurityField($form);
+            //            }
+            //        } catch (ex) {
+            //            FwFunc.showError(ex);
+            //        }
+            //    });
+            //}
+
+            const caption = this.getCaptionFromConstantsFile(node);
+
+            if (node.nodetype !== 'ControllerMethod') {
+                const $contextmenuicon = jQuery(`<i class="material-icons contextmenu" style="cursor:pointer;color:#607d8b;font-size:1.5em;">more_vert</i>`);
+                $content.append($contextmenuicon);
             }
 
             $caption = jQuery('<div class="caption">');
             nodedescription = '';
             switch (node.nodetype) {
                 case 'System':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">verified_user</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">verified_user</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'Category':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">folder</i> <span style="color:#607d8b;">${node.caption}</span>`
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">folder</i> <span style="color:#607d8b;">${caption}</span>`
                     break;
                 case 'Module':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;font-size:1.5em;color:#607d8b;">extension</i> <span style="color:#607d8b;">${node.caption}</span>`
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;font-size:1.5em;color:#607d8b;">extension</i> <span style="color:#607d8b;">${caption}</span>`
                     break;
                 case 'ModuleActions':
                 case 'ControlActions':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">play_for_work</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">play_for_work</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'Controls':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">art_track</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">art_track</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'ModuleOptions':
                 case 'ControlOptions':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">menu</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">menu</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'ModuleAction':
                 case 'ControlAction':
                     switch (node.properties.action) {
                         case 'Browse':
                         case 'ControlBrowse':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">search</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .2em;color:#607d8b;font-size:1.5em;">search</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'View':
                         case 'ControlView':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">tv</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">tv</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'New':
                         case 'ControlNew':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">add_circle</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">add_circle</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'Edit':
                         case 'ControlEdit':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">create</i>' <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">create</i>' <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'Save':
                         case 'ControlSave':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">save</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">save</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         case 'Delete':
                         case 'ControlDelete':
-                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">clear</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                            nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">clear</i> <span style="color:#607d8b;">${caption}</span>`;
                             break;
                         default:
-                            nodedescription = node.caption;
+                            nodedescription = caption;
                             break;
                     }
                     break;
                 case 'Control':
                     if (typeof node.properties.controltype === 'string') {
-                        nodedescription = `${node.properties.controltype}: ${node.caption}`;
+                        nodedescription = `${node.properties.controltype}: ${caption}`;
                     }
                     break;
                 case 'ControllerMethod':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">filter_drama</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">filter_drama</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 case 'ModuleOption':
                 case 'ControlOption':
-                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">touch_app</i> <span style="color:#607d8b;">${node.caption}</span>`;
+                    nodedescription = `<i class="material-icons" style="margin:0 .2em 0 .5em;color:#607d8b;font-size:1.5em;">touch_app</i> <span style="color:#607d8b;">${caption}</span>`;
                     break;
                 default:
-                    nodedescription = `<span style="font-size:.8em;color:#607d8b;">${node.nodetype}:</span> ${node.caption}`
+                    nodedescription = `<span style="font-size:.8em;color:#607d8b;">${node.nodetype}:</span> ${caption}`
                     break;
             }
             $caption.html(nodedescription);
@@ -396,19 +358,191 @@
                     const nodeChild = node.children[i];
                     if (((mode === 'edit') || (typeof nodeChild.properties.visible === 'undefined') || (nodeChild.properties.visible === 'T')) &&
                         (nodeChild.id !== 'AdministratorControls' && nodeChild.id !== 'HomeControls' && nodeChild.id !== 'SharedControls' && nodeChild.id !== 'UtilitiesControls')) {
-                        this.renderNode(mode, $form, $children, nodeChild);
+                        this.renderNode(mode, $form, $children, nodeChild, hidenewmenuoptionsbydefault);
                     }
                 }
             }
             if (node.nodetype === 'System') {
+                $node.on('click', '.iconexpander', function (event: JQuery.ClickEvent) {
+                    try {
+                        const $iconExpander = jQuery(event.target);
+                        const $node = $iconExpander.closest('.node');
+                        const showchildren = ($node.attr('data-expanded') === 'F');
+                        $iconExpander.closest('.content').siblings('.childrencontainer').toggle(showchildren);
+                        $node.attr('data-expanded', showchildren ? 'T' : 'F');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
+                $node.on('click', '.contextmenu', async (event: JQuery.ClickEvent) => {
+                    try {
+                        const $iconContextMenu = jQuery(event.target);
+                        const $node = $iconContextMenu.closest('.node');
+                        const nodeId = $node.attr('data-property-id');
+                        const nodeCaption = $node.attr('data-property-caption');
+                        
+                        const $contextmenu = FwContextMenu.render(null, 'bottomleft', $node, event);
+                        FwContextMenu.addMenuItem($contextmenu, 'Copy to Groups...', async (event: JQuery.ClickEvent) => {
+                            if ($form.attr('data-modified') === 'true') {
+                                FwFunc.showMessage('You need to Save this Group before you can copy nodes to another Group.');
+                                return;
+                            }
+                            let requestLookupGroup: FwAjaxRequest<any>;
+                            try {
+                                var $confirmation = FwConfirmation.renderConfirmation(`Copy node \'${nodeCaption}\' to...`, '');
+                            
+                                var $btnCopy = FwConfirmation.addButton($confirmation, 'Copy', false);
+                                $btnCopy.on('click', async (event: JQuery.ClickEvent) => {
+                                    let requestCopySecurityNode: FwAjaxRequest<any>;
+                                    try {
+                                        const $groups = $content.find('.available-groups');
+                                        var selectedItems: string = FwFormField_checkboxlist.getValue2($groups);
+                                        //console.log(selectedItems);
+                                        requestCopySecurityNode = new FwAjaxRequest<any>();
+                                        requestCopySecurityNode.httpMethod = "POST";
+                                        requestCopySecurityNode.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/copysecuritynode');
+                                        requestCopySecurityNode.addAuthorizationHeader = true;
+                                        requestCopySecurityNode.$elementToBlock = $content;
+                                        requestCopySecurityNode.data = {
+                                            FromGroupId: FwFormField.getValueByDataField($form, 'GroupId'),
+                                            ToGroupIds: selectedItems,
+                                            SecurityId: nodeId
+                                        };
+                                        const response = await FwAjax.callWebApi<any, any>(requestCopySecurityNode);
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                    } catch (ex) {
+                                        FwFunc.showWebApiError(requestCopySecurityNode.xmlHttpRequest.status, ex, requestCopySecurityNode.xmlHttpRequest.responseText, requestCopySecurityNode.url);
+                                    }
+                                });
+                                var $btnCancel = FwConfirmation.addButton($confirmation, 'Cancel', false);
+                                $btnCancel.on('click', (event: JQuery.ClickEvent) => {
+                                    try {
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                            
+                                let html = 
+    `<div class="flexrow">
+    <div class="flexcolumn">
+        <div data-datafield="groups" data-control="FwFormField" data-returncsv="true" data-type="checkboxlist" data-share="true" data-listtype="standard" data-showcheckboxes="true" class="fwcontrol fwformfield available-groups" data-caption="Available Groups" data-sortable="false" data-orderby="false"></div>
+    </div>
+    </div>
+    `;
+                                const $content = jQuery(html);
+                                FwConfirmation.addJqueryControl($confirmation, $content);
+                                $content.find('.fwformfield[data-datafield="groups"] .fwformfield-control ol')
+                                    .css({
+                                        minHeight: 'auto',
+                                        minWidth: 'auto'
+                                    });
+
+                                const $availableGroups = $content.find('.available-groups');
+                                requestLookupGroup = new FwAjaxRequest<any>();
+                                requestLookupGroup.httpMethod = "GET";
+                                requestLookupGroup.url = encodeURI(applicationConfig.apiurl + 'api/v1/group/lookupgroup');
+                                requestLookupGroup.addAuthorizationHeader = true;
+                                requestLookupGroup.$elementToBlock = $content;
+                                const response = await FwAjax.callWebApi<any, any>(requestLookupGroup);
+                                const availableGroups = [];
+                                const fromGroupId = FwFormField.getValueByDataField($form, 'GroupId');
+                                for (let i = 0; i < response.Items.length; i++) {
+                                    const group = response.Items[i];
+                                    if (fromGroupId !== group.GroupId) {
+                                        availableGroups.push({text: group.Name, value: group.GroupId});
+                                    }
+                                }
+                                FwFormField.loadItems($availableGroups, availableGroups, true);
+                            } catch (ex) {
+                                FwFunc.showWebApiError(requestLookupGroup.xmlHttpRequest.status, ex, requestLookupGroup.xmlHttpRequest.responseText, requestLookupGroup.url);
+                            }
+                        });
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
+                $node.on('click', '.iconvisible', function (event: JQuery.ClickEvent) {
+                    try {
+                        const $icon = jQuery(event.target);
+                        let $li = $icon.closest('li');
+                        let visible = ($li.attr('data-property-visible') === 'T');
+                        $li.attr('data-property-visible', visible ? 'F' : 'T');
+                        if (!visible) {
+                            let $parents = $li.parents('li.node');
+                            for (let i = 0; i < $parents.length; i++) {
+                                let $parent = $parents.eq(i);
+                                if (typeof $parent.attr('data-property-visible') !== 'undefined') {
+                                    $parent.attr('data-property-visible', 'T');
+                                }
+                            }
+                        }
+                        let $li_children = $li.find('li[data-property-visible]');
+                        // mv this is the code that prompts you if you want to toggle all children on or off.  I'm finding it more pestering than useful lately, so I have disabled it for now
+                        //if ($li_children.length > 0) {
+                        //    let $confirmation = FwConfirmation.renderConfirmation('Confirm...', 'Also toggle (' + (visible ? 'Off' : 'On') + ') all the children of this node?');
+                        //    let $btnYes = FwConfirmation.addButton($confirmation, 'Yes', true);
+                        //    $btnYes.on('click', function () {
+                        //        $li_children.attr('data-property-visible', visible ? 'F' : 'T');
+                        //        me.updateSecurityField($form);
+                        //    });
+                        //    let $btnNo = FwConfirmation.addButton($confirmation, 'No', true);
+                        //    $btnNo.on('click', function () {
+                        //        me.updateSecurityField($form);
+                        //    });
+                        //} else {
+                        //    me.updateSecurityField($form);
+                        //}
+                        $li_children.attr('data-property-visible', visible ? 'F' : 'T');
+                        me.updateSecurityField($form);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+
                 FwOverlay.hideOverlay($waitOverlay);
-                $node.children('.iconexpander').click();
+                setTimeout(() => {
+                    $node.children('.iconexpander').click();
+                }, 100);
             }
         }
 
-        getGroupTreeJson($form?: JQuery) {
-            //var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li[data-property-nodetype="System"]');
-            var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li');
+        getCaptionFromConstantsFile(securityNode: IGroupSecurityNode): string {
+            let caption = securityNode.caption;
+            const categories = (<any>window).Constants.Modules;
+            for (const categoryName in categories) {
+                const category = categories[categoryName];
+                const result = this.getCaptionFromConstantsFileRecursive(category, securityNode.id);
+                if (typeof result === 'string') {
+                    caption = result;
+                    break;
+                }
+            }
+            return caption;
+        }
+
+        getCaptionFromConstantsFileRecursive(node:IGroupSecurityNode, securityid: string): string {
+            let caption = null;
+            if (node.id === securityid) {
+                caption = node.caption;
+            }
+            if (caption === null) {
+                for (const key in node.children) {
+                    const childNode = node.children[key];
+                    const result = this.getCaptionFromConstantsFileRecursive(childNode, securityid);
+                    if (typeof result === 'string') {
+                        caption = result;
+                        break;
+                    }
+                }
+            }
+            return caption
+        }
+
+        getGroupTreeJson($form: JQuery) {
+            var $apptreenode = $form.find('.editgrouptree > ul.grouptree > li');
             var grouptree = this.getGroupTreeJsonNode($form, null, $apptreenode);
             return grouptree;
         }
@@ -447,7 +581,7 @@
         updateSecurityField($form: JQuery) {
             var apptreenode, hidenewmenuoptionsbydefault, securitynodes, securityJson;
             try {
-                apptreenode = this.getGroupTreeJson();
+                apptreenode = this.getGroupTreeJson($form);
                 hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'HideNewMenuOptionsByDefault'));
                 securitynodes = FwApplicationTree.getSecurityNodes(apptreenode, hidenewmenuoptionsbydefault);
                 securityJson = JSON.stringify(securitynodes);
@@ -534,7 +668,7 @@
                                 <div class="formpage">
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:none">
                                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Items in Security Tree are Hidden by Default (IF YOU CHANGE THIS, SAVE AND CLOSE BEFORE EDITING THE TREE)" data-datafield="HideNewMenuOptionsByDefault"></div>
-                                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="Security" style="display:none;"></div>
+                                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="Security" data-allcaps="false" style="display:none;"></div>
                                         <div style="margin:10px 10px 10px 10px;">Changing the security tree will take effect for users the next time they login.</div>
                                     </div>
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

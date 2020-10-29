@@ -20,4 +20,10 @@ namespace FwStandard.AppManager
         public const string ControllerIdFilter = "controlleridfilter";
         public const string MethodIdFilter = "methodidfilter";
     }
+
+    public static class TokenTypes
+    {
+        public const string Service = "SERVICE";
+        public const string Integration = "INTEGRATION";
+    }
 }

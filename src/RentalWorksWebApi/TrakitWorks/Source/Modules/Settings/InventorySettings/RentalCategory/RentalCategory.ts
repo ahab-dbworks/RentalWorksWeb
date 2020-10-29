@@ -2,8 +2,8 @@ class RentalCategory {
     Module: string = 'RentalCategory';
     apiurl: string = 'api/v1/rentalcategory';
     caption: string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.caption;
-    nav:     string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.nav;
-    id:      string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.id;
+    nav: string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.nav;
+    id: string = Constants.Modules.Settings.children.InventorySettings.children.RentalCategory.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -22,6 +22,16 @@ class RentalCategory {
         };
 
         return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
+        options.hasMultiRowEditing = true;
+        FwMenu.addBrowseMenuButtons(options);
+    }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        options.hasMultiEdit = true;
+        FwMenu.addFormMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -44,7 +54,6 @@ class RentalCategory {
             gridSecurityId: 'vHMa0l5PUysXo',
             moduleSecurityId: this.id,
             $form: $form,
-            pageSize: 10,
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     CategoryId: FwFormField.getValueByDataField($form, 'CategoryId'),
@@ -67,18 +76,10 @@ class RentalCategory {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        $form.find('[data-datafield="CatalogCategory"] .fwformfield-value').on('change', function () {
-            const $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('.designer'))
-                FwFormField.disable($form.find('.barcodetype'))
-            } else {
-                FwFormField.disable($form.find('.designer'))
-                FwFormField.enable($form.find('.barcodetype'))
-            }
-        })
-
-        this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
+        FwFormField.loadItems($form.find('div[data-datafield="BarCodeType"]'), [
+            { value: '1', caption: 'Small', checked: true },
+            { value: '2', caption: 'Large' }
+        ]);
 
         this.events($form);
         return $form;
@@ -100,20 +101,30 @@ class RentalCategory {
         const $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);
 
-        if ($form.find('[data-datafield="CatalogCategory"] .fwformfield-value').prop('checked')) {
+        if (FwFormField.getValueByDataField($form, 'CatalogCategory')) {
             FwFormField.enable($form.find('.designer'))
             FwFormField.disable($form.find('.barcodetype'))
         } else {
             FwFormField.disable($form.find('.designer'))
             FwFormField.enable($form.find('.barcodetype'))
         }
+
+        if (FwFormField.getValueByDataField($form, 'OverrideProfitAndLossCategory')) {
+            FwFormField.enable($form.find('.catvalidation'))
+        } else {
+            FwFormField.disable($form.find('.catvalidation'))
+        }
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
-            const $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
-            this.toggleEnabled($overrideCheck, $categoryValidation);
+        $form.on('change', '[data-datafield="OverrideProfitAndLossCategory"]', (e) => {
+            if (FwFormField.getValueByDataField($form, 'OverrideProfitAndLossCategory')) {
+                FwFormField.enable($form.find('.catvalidation'))
+            } else {
+                FwFormField.disable($form.find('.catvalidation'))
+            }
         });
+
         $form.find('div[data-datafield="AssetAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="AssetAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
@@ -135,21 +146,63 @@ class RentalCategory {
         $form.find('div[data-datafield="CostOfGoodsRentedExpenseAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="CostOfGoodsRentedExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
-        if ($checkbox.is(':checked')) {
-            $validation.attr('data-enabled', 'true');
-        } else {
-            $validation.attr('data-enabled', 'false');
-        }
+        $form.find('div[data-datafield="DepreciationExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="DepreciationExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+        $form.find('div[data-datafield="AccumulatedDepreciationExpenseAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="AccumulatedDepreciationExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        $form.find('[data-datafield="CatalogCategory"]').on('change', function () {
+            const isChecked = FwFormField.getValueByDataField($form, 'CatalogCategory');
+            if (isChecked) {
+                FwFormField.enable($form.find('.designer'))
+                FwFormField.disable($form.find('.barcodetype'))
+            } else {
+                FwFormField.disable($form.find('.designer'))
+                FwFormField.enable($form.find('.barcodetype'))
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         request.uniqueids = {
             Rental: true
         }
+        switch (datafield) {
+            case 'InventoryTypeId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorytype`);
+                break;
+            case 'InventoryBarCodeDesignerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateinventorybarcodedesigner`);
+                break;
+            case 'BarCodeDesignerId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatebarcodedesigner`);
+                break;
+            case 'AssetAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateassetaccount`);
+                break;
+            case 'IncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateincomeaccount`);
+                break;
+            case 'SubIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatesubincomeaccount`);
+                break;
+            case 'EquipmentSaleIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateequipmentsaleincomeaccount`);
+                break;
+            case 'LdIncomeAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validateldincomeaccount`);
+                break;
+            case 'CostOfGoodsSoldExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodssoldexpenseaccount`);
+                break;
+            case 'CostOfGoodsRentedExpenseAccountId':
+                $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatecostofgoodsrentedexpenseaccount`);
+                break;
+        }
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var RentalCategoryController = new RentalCategory();

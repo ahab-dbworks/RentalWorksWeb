@@ -124,13 +124,20 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "whcurrencysymbol", modeltype: FwDataTypes.Text)]
         public string WarehouseCurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
+        [FwSqlDataField(column: "purchamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "purchamtwithtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCostWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtcurrconv", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCostCurrencyConverted { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchamtwithtaxcurrconv", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCostWithTaxCurrencyConverted { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "oec", modeltype: FwDataTypes.Decimal)]
+        public decimal? OriginalEquipmentCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totaldepreciation", modeltype: FwDataTypes.Decimal)]
         public decimal? Depreciation { get; set; }
@@ -141,7 +148,6 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "salvagevalue", modeltype: FwDataTypes.Decimal)]
         public decimal? SalvageValue { get; set; }
         //------------------------------------------------------------------------------------ 
-
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -436,6 +442,9 @@ namespace WebApi.Modules.Inventory.Asset
         [FwSqlDataField(column: "assethours", modeltype: FwDataTypes.Integer)]
         public int? AssetHours { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lampcount", modeltype: FwDataTypes.Integer)]
+        public int? LampCount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lamphours1", modeltype: FwDataTypes.Integer)]
         public int? LampHours1 { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -453,6 +462,15 @@ namespace WebApi.Modules.Inventory.Asset
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "footcandles", modeltype: FwDataTypes.Integer)]
         public int? FootCandles { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "minfootcandles", modeltype: FwDataTypes.Integer)]
+        public int? MinimumFootCandles { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text)]
+        public string SoftwareVersion { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.Date)]
+        public string SoftwareEffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pattern", modeltype: FwDataTypes.Text)]
         public string Pattern { get; set; }

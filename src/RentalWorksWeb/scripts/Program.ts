@@ -168,8 +168,11 @@ class Program extends FwApplication {
                 userid.reportsnavexpanded = `${responseGetUserSettings.ReportsNavigationMenuVisible}`;
                 userid.settingsnavexpanded = `${responseGetUserSettings.SettingsNavigationMenuVisible}`;
                 userid.mainmenupinned = responseGetUserSettings.MainMenuPinned;
+                userid.locale = responseGetUserSettings.Locale;
                 userid.defaultquikactivitysetting = responseGetUserSettings.QuikActivitySetting;
                 sessionStorage.setItem('userid', JSON.stringify(userid));
+
+                FwLocale.setLocale(userid.locale);
 
                 // Include department's default activity selection in sessionStorage for use in Quote / Order
                 const department = JSON.parse(sessionStorage.getItem('department'));
@@ -266,9 +269,9 @@ class Program extends FwApplication {
                     defaultlossanddamageretiredreason:   responseGetInventorySettings.DefaultLossAndDamageRetiredReason,
                     enableconsignment:                   responseGetInventorySettings.EnableConsignment,
                     enablelease:                         responseGetInventorySettings.EnableLease,
-                    rentalquantityinventoryvaluemethod:  responseGetInventorySettings.RentalQuantityInventoryValueMethod,
-                    salesquantityinventoryvaluemethod:   responseGetInventorySettings.SalesQuantityInventoryValueMethod,
-                    partsquantityinventoryvaluemethod:   responseGetInventorySettings.PartsQuantityInventoryValueMethod,
+                    defaultrentalquantityinventorycostcalculation:  responseGetInventorySettings.DefaultRentalQuantityInventoryCostCalculation,
+                    defaultsalesquantityinventorycostcalculation:   responseGetInventorySettings.DefaultSalesQuantityInventoryCostCalculation,
+                    defaultpartsquantityinventorycostcalculation:   responseGetInventorySettings.DefaultPartsQuantityInventoryCostCalculation,
                     enablereceipts:                      responseGetSystemSettings.EnableReceipts,
                     enablepayments:                      responseGetSystemSettings.EnablePayments,
                     sharedealsacrossofficelocations:     responseGetSystemSettings.ShareDealsAcrossOfficeLocations,

@@ -92,7 +92,9 @@ class FwAjaxClass {
                         if ((options.xmlHttpRequest.status === 401 || options.xmlHttpRequest.status === 403) &&
                             (options.logoutOnAuthFailure === undefined || options.logoutOnAuthFailure === true)) {
                             sessionStorage.clear();
-                            window.location.reload(true);
+                            if (!applicationConfig.debugMode) {
+                                window.location.reload(true);
+                            }
                         }
                         if (options.forceJsonParseResponse ||
                             (options.xmlHttpRequest.getResponseHeader('content-type') !== null && options.xmlHttpRequest.getResponseHeader('content-type').indexOf('application/json') !== -1)) {

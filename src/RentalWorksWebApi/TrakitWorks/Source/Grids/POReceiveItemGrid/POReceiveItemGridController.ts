@@ -1,4 +1,4 @@
-﻿class POReceiveItemGrid {
+class POReceiveItemGrid {
     Module: string = 'POReceiveItemGrid';
     apiurl: string = 'api/v1/purchaseorderreceiveitem';
     barCodedItemIncreased: boolean = false;
@@ -46,7 +46,7 @@
                 }
 
                 if (quantity != 0) {
-                    FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout, response =>  {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/receivefromvendor/receiveitems`, request, FwServices.defaultTimeout, response => {
                             $form.find('.error-msg').html('');
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
@@ -56,7 +56,11 @@
                                 } else {
                                     $quantityColumn.find('.cellcolor').css('border-left', `20px solid transparent`);
                                 }
-                            } else {
+                                if (response.QuantityReceived > response.QuantityOrdered) {
+                                    const msg = `Quantity Received (${response.QuantityReceived}) is greater than Quantity Ordered (${response.QuantityOrdered})`;
+                                    $form.find('.error-msg').html(`<div><span style="background-color:#ffff99;color:black;">${msg}</span></div>`);
+                                }
+                            } else if (response.success === false) {
                                 FwFunc.playErrorSound();
                                 $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
@@ -79,7 +83,9 @@
                                 $form.find('.createcontract[data-type="btnmenu"]').hide();
                             }
                         },
-                        null, null);
+                        function onError(response) {
+                            $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
+                        }, null);
                 }
             });
         });
