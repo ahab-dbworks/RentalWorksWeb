@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic;
 using FwStandard.Data;
-using FwStandard.SqlServer; 
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
@@ -33,6 +33,13 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwSqlDataField(column: "defaultsortby", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string DefaultSortBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "expandpackagesonquantityincrease", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? ExpandAccessoryOnQuantityIncrease { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "expandpackagesbehavior", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string ExpandAccessoryBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -39,6 +39,13 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwLogicProperty(Id: "0gaC3ghKasB")]
         public string DefaultSortBy { get { return userSearchSettings.DefaultSortBy; } set { userSearchSettings.DefaultSortBy = value; } }
 
+        [FwLogicProperty(Id: "VeUnKmutKb75")]
+        public bool? ExpandAccessoryOnQuantityIncrease { get { return userSearchSettings.ExpandAccessoryOnQuantityIncrease; } set { userSearchSettings.ExpandAccessoryOnQuantityIncrease = value; } }
+
+        [FwLogicProperty(Id: "bEsJbMwBUJru")]
+        public string ExpandAccessoryBehavior { get { return userSearchSettings.ExpandAccessoryBehavior; } set { userSearchSettings.ExpandAccessoryBehavior = value; } }
+
+
         //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
