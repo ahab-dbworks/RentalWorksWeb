@@ -209,6 +209,11 @@ namespace WebApi.Modules.Inventory.Purchase
                         CurrencyExchangeRate = AppFunc.GetCurrencyExchangeRate(AppConfig, CurrencyId, warehouse.CurrencyId).Result;
                     }
                 }
+                if (OriginalEquipmentCost == null)
+                {
+                    OriginalEquipmentCost = (UnitCostWithTax * CurrencyExchangeRate);
+                }
+
             }
         }
         //------------------------------------------------------------------------------------ 

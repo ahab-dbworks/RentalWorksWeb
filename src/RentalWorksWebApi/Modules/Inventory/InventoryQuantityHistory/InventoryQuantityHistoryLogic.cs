@@ -27,7 +27,7 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         [FwLogicProperty(Id: "0otBC5VPLjSUt  ", IsReadOnly: true)]
         public decimal? UnitCost { get; set; }
         [FwLogicProperty(Id: "acHgnLsw05hss", IsReadOnly: true)]
-        public decimal? UnitCostExtended { get; set; }
+        public decimal? CostExtended { get; set; }
         [FwLogicProperty(Id: "bLXubvnu3XZ0q", IsReadOnly: true)]
         public string CurrencyId { get; set; }
         [FwLogicProperty(Id: "vmcN2RWBFHBf6", IsReadOnly: true)]
