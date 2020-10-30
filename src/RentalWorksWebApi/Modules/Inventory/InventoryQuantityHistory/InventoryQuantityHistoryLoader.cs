@@ -30,7 +30,7 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "unitcostextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "costextended", modeltype: FwDataTypes.Decimal)]
         public decimal? CostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
