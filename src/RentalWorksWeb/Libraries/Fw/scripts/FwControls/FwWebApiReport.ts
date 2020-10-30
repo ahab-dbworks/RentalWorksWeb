@@ -758,6 +758,27 @@ abstract class FwWebApiReport {
             });
         }
 
+        //Customize
+        FwMenu.addVerticleSeparator($menuObject);
+        const $btnCustomize = FwMenu.addStandardBtn($menuObject, 'Customize');
+        $btnCustomize.on('click', (event: JQuery.Event) => {
+            let $popupForm, popupCaption;
+            const customReportLayoutId = FwFormField.getValueByDataField($form, 'CustomReportLayoutId');
+            if (customReportLayoutId === '') {
+                $popupForm = CustomReportLayoutController.openForm('NEW');
+                FwFormField.setValueByDataField($popupForm, 'BaseReport', $form.attr('data-reportname'), '', true);
+                FwFormField.disable($popupForm.find('[data-datafield="BaseReport"]'));
+            } else {
+                $popupForm = CustomReportLayoutController.loadForm({ CustomReportLayoutId: customReportLayoutId });
+            }
+            popupCaption = FwFormField.getTextByDataField($form, 'CustomReportLayoutId') || 'Custom Report Layout';
+            const $popupControl = FwPopup.renderPopup($popupForm, {}, popupCaption);
+            $popupControl.find('.fwconfirmationbox').css({ 'width': '80vw', 'height': '80vh', 'overflow': 'auto' });
+            $popupForm.data('usereportlayout', true);
+            $popupForm.data('$reportfrontend', $form);
+            FwPopup.showPopup($popupControl);
+        });
+
         if (typeof (<any>window[$form.attr('data-controller')]).addReportMenuItems === 'function') {
             $menuObject = (<any>window[$form.attr('data-controller')]).addReportMenuItems($menuObject, $form);
         }
