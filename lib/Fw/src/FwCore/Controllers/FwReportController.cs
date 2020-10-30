@@ -14,6 +14,7 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using PuppeteerSharp;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace FwCore.Controllers
 {
@@ -176,10 +177,8 @@ namespace FwCore.Controllers
             if (!this.ModelState.IsValid) return new BadRequestObjectResult(this.ModelState);
             return new OkObjectResult(response);
         }
-
         //------------------------------------------------------------------------------------ 
-
-        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "", bool includeIdColumns = true)
+        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, FwReportRequest request, string worksheetName = "")
         {
             if (!ModelState.IsValid)
             {
@@ -201,18 +200,60 @@ namespace FwCore.Controllers
                 // Delete any existing excel files belonginng to this user
                 FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
 
-                if (!includeIdColumns)
+                //if (!includeIdColumns)
+                //{
+                //    foreach (FwJsonDataTableColumn col in dt.Columns)
+                //    {
+                //        string dataField = col.DataField.ToUpper();
+                //        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")) && (!dataField.ToUpper().Equals("RFID")))
+                //        {
+                //            col.IsVisible = false;
+                //        }
+                //    }
+                //}
+                //if specific fields were requested in the Excel download, remove all non-requested fields here
+                if ((request.excelfields != null) && (request.excelfields.Count > 0))
                 {
-                    foreach (FwJsonDataTableColumn col in dt.Columns)
+                    List<int> removeIndexes = new List<int>();
+
+                    for (int c = 0; c < dt.Columns.Count; c++)
                     {
-                        string dataField = col.DataField.ToUpper();
-                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")) && (!dataField.ToUpper().Equals("RFID")))
+                        bool fieldInExcel = false;
+                        foreach (CheckBoxListItem item in request.excelfields)
                         {
-                            col.IsVisible = false;
+                            if (item.selected.GetValueOrDefault(false))
+                            {
+                                if (item.value.Equals(dt.ColumnNameByIndex[c]))
+                                {
+                                    fieldInExcel = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!fieldInExcel)
+                        {
+                            removeIndexes.Add(c);
                         }
                     }
+
+                    for (int i = removeIndexes.Count - 1; i >= 0; i--)
+                    {
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            row.RemoveAt(removeIndexes[i]);
+                        }
+                        dt.Columns.RemoveAt(removeIndexes[i]);
+                    }
+                    dt.ResetColumnIndexes();
+
                 }
 
+                //columns need to be made "visible" to be included in the Excel file
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    dt.Columns[c].IsVisible = true;
+                }
                 dt.ToExcelXlsxFile(worksheetName, path);
                 DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
                 result.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
@@ -224,7 +265,6 @@ namespace FwCore.Controllers
                 return GetApiExceptionResult(ex);
             }
         }
-
         //------------------------------------------------------------------------------------ 
 
         [HttpGet("emptyobject")]

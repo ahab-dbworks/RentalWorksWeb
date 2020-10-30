@@ -35,7 +35,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"KHw5yX5TubQ")]
+    [FwController(Id: "KHw5yX5TubQ")]
     public class ArAgingReportController : AppReportController
     {
         public ArAgingReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ArAgingReportLoader); }
@@ -59,8 +59,8 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/aragingreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"7vZrn15t6u1")]
-        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
+        [FwControllerMethod(Id: "7vZrn15t6u1")]
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody] FwReportRenderRequest request)
         {
             ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
             return actionResult;
@@ -69,17 +69,17 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         // POST api/v1/modulename/exportexcelxlsx
         [HttpPost("exportexcelxlsx")]
         [FwControllerMethod(Id: "XZXyv8kucaW5")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ArAgingReportRequest request)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody] ArAgingReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
+            return await DoExportExcelXlsxFileAsync(dt, request);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/aragingreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"4Q6hNH42lCg")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ArAgingReportRequest request)
+        [FwControllerMethod(Id: "4Q6hNH42lCg")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody] ArAgingReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         // POST api/v1/aragingreport/validateofficelocation/browse 
         [HttpPost("validateofficelocation/browse")]
         [FwControllerMethod(Id: "pQsmIbQ5VtBq", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateOfficeLocationBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OfficeLocationLogic>(browseRequest);
         }
@@ -111,7 +111,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         // POST api/v1/aragingreport/validatecustomer/browse 
         [HttpPost("validatecustomer/browse")]
         [FwControllerMethod(Id: "OJYLnReORowK", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCustomerBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<CustomerLogic>(browseRequest);
         }
@@ -119,7 +119,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         // POST api/v1/aragingreport/validatedealtype/browse 
         [HttpPost("validatedealtype/browse")]
         [FwControllerMethod(Id: "BreUEn8JCeYk", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDealTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealTypeBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<DealTypeLogic>(browseRequest);
         }
@@ -127,7 +127,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         // POST api/v1/aragingreport/validatedealcsr/browse 
         [HttpPost("validatedealcsr/browse")]
         [FwControllerMethod(Id: "RXNnUK050vYS", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDealCSRBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealCSRBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<UserLogic>(browseRequest);
         }
@@ -135,7 +135,7 @@ namespace WebApi.Modules.Reports.AccountingReports.ArAgingReport
         // POST api/v1/aragingreport/validatedeal/browse 
         [HttpPost("validatedeal/browse")]
         [FwControllerMethod(Id: "qvUAIVbauQTs", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<DealLogic>(browseRequest);
         }

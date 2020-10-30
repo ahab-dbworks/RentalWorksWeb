@@ -4180,8 +4180,7 @@ class FwBrowseClass {
                 let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
-                let includeallcolumns: boolean;
-                let excelfields: any;
+
                 if ($confirmation.find('.all-col input').prop('checked') === true) {
                     request.includeallcolumns = true;
                 } else {
