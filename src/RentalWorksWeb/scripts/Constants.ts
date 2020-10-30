@@ -59,7 +59,7 @@ var Constants = {
                 Receipt:          { id: 'q4PPGLusbFw',   caption: 'Receipts',            nav: 'module/receipt',          nodetype: 'Module' },
                 Payment:          { id: 'Y7YC6NpLqX8kx', caption: 'Payments',            nav: 'module/payment',          nodetype: 'Module' },
                 VendorInvoice:    { id: 'Fq9aOe0yWfY',   caption: 'Vendor Invoice',      nav: 'module/vendorinvoice',    nodetype: 'Module' },
-                ProcessCreditCard:{ id: '0R1SsBQa0J3g',  caption: 'Process Credit Card', nav: 'module/processcreditcard',nodetype: 'Module' },
+                ProcessCreditCard: { id: 'yAale9IPIaUC',  caption: 'Process Credit Card', nav: 'module/processcreditcard',nodetype: 'Module' },
             }
         },
         Container: {

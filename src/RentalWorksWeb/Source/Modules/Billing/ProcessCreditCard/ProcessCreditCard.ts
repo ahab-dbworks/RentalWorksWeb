@@ -2,7 +2,7 @@
 
 class ProcessCreditCard{
     Module: string = 'ProcessCreditCard';
-    apiurl: string = 'api/v1/procesCreditCard';
+    apiurl: string = 'api/v1/processcreditcard';
     caption: string = Constants.Modules.Billing.children.ProcessCreditCard.caption;
     nav: string = Constants.Modules.Billing.children.ProcessCreditCard.nav;
     id: string = Constants.Modules.Billing.children.ProcessCreditCard.id;
@@ -52,6 +52,9 @@ class ProcessCreditCard{
             FwFormField.setValueByDataField($form, 'ItemDescription', parentmoduleinfo.Description);
         }
         */
+
+        FwModule.loadForm(this.Module, $form);
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -129,18 +132,19 @@ class ProcessCreditCard{
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-            <div id="processpaymentform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Inventory Retire Utility" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="ProcessCreditCardController">
+            <div class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-controller="ProcessCreditCardController">
+              <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-datafield="OrderId"></div>
               <div id="inventoryretireutilityform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div class="tabs"></div>
                 <div class="tabpages">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order" style="max-width:700px">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer No" data-datafield="CustomerNo"  data-readonly="true"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Name" data-datafield="Customer" data-readonly="true"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer No" data-datafield="CustomerNo"  data-enabled="false"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Name" data-datafield="Customer" data-enabled="false"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo"  data-readonly="true""></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-readonly="true"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo"  data-enabled="false""></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false"></div>
                       </div>
                   </div>
                 </div>

@@ -20,15 +20,8 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
     public class ProcessCreditCardController : AppDataController
     {
         public ProcessCreditCardController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) 
-        { 
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/processcreditcard/browse 
-        [HttpPost("browse")]
-        [FwControllerMethod(Id: "qbkmpHHIeVe7", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync(browseRequest);
+            this.logicType = typeof(ProcessCreditCardLogic);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/processcreditcard/A0000001 

@@ -16,38 +16,29 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
     public class ProcessCreditCardLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        //PaymentRecord payment = new PaymentRecord();
-        //PaymentLoader paymentLoader = new PaymentLoader();
+        ProcessCreditCardLoader processCreditCardLoader = new ProcessCreditCardLoader();
         public ProcessCreditCardLogic()
         {
-            /*
-            dataRecords.Add(payment);
-            dataLoader = paymentLoader;
-
-            AfterSave += OnAfterSave;
-            BeforeDelete += OnBeforeDelete;
-            ForceSave = true;
-            UseTransactionToSave = true;
-            */
+            dataLoader = processCreditCardLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "kqLYO5NRyVV4", IsPrimaryKey: true)]
+        [FwLogicProperty(Id: "ggWKjrdYT2dT", IsPrimaryKey: true, IsReadOnly: true)]
         public string OrderId { get; set; }
-
         //------------------------------------------------------------------------------------ 
-        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
-        {
-            bool isValid = true;
-            return isValid;
-        }
+        [FwLogicProperty(Id: "kpBE9CyA9Wg6", IsReadOnly: true, IsRecordTitle: true)]
+        public string RecordTitle { get; set; }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSave(object sender, AfterSaveEventArgs e)
-        {
-        }
-        //------------------------------------------------------------------------------------
-        public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
-        {
-        }
+        [FwLogicProperty(Id: "LLzut6Ua2fYL", IsReadOnly: true)]
+        public string OrderNo { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "CvprXvdKccuR", IsReadOnly: true)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "CtERH19mN4fo", IsReadOnly: true)]
+        public string CustomerNo { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "TYgFeAFq0cdB", IsReadOnly: true)]
+        public string Customer { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

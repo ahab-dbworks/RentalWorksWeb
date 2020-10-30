@@ -4,26 +4,35 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
 using WebApi.Data;
-namespace WebApi.Modules.Billing.Payment
+namespace WebApi.Modules.Billing.ProcessCreditCard
 {
-    [FwSqlTable("processcreditcardloadview")]
+    [FwSqlTable("loadercte")]
     public class ProcessCreditCardLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         public ProcessCreditCardLoader()
         {
+            this.Cte.AppendLine("loadercte as (");
+            this.Cte.AppendLine("  select");
+            this.Cte.AppendLine("    recordtitle = 'Process Credit Card: ' + orderno,");
+            this.Cte.AppendLine("    pccv.*");
+            this.Cte.AppendLine("  from processcreditcardloadview pccv with (nolock)");
+            this.Cte.AppendLine(")");
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "recordtitle", modeltype: FwDataTypes.Text)]
+        public string RecordTitle { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customerno", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
         public string CustomerNo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
@@ -32,16 +41,15 @@ namespace WebApi.Modules.Billing.Payment
         
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
-            //DateTime paramDate = GetUniqueIdAsDate("ParamDate", request) ?? DateTime.MinValue; 
-            //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
-            string orderId = GetUniqueIdAsString("orderid", request) ?? string.Empty; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(orderid = @orderid')"); 
-            select.AddParameter("@orderid", orderId); 
-            //select.AddParameter("@paramdate", paramDate); 
-            //select.AddParameter("@paramboolean", paramBoolean); 
+            
+            // Get One
+            if (request == null) {
+                // filter by orderid
+                select.AddWhere("orderid = @orderid");
+                select.AddParameter("@orderid", this.OrderId);  
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
