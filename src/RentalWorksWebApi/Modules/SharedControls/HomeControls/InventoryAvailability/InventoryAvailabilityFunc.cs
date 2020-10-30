@@ -2566,15 +2566,17 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 request.WarehouseId = ActiveWarehouseIds;
             }
 
+            bool isFirstWarehouse = true;
             foreach (string whId in request.WarehouseId)
             {
-                TInventoryWarehouseAvailability whAvailData = await GetAvailability(appConfig, userSession, request.InventoryId, whId, request.FromDate, request.ToDate, refreshIfNeeded: true, forceRefresh: true);
-
+                //TInventoryWarehouseAvailability whAvailData = await GetAvailability(appConfig, userSession, request.InventoryId, whId, request.FromDate, request.ToDate, refreshIfNeeded: true, forceRefresh: true);
+                TInventoryWarehouseAvailability whAvailData = await GetAvailability(appConfig, userSession, request.InventoryId, whId, request.FromDate, request.ToDate, refreshIfNeeded: true, forceRefresh: isFirstWarehouse);
+            
                 if (whAvailData != null)
                 {
                     TInventoryWarehouseAvailability whAvailData2 = new TInventoryWarehouseAvailability(request.InventoryId, whId);
                     whAvailData2.CloneFrom(whAvailData);
-
+            
                     eachWhAvailData.Add(whAvailData2);
                     if (availData == null)
                     {
@@ -2586,6 +2588,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         availData += whAvailData2;
                     }
                 }
+                isFirstWarehouse = false;
             }
 
             bool invHasHourlyAvail = false;
