@@ -9,6 +9,7 @@ using System.Reflection;
 //using FwStandard.SqlServer;
 using WebApi.Logic;
 using WebApi.Modules.Inventory.Inventory;
+using WebApi.Modules.Settings.SystemSettings.InventorySettings;
 
 namespace WebApi.Modules.HomeControls.Inventory
 {
@@ -26,6 +27,7 @@ namespace WebApi.Modules.HomeControls.Inventory
             dataRecords.Add(primaryDimension);
             dataRecords.Add(secondaryDimension);
             //browseLoader = inventoryBrowseLoader;
+            BeforeValidate += OnBeforeValidateInventory;
             BeforeSave += OnBeforeSave;
             UseTransactionToSave = true;
         }
@@ -404,10 +406,31 @@ namespace WebApi.Modules.HomeControls.Inventory
 
 
 
-
-
-
-
+        public void OnBeforeValidateInventory(object sender, BeforeValidateEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if (CostCalculation == null)
+                {
+                    InventorySettingsLogic defaults = new InventorySettingsLogic();
+                    defaults.SetDependencies(AppConfig, UserSession);
+                    defaults.InventorySettingsId = RwConstants.CONTROL_ID;
+                    if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT))
+                    {
+                        CostCalculation = defaults.DefaultRentalQuantityInventoryCostCalculation;
+                    }
+                    else if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_SALE))
+                    {
+                        CostCalculation = defaults.DefaultSalesQuantityInventoryCostCalculation;
+                    }
+                    else if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS))
+                    {
+                        CostCalculation = defaults.DefaultPartsQuantityInventoryCostCalculation;
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)

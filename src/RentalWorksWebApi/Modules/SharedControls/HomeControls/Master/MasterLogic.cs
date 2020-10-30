@@ -242,7 +242,7 @@ namespace WebApi.Modules.HomeControls.Master
         //------------------------------------------------------------------------------------ 
         public void OnBeforeValidate(object sender, BeforeValidateEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if (string.IsNullOrEmpty(ICode))
                 {
