@@ -153,6 +153,13 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Process Credit Card', 'vp7yCVskwX8O', (e: JQuery.ClickEvent) => {
+            try {
+                this.processCreditCard(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //-----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -2757,6 +2764,21 @@ class Order extends OrderBase {
         FwModule.openSubModuleTab($form, $stagingCheckoutForm);
         const $tab = FwTabs.getTabByElement($stagingCheckoutForm);
         $tab.find('.caption').html('Staging / Check-Out');
+    }
+    //----------------------------------------------------------------------------------------------
+    processCreditCard($form: JQuery) {
+        const mode = 'EDIT';
+        const orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        orderInfo.Warehouse = $form.find('div[data-datafield="WarehouseId"] input.fwformfield-text').val();
+        orderInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
+        orderInfo.Deal = $form.find('div[data-datafield="DealId"] input.fwformfield-text').val();
+        const $processCreditCardForm = ProcessCreditCardController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $processCreditCardForm);
+        const $tab = FwTabs.getTabByElement($processCreditCardForm);
+        $tab.find('.caption').html('Process Credit Card');
     }
     //----------------------------------------------------------------------------------------------
     //browseCancelOption($browse: JQuery) {

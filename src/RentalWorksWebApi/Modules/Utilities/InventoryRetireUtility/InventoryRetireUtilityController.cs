@@ -15,9 +15,9 @@ namespace WebApi.Modules.Utilities.InventoryRetireUtility
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
     [FwController(Id: "KIfiUkxPPwRBr")]
-    public class InventoryRetireUtilityController : AppDataController
+    public class ProcessPaymentController : AppDataController
     {
-        public InventoryRetireUtilityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public ProcessPaymentController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryretireutility/retireinventory
         [HttpPost("retireinventory")]

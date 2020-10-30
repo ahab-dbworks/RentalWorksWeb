@@ -17,7 +17,7 @@ namespace WebApi.Modules.Billing.Payment
     public class PaymentController : AppDataController
     {
         //------------------------------------------------------------------------------------ 
-        public PaymentController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(PaymentLogic); }
+        public PaymentController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ProcessCreditCardLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/payment/browse 
         [HttpPost("browse")]
@@ -49,33 +49,33 @@ namespace WebApi.Modules.Billing.Payment
         // GET api/v1/payment 
         [HttpGet]
         [FwControllerMethod(Id: "Y9ePWOz90DFZr", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<IEnumerable<PaymentLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<ProcessCreditCardLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<PaymentLogic>(pageno, pagesize, sort);
+            return await DoGetAsync<ProcessCreditCardLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/payment/A0000001 
         [HttpGet("{id}")]
         [FwControllerMethod(Id: "y9OrvcH1WQQ4R", ActionType: FwControllerActionTypes.View)]
-        public async Task<ActionResult<PaymentLogic>> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<ProcessCreditCardLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<PaymentLogic>(id);
+            return await DoGetAsync<ProcessCreditCardLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/payment 
         [HttpPost]
         [FwControllerMethod(Id: "YA1slDDhm7nCv", ActionType: FwControllerActionTypes.New)]
-        public async Task<ActionResult<PaymentLogic>> NewAsync([FromBody]PaymentLogic l)
+        public async Task<ActionResult<ProcessCreditCardLogic>> NewAsync([FromBody]ProcessCreditCardLogic l)
         {
-            return await DoNewAsync<PaymentLogic>(l);
+            return await DoNewAsync<ProcessCreditCardLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // PUT api/v1/payment/A0000001 
         [HttpPut("{id}")]
         [FwControllerMethod(Id: "yaDkJFkrMenVX", ActionType: FwControllerActionTypes.Edit)]
-        public async Task<ActionResult<PaymentLogic>> EditAsync([FromRoute] string id, [FromBody]PaymentLogic l)
+        public async Task<ActionResult<ProcessCreditCardLogic>> EditAsync([FromRoute] string id, [FromBody]ProcessCreditCardLogic l)
         {
-            return await DoEditAsync<PaymentLogic>(l);
+            return await DoEditAsync<ProcessCreditCardLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/payment/A0000001 
@@ -83,7 +83,7 @@ namespace WebApi.Modules.Billing.Payment
         [FwControllerMethod(Id: "YAEY9PPoRZIbg", ActionType: FwControllerActionTypes.Delete)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync<PaymentLogic>(id);
+            return await DoDeleteAsync<ProcessCreditCardLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/payment/validatepaymenttype/browse

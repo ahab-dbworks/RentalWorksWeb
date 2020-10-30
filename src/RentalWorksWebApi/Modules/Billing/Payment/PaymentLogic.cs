@@ -22,12 +22,12 @@ namespace WebApi.Modules.Billing.Payment
 
 
     [FwLogic(Id: "YAxLRif4rWXiK")]
-    public class PaymentLogic : AppBusinessLogic
+    public class ProcessCreditCardLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         PaymentRecord payment = new PaymentRecord();
         PaymentLoader paymentLoader = new PaymentLoader();
-        public PaymentLogic()
+        public ProcessCreditCardLogic()
         {
             dataRecords.Add(payment);
             dataLoader = paymentLoader;
@@ -105,7 +105,7 @@ namespace WebApi.Modules.Billing.Payment
         {
             bool isValid = true;
 
-            PaymentLogic orig = null;
+            ProcessCreditCardLogic orig = null;
             decimal vendorInvoiceAmountTotal = 0;
             //decimal creditAmountTotal = 0;
             decimal paymentAmount = 0;
@@ -113,7 +113,7 @@ namespace WebApi.Modules.Billing.Payment
 
             if (original != null)
             {
-                orig = (PaymentLogic)original;
+                orig = (ProcessCreditCardLogic)original;
 
                 if (VendorId != null)
                 {
@@ -335,13 +335,13 @@ namespace WebApi.Modules.Billing.Payment
         //All of this is done within the same databas transaction as the insert/update of the Payment.  Any failures will rollback everything
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            PaymentLogic orig = null;
+            ProcessCreditCardLogic orig = null;
             decimal vendorInvoiceAmountTotal = 0;
             decimal paymentAmount = 0;
 
             if (e.Original != null)
             {
-                orig = (PaymentLogic)e.Original;
+                orig = (ProcessCreditCardLogic)e.Original;
             }
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
