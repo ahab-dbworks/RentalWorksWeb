@@ -649,12 +649,14 @@ abstract class StagingCheckoutBase {
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the CheckedOutItem Grid / StagedItemGrid controllers
     moveItems($form: JQuery, isRightArrow: boolean, $tr?: JQuery): void {
+        let immediate = false;
+        if ($tr) { immediate = true; }
         const debouncedRefreshBothGrids = FwFunc.debounce(function () {
             const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             FwBrowse.search($stagedItemGrid);
             const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
             FwBrowse.search($checkedOutItemGrid);
-        }, 2000, true);
+        }, 2000, immediate);
 
         $form.find('.unstage-all').removeClass('btn-active');
 
