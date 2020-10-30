@@ -667,6 +667,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "locwebaddress", modeltype: FwDataTypes.Text)]
         public string OfficeLocationWebAddress { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locremittofedid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationFederalId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -588,6 +588,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "locphone", modeltype: FwDataTypes.Text)]
         public string OfficeLocationPhone { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittofedid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationFederalId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealwithno", modeltype: FwDataTypes.Text)]
         public string DealAndDealNumber { get; set; }
         //------------------------------------------------------------------------------------ 
