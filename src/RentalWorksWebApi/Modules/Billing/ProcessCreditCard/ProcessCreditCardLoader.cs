@@ -6,25 +6,25 @@ using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
-    [FwSqlTable("loadercte")]
+    //[FwSqlTable("loadercte")]
+    [FwSqlTable("processcreditcardloadview")]
     public class ProcessCreditCardLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         public ProcessCreditCardLoader()
         {
+            /*
             this.Cte.AppendLine("loadercte as (");
             this.Cte.AppendLine("  select");
-            this.Cte.AppendLine("    recordtitle = 'Process Credit Card: ' + orderno,");
+            this.Cte.AppendLine("    title = 'Process Credit Card: ' + orderno,");
             this.Cte.AppendLine("    pccv.*");
             this.Cte.AppendLine("  from processcreditcardloadview pccv with (nolock)");
             this.Cte.AppendLine(")");
+            */
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "recordtitle", modeltype: FwDataTypes.Text)]
-        public string RecordTitle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNo { get; set; }

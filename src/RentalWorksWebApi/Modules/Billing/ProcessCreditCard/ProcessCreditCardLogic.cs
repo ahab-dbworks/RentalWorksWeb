@@ -22,11 +22,11 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             dataLoader = processCreditCardLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "DOo10PuNXp8p", IsReadOnly: true, IsRecordTitle: true)]
+        public string RecordTitle { get { return "Process Credit Card: " + this.OrderNo;} set{ } }
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "ggWKjrdYT2dT", IsPrimaryKey: true, IsReadOnly: true)]
         public string OrderId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "kpBE9CyA9Wg6", IsReadOnly: true, IsRecordTitle: true)]
-        public string RecordTitle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "LLzut6Ua2fYL", IsReadOnly: true)]
         public string OrderNo { get; set; }
