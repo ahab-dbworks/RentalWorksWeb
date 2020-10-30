@@ -765,11 +765,15 @@ abstract class FwWebApiReport {
             let $popupForm, popupCaption;
             const customReportLayoutId = FwFormField.getValueByDataField($form, 'CustomReportLayoutId');
             if (customReportLayoutId === '') {
-                $popupForm = CustomReportLayoutController.openForm('NEW');
-                FwFormField.setValueByDataField($popupForm, 'BaseReport', $form.attr('data-reportname'), '', true);
-                FwFormField.disable($popupForm.find('[data-datafield="BaseReport"]'));
+                if (typeof (<any>window["CustomReportLayoutController"]).openForm === 'function') {
+                    $popupForm = <any>window["CustomReportLayoutController"].openForm('NEW');
+                    FwFormField.setValueByDataField($popupForm, 'BaseReport', $form.attr('data-reportname'), '', true);
+                    FwFormField.disable($popupForm.find('[data-datafield="BaseReport"]'));
+                }
             } else {
-                $popupForm = CustomReportLayoutController.loadForm({ CustomReportLayoutId: customReportLayoutId });
+                if (typeof (<any>window["CustomReportLayoutController"]).loadForm === 'function') {
+                    $popupForm = <any>window["CustomReportLayoutController"].loadForm({ CustomReportLayoutId: customReportLayoutId });
+                }
             }
             popupCaption = FwFormField.getTextByDataField($form, 'CustomReportLayoutId') || 'Custom Report Layout';
             const $popupControl = FwPopup.renderPopup($popupForm, {}, popupCaption);
