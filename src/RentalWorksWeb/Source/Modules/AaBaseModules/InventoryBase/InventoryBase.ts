@@ -799,14 +799,21 @@ abstract class InventoryBase {
         });
 
         $form.find('[data-datafield="TrackedBy"]').on('change', e => {
+            //show/hide Cost Calculation
             const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
             if (trackedBy === 'QUANTITY') {
                 $form.find('.costcalculationsection').show();
             } else {
                 $form.find('.costcalculationsection').hide();
             }
-        });
 
+            //show/hide RFID option
+            if (trackedBy === 'RFID') {
+                FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
+            } else {
+                FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
@@ -1837,6 +1844,13 @@ abstract class InventoryBase {
             $form.find('.costcalculationsection').show();
         } else {
             $form.find('.costcalculationsection').hide();
+        }
+
+        //show/hide RFID option
+        if (trackedBy === 'RFID') {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
+        } else {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
         }
 
 

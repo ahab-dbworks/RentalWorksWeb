@@ -39,6 +39,12 @@ class RentalInventory extends InventoryBase {
             $form.find('.costcalculationsection').hide();
         }
 
+        //show/hide RFID option
+        if (trackedBy === 'RFID') {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
+        } else {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
+        }
 
     }
     //----------------------------------------------------------------------------------------------

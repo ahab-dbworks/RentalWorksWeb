@@ -11,6 +11,22 @@ class SalesInventory extends InventoryBase {
         FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');  //justin hoffman 10/12/2020 #3177
         const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
         FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultsalesquantityinventorycostcalculation);
+
+        //show/hide Cost Calculation
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        if (trackedBy === 'QUANTITY') {
+            $form.find('.costcalculationsection').show();
+        } else {
+            $form.find('.costcalculationsection').hide();
+        }
+
+        //show/hide RFID option
+        if (trackedBy === 'RFID') {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
+        } else {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
+        }
+
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

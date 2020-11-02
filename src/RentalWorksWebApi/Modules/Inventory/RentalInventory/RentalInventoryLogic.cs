@@ -29,6 +29,9 @@ namespace WebApi.Modules.Inventory.RentalInventory
         [FwLogicProperty(Id: "En3Gom0JH00QP")]
         public bool? IsFixedAsset { get { return master.IsFixedAsset; } set { master.IsFixedAsset = value; } }
 
+        [FwLogicProperty(Id: "fTPSSNiM1sPUu")]
+        public bool? MultiAssignRFIDs { get { return master.MultiAssignRFIDs; } set { master.MultiAssignRFIDs = value; } }
+
 
         //set/wall
         //------------------------------------------------------------------------------------ 
