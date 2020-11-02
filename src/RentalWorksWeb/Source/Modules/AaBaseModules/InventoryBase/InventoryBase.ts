@@ -798,22 +798,22 @@ abstract class InventoryBase {
             }
         });
 
-        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
-            //show/hide Cost Calculation
-            const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-            if (trackedBy === 'QUANTITY') {
-                $form.find('.costcalculationsection').show();
-            } else {
-                $form.find('.costcalculationsection').hide();
-            }
+        //$form.find('[data-datafield="TrackedBy"]').on('change', e => {
+        //    //show/hide Cost Calculation
+        //    const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        //    if (trackedBy === 'QUANTITY') {
+        //        $form.find('.costcalculationsection').show();
+        //    } else {
+        //        $form.find('.costcalculationsection').hide();
+        //    }
 
-            //show/hide RFID option
-            if (trackedBy === 'RFID') {
-                FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
-            } else {
-                FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
-            }
-        });
+        //    //show/hide RFID option
+        //    if (trackedBy === 'RFID') {
+        //        FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
+        //    } else {
+        //        FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
+        //    }
+        //});
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
@@ -1506,8 +1506,6 @@ abstract class InventoryBase {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
-            //const $this = jQuery(this);
-            //const classification = $this.val();
             const classification = FwFormField.getValueByDataField($form, 'Classification');
 
             $form.find('.completeskitstab').show();
@@ -1518,6 +1516,11 @@ abstract class InventoryBase {
             $form.find('.optionssection').show();
             $form.find('.manufacturersection').show();
             $form.find('.settab').hide();
+
+            //show/hide Cost Calculation
+            if (this.Module !== 'PartsInventory') {
+                this.showHideCostCalculation($form);
+            }
 
             switch (classification) {
                 case 'I':
@@ -1723,6 +1726,17 @@ abstract class InventoryBase {
         }
     }
     //----------------------------------------------------------------------------------------------
+    afterSave($form: any) {
+        if (this.Module !== 'PartsInventory') {
+            const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
+            $confirmTrackedByField.hide();
+            FwFormField.setValue2($confirmTrackedByField, '');
+            if ($form.attr('data-opensearch') == 'true') {
+                this.quikSearch($form.data('opensearch'));
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         //Disable "Create Complete" and "Inventory Summary" if classification isn't Item or Accessory
         const classification = FwFormField.getValueByDataField($form, 'Classification');
@@ -1836,6 +1850,25 @@ abstract class InventoryBase {
                 }
             }
             $tab.addClass('tabGridsLoaded');
+        });
+
+        //TrackedBy field evt change
+        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+        let textToReplace: string = 'TRACKEDBYTYPE';
+        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
+            const newTrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+            const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
+            if (trackedByValue !== newTrackedByValue) {
+                const text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedByValue);
+                textToReplace = newTrackedByValue;
+                $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
+                $confirmTrackedByField.show();
+                //trackedBy = newTrackedBy;
+            } else {
+                $confirmTrackedByField.hide();
+                FwFormField.setValue2($confirmTrackedByField, '');
+            }
+            this.showHideCostCalculation($form);
         });
 
         //show/hide Cost Calculation
@@ -1959,6 +1992,22 @@ abstract class InventoryBase {
     //----------------------------------------------------------------------------------------------
     hideTab($form: JQuery, tabClass: string) {
         this.getTab($form, tabClass).hide();
+    }
+    //----------------------------------------------------------------------------------------------
+    showHideCostCalculation($form) {
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        if (trackedBy === 'QUANTITY') {
+            FwFormField.getClassName($form, 'costcalculationsection').show();
+        } else {
+            FwFormField.getClassName($form, 'costcalculationsection').hide();
+        }
+
+        //show/hide RFID option
+        if (trackedBy === 'RFID') {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
+        } else {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
 
