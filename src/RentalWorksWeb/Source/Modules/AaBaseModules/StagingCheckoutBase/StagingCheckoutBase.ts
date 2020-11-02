@@ -648,12 +648,22 @@ abstract class StagingCheckoutBase {
     }
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the CheckedOutItem Grid / StagedItemGrid controllers
-    moveItems($form: JQuery, isRightArrow: boolean): void {
+    moveItems($form: JQuery, isRightArrow: boolean, $tr?: JQuery): void {
+        let immediate = false;
+        if ($tr) { immediate = true; }
+        const debouncedRefreshBothGrids = FwFunc.debounce(function () {
+            const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+            FwBrowse.search($stagedItemGrid);
+            const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+            FwBrowse.search($checkedOutItemGrid);
+        }, 2000, immediate);
+
         $form.find('.unstage-all').removeClass('btn-active');
 
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
         let $selectedCheckBoxes, url;
+        const request: any = {};
         const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
         if (isRightArrow) {
@@ -667,84 +677,104 @@ abstract class StagingCheckoutBase {
             $form.find('.left-arrow').addClass('btn-active');
             $form.find('.right-arrow').removeClass('btn-active');
         }
+        if (!$tr) {
+            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+            const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
+            const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
+            if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
+                request.ContractId = this.contractId;
+                request.Code = barCodeFieldValue;
+                request.OrderId = orderId;
+                if (quantityFieldValue !== '') {
+                    request.Quantity = quantityFieldValue
+                }
+                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
+                    if (response.success === true && response.status != 107) {
+                        errorMsg.html('');
+                        FwFunc.playSuccessSound();
+                        $form.find('.partial-contract-barcode input').val('');
+                        $form.find('.partial-contract-quantity input').val('');
+                        $form.find('.partial-contract-barcode input').select();
+                        debouncedRefreshBothGrids();
+                    }
+                    if (response.status === 107) {
+                        errorMsg.html('');
+                        FwFunc.playSuccessSound();
+                        $form.find('.partial-contract-quantity input').focus();
+                    }
+                    if (response.success === false && response.status !== 107) {
+                        FwFunc.playErrorSound();
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                        $form.find('.partial-contract-barcode input').focus();
+                    }
+                }, null, null);
+            } else {
+                if ($selectedCheckBoxes.length !== 0) {
+                    let responseCount = 0;
 
-        const request: any = {};
-        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-        const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
-        const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
-        if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
-            request.ContractId = this.contractId;
-            request.Code = barCodeFieldValue;
-            request.OrderId = orderId;
-            if (quantityFieldValue !== '') {
-                request.Quantity = quantityFieldValue
-            }
-            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
-                if (response.success === true && response.status != 107) {
-                    errorMsg.html('');
-                    FwFunc.playSuccessSound();
+                    for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                        const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+                        const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+                        const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+                        const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                        const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
+
+                        request.OrderId = orderId;
+                        request.ContractId = this.contractId;
+                        request.Quantity = quantity;
+
+                        if (barCode !== '') {
+                            request.Code = barCode;
+                        } else {
+                            request.Code = iCode;
+                            request.OrderItemId = orderItemId;
+                            request.VendorId = vendorId;
+                        }
+                        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
+                            responseCount++;
+
+                            if (responseCount === $selectedCheckBoxes.length) {
+                                debouncedRefreshBothGrids();
+                            }
+                        }, function onError(response) {
+                            FwFunc.showError(response);
+                        }, null);
+                    }
+
                     $form.find('.partial-contract-barcode input').val('');
                     $form.find('.partial-contract-quantity input').val('');
-                    $form.find('.partial-contract-barcode input').select();
-                    setTimeout(() => {
-                        FwBrowse.search($checkedOutItemGrid);
-                        FwBrowse.search($stagedItemGrid);
-                    }, 500);
-                }
-                if (response.status === 107) {
-                    errorMsg.html('');
-                    FwFunc.playSuccessSound();
-                    $form.find('.partial-contract-quantity input').focus();
-                }
-                if (response.success === false && response.status !== 107) {
-                    FwFunc.playErrorSound();
-                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                    $form.find('.partial-contract-barcode input').focus();
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Select rows in Contract Items or use Bar Code input in order to perform this function.');
                     $form.find('.partial-contract-barcode input').focus();
                 }
-            }, null, null);
-        } else {
-            if ($selectedCheckBoxes.length !== 0) {
-                let responseCount = 0;
-
-                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                    const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
-                    const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
-                    const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
-                    const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
-                    const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
-
-                    request.OrderId = orderId;
-                    request.ContractId = this.contractId;
-                    request.Quantity = quantity;
-
-                    if (barCode !== '') {
-                        request.Code = barCode;
-                    } else {
-                        request.Code = iCode;
-                        request.OrderItemId = orderItemId;
-                        request.VendorId = vendorId;
-                    }
-                    FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
-                        responseCount++;
-
-                        if (responseCount === $selectedCheckBoxes.length) {
-                            setTimeout(() => {
-                                FwBrowse.search($checkedOutItemGrid);
-                                FwBrowse.search($stagedItemGrid);
-                            }, 0);
-                        }
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, null);
-                }
-
-                $form.find('.partial-contract-barcode input').val('');
-                $form.find('.partial-contract-quantity input').val('');
-                $form.find('.partial-contract-barcode input').focus();
-            } else {
-                FwNotification.renderNotification('WARNING', 'Select rows in Contract Items or use Bar Code input in order to perform this function.');
-                $form.find('.partial-contract-barcode input').focus();
             }
+        } else {
+            const barCode = $tr.find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+            const iCode = $tr.find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+            const orderItemId = $tr.find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            const vendorId = $tr.find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
+            const request: any = {}
+            request.OrderId = $tr.find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            request.Quantity = +$tr.find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+            request.ContractId = this.contractId;
+
+            if (barCode !== '') {
+                request.Code = barCode;
+            } else {
+                request.Code = iCode;
+                request.OrderItemId = orderItemId;
+                request.VendorId = vendorId;
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
+                debouncedRefreshBothGrids();
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, null);
+            $form.find('.partial-contract-barcode input').val('');
+            $form.find('.partial-contract-quantity input').val('');
+            $form.find('.partial-contract-barcode input').focus();
         }
     };
     //----------------------------------------------------------------------------------------------
