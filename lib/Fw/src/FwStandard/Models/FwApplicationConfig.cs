@@ -122,7 +122,7 @@ namespace FwStandard.Models
         public int? ajaxTimeoutSeconds { get; set; } = null;
         public string version { get; set; } = null;
         public string apiurl { get; set; } = null;
-        public bool? defaultPeek { get; set; } = null;
+        //public bool? defaultPeek { get; set; } = null;
         public int? photoQuality { get; set; } = null;
         public int? photoWidth { get; set; } = null;
         public int? photoHeight { get; set; } = null;
