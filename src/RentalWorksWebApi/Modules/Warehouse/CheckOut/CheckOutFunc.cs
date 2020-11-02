@@ -129,6 +129,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         public string OrderId { get; set; }
         public string OrderItemId { get; set; }
         public string InventoryId { get; set; }
+        public string WarehouseId { get; set; }
         public int? Quantity { get; set; }
     }
     public class DecreaseOrderQuantityResponse : TSpStatusResponse { }
@@ -524,6 +525,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                 qry.AddParameter("@origmasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderItemId);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryId);
                 qry.AddParameter("@additemtoorder", SqlDbType.NVarChar, ParameterDirection.Input, "T");
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, negativeQuantity);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);

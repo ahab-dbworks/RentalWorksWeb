@@ -180,6 +180,7 @@ class CheckOutPendingItemGrid {
     }
     //----------------------------------------------------------------------------------------------
     decreaseQuantity($control: JQuery, $tr: JQuery) {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const inventoryId = FwBrowse.getValueByDataField($control, $tr, 'InventoryId');
         const orderItemId = FwBrowse.getValueByDataField($control, $tr, 'OrderItemId');
         const quantity = FwBrowse.getValueByDataField($control, $tr, 'QuantityOrdered');
@@ -195,8 +196,8 @@ class CheckOutPendingItemGrid {
                     </div>
                     <div class="flexrow" style="max-width:21vw;">
                         <div data-control="FwFormField" data-type="number" data-enabled="false" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="Ordered" style="flex:1 1 7vw;"></div>
-                        <div data-control="FwFormField" data-type="number" data-enabled="false" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="Remaining" style="flex:1 1 7vw;"></div>                       
-                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty to Decrease" data-datafield="QtyToDecrease" style="flex:1 1 7vw;"></div>                
+                        <div data-control="FwFormField" data-type="number" data-enabled="false" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="Remaining" style="flex:1 1 7vw;"></div>
+                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty to Decrease" data-datafield="QtyToDecrease" style="flex:1 1 7vw;"></div>
                     </div>
                 </div>`;
 
@@ -217,7 +218,8 @@ class CheckOutPendingItemGrid {
                 Quantity: FwFormField.getValueByDataField($confirmation, 'QtyToDecrease'),
                 OrderId: orderId,
                 OrderItemId: orderItemId,
-                InventoryId: inventoryId
+                InventoryId: inventoryId,
+                WarehouseId: warehouse.warehouseid,
             };
 
             FwConfirmation.destroyConfirmation($confirmation);

@@ -545,7 +545,12 @@
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
+    <TypeScriptCompile Include="Source\Modules\AaBaseModules\CheckInBase\CheckInBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\AaBaseModules\ContractBase\ContractBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\AaBaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\AaBaseModules\OrderBase\OrderBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\AaBaseModules\OrderStatusBase\OrderStatusBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\AaBaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Account\UserProfile\UserProfile.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DataHealth\DataHealth.ts" />
