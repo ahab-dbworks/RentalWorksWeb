@@ -39,6 +39,7 @@ class OrderReport extends FwWebApiReport {
     constructor() {
         super('OrderReport', 'api/v1/orderreport', orderTemplate);
         this.reportOptions.HasDownloadExcel = false;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

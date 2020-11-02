@@ -249,6 +249,12 @@ class CustomReportLayout {
             }, ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
+    //addNestedItemArrayToValueFields($form: JQuery, itemArray: string) {
+    //    const $validFields = $form.data('validdatafields');
+    //    const $valueField = $form.find('[data-datafield="ValueField"]');
+    //    const $nestedItems = $validFields.filter(obj => { return obj.Value == itemArray });
+    //}
+    //----------------------------------------------------------------------------------------------
     loadModules($form) {
         let $moduleSelect = $form.find('.modules');
 
