@@ -6,17 +6,23 @@ using WebApi.Data;
 using System.Collections.Generic;
 using WebApi.Logic;
 
-namespace WebApi.Modules.HomeControls.OrderContact
+namespace WebApi.Modules.HomeControls.InvoiceContact
 {
-    [FwSqlTable("dbo.funccompcontact(@orderid,'F')")]
-    public class OrderContactLoader : AppDataLoadRecord
+    [FwSqlTable("dbo.funccompcontact(@invoiceid,'F')")]
+    public class InvoiceContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
-        public int? OrderContactId { get; set; }
+        public int? InvoiceContactId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
         public string ContactId { get; set; }
@@ -99,34 +105,25 @@ namespace WebApi.Modules.HomeControls.OrderContact
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-
-            if ((OrderId == null) || (OrderId.Equals(string.Empty)))
+            string invoiceId = "";
+            if (string.IsNullOrEmpty(invoiceId))
             {
                 if ((request != null) && (request.uniqueids != null))
                 {
                     IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("OrderId"))
+                    if (uniqueIds.ContainsKey("InvoiceId"))
                     {
-                        OrderId = uniqueIds["OrderId"].ToString();
+                        invoiceId = uniqueIds["InvoiceId"].ToString();
                     }
                 }
             }
 
-            //if ((OrderId == null) || (OrderId.Equals(string.Empty)))
-            if (string.IsNullOrEmpty(OrderId))
-            {
-                OrderId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", OrderContactId.ToString(), "orderid").Result;
-            }
-
-
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            //addFilterToSelect("OrderId", "orderid", select, request);
-
-            if (!OrderId.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(invoiceId))
             {
-                select.AddParameter("@orderid", OrderId);
+                select.AddParameter("@invoiceid", invoiceId);
             }
 
         }

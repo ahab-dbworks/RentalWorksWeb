@@ -165,6 +165,7 @@
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryQuantityHistoryGrid\InventoryQuantityHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\InvoiceContactGrid\InvoiceContactGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridBrowse.htm" />
     <Content Include="Source\Grids\RetiredPurchaseGrid\RetiredPurchaseGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoiceItemCorrespondingDealInvoicesGrid\VendorInvoiceItemCorrespondingDealInvoicesGridBrowse.htm" />
@@ -358,6 +359,7 @@
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryQuantityHistoryGrid\InventoryQuantityHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InvoiceContactGrid\InvoiceContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RetiredPurchaseGrid\RetiredPurchaseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceItemCorrespondingDealInvoicesGrid\VendorInvoiceItemCorrespondingDealInvoicesGridController.ts" />
