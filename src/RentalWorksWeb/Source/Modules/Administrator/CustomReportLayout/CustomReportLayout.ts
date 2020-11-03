@@ -57,7 +57,7 @@ class CustomReportLayout {
         this.designerEvents($form);
 
         //temp 
-        //FwFormField.setValueByDataField($form, 'BaseReport', 'OutContractReport', null, true);
+        FwFormField.setValueByDataField($form, 'BaseReport', 'OutContractReport', null, true);
 
         return $form;
     }
@@ -1235,7 +1235,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     addColumn($form: JQuery, $table: JQuery, $cachedRows: JQuery) {
-        let $newColumn, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0, detailLinkedCol;
+        let $newColumn, detailRowIndex = 0, linkedSubHeaderRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0, detailLinkedCol;
         const newColumnData = $form.data('addcolumn');
         const linkedColumn = newColumnData.newcolumnid;
         for (let i = 0; i < $cachedRows.length; i++) {
@@ -1252,6 +1252,12 @@ class CustomReportLayout {
                     $row.append($newColumn);
                     jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[detailRowIndex]).append($newColumn.clone().addClass('new-column')); //add to row on designer
                     detailRowIndex++;
+                    break;
+                case 'linked-sub-header':
+                    $newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}"></th>`);
+                    $row.append($newColumn);
+                    jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[linkedSubHeaderRowIndex]).append($newColumn.clone().addClass('new-column')); //add to row on designer
+                    linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
                     $newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}-sub${subHeaderRowIndex}"></th>`);
