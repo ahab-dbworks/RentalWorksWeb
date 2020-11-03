@@ -59,6 +59,9 @@ class CustomReportLayout {
         //temp 
         //FwFormField.setValueByDataField($form, 'BaseReport', 'OrderReport', null, true);
 
+        //add draggable fields to designer
+        this.addNestedSorting($form, $form.find('.header-fields-drag'), true);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -239,9 +242,6 @@ class CustomReportLayout {
                         }
                     }
                 }
-
-                //add draggable fields to designer
-                this.addNestedSorting($form, $headerFields, true);
 
                 FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
                 $form.find('[data-datafield="ValueField"]').data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: 'ReportDefault' });
