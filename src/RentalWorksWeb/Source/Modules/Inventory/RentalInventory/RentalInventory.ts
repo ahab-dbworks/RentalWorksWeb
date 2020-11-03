@@ -345,6 +345,9 @@ class RentalInventory extends InventoryBase {
         super.afterLoad($form);
         this.iCodeMask($form);
 
+        //originalTrackedBy value used in "TrackedBy" evt listener in InventoryBase
+        $form.data('originalTrackedBy', FwFormField.getValueByDataField($form, 'TrackedBy'));
+
         const $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
         if (!enableConsignment) {

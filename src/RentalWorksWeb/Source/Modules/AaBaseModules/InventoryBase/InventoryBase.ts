@@ -8,7 +8,6 @@ abstract class InventoryBase {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     CreateCompleteId: string;
-    TrackedByValue: string = '';
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         FwMenu.addBrowseMenuButtons(options);
@@ -801,10 +800,11 @@ abstract class InventoryBase {
         // TrackedBy evt
         let textToReplace: string = 'TRACKEDBYTYPE';
         $form.find('[data-datafield="TrackedBy"]').on('change', e => {
-            if (this.TrackedByValue) {
+            const originalTrackedByValue = $form.data('originalTrackedBy');
+            if (originalTrackedByValue) {
                 const newTrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
                 const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
-                if (this.TrackedByValue !== newTrackedByValue) {
+                if (originalTrackedByValue !== newTrackedByValue) {
                     const text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedByValue);
                     textToReplace = newTrackedByValue;
                     $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
@@ -1508,7 +1508,7 @@ abstract class InventoryBase {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
         //show/hide Cost Calculation
-            this.showHideCostCalculation($form);
+        this.showHideCostCalculation($form);
 
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
             const classification = FwFormField.getValueByDataField($form, 'Classification');
@@ -1852,8 +1852,6 @@ abstract class InventoryBase {
             }
             $tab.addClass('tabGridsLoaded');
         });
-        //TrackedBy value used in evt listener
-        this.TrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
 
         //show/hide Cost Calculation
         this.showHideCostCalculation($form);
