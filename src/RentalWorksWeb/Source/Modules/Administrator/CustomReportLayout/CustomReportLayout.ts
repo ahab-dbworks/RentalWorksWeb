@@ -57,7 +57,7 @@ class CustomReportLayout {
         this.designerEvents($form);
 
         //temp 
-        FwFormField.setValueByDataField($form, 'BaseReport', 'OutContractReport', null, true);
+        //FwFormField.setValueByDataField($form, 'BaseReport', 'OrderReport', null, true);
 
         return $form;
     }
@@ -192,8 +192,7 @@ class CustomReportLayout {
                 let allValidFields: any = [];
                 const fieldsToExclude = ['DateStamp', 'RecordTitle', '_Custom', '_Fields', 'DateFields'];
                 for (let key of Object.keys(response)) {
-                    //if (!fieldsToExclude.includes(key)) {
-                    if (fieldsToExclude.indexOf(key) <0 ) {
+                    if (fieldsToExclude.indexOf(key) < 0 ) {
                         if (Array.isArray(response[key])) {
                             const unorderedItems = response[key][0];
                             const orderedItems = {};
@@ -245,15 +244,36 @@ class CustomReportLayout {
                 this.addNestedSorting($form, $headerFields, true);
 
                 FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
+                $form.find('[data-datafield="ValueField"]').data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: 'ReportDefault' });
 
             }, ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
-    //addNestedItemArrayToValueFields($form: JQuery, itemArray: string) {
-    //    const $validFields = $form.data('validdatafields');
-    //    const $valueField = $form.find('[data-datafield="ValueField"]');
-    //    const $nestedItems = $validFields.filter(obj => { return obj.Value == itemArray });
-    //}
+    updateValueFieldControl($form: JQuery, itemArray: string) {
+        const $valueField = $form.find('[data-datafield="ValueField"]');
+        if ($valueField.data('itemarray').ItemArray != itemArray) {
+            if (itemArray === 'ReportDefault') {
+                FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
+                $valueField.data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: itemArray });
+            } else {
+                const $validFields = $form.data('validdatafields');
+                let items = $validFields.filter(obj => { return obj.value == itemArray });
+
+                if (items.length) {
+                    items = items[0]["NestedItems"];
+                    if (typeof items != 'undefined' && typeof items == 'object') {
+                        const fields = [];
+                        const fieldNames = Object.keys(items);
+                        for (let i = 0; i < fieldNames.length; i++) {
+                            fields.push({ value: fieldNames[i], text: fieldNames[i] })
+                        }
+                        FwFormField.loadItems($valueField, fields);
+                        $valueField.data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: itemArray });
+                    }
+                }
+            }
+        }
+    }
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
         let $moduleSelect = $form.find('.modules');
@@ -1052,6 +1072,12 @@ class CustomReportLayout {
     //----------------------------------------------------------------------------------------------
     setControlValues($form: JQuery, $column: JQuery) {
         const tableName = $column.parents('.table-wrapper').attr('data-tablename');
+        const itemArray = $column.parents('[data-section]').attr('data-itemarray');
+        if (typeof itemArray != 'undefined' && typeof itemArray == 'string') { 
+            this.updateValueFieldControl($form, itemArray);
+        } else {
+            this.updateValueFieldControl($form, 'ReportDefault');
+        }
         FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
         FwFormField.setValueByDataField($form, 'CaptionField', $column.text(), $column.text());
         FwFormField.setValueByDataField($form, 'ValueField', $column.attr('data-valuefield'), $column.attr('data-valuefield'));
