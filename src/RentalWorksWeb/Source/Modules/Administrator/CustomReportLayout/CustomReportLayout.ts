@@ -448,8 +448,7 @@ class CustomReportLayout {
             onStart: e => {
                 const $column = jQuery(e.item);
                 const linkedColumnName = $column.attr('data-linkedcolumn');
-                $form.find('#reportDesigner .highlight').removeClass('highlight');
-                $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
+                this.highlightElement($form, $table.find(`tbody td[data-linkedcolumn="${linkedColumnName}"]`));
                 FwFormField.setValueByDataField($form, 'TableName', tableName);
                 this.setControlValues($form, $column);
                 this.showHideControlProperties($form, 'table');
@@ -474,8 +473,7 @@ class CustomReportLayout {
 
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-                $table.find('.highlight').removeClass('highlight');
-                $table.find(`[data-linkedcolumn="${linkedColumnName}"]`).addClass('highlight');
+                this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumnName}"]`));
             },
             animation: 100
         });

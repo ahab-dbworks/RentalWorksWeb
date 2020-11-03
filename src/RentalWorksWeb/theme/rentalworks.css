@@ -726,6 +726,8 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 /* Custom Reports */
 #reportDesigner .highlight { background-color:#d1efd2 !important;border:2px solid #4caf5040 !important;}
+#reportDesigner img {border: 2px solid #99d6fd;}
+#reportDesigner img:before {content: "[Image] "; font-weight: bold;}
 #reportDesigner .header-section > span,
 #reportDesigner .table-section > span,
 #reportDesigner .footer-section > span {font-weight:bold; font-size:1.2em; text-decoration:underline;}
