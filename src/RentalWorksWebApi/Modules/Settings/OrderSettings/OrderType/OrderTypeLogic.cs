@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderTypeFields;
+using WebApi.Modules.Settings.SystemSettings.InventorySettings;
 
 namespace WebApi.Modules.Settings.OrderSettings.OrderType
 {
-    [FwLogic(Id:"j6CoqCXopPET")]
+    [FwLogic(Id: "j6CoqCXopPET")]
     public class OrderTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -40,37 +41,37 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
-
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"PxY0D2RLNuDO", IsPrimaryKey:true)]
+
+        [FwLogicProperty(Id: "PxY0D2RLNuDO", IsPrimaryKey: true)]
         public string OrderTypeId { get { return orderType.OrderTypeId; } set { orderType.OrderTypeId = value; } }
 
-        [FwLogicProperty(Id:"PxY0D2RLNuDO", IsRecordTitle:true)]
+        [FwLogicProperty(Id: "PxY0D2RLNuDO", IsRecordTitle: true)]
         public string OrderType { get { return orderType.OrderType; } set { orderType.OrderType = value; } }
 
-        [FwLogicProperty(Id:"feYHTd0dMt0f")]
+        [FwLogicProperty(Id: "feYHTd0dMt0f")]
         public string OrdType { get { return orderType.Ordtype; } set { orderType.Ordtype = value; } }
 
-        [FwLogicProperty(Id:"idEMUXfVyeWr")]
+        [FwLogicProperty(Id: "idEMUXfVyeWr")]
         public string DefaultPickTime { get { return orderType.Picktime; } set { orderType.Picktime = value; } }
 
-        [FwLogicProperty(Id:"XMi7px7i1ouI")]
+        [FwLogicProperty(Id: "XMi7px7i1ouI")]
         public string DefaultFromTime { get { return orderType.Fromtime; } set { orderType.Fromtime = value; } }
 
-        [FwLogicProperty(Id:"luJQUyBDLYQh")]
+        [FwLogicProperty(Id: "luJQUyBDLYQh")]
         public string DefaultToTime { get { return orderType.Totime; } set { orderType.Totime = value; } }
 
-        [FwLogicProperty(Id:"BorqyXzVmDd2")]
+        [FwLogicProperty(Id: "BorqyXzVmDd2")]
         public string DailyScheduleDefaultStartTime { get { return orderType.Defaultdaystarttime; } set { orderType.Defaultdaystarttime = value; } }
 
-        [FwLogicProperty(Id:"OooTNOFHzKND")]
+        [FwLogicProperty(Id: "OooTNOFHzKND")]
         public string DailyScheduleDefaultStopTime { get { return orderType.Defaultdaystoptime; } set { orderType.Defaultdaystoptime = value; } }
 
-        [FwLogicProperty(Id:"imMYc95irIfL")]
+        [FwLogicProperty(Id: "imMYc95irIfL")]
         public bool? IsMasterSubOrderType { get { return orderType.Ismastersuborder; } set { orderType.Ismastersuborder = value; } }
 
-        [FwLogicProperty(Id:"jpC5QlAPHP31")]
+        [FwLogicProperty(Id: "jpC5QlAPHP31")]
         public bool? CombineActivityTabs { get { return orderType.CombineActivityTabs; } set { orderType.CombineActivityTabs = value; } }
 
         [FwLogicProperty(Id: "fwPSBW0fcJ5TN")]
@@ -84,88 +85,88 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
         //rental fields
         [JsonIgnore]
-        [FwLogicProperty(Id:"9gUR7H9NQn5s")]
+        [FwLogicProperty(Id: "9gUR7H9NQn5s")]
         public string RentalOrderTypeFieldsId { get { return rentalOrderTypeFields.OrderTypeFieldsId; } set { orderType.RentalOrderTypeFieldsId = value; rentalOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"CYM08oXtTmka")]
         //public bool? RentalShowOrderNumber { get { return rentalOrderTypeFields.ShowOrderNumber; } set { rentalOrderTypeFields.ShowOrderNumber = value; } }
 
-        [FwLogicProperty(Id:"RVdKYMsqZntj")]
+        [FwLogicProperty(Id: "RVdKYMsqZntj")]
         public bool? RentalShowICode { get { return rentalOrderTypeFields.ShowICode; } set { rentalOrderTypeFields.ShowICode = value; } }
 
-        [FwLogicProperty(Id:"f7lCpimK0HJg")]
+        [FwLogicProperty(Id: "f7lCpimK0HJg")]
         public int? RentalICodeWidth { get { return rentalOrderTypeFields.ICodeWidth; } set { rentalOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"wp2MA0dQwszP")]
+        [FwLogicProperty(Id: "wp2MA0dQwszP")]
         public bool? RentalShowDescription { get { return rentalOrderTypeFields.ShowDescription; } set { rentalOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"0hkz3ZKHBFKE")]
+        [FwLogicProperty(Id: "0hkz3ZKHBFKE")]
         public int? RentalDescriptionWidth { get { return rentalOrderTypeFields.DescriptionWidth; } set { rentalOrderTypeFields.DescriptionWidth = value; } }
 
-        [FwLogicProperty(Id:"ziajpkXyQKBS")]
+        [FwLogicProperty(Id: "ziajpkXyQKBS")]
         public bool? RentalShowPickDate { get { return rentalOrderTypeFields.ShowPickDate; } set { rentalOrderTypeFields.ShowPickDate = value; } }
 
-        [FwLogicProperty(Id:"o4aUrEyuRqAG")]
+        [FwLogicProperty(Id: "o4aUrEyuRqAG")]
         public bool? RentalShowPickTime { get { return rentalOrderTypeFields.ShowPickTime; } set { rentalOrderTypeFields.ShowPickTime = value; } }
 
-        [FwLogicProperty(Id:"zZYKTrUSMNg0")]
+        [FwLogicProperty(Id: "zZYKTrUSMNg0")]
         public bool? RentalShowFromDate { get { return rentalOrderTypeFields.ShowFromDate; } set { rentalOrderTypeFields.ShowFromDate = value; } }
 
-        [FwLogicProperty(Id:"isSCdEhiNZeU")]
+        [FwLogicProperty(Id: "isSCdEhiNZeU")]
         public bool? RentalShowFromTime { get { return rentalOrderTypeFields.ShowFromTime; } set { rentalOrderTypeFields.ShowFromTime = value; } }
 
-        [FwLogicProperty(Id:"DiwayP2P7tgl")]
+        [FwLogicProperty(Id: "DiwayP2P7tgl")]
         public bool? RentalShowToDate { get { return rentalOrderTypeFields.ShowToDate; } set { rentalOrderTypeFields.ShowToDate = value; } }
 
-        [FwLogicProperty(Id:"FCyF0IZIXYVm")]
+        [FwLogicProperty(Id: "FCyF0IZIXYVm")]
         public bool? RentalShowToTime { get { return rentalOrderTypeFields.ShowToTime; } set { rentalOrderTypeFields.ShowToTime = value; } }
 
-        [FwLogicProperty(Id:"v0ofJhUUAruQ")]
+        [FwLogicProperty(Id: "v0ofJhUUAruQ")]
         public bool? RentalShowBillablePeriods { get { return rentalOrderTypeFields.ShowBillablePeriods; } set { rentalOrderTypeFields.ShowBillablePeriods = value; } }
 
-        [FwLogicProperty(Id:"N8wFeqqLGT4e")]
+        [FwLogicProperty(Id: "N8wFeqqLGT4e")]
         public bool? RentalShowEpisodes { get { return rentalOrderTypeFields.ShowEpisodes; } set { rentalOrderTypeFields.ShowEpisodes = value; } }
 
-        [FwLogicProperty(Id:"2jQMAkhR1qZJ")]
+        [FwLogicProperty(Id: "2jQMAkhR1qZJ")]
         public bool? RentalShowSubQuantity { get { return rentalOrderTypeFields.ShowSubQuantity; } set { rentalOrderTypeFields.ShowSubQuantity = value; } }
 
-        [FwLogicProperty(Id:"LQGjaI9nq7cy")]
+        [FwLogicProperty(Id: "LQGjaI9nq7cy")]
         public bool? RentalShowAvailableQuantity { get { return rentalOrderTypeFields.ShowAvailableQuantity; } set { rentalOrderTypeFields.ShowAvailableQuantity = value; } }
 
-        [FwLogicProperty(Id:"f2uwdTGV1ZOv")]
+        [FwLogicProperty(Id: "f2uwdTGV1ZOv")]
         public bool? RentalShowConflictDate { get { return rentalOrderTypeFields.ShowConflictDate; } set { rentalOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"KzX2c0iRzHFH")]
+        [FwLogicProperty(Id: "KzX2c0iRzHFH")]
         public bool? RentalShowAvailableQuantityAllWarehouses { get { return rentalOrderTypeFields.ShowAvailableQuantityAllWarehouses; } set { rentalOrderTypeFields.ShowAvailableQuantityAllWarehouses = value; } }
 
-        [FwLogicProperty(Id:"TNMlpuXhmA2P")]
+        [FwLogicProperty(Id: "TNMlpuXhmA2P")]
         public bool? RentalShowConflictDateAllWarehouses { get { return rentalOrderTypeFields.ShowConflictDateAllWarehouses; } set { rentalOrderTypeFields.ShowConflictDateAllWarehouses = value; } }
 
-        [FwLogicProperty(Id:"1l8xeNriytYB")]
+        [FwLogicProperty(Id: "1l8xeNriytYB")]
         public bool? RentalShowReservedItems { get { return rentalOrderTypeFields.ShowReservedItems; } set { rentalOrderTypeFields.ShowReservedItems = value; } }
 
-        [FwLogicProperty(Id:"UeGrwnoW3skg")]
+        [FwLogicProperty(Id: "UeGrwnoW3skg")]
         public bool? RentalShowConsignmentQuantity { get { return rentalOrderTypeFields.ShowConsignmentQuantity; } set { rentalOrderTypeFields.ShowConsignmentQuantity = value; } }
 
-        [FwLogicProperty(Id:"dZM5pE5oKQVG")]
+        [FwLogicProperty(Id: "dZM5pE5oKQVG")]
         public bool? RentalShowConsignmentAvailableQuantity { get { return rentalOrderTypeFields.ShowConsignmentAvailableQuantity; } set { rentalOrderTypeFields.ShowConsignmentAvailableQuantity = value; } }
 
-        [FwLogicProperty(Id:"5JKyfbUy7INE")]
+        [FwLogicProperty(Id: "5JKyfbUy7INE")]
         public bool? RentalShowConsignmentConflictDate { get { return rentalOrderTypeFields.ShowConsignmentConflictDate; } set { rentalOrderTypeFields.ShowConsignmentConflictDate = value; } }
 
-        [FwLogicProperty(Id:"hC3qF3naO1dw")]
+        [FwLogicProperty(Id: "hC3qF3naO1dw")]
         public bool? RentalShowRate { get { return rentalOrderTypeFields.ShowRate; } set { rentalOrderTypeFields.ShowRate = value; } }
 
-        [FwLogicProperty(Id:"8gHQoDRUUmaC")]
+        [FwLogicProperty(Id: "8gHQoDRUUmaC")]
         public bool? RentalShowDaysPerWeek { get { return rentalOrderTypeFields.ShowDaysPerWeek; } set { rentalOrderTypeFields.ShowDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"AoUwNcLYwzyx")]
+        [FwLogicProperty(Id: "AoUwNcLYwzyx")]
         public bool? RentalShowPremiumPercent { get { return rentalOrderTypeFields.ShowPremiumPercent; } set { rentalOrderTypeFields.ShowPremiumPercent = value; } }
 
-        [FwLogicProperty(Id:"ueS6I2a8cVKE")]
+        [FwLogicProperty(Id: "ueS6I2a8cVKE")]
         public bool? RentalShowUnit { get { return rentalOrderTypeFields.ShowUnit; } set { rentalOrderTypeFields.ShowUnit = value; } }
 
-        [FwLogicProperty(Id:"feY8WMRTwOP7")]
+        [FwLogicProperty(Id: "feY8WMRTwOP7")]
         public bool? RentalShowCost { get { return rentalOrderTypeFields.ShowCost; } set { rentalOrderTypeFields.ShowCost = value; } }
 
 
@@ -178,43 +179,43 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         [FwLogicProperty(Id: "7o70mG7UnKwj")]
         public bool? RentalShowPeriodCostExtended { get { return rentalOrderTypeFields.ShowPeriodCostExtended; } set { rentalOrderTypeFields.ShowPeriodCostExtended = value; } }
 
-        [FwLogicProperty(Id:"aOePQPWqucTA")]
+        [FwLogicProperty(Id: "aOePQPWqucTA")]
         public bool? RentalShowDiscountPercent { get { return rentalOrderTypeFields.ShowDiscountPercent; } set { rentalOrderTypeFields.ShowDiscountPercent = value; } }
 
-        [FwLogicProperty(Id:"0CcPC94A5OSk")]
+        [FwLogicProperty(Id: "0CcPC94A5OSk")]
         public bool? RentalShowMarkupPercent { get { return rentalOrderTypeFields.ShowMarkupPercent; } set { rentalOrderTypeFields.ShowMarkupPercent = value; } }
 
-        [FwLogicProperty(Id:"h0JxM9vZsuyY")]
+        [FwLogicProperty(Id: "h0JxM9vZsuyY")]
         public bool? RentalShowMarginPercent { get { return rentalOrderTypeFields.ShowMarginPercent; } set { rentalOrderTypeFields.ShowMarginPercent = value; } }
 
-        [FwLogicProperty(Id:"I4jadkipD488")]
+        [FwLogicProperty(Id: "I4jadkipD488")]
         public bool? RentalShowUnitDiscountAmount { get { return rentalOrderTypeFields.ShowUnitDiscountAmount; } set { rentalOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"3WJFFkGi2Cbb")]
+        [FwLogicProperty(Id: "3WJFFkGi2Cbb")]
         public bool? RentalShowUnitExtended { get { return rentalOrderTypeFields.ShowUnitExtended; } set { rentalOrderTypeFields.ShowUnitExtended = value; } }
 
-        [FwLogicProperty(Id:"mK89UBfX3Ehy")]
+        [FwLogicProperty(Id: "mK89UBfX3Ehy")]
         public bool? RentalShowWeeklyDiscountAmount { get { return rentalOrderTypeFields.ShowWeeklyDiscountAmount; } set { rentalOrderTypeFields.ShowWeeklyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"d9oqM3ph1t2O")]
+        [FwLogicProperty(Id: "d9oqM3ph1t2O")]
         public bool? RentalShowWeeklyExtended { get { return rentalOrderTypeFields.ShowWeeklyExtended; } set { rentalOrderTypeFields.ShowWeeklyExtended = value; } }
 
-        [FwLogicProperty(Id:"pGusl4USV2Ci")]
+        [FwLogicProperty(Id: "pGusl4USV2Ci")]
         public bool? RentalShowEpisodeExtended { get { return rentalOrderTypeFields.ShowEpisodeExtended; } set { rentalOrderTypeFields.ShowEpisodeExtended = value; } }
 
-        [FwLogicProperty(Id:"z2I7kSN8mobY")]
+        [FwLogicProperty(Id: "z2I7kSN8mobY")]
         public bool? RentalShowEpisodeDiscountAmount { get { return rentalOrderTypeFields.ShowEpisodeDiscountAmount; } set { rentalOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"rCMEVsWK4t4R")]
+        [FwLogicProperty(Id: "rCMEVsWK4t4R")]
         public bool? RentalShowMonthlyDiscountAmount { get { return rentalOrderTypeFields.ShowMonthlyDiscountAmount; } set { rentalOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"njI2Tj6XZGAt")]
+        [FwLogicProperty(Id: "njI2Tj6XZGAt")]
         public bool? RentalShowMonthlyExtended { get { return rentalOrderTypeFields.ShowMonthlyExtended; } set { rentalOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"cd37WDlqfleF")]
+        [FwLogicProperty(Id: "cd37WDlqfleF")]
         public bool? RentalShowPeriodDiscountAmount { get { return rentalOrderTypeFields.ShowPeriodDiscountAmount; } set { rentalOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"ysMjnJb8PKbB")]
+        [FwLogicProperty(Id: "ysMjnJb8PKbB")]
         public bool? RentalShowPeriodExtended { get { return rentalOrderTypeFields.ShowPeriodExtended; } set { rentalOrderTypeFields.ShowPeriodExtended = value; } }
 
         //[FwLogicProperty(Id:"Q27HeSyMLJ9m")]
@@ -223,16 +224,16 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"rwTBOVrQv1HH")]
         //public bool? RentalShowVarianceExtended { get { return rentalOrderTypeFields.ShowVarianceExtended; } set { rentalOrderTypeFields.ShowVarianceExtended = value; } }
 
-        [FwLogicProperty(Id:"PaGkNS1QSP2p")]
+        [FwLogicProperty(Id: "PaGkNS1QSP2p")]
         public bool? RentalShowWarehouse { get { return rentalOrderTypeFields.ShowWarehouse; } set { rentalOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"2SPibeVxKY3q")]
+        [FwLogicProperty(Id: "2SPibeVxKY3q")]
         public bool? RentalShowTaxable { get { return rentalOrderTypeFields.ShowTaxable; } set { rentalOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"PYkbZPSQlNNJ")]
+        [FwLogicProperty(Id: "PYkbZPSQlNNJ")]
         public bool? RentalShowNotes { get { return rentalOrderTypeFields.ShowNotes; } set { rentalOrderTypeFields.ShowNotes = value; } }
 
-        [FwLogicProperty(Id:"rFxBfhJ8E0Iy")]
+        [FwLogicProperty(Id: "rFxBfhJ8E0Iy")]
         public bool? RentalShowReturnToWarehouse { get { return rentalOrderTypeFields.ShowReturnToWarehouse; } set { rentalOrderTypeFields.ShowReturnToWarehouse = value; } }
 
         //[FwLogicProperty(Id:"LF1GV1iT2tKw")]
@@ -259,49 +260,49 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"6N7dq7zwl88t")]
         //public bool? RentalShowOrderStatus { get { return rentalOrderTypeFields.ShowOrderStatus; } set { rentalOrderTypeFields.ShowOrderStatus = value; } }
 
-        [FwLogicProperty(Id:"WXVY1URH85D8")]
+        [FwLogicProperty(Id: "WXVY1URH85D8")]
         public string RentalDateStamp { get { return rentalOrderTypeFields.DateStamp; } set { rentalOrderTypeFields.DateStamp = value; } }
 
-        [FwLogicProperty(Id:"7tEGfQjd2wEM")]
+        [FwLogicProperty(Id: "7tEGfQjd2wEM")]
         public bool? AllowRoundTripRentals { get { return orderType.Roundtriprentals; } set { orderType.Roundtriprentals = value; } }
 
 
         //sales fields
         [JsonIgnore]
-        [FwLogicProperty(Id:"yRduBcfF34iy")]
+        [FwLogicProperty(Id: "yRduBcfF34iy")]
         public string SalesOrderTypeFieldsId { get { return salesOrderTypeFields.OrderTypeFieldsId; } set { orderType.SalesOrderTypeFieldsId = value; salesOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"P5VsqmA2F8CB")]
         //public bool? SalesShowOrderNumber { get { return salesOrderTypeFields.ShowOrderNumber; } set { salesOrderTypeFields.ShowOrderNumber = value; } }
 
-        [FwLogicProperty(Id:"UdO2yud52yxc")]
+        [FwLogicProperty(Id: "UdO2yud52yxc")]
         public bool? SalesShowICode { get { return salesOrderTypeFields.ShowICode; } set { salesOrderTypeFields.ShowICode = value; } }
 
-        [FwLogicProperty(Id:"DTJINaiezEgZ")]
+        [FwLogicProperty(Id: "DTJINaiezEgZ")]
         public int? SalesICodeWidth { get { return salesOrderTypeFields.ICodeWidth; } set { salesOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"QsWwLZyvzlf6")]
+        [FwLogicProperty(Id: "QsWwLZyvzlf6")]
         public bool? SalesShowDescription { get { return salesOrderTypeFields.ShowDescription; } set { salesOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"FS0ar3MudV8i")]
+        [FwLogicProperty(Id: "FS0ar3MudV8i")]
         public int? SalesDescriptionWidth { get { return salesOrderTypeFields.DescriptionWidth; } set { salesOrderTypeFields.DescriptionWidth = value; } }
 
-        [FwLogicProperty(Id:"rC3Gcy34A4uI")]
+        [FwLogicProperty(Id: "rC3Gcy34A4uI")]
         public bool? SalesShowManufacturerPartNumber { get { return salesOrderTypeFields.ShowManufacturerPartNumber; } set { salesOrderTypeFields.ShowManufacturerPartNumber = value; } }
 
-        [FwLogicProperty(Id:"wjz98JsG35Cw")]
+        [FwLogicProperty(Id: "wjz98JsG35Cw")]
         public int? SalesManufacturerPartNumberWidth { get { return salesOrderTypeFields.ManufacturerPartNumberWidth; } set { salesOrderTypeFields.ManufacturerPartNumberWidth = value; } }
 
-        [FwLogicProperty(Id:"nLZn8Af5nuia")]
+        [FwLogicProperty(Id: "nLZn8Af5nuia")]
         public bool? SalesShowPickDate { get { return salesOrderTypeFields.ShowPickDate; } set { salesOrderTypeFields.ShowPickDate = value; } }
 
-        [FwLogicProperty(Id:"RnyXStRkpZNm")]
+        [FwLogicProperty(Id: "RnyXStRkpZNm")]
         public bool? SalesShowPickTime { get { return salesOrderTypeFields.ShowPickTime; } set { salesOrderTypeFields.ShowPickTime = value; } }
 
-        [FwLogicProperty(Id:"4Uaoi4mtZtAd")]
+        [FwLogicProperty(Id: "4Uaoi4mtZtAd")]
         public bool? SalesShowFromDate { get { return salesOrderTypeFields.ShowFromDate; } set { salesOrderTypeFields.ShowFromDate = value; } }
 
-        [FwLogicProperty(Id:"LAJPmo83Zw3f")]
+        [FwLogicProperty(Id: "LAJPmo83Zw3f")]
         public bool? SalesShowFromTime { get { return salesOrderTypeFields.ShowFromTime; } set { salesOrderTypeFields.ShowFromTime = value; } }
 
         //[FwLogicProperty(Id:"2TbeHipWbuLm")]
@@ -313,34 +314,34 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"kJwSY2GdQ7sV")]
         //public bool? SalesShowBillablePeriods { get { return salesOrderTypeFields.ShowBillablePeriods; } set { salesOrderTypeFields.ShowBillablePeriods = value; } }
 
-        [FwLogicProperty(Id:"0rrymhup62Wg")]
+        [FwLogicProperty(Id: "0rrymhup62Wg")]
         public bool? SalesShowSubQuantity { get { return salesOrderTypeFields.ShowSubQuantity; } set { salesOrderTypeFields.ShowSubQuantity = value; } }
 
-        [FwLogicProperty(Id:"Fss986MRrtv1")]
+        [FwLogicProperty(Id: "Fss986MRrtv1")]
         public bool? SalesShowCost { get { return salesOrderTypeFields.ShowCost; } set { salesOrderTypeFields.ShowCost = value; } }
 
-        [FwLogicProperty(Id:"WVfrirLYkvZa")]
+        [FwLogicProperty(Id: "WVfrirLYkvZa")]
         public bool? SalesShowRate { get { return salesOrderTypeFields.ShowRate; } set { salesOrderTypeFields.ShowRate = value; } }
 
-        [FwLogicProperty(Id:"pZfMGupoUMOy")]
+        [FwLogicProperty(Id: "pZfMGupoUMOy")]
         public bool? SalesShowAvailableQuantity { get { return salesOrderTypeFields.ShowAvailableQuantity; } set { salesOrderTypeFields.ShowAvailableQuantity = value; } }
 
-        [FwLogicProperty(Id:"NrZkBB6V4kR4")]
+        [FwLogicProperty(Id: "NrZkBB6V4kR4")]
         public bool? SalesShowConflictDate { get { return salesOrderTypeFields.ShowConflictDate; } set { salesOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"SJjQEOmLCd62")]
+        [FwLogicProperty(Id: "SJjQEOmLCd62")]
         public bool? SalesShowAvailableQuantityAllWarehouses { get { return salesOrderTypeFields.ShowAvailableQuantityAllWarehouses; } set { salesOrderTypeFields.ShowAvailableQuantityAllWarehouses = value; } }
 
-        [FwLogicProperty(Id:"1ao7EmjTphfz")]
+        [FwLogicProperty(Id: "1ao7EmjTphfz")]
         public bool? SalesShowConflictDateAllWarehouses { get { return salesOrderTypeFields.ShowConflictDateAllWarehouses; } set { salesOrderTypeFields.ShowConflictDateAllWarehouses = value; } }
 
-        [FwLogicProperty(Id:"oBEQXIaqxK64")]
+        [FwLogicProperty(Id: "oBEQXIaqxK64")]
         public bool? SalesShowMarkupPercent { get { return salesOrderTypeFields.ShowMarkupPercent; } set { salesOrderTypeFields.ShowMarkupPercent = value; } }
 
-        [FwLogicProperty(Id:"xX55YH1BGzCK")]
+        [FwLogicProperty(Id: "xX55YH1BGzCK")]
         public bool? SalesShowMarginPercent { get { return salesOrderTypeFields.ShowMarginPercent; } set { salesOrderTypeFields.ShowMarginPercent = value; } }
 
-        [FwLogicProperty(Id:"dEM2DaF2YOem")]
+        [FwLogicProperty(Id: "dEM2DaF2YOem")]
         public bool? SalesShowUnit { get { return salesOrderTypeFields.ShowUnit; } set { salesOrderTypeFields.ShowUnit = value; } }
 
         //[FwLogicProperty(Id:"mOJ8oXWdgFAl")]
@@ -349,16 +350,16 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"xxjAnthwwVHo")]
         //public bool? SalesShowMonthlyCostExtended { get { return salesOrderTypeFields.ShowMonthlyCostExtended; } set { salesOrderTypeFields.ShowMonthlyCostExtended = value; } }
 
-        [FwLogicProperty(Id:"rOa6kVgmm1TQ")]
+        [FwLogicProperty(Id: "rOa6kVgmm1TQ")]
         public bool? SalesShowPeriodCostExtended { get { return salesOrderTypeFields.ShowPeriodCostExtended; } set { salesOrderTypeFields.ShowPeriodCostExtended = value; } }
 
-        [FwLogicProperty(Id:"aMDVenViegc2")]
+        [FwLogicProperty(Id: "aMDVenViegc2")]
         public bool? SalesShowDiscountPercent { get { return salesOrderTypeFields.ShowDiscountPercent; } set { salesOrderTypeFields.ShowDiscountPercent = value; } }
 
-        [FwLogicProperty(Id:"gl5XJBTRlJtg")]
+        [FwLogicProperty(Id: "gl5XJBTRlJtg")]
         public bool? SalesShowUnitDiscountAmount { get { return salesOrderTypeFields.ShowUnitDiscountAmount; } set { salesOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"UswUhwbdsrK1")]
+        [FwLogicProperty(Id: "UswUhwbdsrK1")]
         public bool? SalesShowUnitExtended { get { return salesOrderTypeFields.ShowUnitExtended; } set { salesOrderTypeFields.ShowUnitExtended = value; } }
 
         //[FwLogicProperty(Id:"RXQyGRD8evQY")]
@@ -373,25 +374,25 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"v2HTG4PYTsEz")]
         //public bool? SalesShowMonthlyExtended { get { return salesOrderTypeFields.ShowMonthlyExtended; } set { salesOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"RmFGTqui0WJm")]
+        [FwLogicProperty(Id: "RmFGTqui0WJm")]
         public bool? SalesShowPeriodDiscountAmount { get { return salesOrderTypeFields.ShowPeriodDiscountAmount; } set { salesOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"QNOXqTiedyJV")]
+        [FwLogicProperty(Id: "QNOXqTiedyJV")]
         public bool? SalesShowPeriodExtended { get { return salesOrderTypeFields.ShowPeriodExtended; } set { salesOrderTypeFields.ShowPeriodExtended = value; } }
 
-        [FwLogicProperty(Id:"fvykj43eCi9m")]
+        [FwLogicProperty(Id: "fvykj43eCi9m")]
         public bool? SalesShowVariancePercent { get { return salesOrderTypeFields.ShowVariancePercent; } set { salesOrderTypeFields.ShowVariancePercent = value; } }
 
-        [FwLogicProperty(Id:"yQEMj7TStFuX")]
+        [FwLogicProperty(Id: "yQEMj7TStFuX")]
         public bool? SalesShowVarianceExtended { get { return salesOrderTypeFields.ShowVarianceExtended; } set { salesOrderTypeFields.ShowVarianceExtended = value; } }
 
-        [FwLogicProperty(Id:"rEXWQFTmlrfT")]
+        [FwLogicProperty(Id: "rEXWQFTmlrfT")]
         public bool? SalesShowWarehouse { get { return salesOrderTypeFields.ShowWarehouse; } set { salesOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"e7WXDyKaAB3Y")]
+        [FwLogicProperty(Id: "e7WXDyKaAB3Y")]
         public bool? SalesShowTaxable { get { return salesOrderTypeFields.ShowTaxable; } set { salesOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"lYrxdv0P8PAs")]
+        [FwLogicProperty(Id: "lYrxdv0P8PAs")]
         public bool? SalesShowNotes { get { return salesOrderTypeFields.ShowNotes; } set { salesOrderTypeFields.ShowNotes = value; } }
 
         //[FwLogicProperty(Id:"CKzzsWIFc24g")]
@@ -445,19 +446,19 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"XefSCH5S8y9t")]
         //public bool? SalesShowEpisodeDiscountAmount { get { return salesOrderTypeFields.ShowEpisodeDiscountAmount; } set { salesOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"IYTPiMnshg6n")]
+        [FwLogicProperty(Id: "IYTPiMnshg6n")]
         public string SalesDateStamp { get { return salesOrderTypeFields.DateStamp; } set { salesOrderTypeFields.DateStamp = value; } }
 
-        [FwLogicProperty(Id:"odeoSr471A8Y")]
+        [FwLogicProperty(Id: "odeoSr471A8Y")]
         public string SalesInventoryPrice { get { return orderType.Selectsalesprice; } set { orderType.Selectsalesprice = value; } }
 
-        [FwLogicProperty(Id:"fVYzyaJ8KBLS")]
+        [FwLogicProperty(Id: "fVYzyaJ8KBLS")]
         public string SalesInventoryCost { get { return orderType.Selectsalescost; } set { orderType.Selectsalescost = value; } }
 
 
         //facilities fields
         [JsonIgnore]
-        [FwLogicProperty(Id:"R0op6LOY6k5K")]
+        [FwLogicProperty(Id: "R0op6LOY6k5K")]
         public string FacilityOrderTypeFieldsId { get { return spaceOrderTypeFields.OrderTypeFieldsId; } set { orderType.FacilityOrderTypeFieldsId = value; spaceOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"d4L4ORr4ZngX")]
@@ -472,10 +473,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"Q5RN5oB4iIyG")]
         //public int? FacilityICodeWidth { get { return spaceOrderTypeFields.ICodeWidth; } set { spaceOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"blwEjfiZ9vcD")]
+        [FwLogicProperty(Id: "blwEjfiZ9vcD")]
         public bool? FacilityShowDescription { get { return spaceOrderTypeFields.ShowDescription; } set { spaceOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"l0tpqDz0tMes")]
+        [FwLogicProperty(Id: "l0tpqDz0tMes")]
         public int? FacilityDescriptionWidth { get { return spaceOrderTypeFields.DescriptionWidth; } set { spaceOrderTypeFields.DescriptionWidth = value; } }
 
         //[FwLogicProperty(Id:"aSbd2w8w90Ld")]
@@ -484,25 +485,25 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"QBGKCu9PEPr2")]
         //public bool? FacilityShowPickTime { get { return spaceOrderTypeFields.ShowPickTime; } set { spaceOrderTypeFields.ShowPickTime = value; } }
 
-        [FwLogicProperty(Id:"N4GfaIWD0bYE")]
+        [FwLogicProperty(Id: "N4GfaIWD0bYE")]
         public bool? FacilityShowFromDate { get { return spaceOrderTypeFields.ShowFromDate; } set { spaceOrderTypeFields.ShowFromDate = value; } }
 
-        [FwLogicProperty(Id:"cgIZR85Wcj6T")]
+        [FwLogicProperty(Id: "cgIZR85Wcj6T")]
         public bool? FacilityShowFromTime { get { return spaceOrderTypeFields.ShowFromTime; } set { spaceOrderTypeFields.ShowFromTime = value; } }
 
-        [FwLogicProperty(Id:"OPaKv1G4UtJh")]
+        [FwLogicProperty(Id: "OPaKv1G4UtJh")]
         public bool? FacilityShowToDate { get { return spaceOrderTypeFields.ShowToDate; } set { spaceOrderTypeFields.ShowToDate = value; } }
 
-        [FwLogicProperty(Id:"DnAdNBKjxNmY")]
+        [FwLogicProperty(Id: "DnAdNBKjxNmY")]
         public bool? FacilityShowToTime { get { return spaceOrderTypeFields.ShowToTime; } set { spaceOrderTypeFields.ShowToTime = value; } }
 
-        [FwLogicProperty(Id:"JlGww0bUNufx")]
+        [FwLogicProperty(Id: "JlGww0bUNufx")]
         public bool? FacilityShowWeeksAndDays { get { return spaceOrderTypeFields.ShowWeeksAndDays; } set { spaceOrderTypeFields.ShowWeeksAndDays = value; } }
 
-        [FwLogicProperty(Id:"kvnikk1UBsxP")]
+        [FwLogicProperty(Id: "kvnikk1UBsxP")]
         public bool? FacilityShowMonthsAndDays { get { return spaceOrderTypeFields.ShowMonthsAndDays; } set { spaceOrderTypeFields.ShowMonthsAndDays = value; } }
 
-        [FwLogicProperty(Id:"Jbuk4cDkkzCs")]
+        [FwLogicProperty(Id: "Jbuk4cDkkzCs")]
         public bool? FacilityShowBillablePeriods { get { return spaceOrderTypeFields.ShowBillablePeriods; } set { spaceOrderTypeFields.ShowBillablePeriods = value; } }
 
         //[FwLogicProperty(Id:"VKlRTsBXGLfi")]
@@ -514,7 +515,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"0dvgZgbAZZjT")]
         //public bool? FacilityShowConflictDate { get { return spaceOrderTypeFields.ShowConflictDate; } set { spaceOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"c5caBjYJofkc")]
+        [FwLogicProperty(Id: "c5caBjYJofkc")]
         public bool? FacilityShowRate { get { return spaceOrderTypeFields.ShowRate; } set { spaceOrderTypeFields.ShowRate = value; } }
 
         //[FwLogicProperty(Id:"vLIFF7KZw2mD")]
@@ -529,10 +530,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"JYdjzrn22SCG")]
         //public bool? FacilityShowPeriodCostExtended { get { return spaceOrderTypeFields.ShowPeriodCostExtended; } set { spaceOrderTypeFields.ShowPeriodCostExtended = value; } }
 
-        [FwLogicProperty(Id:"oCvLe3Ldof0H")]
+        [FwLogicProperty(Id: "oCvLe3Ldof0H")]
         public bool? FacilityShowDaysPerWeek { get { return spaceOrderTypeFields.ShowDaysPerWeek; } set { spaceOrderTypeFields.ShowDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"gq0SG685JPaG")]
+        [FwLogicProperty(Id: "gq0SG685JPaG")]
         public bool? FacilityShowDiscountPercent { get { return spaceOrderTypeFields.ShowDiscountPercent; } set { spaceOrderTypeFields.ShowDiscountPercent = value; } }
 
         //[FwLogicProperty(Id:"ZCZNmGTVsuIn")]
@@ -541,34 +542,34 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"Jmg1dDHjDdi0")]
         //public bool? FacilityShowMarginPercent { get { return spaceOrderTypeFields.ShowMarginPercent; } set { spaceOrderTypeFields.ShowMarginPercent = value; } }
 
-        [FwLogicProperty(Id:"5qurr0cDSvBG")]
+        [FwLogicProperty(Id: "5qurr0cDSvBG")]
         public bool? FacilityShowSplit { get { return spaceOrderTypeFields.ShowSplit; } set { spaceOrderTypeFields.ShowSplit = value; } }
 
-        [FwLogicProperty(Id:"pLt8sOdoh75W")]
+        [FwLogicProperty(Id: "pLt8sOdoh75W")]
         public bool? FacilityShowUnit { get { return spaceOrderTypeFields.ShowUnit; } set { spaceOrderTypeFields.ShowUnit = value; } }
 
-        [FwLogicProperty(Id:"ednVgRWe11kT")]
+        [FwLogicProperty(Id: "ednVgRWe11kT")]
         public bool? FacilityShowUnitDiscountAmount { get { return spaceOrderTypeFields.ShowUnitDiscountAmount; } set { spaceOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"QAhsdhY80kNh")]
+        [FwLogicProperty(Id: "QAhsdhY80kNh")]
         public bool? FacilityShowUnitExtended { get { return spaceOrderTypeFields.ShowUnitExtended; } set { spaceOrderTypeFields.ShowUnitExtended = value; } }
 
-        [FwLogicProperty(Id:"tRR44Ztuly4n")]
+        [FwLogicProperty(Id: "tRR44Ztuly4n")]
         public bool? FacilityShowWeeklyDiscountAmount { get { return spaceOrderTypeFields.ShowWeeklyDiscountAmount; } set { spaceOrderTypeFields.ShowWeeklyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"4JYyELZZ7XLo")]
+        [FwLogicProperty(Id: "4JYyELZZ7XLo")]
         public bool? FacilityShowWeeklyExtended { get { return spaceOrderTypeFields.ShowWeeklyExtended; } set { spaceOrderTypeFields.ShowWeeklyExtended = value; } }
 
-        [FwLogicProperty(Id:"9PKNC7iq1WkA")]
+        [FwLogicProperty(Id: "9PKNC7iq1WkA")]
         public bool? FacilityShowMonthlyDiscountAmount { get { return spaceOrderTypeFields.ShowMonthlyDiscountAmount; } set { spaceOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"AEDttG9AgcyT")]
+        [FwLogicProperty(Id: "AEDttG9AgcyT")]
         public bool? FacilityShowMonthlyExtended { get { return spaceOrderTypeFields.ShowMonthlyExtended; } set { spaceOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"GB3eEITkihDj")]
+        [FwLogicProperty(Id: "GB3eEITkihDj")]
         public bool? FacilityShowPeriodDiscountAmount { get { return spaceOrderTypeFields.ShowPeriodDiscountAmount; } set { spaceOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"1rGXHe6wxJb5")]
+        [FwLogicProperty(Id: "1rGXHe6wxJb5")]
         public bool? FacilityShowPeriodExtended { get { return spaceOrderTypeFields.ShowPeriodExtended; } set { spaceOrderTypeFields.ShowPeriodExtended = value; } }
 
         //[FwLogicProperty(Id:"nCZU7JxCQZzB")]
@@ -598,10 +599,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"McKHhC8AVIQd")]
         //public bool? FacilityShowWarehouse { get { return spaceOrderTypeFields.ShowWarehouse; } set { spaceOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"DKmW60fQ5yPu")]
+        [FwLogicProperty(Id: "DKmW60fQ5yPu")]
         public bool? FacilityShowTaxable { get { return spaceOrderTypeFields.ShowTaxable; } set { spaceOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"U0hZeymTiLFK")]
+        [FwLogicProperty(Id: "U0hZeymTiLFK")]
         public bool? FacilityShowNotes { get { return spaceOrderTypeFields.ShowNotes; } set { spaceOrderTypeFields.ShowNotes = value; } }
 
         //[FwLogicProperty(Id:"Tnn8XamnujhS")]
@@ -670,16 +671,16 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"nFqSA96xrWL2")]
         //public bool? FacilityShowEpisodeDiscountAmount { get { return spaceOrderTypeFields.ShowEpisodeDiscountAmount; } set { spaceOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"JX4SwTaOSq8Q")]
+        [FwLogicProperty(Id: "JX4SwTaOSq8Q")]
         public string FacilityDateStamp { get { return spaceOrderTypeFields.DateStamp; } set { spaceOrderTypeFields.DateStamp = value; } }
 
-        [FwLogicProperty(Id:"LBuGn3jOsC3S")]
+        [FwLogicProperty(Id: "LBuGn3jOsC3S")]
         public string FacilityDescription { get { return orderType.Spacedescription; } set { orderType.Spacedescription = value; } }
 
 
         //transportation fields
         [JsonIgnore]
-        [FwLogicProperty(Id:"xysrvoAxbZDw")]
+        [FwLogicProperty(Id: "xysrvoAxbZDw")]
         public string VehicleOrderTypeFieldsId { get { return vehicleOrderTypeFields.OrderTypeFieldsId; } set { orderType.VehicleOrderTypeFieldsId = value; vehicleOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"Zug7urwxGTeZ")]
@@ -694,67 +695,67 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"X3QRFCYpZERL")]
         //public int? VehicleICodeWidth { get { return vehicleOrderTypeFields.ICodeWidth; } set { vehicleOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"AnIiyON4MnlQ")]
+        [FwLogicProperty(Id: "AnIiyON4MnlQ")]
         public bool? VehicleShowDescription { get { return vehicleOrderTypeFields.ShowDescription; } set { vehicleOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"o4YlkQlvdc8Q")]
+        [FwLogicProperty(Id: "o4YlkQlvdc8Q")]
         public int? VehicleDescriptionWidth { get { return vehicleOrderTypeFields.DescriptionWidth; } set { vehicleOrderTypeFields.DescriptionWidth = value; } }
 
-        [FwLogicProperty(Id:"t9cRW1axEw0L")]
+        [FwLogicProperty(Id: "t9cRW1axEw0L")]
         public bool? VehicleShowVehicleNumber { get { return vehicleOrderTypeFields.ShowVehicleNumber; } set { vehicleOrderTypeFields.ShowVehicleNumber = value; } }
 
-        [FwLogicProperty(Id:"3vAOh6zi248Q")]
+        [FwLogicProperty(Id: "3vAOh6zi248Q")]
         public bool? VehicleShowPickDate { get { return vehicleOrderTypeFields.ShowPickDate; } set { vehicleOrderTypeFields.ShowPickDate = value; } }
 
-        [FwLogicProperty(Id:"xFPd7YxcC4Ga")]
+        [FwLogicProperty(Id: "xFPd7YxcC4Ga")]
         public bool? VehicleShowPickTime { get { return vehicleOrderTypeFields.ShowPickTime; } set { vehicleOrderTypeFields.ShowPickTime = value; } }
 
-        [FwLogicProperty(Id:"ZZs46Yw8cZmK")]
+        [FwLogicProperty(Id: "ZZs46Yw8cZmK")]
         public bool? VehicleShowFromDate { get { return vehicleOrderTypeFields.ShowFromDate; } set { vehicleOrderTypeFields.ShowFromDate = value; } }
 
-        [FwLogicProperty(Id:"Mi4SIx506xkw")]
+        [FwLogicProperty(Id: "Mi4SIx506xkw")]
         public bool? VehicleShowFromTime { get { return vehicleOrderTypeFields.ShowFromTime; } set { vehicleOrderTypeFields.ShowFromTime = value; } }
 
-        [FwLogicProperty(Id:"krLyv9fzY6Dg")]
+        [FwLogicProperty(Id: "krLyv9fzY6Dg")]
         public bool? VehicleShowToDate { get { return vehicleOrderTypeFields.ShowToDate; } set { vehicleOrderTypeFields.ShowToDate = value; } }
 
-        [FwLogicProperty(Id:"AmZY8c7omrS1")]
+        [FwLogicProperty(Id: "AmZY8c7omrS1")]
         public bool? VehicleShowToTime { get { return vehicleOrderTypeFields.ShowToTime; } set { vehicleOrderTypeFields.ShowToTime = value; } }
 
-        [FwLogicProperty(Id:"X94uZSO77mTv")]
+        [FwLogicProperty(Id: "X94uZSO77mTv")]
         public bool? VehicleShowBillablePeriods { get { return vehicleOrderTypeFields.ShowBillablePeriods; } set { vehicleOrderTypeFields.ShowBillablePeriods = value; } }
 
-        [FwLogicProperty(Id:"EOd4c42owBfQ")]
+        [FwLogicProperty(Id: "EOd4c42owBfQ")]
         public bool? VehicleShowSubQuantity { get { return vehicleOrderTypeFields.ShowSubQuantity; } set { vehicleOrderTypeFields.ShowSubQuantity = value; } }
 
-        [FwLogicProperty(Id:"UOqEVqcHtulb")]
+        [FwLogicProperty(Id: "UOqEVqcHtulb")]
         public bool? VehicleShowAvailableQuantity { get { return vehicleOrderTypeFields.ShowAvailableQuantity; } set { vehicleOrderTypeFields.ShowAvailableQuantity = value; } }
 
-        [FwLogicProperty(Id:"51jg8cQr110v")]
+        [FwLogicProperty(Id: "51jg8cQr110v")]
         public bool? VehicleShowConflictDate { get { return vehicleOrderTypeFields.ShowConflictDate; } set { vehicleOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"m7s1txW6fI6O")]
+        [FwLogicProperty(Id: "m7s1txW6fI6O")]
         public bool? VehicleShowUnit { get { return vehicleOrderTypeFields.ShowUnit; } set { vehicleOrderTypeFields.ShowUnit = value; } }
 
-        [FwLogicProperty(Id:"CFnaZ5KYNske")]
+        [FwLogicProperty(Id: "CFnaZ5KYNske")]
         public bool? VehicleShowRate { get { return vehicleOrderTypeFields.ShowRate; } set { vehicleOrderTypeFields.ShowRate = value; } }
 
-        [FwLogicProperty(Id:"WjI0OiIb3vCt")]
+        [FwLogicProperty(Id: "WjI0OiIb3vCt")]
         public bool? VehicleShowDaysPerWeek { get { return vehicleOrderTypeFields.ShowDaysPerWeek; } set { vehicleOrderTypeFields.ShowDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"31D4lhEXl25f")]
+        [FwLogicProperty(Id: "31D4lhEXl25f")]
         public bool? VehicleShowCost { get { return vehicleOrderTypeFields.ShowCost; } set { vehicleOrderTypeFields.ShowCost = value; } }
 
-        [FwLogicProperty(Id:"peJlCynfux3d")]
+        [FwLogicProperty(Id: "peJlCynfux3d")]
         public bool? VehicleShowWeeklyCostExtended { get { return vehicleOrderTypeFields.ShowWeeklyCostExtended; } set { vehicleOrderTypeFields.ShowWeeklyCostExtended = value; } }
 
-        [FwLogicProperty(Id:"qfU3VKcn8FeZ")]
+        [FwLogicProperty(Id: "qfU3VKcn8FeZ")]
         public bool? VehicleShowMonthlyCostExtended { get { return vehicleOrderTypeFields.ShowMonthlyCostExtended; } set { vehicleOrderTypeFields.ShowMonthlyCostExtended = value; } }
 
-        [FwLogicProperty(Id:"lnqTn7cSKxGj")]
+        [FwLogicProperty(Id: "lnqTn7cSKxGj")]
         public bool? VehicleShowPeriodCostExtended { get { return vehicleOrderTypeFields.ShowPeriodCostExtended; } set { vehicleOrderTypeFields.ShowPeriodCostExtended = value; } }
 
-        [FwLogicProperty(Id:"hqSfxzSH3NRj")]
+        [FwLogicProperty(Id: "hqSfxzSH3NRj")]
         public bool? VehicleShowDiscountPercent { get { return vehicleOrderTypeFields.ShowDiscountPercent; } set { vehicleOrderTypeFields.ShowDiscountPercent = value; } }
 
         //[FwLogicProperty(Id:"X4E2S3RCySc1")]
@@ -763,28 +764,28 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"n3d3BRUXS9UA")]
         //public bool? VehicleShowMarginPercent { get { return vehicleOrderTypeFields.ShowMarginPercent; } set { vehicleOrderTypeFields.ShowMarginPercent = value; } }
 
-        [FwLogicProperty(Id:"fApD9PKIvFZI")]
+        [FwLogicProperty(Id: "fApD9PKIvFZI")]
         public bool? VehicleShowUnitDiscountAmount { get { return vehicleOrderTypeFields.ShowUnitDiscountAmount; } set { vehicleOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"zFwufZxAmTNy")]
+        [FwLogicProperty(Id: "zFwufZxAmTNy")]
         public bool? VehicleShowUnitExtended { get { return vehicleOrderTypeFields.ShowUnitExtended; } set { vehicleOrderTypeFields.ShowUnitExtended = value; } }
 
-        [FwLogicProperty(Id:"TXAaqFMkszKh")]
+        [FwLogicProperty(Id: "TXAaqFMkszKh")]
         public bool? VehicleShowWeeklyDiscountAmount { get { return vehicleOrderTypeFields.ShowWeeklyDiscountAmount; } set { vehicleOrderTypeFields.ShowWeeklyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"3SLxjakRrWtX")]
+        [FwLogicProperty(Id: "3SLxjakRrWtX")]
         public bool? VehicleShowWeeklyExtended { get { return vehicleOrderTypeFields.ShowWeeklyExtended; } set { vehicleOrderTypeFields.ShowWeeklyExtended = value; } }
 
-        [FwLogicProperty(Id:"ooBgHpYYGuvB")]
+        [FwLogicProperty(Id: "ooBgHpYYGuvB")]
         public bool? VehicleShowMonthlyDiscountAmount { get { return vehicleOrderTypeFields.ShowMonthlyDiscountAmount; } set { vehicleOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"XAx2QQ1JTLjn")]
+        [FwLogicProperty(Id: "XAx2QQ1JTLjn")]
         public bool? VehicleShowMonthlyExtended { get { return vehicleOrderTypeFields.ShowMonthlyExtended; } set { vehicleOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"0271gvpbDni7")]
+        [FwLogicProperty(Id: "0271gvpbDni7")]
         public bool? VehicleShowPeriodDiscountAmount { get { return vehicleOrderTypeFields.ShowPeriodDiscountAmount; } set { vehicleOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"qAGepnJAqP7G")]
+        [FwLogicProperty(Id: "qAGepnJAqP7G")]
         public bool? VehicleShowPeriodExtended { get { return vehicleOrderTypeFields.ShowPeriodExtended; } set { vehicleOrderTypeFields.ShowPeriodExtended = value; } }
 
         //[FwLogicProperty(Id:"3VboLI6xJC6I")]
@@ -811,16 +812,16 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"dExg1DKEM5rh")]
         //public bool? VehicleShowVendorPartNumber { get { return vehicleOrderTypeFields.ShowVendorPartNumber; } set { vehicleOrderTypeFields.ShowVendorPartNumber = value; } }
 
-        [FwLogicProperty(Id:"m0gKDmOcQARJ")]
+        [FwLogicProperty(Id: "m0gKDmOcQARJ")]
         public bool? VehicleShowWarehouse { get { return vehicleOrderTypeFields.ShowWarehouse; } set { vehicleOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"205yP0jjkq4O")]
+        [FwLogicProperty(Id: "205yP0jjkq4O")]
         public bool? VehicleShowReturnToWarehouse { get { return vehicleOrderTypeFields.ShowReturnToWarehouse; } set { vehicleOrderTypeFields.ShowReturnToWarehouse = value; } }
 
-        [FwLogicProperty(Id:"hJA0yrT1Xox9")]
+        [FwLogicProperty(Id: "hJA0yrT1Xox9")]
         public bool? VehicleShowTaxable { get { return vehicleOrderTypeFields.ShowTaxable; } set { vehicleOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"1GW2gszJ6JoC")]
+        [FwLogicProperty(Id: "1GW2gszJ6JoC")]
         public bool? VehicleShowNotes { get { return vehicleOrderTypeFields.ShowNotes; } set { vehicleOrderTypeFields.ShowNotes = value; } }
 
         //[FwLogicProperty(Id:"61pKKRQDTU7r")]
@@ -889,13 +890,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"0xyf2wejI5jY")]
         //public bool? VehicleShowEpisodeDiscountAmount { get { return vehicleOrderTypeFields.ShowEpisodeDiscountAmount; } set { vehicleOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"Sz39wId9APMM")]
+        [FwLogicProperty(Id: "Sz39wId9APMM")]
         public string VehicleDateStamp { get { return vehicleOrderTypeFields.DateStamp; } set { vehicleOrderTypeFields.DateStamp = value; } }
 
 
         //labor/crew fields
         [JsonIgnore]
-        [FwLogicProperty(Id:"YTiB26LaZjJ1")]
+        [FwLogicProperty(Id: "YTiB26LaZjJ1")]
         public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { orderType.LaborOrderTypeFieldsId = value; laborOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"DdQ0agSLRqyY")]
@@ -904,22 +905,22 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"HpWHnMxQnObc")]
         //public bool? LaborShowRepairOrderNumber { get { return laborOrderTypeFields.ShowRepairOrderNumber; } set { laborOrderTypeFields.ShowRepairOrderNumber = value; } }
 
-        [FwLogicProperty(Id:"KY3v84T84i7H")]
+        [FwLogicProperty(Id: "KY3v84T84i7H")]
         public bool? LaborShowICode { get { return laborOrderTypeFields.ShowICode; } set { laborOrderTypeFields.ShowICode = value; } }
 
-        [FwLogicProperty(Id:"exgOA8Uflbrp")]
+        [FwLogicProperty(Id: "exgOA8Uflbrp")]
         public int? LaborICodeWidth { get { return laborOrderTypeFields.ICodeWidth; } set { laborOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"o3Kc8YUzZHnD")]
+        [FwLogicProperty(Id: "o3Kc8YUzZHnD")]
         public bool? LaborShowDescription { get { return laborOrderTypeFields.ShowDescription; } set { laborOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"qX7B7cl6I6EH")]
+        [FwLogicProperty(Id: "qX7B7cl6I6EH")]
         public int? LaborDescriptionWidth { get { return laborOrderTypeFields.DescriptionWidth; } set { laborOrderTypeFields.DescriptionWidth = value; } }
 
-        [FwLogicProperty(Id:"xbMpJmjD5EUk")]
+        [FwLogicProperty(Id: "xbMpJmjD5EUk")]
         public bool? LaborShowOrderActivity { get { return laborOrderTypeFields.ShowOrderActivity; } set { laborOrderTypeFields.ShowOrderActivity = value; } }
 
-        [FwLogicProperty(Id:"dBU7nFR6iHsM")]
+        [FwLogicProperty(Id: "dBU7nFR6iHsM")]
         public bool? LaborShowCrewName { get { return laborOrderTypeFields.ShowCrewName; } set { laborOrderTypeFields.ShowCrewName = value; } }
 
         //[FwLogicProperty(Id:"P3ilAC5lWTMC")]
@@ -928,25 +929,25 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"nUKeik4taeNC")]
         //public bool? LaborShowPickTime { get { return laborOrderTypeFields.ShowPickTime; } set { laborOrderTypeFields.ShowPickTime = value; } }
 
-        [FwLogicProperty(Id:"WDFFKJOCspTh")]
+        [FwLogicProperty(Id: "WDFFKJOCspTh")]
         public bool? LaborShowFromDate { get { return laborOrderTypeFields.ShowFromDate; } set { laborOrderTypeFields.ShowFromDate = value; } }
 
-        [FwLogicProperty(Id:"v6RvvwqeGZpR")]
+        [FwLogicProperty(Id: "v6RvvwqeGZpR")]
         public bool? LaborShowFromTime { get { return laborOrderTypeFields.ShowFromTime; } set { laborOrderTypeFields.ShowFromTime = value; } }
 
-        [FwLogicProperty(Id:"6gx2nrNqfoLh")]
+        [FwLogicProperty(Id: "6gx2nrNqfoLh")]
         public bool? LaborShowToDate { get { return laborOrderTypeFields.ShowToDate; } set { laborOrderTypeFields.ShowToDate = value; } }
 
-        [FwLogicProperty(Id:"rQBGfD2SwpPt")]
+        [FwLogicProperty(Id: "rQBGfD2SwpPt")]
         public bool? LaborShowToTime { get { return laborOrderTypeFields.ShowToTime; } set { laborOrderTypeFields.ShowToTime = value; } }
 
-        [FwLogicProperty(Id:"dtPYMQtBcD22")]
+        [FwLogicProperty(Id: "dtPYMQtBcD22")]
         public bool? LaborShowBillablePeriods { get { return laborOrderTypeFields.ShowBillablePeriods; } set { laborOrderTypeFields.ShowBillablePeriods = value; } }
 
-        [FwLogicProperty(Id:"w0cka3Bp4Yvw")]
+        [FwLogicProperty(Id: "w0cka3Bp4Yvw")]
         public bool? LaborShowHours { get { return laborOrderTypeFields.ShowHours; } set { laborOrderTypeFields.ShowHours = value; } }
 
-        [FwLogicProperty(Id:"cYc8O2crEbQ4")]
+        [FwLogicProperty(Id: "cYc8O2crEbQ4")]
         public bool? LaborShowSubQuantity { get { return laborOrderTypeFields.ShowSubQuantity; } set { laborOrderTypeFields.ShowSubQuantity = value; } }
 
         //[FwLogicProperty(Id:"Lr7WnqqXx6vT")]
@@ -955,10 +956,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"bdY9P0z5eHvW")]
         //public bool? LaborShowConflictDate { get { return laborOrderTypeFields.ShowConflictDate; } set { laborOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"djxZEKMbfqez")]
+        [FwLogicProperty(Id: "djxZEKMbfqez")]
         public bool? LaborShowCost { get { return laborOrderTypeFields.ShowCost; } set { laborOrderTypeFields.ShowCost = value; } }
 
-        [FwLogicProperty(Id:"vDMcdpJdPUrA")]
+        [FwLogicProperty(Id: "vDMcdpJdPUrA")]
         public bool? LaborShowRate { get { return laborOrderTypeFields.ShowRate; } set { laborOrderTypeFields.ShowRate = value; } }
 
         //[FwLogicProperty(Id:"dyDPSb4sqoej")]
@@ -967,13 +968,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"sbEr8fotecxN")]
         //public bool? LaborShowMonthlyCostExtended { get { return laborOrderTypeFields.ShowMonthlyCostExtended; } set { laborOrderTypeFields.ShowMonthlyCostExtended = value; } }
 
-        [FwLogicProperty(Id:"ZaLByVxw1hpT")]
+        [FwLogicProperty(Id: "ZaLByVxw1hpT")]
         public bool? LaborShowPeriodCostExtended { get { return laborOrderTypeFields.ShowPeriodCostExtended; } set { laborOrderTypeFields.ShowPeriodCostExtended = value; } }
 
         //[FwLogicProperty(Id:"639ktTzFIR1K")]
         //public bool? LaborShowDaysPerWeek { get { return laborOrderTypeFields.ShowDaysPerWeek; } set { laborOrderTypeFields.ShowDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"rSAnUIwMEovP")]
+        [FwLogicProperty(Id: "rSAnUIwMEovP")]
         public bool? LaborShowDiscountPercent { get { return laborOrderTypeFields.ShowDiscountPercent; } set { laborOrderTypeFields.ShowDiscountPercent = value; } }
 
         //[FwLogicProperty(Id:"izWZdJtnTYMn")]
@@ -982,31 +983,31 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"kUSL6NOg9DPy")]
         //public bool? LaborShowMarginPercent { get { return laborOrderTypeFields.ShowMarginPercent; } set { laborOrderTypeFields.ShowMarginPercent = value; } }
 
-        [FwLogicProperty(Id:"BngfIWuUPv7O")]
+        [FwLogicProperty(Id: "BngfIWuUPv7O")]
         public bool? LaborShowUnit { get { return laborOrderTypeFields.ShowUnit; } set { laborOrderTypeFields.ShowUnit = value; } }
 
-        [FwLogicProperty(Id:"rET5odPYS5GH")]
+        [FwLogicProperty(Id: "rET5odPYS5GH")]
         public bool? LaborShowUnitDiscountAmount { get { return laborOrderTypeFields.ShowUnitDiscountAmount; } set { laborOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"R9BiXuafEqaO")]
+        [FwLogicProperty(Id: "R9BiXuafEqaO")]
         public bool? LaborShowUnitExtended { get { return laborOrderTypeFields.ShowUnitExtended; } set { laborOrderTypeFields.ShowUnitExtended = value; } }
 
-        [FwLogicProperty(Id:"hnio9DVcQg1R")]
+        [FwLogicProperty(Id: "hnio9DVcQg1R")]
         public bool? LaborShowWeeklyDiscountAmount { get { return laborOrderTypeFields.ShowWeeklyDiscountAmount; } set { laborOrderTypeFields.ShowWeeklyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"UR0xHq5CqQ8W")]
+        [FwLogicProperty(Id: "UR0xHq5CqQ8W")]
         public bool? LaborShowWeeklyExtended { get { return laborOrderTypeFields.ShowWeeklyExtended; } set { laborOrderTypeFields.ShowWeeklyExtended = value; } }
 
-        [FwLogicProperty(Id:"UBQ6nMMTtRO1")]
+        [FwLogicProperty(Id: "UBQ6nMMTtRO1")]
         public bool? LaborShowMonthlyDiscountAmount { get { return laborOrderTypeFields.ShowMonthlyDiscountAmount; } set { laborOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"9Cbj9wc4CBe5")]
+        [FwLogicProperty(Id: "9Cbj9wc4CBe5")]
         public bool? LaborShowMonthlyExtended { get { return laborOrderTypeFields.ShowMonthlyExtended; } set { laborOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"uCIY2OTEkjP9")]
+        [FwLogicProperty(Id: "uCIY2OTEkjP9")]
         public bool? LaborShowPeriodDiscountAmount { get { return laborOrderTypeFields.ShowPeriodDiscountAmount; } set { laborOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"SAdmnoj2I1RN")]
+        [FwLogicProperty(Id: "SAdmnoj2I1RN")]
         public bool? LaborShowPeriodExtended { get { return laborOrderTypeFields.ShowPeriodExtended; } set { laborOrderTypeFields.ShowPeriodExtended = value; } }
 
         //[FwLogicProperty(Id:"QIWIwJa0qUhI")]
@@ -1015,13 +1016,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"pmNcJbpRL85F")]
         //public bool? LaborShowVarianceExtended { get { return laborOrderTypeFields.ShowVarianceExtended; } set { laborOrderTypeFields.ShowVarianceExtended = value; } }
 
-        [FwLogicProperty(Id:"iU7aRAZGOUOo")]
+        [FwLogicProperty(Id: "iU7aRAZGOUOo")]
         public bool? LaborShowWarehouse { get { return laborOrderTypeFields.ShowWarehouse; } set { laborOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"qgQ8ZmUnmttU")]
+        [FwLogicProperty(Id: "qgQ8ZmUnmttU")]
         public bool? LaborShowTaxable { get { return laborOrderTypeFields.ShowTaxable; } set { laborOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"drshMSvo69aq")]
+        [FwLogicProperty(Id: "drshMSvo69aq")]
         public bool? LaborShowNotes { get { return laborOrderTypeFields.ShowNotes; } set { laborOrderTypeFields.ShowNotes = value; } }
 
         //[FwLogicProperty(Id:"OKgPp4KBOadk")]
@@ -1078,26 +1079,26 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"f9DvxlXSSYmY")]
         //public bool? LaborShowEpisodeDiscountAmount { get { return laborOrderTypeFields.ShowEpisodeDiscountAmount; } set { laborOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"0Q7C2fo3ayf6")]
+        [FwLogicProperty(Id: "0Q7C2fo3ayf6")]
         public string LaborDateStamp { get { return laborOrderTypeFields.DateStamp; } set { laborOrderTypeFields.DateStamp = value; } }
 
-        [FwLogicProperty(Id:"kBB9RmAg28db")]
+        [FwLogicProperty(Id: "kBB9RmAg28db")]
         public bool? HideCrewBreaks { get { return orderType.Hidecrewbreaks; } set { orderType.Hidecrewbreaks = value; } }
 
-        [FwLogicProperty(Id:"cERFo3bouBrn")]
+        [FwLogicProperty(Id: "cERFo3bouBrn")]
         public bool? Break1Paid { get { return orderType.Break1paId; } set { orderType.Break1paId = value; } }
 
-        [FwLogicProperty(Id:"tLUf5SvUVtu4")]
+        [FwLogicProperty(Id: "tLUf5SvUVtu4")]
         public bool? Break2Paid { get { return orderType.Break2paId; } set { orderType.Break2paId = value; } }
 
-        [FwLogicProperty(Id:"Wh16sIScgFAO")]
+        [FwLogicProperty(Id: "Wh16sIScgFAO")]
         public bool? Break3Paid { get { return orderType.Break3paId; } set { orderType.Break3paId = value; } }
 
 
 
         //misc fields
         [JsonIgnore]
-        [FwLogicProperty(Id:"AEHmD1OEBAvx")]
+        [FwLogicProperty(Id: "AEHmD1OEBAvx")]
         public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { orderType.MiscOrderTypeFieldsId = value; miscOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"nl67Zhy9Rdnj")]
@@ -1106,16 +1107,16 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"4QKV2cYK34ag")]
         //public bool? MiscShowRepairOrderNumber { get { return miscOrderTypeFields.ShowRepairOrderNumber; } set { miscOrderTypeFields.ShowRepairOrderNumber = value; } }
 
-        [FwLogicProperty(Id:"b6nrtqvuZnjQ")]
+        [FwLogicProperty(Id: "b6nrtqvuZnjQ")]
         public bool? MiscShowICode { get { return miscOrderTypeFields.ShowICode; } set { miscOrderTypeFields.ShowICode = value; } }
 
-        [FwLogicProperty(Id:"8mMPwuxorDKF")]
+        [FwLogicProperty(Id: "8mMPwuxorDKF")]
         public int? MiscICodeWidth { get { return miscOrderTypeFields.ICodeWidth; } set { miscOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"n9hOv9njngD7")]
+        [FwLogicProperty(Id: "n9hOv9njngD7")]
         public bool? MiscShowDescription { get { return miscOrderTypeFields.ShowDescription; } set { miscOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"WilkAUdXsbGv")]
+        [FwLogicProperty(Id: "WilkAUdXsbGv")]
         public int? MiscDescriptionWidth { get { return miscOrderTypeFields.DescriptionWidth; } set { miscOrderTypeFields.DescriptionWidth = value; } }
 
         //[FwLogicProperty(Id:"YbF1AC9xPmrl")]
@@ -1124,28 +1125,28 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"7prW2gZ7Nv7R")]
         //public bool? MiscShowPickTime { get { return miscOrderTypeFields.ShowPickTime; } set { miscOrderTypeFields.ShowPickTime = value; } }
 
-        [FwLogicProperty(Id:"p69c2JrBiwGX")]
+        [FwLogicProperty(Id: "p69c2JrBiwGX")]
         public bool? MiscShowFromDate { get { return miscOrderTypeFields.ShowFromDate; } set { miscOrderTypeFields.ShowFromDate = value; } }
 
-        [FwLogicProperty(Id:"teASUDh9D9EY")]
+        [FwLogicProperty(Id: "teASUDh9D9EY")]
         public bool? MiscShowFromTime { get { return miscOrderTypeFields.ShowFromTime; } set { miscOrderTypeFields.ShowFromTime = value; } }
 
-        [FwLogicProperty(Id:"TqA7RFogLSrX")]
+        [FwLogicProperty(Id: "TqA7RFogLSrX")]
         public bool? MiscShowToDate { get { return miscOrderTypeFields.ShowToDate; } set { miscOrderTypeFields.ShowToDate = value; } }
 
-        [FwLogicProperty(Id:"E1JJj6QUcoND")]
+        [FwLogicProperty(Id: "E1JJj6QUcoND")]
         public bool? MiscShowToTime { get { return miscOrderTypeFields.ShowToTime; } set { miscOrderTypeFields.ShowToTime = value; } }
 
-        [FwLogicProperty(Id:"s311ionqp8lL")]
+        [FwLogicProperty(Id: "s311ionqp8lL")]
         public bool? MiscShowBillablePeriods { get { return miscOrderTypeFields.ShowBillablePeriods; } set { miscOrderTypeFields.ShowBillablePeriods = value; } }
 
-        [FwLogicProperty(Id:"hsgITd5Qw60z")]
+        [FwLogicProperty(Id: "hsgITd5Qw60z")]
         public bool? MiscShowSubQuantity { get { return miscOrderTypeFields.ShowSubQuantity; } set { miscOrderTypeFields.ShowSubQuantity = value; } }
 
-        [FwLogicProperty(Id:"MYxh6xuAjqzZ")]
+        [FwLogicProperty(Id: "MYxh6xuAjqzZ")]
         public bool? MiscShowWeeksAndDays { get { return miscOrderTypeFields.ShowWeeksAndDays; } set { miscOrderTypeFields.ShowWeeksAndDays = value; } }
 
-        [FwLogicProperty(Id:"UCS8EjnLQ4Hk")]
+        [FwLogicProperty(Id: "UCS8EjnLQ4Hk")]
         public bool? MiscShowMonthsAndDays { get { return miscOrderTypeFields.ShowMonthsAndDays; } set { miscOrderTypeFields.ShowMonthsAndDays = value; } }
 
 
@@ -1155,13 +1156,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"e8lj7WdVG2Ck")]
         //public bool? MiscShowConflictDate { get { return miscOrderTypeFields.ShowConflictDate; } set { miscOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"ZhxEnUHwO8xn")]
+        [FwLogicProperty(Id: "ZhxEnUHwO8xn")]
         public bool? MiscShowUnit { get { return miscOrderTypeFields.ShowUnit; } set { miscOrderTypeFields.ShowUnit = value; } }
 
-        [FwLogicProperty(Id:"mgcdaUfX8oDq")]
+        [FwLogicProperty(Id: "mgcdaUfX8oDq")]
         public bool? MiscShowRate { get { return miscOrderTypeFields.ShowRate; } set { miscOrderTypeFields.ShowRate = value; } }
 
-        [FwLogicProperty(Id:"6ZBS6VP1nUo1")]
+        [FwLogicProperty(Id: "6ZBS6VP1nUo1")]
         public bool? MiscShowCost { get { return miscOrderTypeFields.ShowCost; } set { miscOrderTypeFields.ShowCost = value; } }
 
         //[FwLogicProperty(Id:"RjmYJcb6Xa69")]
@@ -1170,13 +1171,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"q8xMdLmqzxmZ")]
         //public bool? MiscShowMonthlyCostExtended { get { return miscOrderTypeFields.ShowMonthlyCostExtended; } set { miscOrderTypeFields.ShowMonthlyCostExtended = value; } }
 
-        [FwLogicProperty(Id:"4Z1i4C6fvh19")]
+        [FwLogicProperty(Id: "4Z1i4C6fvh19")]
         public bool? MiscShowPeriodCostExtended { get { return miscOrderTypeFields.ShowPeriodCostExtended; } set { miscOrderTypeFields.ShowPeriodCostExtended = value; } }
 
         //[FwLogicProperty(Id:"5nkCCvvBLwzG")]
         //public bool? MiscShowDaysPerWeek { get { return miscOrderTypeFields.ShowDaysPerWeek; } set { miscOrderTypeFields.ShowDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"xyERKV5LAWPs")]
+        [FwLogicProperty(Id: "xyERKV5LAWPs")]
         public bool? MiscShowDiscountPercent { get { return miscOrderTypeFields.ShowDiscountPercent; } set { miscOrderTypeFields.ShowDiscountPercent = value; } }
 
         //[FwLogicProperty(Id:"VFI2hFlxb43o")]
@@ -1185,28 +1186,28 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"ecjdXzKqJDv1")]
         //public bool? MiscShowMarginPercent { get { return miscOrderTypeFields.ShowMarginPercent; } set { miscOrderTypeFields.ShowMarginPercent = value; } }
 
-        [FwLogicProperty(Id:"bAn7WYqVH7QP")]
+        [FwLogicProperty(Id: "bAn7WYqVH7QP")]
         public bool? MiscShowUnitDiscountAmount { get { return miscOrderTypeFields.ShowUnitDiscountAmount; } set { miscOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"zSckvVxju4vn")]
+        [FwLogicProperty(Id: "zSckvVxju4vn")]
         public bool? MiscShowUnitExtended { get { return miscOrderTypeFields.ShowUnitExtended; } set { miscOrderTypeFields.ShowUnitExtended = value; } }
 
-        [FwLogicProperty(Id:"8oGWjdOWWr5T")]
+        [FwLogicProperty(Id: "8oGWjdOWWr5T")]
         public bool? MiscShowWeeklyDiscountAmount { get { return miscOrderTypeFields.ShowWeeklyDiscountAmount; } set { miscOrderTypeFields.ShowWeeklyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"N1njLln2TqWS")]
+        [FwLogicProperty(Id: "N1njLln2TqWS")]
         public bool? MiscShowWeeklyExtended { get { return miscOrderTypeFields.ShowWeeklyExtended; } set { miscOrderTypeFields.ShowWeeklyExtended = value; } }
 
-        [FwLogicProperty(Id:"nuU62EZuZNYu")]
+        [FwLogicProperty(Id: "nuU62EZuZNYu")]
         public bool? MiscShowMonthlyDiscountAmount { get { return miscOrderTypeFields.ShowMonthlyDiscountAmount; } set { miscOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"FNETfvp4m8mf")]
+        [FwLogicProperty(Id: "FNETfvp4m8mf")]
         public bool? MiscShowMonthlyExtended { get { return miscOrderTypeFields.ShowMonthlyExtended; } set { miscOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"WYRVcbogatvb")]
+        [FwLogicProperty(Id: "WYRVcbogatvb")]
         public bool? MiscShowPeriodDiscountAmount { get { return miscOrderTypeFields.ShowPeriodDiscountAmount; } set { miscOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"hgS2tqSXg2Hh")]
+        [FwLogicProperty(Id: "hgS2tqSXg2Hh")]
         public bool? MiscShowPeriodExtended { get { return miscOrderTypeFields.ShowPeriodExtended; } set { miscOrderTypeFields.ShowPeriodExtended = value; } }
 
         //[FwLogicProperty(Id:"lcAXq5P4ZpcI")]
@@ -1215,13 +1216,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"EjGOgJmpO8S5")]
         //public bool? MiscShowVarianceExtended { get { return miscOrderTypeFields.ShowVarianceExtended; } set { miscOrderTypeFields.ShowVarianceExtended = value; } }
 
-        [FwLogicProperty(Id:"oUZstTTeUrTl")]
+        [FwLogicProperty(Id: "oUZstTTeUrTl")]
         public bool? MiscShowWarehouse { get { return miscOrderTypeFields.ShowWarehouse; } set { miscOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"73wixRX0bq4q")]
+        [FwLogicProperty(Id: "73wixRX0bq4q")]
         public bool? MiscShowTaxable { get { return miscOrderTypeFields.ShowTaxable; } set { miscOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"WKws81CZN3yS")]
+        [FwLogicProperty(Id: "WKws81CZN3yS")]
         public bool? MiscShowNotes { get { return miscOrderTypeFields.ShowNotes; } set { miscOrderTypeFields.ShowNotes = value; } }
 
         //[FwLogicProperty(Id:"drYG1wAd3khI")]
@@ -1290,14 +1291,14 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"z3Q7MxKr7uCC")]
         //public bool? MiscShowEpisodeDiscountAmount { get { return miscOrderTypeFields.ShowEpisodeDiscountAmount; } set { miscOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"L1sV2XgrsMKw")]
+        [FwLogicProperty(Id: "L1sV2XgrsMKw")]
         public string MiscDateStamp { get { return miscOrderTypeFields.DateStamp; } set { miscOrderTypeFields.DateStamp = value; } }
 
 
 
         //rental sale
         [JsonIgnore]
-        [FwLogicProperty(Id:"ujYvikPckB41")]
+        [FwLogicProperty(Id: "ujYvikPckB41")]
         public string RentalSaleOrderTypeFieldsId { get { return rentalSaleOrderTypeFields.OrderTypeFieldsId; } set { orderType.RentalSaleOrderTypeFieldsId = value; rentalSaleOrderTypeFields.OrderTypeFieldsId = value; } }
 
         //[FwLogicProperty(Id:"tOipelsKD1EC")]
@@ -1306,28 +1307,28 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"9nFwzvxmUhDX")]
         //public bool? RentalSaleShowRepairOrderNumber { get { return rentalSaleOrderTypeFields.ShowRepairOrderNumber; } set { rentalSaleOrderTypeFields.ShowRepairOrderNumber = value; } }
 
-        [FwLogicProperty(Id:"L5OPkoLsdamz")]
+        [FwLogicProperty(Id: "L5OPkoLsdamz")]
         public bool? RentalSaleShowBarCode { get { return rentalSaleOrderTypeFields.ShowBarCode; } set { rentalSaleOrderTypeFields.ShowBarCode = value; } }
 
-        [FwLogicProperty(Id:"rwyTTdxjbb1U")]
+        [FwLogicProperty(Id: "rwyTTdxjbb1U")]
         public bool? RentalSaleShowSerialNumber { get { return rentalSaleOrderTypeFields.ShowSerialNumber; } set { rentalSaleOrderTypeFields.ShowSerialNumber = value; } }
 
-        [FwLogicProperty(Id:"dQE3uD3baIkX")]
+        [FwLogicProperty(Id: "dQE3uD3baIkX")]
         public bool? RentalSaleShowICode { get { return rentalSaleOrderTypeFields.ShowICode; } set { rentalSaleOrderTypeFields.ShowICode = value; } }
 
-        [FwLogicProperty(Id:"2OJ3hKAuftO6")]
+        [FwLogicProperty(Id: "2OJ3hKAuftO6")]
         public int? RentalSaleICodeWidth { get { return rentalSaleOrderTypeFields.ICodeWidth; } set { rentalSaleOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"hNxmHmmhZC5R")]
+        [FwLogicProperty(Id: "hNxmHmmhZC5R")]
         public bool? RentalSaleShowDescription { get { return rentalSaleOrderTypeFields.ShowDescription; } set { rentalSaleOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"MrlXLILSBMWp")]
+        [FwLogicProperty(Id: "MrlXLILSBMWp")]
         public int? RentalSaleDescriptionWidth { get { return rentalSaleOrderTypeFields.DescriptionWidth; } set { rentalSaleOrderTypeFields.DescriptionWidth = value; } }
 
-        [FwLogicProperty(Id:"fpz12wDWoGOo")]
+        [FwLogicProperty(Id: "fpz12wDWoGOo")]
         public bool? RentalSaleShowPickDate { get { return rentalSaleOrderTypeFields.ShowPickDate; } set { rentalSaleOrderTypeFields.ShowPickDate = value; } }
 
-        [FwLogicProperty(Id:"9JK5cAm2cWKK")]
+        [FwLogicProperty(Id: "9JK5cAm2cWKK")]
         public bool? RentalSaleShowPickTime { get { return rentalSaleOrderTypeFields.ShowPickTime; } set { rentalSaleOrderTypeFields.ShowPickTime = value; } }
 
         //[FwLogicProperty(Id:"ZxYfzu4RvVpi")]
@@ -1348,19 +1349,19 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"P4R40WJC3H5k")]
         //public bool? RentalSaleShowSubQuantity { get { return rentalSaleOrderTypeFields.ShowSubQuantity; } set { rentalSaleOrderTypeFields.ShowSubQuantity = value; } }
 
-        [FwLogicProperty(Id:"RrusRvu8gIQm")]
+        [FwLogicProperty(Id: "RrusRvu8gIQm")]
         public bool? RentalSaleShowAvailableQuantity { get { return rentalSaleOrderTypeFields.ShowAvailableQuantity; } set { rentalSaleOrderTypeFields.ShowAvailableQuantity = value; } }
 
-        [FwLogicProperty(Id:"VJzT8X2rUZTV")]
+        [FwLogicProperty(Id: "VJzT8X2rUZTV")]
         public bool? RentalSaleShowConflictDate { get { return rentalSaleOrderTypeFields.ShowConflictDate; } set { rentalSaleOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"NzVVyQDObZrQ")]
+        [FwLogicProperty(Id: "NzVVyQDObZrQ")]
         public bool? RentalSaleShowUnit { get { return rentalSaleOrderTypeFields.ShowUnit; } set { rentalSaleOrderTypeFields.ShowUnit = value; } }
 
-        [FwLogicProperty(Id:"VP6s7xkLAztW")]
+        [FwLogicProperty(Id: "VP6s7xkLAztW")]
         public bool? RentalSaleShowRate { get { return rentalSaleOrderTypeFields.ShowRate; } set { rentalSaleOrderTypeFields.ShowRate = value; } }
 
-        [FwLogicProperty(Id:"l3iHReO2LAOz")]
+        [FwLogicProperty(Id: "l3iHReO2LAOz")]
         public bool? RentalSaleShowCost { get { return rentalSaleOrderTypeFields.ShowCost; } set { rentalSaleOrderTypeFields.ShowCost = value; } }
 
 
@@ -1377,7 +1378,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"TVcYL9mIH8Wg")]
         //public bool? RentalSaleShowDaysPerWeek { get { return rentalSaleOrderTypeFields.ShowDaysPerWeek; } set { rentalSaleOrderTypeFields.ShowDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"PH0Ud3HwRqA9")]
+        [FwLogicProperty(Id: "PH0Ud3HwRqA9")]
         public bool? RentalSaleShowDiscountPercent { get { return rentalSaleOrderTypeFields.ShowDiscountPercent; } set { rentalSaleOrderTypeFields.ShowDiscountPercent = value; } }
 
         //[FwLogicProperty(Id:"SV9mT2d3PPxo")]
@@ -1389,10 +1390,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"H7BmdUTgyDKH")]
         //public bool? RentalSaleShowSplit { get { return rentalSaleOrderTypeFields.ShowSplit; } set { rentalSaleOrderTypeFields.ShowSplit = value; } }
 
-        [FwLogicProperty(Id:"EKiXo64gt0on")]
+        [FwLogicProperty(Id: "EKiXo64gt0on")]
         public bool? RentalSaleShowUnitDiscountAmount { get { return rentalSaleOrderTypeFields.ShowUnitDiscountAmount; } set { rentalSaleOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"8zLRxAx7qNxJ")]
+        [FwLogicProperty(Id: "8zLRxAx7qNxJ")]
         public bool? RentalSaleShowUnitExtended { get { return rentalSaleOrderTypeFields.ShowUnitExtended; } set { rentalSaleOrderTypeFields.ShowUnitExtended = value; } }
 
         //[FwLogicProperty(Id:"dEoAvq6j1e7q")]
@@ -1407,10 +1408,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"CAv8U2ORmboY")]
         //public bool? RentalSaleShowMonthlyExtended { get { return rentalSaleOrderTypeFields.ShowMonthlyExtended; } set { rentalSaleOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"edfUySniLLgC")]
+        [FwLogicProperty(Id: "edfUySniLLgC")]
         public bool? RentalSaleShowPeriodDiscountAmount { get { return rentalSaleOrderTypeFields.ShowPeriodDiscountAmount; } set { rentalSaleOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"0yTt8Fx4Y7dO")]
+        [FwLogicProperty(Id: "0yTt8Fx4Y7dO")]
         public bool? RentalSaleShowPeriodExtended { get { return rentalSaleOrderTypeFields.ShowPeriodExtended; } set { rentalSaleOrderTypeFields.ShowPeriodExtended = value; } }
 
         //[FwLogicProperty(Id:"p5S5cevHOE15")]
@@ -1437,13 +1438,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"fiWuBELp3moX")]
         //public bool? RentalSaleShowVendorPartNumber { get { return rentalSaleOrderTypeFields.ShowVendorPartNumber; } set { rentalSaleOrderTypeFields.ShowVendorPartNumber = value; } }
 
-        [FwLogicProperty(Id:"qTcQzzKN8NBK")]
+        [FwLogicProperty(Id: "qTcQzzKN8NBK")]
         public bool? RentalSaleShowWarehouse { get { return rentalSaleOrderTypeFields.ShowWarehouse; } set { rentalSaleOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"VohHiKSo7n68")]
+        [FwLogicProperty(Id: "VohHiKSo7n68")]
         public bool? RentalSaleShowTaxable { get { return rentalSaleOrderTypeFields.ShowTaxable; } set { rentalSaleOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"lX3TdpwsQB3l")]
+        [FwLogicProperty(Id: "lX3TdpwsQB3l")]
         public bool? RentalSaleShowNotes { get { return rentalSaleOrderTypeFields.ShowNotes; } set { rentalSaleOrderTypeFields.ShowNotes = value; } }
 
         //[FwLogicProperty(Id:"fl4yHIfsGsoc")]
@@ -1512,38 +1513,38 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"lrTy1x0igwj9")]
         //public bool? RentalSaleShowEpisodeDiscountAmount { get { return rentalSaleOrderTypeFields.ShowEpisodeDiscountAmount; } set { rentalSaleOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"3hmf6PFXy90M")]
+        [FwLogicProperty(Id: "3hmf6PFXy90M")]
         public string RentalSaleDateStamp { get { return rentalSaleOrderTypeFields.DateStamp; } set { rentalSaleOrderTypeFields.DateStamp = value; } }
 
 
 
         //finalld
         [JsonIgnore]
-        [FwLogicProperty(Id:"g72O7P9YepFm")]
+        [FwLogicProperty(Id: "g72O7P9YepFm")]
         public string LossAndDamageOrderTypeFieldsId { get { return lossAndDamageOrderTypeFields.OrderTypeFieldsId; } set { orderType.LossAndDamageOrderTypeFieldsId = value; lossAndDamageOrderTypeFields.OrderTypeFieldsId = value; } }
 
-        [FwLogicProperty(Id:"VOLDwQp0FKy1")]
+        [FwLogicProperty(Id: "VOLDwQp0FKy1")]
         public bool? LossAndDamageShowOrderNumber { get { return lossAndDamageOrderTypeFields.ShowOrderNumber; } set { lossAndDamageOrderTypeFields.ShowOrderNumber = value; } }
 
         //[FwLogicProperty(Id:"ahT2ldShg440")]
         //public bool? LossAndDamageShowRepairOrderNumber { get { return lossAndDamageOrderTypeFields.ShowRepairOrderNumber; } set { lossAndDamageOrderTypeFields.ShowRepairOrderNumber = value; } }
 
-        [FwLogicProperty(Id:"1OGxzGvlLHml")]
+        [FwLogicProperty(Id: "1OGxzGvlLHml")]
         public bool? LossAndDamageShowBarCode { get { return lossAndDamageOrderTypeFields.ShowBarCode; } set { lossAndDamageOrderTypeFields.ShowBarCode = value; } }
 
-        [FwLogicProperty(Id:"Ws7m9X80zQkt")]
+        [FwLogicProperty(Id: "Ws7m9X80zQkt")]
         public bool? LossAndDamageShowSerialNumber { get { return lossAndDamageOrderTypeFields.ShowSerialNumber; } set { lossAndDamageOrderTypeFields.ShowSerialNumber = value; } }
 
-        [FwLogicProperty(Id:"LWKYxXDjBh53")]
+        [FwLogicProperty(Id: "LWKYxXDjBh53")]
         public bool? LossAndDamageShowICode { get { return lossAndDamageOrderTypeFields.ShowICode; } set { lossAndDamageOrderTypeFields.ShowICode = value; } }
 
-        [FwLogicProperty(Id:"VAwyFJuvDSbG")]
+        [FwLogicProperty(Id: "VAwyFJuvDSbG")]
         public int? LossAndDamageICodeWidth { get { return lossAndDamageOrderTypeFields.ICodeWidth; } set { lossAndDamageOrderTypeFields.ICodeWidth = value; } }
 
-        [FwLogicProperty(Id:"lC8GqeMRp7qG")]
+        [FwLogicProperty(Id: "lC8GqeMRp7qG")]
         public bool? LossAndDamageShowDescription { get { return lossAndDamageOrderTypeFields.ShowDescription; } set { lossAndDamageOrderTypeFields.ShowDescription = value; } }
 
-        [FwLogicProperty(Id:"3wNVqmCiZyzu")]
+        [FwLogicProperty(Id: "3wNVqmCiZyzu")]
         public int? LossAndDamageDescriptionWidth { get { return lossAndDamageOrderTypeFields.DescriptionWidth; } set { lossAndDamageOrderTypeFields.DescriptionWidth = value; } }
 
         //[FwLogicProperty(Id:"lKF1jItxg6RP")]
@@ -1576,13 +1577,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"i07ZWWHBYtPD")]
         //public bool? LossAndDamageShowConflictDate { get { return lossAndDamageOrderTypeFields.ShowConflictDate; } set { lossAndDamageOrderTypeFields.ShowConflictDate = value; } }
 
-        [FwLogicProperty(Id:"Oe2uyYPUS9oj")]
+        [FwLogicProperty(Id: "Oe2uyYPUS9oj")]
         public bool? LossAndDamageShowUnit { get { return lossAndDamageOrderTypeFields.ShowUnit; } set { lossAndDamageOrderTypeFields.ShowUnit = value; } }
 
-        [FwLogicProperty(Id:"t76dvyTy1Lfm")]
+        [FwLogicProperty(Id: "t76dvyTy1Lfm")]
         public bool? LossAndDamageShowRate { get { return lossAndDamageOrderTypeFields.ShowRate; } set { lossAndDamageOrderTypeFields.ShowRate = value; } }
 
-        [FwLogicProperty(Id:"mV527YoPDexT")]
+        [FwLogicProperty(Id: "mV527YoPDexT")]
         public bool? LossAndDamageShowCost { get { return lossAndDamageOrderTypeFields.ShowCost; } set { lossAndDamageOrderTypeFields.ShowCost = value; } }
 
         //[FwLogicProperty(Id:"akewUThDgmAM")]
@@ -1597,7 +1598,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"9SQs4xCheiDt")]
         //public bool? LossAndDamageShowDaysPerWeek { get { return lossAndDamageOrderTypeFields.ShowDaysPerWeek; } set { lossAndDamageOrderTypeFields.ShowDaysPerWeek = value; } }
 
-        [FwLogicProperty(Id:"Hj00B0YwwW0w")]
+        [FwLogicProperty(Id: "Hj00B0YwwW0w")]
         public bool? LossAndDamageShowDiscountPercent { get { return lossAndDamageOrderTypeFields.ShowDiscountPercent; } set { lossAndDamageOrderTypeFields.ShowDiscountPercent = value; } }
 
         //[FwLogicProperty(Id:"BoMSMLhUnMMg")]
@@ -1609,10 +1610,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"yzbkq9AWiqWV")]
         //public bool? LossAndDamageShowSplit { get { return lossAndDamageOrderTypeFields.ShowSplit; } set { lossAndDamageOrderTypeFields.ShowSplit = value; } }
 
-        [FwLogicProperty(Id:"AiM2eb0PNtNA")]
+        [FwLogicProperty(Id: "AiM2eb0PNtNA")]
         public bool? LossAndDamageShowUnitDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowUnitDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowUnitDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"Ugg3vgbmFk55")]
+        [FwLogicProperty(Id: "Ugg3vgbmFk55")]
         public bool? LossAndDamageShowUnitExtended { get { return lossAndDamageOrderTypeFields.ShowUnitExtended; } set { lossAndDamageOrderTypeFields.ShowUnitExtended = value; } }
 
         //[FwLogicProperty(Id:"lj5vU6f3hbok")]
@@ -1627,10 +1628,10 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"UKJ5IB9pAXC9")]
         //public bool? LossAndDamageShowMonthlyExtended { get { return lossAndDamageOrderTypeFields.ShowMonthlyExtended; } set { lossAndDamageOrderTypeFields.ShowMonthlyExtended = value; } }
 
-        [FwLogicProperty(Id:"D15NmwSbVHEb")]
+        [FwLogicProperty(Id: "D15NmwSbVHEb")]
         public bool? LossAndDamageShowPeriodDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowPeriodDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowPeriodDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"RFWahReRTi0V")]
+        [FwLogicProperty(Id: "RFWahReRTi0V")]
         public bool? LossAndDamageShowPeriodExtended { get { return lossAndDamageOrderTypeFields.ShowPeriodExtended; } set { lossAndDamageOrderTypeFields.ShowPeriodExtended = value; } }
 
         //[FwLogicProperty(Id:"yq4OE6gq5UR5")]
@@ -1657,13 +1658,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"gHv9UOrVfd9Z")]
         //public bool? LossAndDamageShowVendorPartNumber { get { return lossAndDamageOrderTypeFields.ShowVendorPartNumber; } set { lossAndDamageOrderTypeFields.ShowVendorPartNumber = value; } }
 
-        [FwLogicProperty(Id:"c77Cch8RmueN")]
+        [FwLogicProperty(Id: "c77Cch8RmueN")]
         public bool? LossAndDamageShowWarehouse { get { return lossAndDamageOrderTypeFields.ShowWarehouse; } set { lossAndDamageOrderTypeFields.ShowWarehouse = value; } }
 
-        [FwLogicProperty(Id:"xLAM00VujB5Q")]
+        [FwLogicProperty(Id: "xLAM00VujB5Q")]
         public bool? LossAndDamageShowTaxable { get { return lossAndDamageOrderTypeFields.ShowTaxable; } set { lossAndDamageOrderTypeFields.ShowTaxable = value; } }
 
-        [FwLogicProperty(Id:"MquzVNuARWbL")]
+        [FwLogicProperty(Id: "MquzVNuARWbL")]
         public bool? LossAndDamageShowNotes { get { return lossAndDamageOrderTypeFields.ShowNotes; } set { lossAndDamageOrderTypeFields.ShowNotes = value; } }
 
         //[FwLogicProperty(Id:"L6Iy25UycGVS")]
@@ -1732,87 +1733,87 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         //[FwLogicProperty(Id:"HpDbetUqCSIZ")]
         //public bool? LossAndDamageShowEpisodeDiscountAmount { get { return lossAndDamageOrderTypeFields.ShowEpisodeDiscountAmount; } set { lossAndDamageOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
 
-        [FwLogicProperty(Id:"5AdrwuvzYS5v")]
+        [FwLogicProperty(Id: "5AdrwuvzYS5v")]
         public string LossAndDamageDateStamp { get { return lossAndDamageOrderTypeFields.DateStamp; } set { lossAndDamageOrderTypeFields.DateStamp = value; } }
 
 
 
 
-        [FwLogicProperty(Id:"MDrbMnRohmY7")]
+        [FwLogicProperty(Id: "MDrbMnRohmY7")]
         public bool? AddInstallationAndStrikeFee { get { return orderType.Installstrikefee; } set { orderType.Installstrikefee = value; } }
 
-        [FwLogicProperty(Id:"hCEWDWbL7D9n")]
+        [FwLogicProperty(Id: "hCEWDWbL7D9n")]
         public string InstallationAndStrikeFeeRateId { get { return orderType.InstallstrikemasterId; } set { orderType.InstallstrikemasterId = value; } }
 
-        [FwLogicProperty(Id:"7TDs9sxPsU6d", IsReadOnly:true)]
+        [FwLogicProperty(Id: "7TDs9sxPsU6d", IsReadOnly: true)]
         public string InstallationAndStrikeFeeICode { get; set; }
 
-        [FwLogicProperty(Id:"e6mnv1VCzF7o", IsReadOnly:true)]
+        [FwLogicProperty(Id: "e6mnv1VCzF7o", IsReadOnly: true)]
         public string InstallationAndStrikeFeeDescription { get; set; }
 
-        [FwLogicProperty(Id:"HjE0pXZheJGg")]
+        [FwLogicProperty(Id: "HjE0pXZheJGg")]
         public decimal? InstallationAndStrikeFeePercent { get { return orderType.Installstrikepct; } set { orderType.Installstrikepct = value; } }
 
-        [FwLogicProperty(Id:"r4gvR6G3RZj5")]
+        [FwLogicProperty(Id: "r4gvR6G3RZj5")]
         public string InstallationAndStrikeFeeBasedOn { get { return orderType.Installstrikebasedon; } set { orderType.Installstrikebasedon = value; } }
 
-        [FwLogicProperty(Id:"ySgmr54NejZF")]
+        [FwLogicProperty(Id: "ySgmr54NejZF")]
         public bool? AddManagementAndServiceFee { get { return orderType.Managementservicefee; } set { orderType.Managementservicefee = value; } }
 
-        [FwLogicProperty(Id:"4DjjdXBnxZXN")]
+        [FwLogicProperty(Id: "4DjjdXBnxZXN")]
         public string ManagementAndServiceFeeRateId { get { return orderType.ManagementservicemasterId; } set { orderType.ManagementservicemasterId = value; } }
 
-        [FwLogicProperty(Id:"7vMU1GrQY9zM", IsReadOnly:true)]
+        [FwLogicProperty(Id: "7vMU1GrQY9zM", IsReadOnly: true)]
         public string ManagementAndServiceFeeICode { get; set; }
 
-        [FwLogicProperty(Id:"bJblpTr8NOon", IsReadOnly:true)]
+        [FwLogicProperty(Id: "bJblpTr8NOon", IsReadOnly: true)]
         public string ManagementAndServiceFeeDescription { get; set; }
 
-        [FwLogicProperty(Id:"3XrXeex8Qoqo")]
+        [FwLogicProperty(Id: "3XrXeex8Qoqo")]
         public decimal? ManagementAndServiceFeePercent { get { return orderType.Managementservicepct; } set { orderType.Managementservicepct = value; } }
 
-        [FwLogicProperty(Id:"WbTu86Hn2E6G")]
+        [FwLogicProperty(Id: "WbTu86Hn2E6G")]
         public string ManagementAndServiceFeeBasedOn { get { return orderType.Managementservicebasedon; } set { orderType.Managementservicebasedon = value; } }
 
 
 
-        [FwLogicProperty(Id:"lfbvkk44e1D5")]
+        [FwLogicProperty(Id: "lfbvkk44e1D5")]
         public string DefaultRentalSalePrice { get { return orderType.SelectRentalSalePrice; } set { orderType.SelectRentalSalePrice = value; } }
 
 
 
-        [FwLogicProperty(Id:"gbyKbR0lf3pd")]
+        [FwLogicProperty(Id: "gbyKbR0lf3pd")]
         public bool? QuikPayDiscount { get { return orderType.Quikpaydiscount; } set { orderType.Quikpaydiscount = value; } }
 
-        [FwLogicProperty(Id:"MY5zA9J4Bsqv")]
+        [FwLogicProperty(Id: "MY5zA9J4Bsqv")]
         public string QuikPayDiscountType { get { return orderType.Quikpaydiscounttype; } set { orderType.Quikpaydiscounttype = value; } }
 
-        [FwLogicProperty(Id:"O5oQN1cfNl9K")]
+        [FwLogicProperty(Id: "O5oQN1cfNl9K")]
         public int? QuikPayDiscountDays { get { return orderType.Quikpaydiscountdays; } set { orderType.Quikpaydiscountdays = value; } }
 
-        [FwLogicProperty(Id:"AFLYkzEZ2tfD")]
+        [FwLogicProperty(Id: "AFLYkzEZ2tfD")]
         public decimal? QuikPayDiscountPercent { get { return orderType.Quikpaydiscountpct; } set { orderType.Quikpaydiscountpct = value; } }
 
-        [FwLogicProperty(Id:"4GW33zBLGMD9")]
+        [FwLogicProperty(Id: "4GW33zBLGMD9")]
         public bool? QuikPayDiscountExcludeSubs { get { return orderType.Quikpayexcludesubs; } set { orderType.Quikpayexcludesubs = value; } }
 
 
 
-        [FwLogicProperty(Id:"nTUWBU1ezMP4")]
+        [FwLogicProperty(Id: "nTUWBU1ezMP4")]
         public bool? QuikConfirmDiscount { get { return orderType.Quikconfirmdiscount; } set { orderType.Quikconfirmdiscount = value; } }
 
-        [FwLogicProperty(Id:"jAWHEuKORldG")]
+        [FwLogicProperty(Id: "jAWHEuKORldG")]
         public decimal? QuikConfirmDiscountPercent { get { return orderType.Quikconfirmdiscountpct; } set { orderType.Quikconfirmdiscountpct = value; } }
 
-        [FwLogicProperty(Id:"vXzalPIUgvtF")]
+        [FwLogicProperty(Id: "vXzalPIUgvtF")]
         public int? QuikConfirmDiscountDays { get { return orderType.Quikconfirmdiscountdays; } set { orderType.Quikconfirmdiscountdays = value; } }
 
 
 
-        [FwLogicProperty(Id:"9T7Wz9Zj31M5")]
+        [FwLogicProperty(Id: "9T7Wz9Zj31M5")]
         public bool? DisableCostGl { get { return orderType.Disablecostgl; } set { orderType.Disablecostgl = value; } }
 
-        [FwLogicProperty(Id:"8yvxG1AmrNtt")]
+        [FwLogicProperty(Id: "8yvxG1AmrNtt")]
         public bool? ExcludeFromTopSalesDashboard { get { return orderType.Excludefromtopsales; } set { orderType.Excludefromtopsales = value; } }
 
 
@@ -1840,15 +1841,15 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
         //public string Invoiceclass { get { return orderType.Invoiceclass; } set { orderType.Invoiceclass = value; } }
 
-        [FwLogicProperty(Id:"PtPRM2dusvuE")]
+        [FwLogicProperty(Id: "PtPRM2dusvuE")]
         public decimal? Orderby { get { return orderType.Orderby; } set { orderType.Orderby = value; } }
 
-        [FwLogicProperty(Id:"L9SI4yklZawn")]
+        [FwLogicProperty(Id: "L9SI4yklZawn")]
         public bool? Inactive { get { return orderType.Inactive; } set { orderType.Inactive = value; } }
 
 
 
-        [FwLogicProperty(Id:"1gfcbRBawDCX", IsReadOnly:true, IsNotAudited: true)]
+        [FwLogicProperty(Id: "1gfcbRBawDCX", IsReadOnly: true, IsNotAudited: true)]
         public List<string> CombinedShowFields
 
         {
@@ -1879,6 +1880,17 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                     //if (RentalShowReturnToWarehouse == true) { showFields.Add("ReturnToWarehouse"); }
                     //if (RentalShowNotes == true || SalesShowNotes == true || MiscShowNotes == true || LaborShowNotes == true) { showFields.Add("Notes"); }
 
+                    bool enableConsign = false;
+                    if (AppConfig != null)
+                    {
+                        InventorySettingsLogic l = new InventorySettingsLogic();
+                        l.SetDependencies(AppConfig, UserSession);
+                        l.InventorySettingsId = RwConstants.CONTROL_ID;
+                        if (l.LoadAsync<InventorySettingsLogic>().Result)
+                        {
+                            enableConsign = l.EnableConsignment.GetValueOrDefault(false);
+                        }
+                    }
 
                     showFields.Add("RecTypeDisplay");
                     if (RentalShowICode == true || RentalSaleShowICode == true || MiscShowICode == true || LaborShowICode == true) { showFields.Add("ICode"); }
@@ -1893,13 +1905,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                     if (RentalShowToTime == true || MiscShowToTime == true || LaborShowToTime == true) { showFields.Add("ToTime"); }
                     if (RentalShowBillablePeriods == true || MiscShowBillablePeriods == true || LaborShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
                     if (RentalShowSubQuantity == true || SalesShowSubQuantity == true) { showFields.Add("SubQuantity"); }
-                    if (RentalShowConsignmentQuantity == true) { showFields.Add("ConsignQuantity"); }
+                    if ((enableConsign) && (RentalShowConsignmentQuantity == true)) { showFields.Add("ConsignQuantity"); }
                     if (RentalShowReservedItems == true) { showFields.Add("ReservedItemQuantity"); }
                     if (RentalShowAvailableQuantity == true || SalesShowAvailableQuantity == true) { showFields.Add("AvailableQuantity"); }
                     if (RentalShowAvailableQuantityAllWarehouses == true || SalesShowAvailableQuantityAllWarehouses == true) { showFields.Add("AvailableAllWarehousesQuantity"); }
                     if (RentalShowConflictDate == true || SalesShowConflictDate == true) { showFields.Add("ConflictDate"); }
                     if (RentalShowConflictDateAllWarehouses == true || SalesShowConflictDateAllWarehouses == true) { showFields.Add("ConflictDateAllWarehouses"); }
-                    if (RentalShowConsignmentConflictDate == true) { showFields.Add("ConflictDateConsignment"); }
+                    if ((enableConsign) && (RentalShowConsignmentConflictDate == true)) { showFields.Add("ConflictDateConsignment"); }
                     if (RentalShowUnit == true || SalesShowUnit == true || MiscShowUnit == true || LaborShowUnit == true) { showFields.Add("Unit"); }
                     if (RentalShowMarkupPercent == true || SalesShowMarkupPercent == true) { showFields.Add("MarkupPercent"); }
                     if (RentalShowMarginPercent == true || SalesShowMarginPercent == true) { showFields.Add("MarginPercent"); }
@@ -1927,7 +1939,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         }
 
 
-        [FwLogicProperty(Id:"qpMMNO0ka6IY", IsReadOnly:true, IsNotAudited: true)]
+        [FwLogicProperty(Id: "qpMMNO0ka6IY", IsReadOnly: true, IsNotAudited: true)]
         public List<string> RentalShowFields
 
         {
@@ -1955,6 +1967,17 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 //if (RentalShowReturnToWarehouse == true) { showFields.Add("ReturnToWarehouse"); }
                 //if (RentalShowNotes == true) { showFields.Add("Notes"); }
 
+                bool enableConsign = false;
+                if (AppConfig != null)
+                {
+                    InventorySettingsLogic l = new InventorySettingsLogic();
+                    l.SetDependencies(AppConfig, UserSession);
+                    l.InventorySettingsId = RwConstants.CONTROL_ID;
+                    if (l.LoadAsync<InventorySettingsLogic>().Result)
+                    {
+                        enableConsign = l.EnableConsignment.GetValueOrDefault(false);
+                    }
+                }
 
                 if (RentalShowICode == true) { showFields.Add("ICode"); }
                 if (RentalShowDescription == true) { showFields.Add("Description"); }
@@ -1968,13 +1991,13 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (RentalShowToTime == true) { showFields.Add("ToTime"); }
                 if (RentalShowBillablePeriods == true) { showFields.Add("BillablePeriods"); }
                 if (RentalShowSubQuantity == true) { showFields.Add("SubQuantity"); }
-                if (RentalShowConsignmentQuantity == true) { showFields.Add("ConsignQuantity"); }
+                if ((enableConsign) && (RentalShowConsignmentQuantity == true)) { showFields.Add("ConsignQuantity"); }
                 if (RentalShowReservedItems == true) { showFields.Add("ReservedItemQuantity"); }
                 if (RentalShowAvailableQuantity == true) { showFields.Add("AvailableQuantity"); }
                 if (RentalShowAvailableQuantityAllWarehouses == true) { showFields.Add("AvailableAllWarehousesQuantity"); }
                 if (RentalShowConflictDate == true) { showFields.Add("ConflictDate"); }
                 if (RentalShowConflictDateAllWarehouses == true) { showFields.Add("ConflictDateAllWarehouses"); }
-                if (RentalShowConsignmentConflictDate == true) { showFields.Add("ConflictDateConsignment"); }
+                if ((enableConsign) && (RentalShowConsignmentConflictDate == true)) { showFields.Add("ConflictDateConsignment"); }
                 if (RentalShowUnit == true) { showFields.Add("Unit"); }
                 if (RentalShowCost == true) { showFields.Add("UnitCost"); }
                 if (RentalShowMarkupPercent == true) { showFields.Add("MarkupPercent"); }
@@ -2003,7 +2026,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
             set { }
         }
 
-        [FwLogicProperty(Id:"8VFAulksW0gN", IsReadOnly:true, IsNotAudited: true)]
+        [FwLogicProperty(Id: "8VFAulksW0gN", IsReadOnly: true, IsNotAudited: true)]
         public List<string> SalesShowFields
 
         {
@@ -2036,7 +2059,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
                 if (SalesShowPickTime == true) { showFields.Add("PickTime"); }
                 if (SalesShowFromDate == true) { showFields.Add("FromDate"); }
                 if (SalesShowFromTime == true) { showFields.Add("FromTime"); }
-                if (SalesShowManufacturerPartNumber== true) { showFields.Add("ManufacturerPartNumber"); }
+                if (SalesShowManufacturerPartNumber == true) { showFields.Add("ManufacturerPartNumber"); }
                 if (SalesShowSubQuantity == true) { showFields.Add("SubQuantity"); }
                 if (SalesShowAvailableQuantity == true) { showFields.Add("AvailableQuantity"); }
                 if (SalesShowAvailableQuantityAllWarehouses == true) { showFields.Add("AvailableAllWarehousesQuantity"); }
@@ -2064,7 +2087,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
         }
 
 
-        [FwLogicProperty(Id:"ADQi362J3DTY", IsReadOnly:true, IsNotAudited: true)]
+        [FwLogicProperty(Id: "ADQi362J3DTY", IsReadOnly: true, IsNotAudited: true)]
         public List<string> MiscShowFields
 
         {
@@ -2124,7 +2147,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
 
 
-        [FwLogicProperty(Id:"8kxYYOb0Prm8", IsReadOnly:true, IsNotAudited: true)]
+        [FwLogicProperty(Id: "8kxYYOb0Prm8", IsReadOnly: true, IsNotAudited: true)]
         public List<string> LaborShowFields
 
         {
@@ -2182,7 +2205,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
             set { }
         }
 
-        [FwLogicProperty(Id:"5TunYFwvQv4x", IsReadOnly:true, IsNotAudited: true)]
+        [FwLogicProperty(Id: "5TunYFwvQv4x", IsReadOnly: true, IsNotAudited: true)]
         public List<string> RentalSaleShowFields
 
         {
@@ -2222,7 +2245,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
 
 
 
-        [FwLogicProperty(Id:"wfMjZkUZbbgi", IsReadOnly:true, IsNotAudited: true)]
+        [FwLogicProperty(Id: "wfMjZkUZbbgi", IsReadOnly: true, IsNotAudited: true)]
         public List<string> LossAndDamageShowFields
 
         {
@@ -2258,7 +2281,7 @@ namespace WebApi.Modules.Settings.OrderSettings.OrderType
             set { }
         }
 
-        [FwLogicProperty(Id:"CLrP8W8Oh6hk")]
+        [FwLogicProperty(Id: "CLrP8W8Oh6hk")]
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 

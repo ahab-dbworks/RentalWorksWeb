@@ -87,7 +87,7 @@ class OrderType {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val(uniqueids.OrderTypeId);
@@ -95,7 +95,7 @@ class OrderType {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
@@ -231,7 +231,7 @@ class OrderType {
         });
         //----------
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $orderTypeInvoiceExportGrid = $form.find('[data-name="OrderTypeInvoiceExportGrid"]');
         FwBrowse.search($orderTypeInvoiceExportGrid);
@@ -274,6 +274,12 @@ class OrderType {
 
         const $resaleGrid = $form.find('[data-name="OrderTypeContactTitleGrid"]');
         FwBrowse.search($resaleGrid);
+
+        const enableConsignment = JSON.parse(sessionStorage.getItem('controldefaults')).enableconsignment;
+        if (!enableConsignment) {
+            $form.find('.consignment').hide();
+        }
+    //----------------------------------------------------------------------------------------------
     }
 }
 
