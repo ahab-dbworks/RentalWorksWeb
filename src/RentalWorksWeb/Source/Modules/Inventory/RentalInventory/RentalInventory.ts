@@ -30,22 +30,6 @@ class RentalInventory extends InventoryBase {
         super.setupNewMode($form);
         const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
         FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultrentalquantityinventorycostcalculation);
-
-        ////show/hide Cost Calculation
-        //const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-        //if (trackedBy === 'QUANTITY') {
-        //    FwFormField.getClassName($form, 'costcalculationsection').show();
-        //} else {
-        //    $form.find('.costcalculationsection').hide();
-        //}
-
-        ////show/hide RFID option
-        //if (trackedBy === 'RFID') {
-        //    FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
-        //} else {
-        //    FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
-        //}
-
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {

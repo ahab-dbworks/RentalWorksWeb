@@ -8,6 +8,7 @@ abstract class InventoryBase {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     CreateCompleteId: string;
+    TrackedByValue: string = '';
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems(options: IAddBrowseMenuOptions): void {
         FwMenu.addBrowseMenuButtons(options);
@@ -797,23 +798,24 @@ abstract class InventoryBase {
                 $form.find('.costcalculationwarning').show();
             }
         });
-
-        //$form.find('[data-datafield="TrackedBy"]').on('change', e => {
-        //    //show/hide Cost Calculation
-        //    const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-        //    if (trackedBy === 'QUANTITY') {
-        //        $form.find('.costcalculationsection').show();
-        //    } else {
-        //        $form.find('.costcalculationsection').hide();
-        //    }
-
-        //    //show/hide RFID option
-        //    if (trackedBy === 'RFID') {
-        //        FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
-        //    } else {
-        //        FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
-        //    }
-        //});
+        // TrackedBy evt
+        let textToReplace: string = 'TRACKEDBYTYPE';
+        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
+            if (this.TrackedByValue) {
+                const newTrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+                const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
+                if (this.TrackedByValue !== newTrackedByValue) {
+                    const text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedByValue);
+                    textToReplace = newTrackedByValue;
+                    $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
+                    $confirmTrackedByField.show();
+                } else {
+                    $confirmTrackedByField.hide();
+                    FwFormField.setValue2($confirmTrackedByField, '');
+                }
+            }
+            this.showHideCostCalculation($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
@@ -1505,6 +1507,11 @@ abstract class InventoryBase {
     setupNewMode($form: any) {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
+        //show/hide Cost Calculation
+        if (this.Module !== 'PartsInventory') {
+            this.showHideCostCalculation($form);
+        }
+
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
             const classification = FwFormField.getValueByDataField($form, 'Classification');
 
@@ -1517,10 +1524,6 @@ abstract class InventoryBase {
             $form.find('.manufacturersection').show();
             $form.find('.settab').hide();
 
-            //show/hide Cost Calculation
-            if (this.Module !== 'PartsInventory') {
-                this.showHideCostCalculation($form);
-            }
 
             switch (classification) {
                 case 'I':
@@ -1851,41 +1854,11 @@ abstract class InventoryBase {
             }
             $tab.addClass('tabGridsLoaded');
         });
-
-        //TrackedBy field evt change
-        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-        let textToReplace: string = 'TRACKEDBYTYPE';
-        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
-            const newTrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-            const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
-            if (trackedByValue !== newTrackedByValue) {
-                const text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedByValue);
-                textToReplace = newTrackedByValue;
-                $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
-                $confirmTrackedByField.show();
-                //trackedBy = newTrackedBy;
-            } else {
-                $confirmTrackedByField.hide();
-                FwFormField.setValue2($confirmTrackedByField, '');
-            }
-            this.showHideCostCalculation($form);
-        });
+        //TrackedBy value used in evt listener
+        this.TrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
 
         //show/hide Cost Calculation
-        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-        if (trackedBy === 'QUANTITY') {
-            $form.find('.costcalculationsection').show();
-        } else {
-            $form.find('.costcalculationsection').hide();
-        }
-
-        //show/hide RFID option
-        if (trackedBy === 'RFID') {
-            FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
-        } else {
-            FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
-        }
-
+        this.showHideCostCalculation($form);
 
         //Enable/disable grid based on packageprice
         let classificationName;
