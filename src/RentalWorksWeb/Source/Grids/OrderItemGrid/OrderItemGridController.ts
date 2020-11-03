@@ -351,6 +351,12 @@ class OrderItemGrid {
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
                 $availQty.css('cursor', 'pointer');
+
+                const availabilityStateAllWarehouses = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityStateAllWarehouses');
+                const $availQtyAllWarehouses = $generatedtr.find('[data-browsedatafield="AvailableQuantityAllWarehouses"]')
+                $availQtyAllWarehouses.attr('data-state', availabilityStateAllWarehouses);
+                $availQtyAllWarehouses.css('cursor', 'pointer');
+
             }
 
             if (controller === 'PurchaseOrderController') {
