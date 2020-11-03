@@ -1508,9 +1508,7 @@ abstract class InventoryBase {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
         //show/hide Cost Calculation
-        if (this.Module !== 'PartsInventory') {
             this.showHideCostCalculation($form);
-        }
 
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
             const classification = FwFormField.getValueByDataField($form, 'Classification');

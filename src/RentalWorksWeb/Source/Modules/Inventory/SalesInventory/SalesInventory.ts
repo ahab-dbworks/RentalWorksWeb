@@ -11,22 +11,6 @@ class SalesInventory extends InventoryBase {
         FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');  //justin hoffman 10/12/2020 #3177
         const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
         FwFormField.setValueByDataField($form, 'CostCalculation', controlDefaults.defaultsalesquantityinventorycostcalculation);
-
-        //show/hide Cost Calculation
-        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-        if (trackedBy === 'QUANTITY') {
-            $form.find('.costcalculationsection').show();
-        } else {
-            $form.find('.costcalculationsection').hide();
-        }
-
-        //show/hide RFID option
-        if (trackedBy === 'RFID') {
-            FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
-        } else {
-            FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
-        }
-
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -196,16 +180,6 @@ class SalesInventory extends InventoryBase {
         $form.find('[data-grid="InventoryWarehouseKitPricingGrid"] div[data-browsedatafield="MonthlyRate"]').parent('td').hide();
     }
     //----------------------------------------------------------------------------------------------
-    afterSave($form: any) {
-        let $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
-        $confirmTrackedByField.hide();
-        FwFormField.setValue2($confirmTrackedByField, '');
-
-        if ($form.attr('data-opensearch') == 'true') {
-            RentalInventoryController.quikSearch($form.data('opensearch'));
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
 
@@ -213,23 +187,6 @@ class SalesInventory extends InventoryBase {
         FwBrowse.search($salesInventoryWarehouseGrid);
         const $salesInventoryWarehousePricingGrid = $form.find('[data-name="SalesInventoryWarehousePricingGrid"]');
         FwBrowse.search($salesInventoryWarehousePricingGrid);
-
-        let trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-        let textToReplace: string = 'TRACKEDBYTYPE';
-        $form.find('[data-datafield="TrackedBy"]').on('change', e => {
-            let newTrackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-            const $confirmTrackedByField = $form.find('[data-datafield="ConfirmTrackedBy"]');
-            if (trackedBy !== newTrackedBy) {
-                let text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedBy);
-                textToReplace = newTrackedBy;
-                $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
-                $confirmTrackedByField.show();
-                trackedBy = newTrackedBy;
-            } else {
-                $confirmTrackedByField.hide();
-                FwFormField.setValue2($confirmTrackedByField, '');
-            }
-        });
 
         const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         FwAppDocumentGrid.renderGrid({

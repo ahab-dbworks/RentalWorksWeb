@@ -341,16 +341,6 @@ class RentalInventory extends InventoryBase {
         threeWeekPricing ? jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show() : jQuery($inventoryWarehouseKitPricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide()
     };
     //----------------------------------------------------------------------------------------------
-    afterSave($form: any) {
-        //const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
-        //$confirmTrackedByField.hide();
-        //FwFormField.setValue2($confirmTrackedByField, '');
-
-        //if ($form.attr('data-opensearch') == 'true') {
-        //    this.quikSearch($form.data('opensearch'));
-        //}
-    }
-    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
         this.iCodeMask($form);
@@ -388,23 +378,6 @@ class RentalInventory extends InventoryBase {
         if (FwFormField.getValueByDataField($form, 'ManifestStandAloneItem')) FwFormField.disable($form.find('div[data-datafield="ManifestShippingContainer"]'));
 
         this.dynamicColumns($form);
-
-        //const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-        //let textToReplace: string = 'TRACKEDBYTYPE';
-        //$form.find('[data-datafield="TrackedBy"]').on('change', e => {
-        //    const newTrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-        //    const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
-        //    if (trackedByValue !== newTrackedByValue) {
-        //        const text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedByValue);
-        //        textToReplace = newTrackedByValue;
-        //        $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
-        //        $confirmTrackedByField.show();
-        //        //trackedBy = newTrackedBy;
-        //    } else {
-        //        $confirmTrackedByField.hide();
-        //        FwFormField.setValue2($confirmTrackedByField, '');
-        //    }
-        //});
 
         const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         FwAppDocumentGrid.renderGrid({
