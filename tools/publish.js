@@ -180,7 +180,7 @@ function formatBytes(bytes, decimals = 2) {
 
             // command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
             await process.chdir(path.resolve(repoPath, 'build'));
-            childProcess.execSync(`call npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v${fullversionno}.md -t ${tagprefix}/v${fullversionno}..${tagprefix}/v${previousversionno} -c ${path.resolve(repoPath, 'config.grenrc')}`, { stdio: 'inherit' });
+            childProcess.execSync(`npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v${fullversionno}.md -t ${tagprefix}/v${fullversionno}..${tagprefix}/v${previousversionno} -c "${path.resolve(repoPath, 'config.grenrc')}"`, { stdio: 'inherit' });
 
             // produce a PDF of the MD file
             await process.chdir(repoPath);
