@@ -46,7 +46,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string DefaultQuantityColor
         {
-            get { return getDefaultQuantityColor(DefaultQuantity); }
+            get { return getDefaultQuantityColor(IsOption, DefaultQuantity); }
             set { }
         }
         //------------------------------------------------------------------------------------
@@ -199,10 +199,14 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             select.AddWhere("warehouseid = @warehouseid");
         }
         //------------------------------------------------------------------------------------ 
-        private string getDefaultQuantityColor(decimal? defaultQuantity)
+        private string getDefaultQuantityColor(bool? isOption, decimal? defaultQuantity)
         {
             string qColor = null;
-            if ((defaultQuantity != null) && (defaultQuantity.GetValueOrDefault(0) > 0) && (defaultQuantity.GetValueOrDefault(1) < 1))
+            if (isOption.GetValueOrDefault(false))
+            {
+                qColor = RwGlobals.OPTIONAL_ITEM_COLOR;
+            }
+            else if ((defaultQuantity != null) && (defaultQuantity.GetValueOrDefault(0) > 0) && (defaultQuantity.GetValueOrDefault(1) < 1))
             {
                 qColor = RwGlobals.PERCENTAGE_ITEM_COLOR;
             }
@@ -218,7 +222,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
                 {
                     foreach (List<object> row in dt.Rows)
                     {
-                        row[dt.GetColumnNo("DefaultQuantityColor")] = getDefaultQuantityColor(FwConvert.ToDecimal(row[dt.GetColumnNo("DefaultQuantity")].ToString()));
+                        row[dt.GetColumnNo("DefaultQuantityColor")] = getDefaultQuantityColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsOption")].ToString()), FwConvert.ToDecimal(row[dt.GetColumnNo("DefaultQuantity")].ToString()));
                     }
                 }
             }
