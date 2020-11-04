@@ -72,7 +72,7 @@ function formatBytes(bytes, decimals = 2) {
         }
 
         // load the previous version number
-        const productVersionFilePath;
+        let productVersionFilePath = '';
         if (productname == PRODUCTNAME_RENTALWORKS) {
             productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version-previous-rentalworks.txt`);
         }
