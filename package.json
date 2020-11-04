@@ -9,15 +9,21 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "archiver": "^5.0.2",
+    "child-process-promise": "2.2.1",
     "clean-css-cli": "4.3.0",
+    "fs-extra": "9.0.1",
     "github-release-notes": "0.17.0",
     "google-closure-compiler": "20200719.0.0",
-    "md-to-pdf": "3.1.1"
+    "md-to-pdf": "3.1.1",
+    "prompts": "2.4.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "enablegithooks": "node configure-repo.js -enablegithooks",
-    "disablegithooks": "node configure-repo.js -disablegithooks"
+    "disablegithooks": "node configure-repo.js -disablegithooks",
+    "publish": "node publish.js",
+    "clean": "node clean.js"
   },
   "repository": {
     "type": "git",
