@@ -150,12 +150,12 @@ function formatBytes(bytes, decimals = 2) {
         // Update the version.txt files
         console.log('Update the version.txt files');
         if (productname === PRODUCTNAME_RENTALWORKS) {
-            fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/${productname}Web/version.txt`), fullversionno);
+            await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/${productname}Web/version.txt`), fullversionno);
         } else {
-            fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/${productname}/version.txt`), fullversionno);
+            await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/${productname}/version.txt`), fullversionno);
         }
-        fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/QuikScan/version.txt`), fullversionno);
-        fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version.txt`), fullversionno);
+        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/QuikScan/version.txt`), fullversionno);
+        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version.txt`), fullversionno);
 
         const pdffilename = `v${fullversionno}.pdf`;
 
