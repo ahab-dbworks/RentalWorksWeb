@@ -171,16 +171,16 @@ function formatBytes(bytes, decimals = 2) {
             childProcess.execSync(`git add "src/RentalWorksWebApi/QuikScan/version.txt"`, { stdio: 'inherit' });
             childProcess.execSync(`git add "src/RentalWorksWebApi/version.txt"`, { stdio: 'inherit' });
             childProcess.execSync(`git commit -m "${tagprefix}: ${fullversionno}"`, { stdio: 'inherit' });
-            //childProcess.execSync(`git push`, { stdio: 'inherit' });
+            childProcess.execSync(`git push`, { stdio: 'inherit' });
             childProcess.execSync(`git tag ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
-            //childProcess.execSync(`git push origin ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
+            childProcess.execSync(`git push origin ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
 
             // copy the document header image to the build directory 
             await fse.copyFile(path.resolve(repoPath, `releasedocumentlogo.png`), path.resolve(repoPath, `build/releasedocumentlogo.png`));
 
             // command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
             await process.chdir(path.resolve(repoPath, 'build'));
-            childProcess.execSync(`npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v${fullversionno}.md -t ${tagprefix}/v${fullversionno}..${tagprefix}/v${previousversionno} -c "${path.resolve(repoPath, 'config.grenrc')}"`, { stdio: 'inherit' });
+            childProcess.execSync(`npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v${fullversionno}.md -t ${tagprefix}/v${fullversionno}..${tagprefix}/v${previousversionno} -c ../config.grenrc`, { stdio: 'inherit' });
 
             // produce a PDF of the MD file
             await process.chdir(repoPath);
