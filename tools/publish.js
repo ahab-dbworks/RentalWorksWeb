@@ -72,7 +72,13 @@ function formatBytes(bytes, decimals = 2) {
         }
 
         // load the previous version number
-        const productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version.txt`);
+        const productVersionFilePath;
+        if (productname == PRODUCTNAME_RENTALWORKS) {
+            productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version-previous-rentalworks.txt`);
+        }
+        else if (productname == PRODUCTNAME_TRAKITWORKS) {
+            productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version-previous-trakitworks.txt`);
+        }
         failIf(!await fse.exists(productVersionFilePath), `Missing file: ${productVersionFilePath}`);
         let previousversionno = await fse.readFile(productVersionFilePath, 'utf8');
         if (previousversionno.length === 0 || previousversionno.split('.').length !== 4) {
@@ -149,13 +155,14 @@ function formatBytes(bytes, decimals = 2) {
 
         // Update the version.txt files
         console.log('Update the version.txt files');
+        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', `version-previous-${productname}.txt`), fullversionno);
         if (productname === PRODUCTNAME_RENTALWORKS) {
-            await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/${productname}Web/version.txt`), fullversionno);
+            await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, 'src', `${productname}Web/version.txt`), fullversionno);
         } else {
-            await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/${productname}/version.txt`), fullversionno);
+            await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', `${productname}/version.txt`), fullversionno);
         }
-        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/QuikScan/version.txt`), fullversionno);
-        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version.txt`), fullversionno);
+        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', 'QuikScan', 'version.txt'), fullversionno);
+        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', 'version.txt'), fullversionno);
 
         const pdffilename = `v${fullversionno}.pdf`;
 
