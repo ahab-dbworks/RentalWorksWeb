@@ -18,9 +18,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "node build/clean.js",
-    "rebuild": "node build/rebuild.js",
-    "build": "node build/build.js"
+    "clean": "node tools/clean.js",
+    "rebuild": "node tools/rebuild.js",
+    "build": "node tools/build.js"
   },
   "author": "",
   "license": "UNLICENSED"

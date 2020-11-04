@@ -19,7 +19,7 @@ process.on('unhandledRejection', (reason) => {
     try {
         console.log('//------------------------------------------------------------------------------------');
         console.log('- Build RentalWorks -');
-        const pathRentalWorks = path.resolve(__dirname, '..');
+        //const pathRentalWorks = path.resolve(__dirname, '..');
         const pathWebApi = path.resolve(__dirname, '..', '..', 'RentalWorksWebApi');
         //console.log(pathRentalWorks);
         //console.log(pathWebApi);
