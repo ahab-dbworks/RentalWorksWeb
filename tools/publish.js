@@ -74,10 +74,10 @@ function formatBytes(bytes, decimals = 2) {
         // load the previous version number
         let productVersionFilePath = '';
         if (productname == PRODUCTNAME_RENTALWORKS) {
-            productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version-previous-rentalworks.txt`);
+            productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', 'version-previous-rentalworks.txt');
         }
         else if (productname == PRODUCTNAME_TRAKITWORKS) {
-            productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version-previous-trakitworks.txt`);
+            productVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi' ,'version-previous-trakitworks.txt');
         }
         failIf(!await fse.exists(productVersionFilePath), `Missing file: ${productVersionFilePath}`);
         let previousversionno = await fse.readFile(productVersionFilePath, 'utf8');
@@ -88,7 +88,7 @@ function formatBytes(bytes, decimals = 2) {
         const shortversionno = `${previousversionnoparts[0]}.${previousversionnoparts[1]}.${previousversionnoparts[2]}`;
         const buildno = previousversionnoparts[3];
 
-        const apiVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version.txt`);
+        const apiVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', 'version.txt');
         let apiVersion = await fse.readFile(apiVersionFilePath, 'utf8');
         if (apiVersion.length === 0 || apiVersion.split('.').length !== 4) {
             apiVersion = '0.0.0.0';
