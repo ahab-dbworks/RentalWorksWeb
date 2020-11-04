@@ -263,7 +263,7 @@ function formatBytes(bytes, decimals = 2) {
         if (commitAndFtp) {
             // Create FTP command file to upload the zip
             const ftpcommandfilename = 'ftp.txt';
-            childProcess.chdir(buildPath);
+            await process.chdir(buildPath);
             let file = [];
             file.push(`open ftp.dbworks.com`);
             file.push(`${process.env.DwFtpUploadUser}`);
