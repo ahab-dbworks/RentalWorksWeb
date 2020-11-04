@@ -88,12 +88,21 @@ function formatBytes(bytes, decimals = 2) {
         const shortversionno = `${previousversionnoparts[0]}.${previousversionnoparts[1]}.${previousversionnoparts[2]}`;
         const buildno = previousversionnoparts[3];
 
+        const apiVersionFilePath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version.txt`);
+        let apiVersion = await fse.readFile(apiVersionFilePath, 'utf8');
+        if (apiVersion.length === 0 || apiVersion.split('.').length !== 4) {
+            apiVersion = '0.0.0.0';
+        }
+        const apiversionnoparts = apiVersion.split('.');
+        const shortapiversionno = `${apiversionnoparts[0]}.${apiversionnoparts[1]}.${apiversionnoparts[2]}`;
+        const apibuildno = apiversionnoparts[3];
+
         // Prompt for new version number
         const responseBuildNumber = await prompts({
             type: 'text',
             name: 'value',
-            initial: shortversionno + '.' + (parseInt(buildno) + 1).toString(),
-            message: `Enter version number (Previous ${productname} Version: ${previousversionno})`,
+            initial: shortapiversionno + '.' + (parseInt(apibuildno) + 1).toString(),
+            message: `Enter version number (Previous ${productname} Release: ${previousversionno})`,
             validate: value => value.length > 0 || value.split().length === 4
         });
         const fullversionno = responseBuildNumber.value;
