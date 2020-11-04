@@ -200,7 +200,7 @@ namespace FwStandard.SqlServer
                             }
                             else if (col.DataType == FwDataTypes.Date)
                             {
-                                if (this.GetValue(rowno, colno).FieldValue == null)
+                                if (this.GetValue(rowno, colno).FieldValue.Equals("") || this.GetValue(rowno, colno).FieldValue == null)
                                 {
                                     worksheet.Cells[rowno + 2, worksheetcol].Value = string.Empty;
                                 }
