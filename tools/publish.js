@@ -184,7 +184,7 @@ function formatBytes(bytes, decimals = 2) {
 
             // produce a PDF of the MD file
             await process.chdir(repoPath);
-            childProcess.execSync(`npx md-to-pdf build\v${fullversionno}.md`, { stdio: 'inherit' });
+            childProcess.execSync(`npx md-to-pdf build/v${fullversionno}.md`, { stdio: 'inherit' });
             const pdffilename = `v${fullversionno}.pdf`;
             childProcess.execSync(`start build/${pdffilename}`, { stdio: 'inherit' });
 
