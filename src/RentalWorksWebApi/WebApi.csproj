@@ -504,6 +504,11 @@
     <TypeScriptCompile Include="QuikScan\scripts\Program.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\RwVirtualNumpad.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.devsample.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
 	  <!--<Exec Command="npm run trakitworks-3-build-app-dev" />
 	  <Exec Command="npm run quikscandev-3-build-app" />-->
