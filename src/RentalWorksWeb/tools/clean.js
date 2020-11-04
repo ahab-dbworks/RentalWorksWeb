@@ -23,51 +23,56 @@ const getAllFoldersRecursiveAsync = async (dirPath, arrayOfFolders) => {
     return arrayOfFolders;
 }
 
-const shouldDeleteFolderAsync = async (dirPath) => {
+const cleanFolderAsync = async (folder) => {
     //console.log(dirPath);
-    const nodes = fse.readdirSync(dirPath);
+    let nodes = fse.readdirSync(folder);
     let directoryIsEmpty = true;
-    let hasTsFile = false;
+    let hasOtherFiles = false;
     let hasJsFile = false;
     let hasJsMapFile = false;
     const files = [];
-    nodes.forEach(async (node) => {
-        const filePath = path.resolve(dirPath, node);
+    for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        const filePath = path.resolve(folder, node);
         const fileInfo = fse.statSync(filePath);
         if (fileInfo.isFile()) {
             files.push(node);
             directoryIsEmpty = false;
-            hasTsFile = node.endsWith('.ts');
-            hasJsFile = node.endsWith('.js');
-            hasJsMapFile = node.endsWith('.js.map');
+            if ( !(node.endsWith('.js') || node.endsWith('.js.map')) ) {
+                hasOtherFiles = true;
+            }
+            if (node.endsWith('.js')) {
+                hasJsFile = true;
+                await fse.remove(filePath);
+                console.log(`- Deleting: ${filePath}`);
+            }
+            else if (node.endsWith('.js.map')) {
+                hasJsMapFile = true;
+                await fse.remove(filePath);
+                console.log(`- Deleting: ${filePath}`);
+            }
         }
         else if (fileInfo.isDirectory()) {
             directoryIsEmpty = false;
         }
-    });
-    let shouldDelete = directoryIsEmpty || !hasTsFile && (hasJsFile || hasJsMapFile);
-    //if (shouldDelete) {
-    //    const confirmDeleteResponse = await prompts({
-    //        type: 'confirm',
-    //        name: 'value',
-    //        initial: false,
-    //        message: `Delete: "${dirPath}"?\n${files.join('\n')}`
-    //    });
-    //    shouldDelete = confirmDeleteResponse.value;
-    //}
+    }
+    const shouldDelete = (fse.readdirSync(folder).length === 0);
     return shouldDelete;
 }
 
-const cleanFolderAsync = async (dirPath) => {
+const cleanFoldersAsync = async (dirPath) => {
     let allfolders = [];
     await getAllFoldersRecursiveAsync(dirPath, allfolders);
+    let removedFolder = false;
     for (let i = 0; i < allfolders.length; i++) {
         const folder = allfolders[i];
-        if (await shouldDeleteFolderAsync(folder)) {
+        if (await cleanFolderAsync(folder)) {
             console.log(`- Deleting: ${folder}`);
-            await fse.remove(folder)
+            await fse.remove(folder);
+            removedFolder = true;
         }
     }
+    return removedFolder;
 }
 
 process.on('unhandledRejection', (reason) => {
@@ -79,11 +84,15 @@ process.on('unhandledRejection', (reason) => {
     try {
         console.log('//------------------------------------------------------------------------------------');
         console.log('- Clean RentalWorks -');
-        const pathSource = path.resolve(process.cwd(), 'Source')
-        await cleanFolderAsync(pathSource);
+        const pathSource = path.resolve(__dirname, '..', 'Source')
+        console.log(pathSource);
+        let removedFolder = false;
+        do {
+            removedFolder = await cleanFoldersAsync(pathSource);
+        } while (removedFolder)
 
         // clean again in case there are any left over empty folders after the last clean
-        await cleanFolderAsync(pathSource);
+        await cleanFoldersAsync(pathSource);
         console.log('- Finished Clean RentalWorks -');
     } catch (ex) {
         failIf(true, ex);

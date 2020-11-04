@@ -24,9 +24,11 @@ process.on('unhandledRejection', (reason) => {
         //console.log(pathRentalWorks);
         //console.log(pathWebApi);
 
+        // clean .js and .js map files from Source folder and delete empty directories
         process.chdir(pathRentalWorks);
         childProcess.execSync('npm run clean', { stdio: 'inherit' });
 
+        // rebuild rentalworks app
         process.chdir(pathWebApi);
         childProcess.execSync('npm run rentalworks-1-restore-packages', { stdio: 'inherit' });
         childProcess.execSync('npm run rentalworks-2-rebuild-typescript', { stdio: 'inherit' });

@@ -1440,6 +1440,9 @@
     <Content Include="theme\images\qrcodesample.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
     <Content Include="theme\rentalworks.css" />
+    <Content Include="tools\build.js" />
+    <Content Include="tools\clean.js" />
+    <Content Include="tools\rebuild.js" />
     <Content Include="version.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1656,9 +1659,9 @@
     <Exec Command="npm run clean" />
   </Target>
   <Target Name="Rebuild" Condition="$(FwPublish)=='false'">
-		<Exec Command="npm run rebuild" />
+    <Exec Command="npm run rebuild" />
   </Target>
   <Target Name="Build" Condition="$(FwPublish)=='false'">
-		<Exec Command="npm run build" />
+    <Exec Command="npm run build" />
   </Target>
 </Project>
