@@ -2688,6 +2688,19 @@ class OrderBase {
                 FwFunc.showError(ex);
             }
         });
+        //Print Delivery Instructions
+        $form.find('.prnt-deliv-instruct').on('click', e => {
+            try {
+                let tag = 'Out';
+                const $this = jQuery(e.currentTarget);
+                if ($this.hasClass('in')) {
+                    tag = 'In';
+                }
+                this.printDeliveryInstructions($form, tag);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         //profit & loss toggle buttons
         $form.find('.profit-loss-total input').off('change').on('change', e => {
@@ -3047,6 +3060,40 @@ class OrderBase {
                 FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
                 const $tab = FwTabs.getTabByElement($report);
                 $tab.find('.caption').html(`Print ${module} ${tag} Label `);
+            }
+
+            const isModified = $form.attr('data-modified');
+            if (isModified === 'true') {
+                const $confirmation = FwConfirmation.renderConfirmation('Unsaved Changes on Form', "Any unsaved changes related to your shipping label will not be reflected in print. Continue to print or cancel and save changes?");
+                const $yes = FwConfirmation.addButton($confirmation, `Print Label`, false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', e => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    print();
+                });
+            } else {
+                print();
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    printDeliveryInstructions($form, tag: string) {
+        try {
+            const print = () => {
+                const module = this.Module;
+                const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
+                const orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
+                const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
+                const deliveryId = FwFormField.getValueByDataField($form, `$tag}goingDeliveryId`);
+                const $report = (tag === 'out') ? IncomingShippingLabelController.openForm() : OutgoingShippingLabelController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+
+                FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
+                FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
+                const $tab = FwTabs.getTabByElement($report);
+                $tab.find('.caption').html(`Print ${module} ${tag}going Delivery Instructions `);
             }
 
             const isModified = $form.attr('data-modified');
