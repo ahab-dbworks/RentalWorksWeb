@@ -171,9 +171,9 @@ function formatBytes(bytes, decimals = 2) {
             childProcess.execSync(`git add "src/RentalWorksWebApi/QuikScan/version.txt"`, { stdio: 'inherit' });
             childProcess.execSync(`git add "src/RentalWorksWebApi/version.txt"`, { stdio: 'inherit' });
             childProcess.execSync(`git commit -m "${tagprefix}: ${fullversionno}"`, { stdio: 'inherit' });
-            childProcess.execSync(`git push`, { stdio: 'inherit' });
+            //childProcess.execSync(`git push`, { stdio: 'inherit' });
             childProcess.execSync(`git tag ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
-            childProcess.execSync(`git push origin ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
+            //childProcess.execSync(`git push origin ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
 
             // copy the document header image to the build directory 
             await fse.copyFile(path.resolve(repoPath, `releasedocumentlogo.png`), path.resolve(repoPath, `build/releasedocumentlogo.png`));
