@@ -6,4 +6,5 @@ rem --------------------------------------------------------------------------
 rem Author:        Justin Hoffman, Mike Vermilion
 rem Last modified: 12/13/2019
 rem --------------------------------------------------------------------------
-node publish.js
+node tools/publish.js
+pause

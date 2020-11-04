@@ -8,7 +8,7 @@ const UNSUPPORTED_CONFIGURATION = 'Unsupported configuration.';
 class WebApiCompiler {
     static get TARGET_ALL() { return 'all'; };
     static get TARGET_API() { return 'api' };
-    static get TARGET_WEB() { return 'web' };
+    static get TARGET_RENTALWORKS() { return 'rentalworks' };
     static get TARGET_TRAKITWORKS() { return 'trakitworks' };
     static get TARGET_REPORTS() { return 'reports' };
     static get TARGET_QUIKSCAN() { return 'quikscan' };
@@ -29,52 +29,53 @@ class WebApiCompiler {
     }
     //------------------------------------------------------------------------------------
     async removeDir_prod_downloads() {
-        console.log('//------------------------------------------------------------------------------------');
+        //console.log('//------------------------------------------------------------------------------------');
         console.log('Deleting: wwwroot/temp/downloads');
         await fse.remove('wwwroot/temp/downloads');
     }
     //------------------------------------------------------------------------------------
     async removeDir_prod_rentalworks() {
-        console.log('//------------------------------------------------------------------------------------');
+        //console.log('//------------------------------------------------------------------------------------');
         const webDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/rentalworks');
         console.log(`Deleting: ${webDir}`);
         await fse.remove(webDir);
     }
     //------------------------------------------------------------------------------------
     async removeDir_prod_trakitworks() {
-        console.log('//------------------------------------------------------------------------------------');
+        //console.log('//------------------------------------------------------------------------------------');
         const webDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/trakitworks');
         console.log(`Deleting: ${webDir}`);
         await fse.remove(webDir);
     }
     //------------------------------------------------------------------------------------
     async removeDir_prod_reports() {
-        console.log('//------------------------------------------------------------------------------------');
+        //console.log('//------------------------------------------------------------------------------------');
         console.log('Deleting: wwwroot/Reports');
         await fse.remove('wwwroot/Reports');
     }
     //------------------------------------------------------------------------------------
     async removeDir_prod_quikscan() {
-        console.log('//------------------------------------------------------------------------------------');
+        //console.log('//------------------------------------------------------------------------------------');
         const quikscanDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/quikscan');
         console.log(`Deleting: ${quikscanDir}`);
         await fse.remove(quikscanDir);
     }
     //------------------------------------------------------------------------------------
     async removeDir_publishfolder() {
-        console.log('//------------------------------------------------------------------------------------');
+        //console.log('//------------------------------------------------------------------------------------');
         console.log('Deleting: ../../build/RentalWorksWebApi');
         await fse.remove('../../build/RentalWorksWebApi');
     }
     //------------------------------------------------------------------------------------
     async npm_i() {
         console.log('//------------------------------------------------------------------------------------');
+        console.log('- Restore NPM Packages -');
         console.log(`cd ${this.appSolutionDir}`);
         await process.chdir(this.appSolutionDir);
         console.log('npm i');
         childProcess.execSync('npm i', { stdio: 'inherit' });
 
-        if (this.target === WebApiCompiler.TARGET_ALL || this.target === WebApiCompiler.TARGET_WEB) {
+        if (this.target === WebApiCompiler.TARGET_ALL || this.target === WebApiCompiler.TARGET_RENTALWORKS) {
             const pathWeb = path.resolve(this.appSolutionDir, 'src/RentalWorksWeb');
             console.log('//------------------------------------------------------------------------------------');
             console.log(`cd ${pathWeb}`);
@@ -196,11 +197,11 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('- RentalWorks -');
 
-        const jsAppBuilderConfigFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWeb/JSAppBuilder.config');
-        const versionFilePath = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/version.txt');
+        const jsAppBuilderConfigFile = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWeb', 'JSAppBuilder.config');
+        const versionFilePath = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'version.txt');
         const version = (await fse.readFile(versionFilePath, 'utf8')).trim();
-        const srcDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWeb');
-        const destDir = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/apps/rentalworks');
+        const srcDir = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWeb');
+        const destDir = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'apps', 'rentalworks');
         let publish = false;
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
             publish = false;
@@ -256,7 +257,7 @@ class WebApiCompiler {
             await fse.writeFile(pathIndexFile, fileText);
         }
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
-            console.log('Fixing urls on index page...')
+            //console.log('Fixing urls on index page...')
             const pathIndexFile = `${destDir}/index.htm`;
             let fileText = await fse.readFile(pathIndexFile, 'utf8');
             fileText = fileText.replace(/\[appbaseurl\]/g, './');
@@ -309,12 +310,23 @@ class WebApiCompiler {
             await fse.ensureDir(webOutputThemeDir);
             await fse.ensureDir(webOutputLibrariesDir);
 
-            await fse.copy(`${srcDir}/theme/audio`, `${destDir}/theme/audio`);
-            await fse.copy(`${srcDir}/libraries/fw/theme/fwaudio`, `${destDir}/theme/fwaudio`);
-            await fse.copy(`${srcDir}/libraries/fw/theme/fwcursors`, `${destDir}/theme/fwcursors`);
-            await fse.copy(`${srcDir}/libraries/fw/theme/fwfonts`, `${destDir}/theme/fwfonts`);
-            await fse.copy(`${srcDir}/libraries/fw/theme/fwimages`, `${destDir}/theme/fwimages`);
-            await fse.copy(`${srcDir}/theme/images`, `${destDir}/theme/images`);
+            //await fse.copy(`${srcDir}/theme/audio`, `${destDir}/theme/audio`);
+            //await fse.copy(`${srcDir}/libraries/fw/theme/fwaudio`, `${destDir}/theme/fwaudio`);
+            //await fse.copy(`${srcDir}/libraries/fw/theme/fwcursors`, `${destDir}/theme/fwcursors`);
+            //await fse.copy(`${srcDir}/libraries/fw/theme/fwfonts`, `${destDir}/theme/fwfonts`);
+            //await fse.copy(`${srcDir}/libraries/fw/theme/fwimages`, `${destDir}/theme/fwimages`);
+            //await fse.copy(`${srcDir}/theme/images`, `${destDir}/theme/images`);
+            //await fse.copy(`${srcDir}/libraries/ckeditor`, `${destDir}/libraries/ckeditor`);
+            //await fse.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
+            //await fse.copy(versionFilePath, `${destDir}/version.txt`);
+            const srcThemeDir = path.resolve(srcDir, 'theme');
+            const srcFwThemeDir = path.resolve(srcDir, 'libraries', 'fw', 'theme');
+            await fse.copy(path.resolve(srcThemeDir, 'audio'), path.resolve(destDir, 'theme', 'audio'));
+            await fse.copy(path.resolve(srcThemeDir, 'images'), path.resolve(webOutputThemeDir, 'images'));
+            await fse.copy(path.resolve(srcFwThemeDir, 'fwaudio'), path.resolve(webOutputThemeDir, 'fwaudio'));
+            await fse.copy(path.resolve(srcFwThemeDir, 'fwcursors'), path.resolve(webOutputThemeDir, 'fwcursors'));
+            await fse.copy(path.resolve(srcFwThemeDir, 'fwfonts'), path.resolve(webOutputThemeDir, 'fwfonts'));
+            await fse.copy(path.resolve(srcFwThemeDir, 'fwimages'), path.resolve(webOutputThemeDir, 'fwimages'));
             await fse.copy(`${srcDir}/libraries/ckeditor`, `${destDir}/libraries/ckeditor`);
             await fse.copy(`${srcDir}/web.config`, `${destDir}/web.config`);
             await fse.copy(versionFilePath, `${destDir}/version.txt`);
@@ -322,13 +334,13 @@ class WebApiCompiler {
         if (this.buildTypeScript) {
             console.log(`- Compiling TypeScript...`);
             // clean TypScript
-            process.chdir(path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/TrakItWorks'));
+            process.chdir(path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'TrakItWorks'));
             childProcess.execSync(`npx tsc --build --clean`, { stdio: 'inherit' })
             childProcess.execSync(`npx tsc --build"`, { stdio: 'inherit' })
             process.chdir(this.appSolutionDir);
         }
         console.log(`- Building App...`);
-        const pathJsAppBuilderDll = path.resolve(this.appSolutionDir, 'lib/Fw/build/JSAppBuilder/JSAppBuilder.dll');
+        const pathJsAppBuilderDll = path.resolve(this.appSolutionDir, 'lib', 'Fw', 'build', 'JSAppBuilder', 'JSAppBuilder.dll');
         childProcess.execSync(`dotnet "${pathJsAppBuilderDll}" -ConfigFilePath "${jsAppBuilderConfigFile}" -SolutionDir "${this.appSolutionDir}" -Version ${version} -UpdateSchema false -Publish ${publish} -AttachDebugger false`, { stdio: 'inherit' });
         //console.log(`Finished running JSAppBuilder for TrakItWorks`);
         if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
@@ -336,7 +348,7 @@ class WebApiCompiler {
             //console.log('Fixing urls on index page...')
             const pathIndexFile = `${srcDir}/index.htm`;
             let fileText = await fse.readFile(pathIndexFile, 'utf8');
-            const appSettingsJsonFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/appsettings.json');
+            const appSettingsJsonFile = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'appsettings.json');
             const appSettingsJsonWithComments = await fse.readFile(appSettingsJsonFile, 'utf-8');
             const appSettingsJson = appSettingsJsonWithComments.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m).trim();
             const appSettings = JSON.parse(appSettingsJson);
@@ -359,7 +371,7 @@ class WebApiCompiler {
             const pathScript1 = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'apps', 'trakitworks', `script1-${version}.js`);
             const pathScript1Merged = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'apps', 'trakitworks', `script1-${version}.merged.js`);
             await fse.move(pathScript1, pathScript1Merged);
-            childProcess.execSync(`npx google-closure-compiler --js="${pathScript1}" --js_output_file="${pathScript1Merged}"`, { stdio: 'inherit' });
+            childProcess.execSync(`npx google-closure-compiler --js="${pathScript1Merged}" --js_output_file="${pathScript1}"`, { stdio: 'inherit' });
             await fse.unlink(pathScript1Merged);
             //console.log(`Finished minifying TrakItWorks JavaScript`);
             console.log(`- Minifiying TrakItWorks CSS with clean-css-cli...`);
@@ -405,8 +417,8 @@ class WebApiCompiler {
         if (this.buildTypeScript) {
             console.log(`- Compiling TypeScript...`);
             process.chdir(path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/QuikScan'));
-            childProcess.execSync(`tsc --build --clean`, { stdio: 'inherit' });
-            childProcess.execSync(`tsc --build`, { stdio: 'inherit' });
+            childProcess.execSync(`npx tsc --build --clean`, { stdio: 'inherit' });
+            childProcess.execSync(`npx tsc --build`, { stdio: 'inherit' });
             //console.log(`Finished QuikScan TypeScript`);
             process.chdir(this.appSolutionDir);
         }
@@ -501,9 +513,16 @@ class WebApiCompiler {
 
         await fse.ensureDir(appsDestDir);
         console.log(`Deploying apps folder from: "${appsSrcDir}" to "${appsDestDir}"`);
-        await fse.copy(appsSrcDir, appsDestDir);
-        console.log(`Deploying legacy RentalWorksWeb folder from: "${webSrcDir}" to "${webDestDir}"`);
-        await fse.copy(webSrcDir, webDestDir);
+        if (this.target === WebApiCompiler.TARGET_RENTALWORKS || this.target == WebApiCompiler.TARGET_ALL) {
+            await fse.copy(path.resolve(appsSrcDir, 'rentalworks'), path.resolve(appsDestDir, 'rentalworks'));
+
+            console.log(`Deploying legacy RentalWorksWeb folder from: "${webSrcDir}" to "${webDestDir}"`);
+            await fse.copy(webSrcDir, webDestDir);
+        }
+        else if (this.target === WebApiCompiler.TARGET_TRAKITWORKS || this.target == WebApiCompiler.TARGET_ALL) {
+            await fse.copy(path.resolve(appsSrcDir, 'trakitworks'), path.resolve(appsDestDir, 'trakitworks'));
+        }
+        await fse.copy(path.resolve(appsSrcDir, 'quikscan'), path.resolve(appsDestDir, 'quikscan'));
         console.log('//------------------------------------------------------------------------------------');
         console.log('Adding: wwwroot/temp/downloads');
         await process.chdir('../../build/RentalWorksWebApi/wwwroot');
@@ -547,7 +566,8 @@ class WebApiCompiler {
                     } else {
                         throw UNSUPPORTED_CONFIGURATION;
                     }
-                } else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                }
+                else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                     await this.clean_api();
                     await this.removeDir_prod_downloads();
                     await this.removeDir_prod_rentalworks();
@@ -561,28 +581,34 @@ class WebApiCompiler {
                     await this.build_quikscan();
                     await this.build_webpack_reports();
                     await this.publish_webapi();
-                } else {
+                }
+                else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
-            } else if (this.target === WebApiCompiler.TARGET_API) {
+            }
+            else if (this.target === WebApiCompiler.TARGET_API) {
                 if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
                     if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
                         await this.build_webapi();
-                    } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
+                    }
+                    else if (this.buildAction === WebApiCompiler.BUILD_ACTION_RUN) {
                         await this.npm_i();
                         await this.dotnet_restore();
                         await this.clean_api();
                         await this.run_webapi();
-                    } else {
+                    }
+                    else {
                         throw UNSUPPORTED_CONFIGURATION;
                     }
-                } else {
+                }
+                else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
-            } else if (this.target === WebApiCompiler.TARGET_REPORTS) {
+            }
+            else if (this.target === WebApiCompiler.TARGET_REPORTS) {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                     await this.npm_i();
                     await this.build_webpack_reports();
@@ -592,12 +618,29 @@ class WebApiCompiler {
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
-            } else if (this.target === WebApiCompiler.TARGET_WEB) {
+            }
+            else if (this.target === WebApiCompiler.TARGET_RENTALWORKS) {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                        //await this.npm_i();
+                        //await this.build_rentalworks();
+                        await this.clean_api();
+                        await this.removeDir_prod_downloads();
+                        await this.removeDir_prod_rentalworks();
+                        //await this.removeDir_prod_trakitworks();
+                        await this.removeDir_prod_quikscan();
+                        await this.removeDir_prod_reports();
+                        await this.removeDir_publishfolder();
                         await this.npm_i();
+                        await this.build_rentalworks();
+                        //await this.build_trakitworks();
+                        await this.build_quikscan();
+                        await this.build_webpack_reports();
+                        await this.publish_webapi();
                     }
-                    await this.build_rentalworks();
+                    else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+                        await this.build_rentalworks();
+                    }
                 } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                         await this.npm_i();
@@ -609,10 +652,28 @@ class WebApiCompiler {
             } 
             else if (this.target === WebApiCompiler.TARGET_TRAKITWORKS) {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
+                    //if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                    //    await this.npm_i();
+                    //}
+                    //await this.build_trakitworks();
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
+                        await this.clean_api();
+                        await this.removeDir_prod_downloads();
+                        //await this.removeDir_prod_rentalworks();
+                        await this.removeDir_prod_trakitworks();
+                        await this.removeDir_prod_quikscan();
+                        await this.removeDir_prod_reports();
+                        await this.removeDir_publishfolder();
                         await this.npm_i();
+                        //await this.build_rentalworks();
+                        await this.build_trakitworks();
+                        await this.build_quikscan();
+                        await this.build_webpack_reports();
+                        await this.publish_webapi();
                     }
-                    await this.build_trakitworks();
+                    else if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT) {
+                        await this.build_rentalworks();
+                    }
                 } else if (this.buildAction === WebApiCompiler.BUILD_ACTION_WATCH) {
                     if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
                         await this.npm_i();
@@ -642,7 +703,8 @@ class WebApiCompiler {
                 for (let i = 0; i < ex.length; i++) {
                     console.error(ex[i]);
                 }
-            } else {
+            }
+            else {
                 console.error(ex);
             }
         }

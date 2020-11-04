@@ -12,7 +12,6 @@ const childProcess = require('child_process'); // https://nodejs.org/api/child_p
 const prompts = require('prompts'); // https://www.npmjs.com/package/prompts#-types
 const fse = require('fs-extra'); // https://www.npmjs.com/package/fs-extra
 const path = require('path'); // https://nodejs.org/api/path.html
-const JSZip = require("jszip");
 const archiver = require('archiver');
 
 function failIf(expression, reason) {
@@ -26,6 +25,21 @@ function failIf(expression, reason) {
 process.on('unhandledRejection', (reason) => {
     failIf(true, reason);
 });
+
+const PRODUCTNAME_TRAKITWORKS = 'TrakitWorks';
+const PRODUCTNAME_RENTALWORKS = 'RentalWorks';
+
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
 
 // closure for asynchronous code
 (async () => {
@@ -44,16 +58,16 @@ process.on('unhandledRejection', (reason) => {
             name: 'value',
             initial: 0,
             choices: [
-                { title: 'RentalWorks', value: 'RentalWorks' },
-                { title: 'TrakitWorks', value: 'TrakitWorks' }
+                { title: PRODUCTNAME_RENTALWORKS, value: PRODUCTNAME_RENTALWORKS },
+                { title: PRODUCTNAME_TRAKITWORKS, value: PRODUCTNAME_TRAKITWORKS }
             ],
             message: 'Select system to build',
             validate: value => value === 1 || value === 2
         });
         productname = responseApp.value;
-        if (productname === 'RentalWorks') {
+        if (productname === PRODUCTNAME_RENTALWORKS) {
             tagprefix = 'web';
-        } else if (productname === 'TrakitWorks') {
+        } else if (productname === PRODUCTNAME_TRAKITWORKS) {
             tagprefix = 'tw';
         }
 
@@ -124,6 +138,8 @@ process.on('unhandledRejection', (reason) => {
             }
         }
 
+        console.time('Build Time');
+
         // determine ZIP filename
         console.log('Determine Zip filename');
         const buildnoforzip = fullversionno.replace(/\./g, '_');
@@ -133,7 +149,7 @@ process.on('unhandledRejection', (reason) => {
 
         // Update the version.txt files
         console.log('Update the version.txt files');
-        if (productname === 'RentalWorks') {
+        if (productname === PRODUCTNAME_RENTALWORKS) {
             fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/${productname}Web/version.txt`), fullversionno);
         } else {
             fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/${productname}/version.txt`), fullversionno);
@@ -146,11 +162,15 @@ process.on('unhandledRejection', (reason) => {
             // command-line Git push in the modified version and assembly files
             await process.chdir(repoPath);
             childProcess.execSync(`git config --global gc.auto 0`, { stdio: 'inherit' });
+            if (productname === PRODUCTNAME_RENTALWORKS) {
             childProcess.execSync(`git add "src/${productname}Web/version.txt"`, { stdio: 'inherit' });
+            }
+            else if (productname === PRODUCTNAME_TRAKITWORKS) {
+                childProcess.execSync(`git add "src/RentalWorksWebApi/${productname}/version.txt"`, { stdio: 'inherit' });
+            }
             childProcess.execSync(`git add "src/RentalWorksWebApi/QuikScan/version.txt"`, { stdio: 'inherit' });
             childProcess.execSync(`git add "src/RentalWorksWebApi/version.txt"`, { stdio: 'inherit' });
-            childProcess.execSync(`git add "src/RentalWorksWebApi/version-${productname}Web.txt"`, { stdio: 'inherit' });
-            childProcess.execSync(`git commit -m "%tagprefix%: ${fullversionno}"`, { stdio: 'inherit' });
+            childProcess.execSync(`git commit -m "${tagprefix}: ${fullversionno}"`, { stdio: 'inherit' });
             childProcess.execSync(`git push`, { stdio: 'inherit' });
             childProcess.execSync(`git tag ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
             childProcess.execSync(`git push origin ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
@@ -160,7 +180,7 @@ process.on('unhandledRejection', (reason) => {
 
             // command-line gren make Build Release Document for all issues between the previous version's tag and this current tag
             await process.chdir(path.resolve(repoPath, 'build'));
-            childProcess.execSync(`call npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v%fullversionno%.md -t %tagprefix%/v%fullversionno%..%tagprefix%/v%previousversionno% -c ..\config.grenrc`, { stdio: 'inherit' });
+            childProcess.execSync(`call npx gren changelog --token=4f42c7ba6af985f6ac6a6c9eba45d8f25388ef58 --username=databaseworks --repo=rentalworksweb --generate --override --changelog-filename=v${fullversionno}.md -t ${tagprefix}/v${fullversionno}..${tagprefix}/v${previousversionno} -c ${path.resolve(repoPath, 'config.grenrc')}`, { stdio: 'inherit' });
 
             // produce a PDF of the MD file
             await process.chdir(repoPath);
@@ -197,7 +217,12 @@ process.on('unhandledRejection', (reason) => {
         const webApiSrcPath = path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi`);
         await process.chdir(webApiSrcPath);
         childProcess.execSync('npm i', { stdio: 'inherit' });
-        childProcess.execSync('npm run publish', { stdio: 'inherit' });
+        if (productname === PRODUCTNAME_RENTALWORKS) {
+            childProcess.execSync('npm run rentalworks-publish', { stdio: 'inherit' });
+        }
+        else if (productname === PRODUCTNAME_TRAKITWORKS) {
+            childProcess.execSync('npm run trakitworks-publish', { stdio: 'inherit' });
+        }
         await process.chdir(repoPath);
 
         let webPublishPath = path.resolve(process.env.DwRentalWorksWebPath, `build/${productname}Web`);
@@ -212,8 +237,7 @@ process.on('unhandledRejection', (reason) => {
                 var output = fse.createWriteStream(zipPath);
                 var archive = archiver('zip');
                 output.on('close', function () {
-                    console.log(archive.pointer() + ' total bytes');
-                    console.log('archiver has been finalized and the output file descriptor has closed.');
+                    console.log(`Finished zipping: ${zipfilename} ${formatBytes(archive.pointer())}`);
                     resolve();
                 });
                 archive.on('error', function (err) {
@@ -241,16 +265,16 @@ process.on('unhandledRejection', (reason) => {
             const ftpcommandfilename = 'ftp.txt';
             childProcess.chdir(buildPath);
             let file = [];
-            file.push(`open ftp.dbworks.com>${ftpcommandfilename}`);
-            file.push(`%DwFtpUploadUser%>>${ftpcommandfilename}`);
-            file.push(`%DwFtpUploadPassword%>>${ftpcommandfilename}`);
-            file.push(`cd Update>>${ftpcommandfilename}`);
-            file.push(`cd %productname%Web>>${ftpcommandfilename}`);
-            file.push(`cd %shortversionno%>>${ftpcommandfilename}`);
-            file.push(`cd QA>>${ftpcommandfilename}`);
-            file.push(`put %hotfixfilename%>>${ftpcommandfilename}`);
-            file.push(`put %pdffilename%>>${ftpcommandfilename}`);
-            file.push(`put %zipfilename%>>${ftpcommandfilename}`);
+            file.push(`open ftp.dbworks.com`);
+            file.push(`${process.env.DwFtpUploadUser}`);
+            file.push(`${process.env.DwFtpUploadPassword}`);
+            file.push(`cd Update`);
+            file.push(`cd ${productname}Web`);
+            file.push(`cd ${shortversionno}`);
+            file.push(`cd QA`);
+            file.push(`put ${hotfixfilename}`);
+            file.push(`put ${pdffilename}`);
+            file.push(`put ${zipfilename}`);
             file.push(`quit`);
             file = file.join('\n');
             await fse.writeFile(ftpcommandfilename, file);
@@ -259,10 +283,13 @@ process.on('unhandledRejection', (reason) => {
             await fse.remove(ftpcommandfilename);
         }
 
-        console.log(`Building: ${productname} v${fullversionno}`);
-        console.log(`Hotfix ${hotfixno}`);
-        console.log(`Commit and FTP: ${commitAndFtp ? 'YES' : 'NO'}`);
-    } catch (ex) {
+        //console.log(`Building: ${productname} v${fullversionno}`);
+        //console.log(`Hotfix ${hotfixno}`);
+        //console.log(`Commit and FTP: ${commitAndFtp ? 'YES' : 'NO'}`);
+
+        console.timeEnd('Build Time');
+    }
+    catch (ex) {
         failIf(true, ex);
     }
 })();
