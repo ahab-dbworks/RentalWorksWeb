@@ -56,11 +56,11 @@ class CustomReportLayout {
         this.events($form);
         this.designerEvents($form);
 
+        //add draggable fields to designer
+        this.addNestedFlexrowSorting($form, $form.find('.header-fields-drag'), true);
+
         //temp 
         //FwFormField.setValueByDataField($form, 'BaseReport', 'OrderReport', null, true);
-
-        //add draggable fields to designer
-        this.addNestedSorting($form, $form.find('.header-fields-drag'), true);
 
         return $form;
     }
@@ -129,7 +129,7 @@ class CustomReportLayout {
 
         const reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
         this.addValidFields($form, reportName);
-        this.renderTab($form, 'Designer');
+        this.renderDesignerTab($form);
 
         //Sets form to modified upon changing code in editor
         this.codeMirror.on('change', function (codeMirror, change) {
@@ -164,7 +164,7 @@ class CustomReportLayout {
                         if (typeof modulehtml !== "undefined") {
                             codeMirror.setValue(modulehtml);
                         }
-                        this.renderTab($form, 'Designer');
+                        this.renderDesignerTab($form);
                     }, ex => FwFunc.showError(ex), $form);
                 this.addValidFields($form, reportName);
                 const fullName = sessionStorage.getItem('fullname');
@@ -195,7 +195,7 @@ class CustomReportLayout {
                 let allValidFields: any = [];
                 const fieldsToExclude = ['DateStamp', 'RecordTitle', '_Custom', '_Fields', 'DateFields'];
                 for (let key of Object.keys(response)) {
-                    if (fieldsToExclude.indexOf(key) < 0 ) {
+                    if (fieldsToExclude.indexOf(key) < 0) {
                         if (Array.isArray(response[key])) {
                             const unorderedItems = response[key][0];
                             const orderedItems = {};
@@ -245,30 +245,31 @@ class CustomReportLayout {
 
                 FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
                 $form.find('[data-datafield="ValueField"]').data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: 'ReportDefault' });
-
             }, ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
     updateValueFieldControl($form: JQuery, itemArray: string) {
         const $valueField = $form.find('[data-datafield="ValueField"]');
-        if ($valueField.data('itemarray').ItemArray != itemArray) {
-            if (itemArray === 'ReportDefault') {
-                FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
-                $valueField.data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: itemArray });
-            } else {
-                const $validFields = $form.data('validdatafields');
-                let items = $validFields.filter(obj => { return obj.value == itemArray });
-
-                if (items.length) {
-                    items = items[0]["NestedItems"];
-                    if (typeof items != 'undefined' && typeof items == 'object') {
-                        const fields = [];
-                        const fieldNames = Object.keys(items);
-                        for (let i = 0; i < fieldNames.length; i++) {
-                            fields.push({ value: fieldNames[i], text: fieldNames[i] })
+        const currentArrayData = $valueField.data('itemarray');
+        if (typeof currentArrayData != 'undefined' && typeof currentArrayData === 'object') {
+            if (typeof currentArrayData.ItemArray === 'string' && currentArrayData.ItemArray != itemArray) {
+                if (itemArray === 'ReportDefault') {
+                    FwFormField.loadItems($form.find('[data-datafield="ValueField"]'), $form.data('validdatafields'));
+                    $valueField.data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: itemArray });
+                } else {
+                    const $validFields = $form.data('validdatafields');
+                    let items = $validFields.filter(obj => { return obj.value == itemArray });
+                    if (items.length) {
+                        items = items[0]["NestedItems"];
+                        if (typeof items != 'undefined' && typeof items == 'object') {
+                            const fields = [];
+                            const fieldNames = Object.keys(items);
+                            for (let i = 0; i < fieldNames.length; i++) {
+                                fields.push({ value: fieldNames[i], text: fieldNames[i] })
+                            }
+                            FwFormField.loadItems($valueField, fields);
+                            $valueField.data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: itemArray });
                         }
-                        FwFormField.loadItems($valueField, fields);
-                        $valueField.data('itemarray', { Report: FwFormField.getValueByDataField($form, 'BaseReport'), ItemArray: itemArray });
                     }
                 }
             }
@@ -330,7 +331,7 @@ class CustomReportLayout {
 
         //Reload General Tab
         $form.on('click', '[data-type="tab"][data-caption="General"]', e => {
-            this.renderTab($form, 'Designer');
+            this.renderDesignerTab($form);
         });
 
         $form.find('[data-datafield="AssignTo"]').on('change', e => {
@@ -373,7 +374,7 @@ class CustomReportLayout {
         });
     }
     //----------------------------------------------------------------------------------------------
-    renderTab($form, tabName: string) {
+    renderDesignerTab($form: any) {
         $form.find('#codeEditor').change();     // 10/25/2018 Jason H - updates the textarea formfield with the code editor html
         this.showHideControlProperties($form, 'hide');
         this.html = FwFormField.getValueByDataField($form, 'Html');
@@ -497,12 +498,13 @@ class CustomReportLayout {
                 dragoverBubble: true
             });
 
-            if ($element.find('.rpt-flexcolumn').length > 0){
+            if ($element.find('.rpt-flexcolumn').length > 0) {
                 this.addReportHeaderColSorting($form, $element.find('.rpt-flexcolumn'));
             }
         }
     }
     //----------------------------------------------------------------------------------------------
+    // Adds sorting to divs with the rpt-flexcolumn class in the report header
     addReportHeaderColSorting($form: JQuery, $elements: JQuery) {
         //for sorting rows within columns
         for (let i = 0; i < $elements.length; i++) {
@@ -523,13 +525,14 @@ class CustomReportLayout {
 
             if ($element.find('.rpt-nested-flexrow').length > 0) {
                 const $nestedElements = $element.find('.rpt-nested-flexrow');
-                this.addNestedSorting($form, $nestedElements, false);
+                this.addNestedFlexrowSorting($form, $nestedElements, false);
             }
         }
-      
+
     }
     //----------------------------------------------------------------------------------------------
-    addNestedSorting($form: JQuery, $nestedElements: JQuery, clone?: boolean) {
+    // Adds sorting to divs with the rpt-nested-flexrow class in the report header
+    addNestedFlexrowSorting($form: JQuery, $nestedElements: JQuery, clone?: boolean) {
         for (let j = 0; j < $nestedElements.length; j++) {
             const $nestedElement = jQuery($nestedElements[j]);
             const group: any = { name: 'nested' };
@@ -588,13 +591,13 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     updateHTML($form: JQuery, $table: JQuery, $tr: JQuery, $th?) {
-        let $cachedRow, $cachedColumn, newHTML, rowIndex;
+        let $cachedRow, newHTML, rowIndex;
         const updateType = $form.data('updatetype');
         if (typeof updateType != 'undefined' && typeof updateType == 'string') {
             const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
             this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser  
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
-            if (updateType == 'reportheader') {
+            if (updateType == 'reportheader') { //also used to update footer sections
                 let sectionType;
                 const headerFor = $form.data('reportheaderfor');
                 if ($form.data('isfooter')) {
@@ -704,7 +707,8 @@ class CustomReportLayout {
         const $addColumn = $form.find('.addColumn');
         const $addRow = $form.find('.addRow');
 
-        //control properties events
+        // Properties section events
+        //-----------------------------------------------------------------------------------------------
         $form.on('change', '#controlProperties [data-datafield]', e => {
             let $row, linkedColumn, rowType, linkedRow;
             const $property = jQuery(e.currentTarget);
@@ -808,8 +812,6 @@ class CustomReportLayout {
                     break;
                 case 'headerrow':
                 case 'footerrow':
-                    this.updateHTML($form, $table, $row, $column);
-                    break;
                 case 'style':
                     this.updateHTML($form, $table, $row, $column);
                     break;
@@ -946,6 +948,19 @@ class CustomReportLayout {
             $form.data('updatetype', 'footerrow');
         });
 
+        $form.on('change', '[data-datafield="TableName"]', e => {
+            const tableName = FwFormField.getValueByDataField($form, 'TableName');
+            $form.find('#reportDesigner .selected').removeClass('selected');
+            $form.find(`#reportDesigner .table-wrapper[data-tablename="${tableName}"]`).addClass('selected');
+            $table = $form.find('.table-wrapper.selected table');
+        });
+
+        $form.on('click', '#reportDesigner .table-wrapper', e => {
+            $table = $form.find('.table-wrapper.selected table');
+            const tableName = jQuery(e.currentTarget).attr('data-tablename');
+            FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
+            this.showHideControlProperties($form, 'tablewrapper');
+        });
 
         //  Report Header Events
         //-----------------------------------------------------------------------------------------------
@@ -984,7 +999,7 @@ class CustomReportLayout {
             if (typeof $reportSection != 'undefined') {
                 const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
                 if ($reportSection.find('.rpt-flexcolumn').length > 0) {
-                    this.addNestedSorting($form, $emptyRow, false);
+                    this.addNestedFlexrowSorting($form, $emptyRow, false);
                     jQuery($reportSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
                     this.updateReportHeader($form, $reportSection);
                     this.highlightElement($form, $emptyRow);
@@ -1051,27 +1066,12 @@ class CustomReportLayout {
                 }
             }
         });
-
-        $form.on('change', '[data-datafield="TableName"]', e => {
-            const tableName = FwFormField.getValueByDataField($form, 'TableName');
-            $form.find('#reportDesigner .selected').removeClass('selected');
-            $form.find(`#reportDesigner .table-wrapper[data-tablename="${tableName}"]`).addClass('selected');
-            $table = $form.find('.table-wrapper.selected table');
-        });
-
-        $form.on('click', '#reportDesigner .table-wrapper', e => {
-            $table = $form.find('.table-wrapper.selected table');
-            const tableName = jQuery(e.currentTarget).attr('data-tablename');
-            FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
-            this.showHideControlProperties($form, 'tablewrapper');
-        });
-
     }
     //----------------------------------------------------------------------------------------------
     setControlValues($form: JQuery, $column: JQuery) {
         const tableName = $column.parents('.table-wrapper').attr('data-tablename');
         const itemArray = $column.parents('[data-section]').attr('data-itemarray');
-        if (typeof itemArray != 'undefined' && typeof itemArray == 'string') { 
+        if (typeof itemArray != 'undefined' && typeof itemArray == 'string') {
             this.updateValueFieldControl($form, itemArray);
         } else {
             this.updateValueFieldControl($form, 'ReportDefault');
@@ -1191,29 +1191,33 @@ class CustomReportLayout {
 
             switch (rowType) {
                 case 'detail':
-                    $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
-                    $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[detailRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
-                    if ($cachedTd.length && $designerTd.length) {
-                        $cachedTd.attr('data-value', `<!--{{${changes.newfield}}}-->`);
-                        $designerTd.removeClass('new-column');
-                        $designerTd.attr('data-value', `{{${changes.newfield}}}`);
+                    if (typeof changes != 'undefined') {
+                        $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                        $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[detailRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                        if ($cachedTd.length && $designerTd.length) {
+                            $cachedTd.attr('data-value', `<!--{{${changes.newfield}}}-->`);
+                            $designerTd.removeClass('new-column');
+                            $designerTd.attr('data-value', `{{${changes.newfield}}}`);
+                        }
                     }
                     detailRowIndex++;
                     break;
                 case 'linked-sub-header':
-                    $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
-                    $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"][data-linkedrow="${changes.linkedrow}"]`)[linkedSubHeaderRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
-                    if ($cachedTd.length && $designerTd.length) {
-                        $cachedTd.attr('data-valuefield', changes.newfield);
-                        $cachedTd.text(changes.newfield);
-                        $designerTd.attr('data-valuefield', changes.newfield);
-                        $designerTd.text(changes.newfield);
-                        $designerTd.removeClass('new-column');
-                        $designerRow = jQuery($table.find('tr[data-row="linked-sub-header"]')[linkedSubHeaderRowIndex]).clone();
-                        $designerRow.find('.highlight').removeClass('highlight');
-                        html = $designerRow.get(linkedSubHeaderRowIndex).innerHTML.trim();
-                        $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="linked-sub-header"]`)[linkedSubHeaderRowIndex]);
-                        $cachedRow.html(html);
+                    if (typeof changes != 'undefined') {
+                        $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                        $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"][data-linkedrow="${changes.linkedrow}"]`)[linkedSubHeaderRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                        if ($cachedTd.length && $designerTd.length) {
+                            $cachedTd.attr('data-valuefield', changes.newfield);
+                            $cachedTd.text(changes.newfield);
+                            $designerTd.attr('data-valuefield', changes.newfield);
+                            $designerTd.text(changes.newfield);
+                            $designerTd.removeClass('new-column');
+                            $designerRow = jQuery($table.find('tr[data-row="linked-sub-header"]')[linkedSubHeaderRowIndex]).clone();
+                            $designerRow.find('.highlight').removeClass('highlight');
+                            html = $designerRow.get(linkedSubHeaderRowIndex).innerHTML.trim();
+                            $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="linked-sub-header"]`)[linkedSubHeaderRowIndex]);
+                            $cachedRow.html(html);
+                        }
                     }
                     linkedSubHeaderRowIndex++;
                     break;
@@ -1226,33 +1230,37 @@ class CustomReportLayout {
                     subHeaderRowIndex++;
                     break;
                 case 'sub-detail':
-                    $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
-                    $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
-                    if ($cachedTd.length && $designerTd.length) {
-                        $cachedTd.attr('data-value', `<!--{{${changes.newfield}}}-->`);
-                        $designerTd.attr('data-value', `{{${changes.newfield}}}`);
-                        $designerTd.removeClass('new-column');
-                        $designerRow = jQuery($table.find('tr[data-row="sub-detail"]')[subDetailRowIndex]).clone();
-                        $designerRow.find('.highlight').removeClass('highlight');
-                        html = $designerRow.get(subDetailRowIndex).innerHTML.trim();
-                        $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="sub-detail"]`)[subDetailRowIndex]);
-                        $cachedRow.html(html);
+                    if (typeof changes != 'undefined') {
+                        $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                        $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                        if ($cachedTd.length && $designerTd.length) {
+                            $cachedTd.attr('data-value', `<!--{{${changes.newfield}}}-->`);
+                            $designerTd.attr('data-value', `{{${changes.newfield}}}`);
+                            $designerTd.removeClass('new-column');
+                            $designerRow = jQuery($table.find('tr[data-row="sub-detail"]')[subDetailRowIndex]).clone();
+                            $designerRow.find('.highlight').removeClass('highlight');
+                            html = $designerRow.get(subDetailRowIndex).innerHTML.trim();
+                            $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="sub-detail"]`)[subDetailRowIndex]);
+                            $cachedRow.html(html);
+                        }
                     }
                     subDetailRowIndex++;
                     break;
             }
         }
 
-        //update linked main header
-        if (changes.rowtype === 'linked-sub-header') {
-            const $headerRow = jQuery($table.find(`tr[data-row="main-header"][data-linkedrow="${changes.linkedrow}"]`));
-            const $headerTh = $headerRow.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
-            $headerRow.find('.highlight').removeClass('highlight');
-            $headerTh.attr('data-valuefield', changes.newfield);
-            $headerTh.text(changes.newfield);
-            html = $headerRow.get(0).innerHTML.trim();
-            $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="main-header"][data-linkedrow="${changes.linkedrow}"]`));
-            $cachedRow.html(html);
+        //update linked main header row
+        if (typeof changes != 'undefined') {
+            if (changes.rowtype === 'linked-sub-header') {
+                const $headerRow = jQuery($table.find(`tr[data-row="main-header"][data-linkedrow="${changes.linkedrow}"]`));
+                const $headerTh = $headerRow.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
+                $headerRow.find('.highlight').removeClass('highlight');
+                $headerTh.attr('data-valuefield', changes.newfield);
+                $headerTh.text(changes.newfield);
+                html = $headerRow.get(0).innerHTML.trim();
+                $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="main-header"][data-linkedrow="${changes.linkedrow}"]`));
+                $cachedRow.html(html);
+            }
         }
 
         $form.removeData('changevaluefield');
@@ -1307,10 +1315,12 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     deleteColumn($form: JQuery, $table: JQuery, $cachedRows: JQuery) {
-        let html, index = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0;
-        const linkedColumn = $form.data('deletefield').linkedcolumn;
-        const rowIndex = $form.data('deletefield').rowindex;
-        const deletedFromRowType = $form.data('deletefield').deletedfromrowtype;
+        let linkedColumn, rowIndex, deletedFromRowType, html, index = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0;
+        if (typeof $form.data('deletefield') != 'undefined') {
+            linkedColumn = $form.data('deletefield').linkedcolumn;
+            rowIndex = $form.data('deletefield').rowindex;
+            deletedFromRowType = $form.data('deletefield').deletedfromrowtype;
+        }
 
         for (let i = 0; i < $cachedRows.length; i++) {
             const $row = jQuery($cachedRows[i]);
@@ -1722,6 +1732,7 @@ class CustomReportLayout {
                     }
                 }
                 break;
+
             case 'sub-header':
                 //in designer
                 const $linkedSubDetailColumn = $table.find(`[data-row="sub-detail"] td[data-linkedcolumn="${linkedColumn}"]`);
