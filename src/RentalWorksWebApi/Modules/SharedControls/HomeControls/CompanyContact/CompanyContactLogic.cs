@@ -1,5 +1,8 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
+using WebApi.Modules.Agent.Contact;
+
 namespace WebApi.Modules.HomeControls.CompanyContact
 {
     [FwLogic(Id:"RSZfoQ7Cc9GJ")]
@@ -12,6 +15,8 @@ namespace WebApi.Modules.HomeControls.CompanyContact
         {
             dataRecords.Add(companyContact);
             dataLoader = companyContactLoader;
+
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"iA7kCVekjh7d", IsPrimaryKey:true)]
@@ -114,5 +119,28 @@ namespace WebApi.Modules.HomeControls.CompanyContact
         public string DateStamp { get { return companyContact.DateStamp; } set { companyContact.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ContactId))
+            {
+                if (MobilePhone != null)  // user is supplying a mobile phone number, or blank
+                {
+                    ContactLogic origContact = new ContactLogic();
+                    origContact.SetDependencies(AppConfig, UserSession);
+                    origContact.ContactId = ContactId;
+                    if (origContact.LoadAsync<ContactLogic>().Result)
+                    {
+                        if (!origContact.MobilePhone.Equals(MobilePhone))
+                        {
+                            ContactLogic modifiedContact = origContact.MakeCopy<ContactLogic>();
+                            modifiedContact.SetDependencies(AppConfig, UserSession);
+                            modifiedContact.MobilePhone = MobilePhone;
+                            int i = modifiedContact.SaveAsync(original: origContact, conn: e.SqlConnection).Result;
+                        }
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------        
     }
 }
