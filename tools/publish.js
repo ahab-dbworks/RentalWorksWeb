@@ -179,6 +179,7 @@ function formatBytes(bytes, decimals = 2) {
             }
             childProcess.execSync(`git add "src/RentalWorksWebApi/QuikScan/version.txt"`, { stdio: 'inherit' });
             childProcess.execSync(`git add "src/RentalWorksWebApi/version.txt"`, { stdio: 'inherit' });
+            childProcess.execSync(`git add "src/RentalWorksWebApi/version-previous-${productname}.txt"`, { stdio: 'inherit' });
             childProcess.execSync(`git commit -m "${tagprefix}: ${fullversionno}"`, { stdio: 'inherit' });
             childProcess.execSync(`git push`, { stdio: 'inherit' });
             childProcess.execSync(`git tag ${tagprefix}/v${fullversionno}`, { stdio: 'inherit' });
