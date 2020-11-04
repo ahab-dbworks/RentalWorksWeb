@@ -157,6 +157,8 @@ function formatBytes(bytes, decimals = 2) {
         fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/QuikScan/version.txt`), fullversionno);
         fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, `src/RentalWorksWebApi/version.txt`), fullversionno);
 
+        const pdffilename = `v${fullversionno}.pdf`;
+
         if (commitAndFtp) {
             // We need to commit the version files and Tag the repo here because other commits may come in while we Build
             // command-line Git push in the modified version and assembly files
@@ -185,7 +187,6 @@ function formatBytes(bytes, decimals = 2) {
             // produce a PDF of the MD file
             await process.chdir(repoPath);
             childProcess.execSync(`npx md-to-pdf build/v${fullversionno}.md`, { stdio: 'inherit' });
-            const pdffilename = `v${fullversionno}.pdf`;
             childProcess.execSync(`start build/${pdffilename}`, { stdio: 'inherit' });
 
             // Need to use curl to publish the PDF file to ZenDesk as a new "article"
