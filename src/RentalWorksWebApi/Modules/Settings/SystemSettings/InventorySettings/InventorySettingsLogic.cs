@@ -67,6 +67,12 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "PY0Na99fW6CMj")]
         public bool? StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived { get { return sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived; } set { sysControl.StartDepreciatingFixedAssetsTheMonthAfterTheyAreReceived = value; } }
 
+        [FwLogicProperty(Id: "Z7sxbu3bYdpg5")]
+        public bool? DepreciateFixedAssetsWhenRetired { get { return sysControl.DepreciateFixedAssetsWhenRetired; } set { sysControl.DepreciateFixedAssetsWhenRetired = value; } }
+
+        [FwLogicProperty(Id: "jjo0cROuzVddX")]
+        public bool? IncludeTaxInOriginalEquipmentCost { get { return sysControl.IncludeTaxInOriginalEquipmentCost; } set { sysControl.IncludeTaxInOriginalEquipmentCost = value; } }
+
         [FwLogicProperty(Id: "l5fLvzCpHrDf")]
         public string DefaultRentalQuantityInventoryCostCalculation { get { return sysControl.DefaultRentalQuantityInventoryCostCalculation; } set { sysControl.DefaultRentalQuantityInventoryCostCalculation = value; } }
 
