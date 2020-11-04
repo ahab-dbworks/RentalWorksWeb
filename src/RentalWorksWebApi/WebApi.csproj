@@ -102,6 +102,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings.devsample.json" />
+    <Content Remove="appsettings.rwsample.json" />
+    <Content Remove="appsettings.twsample.json" />
     <Content Remove="package-lock.json" />
     <Content Remove="package.json" />
     <Content Remove="QuikScan\app_scripts.json" />
@@ -471,7 +474,12 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="appsettings.devsample.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Include="appsettings.json" />
+    <None Include="appsettings.rwsample.json" />
+    <None Include="appsettings.twsample.json" />
     <None Include="package-lock.json" />
     <None Include="package.json" />
     <None Include="QuikScan\app_scripts.json">
@@ -503,11 +511,6 @@
     <TypeScriptCompile Include="QuikScan\scripts\NearfieldRfidScanner.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\Program.ts" />
     <TypeScriptCompile Include="QuikScan\scripts\RwVirtualNumpad.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="appsettings.devsample.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
 	  <!--<Exec Command="npm run trakitworks-3-build-app-dev" />

@@ -503,7 +503,13 @@ class WebApiCompiler {
         await spawn('dotnet', ['publish', '-o', '../../build/RentalWorksWebApi', 'WebApi.csproj', '--configuration', this.dotnetConfiguration, '--self-contained', '-r', 'win-x64'], { stdio: 'inherit' });
         console.log('Deleting: appsettings.json');
         await fse.unlink('../../build/RentalWorksWebApi/appsettings.json', function (error) { if (error) { throw error; } console.log('Deleted appsettings.json'); });
-        console.log('//------------------------------------------------------------------------------------');
+        if (this.target === WebApiCompiler.TARGET_RENTALWORKS) {
+            await fse.copy(path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'appsettings.rwsample.json'), path.resolve(this.appSolutionDir, 'build', 'RentalWorksWebApi', 'appsettings.sample.json'));
+        }
+        else if (this.target === WebApiCompiler.TARGET_TRAKITWORKS) {
+            await fse.copy(path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'appsettings.twsample.json'), path.resolve(this.appSolutionDir, 'build', 'RentalWorksWebApi', 'appsettings.sample.json'));
+        }
+        console.log('//------------------------------------------------------------------------------------a');
         await fse.remove(appsDestDir);
 
         // prevent any source folders from getting deployed by accident.
@@ -649,7 +655,7 @@ class WebApiCompiler {
                 } else {
                     throw UNSUPPORTED_CONFIGURATION;
                 }
-            } 
+            }
             else if (this.target === WebApiCompiler.TARGET_TRAKITWORKS) {
                 if (this.buildAction === WebApiCompiler.BUILD_ACTION_BUILD) {
                     //if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION) {
