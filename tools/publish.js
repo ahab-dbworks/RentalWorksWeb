@@ -12,7 +12,7 @@ const childProcess = require('child_process'); // https://nodejs.org/api/child_p
 const prompts = require('prompts'); // https://www.npmjs.com/package/prompts#-types
 const fse = require('fs-extra'); // https://www.npmjs.com/package/fs-extra
 const path = require('path'); // https://nodejs.org/api/path.html
-const archiver = require('archiver');
+const archiver = require('archiver'); // https://www.archiverjs.com/
 
 function failIf(expression, reason) {
     if (expression) {
@@ -256,7 +256,9 @@ function formatBytes(bytes, decimals = 2) {
         await (async () => {
             return new Promise(async (resolve, reject) => {
                 var output = fse.createWriteStream(zipPath);
-                var archive = archiver('zip');
+                var archive = archiver('zip', {
+                    zlib: { level: 9 }
+                });
                 output.on('close', function () {
                     console.log(`Finished zipping: ${zipfilename} ${formatBytes(archive.pointer())}`);
                     resolve();
