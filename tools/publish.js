@@ -164,7 +164,7 @@ function formatBytes(bytes, decimals = 2) {
 
         // Update the version.txt files
         console.log('Update the version.txt files');
-        await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', `version-previous-${productname}.txt`), fullversionno);
+        fse.writeFileSync(path.resolve(process.env.DwRentalWorksWebPath, 'src', 'RentalWorksWebApi', `version-previous-${productname}.txt`), fullversionno);
         if (productname === PRODUCTNAME_RENTALWORKS) {
             await fse.writeFile(path.resolve(process.env.DwRentalWorksWebPath, 'src', `${productname}Web/version.txt`), fullversionno);
         } else {
@@ -250,6 +250,7 @@ function formatBytes(bytes, decimals = 2) {
             await fse.move(path.resolve(buildPath, 'RentalWorksWebApi'), path.resolve(buildPath, 'TrakitWorksWebApi'));
         }
 
+        // need to get creative with a promise here so we wait for the zip to be written to disk
         await (async () => {
             return new Promise(async (resolve, reject) => {
                 var output = fse.createWriteStream(zipPath);
