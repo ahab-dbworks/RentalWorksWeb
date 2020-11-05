@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\RentalWorksWeb\Web.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{727C09EB-27BD-4657-A43E-7CA436679403} = {727C09EB-27BD-4657-A43E-7CA436679403}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{362116D5-D26E-4EFA-9683-8C7F2F2E22C6}"
 	ProjectSection(SolutionItems) = preProject
