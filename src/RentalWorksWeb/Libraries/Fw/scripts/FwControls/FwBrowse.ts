@@ -2597,6 +2597,11 @@ class FwBrowseClass {
                     } else {
                         this.setFieldViewMode($control, $tr, $field);
                     }
+
+                    if ($control.hasClass('sort-mode')) {
+                        $tr.find('td.manual-sort').show();
+                    }
+
                     //this.setFieldViewMode($control, $tr, $field);
 
                     // if you want to dynamically change something on a .field or td:
