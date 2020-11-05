@@ -245,8 +245,12 @@ class WebApiCompiler {
             //console.log('Fixing urls on index page...')
             const pathIndexFile = `${srcDir}/index.htm`;
             let fileText = await fse.readFile(pathIndexFile, 'utf8');
-            const appSettingsJsonFile = path.resolve(this.appSolutionDir, 'src/RentalWorksWebApi/appsettings.json');
-            const appSettingsJsonWithComments = await fse.readFile(appSettingsJsonFile, 'utf8');
+            const appSettingsPath = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'appsettings.json');
+            const appSettingsDevSamplePath = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'appsettings.devsample.json');
+            if (!fse.existsSync(appSettingsPath)) {
+                fse.copySync(appSettingsDevSamplePath, appSettingsPath);
+            }
+            const appSettingsJsonWithComments = await fse.readFile(appSettingsPath, 'utf8');
             const appSettingsJson = appSettingsJsonWithComments.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m).trim();
             const appSettings = JSON.parse(appSettingsJson);
             let devPath = '/rentalworksdev';
