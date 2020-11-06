@@ -49,7 +49,13 @@ class FwLocaleClass {
         return (localFormat) ? localmoment.format('L') : localmoment.format('YYYY-MM-DD');
     }
     getTime(time, localFormat, modifier) {
-        return Intl.DateTimeFormat(navigator.language, { hour: 'numeric', minute: 'numeric' }).format(new Date());
+        let hour12 = true;
+        const options = {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: hour12,
+        };
+        return Intl.DateTimeFormat('default', options).format(new Date());
     }
     getNumber(value, language, options) {
         if (typeof value === 'string') {
