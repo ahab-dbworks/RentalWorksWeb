@@ -62,12 +62,32 @@
     }
     //---------------------------------------------------------------------------------
     /**
+     * @param time Optional. If null time is provided it will operate on now.
+     * @param time12 Optional. true value returns 12 hour time. 24 hour format is the default.
+     */
+    getTime(time?: string, time12?: boolean): string {
+        let localmoment;
+        if (time) {
+            localmoment = moment(time, 'HH:mm');
+        } else {
+            localmoment = moment();
+        }
+
+        const options = {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: (time12) ? time12 : false,
+        }
+        return Intl.DateTimeFormat(this.Locale, options).format(localmoment);
+    }
+    //---------------------------------------------------------------------------------
+    /**
      * Returns @param value in localized format
      * @param value 
      * @param language Optional. Forces the function to use an alternate locale.
      * @param options Optional. Ref https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
      */
-    getNumber(value: number|string, language?: string, options?: Intl.NumberFormatOptions) {
+    getNumber(value: number | string, language?: string, options?: Intl.NumberFormatOptions) {
         if (typeof value === 'string') {
             value = parseFloat(value as string);
         }
@@ -82,6 +102,6 @@
 var FwLocale = new FwLocaleClass();
 
 interface DateModifier {
-    Quantity:       number;
-    ObjectModified: 'days'|'weeks'|'months'|'years';
+    Quantity: number;
+    ObjectModified: 'days' | 'weeks' | 'months' | 'years';
 }
