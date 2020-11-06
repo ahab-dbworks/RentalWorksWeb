@@ -46,7 +46,7 @@ class ReceiveFromVendor {
 
         const currentDate = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'Date', currentDate);
-        const currentTime = FwLocale.getTime();
+        const currentTime = FwLocale.getTime(null, true);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
         $form.find('div.caption:contains(Cancel Receive From Vendor)').parent().attr('data-enabled', 'false');
@@ -337,7 +337,7 @@ class ReceiveFromVendor {
         FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
         const currentDate = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'Date', currentDate);
-        const currentTime = FwLocale.getTime();
+        const currentTime = FwLocale.getTime(null, true);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
         $form.find('.createcontract[data-type="button"]').show();
         $form.find('.createcontract[data-type="btnmenu"]').hide();
