@@ -8,7 +8,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
         valueEmail = '';
     }
     combinedViewModel = jQuery.extend({
-        captionLogin:         'RentalWorks QuikScan<span style="vertical-align:super;font-size:8px;">&reg;</span>'
+        captionLogin:         'QuikScan<span style="vertical-align:super;font-size:8px;">&reg;</span>'
       , captionEmail:         RwLanguages.translate('Login')
       , valueEmail:           valueEmail
       , captionPassword:      RwLanguages.translate('Password')
@@ -161,7 +161,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
         .find('.programlogo').append('<div class="apptitle bgothm center" style="padding-top:2vh;font-size:40px;">Rental<span style="color:#6f30b3;">Works</span><br />QuikScan<span style="vertical-align:super;font-size:8px;">&reg;</span></div>')
     ;
 
-    screen.$view.find('.mobilelogin-footer').append('<div id="copyright">Copyright ' + new Date().getFullYear() + ' <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div><div id="version">RentalWorks QuikScan v' + applicationConfig.version + '</div>');
+    screen.$view.find('.mobilelogin-footer').append('<div id="copyright">Copyright ' + new Date().getFullYear() + ' <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div><div id="version">QuikScan v' + applicationConfig.version + '</div>');
     
     screen.load = () => {
         var $txtEmail, $txtPassword;

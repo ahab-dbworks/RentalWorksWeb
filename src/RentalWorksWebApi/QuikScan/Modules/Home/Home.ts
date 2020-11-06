@@ -3,7 +3,7 @@ var RwHome: any = {};
 RwHome.getHomeScreen = function(viewModel, properties) {
     var combinedViewModel, screen, $menuObject, nodeModule;
     combinedViewModel = jQuery.extend({
-        captionPageTitle:         '<div class="apptitle bgothm center" style="padding-top:10px 0;font-size:18px;color:#f2f2f2;">RentalWorks QuikScan<span style="vertical-align:super;font-size:8px;">&reg;</span></div>',
+        captionPageTitle:         '<div class="apptitle bgothm center" style="padding-top:10px 0;font-size:18px;color:#f2f2f2;">QuikScan<span style="vertical-align:super;font-size:8px;">&reg;</span></div>',
         captionPageSubTitle:      ''
     }, viewModel);
     combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-home').html(), combinedViewModel);
@@ -20,7 +20,7 @@ RwHome.getHomeScreen = function(viewModel, properties) {
     //    }
     //}
     //if (nodeApplication === null) {
-    //    throw 'Unable to find RentalWorks QuikScan node in group tree. {4537336F-8EDF-4E6B-8CCF-434D72C7D749}';
+    //    throw 'Unable to find QuikScan node in group tree. {4537336F-8EDF-4E6B-8CCF-434D72C7D749}';
     //}
     //var nodeHome = nodeApplication.children[0];
     var applicationOptions = program.getApplicationOptions();
