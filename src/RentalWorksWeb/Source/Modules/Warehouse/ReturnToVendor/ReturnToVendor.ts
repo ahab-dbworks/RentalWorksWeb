@@ -58,7 +58,7 @@ class ReturnToVendor {
 
         const currentDate = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'Date', currentDate);
-        const currentTime = moment(Date.now()).locale(navigator.language).format('LT');
+        const currentTime = FwLocale.getTime(null, true);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -222,7 +222,6 @@ class ReturnToVendor {
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let self = this;
         let errorMsg = $form.find('.error-msg:not(.qty)');
 
         // Create Contract
@@ -242,13 +241,13 @@ class ReturnToVendor {
                     }
                     const currentDate = FwLocale.getDate();
                     FwFormField.setValueByDataField($form, 'Date', currentDate);
-                    const currentTime = moment(Date.now()).locale(navigator.language).format('LT');
+                    const currentTime = FwLocale.getTime(null, true);
                     FwFormField.setValueByDataField($form, 'Time', currentTime);
                 }, null, $form);
         });
         // Select None
         $form.find('.selectnone').on('click', e => {
-            let request: any = {}, quantity;
+            let request: any = {};
             const $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
