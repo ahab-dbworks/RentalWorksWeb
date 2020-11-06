@@ -52,6 +52,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
         public string BillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiodunits", modeltype: FwDataTypes.Text)]
+        public string BillablePeriodUnits { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string Rate { get; set; }
         //------------------------------------------------------------------------------------ 

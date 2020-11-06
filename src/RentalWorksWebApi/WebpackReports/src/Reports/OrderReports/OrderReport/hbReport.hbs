@@ -7,7 +7,7 @@
       </div>
       <div class="rpt-nested-flexrow header-left"><span style="font-weight:600">{{OfficeLocationCompany}}</span></div>
       <div class="rpt-nested-flexrow header-left"><span>{{OfficeLocationAddress1}}</span></div>
-      <div class="rpt-nested-flexrow header-left"><span>{{OfficeLocationAddress2}}</span></div>
+      <div data-visible="{{#if OfficeLocationAddress2}}true{{/if}}" class="rpt-nested-flexrow header-left"><span>{{OfficeLocationAddress2}}</span></div>
       <div class="rpt-nested-flexrow header-left"><span>{{OfficeLocationCityStateZipCodeCountry}}</span></div>
       <div class="rpt-nested-flexrow header-left"><span style="font-weight:600;">Phone: </span><span>{{OfficeLocationPhone}}</span></div>
     </div>
@@ -19,7 +19,7 @@
     <div class="rpt-flexcolumn" style="flex:0 0 30%;">
       <div class="rpt-nested-flexrow">
         <span style="width:30%;font-size:18px;font-weight:700;text-align:right;vertical-align:middle;">No:</span>
-        <span class="rptNumberSection" style="width: 70%;">{{OrderNumber}}</span>
+        <span style="background-color: #e3f2fd; color: #027cc5; border: 2px solid #212121; padding: 5px 10px; font-size: 26px; text-align: center;width: 70%;">{{OrderNumber}}</span>
       </div>
       <div class="rpt-nested-flexrow">
         <span style="width: 30%; color: black; font-size: 18px; font-weight: 700; text-align: right;">Date:</span>
@@ -32,61 +32,65 @@
     <!-- Order details -->
     <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 422px;margin-right:10px;">
       <div class="rpt-nested-flexrow">
-        <span style="width:90px;" class="shaded-block">Description:</span>
+        <span style="min-width:90px;" class="shaded-block">Description:</span>
         <span>{{Description}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="width:90px;" class="shaded-block">Customer:</span>
+        <span style="min-width: 90px;" class="shaded-block">Customer:</span>
         <span>{{Customer}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="width:90px;" class="shaded-block">Deal:</span>
+        <span style="min-width:90px;" class="shaded-block">Deal:</span>
         <span>{{Deal}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="width:90px;" class="shaded-block">PO No:</span>
+        <span style="min-width:90px;" class="shaded-block">PO No:</span>
         <span>{{PoNumber}}</span>
       </div>
       <div data-visible="{{#if Location}}true{{/if}}" class="rpt-nested-flexrow">
-        <span style="width:90px;" class="shaded-block">Location:</span>
+        <span style="min-width:90px;" class="shaded-block">Location:</span>
         <span>{{Location}}</span>
       </div>
     </div>
     <!-- Agent details -->
     <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin:0px 10px;">
       <div class="rpt-nested-flexrow">
-        <span style="width:55px;" class="shaded-block">Agent:</span>
+        <span style="min-width:70px;" class="shaded-block">Agent:</span>
         <span>{{Agent}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="width:55px;" class="shaded-block">Email:</span>
+        <span style="min-width:70px;" class="shaded-block">Email:</span>
         <span>{{AgentEmail}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="width:55px;" class="shaded-block">Phone:</span>
+        <span style="min-width:70px;" class="shaded-block">Phone:</span>
         <span>{{AgentPhone}}</span>
       </div>
     </div>
     <!-- Billing Dates, Usage Dates, Terms, Billing Cycle-->
     <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin-left:10px;">
       <div data-visible="{{#if HasRecurring}}true{{/if}}" class="rpt-nested-flexrow">
-        <span style="width:105px;" class="shaded-block">Billing Period:</span>
-        <span>{{BillingStartDate}} - {{BillingStopDate}}</span>
+        <span style="min-width:105px;" class="shaded-block">Billing Period:</span>
+        <span>{{BillingStartDate}}</span> - <span>{{BillingStopDate}}</span>
+      </div>
+      <div data-visible="{{#if HasRecurring}}true{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;" class="shaded-block">Usage Period:</span>
+        <span>{{EstimatedStartDate}}</span> - <span>{{EstimatedStopDate}}</span>
+      </div>
+      <div data-visible="{{#ifNotEquals HasRecurring true}}true{{/ifNotEquals}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;" class="shaded-block">Start Date:</span>
+        <span>{{EstimatedStartDate}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="width:105px;" class="shaded-block">{{#if HasRecurring}}Usage Period:{{else}}Start Date:{{/if}}</span>
-        <span>{{EstimatedStartDate}}{{#if HasRecurring}} - {{EstimatedStopDate}}{{/if}}</span>
-      </div>
-      <div class="rpt-nested-flexrow">
-        <span style="width:105px;" class="shaded-block">Terms:</span>
+        <span style="min-width:105px;" class="shaded-block">Terms:</span>
         <span>{{PaymentTerms}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="width:105px;" class="shaded-block">Billing Cycle:</span>
+        <span style="min-width:105px;" class="shaded-block">Billing Cycle:</span>
         <span>{{BillingCycle}}</span>
       </div>
       <div data-visible="{{#if ReferenceNumber}}true{{/if}}" class="rpt-nested-flexrow">
-        <span style="width:105px;" class="shaded-block">Reference No:</span>
+        <span style="min-width:105px;" class="shaded-block">Reference No:</span>
         <span>{{ReferenceNumber}}</span>
       </div>
     </div>
@@ -94,102 +98,58 @@
   <!-- Issued To / Outgoing /Incoming -->
   <div class="rpt-flexrow" style="margin-top:25px;">
     <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
-      <div class="rpt-nested-flexrow"><span class="sub text" style="text-align:left;padding:5px;">Issued To</span></div>
+      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:400px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;">Issued To</span></div>
       <div class="rpt-nested-flexrow"><span style="font-weight:700;">{{IssuedToCompany}}</span></div>
       <div data-visible="{{#if IssuedToAttention1}}true{{/if}}" class="rpt-nested-flexrow"><span>{{IssuedToAttention1}}</span></div>
       <div data-visible="{{#if IssuedToAttention2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{IssuedToAttention2}}</span></div>
       <div class="rpt-nested-flexrow"><span>{{IssuedToAddress1}}</span></div>
       <div data-visible="{{#if IssuedToAddress2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{IssuedToAddress2}}</span></div>
-      <div data-visible="{{#if IssuedToCity}}true{{/if}}" class="rpt-nested-flexrow"><span>{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</span></div>
-      <!-- Ordered By -->
-      <table class="sectionBorder">
-        {{#if OrderedBy}}
-        <tr>
-          <td class="shaded-block" style="width:100px;">Ordered By: </td>
-          <td class="meta-content">{{OrderedBy}}</td>
-        </tr>
-        {{/if}}
-        {{#if OrderedByEmail}}
-        <tr>
-          <td class="shaded-block" style="width:100px;">Email: </td>
-          <td class="meta-content">{{OrderedByEmail}}</td>
-        </tr>
-        {{/if}}
-        {{#if OrderedByPhoneAndExtension}}
-        <tr>
-          <td class="shaded-block" style="width:100px;">Phone: </td>
-          <td class="meta-content">{{OrderedByPhoneAndExtension}}</td>
-        </tr>
-        {{/if}}
-      </table>
+      <div class="rpt-nested-flexrow"><span>{{IssuedToCity}}</span>,&nbsp;<span>{{IssuedToState}}</span>&nbsp;<span>{{IssuedToZipCode}}</span>&nbsp;<span>{{IssuedToCountry}}</span></div>
+      <div data-visible="{{#if OrderedBy}}true{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;" class="shaded-block">Ordered By:</span>
+        <span>{{OrderedBy}}</span>
+      </div>
+      <div data-visible="{{#if OrderedByEmail}}true{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;" class="shaded-block">Email:</span>
+        <span>{{OrderedByEmail}}</span>
+      </div>
+      <div data-visible="{{#if OrderedByPhoneAndExtension}}true{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;" class="shaded-block">Phone:</span>
+        <span>{{OrderedByPhoneAndExtension}}</span>
+      </div>
     </div>
     <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
-      <table id="outgoing">
-        <tr>
-          <th class="sub text" style="text-align:left;padding:5px;">Outgoing ({{OutDeliveryType}})</th>
-        </tr>
-        <tr>
-          <td class=""><span style="font-weight:700;">Location: </span>{{OutDeliveryLocation}}</td>
-        </tr>
-        {{#ifCond OutDeliveryAttention '!==' ""}}
-        <tr>
-          <td class=""><span style="font-weight:700;">Attention: </span>{{OutDeliveryAttention}}</td>
-        </tr>
-        {{/ifCond}}
-        <tr>
-          <td class="">{{OutDeliveryAddress1}}</td>
-        </tr>
-        {{#ifCond OutDeliveryAddress2 '!==' ""}}
-        <tr>
-          <td class="">{{OutDeliveryAddress2}}</td>
-        </tr>
-        {{/ifCond}}
-        {{#ifCond OutDeliveryCity '!==' ""}}
-        <tr>
-          <td class="">{{OutDeliveryCity}}, {{OutDeliveryState}} {{OutDeliveryZipCode}} {{OutDeliveryCountry}}</td>
-        </tr>
-        {{/ifCond}}
-        {{#if OutDeliveryRequiredByDate}}
-        <tr>
-          <td class=""><span style="font-weight:700;">Required By: </span>{{OutDeliveryRequiredByDate}} {{#ifCond OutDeliveryRequiredByTime '!==' "  :  "}} {{OutDeliveryRequiredByTime}} {{/ifCond}}</td>
-        </tr>
-        {{/if}}
-      </table>
+      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:300px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;">Outgoing ({{OutDeliveryType}})</span></div>
+      <div class="rpt-nested-flexrow"><span>{{OutDeliveryLocation}}</span></div>
+      <div data-visible="{{#if OutDeliveryAttention}}true{{/if}}" class="rpt-nested-flexrow"><span style="font-weight:700;">Attention: </span><span>{{OutDeliveryAttention}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{OutDeliveryAddress1}}</span></div>
+      <div data-visible="{{#if OutDeliveryAddress2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{OutDeliveryAddress2}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{OutDeliveryCity}}</span>,&nbsp;<span>{{OutDeliveryState}}</span>&nbsp;<span>{{OutDeliveryZipCode}}</span>&nbsp;<span>{{OutDeliveryCountry}}</span></div>
+
+      <div data-visible="{{#if OutDeliveryRequiredByDate}}{{#ifCond OutDeliveryRequiredByTime '===' "  :"}}true{{/ifCond}}{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;font-weight:700;" class="shaded-block">Required By: </span>
+        <span>{{OutDeliveryRequiredByDate}}</span>
+      </div>
+      <div data-visible="{{#if OutDeliveryRequiredByDate}}{{#ifCond OutDeliveryRequiredByTime '!==' "  :"}}true{{/ifCond}}{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;font-weight:700;" class="shaded-block">Required By: </span>
+        <span>{{OutDeliveryRequiredByDate}}</span>&nbsp;<span>{{OutDeliveryRequiredByTime}}</span>
+      </div>
     </div>
-    <div class="rpt-flexcolumn" style="flex:0 0 321px;margin-left:10px;">
-      {{#ifCond RentalItems.length '>' 0}}
-      <table id="incoming">
-        <tr>
-          <th class="sub text" style="text-align:left;padding:5px;">Incoming ({{InDeliveryType}})</th>
-        </tr>
-        <tr>
-          <td class=""><span style="font-weight:700;">Location: </span>{{InDeliveryLocation}}</td>
-        </tr>
-        {{#ifCond InDeliveryAttention '!==' ""}}
-        <tr>
-          <td class=""><span style="font-weight:700;">Attention: </span>{{InDeliveryAttention}}</td>
-        </tr>
-        {{/ifCond}}
-        <tr>
-          <td class="">{{InDeliveryAddress1}}</td>
-        </tr>
-        {{#ifCond InDeliveryAddress2 '!==' ""}}
-        <tr>
-          <td class="">{{InDeliveryAddress2}}</td>
-        </tr>
-        {{/ifCond}}
-        {{#ifCond InDeliveryCity '!==' ""}}
-        <tr>
-          <td class="">{{InDeliveryCity}}, {{InDeliveryState}} {{InDeliveryZipCode}} {{InDeliveryCountry}}</td>
-        </tr>
-        {{/ifCond}}
-        {{#if InDeliveryRequiredByDate}}
-        <tr>
-          <td class=""><span style="font-weight:700;">Required By: </span>{{InDeliveryRequiredByDate}} {{#ifCond InDeliveryRequiredByTime '!==' "  :  "}} {{InDeliveryRequiredByTime}} {{/ifCond}}</td>
-        </tr>
-        {{/if}}
-      </table>
-      {{/ifCond}}
+    <div data-visible="{{#ifCond RentalItems.length '>' 0}}true{{/ifCond}}" class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
+      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:300px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;">Incoming ({{InDeliveryType}})</span></div>
+      <div class="rpt-nested-flexrow"><span>{{InDeliveryLocation}}</span></div>
+      <div data-visible="{{#if InDeliveryAttention}}true{{/if}}" class="rpt-nested-flexrow"><span style="font-weight:700;">Attention: </span><span>{{InDeliveryAttention}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{InDeliveryAddress1}}</span></div>
+      <div data-visible="{{#if InDeliveryAddress2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{InDeliveryAddress2}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{InDeliveryCity}}</span>,&nbsp;<span>{{InDeliveryState}}</span>&nbsp;<span>{{InDeliveryZipCode}}</span>&nbsp;<span>{{InDeliveryCountry}}</span></div>
+      <div data-visible="{{#if InDeliveryRequiredByDate}}{{#ifCond InDeliveryRequiredByTime '===' "  :"}}true{{/ifCond}}{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;font-weight:700;" class="shaded-block">Required By: </span>
+        <span>{{InDeliveryRequiredByDate}}</span>
+      </div>
+      <div data-visible="{{#if InDeliveryRequiredByDate}}{{#ifCond InDeliveryRequiredByTime '!==' "  :"}}true{{/ifCond}}{{/if}}" class="rpt-nested-flexrow">
+        <span style="min-width:105px;font-weight:700;" class="shaded-block">Required By: </span>
+        <span>{{InDeliveryRequiredByDate}}</span>&nbsp;<span>{{InDeliveryRequiredByTime}}</span>
+      </div>
     </div>
   </div>
 </div>
@@ -217,206 +177,58 @@
       <tr data-row="linked-sub-header" data-sort="true" data-linkedrow="detail" class="rectype-header">
         <th data-linkedcolumn="ICode" data-valuefield="ICode" style="min-width:90px;">I-Code</th>
         <th data-linkedcolumn="Description" data-valuefield="Description" style="min-width:504px;">Description</th>
-        <th data-linkedcolumn="QuantityOrdered" data-valuefield="QuantityOrdered" style="min-width:65px;" class="number alignRight">Qty.</th>
-        <th data-linkedcolumn="BillablePeriods" data-valuefield="BillablePeriods" style="min-width:75px;" class="number alignRight">{{../RateType}}</th>
-        <th data-linkedcolumn="Rate" data-valuefield="Rate" style="min-width:100px;" class="number alignRight">Price</th>
-        <th data-linkedcolumn="DiscountPercent" data-valuefield="DiscountPercent" data-visible="{{#if HasDiscount}}true{{/if}}" style="min-width:65px;" class="number alignRight">Disc. %</th>
-        <th data-linkedcolumn="PeriodExtended" data-valuefield="PeriodExtended" style="min-width:140px;" class="number alignRight">Period Extended</th>
+        <th data-linkedcolumn="QuantityOrdered" data-valuefield="QuantityOrdered" style="min-width:65px;" class="number">Qty.</th>
+        <th data-linkedcolumn="BillablePeriods" data-valuefield="BillablePeriods" style="min-width:75px;" class="number">{{BillablePeriodUnits}}</th>
+        <th data-linkedcolumn="Rate" data-valuefield="Rate" style="min-width:100px;" class="number">Price</th>
+        <th data-linkedcolumn="DiscountPercent" data-valuefield="DiscountPercent" data-visible="{{#if HasDiscount}}true{{/if}}" style="min-width:65px;" class="number">Disc. %</th>
+        <th data-linkedcolumn="PeriodExtended" data-valuefield="PeriodExtended" style="min-width:140px;" class="number">Period Extended</th>
       </tr>
       {{/ifEquals}}
     </tbody>
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
-      <tr data-isbold="{{Bold}}">
-        <!-- I-Code -->
-        {{#ifEquals ItemClass "ST"}}
-        <td data-itemclass="{{ItemClass}}" class="subTotalRow"></td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-
-        {{#ifInList ItemClass "C,K,N"}}
-        <td data-itemclass="{{ItemClass}}" style="">{{ICode}}</td><!-- Completes, Kits, Containers -->
-        {{else}}
-        {{#ifInList ItemClass "CI,KI,NI,CO,KO"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{ICode}}</td><!-- Complete, Kit, Container Accessory Items -->
-        {{else}}
-        <td data-itemclass="{{ItemClass}}">{{ICode}}</td><!-- Item -->
-        {{/ifInList}}
-        {{/ifInList}}
-
-
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td data-itemclass="{{ItemClass}}" class="textRow"></td>
-        {{else}}
-        <td data-itemclass="{{ItemClass}}" class="headerRow"></td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
-
-        <!-- Description -->
-        {{#ifEquals ItemClass "ST"}}
-        <td data-itemclass="{{ItemClass}}" class="subTotalRow">{{Description}}</td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-        {{#ifInList ItemClass "C,K,N"}}
-        <td data-itemclass="{{ItemClass}}" style="">{{Description}}</td><!-- Completes, Kits, Containers -->
-        {{else}}
-        {{#ifInList ItemClass "CI,KI,NI,CO,KO"}}
-        <td data-itemclass="{{ItemClass}}" style="text-indent:0em;padding-left:20px;">{{Description}}</td><!-- Complete, Kit, Container Accessory Items -->
-        {{else}}
-        <td data-itemclass="{{ItemClass}}">{{Description}}</td><!-- Item -->
-        {{/ifInList}}
-        {{/ifInList}}
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td data-itemclass="{{ItemClass}}" class="textRow">{{Description}}</td>
-        {{else}}
-        <td data-itemclass="{{ItemClass}}" class="headerRow">{{Description}}</td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
-
-        <!-- Quantity Ordered -->
-        {{#ifEquals ItemClass "ST"}}
-        <td class="subTotalRow"></td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{QuantityOrdered}}</td>
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td class="textRow"></td>
-        {{else}}
-        <td class="headerRow"></td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
-
-        <!-- Billable Periods -->
-        {{#ifEquals ItemClass "ST"}}
-        <td class="subTotalRow"></td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{BillablePeriods}}</td>
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td class="textRow"></td>
-        {{else}}
-        <td class="headerRow"></td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
-
-        <!-- Price -->
-        {{#ifEquals ItemClass "ST"}}
-        <td class="subTotalRow" style="text-align:center;"></td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{Rate}}</td>
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td class="textRow"></td>
-        {{else}}
-        <td class="headerRow"></td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
-
-        <!-- Discount Percent -->
-        {{#ifEquals ItemClass "ST"}}
-        <td class="subTotalRow"></td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-        {{#if HasDiscount}}
-        <td class="alignRight">{{DiscountPercent}}</td>
-        {{else}}
-        <td class="alignRight">&nbsp;</td>
-        {{/if}}
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td class="textRow"></td>
-        {{else}}
-        <td class="headerRow"></td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
-
-        <!-- Period Extended / Sub-Totals -->
-        {{#ifEquals ItemClass "ST"}}
-        <td class="subTotalRow alignRight">{{PeriodExtendedSubTotal}}</td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-        <td class="alignRight">{{PeriodExtended}}</td>
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td class="textRow"></td>
-        {{else}}
-        <td class="headerRow"></td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
+        <td data-linkedcolumn="BillablePeriods" class="number" data-value="{{BillablePeriods}}"></td>
+        <td data-linkedcolumn="Rate" class="number" data-value="{{Rate}}"></td>
+        <td data-linkedcolumn="DiscountPercent" class="number" data-value="{{DiscountPercent}}"></td>
+        <td data-linkedcolumn="PeriodExtended" class="number" data-value="{{PeriodExtended}}"></td>
       </tr>
-      {{#if Notes}}<!-- Rental Item Notes -->
+      {{#if Notes}}
       <tr>
-        <td>&nbsp;</td>
-        {{#ifEquals ItemClass "ST"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
-        {{/ifEquals}}
-        {{#ifNotEquals ItemClass "ST"}}
-        {{#ifCond ICode '!=' ""}}
-        {{#ifInList ItemClass "C,K,N"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Complete Accessory -->
-        {{else}}
-        {{#ifInList ItemClass "CI,KI,NI,CO,KO"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
-        {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
-        {{/ifInList}}
-        {{/ifInList}}
-        {{else}}
-        {{#ifCond ItemClass '===' "T"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
-        {{else}}
-        <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td>
-        {{/ifCond}}
-        {{/ifCond}}
-        {{/ifNotEquals}}
+        <td class="alignRight"><div class="note-label">Note:&nbsp;</div></td>
+        <td colspan="5"><div class="note-cell">{{Notes}}</div></td>
         <td>&nbsp;</td>
       </tr>
       {{/if}}
     </tbody>
     {{/ifEquals}}
-    {{#ifEquals RowType "RecTypeDisplayfooter"}}<!-- RENTAL Totals -->
+    {{#ifEquals RowType "RecTypeDisplayfooter"}}
     {{#ifNotEquals PeriodTaxNoCurrency 0}}
     <tr>
-      <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
+      <td colspan="5"></td>
+      <td style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
       <td style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
     </tr>
     <tr>
-      <td colspan="2"></td>
-      <td colspan="4" class="tax-row">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-      <td class="tax-row" data-value="{{PeriodTax1}}"></td>
+      <td colspan="5"></td>
+      <td style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
+      <td style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax1}}"></td>
     </tr>
     {{#ifCond ../Tax2Name '!=' ""}}
     <tr>
-      <td colspan="2"></td>
-      <td colspan="4" class="tax-row">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-      <td class="tax-row" data-value="{{PeriodTax2}}"></td>
+      <td colspan="5"></td>
+      <td style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
+      <td style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax2}}"></td>
     </tr>
     {{/ifCond}}
     {{/ifNotEquals}}
     <tr>
-      <td colspan="2"></td>
-      <td colspan="4" class="" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span class="shaded-activity-total" style="padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-      <td class="display-footer-total" data-value="{{PeriodExtendedWithTax}}"></td>
+      <td colspan="5"></td>
+      <td style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+      <td style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;" data-value="{{PeriodExtendedWithTax}}"></td>
     </tr>
     {{/ifEquals}}
     {{/each}}
@@ -1356,7 +1168,7 @@
         <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Kit Accessory -->
         {{else}}
         {{#ifCond ItemClass '===' "NI"}}
-        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left:18px;text-indent:0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
+        <td colspan="5" data-itemclass="{{ItemClass}}" style="padding-left: 18px; text-indent: 0em;"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Container Accessory -->
         {{else}}
         <td colspan="5" data-itemclass="{{ItemClass}}"><div><div class="note-label">Note:&nbsp;</div><div class="note-cell">{{Notes}}</div></div></td><!-- Item -->
         {{/ifCond}}
