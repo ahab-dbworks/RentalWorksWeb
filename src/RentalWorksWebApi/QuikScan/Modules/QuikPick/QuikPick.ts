@@ -145,7 +145,7 @@ QuikPick.getQuikPickScreen = function() {
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Select QuikPick Type" data-type="select" data-datafield="selecttype" data-required="true" />');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Deal" data-type="select" data-datafield="deal" />');
+        html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Deal" data-type="select" data-datafield="deal" data-required="true" />');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Description" data-type="text" data-datafield="description" data-required="true" />');
@@ -165,8 +165,8 @@ QuikPick.getQuikPickScreen = function() {
         FwControl.renderRuntimeControls($newbody.find('.fwcontrol'));
 
         FwFormField.loadItems($newbody.find('div[data-datafield="selecttype"]'), [
-            {value:'Q',     text:'Quote'},
-            {value:'O',     text:'Order'}
+            {value:'O',     text:'Order'},
+            {value:'Q',     text:'Quote'}
         ], true);
 
         RwServices.callMethod("QuikPick", "GetDeals", {}, function(response) {
