@@ -33,7 +33,7 @@ class ReturnToVendor {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
@@ -56,11 +56,9 @@ class ReturnToVendor {
 
         $form.find('div.caption:contains(Cancel Return To Vendor)').parent().attr('data-enabled', 'false');
 
-        let date = new Date(),
-            currentDate = date.toLocaleString(),
-            currentTime = date.toLocaleTimeString();
-
+        const currentDate = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'Date', currentDate);
+        const currentTime = moment(Date.now()).locale(navigator.language).format('LT');
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -78,7 +76,7 @@ class ReturnToVendor {
         try {
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId != '') {
-                const $confirmation = FwConfirmation.renderConfirmation('Cancel Return To Vendor', 'Cancelling this Return To Vendor Session will cause all transacted items to be cancelled. Continue?');
+                const $confirmation = FwConfirmation.renderConfirmation('Cancel Return To Vendor', 'Canceling this Return To Vendor Session will cause all transacted items to be cancelled. Continue?');
                 const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
                 const $no = FwConfirmation.addButton($confirmation, 'No', true);
 
@@ -229,9 +227,6 @@ class ReturnToVendor {
 
         // Create Contract
         $form.find('.createcontract').on('click', e => {
-            let date = new Date(),
-                currentDate = date.toLocaleString(),
-                currentTime = date.toLocaleTimeString();
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completecontract/${contractId}`, null, FwServices.defaultTimeout,
                 response => {
@@ -245,7 +240,9 @@ class ReturnToVendor {
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
+                    const currentDate = FwLocale.getDate();
                     FwFormField.setValueByDataField($form, 'Date', currentDate);
+                    const currentTime = moment(Date.now()).locale(navigator.language).format('LT');
                     FwFormField.setValueByDataField($form, 'Time', currentTime);
                 }, null, $form);
         });

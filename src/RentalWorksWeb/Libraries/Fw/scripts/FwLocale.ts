@@ -61,6 +61,10 @@
         return (localFormat) ? localmoment.format('L') : localmoment.format('YYYY-MM-DD');
     }
     //---------------------------------------------------------------------------------
+    getTime(time?: string, localFormat?: boolean, modifier?: DateModifier): string {
+        return Intl.DateTimeFormat(navigator.language, { hour: 'numeric', minute: 'numeric' }).format(new Date());
+    }
+    //---------------------------------------------------------------------------------
     /**
      * Returns @param value in localized format
      * @param value 

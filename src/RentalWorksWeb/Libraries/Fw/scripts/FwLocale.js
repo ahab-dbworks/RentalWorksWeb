@@ -48,6 +48,9 @@ class FwLocaleClass {
         }
         return (localFormat) ? localmoment.format('L') : localmoment.format('YYYY-MM-DD');
     }
+    getTime(time, localFormat, modifier) {
+        return Intl.DateTimeFormat(navigator.language, { hour: 'numeric', minute: 'numeric' }).format(new Date());
+    }
     getNumber(value, language, options) {
         if (typeof value === 'string') {
             value = parseFloat(value);
