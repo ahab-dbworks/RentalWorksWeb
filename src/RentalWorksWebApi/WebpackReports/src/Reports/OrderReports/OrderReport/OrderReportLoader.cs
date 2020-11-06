@@ -453,9 +453,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
-    public class UsedSaleOrderItemReportLoader : OrderItemReportLoader
+    public class RentalSaleOrderItemReportLoader : OrderItemReportLoader
     {
-        public UsedSaleOrderItemReportLoader()
+        public RentalSaleOrderItemReportLoader()
         {
             recType = RwConstants.RECTYPE_USED_SALE;
         }
@@ -1280,7 +1280,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<LaborOrderItemReportLoader> LaborItems { get; set; } = new List<LaborOrderItemReportLoader>(new LaborOrderItemReportLoader[] { new LaborOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<UsedSaleOrderItemReportLoader> UsedSaleItems { get; set; } = new List<UsedSaleOrderItemReportLoader>(new UsedSaleOrderItemReportLoader[] { new UsedSaleOrderItemReportLoader() });
+        public List<RentalSaleOrderItemReportLoader> RentalSaleItems { get; set; } = new List<RentalSaleOrderItemReportLoader>(new RentalSaleOrderItemReportLoader[] { new RentalSaleOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<LossAndDamageOrderItemReportLoader> LossAndDamageItems { get; set; } = new List<LossAndDamageOrderItemReportLoader>(new LossAndDamageOrderItemReportLoader[] { new LossAndDamageOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
@@ -1343,11 +1343,11 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems<LaborOrderItemReportLoader>(request);
 
-                    //used sale items
-                    Task<List<UsedSaleOrderItemReportLoader>> taskUsedSaleOrderItems;
-                    UsedSaleOrderItemReportLoader UsedSaleItems = new UsedSaleOrderItemReportLoader();
-                    UsedSaleItems.SetDependencies(AppConfig, UserSession);
-                    taskUsedSaleOrderItems = UsedSaleItems.LoadItems<UsedSaleOrderItemReportLoader>(request);
+                    //rental sale items
+                    Task<List<RentalSaleOrderItemReportLoader>> taskRentalSaleOrderItems;
+                    RentalSaleOrderItemReportLoader RentalSaleItems = new RentalSaleOrderItemReportLoader();
+                    RentalSaleItems.SetDependencies(AppConfig, UserSession);
+                    taskRentalSaleOrderItems = RentalSaleItems.LoadItems<RentalSaleOrderItemReportLoader>(request);
 
                     //loss and damage items
                     Task<List<LossAndDamageOrderItemReportLoader>> taskLossAndDamageOrderItems;
@@ -1369,7 +1369,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
 
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems, taskNotesOrderItems, taskHiatusDates });
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskRentalSaleOrderItems, taskLossAndDamageOrderItems, taskNotesOrderItems, taskHiatusDates });
 
                     Order = taskOrder.Result;
 
@@ -1380,7 +1380,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.SalesItems = taskSalesOrderItems.Result;
                         Order.MiscItems = taskMiscOrderItems.Result;
                         Order.LaborItems = taskLaborOrderItems.Result;
-                        Order.UsedSaleItems = taskUsedSaleOrderItems.Result;
+                        Order.RentalSaleItems = taskRentalSaleOrderItems.Result;
                         Order.LossAndDamageItems = taskLossAndDamageOrderItems.Result;
                         Order.Notes = taskNotesOrderItems.Result;
                         Order.HiatusDates = taskHiatusDates.Result;
