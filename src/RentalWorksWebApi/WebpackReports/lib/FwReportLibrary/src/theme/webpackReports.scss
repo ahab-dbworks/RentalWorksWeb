@@ -268,3 +268,8 @@ body {
 [data-visible]:not([data-visible="true"]) {
     display: none;
 }
+
+[data-section="header"] span,
+[data-section="footer"] span {
+    white-space: pre;
+}
