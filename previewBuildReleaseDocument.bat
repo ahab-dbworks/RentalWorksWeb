@@ -30,7 +30,8 @@ if "%productname%"=="RentalWorks" (
 )
 
 rem Get the Web Build number from the user
-FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt) DO @set previousversionno=%%i
+rem FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\RentalWorksWebApi\version-%productname%Web.txt) DO @set previousversionno=%%i
+FOR /F "tokens=*" %%i IN (%DwRentalWorksWebPath%\src\RentalWorksWebApi\version.txt) DO @set previousversionno=%%i
 
 rem command-line Git push in the temporary vNext tag
 cd %DwRentalWorksWebPath%
