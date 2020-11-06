@@ -777,7 +777,7 @@ abstract class FwWebApiReport {
             }
             popupCaption = FwFormField.getTextByDataField($form, 'CustomReportLayoutId') || 'Custom Report Layout';
             const $popupControl = FwPopup.renderPopup($popupForm, {}, popupCaption);
-            $popupControl.find('.fwconfirmationbox').css({ 'width': '80vw', 'height': '80vh', 'overflow': 'auto' });
+            $popupForm.css({ 'width': '80vw', 'height': '80vh', 'overflow': 'auto' });
             $popupForm.data('usereportlayout', true);
             $popupForm.data('$reportfrontend', $form);
             FwPopup.showPopup($popupControl);
