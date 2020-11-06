@@ -48,14 +48,20 @@ class FwLocaleClass {
         }
         return (localFormat) ? localmoment.format('L') : localmoment.format('YYYY-MM-DD');
     }
-    getTime(time, localFormat, modifier) {
-        let hour12 = true;
+    getTime(time, time12) {
+        var localmoment;
+        if (time) {
+            localmoment = moment(time, 'HH:mm');
+        }
+        else {
+            localmoment = moment();
+        }
         const options = {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: hour12,
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: (time12) ? time12 : false
         };
-        return Intl.DateTimeFormat('default', options).format(new Date());
+        return Intl.DateTimeFormat(this.Locale, options).format(localmoment);
     }
     getNumber(value, language, options) {
         if (typeof value === 'string') {

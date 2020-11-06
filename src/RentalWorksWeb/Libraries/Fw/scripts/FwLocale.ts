@@ -61,14 +61,24 @@
         return (localFormat) ? localmoment.format('L') : localmoment.format('YYYY-MM-DD');
     }
     //---------------------------------------------------------------------------------
-    getTime(time?: string, localFormat?: boolean, modifier?: DateModifier): string {
-        let hour12 = true;
-        const options = {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: hour12,
+    /**
+     * @param time Optional. If null time is provided it will operate on now.
+     * @param time12 Optional. true value returns 12 hour time. 24 hour format is the default.
+     */
+    getTime(time?: string, time12?: boolean): string {
+        var localmoment;
+        if (time) {
+            localmoment = moment(time, 'HH:mm');
+        } else {
+            localmoment = moment();
         }
-        return Intl.DateTimeFormat('default', options).format(new Date());
+
+        const options = {
+            hour:   '2-digit',
+            minute: '2-digit',
+            hour12:  (time12) ? time12 : false
+        }
+        return Intl.DateTimeFormat(this.Locale, options).format(localmoment);
     }
     //---------------------------------------------------------------------------------
     /**
