@@ -294,9 +294,9 @@ function formatBytes(bytes, decimals = 2) {
             file.push(`cd Update`);
             file.push(`cd ${productname}Web`);
             file.push(`cd ${shortversionno}`);
+            file.push(`put ${pdffilename}`);
             file.push(`cd QA`);
             file.push(`put ${hotfixfilename}`);
-            file.push(`put ${pdffilename}`);
             file.push(`put ${zipfilename}`);
             file.push(`quit`);
             file = file.join('\n');
