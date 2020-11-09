@@ -343,6 +343,15 @@ class SearchInterface {
         //Sets inventory type by active tab
         if (typeof gridInventoryType == 'undefined') {
             gridInventoryType = $form.find('.tabs .active[data-type="tab"]').attr('data-inventorytype');
+            if (typeof gridInventoryType == 'undefined') {
+                const rentalChecked = FwFormField.getValueByDataField($form, 'Rental');
+                const salesChecked = FwFormField.getValueByDataField($form, 'Sales');
+                if (rentalChecked) {
+                    gridInventoryType = 'Rental';
+                } else if (salesChecked) {
+                    gridInventoryType = 'Sales';
+                }
+            }
         }
 
         switch (gridInventoryType) {
