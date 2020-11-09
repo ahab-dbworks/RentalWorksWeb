@@ -55,7 +55,7 @@ abstract class StagingCheckoutBase {
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo[`${this.Type}Id`], parentmoduleinfo[`${this.Type}Number`]);
-            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
+            //FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
             $form.find(`[data-datafield="${this.Type}Id"]`).change();
             $form.attr('data-showsuspendedsessions', 'false');
