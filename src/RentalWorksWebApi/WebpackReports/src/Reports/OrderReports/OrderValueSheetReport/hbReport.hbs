@@ -1,0 +1,209 @@
+﻿<!--Order Value Sheet Report-->
+<!--SUMMARY VIEW TABLE-->
+{{#ifEquals IsSummary true}}
+<div data-section="header" data-headerfor="Summary View">
+  <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+    <div class="rpt-flexcolumn" style="padding-bottom:5px;">
+      <div class="rpt-nested-flexrow">
+        <div data-visible="{{#if Logosrc}}true{{/if}}" style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+      </div>
+      <div class="rpt-nested-flexrow"><span style="font-weight:600; font-size:18px;">{{OfficeLocationCompany}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{OfficeLocationAddress1}}</span></div>
+      <div data-visible="{{#if OfficeLocationAddress2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{OfficeLocationAddress2}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{OfficeLocationCityStateZipCodeCountry}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="font-weight:600;">Phone: </span><span>{{OfficeLocationPhone}}</span></div>
+      <div class="rpt-nested-flexrow" data-visible="{{#gt OfficeLocationFax.length 0}}true{{/gt}}"><span style="font-weight:600;">Fax: </span><span>{{OfficeLocationFax}}</span></div>
+    </div>
+    <div style="max-width: 283px;" class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow title blue"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow sub-title blue"><span>{{Department}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow">
+        <span style="width:40%;text-align:right;color:#027cc5;font-size: 32px; font-weight: 600; padding-right: 8px;">No: </span>
+        <span style="width:60%;text-align:center;font-size: 32px; background-color: #DCDCDC; color: black; border: 3px solid #0798ee; padding: 3px;">{{OrderNumber}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="width:40%;text-align:right;color: #027cc5; font-weight: 600; font-size: 20px; padding-top: 10px;">Date: </span>
+        <span style="width:60%;text-align:center;font-size: 20px; color: black; padding-left: 12px;">{{PrintDate}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="rpt-flexrow" style="padding-left:3px;">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow meta-header"><span>Issued To:</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{IssuedToCompany}}</span></div>
+      <div class="rpt-nested-flexrow header-left" data-visible="{{#if IssuedToAttentionTo1}}true{{/if}}"><span>c/o {{IssuedToAttentionTo1}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{IssuedToAddress1}}</span></div>
+      <div data-visible="{{#if IssuedToAddress2}}true{{/if}}" class="rpt-nested-flexrow header-left"><span>{{IssuedToAddress2}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span style="font-weight:600;">Phone: </span><span>{{IssuedToPhone}}</span></div>
+      <div class="rpt-nested-flexrow header-left" data-visible="{{#gt DealFax.length 0}}true{{/gt}}"><span style="font-weight:600;">Fax: </span><span>{{OrderIssuedToFax}}</span></div>
+      <div class="rpt-nested-flexrow meta-header"><span>Outgoing (Deliver)</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{OutDeliveryLocation}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{OutDeliveryAddress1}}</span></div>
+      <div data-visible="{{#if OutDeliveryAddress2}}true{{/if}}" class="rpt-nested-flexrow header-left"><span>{{OutDeliveryAddress2}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{OutDeliveryCityStateZipCodeCountry}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span style="font-weight:600;">Phone: </span><span>{{OutDeliveryContactPhone}}</span></div>
+      <div class="rpt-nested-flexrow header-left" data-visible="{{#gt DealFax.length 0}}true{{/gt}}"><span style="font-weight:600;">Fax: </span><span>{{OrderIssuedToFax}}</span></div>
+    </div>
+    <div style="max-width:50px;" class="rpt-flexcolumn middle">
+      <div class="rpt-nested-flexrow"><span style="padding:10px;"></span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow meta-header"><span>Order Details:</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Order No:</span><span style="padding:3px;">{{OrderNumber}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Deal: </span><span style="padding:3px;">{{Deal}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Description:</span><span style="padding:3px;">{{Description}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Usage Dates:</span><span style="padding:3px;">{{UsageDates}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Billing Period:</span><span style="padding:3px;">{{BillingDates}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Agent:</span><span style="padding:3px;">{{Agent}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Email:</span><span style="padding:3px;">{{AgentEmail}}</span></div>
+    </div>
+  </div>
+</div>
+<div data-section="table" class="rpt-flexrow" style="margin-top:25px;">
+  <table data-tablename="Summary View">
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th data-linkedcolumn="CountryOfOrigin" data-valuefield="CountryOfOrigin">Country of Origin</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">Quantity</th>
+        <th data-linkedcolumn="ValuePerItem" data-valuefield="ValuePerItem" class="number">Item Value</th>
+        <th data-linkedcolumn="ValueExtended" data-valuefield="ValueExtended" class="number">Extended Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Items}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}" class="description-row">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" class="nowrap"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="CountryOfOrigin" data-value="{{CountryOfOrigin}}"></td>
+        <td data-linkedcolumn="Quantity" data-value="{{Quantity}}" class="number"></td>
+        <td data-linkedcolumn="ValuePerItem" data-value="{{ValuePerItem}}" class="number"></td>
+        <td data-linkedcolumn="ValueExtended" data-value="{{ValueExtended}}" class="number"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer">
+        <td colspan="5" class="total-name" style="min-width:300px;text-align:right;padding-right:10px;font-weight:bold;">GRAND TOTAL:</td>
+        <td data-linkedcolumn="ValueExtended" class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{ValueExtended}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/ifEquals}}
+<!--DETAIL VIEW TABLE-->
+{{#ifEquals IsSummary false}}
+<div data-section="header" data-headerfor="Detail View">
+  <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+    <div class="rpt-flexcolumn" style="padding-bottom:5px;">
+      <div class="rpt-nested-flexrow">
+        <div data-visible="{{#if Logosrc}}true{{/if}}" style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+      </div>
+      <div class="rpt-nested-flexrow"><span style="font-weight:600; font-size:18px;">{{OfficeLocationCompany}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{OfficeLocationAddress1}}</span></div>
+      <div data-visible="{{#if OfficeLocationAddress2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{OfficeLocationAddress2}}</span></div>
+      <div class="rpt-nested-flexrow"><span>{{OfficeLocationCityStateZipCodeCountry}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="font-weight:600;">Phone: </span><span>{{OfficeLocationPhone}}</span></div>
+      <div class="rpt-nested-flexrow" data-visible="{{#gt OfficeLocationFax.length 0}}true{{/gt}}"><span style="font-weight:600;">Fax: </span><span>{{OfficeLocationFax}}</span></div>
+    </div>
+    <div style="max-width: 283px;" class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow title blue"><span>{{Report}}</span></div>
+      <div class="rpt-nested-flexrow sub-title blue"><span>{{Department}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow">
+        <span style="width:40%;text-align:right;color:#027cc5;font-size: 32px; font-weight: 600; padding-right: 8px;">No: </span>
+        <span style="width:60%;text-align:center;font-size: 32px; background-color: #DCDCDC; color: black; border: 3px solid #0798ee; padding: 3px;">{{OrderNumber}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="width:40%;text-align:right;color: #027cc5; font-weight: 600; font-size: 20px; padding-top: 10px;">Date: </span>
+        <span style="width:60%;text-align:center;font-size: 20px; color: black; padding-left: 12px;">{{PrintDate}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="rpt-flexrow" style="padding-left:3px;">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow meta-header"><span>Issued To:</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{IssuedToCompany}}</span></div>
+      <div class="rpt-nested-flexrow header-left" data-visible="{{#if IssuedToAttentionTo1}}true{{/if}}"><span>c/o {{IssuedToAttentionTo1}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{IssuedToAddress1}}</span></div>
+      <div data-visible="{{#if IssuedToAddress2}}true{{/if}}" class="rpt-nested-flexrow header-left"><span>{{IssuedToAddress2}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span style="font-weight:600;">Phone: </span><span>{{IssuedToPhone}}</span></div>
+      <div class="rpt-nested-flexrow header-left" data-visible="{{#gt DealFax.length 0}}true{{/gt}}"><span style="font-weight:600;">Fax: </span><span>{{OrderIssuedToFax}}</span></div>
+      <div class="rpt-nested-flexrow meta-header"><span>Outgoing (Deliver)</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{OutDeliveryLocation}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{OutDeliveryAddress1}}</span></div>
+      <div data-visible="{{#if OutDeliveryAddress2}}true{{/if}}" class="rpt-nested-flexrow header-left"><span>{{OutDeliveryAddress2}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span>{{OutDeliveryCityStateZipCodeCountry}}</span></div>
+      <div class="rpt-nested-flexrow header-left"><span style="font-weight:600;">Phone: </span><span>{{OutDeliveryContactPhone}}</span></div>
+      <div class="rpt-nested-flexrow header-left" data-visible="{{#gt DealFax.length 0}}true{{/gt}}"><span style="font-weight:600;">Fax: </span><span>{{OrderIssuedToFax}}</span></div>
+    </div>
+    <div style="max-width:50px;" class="rpt-flexcolumn middle">
+      <div class="rpt-nested-flexrow"><span style="padding:10px;"></span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow meta-header"><span>Order Details:</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Order No:</span><span style="padding:3px;">{{OrderNumber}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Deal: </span><span style="padding:3px;">{{Deal}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Description:</span><span style="padding:3px;">{{Description}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Usage Dates:</span><span style="padding:3px;">{{UsageDates}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Billing Period:</span><span style="padding:3px;">{{BillingDates}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Agent:</span><span style="padding:3px;">{{Agent}}</span></div>
+      <div class="rpt-nested-flexrow"><span style="width:110px;padding:3px;" class="shaded-block">Email:</span><span style="padding:3px;">{{AgentEmail}}</span></div>
+    </div>
+  </div>
+</div>
+<div data-section="table" class="rpt-flexrow" style="margin-top:25px;">
+  <table data-tablename="Detail View">
+    <thead id="columnHeader">
+      <tr data-row="main-header">
+        <th data-linkedcolumn="ICode" data-valuefield="ICode">I-Code</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription">Description</th>
+        <th data-linkedcolumn="CountryOfOrigin" data-valuefield="CountryOfOrigin">Country of Origin</th>
+        <th data-linkedcolumn="MfgSerial" data-valuefield="MfgSerial" class="number">Serial No.</th>
+        <th data-linkedcolumn="Barcode" data-valuefield="Barcode" class="number">Barcode</th>
+        <th data-linkedcolumn="Quantity" data-valuefield="Quantity" class="number">Quantity</th>
+        <th data-linkedcolumn="WeightLbs" data-valuefield="WeightLbs" class="number">Weight Per Item</th>
+        <th data-linkedcolumn="ExtendedWeightLbs" data-valuefield="ExtendedWeightLbs" class="number">Extended Weight</th>
+        <th data-linkedcolumn="ValuePerItem" data-valuefield="ValuePerItem" class="number">Item Value</th>
+        <th data-linkedcolumn="ValueExtended" data-valuefield="ValueExtended" class="number">Extended Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Items}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}" class="description-row">
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" class="nowrap"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}"></td>
+        <td data-linkedcolumn="CountryOfOrigin" data-value="{{CountryOfOrigin}}"></td>
+        <td data-linkedcolumn="MfgSerial" data-value="{{MfgSerial}}" class="number"></td>
+        <td data-linkedcolumn="Barcode" data-value="{{Barcode}}" class="number"></td>
+        <td data-linkedcolumn="Quantity" data-value="{{Quantity}}" class="number"></td>
+        <td data-linkedcolumn="WeightLbs" data-value="{{WeightLbs}} lb {{WeightOz}} oz" class="number"></td>
+        <td data-linkedcolumn="ExtendedWeightLbs" data-value="{{ExtendedWeightLbs}} lb {{ExtendedWeightOz}} oz" class="number"></td>
+        <td data-linkedcolumn="ValuePerItem" data-value="{{ValuePerItem}}" class="number"></td>
+        <td data-linkedcolumn="ValueExtended" data-value="{{ValueExtended}}" class="number"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer">
+        <td data-linkedcolumn="MfgSerial"></td>
+        <td data-linkedcolumn="Barcode"></td>
+        <td colspan="5" class="total-name" style="min-width:300px;text-align:right;padding-right:10px;font-weight:bold;">GRAND TOTAL:</td>
+        <td data-linkedcolumn="ExtendedWeightLbs" class="grandTotalAllActivities" style="min-width:155px;padding-right:3px;" data-value="{{ExtendedWeightLbs}} lb {{ExtendedWeightOz}} oz"></td>
+        <td data-linkedcolumn="ValuePerItem" class="grandTotalAllActivities" style="min-width:40px;"></td>
+        <td data-linkedcolumn="ValueExtended" class="number grandTotalAllActivities" style="min-width:150px;padding-right:3px;" data-value="{{ValueExtended}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/ifEquals}}

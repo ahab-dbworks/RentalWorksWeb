@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/manifestreport/, action: function (match: RegExpExecArray) {
-        return ManifestReportController.getModuleScreen();
+    pattern: /^reports\/ordervaluesheetreport/, action: function (match: RegExpExecArray) {
+        return OrderValueSheetReportController.getModuleScreen();
     }
 });
 
-const manifestTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Value Sheet" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ManifestReportController">
+const orderValueSheetTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Value Sheet" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderValueSheetReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -15,12 +15,23 @@ const manifestTemplate = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Value Sheet">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order Number" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="View Items" data-datafield="manifestReportItems"></div>
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Mode">
+                    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IsSummary">
+                      <div data-value="true" data-caption="Summary"></div>
+                      <div data-value="false" data-caption="Detail"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Value Based On">
+                <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="RentalValue">
+                  <div data-value="REPLACEMENT COST" data-caption="Replacement Cost"></div>
+                  <div data-value="UNIT VALUE" data-caption="Unit Value"></div>
                 </div>
               </div>
             </div>
@@ -32,10 +43,10 @@ const manifestTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class ManifestReport extends FwWebApiReport {
+class OrderValueSheetReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ManifestReport', 'api/v1/manifestreport', manifestTemplate);
+        super('OrderValueSheetReport', 'api/v1/ordervaluesheetreport', orderValueSheetTemplate);
         this.reportOptions.HasDownloadExcel = false;
         this.designerProvisioned = true;
     }
@@ -61,14 +72,9 @@ class ManifestReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        FwFormField.loadItems($form.find('div[data-datafield="manifestReportItems"]'), [
-            { value: 'SUMMARY', caption: 'Summary', checked: 'checked' },
-            { value: 'DETAIL', caption: 'Detail' }
-        ]);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        parameters.hasOrderNo = true;
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
@@ -79,7 +85,8 @@ class ManifestReport extends FwWebApiReport {
                 break;
         }
     }
+    //----------------------------------------------------------------------------------------------
 };
 
-var ManifestReportController: any = new ManifestReport();
+var OrderValueSheetReportController: any = new OrderValueSheetReport();
 //----------------------------------------------------------------------------------------------

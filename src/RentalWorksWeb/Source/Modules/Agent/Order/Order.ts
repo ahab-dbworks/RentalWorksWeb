@@ -72,9 +72,9 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Manifest', '', (e: JQuery.ClickEvent) => {
+        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Value Sheet', '', (e: JQuery.ClickEvent) => {
             try {
-                this.printManifest(options.$form);
+                this.printValueSheet(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -845,7 +845,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="picklisttab" class="tab submodule picklisttab" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
               <div data-type="tab" id="contracttab" class="tab submodule contracttab" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
               <div data-type="tab" id="delivershiptab" class="tab delivershiptab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
-              <div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Manifest"></div>
+              <div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Value Sheet"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule invoicetab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="repairtab" class="tab submodule repairtab" data-tabpageid="repairtabpage" data-caption="Repair"></div>
               <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
