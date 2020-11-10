@@ -2691,10 +2691,10 @@ class OrderBase {
         //Print Delivery Instructions
         $form.find('.prnt-deliv-instruct').on('click', e => {
             try {
-                let tag = 'Out';
+                let tag = 'Outgoing';
                 const $this = jQuery(e.currentTarget);
                 if ($this.hasClass('in')) {
-                    tag = 'In';
+                    tag = 'Incoming';
                 }
                 this.printDeliveryInstructions($form, tag);
             } catch (ex) {
@@ -3083,22 +3083,29 @@ class OrderBase {
         try {
             const print = () => {
                 const module = this.Module;
-                const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
-                const orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
-                const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
-                const deliveryId = FwFormField.getValueByDataField($form, `$tag}goingDeliveryId`);
-                const $report = (tag === 'out') ? IncomingShippingLabelController.openForm() : OutgoingShippingLabelController.openForm();
+
+                let $report;
+                if (tag === 'Outgoing') {
+                    $report = OutgoingDeliveryInstructionsController.openForm();
+                } else if (tag === 'Incoming') {
+                    $report = IncomingDeliveryInstructionsController.openForm();
+                }
                 FwModule.openSubModuleTab($form, $report);
 
-                FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
+                const deliveryId = FwFormField.getValueByDataField($form, `${tag}DeliveryId`);
+                FwFormField.setValueByDataField($report, `${tag}DeliveryId`, deliveryId);
+                const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
+                FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, deliveryId, orderNumber);
+                const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
                 FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
+
                 const $tab = FwTabs.getTabByElement($report);
                 $tab.find('.caption').html(`Print ${module} ${tag}going Delivery Instructions `);
             }
 
             const isModified = $form.attr('data-modified');
             if (isModified === 'true') {
-                const $confirmation = FwConfirmation.renderConfirmation('Unsaved Changes on Form', "Any unsaved changes related to your shipping label will not be reflected in print. Continue to print or cancel and save changes?");
+                const $confirmation = FwConfirmation.renderConfirmation('Unsaved Changes on Form', "Any unsaved changes related to your Delivery Instructions will not be reflected in print. Continue to print or cancel and save changes?");
                 const $yes = FwConfirmation.addButton($confirmation, `Print Label`, false);
                 const $no = FwConfirmation.addButton($confirmation, 'Cancel');
                 $yes.on('click', e => {

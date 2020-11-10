@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/deliverylabel/, action: function (match: RegExpExecArray) {
-        return DeliveryLabelController.getModuleScreen();
+    pattern: /^reports\/outgoingdeliveryinstructions/, action: function (match: RegExpExecArray) {
+        return OutgoingDeliveryInstructionsController.getModuleScreen();
     }
 });
 
-const deliveryLabelTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="DeliveryLabelController">
+const outgoingDeliveryInstructionsTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OutgoingDeliveryInstructionsController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -22,6 +22,7 @@ const deliveryLabelTemplate = `
             </div>
           </div>
           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="CompanyIdField" data-savesetting="false" style="display:none;"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="OutgoingDeliveryId" data-savesetting="false" style="display:none;"></div>
         </div>
       </div>
     </div>
@@ -29,10 +30,10 @@ const deliveryLabelTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class DeliveryLabel extends FwWebApiReport {
+class OutgoingDeliveryInstructions extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('DeliveryLabel', 'api/v1/deliverylabel', deliveryLabelTemplate);
+        super('OutgoingDeliveryInstructions', 'api/v1/outgoingdeliveryinstructions', outgoingDeliveryInstructionsTemplate);
         this.reportOptions.HasDownloadExcel = false;
         this.designerProvisioned = true;
     }
@@ -58,7 +59,7 @@ class DeliveryLabel extends FwWebApiReport {
         // Store info for emailing subject line
         $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
             $form.attr('data-caption', `Order ${$tr.find('.field[data-formdatafield="OrderNumber"]').attr('data-originalvalue')} ${$tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue')}`);
-
+            FwFormField.setValueByDataField($form, 'OutgoingDeliveryId', FwBrowse.getValueByDataField($tr, $tr, 'OutgoingDeliveryId'));
             //set CompanyId value for filtering contact list
             FwFormField.setValueByDataField($form, 'CompanyIdField', FwBrowse.getValueByDataField($tr, $tr, 'DealId'));
         });
@@ -90,5 +91,5 @@ class DeliveryLabel extends FwWebApiReport {
     //}
 };
 
-var DeliveryLabelController: any = new DeliveryLabel();
+var OutgoingDeliveryInstructionsController: any = new OutgoingDeliveryInstructions();
 //----------------------------------------------------------------------------------------------
