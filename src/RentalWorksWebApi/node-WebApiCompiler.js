@@ -51,7 +51,21 @@ class WebApiCompiler {
     async removeDir_prod_reports() {
         //console.log('//------------------------------------------------------------------------------------');
         console.log('Deleting: wwwroot/Reports');
-        await fse.remove('wwwroot/Reports');
+        const pathReportsDir = path.resolve(this.appSolutionDir, 'src', 'RentalWorksWebApi', 'wwwroot', 'Reports');
+        if (this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_PRODUCTION || this.report === 'all') {
+            
+            await fse.remove('wwwroot/Reports');
+        } 
+        else if (this.reports.length > 0) {
+            const reports = this.reports.split(',');
+            for (let i = 0; i < reports.length; i++) {
+                const report = reports[i];
+                const pathReportDir = path.resolve(pathReportsDir, report);
+                if (fse.existsSync(pathReportDir)) {
+                    fse.removeSync(pathReportDir);
+                }
+            }
+        }
     }
     //------------------------------------------------------------------------------------
     async removeDir_prod_quikscan() {
