@@ -16,6 +16,7 @@ using System.IO;
 using System.Reflection;
 using WebApi.ApplicationManager;
 using WebApi.Middleware;
+using WebApi.Modules.HomeControls.BillingSchedule;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi
@@ -40,6 +41,10 @@ namespace WebApi
             if (this.ApplicationConfig.EnableAvailabilityService)
             {
                 services.AddHostedService<AvailabilityService>();
+            }
+            if (this.ApplicationConfig.EnableBillingScheduleService)
+            {
+                services.AddHostedService<BillingScheduleService>();
             }
         }
         //------------------------------------------------------------------------------------
