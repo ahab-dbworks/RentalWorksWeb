@@ -5,14 +5,14 @@ import '../../../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
 const hbReport = require("./hbReport.hbs");
 
-export class DeliveryLabel extends WebpackReport {
+export class OutgoingDeliveryInstructions extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<DataTable>(`${apiUrl}/api/v1/deliverylabel/runreport`, authorizationHeader, parameters)
+                    Ajax.post<DataTable>(`${apiUrl}/api/v1/outgoingdeliveryinstructions/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
                             this.setReportMetadata(parameters, data, response);
@@ -44,4 +44,4 @@ export class DeliveryLabel extends WebpackReport {
     }
 }
 
-(<any>window).report = new DeliveryLabel();
+(<any>window).report = new OutgoingDeliveryInstructions();

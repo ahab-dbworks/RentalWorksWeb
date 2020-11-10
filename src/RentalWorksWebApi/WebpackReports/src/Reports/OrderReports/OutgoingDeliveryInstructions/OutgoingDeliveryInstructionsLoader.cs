@@ -6,17 +6,17 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.DeliveryLabel
+namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
 {
     [FwSqlTable("deliveryview")]
-    public class DeliveryLabelLoader : AppReportLoader
+    public class OutgoingDeliveryInstructionsLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deliveryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string DeliveryLabelId { get; set; } = "";
+        public string OutgoingDeliveryId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deliverytype", modeltype: FwDataTypes.Text)]
         public string DeliveryType { get; set; }
@@ -246,7 +246,7 @@ namespace WebApi.Modules.Reports.DeliveryLabel
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(DeliveryLabelRequest request)
+        public async Task<FwJsonDataTable> RunReportAsync(OutgoingDeliveryInstructionsRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -258,7 +258,7 @@ namespace WebApi.Modules.Reports.DeliveryLabel
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddWhereIn("orderid", request.OrderId);
+                    select.AddWhereIn("deliveryId", request.OutgoingDeliveryId);
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }

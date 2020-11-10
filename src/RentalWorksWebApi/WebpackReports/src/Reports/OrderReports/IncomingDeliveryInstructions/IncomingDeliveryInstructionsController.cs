@@ -12,21 +12,21 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Data;
-namespace WebApi.Modules.Reports.DeliveryLabel
+namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
 {
-    public class DeliveryLabelRequest : AppReportRequest
+    public class IncomingDeliveryInstructionsRequest : AppReportRequest
     {
-        public string OrderId { get; set; }
+        public string IncomingDeliveryId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "9OT5LSvhJaTk3")]
-    public class DeliveryLabelController : AppReportController
+    public class IncomingDeliveryInstructionsController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
-        public DeliveryLabelController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(DeliveryLabelLoader); }
+        public IncomingDeliveryInstructionsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(IncomingDeliveryInstructionsLoader); }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFileName(FwReportRenderRequest request) { return "DeliveryLabel"; }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "IncomingDeliveryInstructions"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Outgoing / Incoming Delivery Label"; }
         //------------------------------------------------------------------------------------ 
@@ -41,10 +41,10 @@ namespace WebApi.Modules.Reports.DeliveryLabel
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "DeliveryLabel";
+            return "IncomingDeliveryInstructions";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/deliverylabel/render 
+        // POST api/v1/incomingdeliveryinstructions/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "9R8mDztxHNYCS")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody] FwReportRenderRequest request)
@@ -54,10 +54,10 @@ namespace WebApi.Modules.Reports.DeliveryLabel
             return actionResult;
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/deliverylabel/runreport 
+        // POST api/v1/incomingdeliveryinstructions/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "9WDYFashyRsBU")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody] DeliveryLabelRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody] IncomingDeliveryInstructionsRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Reports.DeliveryLabel
             }
             try
             {
-                DeliveryLabelLoader l = new DeliveryLabelLoader();
+                IncomingDeliveryInstructionsLoader l = new IncomingDeliveryInstructionsLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 l.HideDetailColumnsInSummaryDataTable(request, dt);
