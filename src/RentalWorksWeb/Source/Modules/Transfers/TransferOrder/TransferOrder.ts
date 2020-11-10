@@ -267,20 +267,26 @@ class TransferOrder {
     }
     //----------------------------------------------------------------------------------------------
     TransferOut($form: JQuery) {
-        try {
-            const mode = 'EDIT';
+        let transferStatus: string = FwFormField.getValueByDataField($form, 'Status');
+        if ((transferStatus === 'CONFIRMED') || (transferStatus === 'ACTIVE')) {
+            try {
+                const mode = 'EDIT';
                 const orderInfo: any = {};
                 orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
                 //orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'FromWarehouseId');
                 // orderInfo.Warehouse = FwFormField.getValueByDataField($form, 'FromWarehouseId');
                 orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
-            const $stagingCheckoutForm = TransferOutController.openForm(mode, orderInfo);
-            FwModule.openSubModuleTab($form, $stagingCheckoutForm);
-            const $tabPage = FwTabs.getTabPageByElement($stagingCheckoutForm);
-            const $tab = FwTabs.getTabByElement(jQuery($tabPage));
-            $tab.find('.caption').html('Transfer Out');
-        } catch (ex) {
-            FwFunc.showError(ex);
+                const $stagingCheckoutForm = TransferOutController.openForm(mode, orderInfo);
+                FwModule.openSubModuleTab($form, $stagingCheckoutForm);
+                const $tabPage = FwTabs.getTabPageByElement($stagingCheckoutForm);
+                const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+                $tab.find('.caption').html('Transfer Out');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }
+        else {
+            FwNotification.renderNotification('WARNING', "Transfer Order must be Confirmed before items can be Transferred Out.");
         }
     }
     //----------------------------------------------------------------------------------------------
