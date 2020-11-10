@@ -1267,7 +1267,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     addColumn($form: JQuery, $table: JQuery, $cachedRows: JQuery) {
-        let $newColumn, detailRowIndex = 0, linkedSubHeaderRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0, detailLinkedCol;
+        let $newColumn, detailRowIndex = 0, headerRowIndex = 0, linkedSubHeaderRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0, detailLinkedCol;
         const newColumnData = $form.data('addcolumn');
         const linkedColumn = newColumnData.newcolumnid;
         for (let i = 0; i < $cachedRows.length; i++) {
@@ -1284,6 +1284,10 @@ class CustomReportLayout {
                     $row.append($newColumn);
                     jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[detailRowIndex]).append($newColumn.clone().addClass('new-column')); //add to row on designer
                     detailRowIndex++;
+                    break;
+                case 'header':
+                    this.updateColspan($form, $table, $row, rowType, headerRowIndex);
+                    headerRowIndex++;
                     break;
                 case 'linked-sub-header':
                     $newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}"></th>`);
@@ -1315,7 +1319,7 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     deleteColumn($form: JQuery, $table: JQuery, $cachedRows: JQuery) {
-        let linkedColumn, rowIndex, deletedFromRowType, html, index = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0;
+        let linkedColumn, rowIndex, deletedFromRowType, html, index = 0, headerRowIndex = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0;
         if (typeof $form.data('deletefield') != 'undefined') {
             linkedColumn = $form.data('deletefield').linkedcolumn;
             rowIndex = $form.data('deletefield').rowindex;
@@ -1334,6 +1338,9 @@ class CustomReportLayout {
                     break;
                 case 'sub-detail':
                     index = subDetailRowIndex;
+                    break;
+                case 'header':
+                    index = headerRowIndex;
                     break;
                 case 'footer':
                     index = footerRowIndex;
@@ -1373,6 +1380,10 @@ class CustomReportLayout {
                         $row.html(html);
                     }
                     subDetailRowIndex++;
+                    break;
+                case 'header':
+                    this.updateColspan($form, $table, $row, rowType, headerRowIndex);
+                    headerRowIndex++;
                     break;
                 case 'footer':
                     if ($designerTd.length) {
@@ -1761,6 +1772,15 @@ class CustomReportLayout {
                 break;
         }
         $form.removeData('columnsmoved');
+    }
+    //----------------------------------------------------------------------------------------------
+    updateColspan($form: JQuery, $table: JQuery, $row: JQuery, rowType: string, rowIndex: number) {
+        const maxColspan = this.getTotalColumnCount($table, true);
+        const currentColspan = this.getTotalColumnCount($table, false, $row);
+        if (maxColspan != currentColspan) {
+            $row.find('td').attr('colspan', maxColspan);
+            jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[rowIndex]).find('td').attr('colspan', maxColspan);
+        }
     }
     //----------------------------------------------------------------------------------------------
 };
