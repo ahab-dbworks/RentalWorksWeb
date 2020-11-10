@@ -269,7 +269,7 @@ body {
     display: none;
 }
 
-[data-section="header"] span,
-[data-section="footer"] span {
-    white-space: pre;
+#reportDesigner [data-section="header"] span:after,
+#reportDesigner [data-section="footer"] span:after {
+    content: "\a0";
 }

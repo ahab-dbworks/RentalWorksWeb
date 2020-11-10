@@ -739,7 +739,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner .footer-wrapper.selected {box-shadow: 0 10px 10px 0 #2196f34a;}
 #reportDesigner [data-section] {width:auto !important; display:grid;}
 #reportDesigner [data-section="header"] span, 
-#reportDesigner [data-section="footer"] span  {border:2px solid #99d6fd; padding:1px;white-space:pre;}
+#reportDesigner [data-section="footer"] span  {border:2px solid #99d6fd; padding:1px;}
 #reportDesigner table {border:1px solid #e0e0e0; margin-top:1em;}
 #reportDesigner table tbody td:after { content: attr(data-value); }
 #reportDesigner table .new-column:after { content: "[New Column]"; color:#f44336; }
@@ -776,11 +776,13 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner .footer-wrapper .rpt-header-left,
 #reportDesigner .header-wrapper .rpt-header-left {align-self: flex-start;font-size: 13px;font-weight: bold;}
 #reportDesigner .footer-wrapper .title,
-#reportDesigner .header-wrapper .title {color: #027cc5;align-self: center;font-family: Arial, sans-serif;font-size: 38px;font-weight: bold;}
+#reportDesigner .header-wrapper .title {color: #027cc5;align-self: center;font-family: Arial, sans-serif;font-size: 38px;font-weight: bold;background:white;}
 #reportDesigner .footer-wrapper .sub-title,
 #reportDesigner .header-wrapper .sub-title {align-self: center;font-family: Arial, sans-serif;font-size: 15px;font-weight: bold;}
 #reportDesigner .footer-wrapper .meta-header,
 #reportDesigner .header-wrapper .meta-header {background-color: #e3f2fd;font-weight: 600;border-bottom: .2em solid #027cc5;border-top: .2em solid #027cc5;padding: 8px;}
+#reportDesigner [data-section="header"] span:after,
+#reportDesigner [data-section="footer"] span:after {content: "\a0";}
 
 .modulefields div {cursor:pointer;}
 .modulefields div:nth-child(odd) {background-color: #f1f1f1;}
