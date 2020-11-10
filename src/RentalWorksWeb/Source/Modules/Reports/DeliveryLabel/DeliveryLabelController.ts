@@ -17,7 +17,7 @@ const deliveryLabelTemplate = `
             <div class="flexcolumn" style="max-width:500px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Delivery Label">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-savesetting="false" data-required="true" data-datafield="DeliveryId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-savesetting="false" data-required="true" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="float:left;max-width:300px;"></div>
                 </div>
             </div>
           </div>
