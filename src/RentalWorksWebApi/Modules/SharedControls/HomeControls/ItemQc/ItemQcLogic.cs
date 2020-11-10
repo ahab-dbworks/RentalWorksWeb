@@ -65,6 +65,9 @@ namespace WebApi.Modules.HomeControls.ItemQc
         [FwLogicProperty(Id:"LhM3v7hesjuO", IsReadOnly:true)]
         public bool? HasImage { get; set; }
 
+        [FwLogicProperty(Id: "0dAoeYQlqcl8S", IsReadOnly: true)]
+        public string QcAppImageId { get; set; }
+
         [FwLogicProperty(Id:"bBt0lDIjW2VM", IsReadOnly:true)]
         public string Datstamp { get; set; }
 

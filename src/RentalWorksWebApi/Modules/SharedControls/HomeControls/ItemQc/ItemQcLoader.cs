@@ -61,6 +61,9 @@ namespace WebApi.Modules.HomeControls.ItemQc
         [FwSqlDataField(column: "hasimage", modeltype: FwDataTypes.Boolean)]
         public bool? HasImage { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "appimageid", modeltype: FwDataTypes.Text)]
+        public string QcAppImageId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datstamp", modeltype: FwDataTypes.UTCDateTime)]
         public string Datstamp { get; set; }
         //------------------------------------------------------------------------------------ 
