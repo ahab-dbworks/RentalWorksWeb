@@ -2109,6 +2109,7 @@ class OrderItemGrid {
                 if (qty != 0) {
                     const item = {
                         InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryId'),
+                        InventoryPackageInventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryPackageInventoryId'),
                         Quantity: qty
                     }
                     $items.push(item);
