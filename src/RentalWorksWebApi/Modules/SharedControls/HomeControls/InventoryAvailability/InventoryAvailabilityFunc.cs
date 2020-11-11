@@ -1282,14 +1282,17 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                 const int MAX_ITEMS_PER_ITERATION = 300;
                 foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
                 {
-                    qry.Add("if (not exists (select *                                                     ");
-                    qry.Add("                 from  tmpsearchsession t                                    ");
-                    qry.Add("                 where t.sessionid   = @sessionid                            ");
-                    qry.Add("                 and   t.masterid    = @masterid" + i.ToString() + "))       ");
-                    qry.Add("begin                                                                        ");
-                    qry.Add("   insert into tmpsearchsession (sessionid, masterid)                        ");
-                    qry.Add("    values (@sessionid, @masterid" + i.ToString() + ")                       ");
-                    qry.Add("end                                                                          ");
+                    //qry.Add("if (not exists (select *                                                     ");
+                    //qry.Add("                 from  tmpsearchsession t                                    ");
+                    //qry.Add("                 where t.sessionid   = @sessionid                            ");
+                    //qry.Add("                 and   t.masterid    = @masterid" + i.ToString() + "))       ");
+                    //qry.Add("begin                                                                        ");
+                    //qry.Add("   insert into tmpsearchsession (sessionid, masterid)                        ");
+                    //qry.Add("    values (@sessionid, @masterid" + i.ToString() + ")                       ");
+                    //qry.Add("end                                                                          ");
+
+                    qry.Add("insert into tmpsearchsession (sessionid, masterid)         ");
+                    qry.Add("values (@sessionid, @masterid" + i.ToString() + ")         ");
                     qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
                     //qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
                     i++;
@@ -1412,8 +1415,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                     qry.Add("       a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer, a.consignedqtyqcrequired,            ");
                     qry.Add("       a.dailyrate, a.weeklyrate, a.week2rate, a.week3rate, a.week4rate, a.monthlyrate                                ");
                     qry.Add(" from  availabilitymasterwhview a with (nolock)                                                                       ");
-                    qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid)                                       ");
-                    qry.Add(" where t.sessionid = @sessionid                                                                                       ");
+                    //qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid)                                       ");
+                    //qry.Add(" where t.sessionid = @sessionid                                                                                       ");
+                    //justin hoffman 11/11/2020 #2264 (avoid duplicates)
+                    qry.Add(" where a.masterid in (select t.masterid from tmpsearchsession t with (nolock) where t.sessionid = @sessionid)         ");
                     qry.Add(" option (recompile)  ");
                     qry.AddParameter("@sessionid", sessionId);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
@@ -1555,8 +1560,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
                         qry.Add("       consignqty = 0, qtystagedconsigned = 0, qtyoutconsigned = 0, qtyinconsigned = 0 ");
                     }
                     qry.Add(" from  availabilityitemview a with (nolock)                                             ");
-                    qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid)         ");
-                    qry.Add(" where t.sessionid = @sessionid                                                         ");
+                    //qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid)         ");
+                    //qry.Add(" where t.sessionid = @sessionid                                                         ");
+                    //justin hoffman 11/11/2020 #2264 (avoid duplicates)
+                    qry.Add(" where a.masterid in (select t.masterid from tmpsearchsession t with (nolock) where t.sessionid = @sessionid)         ");
                     qry.Add(" option (recompile)     ");
                     qry.AddParameter("@sessionid", sessionId);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
