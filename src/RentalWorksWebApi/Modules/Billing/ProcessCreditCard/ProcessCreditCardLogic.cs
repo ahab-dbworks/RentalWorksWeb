@@ -23,7 +23,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "DOo10PuNXp8p", IsReadOnly: true, IsRecordTitle: true)]
-        public string RecordTitle { get { return "Process Credit Card: " + this.OrderNo;} set{ } }
+        override public string RecordTitle { get { return "Process Credit Card: " + this.OrderNo;} }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "ggWKjrdYT2dT", IsPrimaryKey: true, IsReadOnly: true)]
         public string OrderId { get; set; }
