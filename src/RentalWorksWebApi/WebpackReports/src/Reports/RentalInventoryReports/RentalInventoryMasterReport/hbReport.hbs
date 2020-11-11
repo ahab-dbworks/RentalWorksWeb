@@ -26,23 +26,25 @@
         <th data-linkedcolumn="Rank" data-valuefield="Rank">Rank</th>
         <th data-linkedcolumn="UnitValue" data-valuefield="UnitValue" class="number">Unit Value</th>
         <th data-linkedcolumn="ReplacementCost" data-valuefield="ReplacementCost" class="number">Replacement Cost</th>
+        <th data-linkedcolumn="UnitValueExtended" data-valuefield="UnitValue" class="number">Unit Value Extended</th>
+        <th data-linkedcolumn="ReplacementCostExtended" data-valuefield="ReplacementCost" class="number">Replacement Cost Extended</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       {{#ifEquals RowType "Warehouseheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="9" class="header-row">Warehouse: {{Warehouse}}</td>
+        <td colspan="11" class="header-row">Warehouse: {{Warehouse}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypeheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="9" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="11" class="lower header-row">Inventory Type: {{InventoryType}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryheader"}}
       <tr data-row="header" data-rowtype="{{RowType}}">
-        <td colspan="9" class="lower header-row">Category: {{"Category"}}</td>
+        <td colspan="11" class="lower header-row">Category: {{"Category"}}</td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
@@ -56,6 +58,8 @@
         <td data-linkedcolumn="Rank" data-value="{{Rank}}"></td>
         <td data-linkedcolumn="UnitValue" class="number" data-value="{{UnitValue}}"></td>
         <td data-linkedcolumn="ReplacementCost" class="number" data-value="{{ReplacementCost}}"></td>
+        <td data-linkedcolumn="UnitValueExtended" class="number" data-value="{{UnitValueExtended}}"></td>
+        <td data-linkedcolumn="ReplacementCostExtended" class="number" data-value="{{ReplacementCostExtended}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryfooter"}}
@@ -66,8 +70,10 @@
         <td data-linkedcolumn="TrackedBy" class="total-val"></td>
         <td data-linkedcolumn="RentalStatus" class="total-val"></td>
         <td data-linkedcolumn="Rank" class="total-val"></td>
-        <td data-linkedcolumn="UnitValue" class="total-val" data-value="{{UnitValue}}"></td>
-        <td data-linkedcolumn="ReplacementCost" class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td data-linkedcolumn="UnitValue" class="total-val"></td>
+        <td data-linkedcolumn="ReplacementCost" class="total-val"></td>
+        <td data-linkedcolumn="UnitValueExtended" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypefooter"}}
@@ -78,8 +84,10 @@
         <td data-linkedcolumn="TrackedBy" class="total-val"></td>
         <td data-linkedcolumn="RentalStatus" class="total-val"></td>
         <td data-linkedcolumn="Rank" class="total-val"></td>
-        <td data-linkedcolumn="UnitValue" class="total-val" data-value="{{UnitValue}}"></td>
-        <td data-linkedcolumn="ReplacementCost" class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td data-linkedcolumn="UnitValue" class="total-val"></td>
+        <td data-linkedcolumn="ReplacementCost" class="total-val"></td>
+        <td data-linkedcolumn="UnitValueExtended" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Warehousefooter"}}
@@ -90,8 +98,10 @@
         <td data-linkedcolumn="TrackedBy" class="total-val"></td>
         <td data-linkedcolumn="RentalStatus" class="total-val"></td>
         <td data-linkedcolumn="Rank" class="total-val"></td>
-        <td data-linkedcolumn="UnitValue" class="total-val" data-value="{{UnitValue}}"></td>
-        <td data-linkedcolumn="ReplacementCost" class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td data-linkedcolumn="UnitValue" class="total-val"></td>
+        <td data-linkedcolumn="ReplacementCost" class="total-val"></td>
+        <td data-linkedcolumn="UnitValueExtended" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
@@ -102,8 +112,10 @@
         <td data-linkedcolumn="TrackedBy" class="total-val"></td>
         <td data-linkedcolumn="RentalStatus" class="total-val"></td>
         <td data-linkedcolumn="Rank" class="total-val"></td>
-        <td data-linkedcolumn="UnitValue" class="total-val" data-value="{{UnitValue}}"></td>
-        <td data-linkedcolumn="ReplacementCost" class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td data-linkedcolumn="UnitValue" class="total-val"></td>
+        <td data-linkedcolumn="ReplacementCost" class="total-val"></td>
+        <td data-linkedcolumn="UnitValueExtended" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        <td data-linkedcolumn="ReplacementCostExtended" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
       </tr>
       {{/ifEquals}}
       {{/each}}

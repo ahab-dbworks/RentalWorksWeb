@@ -114,8 +114,14 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
         [FwSqlDataField(column: "unitvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitvalueextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? UnitValueExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcostextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? ReplacementCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
         public string PurchaseDate { get; set; }
@@ -263,7 +269,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryMasterRep
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Quantity", "ReplacementCost", "UnitValue" };
+                string[] totalFields = new string[] { "Quantity", "ReplacementCostExtended", "UnitValueExtended" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
