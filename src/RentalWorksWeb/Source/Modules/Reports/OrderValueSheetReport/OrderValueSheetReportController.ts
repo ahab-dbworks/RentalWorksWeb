@@ -14,21 +14,21 @@ const orderValueSheetTemplate = `
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
-            <div class="flexcolumn" style="max-width:300px;">
+            <div class="flexrow">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Value Sheet">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order Number" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-savesetting="false" data-required="true" style="float:left;max-width:300px;"></div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Mode">
-                    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IsSummary">
-                      <div data-value="true" data-caption="Summary"></div>
-                      <div data-value="false" data-caption="Detail"></div>
-                    </div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Mode">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IsSummary">
+                    <div data-value="true" data-caption="Summary"></div>
+                    <div data-value="false" data-caption="Detail"></div>
                   </div>
                 </div>
               </div>
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Value Based On">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Value Based On" style="min-width:15em;">
                 <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="RentalValue">
                   <div data-value="REPLACEMENT COST" data-caption="Replacement Cost"></div>
                   <div data-value="UNIT VALUE" data-caption="Unit Value"></div>
