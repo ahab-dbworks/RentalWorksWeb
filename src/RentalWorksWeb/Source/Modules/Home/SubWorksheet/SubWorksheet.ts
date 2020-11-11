@@ -121,7 +121,7 @@ class SubWorksheet {
                 this.hideFieldsColumns($form);
             }
 
-            if (datafield === 'VendorId') {
+            if (datafield === 'VendorId' || datafield === 'CompanyContactId') {
                 return false;
             }
 
@@ -268,6 +268,7 @@ class SubWorksheet {
             }
             FwFormField.setValueByDataField($form, 'BillingCycleId', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'ContactId', $tr.find('.field[data-browsedatafield="PrimaryContactId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PrimaryContact"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'CompanyContactId', $tr.find('.field[data-browsedatafield="PrimaryContactId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PrimaryContact"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="PrimaryContactPhone"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="PrimaryContactExtension"]').attr('data-originalvalue'));
 
@@ -277,9 +278,15 @@ class SubWorksheet {
             }
         });
 
-        $form.find('div[data-datafield="ContactId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="CompanyContactId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="OfficePhone"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="OfficeExtension"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'ContactId', $tr.find('.field[data-browsedatafield="ContactId"]').attr('data-originalvalue'));
+
+            const worksheetOpened = $form.data('worksheet-opened-flag');
+            if (worksheetOpened) {
+                this.updatePOWorksheetSession($form, parentmoduleinfo);
+            }
         });
 
 
@@ -402,6 +409,7 @@ class SubWorksheet {
                         FwFormField.setValueByDataField($form, 'VendorId', response.VendorId, response.Vendor);
                         FwFormField.setValueByDataField($form, 'BillingCycleId', response.BillingCycleId, response.BillingCycle);
                         FwFormField.setValueByDataField($form, 'ContactId', response.ContactId, response.Contact);
+                        FwFormField.setValueByDataField($form, 'CompanyContactId', response.ContactId, response.Contact);
                         FwFormField.setValueByDataField($form, 'RateId', response.RateType);
 
                         const gridUniqueIds: any = { SessionId: response.SessionId };

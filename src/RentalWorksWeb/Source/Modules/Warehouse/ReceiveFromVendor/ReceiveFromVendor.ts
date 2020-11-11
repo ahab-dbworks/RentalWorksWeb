@@ -44,11 +44,9 @@ class ReceiveFromVendor {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        let date = new Date(),
-            currentDate = date.toLocaleString(),
-            currentTime = date.toLocaleTimeString();
-
+        const currentDate = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'Date', currentDate);
+        const currentTime = FwLocale.getTime(null, true);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
         $form.find('div.caption:contains(Cancel Receive From Vendor)').parent().attr('data-enabled', 'false');
@@ -69,7 +67,7 @@ class ReceiveFromVendor {
         try {
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId != '') {
-                const $confirmation = FwConfirmation.renderConfirmation('Cancel Receive From Vendor', 'Cancelling this Receive From Vendor Session will cause all transacted items to be cancelled. Continue?');
+                const $confirmation = FwConfirmation.renderConfirmation('Cancel Receive From Vendor', 'Canceling this Receive From Vendor Session will cause all transacted items to be cancelled. Continue?');
                 const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
                 const $no = FwConfirmation.addButton($confirmation, 'No', true);
 
@@ -337,10 +335,9 @@ class ReceiveFromVendor {
         $receiveItemsGridControl.find('tbody').empty();
 
         FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
-        let date = new Date(),
-            currentDate = date.toLocaleString(),
-            currentTime = date.toLocaleTimeString();
+        const currentDate = FwLocale.getDate();
         FwFormField.setValueByDataField($form, 'Date', currentDate);
+        const currentTime = FwLocale.getTime(null, true);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
         $form.find('.createcontract[data-type="button"]').show();
         $form.find('.createcontract[data-type="btnmenu"]').hide();

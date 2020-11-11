@@ -67,6 +67,24 @@ namespace FwCore.Api
         public virtual void ConfigureServices(IServiceCollection services)
         {
             ApplicationConfig = Configuration.GetSection("ApplicationConfig").Get<FwApplicationConfig>();
+
+            if (string.IsNullOrEmpty(ApplicationConfig.PublicBaseUrl))
+            {
+                throw new Exception("ApplicationConfig.PublicBaseUrl must be set in appsettings.json, see appsettings.sample.json for an example.");
+            }
+            if (string.IsNullOrEmpty(ApplicationConfig.JwtIssuerOptions.SecretKey))
+            {
+                throw new Exception("ApplicationConfig.JwtIssuerOptions.SecretKey must be set in appsettings.json, here's a randomly generated key you can use: " + Guid.NewGuid().ToString().Replace("-", "").ToUpper() + Guid.NewGuid().ToString().Replace("-", "").ToUpper());
+            }
+            if (string.IsNullOrEmpty(ApplicationConfig.JwtIssuerOptions.Issuer))
+            {
+                throw new Exception("ApplicationConfig.JwtIssuerOptions.Issuer must be set in appsettings.json, see appsettings.sample.json for an example.");
+            }
+            if (string.IsNullOrEmpty(ApplicationConfig.JwtIssuerOptions.Authority))
+            {
+                throw new Exception("ApplicationConfig.JwtIssuerOptions.Authority must be set in appsettings.json, see appsettings.sample.json for an example.");
+            }
+
             FwSqlLogEntry.LogSql = this.ApplicationConfig.Debugging.LogSql;
             FwSqlLogEntry.LogSqlContext = this.ApplicationConfig.Debugging.LogSqlContext;
 
@@ -131,10 +149,6 @@ namespace FwCore.Api
             //services.AddSingleton<IAuthorizationHandler, FwAmAuthorizationHandler>();
 
             // Configure JwtIssuerOptions for dependency injection
-            if (string.IsNullOrEmpty(ApplicationConfig.JwtIssuerOptions.SecretKey))
-            {
-                throw new Exception("ApplicationConfig.JwtIssuerOptions.SecretKey must be set in appsettings.json, here's a randomly generated key you can use: " + Guid.NewGuid().ToString().Replace("-", "").ToUpper() + Guid.NewGuid().ToString().Replace("-", "").ToUpper());
-            }
             SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ApplicationConfig.JwtIssuerOptions.SecretKey));
             services.Configure<FwJwtIssuerOptions>(options =>
             {

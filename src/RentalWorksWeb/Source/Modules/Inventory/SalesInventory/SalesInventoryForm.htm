@@ -124,6 +124,9 @@
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Non-Discountable" data-datafield="NonDiscountable" style="flex:0 1 200px"></div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Hazardous Material" data-datafield="IsHazardousMaterial" style="flex:0 1 200px"></div>
                       </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Assign Multiple RFID tags at once within QuikScan" data-datafield="MultiAssignRFIDs" style="flex:0 1 200px"></div>
+                      </div>
                     </div>
                     <!-- Cost Calculation -->
                     <div class="fwcontrol fwcontainer fwform-section costcalculationsection" data-control="FwContainer" data-type="section" data-caption="Quantity Inventory Cost Calculation">
@@ -248,6 +251,9 @@
         <div class="flexrow">
           <div class="flexcolumn" style="flex:1 1 650px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quantity History">
+              <div class="flexrow">
+                <div style="font-size:.8em">Note: Data in this grid is current through yesterday.</div>
+              </div>
               <div class="flexrow">
                 <div data-control="FwGrid" data-grid="InventoryQuantityHistoryGrid" data-securitycaption="Quantity History"></div>
               </div>

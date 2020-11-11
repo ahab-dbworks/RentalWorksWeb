@@ -16,5 +16,5 @@
     }
 }
 
-(<any>window).SalesInventoryCompatibilityGridController = new SalesInventoryCompatibilityGrid();
+var SalesInventoryCompatibilityGridController = new SalesInventoryCompatibilityGrid();
 //----------------------------------------------------------------------------------------------

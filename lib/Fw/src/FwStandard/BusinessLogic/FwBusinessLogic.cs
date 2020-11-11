@@ -426,11 +426,13 @@ namespace FwStandard.BusinessLogic
 
             if (useBrowseLoader)
             {
+                browseLoader.AppConfig = this.AppConfig;
                 browseLoader.UserSession = this.UserSession;
                 dt = await browseLoader.BrowseAsync(request, _Custom.CustomFields);
             }
             else if (dataLoader != null)
             {
+                dataLoader.AppConfig = this.AppConfig;
                 dataLoader.UserSession = this.UserSession;
                 dt = await dataLoader.BrowseAsync(request, _Custom.CustomFields);
             }
@@ -438,6 +440,7 @@ namespace FwStandard.BusinessLogic
             {
                 if (dataRecords.Count > 0)
                 {
+                    dataRecords[0].AppConfig = this.AppConfig;
                     dataRecords[0].UserSession = this.UserSession;
                     dt = await dataRecords[0].BrowseAsync(request, _Custom.CustomFields);
                 }
@@ -481,7 +484,11 @@ namespace FwStandard.BusinessLogic
                 {
                     opts.ConfigureMap(MemberList.None);
                 });
-
+            }
+            foreach (dynamic r in records)
+            {
+                r.AppConfig = this.AppConfig;
+                r.UserSession = this.UserSession;
             }
             return records;
         }
@@ -830,6 +837,7 @@ namespace FwStandard.BusinessLogic
             if (dataRecords.Count > 0)
             {
                 l.AppConfig = dataRecords[0].AppConfig;
+                l.UserSession = dataRecords[0].UserSession;
                 duplicateRules = l.BrowseAsync(browseRequest).Result;
                 rulesLoaded = true;
             }

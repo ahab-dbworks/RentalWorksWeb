@@ -1,3 +1,4 @@
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
@@ -7,6 +8,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Modules.HomeControls.InvoiceContact;
 
 namespace WebApi.Modules.Reports.Billing.InvoiceReport
 {
@@ -588,6 +590,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "locphone", modeltype: FwDataTypes.Text)]
         public string OfficeLocationPhone { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittofedid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationFederalId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealwithno", modeltype: FwDataTypes.Text)]
         public string DealAndDealNumber { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1038,6 +1043,8 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
         public List<InvoiceNoteReportLoader> Notes { get; set; } = new List<InvoiceNoteReportLoader>(new InvoiceNoteReportLoader[] { new InvoiceNoteReportLoader() });
         //------------------------------------------------------------------------------------ 
+        public List<InvoiceContactLoader> Contacts { get; set; } = new List<InvoiceContactLoader>(new InvoiceContactLoader[] { new InvoiceContactLoader() });
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -1129,31 +1136,23 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
                         Invoice.AdjustmentItems = taskAdjustmentInvoiceItems.Result;
                         Invoice.PaymentItems = taskPaymentInvoiceItems.Result;
                         Invoice.Notes = taskNotesItems.Result;
+
+
+                        //contacts
+                        BrowseRequest contactRequest = new BrowseRequest();
+                        contactRequest.pageno = 0;
+                        contactRequest.pagesize = 0;
+                        contactRequest.orderby = "Person";
+                        contactRequest.uniqueids = new Dictionary<string, object>();
+                        contactRequest.uniqueids.Add("InvoiceId", request.InvoiceId);
+
+                        InvoiceContactLoader icl = new InvoiceContactLoader();
+                        icl.SetDependencies(AppConfig, UserSession);
+                        Invoice.Contacts = await icl.SelectAsync<InvoiceContactLoader>(contactRequest);
+
                     }
                 }
             }
-
-
-            /////////////////////////////////////////////////////////
-
-
-            //Invoice.DateFields = new List<string>();
-            //PropertyInfo[] properties = Invoice.GetType().GetProperties();
-            //foreach (PropertyInfo property in properties)
-            //{
-            //    if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
-            //    {
-            //        FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
-            //        if (sqlDataFieldAttribute.ModelType.Equals(FwDataTypes.Date))
-            //        {
-            //            Invoice.DateFields.Add(property.Name);
-            //        }
-            //    }
-            //}
-            //
-
-            /////////////////////////////////////////////////////////
-
 
 
             return Invoice;

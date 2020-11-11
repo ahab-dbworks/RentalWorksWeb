@@ -130,6 +130,8 @@
 
 **/Fw/scripts/mobile/**/*.js
 **/Fw/scripts/mobile/**/*.js.map
+**/Fw/scripts/FwControls/FwAppDocumentGrid.js
+**/Fw/scripts/FwControls/FwAppDocumentGrid.js.map
 **/Fw/scripts/FwControls/FwAudit.js
 **/Fw/scripts/FwControls/FwAudit.js.map
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js
@@ -204,6 +206,8 @@
 **/Fw/scripts/FwApplicationConfig.js.map
 **/Fw/scripts/FwControls/FwMenu.js
 **/Fw/scripts/FwControls/FwMenu.js.map
+**/Fw/scripts/FwLocale.js
+**/Fw/scripts/FwLocale.js.map
 **/Fw/scripts/FwOktaSignIn.js.map
 **/Fw/scripts/FwOktaSignIn.js
 **/Fw/scripts/FwServices.js
@@ -230,12 +234,3 @@
 /src/JestTest/*.pdf
 /src/JestTest/*.jpg
 /src/JestTest/output/**
-
-
-src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js
-
-src/RentalWorksWebApi/TrakitWorks/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js.map
-
-src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js
-
-src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwAppDocumentGrid.js.map

@@ -11,6 +11,7 @@ namespace WebApi
         public static string MISCELLANEOUS_COLOR { get; set; }
         public static string ITEM_COLOR { get; set; }
         public static string ACCESSORY_COLOR { get; set; }
+        public static string OPTIONAL_ITEM_COLOR { get; set; }
         public static string PERCENTAGE_ITEM_COLOR { get; set; }
 
         public static string ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR { get; set; }
@@ -157,6 +158,7 @@ namespace WebApi
             MISCELLANEOUS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.MISCELLANEOUS_COLOR);
             ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ITEM_COLOR);
             ACCESSORY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ACCESSORY_COLOR);
+            OPTIONAL_ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.OPTIONAL_ITEM_COLOR);
             PERCENTAGE_ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PERCENTAGE_ITEM_COLOR);
             ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_QUANTITY_ADJUSTED_AT_STAGING_COLOR);
 

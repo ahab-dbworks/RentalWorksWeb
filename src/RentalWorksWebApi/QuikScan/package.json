@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "postinstall": "npm rebuild node-sass",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-dev": "node node-build build quikscan dev",
     "build-prod": "node node-build build quikscan prod",
@@ -18,7 +19,6 @@
     "@types/jquery": "3.3.29",
     "@types/mustache": "0.8.30",
     "@types/node": "10.5.3",
-    "child-process-promise": "2.2.1",
-    "typescript": "3.9.5"
+    "typescript": "3.9.7"
   }
 }

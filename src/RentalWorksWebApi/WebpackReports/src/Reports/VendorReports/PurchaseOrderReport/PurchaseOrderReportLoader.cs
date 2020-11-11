@@ -195,6 +195,9 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "taxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasrecurring", modeltype: FwDataTypes.Boolean)]
+        public bool? HasRecurring { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -240,6 +243,7 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
 
             List<T> items = new List<T>();
             bool hasDiscount = false;
+            bool hasRecurring = false;
             foreach (List<object> row in dt.Rows)
             {
                 T item = (T)Activator.CreateInstance(typeof(T));
@@ -305,6 +309,21 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
                             }
                         }
 
+                        if (fieldName.Equals("IsRecurring"))
+                        {
+                            if (value != null)
+                            {
+                                if (value.Equals(true))
+                                {
+                                    hasRecurring = true;
+                                    items[0].GetType().GetProperty("HasRecurring").SetValue(items[0], true);
+                                }
+                            }
+                            else
+                            {
+                                item.GetType().GetProperty("HasRecurring").SetValue(item, hasRecurring);
+                            }
+                        }
                     }
                 }
                 items.Add(item);
@@ -492,6 +511,9 @@ namespace WebApi.Modules.Reports.VendorReports.PurchaseOrderReport
         [FwSqlDataField(column: "locwebaddress", modeltype: FwDataTypes.Text)]
         public string OfficeLocationWebAddress { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locremittofedid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationFederalId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 

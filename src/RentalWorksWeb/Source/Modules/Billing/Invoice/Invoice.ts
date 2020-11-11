@@ -893,6 +893,26 @@ class Invoice {
                 };
             }
         });
+        // ----------
+        FwBrowse.renderGrid({
+            nameGrid: 'InvoiceContactGrid',
+            gridSecurityId: '9Rbf19uTJj1tv',
+            moduleSecurityId: this.id,
+
+            $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = false;
+                options.hasDelete = false;
+            },
+            onDataBind: (request: any) => {
+                request.uniqueids = {
+                    InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+                };
+            },
+        });
+        // ----------
+
 
         // ----------
         //jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');

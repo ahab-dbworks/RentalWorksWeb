@@ -112,6 +112,12 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "billtoaddressid", modeltype: FwDataTypes.Text)]
         public string BillToAddressId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtoattention1", modeltype: FwDataTypes.Text)]
+        public string BillToAttention1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billtoattention2", modeltype: FwDataTypes.Text)]
+        public string BillToAttention2 { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtoadd1", modeltype: FwDataTypes.Text)]
         public string BillToAddress1 { get; set; }
         //------------------------------------------------------------------------------------ 

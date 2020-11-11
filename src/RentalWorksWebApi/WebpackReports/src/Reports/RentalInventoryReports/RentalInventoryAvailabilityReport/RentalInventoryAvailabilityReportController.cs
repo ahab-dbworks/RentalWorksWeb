@@ -80,7 +80,7 @@ namespace WebApi.Modules.Reports.RentalInventoryReports.RentalInventoryAvailabil
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
+            return await DoExportExcelXlsxFileAsync(dt, request);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalinventoryavailabilityreport/runreport 

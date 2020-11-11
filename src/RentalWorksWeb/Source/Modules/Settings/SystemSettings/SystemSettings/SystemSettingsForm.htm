@@ -4,6 +4,7 @@
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="dealtab" class="tab" data-tabpageid="dealtabpage" data-caption="Deal Settings"></div>
+      <div data-type="tab" id="ordertab" class="tab" data-tabpageid="ordertabpage" data-caption="Order Settings"></div>
       <div data-type="tab" id="vendortab" class="tab" data-tabpageid="vendortabpage" data-caption="Vendor Settings"></div>
       <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing Settings"></div>
       <div data-type="tab" id="receipttab" class="tab" data-tabpageid="receipttabpage" data-caption="Receipt Settings"></div>
@@ -41,6 +42,23 @@
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Share Deals Across Office Locations" data-datafield="ShareDealsAcrossOfficeLocations"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="ordertabpage" class="tabpage" data-tabid="ordertab">
+        <div class="formpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Settings">
+              <div class="flexrow">
+                <div class="flexcolumn" style="flex:1 1 850px;">
+                  <div class="flexrow">
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Orders go to COMPLETE when all items are checked-IN, even if some items were never Staged" data-datafield="OrdersCompleteWithItemsNotYetStaged"></div>
                     </div>
                   </div>
                 </div>

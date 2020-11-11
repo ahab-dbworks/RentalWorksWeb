@@ -172,7 +172,8 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                     method: 'BarcodedItemSearch',
                     searchModes: [
                         { value: 'DESCRIPTION', caption: 'Description' },
-                        { value: 'ICODE', caption: 'I-Code' }
+                        { value: 'ICODE', caption: 'I-Code' },
+                        { value: 'BARCODE', caption: 'Barcode / RFID / Serial' }
                     ],
                     cacheItemTemplate: false,
                     itemTemplate: function (model) {
@@ -193,6 +194,22 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                         html.push('    <div class="caption fixed">Status Date:</div>');
                         html.push('    <div class="value statusdate">{{statusdate}}</div>');
                         html.push('  </div>');
+                        if (model.rfid && model.rfid.length > 0) {
+                            html.push('  <div class="row">');
+                            html.push('    <div class="caption fixed">RFID:</div>');
+                            html.push('    <div class="value rfid">{{rfid}}</div>');
+                            html.push('    <div class="caption fixed"></div>');
+                            html.push('    <div class="value"></div>');
+                            html.push('  </div>');
+                        }
+                        if (model.mfgserial && model.mfgserial.length > 0) {
+                            html.push('  <div class="row">');
+                            html.push('    <div class="caption fixed">Serial No:</div>');
+                            html.push('    <div class="value mfgserial">{{mfgserial}}</div>');
+                            html.push('    <div class="caption fixed"></div>');
+                            html.push('    <div class="value"></div>');
+                            html.push('  </div>');
+                        }
                         html.push('</div>');
                         html = html.join('\n');
                         return html;

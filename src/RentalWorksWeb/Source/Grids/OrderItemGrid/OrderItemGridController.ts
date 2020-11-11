@@ -351,6 +351,12 @@ class OrderItemGrid {
                 const $availQty = $generatedtr.find('[data-browsedatafield="AvailableQuantity"]')
                 $availQty.attr('data-state', availabilityState);
                 $availQty.css('cursor', 'pointer');
+
+                const availabilityStateAllWarehouses = FwBrowse.getValueByDataField($control, $generatedtr, 'AvailabilityStateAllWarehouses');
+                const $availQtyAllWarehouses = $generatedtr.find('[data-browsedatafield="AvailableQuantityAllWarehouses"]')
+                $availQtyAllWarehouses.attr('data-state', availabilityStateAllWarehouses);
+                $availQtyAllWarehouses.css('cursor', 'pointer');
+
             }
 
             if (controller === 'PurchaseOrderController') {
@@ -2103,9 +2109,11 @@ class OrderItemGrid {
                 if (qty != 0) {
                     const item = {
                         InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryId'),
+                        InventoryPackageInventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryPackageInventoryId'),
                         Quantity: qty
                     }
-                    $items.push(item);
+                    //$items.push(item);
+                    $items.unshift(item); //justin hoffman 11/11/2020, changed push to unshift to reverse the sequence of the array #3296
                 }
             }
 

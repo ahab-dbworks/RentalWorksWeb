@@ -17,7 +17,10 @@
     "typescript": "3.9.7"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "node tools/clean.js",
+    "rebuild": "node tools/rebuild.js",
+    "build": "node tools/build.js"
   },
   "author": "",
   "license": "UNLICENSED"

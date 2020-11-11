@@ -151,10 +151,6 @@ abstract class InventoryBase {
         const $menuControl = $realScheduler.find('.fwmenu');
         this.renderSchedulerSortMenu($realScheduler, $menuControl);
 
-        if (mode === 'NEW') {
-            this.setupNewMode($form);
-        }
-
         let userassignedicodes = JSON.parse(sessionStorage.getItem('controldefaults')).userassignedicodes;
         if (userassignedicodes) {
             FwFormField.enable($form.find('[data-datafield="ICode"]'));
@@ -178,6 +174,9 @@ abstract class InventoryBase {
             { value: 'UNITVALUE', caption: 'Inventory Value' },  // will be removed
         ]);
 
+        if (mode === 'NEW') {
+            this.setupNewMode($form);
+        }
 
         this.events($form);
         return $form;
@@ -798,16 +797,25 @@ abstract class InventoryBase {
                 $form.find('.costcalculationwarning').show();
             }
         });
-
+        // TrackedBy evt
+        let textToReplace: string = 'TRACKEDBYTYPE';
         $form.find('[data-datafield="TrackedBy"]').on('change', e => {
-            const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-            if (trackedBy === 'QUANTITY') {
-                $form.find('.costcalculationsection').show();
-            } else {
-                $form.find('.costcalculationsection').hide();
+            const originalTrackedByValue = $form.data('originalTrackedBy');
+            if (originalTrackedByValue) {
+                const newTrackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+                const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
+                if (originalTrackedByValue !== newTrackedByValue) {
+                    const text = $confirmTrackedByField.find('.fwformfield-caption').text().replace(textToReplace, newTrackedByValue);
+                    textToReplace = newTrackedByValue;
+                    $confirmTrackedByField.find('.fwformfield-caption').text(text).css('color', 'red');
+                    $confirmTrackedByField.show();
+                } else {
+                    $confirmTrackedByField.hide();
+                    FwFormField.setValue2($confirmTrackedByField, '');
+                }
             }
+            this.showHideCostCalculation($form);
         });
-
     }
     //----------------------------------------------------------------------------------------------
     enablePricingFields($form) {
@@ -1499,9 +1507,10 @@ abstract class InventoryBase {
     setupNewMode($form: any) {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
+        //show/hide Cost Calculation
+        this.showHideCostCalculation($form);
+
         $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', e => {
-            //const $this = jQuery(this);
-            //const classification = $this.val();
             const classification = FwFormField.getValueByDataField($form, 'Classification');
 
             $form.find('.completeskitstab').show();
@@ -1512,6 +1521,7 @@ abstract class InventoryBase {
             $form.find('.optionssection').show();
             $form.find('.manufacturersection').show();
             $form.find('.settab').hide();
+
 
             switch (classification) {
                 case 'I':
@@ -1717,6 +1727,17 @@ abstract class InventoryBase {
         }
     }
     //----------------------------------------------------------------------------------------------
+    afterSave($form: any) {
+        if (this.Module !== 'PartsInventory') {
+            const $confirmTrackedByField = FwFormField.getDataField($form, 'ConfirmTrackedBy');
+            $confirmTrackedByField.hide();
+            FwFormField.setValue2($confirmTrackedByField, '');
+            if ($form.attr('data-opensearch') == 'true') {
+                this.quikSearch($form.data('opensearch'));
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         //Disable "Create Complete" and "Inventory Summary" if classification isn't Item or Accessory
         const classification = FwFormField.getValueByDataField($form, 'Classification');
@@ -1833,13 +1854,7 @@ abstract class InventoryBase {
         });
 
         //show/hide Cost Calculation
-        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
-        if (trackedBy === 'QUANTITY') {
-            $form.find('.costcalculationsection').show();
-        } else {
-            $form.find('.costcalculationsection').hide();
-        }
-
+        this.showHideCostCalculation($form);
 
         //Enable/disable grid based on packageprice
         let classificationName;
@@ -1946,6 +1961,22 @@ abstract class InventoryBase {
     //----------------------------------------------------------------------------------------------
     hideTab($form: JQuery, tabClass: string) {
         this.getTab($form, tabClass).hide();
+    }
+    //----------------------------------------------------------------------------------------------
+    showHideCostCalculation($form) {
+        const trackedBy = FwFormField.getValueByDataField($form, 'TrackedBy');
+        if (trackedBy === 'QUANTITY') {
+            FwFormField.getClassName($form, 'costcalculationsection').show();
+        } else {
+            FwFormField.getClassName($form, 'costcalculationsection').hide();
+        }
+
+        //show/hide RFID option
+        if (trackedBy === 'RFID') {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').show();
+        } else {
+            FwFormField.getDataField($form, 'MultiAssignRFIDs').hide();
+        }
     }
     //----------------------------------------------------------------------------------------------
 

@@ -32,7 +32,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.AddColumn("color", false, FwDataTypes.OleToHtmlColor);
                     select.PageNo = request.pageno;
                     select.PageSize = request.pagesize;
-                    select.Add("select masterno, master, barcode, statustype, statusdate, color, icode=masterno, description=master, mfgserial");
+                    select.Add("select masterno, master, barcode, statustype, statusdate, color, icode=masterno, description=master, mfgserial, rfid");
                     select.Add("from dbo.funcrentalitem(@locationid,'')");
                     select.Add("where trackedby in ('BARCODE')");
                     select.Add("  and statustype <> 'RETIRED'");
@@ -43,16 +43,24 @@ namespace RentalWorksQuikScan.Modules
                         case "ICODE":
                             if (!string.IsNullOrEmpty(request.searchvalue))
                             {
-                                select.Add("and masterno like @masterno");
-                                select.AddParameter("@masterno", request.searchvalue + "%");
+                                select.Add("and masterno like @searchvalue");
+                                select.AddParameter("@searchvalue", request.searchvalue + "%");
                             }
                             select.Add("order by masterno");
                             break;
                         case "DESCRIPTION":
                             if (!string.IsNullOrEmpty(request.searchvalue))
                             {
-                                select.Add("and master like @master");
-                                select.AddParameter("@master", "%" + request.searchvalue + "%");
+                                select.Add("and master like @searchvalue");
+                                select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
+                            }
+                            select.Add("order by master");
+                            break;
+                        case "BARCODE":
+                            if (!string.IsNullOrEmpty(request.searchvalue))
+                            {
+                                select.Add("and ((barcode like @searchvalue) or (mfgserial like @searchvalue) or (rfid like @searchvalue))");
+                                select.AddParameter("@searchvalue", "%" + request.searchvalue + "%");
                             }
                             select.Add("order by master");
                             break;

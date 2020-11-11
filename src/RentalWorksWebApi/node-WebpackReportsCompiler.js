@@ -18,6 +18,7 @@ class WebpackReportsCompiler {
         // generate an entry and HtmlWebpackPlugin for each directory
         let entries = {};
         let plugins = [];
+        process.chdir(__dirname);
         const reportCategoryDirs = this.getDirectories(path.resolve(__dirname, srcReportDir));
         let reportsArray = reports.toLowerCase().split(',');
         for (let reportCategoryDir of reportCategoryDirs) {
@@ -28,21 +29,22 @@ class WebpackReportsCompiler {
                 reportDir = reportDir.replace(/\\/g, '/'); // convert Windows backslash to forward slash so paths are the same format as Mac/Linux
                 const reportName = reportDir.substring(reportDir.lastIndexOf('/') + 1, reportDir.length);
                 if (reportsArray.includes('all') || reportsArray.includes(reportName.toLowerCase())) {
-                    const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${reportCategoryName}/${reportName}/index.ts`).replace(/\\/g, '/');
+                    const tsFilePath = path.resolve(__dirname, srcReportDir, reportCategoryName, reportName, 'index.ts').replace(/\\/g, '/');
+                    console.log(tsFilePath);
                     if (fs.existsSync(tsFilePath)) {
                         console.log('Found Report at:', tsFilePath);
-                        entries[reportName] = `./${srcReportDir}/${reportCategoryName}/${reportName}/index.ts`;
+                        entries[reportName] = path.resolve(__dirname, srcReportDir, reportCategoryName, reportName, 'index.ts');
                         plugins.push(new HtmlWebpackPlugin({
                             title: reportName,
                             filename: `${reportName}/index.html`,
-                            template: `./${srcReportDir}/${reportCategoryName}/${reportName}/index.html`,
+                            template: path.resolve(__dirname, srcReportDir, reportCategoryName, reportName, 'index.html'),
                             hash: true,
                             chunks: [reportName]
                         }));
                         plugins.push(new CopyPlugin({
                             patterns: [
                                 {
-                                    from: `./${srcReportDir}/${reportCategoryName}/${reportName}/hbReport.hbs`, 
+                                    from: path.resolve(__dirname, srcReportDir, reportCategoryName, reportName, 'hbReport.hbs'), 
                                     to: `${reportName}/hbReport.hbs`
                                 }
                             ]

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using FwStandard.BusinessLogic;
+
 namespace WebApi.Modules.Settings.FiscalMonth
 {
     [Route("api/v1/[controller]")]
@@ -63,6 +65,16 @@ namespace WebApi.Modules.Settings.FiscalMonth
             return await DoEditAsync<FiscalMonthLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/fiscalmonth/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "209ijkvah5yaW")]
+        public async Task<List<ActionResult<FiscalMonthLogic>>> PostAsync([FromBody] List<FiscalMonthLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<FiscalMonthLogic>(l2);
+        }
+        //------------------------------------------------------------------------------------
         // DELETE api/v1/fiscalmonth/A0000001 
         [HttpDelete("{id}")]
         [FwControllerMethod(Id:"8zbAgyeoiH5Y", ActionType: FwControllerActionTypes.Delete)]

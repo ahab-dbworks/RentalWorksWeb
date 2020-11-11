@@ -599,6 +599,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "enablelease", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? EnableLease { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordercompleteswithunstageditems", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? OrdersCompleteWithItemsNotYetStaged { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -42,6 +42,7 @@ namespace WebApi.Modules.HomeControls.InventoryPackageInventory
             Dictionary<string, string> legend = new Dictionary<string, string>();
             legend.Add("Complete", RwGlobals.COMPLETE_COLOR);
             legend.Add("Kit", RwGlobals.KIT_COLOR);
+            legend.Add("Optional Item", RwGlobals.OPTIONAL_ITEM_COLOR);
             legend.Add("Percentage Item", RwGlobals.PERCENTAGE_ITEM_COLOR);
             await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);

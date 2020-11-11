@@ -71,11 +71,15 @@ namespace WebApi.Middleware
             
             try
             {
-                // dynamically generate Web's ApplicationConfig.js
+                // dynamically generate RentalWorks ApplicationConfig.js
                 string path = httpContext.Request.Path.Value.ToLower();
                 if (this._appConfig.Apps.ContainsKey(RENTALWORKS) && (_regexRentalWorksProdApplicationConfig.IsMatch(path) || _regexRentalWorksDevApplicationConfig.IsMatch(path)))
                 {
                     WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[RENTALWORKS].ApplicationConfig));
+                    if (appConfig == null)
+                    {
+                        appConfig = new WebAppConfig();
+                    }
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
                         appConfig.apiurl = this._appConfig.PublicBaseUrl;
@@ -90,6 +94,10 @@ namespace WebApi.Middleware
                 if (this._appConfig.Apps.ContainsKey(TRAKITWORKS) && (_regexTrakItWorksProdApplicationConfig.IsMatch(path) || _regexTrakItWorksDevApplicationConfig.IsMatch(path)))
                 {
                     WebAppConfig appConfig = JsonConvert.DeserializeObject<WebAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[TRAKITWORKS].ApplicationConfig));
+                    if (appConfig == null)
+                    {
+                        appConfig = new WebAppConfig();
+                    }
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
                         appConfig.apiurl = this._appConfig.PublicBaseUrl;
@@ -105,6 +113,10 @@ namespace WebApi.Middleware
                 if (this._appConfig.Apps.ContainsKey(QUIKSCAN) && (_regexQuikScanProdApplicationConfig.IsMatch(path) || _regexQuikScanDevApplicationConfig.IsMatch(path)))
                 {
                     MobileAppConfig appConfig = JsonConvert.DeserializeObject<MobileAppConfig>(JsonConvert.SerializeObject(this._appConfig.Apps[QUIKSCAN].ApplicationConfig));
+                    if (appConfig == null)
+                    {
+                        appConfig = new MobileAppConfig();
+                    }
                     if (_appConfig.PublicBaseUrl != null && _appConfig.PublicBaseUrl.Length > 0)
                     {
                         appConfig.apiurl = this._appConfig.PublicBaseUrl;

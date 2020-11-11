@@ -16,6 +16,10 @@ namespace WebApi.Modules.Inventory.RentalInventory
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? IsFixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowmassrfidassignment", modeltype: FwDataTypes.Boolean)]
+        public bool? MultiAssignRFIDs { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
 
         //set/wall

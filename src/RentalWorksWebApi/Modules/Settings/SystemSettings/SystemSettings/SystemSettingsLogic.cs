@@ -69,6 +69,9 @@ namespace WebApi.Modules.Settings.SystemSettings.SystemSettings
         [FwLogicProperty(Id: "mYWrAlicPDZB")]
         public bool? AllowInvoiceDateChange { get { return sysControl.AllowInvoiceDateChange; } set { sysControl.AllowInvoiceDateChange = value; } }
 
+        [FwLogicProperty(Id: "JBnuWS7lFnoQG")]
+        public bool? OrdersCompleteWithItemsNotYetStaged { get { return sysControl.OrdersCompleteWithItemsNotYetStaged; } set { sysControl.OrdersCompleteWithItemsNotYetStaged = value; } }
+
         [FwLogicProperty(Id: "54tMuScs2fSPS")]
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

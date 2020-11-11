@@ -33,6 +33,9 @@ class PartsInventory extends InventoryBase {
         const $partsInventoryWarehousePricingGrid = $form.find('[data-name="PartsInventoryWarehousePricingGrid"]');
         FwBrowse.search($partsInventoryWarehousePricingGrid);
 
+        //originalTrackedBy value used in "TrackedBy" evt listener in InventoryBase
+        $form.data('originalTrackedBy', FwFormField.getValueByDataField($form, 'TrackedBy'));
+
         const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         FwAppDocumentGrid.renderGrid({
             $form: $form,

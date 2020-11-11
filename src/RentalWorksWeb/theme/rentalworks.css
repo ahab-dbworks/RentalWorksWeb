@@ -777,6 +777,8 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner .header-wrapper .title {color: #027cc5;align-self: center;font-family: Arial, sans-serif;font-size: 38px;font-weight: bold;}
 #reportDesigner .footer-wrapper .sub-title,
 #reportDesigner .header-wrapper .sub-title {align-self: center;font-family: Arial, sans-serif;font-size: 15px;font-weight: bold;}
+#reportDesigner .footer-wrapper .meta-header,
+#reportDesigner .header-wrapper .meta-header {background-color: #e3f2fd;font-weight: 600;border-bottom: .2em solid #027cc5;border-top: .2em solid #027cc5;padding: 8px;}
 
 .modulefields div {cursor:pointer;}
 .modulefields div:nth-child(odd) {background-color: #f1f1f1;}

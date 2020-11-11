@@ -507,8 +507,13 @@ class FwFormFieldClass {
     }
     //---------------------------------------------------------------------------------
     getDataField($parent: JQuery<HTMLElement>, datafield: string) {
-        var $field = $parent.find(`div[data-datafield="${datafield}"]`);
+        const $field = $parent.find(`div[data-datafield="${datafield}"]`);
         return $field;
+    }
+    //---------------------------------------------------------------------------------
+    getClassName($parent: JQuery<HTMLElement>, className: string) {
+        const $elements = $parent.find(`.${className}`);
+        return $elements;
     }
     //---------------------------------------------------------------------------------
 }

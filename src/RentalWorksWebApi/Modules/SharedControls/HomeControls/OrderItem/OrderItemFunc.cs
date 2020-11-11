@@ -45,6 +45,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
     public class CompleteKitOption
     {
         public string InventoryId { get; set; }
+        public string InventoryPackageInventoryId { get; set; }
         public int Quantity { get; set; }
     }
 
@@ -316,6 +317,7 @@ namespace WebApi.Modules.HomeControls.OrderItem
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentOrderItemId);
                     qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Input, item.InventoryId);
+                    qry.AddParameter("@packageitemid", SqlDbType.NVarChar, ParameterDirection.Input, item.InventoryPackageInventoryId);
                     qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, item.Quantity);
                     qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();

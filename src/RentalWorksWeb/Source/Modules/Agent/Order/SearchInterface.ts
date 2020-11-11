@@ -343,6 +343,25 @@ class SearchInterface {
         //Sets inventory type by active tab
         if (typeof gridInventoryType == 'undefined') {
             gridInventoryType = $form.find('.tabs .active[data-type="tab"]').attr('data-inventorytype');
+
+            if (typeof gridInventoryType == 'undefined') {
+                const rentalChecked = FwFormField.getValueByDataField($form, 'Rental');
+                const salesChecked = FwFormField.getValueByDataField($form, 'Sales');
+                const miscChecked = FwFormField.getValueByDataField($form, 'Miscellaneous');
+                const laborChecked = FwFormField.getValueByDataField($form, 'Labor');
+                const partsChecked = FwFormField.getValueByDataField($form, 'Parts');
+                if (rentalChecked) {
+                    gridInventoryType = 'Rental';
+                } else if (salesChecked) {
+                    gridInventoryType = 'Sales';
+                } else if (partsChecked) {
+                    gridInventoryType = 'Parts';
+                } else if (miscChecked) {
+                    gridInventoryType = 'Misc';
+                } else if (laborChecked) {
+                    gridInventoryType = 'Labor';
+                } 
+            }
         }
 
         switch (gridInventoryType) {

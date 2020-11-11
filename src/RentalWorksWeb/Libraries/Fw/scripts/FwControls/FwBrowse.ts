@@ -1387,12 +1387,36 @@ class FwBrowseClass {
                 html.push('<div class="legend" style="display:none;"></div>');
                 html.push('<div class="pager"></div>');
                 if ($control.attr('data-type') === 'Validation') {
-                    const moduleName = $control.attr('data-name');
-                    const controller = `${moduleName}Controller`;
-                    const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, (<any>window)[controller].id);
-                    const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
-                    const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
-                    const hasBrowseNew = (nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
+                    //const moduleName = $control.attr('data-name');
+                    //const controller = `${moduleName}Controller`;
+                    //const nodeModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, (<any>window)[controller].id);
+                    //const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
+                    //const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
+                    //const hasBrowseNew = (nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
+                    let hasBrowseNew = false;
+                    const primaryModuleName = $control.data('primarymodule');
+                    const primaryModule = window[primaryModuleName + 'Controller'];
+                    let primaryModuleId = '';
+                    if (primaryModule) {
+                        primaryModuleId = window[primaryModuleName + 'Controller'].id;
+                    }
+                    if (typeof primaryModuleId === 'string' && primaryModuleId.length > 0) {
+                        const nodePrimaryModule = FwApplicationTree.getNodeById(FwApplicationTree.tree, primaryModuleId);
+                        let nodePrimaryModuleActions = null, nodePrimaryModuleNew = null;
+                        if (nodePrimaryModule !== null) {
+                            nodePrimaryModuleActions = FwApplicationTree.getNodeByFuncRecursive(nodePrimaryModule, {}, (node: any, args2: any) => {
+                                return (node.nodetype === 'ControlActions') || (node.nodetype === 'ModuleActions');
+                            });
+                            if (nodePrimaryModuleActions !== null) {
+                                nodePrimaryModuleNew = FwApplicationTree.getNodeByFuncRecursive(nodePrimaryModuleActions, {}, (node: any, args2: any) => {
+                                    return (node.nodetype === 'ControlAction' && (node.properties.action === 'ControlNew' || node.properties.action === 'ControlSave')) || (node.nodetype === 'ModuleAction' && (node.properties.action === 'New' || node.properties.action === 'Save'));
+                                });
+                                if (nodePrimaryModuleNew !== null) {
+                                    hasBrowseNew = (nodePrimaryModuleNew.properties.visible === 'T');
+                                }
+                            }
+                        }
+                    }
 
                     html.push('<div class="validationbuttons">');
                     html.push('<div class="fwbrowsebutton btnSelect">Select</div>');
@@ -2573,6 +2597,11 @@ class FwBrowseClass {
                     } else {
                         this.setFieldViewMode($control, $tr, $field);
                     }
+
+                    if ($control.hasClass('sort-mode')) {
+                        $tr.find('td.manual-sort').show();
+                    }
+
                     //this.setFieldViewMode($control, $tr, $field);
 
                     // if you want to dynamically change something on a .field or td:
@@ -4180,8 +4209,7 @@ class FwBrowseClass {
                 let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;
-                let includeallcolumns: boolean;
-                let excelfields: any;
+
                 if ($confirmation.find('.all-col input').prop('checked') === true) {
                     request.includeallcolumns = true;
                 } else {

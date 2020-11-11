@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Modules.HomeControls.OrderActivitySummary;
+using WebApi.Modules.HomeControls.OrderContact;
 using WebApi.Modules.HomeControls.OrderDates;
 
 namespace WebApi.Modules.Reports.OrderReports.OrderReport
@@ -547,6 +548,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         }
         //------------------------------------------------------------------------------------ 
     }
+
+
     [FwSqlTable("orderhiatuswebview")]
     public class OrderHiatusReportLoader : AppDataLoadRecord
     {
@@ -624,7 +627,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
     }
 
 
-
     public class OrderReportLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -667,6 +669,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "locwebaddress", modeltype: FwDataTypes.Text)]
         public string OfficeLocationWebAddress { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locremittofedid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationFederalId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1286,6 +1291,8 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         public List<OrderNoteReportLoader> Notes { get; set; } = new List<OrderNoteReportLoader>(new OrderNoteReportLoader[] { new OrderNoteReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<OrderHiatusReportLoader> HiatusDates { get; set; } = new List<OrderHiatusReportLoader>(new OrderHiatusReportLoader[] { new OrderHiatusReportLoader() });
+        //------------------------------------------------------------------------------------ 
+        public List<OrderContactLoader> Contacts { get; set; } = new List<OrderContactLoader>(new OrderContactLoader[] { new OrderContactLoader() });
 
 
 
@@ -1375,6 +1382,20 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.Notes = taskNotesOrderItems.Result;
                         Order.HiatusDates = taskHiatusDates.Result;
 
+
+                        //contacts
+                        BrowseRequest contactRequest = new BrowseRequest();
+                        contactRequest.pageno = 0;
+                        contactRequest.pagesize = 0;
+                        contactRequest.orderby = "Person";
+                        contactRequest.uniqueids = new Dictionary<string, object>();
+                        contactRequest.uniqueids.Add("OrderId", request.OrderId);
+
+                        OrderContactLoader ocl = new OrderContactLoader();
+                        ocl.SetDependencies(AppConfig, UserSession);
+                        Order.Contacts = await ocl.SelectAsync<OrderContactLoader>(contactRequest);
+
+
                         //activity dates and times
                         BrowseRequest activityDatesAndTimesRequest = new BrowseRequest();
                         activityDatesAndTimesRequest.pageno = 0;
@@ -1383,9 +1404,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         activityDatesAndTimesRequest.uniqueids = new Dictionary<string, object>();
                         activityDatesAndTimesRequest.uniqueids.Add("OrderId", request.OrderId);
 
-                        OrderDatesLoader l = new OrderDatesLoader();
-                        l.SetDependencies(AppConfig, UserSession);
-                        Order.ActivityDatesAndTimes = await l.SelectAsync<OrderDatesLoader>(activityDatesAndTimesRequest);
+                        OrderDatesLoader odl = new OrderDatesLoader();
+                        odl.SetDependencies(AppConfig, UserSession);
+                        Order.ActivityDatesAndTimes = await odl.SelectAsync<OrderDatesLoader>(activityDatesAndTimesRequest);
 
                         //activity summary
                         BrowseRequest activitySummaryRequest = new BrowseRequest();

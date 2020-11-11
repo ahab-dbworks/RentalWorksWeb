@@ -102,11 +102,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings.devsample.json" />
+    <Content Remove="appsettings.rwsample.json" />
+    <Content Remove="appsettings.twsample.json" />
     <Content Remove="package-lock.json" />
     <Content Remove="package.json" />
-    <Content Remove="QuikScan\Application.dev.config" />
-    <Content Remove="QuikScan\Application.sample.config" />
-    <Content Remove="QuikScan\Application.test.config" />
     <Content Remove="QuikScan\app_scripts.json" />
     <Content Remove="QuikScan\JSAppBuilder.config" />
     <Content Remove="QuikScan\package-lock.json" />
@@ -280,8 +280,8 @@
     <None Remove="TrakitWorks\theme\audio\snap.mp3" />
     <None Remove="TrakitWorks\theme\audio\successBeep1.mp3" />
     <None Remove="TrakitWorks\theme\audio\whomp.wav" />
-    <None Remove="version-RentalWorksWeb.txt" />
-    <None Remove="version-TrakitWorksWeb.txt" />
+    <None Remove="version-previous-rentalworks.txt" />
+    <None Remove="version-previous-trakitworks.txt" />
     <None Remove="version.txt" />
   </ItemGroup>
 
@@ -439,10 +439,10 @@
     <Content Include="TrakitWorks\theme\audio\snap.mp3" />
     <Content Include="TrakitWorks\theme\audio\successBeep1.mp3" />
     <Content Include="TrakitWorks\theme\audio\whomp.wav" />
-    <Content Include="version-RentalWorksWeb.txt">
+    <Content Include="version-previous-rentalworks.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="version-TrakitWorksWeb.txt">
+    <Content Include="version-previous-trakitworks.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="version.txt">
@@ -482,12 +482,14 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="appsettings.devsample.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Include="appsettings.json" />
+    <None Include="appsettings.rwsample.json" />
+    <None Include="appsettings.twsample.json" />
     <None Include="package-lock.json" />
     <None Include="package.json" />
-    <None Include="QuikScan\Application.dev.config" />
-    <None Include="QuikScan\Application.sample.config" />
-    <None Include="QuikScan\Application.test.config" />
     <None Include="QuikScan\app_scripts.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
@@ -519,9 +521,8 @@
     <TypeScriptCompile Include="QuikScan\scripts\RwVirtualNumpad.ts" />
   </ItemGroup>
   <Target Name="MyPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-	  <Exec Command="npm run build-web-dev" />
-	  <Exec Command="npm run build-trakitworks-dev" />
-	  <Exec Command="npm run build-quikscan-dev" />
+	  <!--<Exec Command="npm run trakitworks-3-build-app-dev" />
+	  <Exec Command="npm run quikscandev-3-build-app" />-->
   </Target>
   <!--<Target Name="MyAfterBuildTarget" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'"></Target>-->
   <!--copies the Xml documentation file-->

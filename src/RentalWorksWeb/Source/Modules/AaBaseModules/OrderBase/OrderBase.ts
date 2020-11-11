@@ -3077,7 +3077,7 @@ class OrderBase {
 
             FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
             const $tab = FwTabs.getTabByElement($report);
-            $tab.find('.caption').html(`Print ${module}`);
+            $tab.find('.caption').html(`Print Value Sheet`);
 
         } catch (ex) {
             FwFunc.showError(ex);

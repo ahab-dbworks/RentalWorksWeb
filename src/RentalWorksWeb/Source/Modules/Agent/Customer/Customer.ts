@@ -500,8 +500,6 @@ class Customer {
             FwFormField.disableDataField($form, 'CurrencyId');
         }
 
-        //Update Customer Address fields
-        this.addressTypeChange($form);
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {

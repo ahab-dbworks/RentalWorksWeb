@@ -263,6 +263,12 @@ namespace WebApi.Modules.Billing.Invoice
         [FwLogicProperty(Id: "LTY9tUFZr0GQP")]
         public string BillToAddressId { get { return billToAddress.AddressId; } set { billToAddress.AddressId = value; } }
 
+        [FwLogicProperty(Id: "FTOxxrHLU40SV")]
+        public string BillToAttention1 { get { return billToAddress.Attention; } set { billToAddress.Attention = value; } }
+
+        [FwLogicProperty(Id: "O9EoHrJyYwrrE")]
+        public string BillToAttention2 { get { return billToAddress.Attention2; } set { billToAddress.Attention2 = value; } }
+
         [FwLogicProperty(Id: "tZyOANDHo8Fw")]
         public string BillToAddress1 { get { return billToAddress.Address1; } set { billToAddress.Address1 = value; } }
 

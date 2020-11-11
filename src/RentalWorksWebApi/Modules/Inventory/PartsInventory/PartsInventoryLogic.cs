@@ -15,6 +15,7 @@ namespace WebApi.Modules.Inventory.PartsInventory
             //BeforeSave += OnBeforeSave;
             //((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
             ((InventoryLoader)dataLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
+            AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
         }
         //------------------------------------------------------------------------------------ 
 
@@ -33,6 +34,11 @@ namespace WebApi.Modules.Inventory.PartsInventory
 
 
 
+        //------------------------------------------------------------------------------------ 
+        protected override void SetDefaultAvailFor()
+        {
+            AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
+        }
         //------------------------------------------------------------------------------------ 
         public override void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {

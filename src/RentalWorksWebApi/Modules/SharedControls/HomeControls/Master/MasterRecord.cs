@@ -344,6 +344,9 @@ namespace WebApi.Modules.HomeControls.Master
         public string CostCalculation { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "allowmassrfidassignment", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? MultiAssignRFIDs { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         /*

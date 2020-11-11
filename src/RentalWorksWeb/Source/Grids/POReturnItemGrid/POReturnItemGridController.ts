@@ -9,8 +9,10 @@
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let $grid = $tr.parents('[data-grid="POReturnItemGrid"]');
             let trackedBy = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
-            //Hides Quantity controls if item is tracked by barcode
-            if (trackedBy === "BARCODE") {
+            let barCodeCount: number = +$tr.find('[data-browsedatafield="BarCodeCount"]').attr('data-originalvalue');
+            //Hides Quantity controls if item is tracked by barcode and BarCodeCount > 0
+            //if (trackedBy === "BARCODE") {
+            if ((trackedBy === "BARCODE") && (barCodeCount > 0)) {
                 $quantityColumn
                     .hide()
                     .parents('td')

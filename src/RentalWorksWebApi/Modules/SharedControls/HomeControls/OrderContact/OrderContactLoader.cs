@@ -8,7 +8,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.HomeControls.OrderContact
 {
-    [FwSqlTable("dbo.funccompcontact2(@orderid,'F')")]
+    [FwSqlTable("dbo.funccompcontact(@orderid,'F')")]
     public class OrderContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 

@@ -57,8 +57,8 @@
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     OrderId: FwBrowse.getValueByDataField($control, $tr, 'OrderId'),
-                    BillingStartDate: FwBrowse.getValueByDataField($control, $tr, 'PoItemBillingStartDate'),
-                    BillingEndDate: FwBrowse.getValueByDataField($control, $tr, 'PoItemBillingEndDate')
+                    BillingStartDate: FwBrowse.getValueByDataField($control, $tr, 'FromDate'),
+                    BillingEndDate: FwBrowse.getValueByDataField($control, $tr, 'ToDate')
                 };
             }
         });

@@ -83,7 +83,34 @@ namespace WebApi.Modules.Utilities.GLDistribution
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-     public static async Task<bool> DeleteGlForInvoice(FwApplicationConfig appConfig, string invoiceId)
+        public static async Task<bool> PostGlForVendorInvoice(FwApplicationConfig appConfig, string vendorInvoiceId, bool previewing)
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "postglforvendorinvoice", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, vendorInvoiceId);
+                qry.AddParameter("@preview", SqlDbType.NVarChar, ParameterDirection.Input, previewing);
+                await qry.ExecuteNonQueryAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> DeleteGlForVendorInvoice(FwApplicationConfig appConfig, string vendorInvoiceId)
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "deleteglforvendorinvoice", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, vendorInvoiceId);
+                await qry.ExecuteNonQueryAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> DeleteGlForInvoice(FwApplicationConfig appConfig, string invoiceId)
         {
             bool success = false;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -115,7 +142,7 @@ namespace WebApi.Modules.Utilities.GLDistribution
         //-------------------------------------------------------------------------------------------------------
 
 
-        
+
 
     }
 }
