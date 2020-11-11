@@ -406,26 +406,32 @@ namespace WebApi.Modules.HomeControls.Inventory
 
 
 
+        protected abstract void SetDefaultAvailFor();
+        //------------------------------------------------------------------------------------ 
         public void OnBeforeValidateInventory(object sender, BeforeValidateEventArgs e)
         {
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+                SetDefaultAvailFor();
                 if (CostCalculation == null)
                 {
                     InventorySettingsLogic defaults = new InventorySettingsLogic();
                     defaults.SetDependencies(AppConfig, UserSession);
                     defaults.InventorySettingsId = RwConstants.CONTROL_ID;
-                    if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT))
+                    if (defaults.LoadAsync<InventorySettingsLogic>().Result)
                     {
-                        CostCalculation = defaults.DefaultRentalQuantityInventoryCostCalculation;
-                    }
-                    else if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_SALE))
-                    {
-                        CostCalculation = defaults.DefaultSalesQuantityInventoryCostCalculation;
-                    }
-                    else if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS))
-                    {
-                        CostCalculation = defaults.DefaultPartsQuantityInventoryCostCalculation;
+                        if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT))
+                        {
+                            CostCalculation = defaults.DefaultRentalQuantityInventoryCostCalculation;
+                        }
+                        else if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_SALE))
+                        {
+                            CostCalculation = defaults.DefaultSalesQuantityInventoryCostCalculation;
+                        }
+                        else if (AvailFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS))
+                        {
+                            CostCalculation = defaults.DefaultPartsQuantityInventoryCostCalculation;
+                        }
                     }
                 }
             }

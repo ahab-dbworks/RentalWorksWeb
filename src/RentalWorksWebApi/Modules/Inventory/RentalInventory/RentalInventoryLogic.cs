@@ -20,6 +20,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
             dataLoader = inventoryLoader;
             //((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
             ((InventoryLoader)dataLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+            AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
             ForceSave = true;  //justin hoffman 12/29/2019
         }
         //------------------------------------------------------------------------------------ 
@@ -102,6 +103,11 @@ namespace WebApi.Modules.Inventory.RentalInventory
         //------------------------------------------------------------------------------------ 
 
 
+        //------------------------------------------------------------------------------------ 
+        protected override void SetDefaultAvailFor()
+        {
+            AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+        }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
