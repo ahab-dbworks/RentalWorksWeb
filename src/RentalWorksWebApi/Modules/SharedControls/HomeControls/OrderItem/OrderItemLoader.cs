@@ -1245,7 +1245,8 @@ namespace WebApi.Modules.HomeControls.OrderItem
                         string availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_STALE;
 
 
-                        if (itemAvailFromDateTime < DateTime.Today)
+                        //if (itemAvailFromDateTime < DateTime.Today)
+                        if (itemAvailToDateTime < DateTime.Today)
                         {
                             availabilityState = RwConstants.AVAILABILITY_STATE_HISTORY;
                             availabilityStateAllWarehouses = RwConstants.AVAILABILITY_STATE_HISTORY;
