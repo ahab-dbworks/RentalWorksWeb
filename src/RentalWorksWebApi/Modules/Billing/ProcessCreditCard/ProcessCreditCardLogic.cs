@@ -8,6 +8,9 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using WebApi.Modules.Billing.VendorInvoice;
 using WebApi.Modules.Home.BankAccount;
+using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
+using System.Threading.Tasks;
+using System;
 
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
@@ -15,6 +18,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
     [FwLogic(Id: "naVthxJ08Q9V")]
     public class ProcessCreditCardLogic : AppBusinessLogic
     {
+        public IProcessCreditCardService ProcessCreditCardService;
         //------------------------------------------------------------------------------------ 
         ProcessCreditCardLoader processCreditCardLoader = new ProcessCreditCardLoader();
         public ProcessCreditCardLogic()
@@ -39,6 +43,18 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "TYgFeAFq0cdB", IsReadOnly: true)]
         public string Customer { get; set; }
+        //------------------------------------------------------------------------------------
+        public async Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request)
+        {
+            Console.WriteLine(request);
+            //ProcessPaymentResponse response = await InventoryFunc.RetireInventory(AppConfig, UserSession, request);
+            ProcessCreditCardResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(request);
+            if (true)
+            {
+                // ProcessDepetingDeposit
+            }
+            return response;
+        }
         //------------------------------------------------------------------------------------
     }
 }

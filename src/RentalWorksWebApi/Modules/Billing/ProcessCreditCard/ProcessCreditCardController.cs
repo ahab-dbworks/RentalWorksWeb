@@ -1,6 +1,7 @@
 
 
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
 using WebApi.Modules.Inventory.Asset;
 using WebApi.Modules.Inventory.Inventory;
 using WebApi.Modules.Inventory.RentalInventory;
@@ -19,9 +21,12 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
     [FwController(Id: "yAale9IPIaUC")]
     public class ProcessCreditCardController : AppDataController
     {
-        public ProcessCreditCardController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) 
+        readonly IProcessCreditCardService _processCreditCardService;
+        //------------------------------------------------------------------------------------ 
+        public ProcessCreditCardController(IOptions<FwApplicationConfig> appConfig, IProcessCreditCardService processCreditCardService) : base(appConfig) 
         {
             this.logicType = typeof(ProcessCreditCardLogic);
+            this._processCreditCardService = processCreditCardService;
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/processcreditcard/A0000001 
@@ -45,8 +50,9 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             }
             try
             {
-                //ProcessPaymentResponse response = await InventoryFunc.RetireInventory(AppConfig, UserSession, request);
-                ProcessCreditCardResponse response = null;
+                ProcessCreditCardLogic logic = FwBusinessLogic.CreateBusinessLogic<ProcessCreditCardLogic>(this.AppConfig, this.UserSession);
+                logic.ProcessCreditCardService = this._processCreditCardService;
+                var response = logic.ProcessPaymentAsync(request);
                 return new OkObjectResult(response);
 
             }

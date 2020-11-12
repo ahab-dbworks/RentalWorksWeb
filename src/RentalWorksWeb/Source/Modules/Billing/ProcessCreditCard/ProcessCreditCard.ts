@@ -9,6 +9,38 @@ class ProcessCreditCard{
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
+        const $btnProcessPayment = FwMenu.addStandardBtn(options.$menu, 'Process Payment', 'pvc2YoVG316N')
+        $btnProcessPayment.on('click', async (e: JQuery.ClickEvent) => {
+            try {
+                const $confirmation = FwConfirmation.renderConfirmation('Confirm', 'Process Credit Card Payment?');
+                const $btnOk = FwConfirmation.addButton($confirmation, 'OK', true);
+                $btnOk.on('click', async (e: JQuery.ClickEvent) => {
+                    try {
+                        const request = new FwAjaxRequest();
+                        request.httpMethod = 'POST';
+                        request.setWebApiUrl('/api/v1/processcreditcard/processcreditcard');
+                        const datafields = FwReport.getParameters(options.$form);
+                        request.data = {
+                            datafields: datafields
+                        };
+                        var response = await FwAjax.callWebApi(request);
+                        console.log(response);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                    FwConfirmation.destroyConfirmation($confirmation)
+                });
+
+                const $btnCancel = FwConfirmation.addButton($confirmation, 'Cancel', false);
+                $btnCancel.on('click', async (e: JQuery.ClickEvent) => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                });
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwMenu.addFormMenuButtons(options);
     }
     //----------------------------------------------------------------------------------------------
