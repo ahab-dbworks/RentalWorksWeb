@@ -148,6 +148,10 @@ namespace WebApi.Modules.HomeControls.DealOrderDetail
         public string ProjectDepositId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "recalcbillingschedule", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? RecalculateBillingSchedule { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

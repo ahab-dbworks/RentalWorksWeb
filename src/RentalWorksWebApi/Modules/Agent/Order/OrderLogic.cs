@@ -56,6 +56,7 @@ namespace WebApi.Modules.Agent.Order
                 else
                 {
                     dealId = ((OrderLogic)original).DealId;
+                    dealOrderDetail.RecalculateBillingSchedule = true;
                 }
 
                 if (string.IsNullOrEmpty(dealId))
