@@ -150,6 +150,9 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "disableinsurancethroughdate", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? DisableInsuranceThroughDateMessages { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warniftandcnotonfile", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? WarnIfTermsAndConditionsNotOnFile { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 

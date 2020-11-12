@@ -176,6 +176,10 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwLogicProperty(Id: "j2AP4pitbCGE7")]
         public bool? DisableInsuranceThroughDateMessages { get { return location.DisableInsuranceThroughDateMessages; } set { location.DisableInsuranceThroughDateMessages = value; } }
 
+        [FwLogicProperty(Id: "xHCCTP7CDG8fc")]
+        public bool? WarnIfTermsAndConditionsNotOnFile { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         [FwLogicProperty(Id: "NGVDXcxGHbnEs")]
         public string InvoiceMessage { get; set; }
 
