@@ -1459,7 +1459,16 @@ namespace FwStandard.SqlServer
                 case FwDataTypes.Decimal:
                     if (!reader.IsDBNull(columnIndex))
                     {
-                        data = reader.GetDecimal(columnIndex);
+                        string dataTypeName = reader.GetDataTypeName(columnIndex);
+                        switch(dataTypeName)
+                        {
+                            case "decimal":
+                                data = reader.GetDecimal(columnIndex);
+                                break;
+                            default:
+                                data = Convert.ToDecimal(reader.GetValue(columnIndex));
+                                break;
+                        }
                     }
                     else
                     {
