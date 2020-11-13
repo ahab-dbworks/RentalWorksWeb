@@ -3066,13 +3066,13 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    printManifest($form: any) {
+    printValueSheet($form: any) {
         try {
             const module = this.Module;
             const orderIdText = FwFormField.getValueByDataField($form, `${module}Number`);
             const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
 
-            const $report = ManifestReportController.openForm();
+            const $report = OrderValueSheetReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
