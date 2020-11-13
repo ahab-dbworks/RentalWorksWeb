@@ -20,7 +20,7 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "9OT5LSvhJaTk3")]
+    [FwController(Id: "meEd0XqsUjqNZ")]
     public class OutgoingDeliveryInstructionsController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -46,7 +46,7 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
         //------------------------------------------------------------------------------------ 
         // POST api/v1/outgoingdeliveryinstructions/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "9R8mDztxHNYCS")]
+        [FwControllerMethod(Id: "O5Wz1qWSw3TOZ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody] FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -56,7 +56,7 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
         //------------------------------------------------------------------------------------ 
         // POST api/v1/outgoingdeliveryinstructions/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "9WDYFashyRsBU")]
+        [FwControllerMethod(Id: "IeLq2coVepwiQ")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody] OutgoingDeliveryInstructionsRequest request)
         {
             if (!ModelState.IsValid)
