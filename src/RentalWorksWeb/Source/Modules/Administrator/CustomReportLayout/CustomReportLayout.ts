@@ -751,11 +751,22 @@ class CustomReportLayout {
                     if (typeof $column != 'undefined') {
                         linkedColumn = $column.attr('data-linkedcolumn');
                         const oldField = $column.attr('data-valuefield');
-                        $column.removeClass('new-column');
+
+                        //if (rowType === 'linked-sub-header') {
+                            //$table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
+                        //}
+
+                        //$column.removeClass('new-column');
+                        $table.find(`[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
                         $form.data('updatetype', 'tableheader');
                         $column.attr('data-valuefield', value);
                         FwFormField.setValueByDataField($form, 'CaptionField', value);
-                        $column.text(value);
+                        if (rowType === 'main-header' && typeof $row.attr('data-linkedrow') != 'undefined') {
+
+                        } else {
+                            $column.text(value);
+                        }
+
                         $form.data('changevaluefield',
                             {
                                 linkedcolumn: linkedColumn,
@@ -1222,15 +1233,17 @@ class CustomReportLayout {
                     linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
-                    $designerRow = jQuery($table.find('tr[data-row="sub-header"]')[subHeaderRowIndex]).clone();
-                    $designerRow.find('.highlight').removeClass('highlight');
-                    html = $designerRow.get(subHeaderRowIndex).innerHTML.trim();
-                    $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="sub-header"]`)[subHeaderRowIndex]);
-                    $cachedRow.html(html);
+                    if (typeof changes != 'undefined' && changes.rowtype == 'sub-header' ) {
+                        $designerRow = jQuery($table.find('tr[data-row="sub-header"]')[subHeaderRowIndex]).clone();
+                        $designerRow.find('.highlight').removeClass('highlight');
+                        html = $designerRow.get(subHeaderRowIndex).innerHTML.trim();
+                        $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="sub-header"]`)[subHeaderRowIndex]);
+                        $cachedRow.html(html);
+                    }
                     subHeaderRowIndex++;
                     break;
                 case 'sub-detail':
-                    if (typeof changes != 'undefined') {
+                    if (typeof changes != 'undefined' && (changes.rowtype == 'sub-header' || changes.rowtype == 'sub-detail')) {
                         $cachedTd = $row.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
                         $designerTd = jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowIndex]).find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
                         if ($cachedTd.length && $designerTd.length) {
@@ -1256,7 +1269,7 @@ class CustomReportLayout {
                 const $headerTh = $headerRow.find(`[data-linkedcolumn="${changes.linkedcolumn}"]`);
                 $headerRow.find('.highlight').removeClass('highlight');
                 $headerTh.attr('data-valuefield', changes.newfield);
-                $headerTh.text(changes.newfield);
+                //$headerTh.text(changes.newfield);
                 html = $headerRow.get(0).innerHTML.trim();
                 $cachedRow = jQuery($wrapper.find(`${tableName} tr[data-row="main-header"][data-linkedrow="${changes.linkedrow}"]`));
                 $cachedRow.html(html);
