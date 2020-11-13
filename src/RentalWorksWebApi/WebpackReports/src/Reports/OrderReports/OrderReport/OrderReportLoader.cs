@@ -258,6 +258,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
         public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "indentlevel", modeltype: FwDataTypes.Integer)]
+        public int? IndentLevel { get; set; }
+        //------------------------------------------------------------------------------------
         public async Task<List<T>> LoadItems<T>(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -314,7 +317,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         }
 
                         FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
-                        if (isDecimal)
+
+                        if (propType.Equals(FwDataTypes.Boolean))
+                        {
+                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
+                        }
+                        else if ((isDecimal) && (property.PropertyType == typeof(string)))
                         {
                             decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                             string stringValue = d.ToString("N", numberFormat);
@@ -324,13 +332,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                             }
                             property.SetValue(item, stringValue);
                         }
-                        else if (propType.Equals(FwDataTypes.Boolean))
-                        {
-                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
-                        }
                         else
                         {
-                            property.SetValue(item, (value ?? "").ToString());
+                            //property.SetValue(item, (value ?? "").ToString());
+                            property.SetValue(item, value);
                         }
 
                         if (fieldName.Equals("HasDiscount"))

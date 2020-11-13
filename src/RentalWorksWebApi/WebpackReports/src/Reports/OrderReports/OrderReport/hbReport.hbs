@@ -185,9 +185,9 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
-        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
-        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" {{#ifCond ItemClass '===' "GH"}}class="headerRow"{{/ifCond}} {{#ifCond ItemClass '===' "T"}}class="textRow"{{/ifCond}} {{#ifCond ItemClass '===' "ST"}}class="subTotalRow"{{/ifCond}}>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
         <td data-linkedcolumn="BillablePeriods" class="number" data-value="{{BillablePeriods}}"></td>
         <td data-linkedcolumn="Rate" class="number" data-value="{{Rate}}"></td>
@@ -261,8 +261,8 @@
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
-        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
-        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
         <td data-linkedcolumn="Unit" data-value="{{Unit}}"></td>
         <td data-linkedcolumn="Rate" class="number" data-value="{{Rate}}"></td>
@@ -338,8 +338,8 @@
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
-        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
-        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
         <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
         <td data-linkedcolumn="SerialNumber" data-value="{{SerialNumber}}"></td>
@@ -420,8 +420,8 @@
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
         <td data-linkedcolumn="OriginalOrderNumber" data-value="{{OriginalOrderNumber}}"></td>
-        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
-        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
         <td data-linkedcolumn="BarCode" data-value="{{BarCode}}"></td>
         <td data-linkedcolumn="SerialNumber" data-value="{{SerialNumber}}"></td>
@@ -496,8 +496,8 @@
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
-        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
-        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
         <td data-linkedcolumn="BillablePeriods" class="number" data-value="{{BillablePeriods}}"></td>
         <td data-linkedcolumn="Rate" class="number" data-value="{{Rate}}"></td>
@@ -515,7 +515,7 @@
       {{#ifEquals RowType "RecTypeDisplayfooter"}}
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
-        <td  colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
+        <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
         <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
       </tr>
       <tr data-row="footer">
@@ -571,8 +571,8 @@
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
-        <td data-linkedcolumn="ICode" data-value="{{ICode}}"></td>
-        <td data-linkedcolumn="Description" data-value="{{Description}}"></td>
+        <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
+        <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
         <td data-linkedcolumn="BillablePeriods" class="number" data-value="{{BillablePeriods}}"></td>
         <td data-linkedcolumn="Rate" class="number" data-value="{{Rate}}"></td>
