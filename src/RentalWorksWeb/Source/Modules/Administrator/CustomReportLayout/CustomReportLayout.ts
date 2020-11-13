@@ -1296,13 +1296,15 @@ class CustomReportLayout {
                     linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
-                    $newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}-sub${subHeaderRowIndex}"></th>`);
+                    //$newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}-sub${subHeaderRowIndex}"></th>`);
+                    $newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}"></th>`);
                     $row.append($newColumn);
                     jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subHeaderRowIndex]).append($newColumn.clone().addClass('new-column')); //add to row on designer
                     subHeaderRowIndex++;
                     break;
                 case 'sub-detail':
-                    $newColumn = jQuery(`<td data-linkedcolumn="${linkedColumn}-sub${subDetailRowIndex}"></td>`);
+                    //$newColumn = jQuery(`<td data-linkedcolumn="${linkedColumn}-sub${subDetailRowIndex}"></td>`);
+                    $newColumn = jQuery(`<td data-linkedcolumn="${linkedColumn}"></td>`);
                     $row.append($newColumn);
                     jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowIndex]).append($newColumn.clone().addClass('new-column')); //add to row on designer
                     subDetailRowIndex++;
@@ -1319,11 +1321,18 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     deleteColumn($form: JQuery, $table: JQuery, $cachedRows: JQuery) {
-        let linkedColumn, rowIndex, deletedFromRowType, html, index = 0, headerRowIndex = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0;
+        let linkedColumn, rowIndex, deletedFromRowType, html, index = 0, headerRowIndex = 0, linkedSubHeaderIndex = 0, detailRowIndex = 0, subHeaderRowIndex = 0, subDetailRowIndex = 0, footerRowIndex = 0;
         if (typeof $form.data('deletefield') != 'undefined') {
             linkedColumn = $form.data('deletefield').linkedcolumn;
             rowIndex = $form.data('deletefield').rowindex;
             deletedFromRowType = $form.data('deletefield').deletedfromrowtype;
+        }
+
+        if (deletedFromRowType === 'linked-sub-header') {
+            const $mainHeaderTh = $table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`);
+            if ($mainHeaderTh.length > 0) {
+                $mainHeaderTh.remove();
+            }
         }
 
         for (let i = 0; i < $cachedRows.length; i++) {
@@ -1338,6 +1347,9 @@ class CustomReportLayout {
                     break;
                 case 'sub-detail':
                     index = subDetailRowIndex;
+                    break;
+                case 'linked-sub-header':
+                    index = linkedSubHeaderIndex;
                     break;
                 case 'header':
                     index = headerRowIndex;
@@ -1361,25 +1373,34 @@ class CustomReportLayout {
                     detailRowIndex++;
                     break;
                 case 'sub-header':
-                    if (deletedFromRowType === 'sub-header') {
-                        //update cached sub-header html
-                        html = $table.find('tr[data-row="sub-header"]').get(subHeaderRowIndex).innerHTML.trim();
-                        $row.html(html);
-                    }
+                    //if (deletedFromRowType === 'sub-header') {
+                    //update cached sub-header html
+                    html = $table.find('tr[data-row="sub-header"]').get(subHeaderRowIndex).innerHTML.trim();
+                    $row.html(html);
+                    //}
                     subHeaderRowIndex++;
                     break;
                 case 'sub-detail':
                     index = subDetailRowIndex;
-                    if (deletedFromRowType === 'sub-header' || deletedFromRowType === 'sub-detail') {
-                        if (deletedFromRowType === 'sub-header') {
-                            $designerTd.remove();
-                            $cachedTd.remove();
-                        }
-                        //update cached sub-detail html
-                        html = $table.find('tr[data-row="sub-detail"]').get(subDetailRowIndex).innerHTML.trim();
-                        $row.html(html);
-                    }
+                    //if (deletedFromRowType === 'sub-header' || deletedFromRowType === 'sub-detail') {
+                    //    if (deletedFromRowType === 'sub-header') {
+                    //        $designerTd.remove();
+                    //        $cachedTd.remove();
+                    //    }
+                    $designerTd.remove();
+                    $cachedTd.remove();
+                    //update cached sub-detail html
+                    html = $table.find('tr[data-row="sub-detail"]').get(subDetailRowIndex).innerHTML.trim();
+                    $row.html(html);
+                    //}
                     subDetailRowIndex++;
+                    break;
+                case 'linked-sub-header':
+                    $cachedTd.remove();
+                    $designerTd.remove();
+                    html = $table.find('tr[data-row="linked-sub-header"]').get(linkedSubHeaderIndex).innerHTML.trim();
+                    $row.html(html);
+                    linkedSubHeaderIndex++;
                     break;
                 case 'header':
                     this.updateColspan($form, $table, $row, rowType, headerRowIndex);
