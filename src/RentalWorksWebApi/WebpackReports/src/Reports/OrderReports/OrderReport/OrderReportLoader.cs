@@ -284,6 +284,31 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "BillablePeriodUnits", "TaxRate1", "TaxRate2", "CurrencyId", "OfficeLocationDefaultCurrencyId", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
+
+            //after the RecType totals and Grand Total are summed above, now move any "XYZSubTotal" value into its corresponding "XYZ" field
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string itemClass = ((row[dt.GetColumnNo("ItemClass")])??"").ToString();
+                        if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                        {
+                            for (int c = 0; c < dt.Columns.Count; c++)
+                            {
+                                if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                {
+                                    string subTotalColumnName = dt.ColumnNameByIndex[c];
+                                    string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
+                                    row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
             List<T> items = new List<T>();
             bool hasDiscount = false;
             bool hasRecurring = false;

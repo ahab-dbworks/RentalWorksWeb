@@ -1,4 +1,92 @@
 ﻿<!--Order Report-->
+<style type="text/css">
+  tbody {
+    td: after
+
+  {
+    content: attr(data-value);
+  }
+
+  td {
+    padding: 3px;
+    vertical-align: top;
+  }
+
+  }
+
+  body {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .alignRight {
+    text-align: right;
+  }
+
+
+  /********************************** Header section **********************************/
+  .sub {
+    border-top: 2px solid #027cc5;
+    border-bottom: 2px solid #027cc5;
+    background-color: #e3f2fd;
+  }
+  .sectionBorder {
+    border-top: 2px solid #027cc5;
+  }
+  /*************************************************************************************/
+
+  /***************** RecType headers (Rental, Sales, Miscellaneous, etc) ***************/
+  .sub-header tr > td {
+    padding: 0;
+    width: 33.3%;
+  }
+  /*************************************************************************************/
+
+  /****** Column headers for each section  (ie. I-Code, Description, Rate, etc.) *******/
+  .rectype-header td {
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
+    border-bottom: 2px solid #000000;
+  }
+  /*************************************************************************************/
+
+  /******************************** Special Header Rows ********************************/
+  .headerRow {
+    background-color: #f1f8e9;
+  }
+  tr.headerRow td:not([data-linkedcolumn="Description"]):after {
+    content: "";
+  }
+  /*************************************************************************************/
+
+  /******************************** Special Text Rows **********************************/
+  .textRow {
+    font-weight: normal;
+    font-style: italic;
+  }
+  tr.textRow td:not([data-linkedcolumn="Description"]):after {
+    content: "";
+  }
+  /*************************************************************************************/
+
+  /****************************** Special Sub-Total Rows *******************************/
+  .subTotalRow {
+    background-color: #c8e6c9;
+  }
+  tr.subTotalRow td:not([data-linkedcolumn="Description"]):not([data-linkedcolumn="PeriodExtended"]):after {
+    content: "";
+  }
+  /*************************************************************************************/
+
+  /********************************* Grand Total Table *********************************/
+  .grandTotalTable {
+    margin-top: 25px;
+  }
+  /*************************************************************************************/
+
+
+</style>
 <div data-section="header">
   <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
     <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
@@ -260,7 +348,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" class="{{#ifCond ItemClass '===' 'GH'}}headerRow{{/ifCond}}{{#ifCond ItemClass '===' 'T'}}textRow{{/ifCond}}{{#ifCond ItemClass '===' 'ST'}}subTotalRow{{/ifCond}}">
         <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
@@ -337,7 +425,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" class="{{#ifCond ItemClass '===' 'GH'}}headerRow{{/ifCond}}{{#ifCond ItemClass '===' 'T'}}textRow{{/ifCond}}{{#ifCond ItemClass '===' 'ST'}}subTotalRow{{/ifCond}}">
         <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
@@ -418,7 +506,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" class="{{#ifCond ItemClass '===' 'GH'}}headerRow{{/ifCond}}{{#ifCond ItemClass '===' 'T'}}textRow{{/ifCond}}{{#ifCond ItemClass '===' 'ST'}}subTotalRow{{/ifCond}}">
         <td data-linkedcolumn="OriginalOrderNumber" data-value="{{OriginalOrderNumber}}"></td>
         <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
@@ -495,7 +583,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" class="{{#ifCond ItemClass '===' 'GH'}}headerRow{{/ifCond}}{{#ifCond ItemClass '===' 'T'}}textRow{{/ifCond}}{{#ifCond ItemClass '===' 'ST'}}subTotalRow{{/ifCond}}">
         <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
@@ -570,7 +658,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}">
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" class="{{#ifCond ItemClass '===' 'GH'}}headerRow{{/ifCond}}{{#ifCond ItemClass '===' 'T'}}textRow{{/ifCond}}{{#ifCond ItemClass '===' 'ST'}}subTotalRow{{/ifCond}}">
         <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
@@ -617,7 +705,7 @@
 <div data-section="table" class="rpt-flexrow">
   {{#each Items}}
   {{#ifEquals RowType "grandtotal"}}
-  <table data-tablename="Grand Total" class="grandTotalRow">
+  <table data-tablename="Grand Total" class="grandTotalTable">
     <tbody>
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
