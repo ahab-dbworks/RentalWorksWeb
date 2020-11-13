@@ -28,7 +28,7 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFileName(FwReportRenderRequest request) { return "IncomingDeliveryInstructions"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Outgoing / Incoming Delivery Label"; }
+        protected override string GetReportFriendlyName() { return "Incoming Delivery Label"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {

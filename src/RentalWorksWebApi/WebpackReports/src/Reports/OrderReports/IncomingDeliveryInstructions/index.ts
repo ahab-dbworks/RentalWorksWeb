@@ -15,6 +15,7 @@ export class IncomingDeliveryInstructions extends WebpackReport {
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/incomingdeliveryinstructions/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
                             const data: any = DataTable.toObjectList(response);
+                            data.Report = 'Incoming Delivery Instructions'
                             this.setReportMetadata(parameters, data, response);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
@@ -28,7 +29,7 @@ export class IncomingDeliveryInstructions extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
-
+                            console.log('rpt: ', data)
                             this.onRenderReportCompleted();
                         })
                         .catch((ex) => {

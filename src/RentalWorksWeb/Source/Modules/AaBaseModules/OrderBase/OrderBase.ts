@@ -2691,10 +2691,10 @@ class OrderBase {
         //Print Delivery Instructions
         $form.find('.prnt-deliv-instruct').on('click', e => {
             try {
-                let tag = 'Outgoing';
+                let tag = 'Out';
                 const $this = jQuery(e.currentTarget);
                 if ($this.hasClass('in')) {
-                    tag = 'Incoming';
+                    tag = 'In';
                 }
                 this.printDeliveryInstructions($form, tag);
             } catch (ex) {

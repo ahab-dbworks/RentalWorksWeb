@@ -1,5 +1,4 @@
 ﻿<!--IncomingDelivery-->
-{{#each this}}
 <div data-section="header">
   <div class="rpt-flexrow">
     <div class="rpt-flexcolumn">
@@ -13,10 +12,11 @@
     </div>
   </div>
 </div> <!--end header-->
-
+{{#each this}}
 <div class="rpt-flexrow">
   <!-- Order details -->
-  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 422px;margin-right:10px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex: 0 0 321px;
+    margin-right: 10px;">
     <table>
       <tr>
         <td style="width:90px;" class="shaded-block">Order No.:</td>
@@ -29,7 +29,8 @@
     </table>
   </div>
   <!-- Agent details -->
-  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin:0px 10px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex: 0 0 321px;
+    margin: 0px 10px;">
     <table>
       <tr>
         <td style="width:55px;" class="shaded-block">Description:</td>
@@ -42,7 +43,8 @@
     </table>
   </div>
   <!-- Billing Dates, Usage Dates, Terms, Billing Cycle-->
-  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin-left:10px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex: 0 0 555px;
+    margin-left: 10px;">
     <table>
       <tr>
         <td style="width:90px;;" class="shaded-block">Deal:</td>
@@ -66,7 +68,7 @@
 
 <div data-section="header">
   <div class="rpt-flexrow">
-    <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin:0px 10px;">
+    <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 555px;margin:0px 10px;">
       <table>
         <tr>
           <td style="width:55px;" class="shaded-block">SHIP TO:</td>
@@ -109,7 +111,7 @@
         </tr>
       </table>
     </div>
-    <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 321px;margin:0px 10px;">
+    <div class="rpt-flexcolumn sectionBorder" style="flex: 0 0 555px;margin: 0px 10px;">
       <table>
         <tr>
           <td style="width:55px;" class="shaded-block">SHIPPING:</td>
@@ -127,11 +129,11 @@
           <td class="">{{FromAddress1}}</td>
         </tr>
         <tr>
-          <td style="width:55px;" class="shaded-block">Replacement Value:</td>
+          <td style="width:85px;" class="shaded-block">Replacement Value:</td>
           <td class="">{{FromCity}}</td>
         </tr>
         <tr>
-          <td style="width:55px;" class="shaded-block">Manifest Value:</td>
+          <td style="width:85px;" class="shaded-block">Manifest Value:</td>
           <td class="">{{FromState}}</td>
         </tr>
       </table>
