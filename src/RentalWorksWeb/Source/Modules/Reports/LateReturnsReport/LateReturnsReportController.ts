@@ -160,45 +160,29 @@ class LateReturnsReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
     };
     //----------------------------------------------------------------------------------------------
-    convertParameters(parameters: any): any {
-        return parameters;
+    convertParameters(parameters: any) {
+        const convertedParams: any = parameters;
+
+        if (parameters.LateReturns) {
+            parameters.Type = 'PASTDUE'
+            parameters.ReportType = 'PAST_DUE';
+            parameters.Days = parameters.DaysPastDue;
+            parameters.headerText = `${parameters.DaysPastDue} Days Past Due`;
+        }
+        if (parameters.DueBack) {
+            parameters.Type = 'DUEBACK'
+            parameters.ReportType = 'DUE_IN';
+            parameters.Days = parameters.DueBackFewer;
+            parameters.headerText = `Due Back in ${parameters.DueBackFewer} Days`;
+        }
+        if (parameters.DueBackOn) {
+            parameters.Type = 'DUEBACK'
+            parameters.ReportType = 'DUE_DATE';
+            parameters.DueBackDate = moment(parameters.DueBackDate).locale(parameters.Locale).format('L');
+            parameters.headerText = `Due Back on ${parameters.DueBackDate}`;
+        }
+        return convertedParams;
     }
-    //----------------------------------------------------------------------------------------------
-    //convertParameters(parameters: any) {
-    //    const convertedParams: any = {};
-    //
-    //    if (parameters.LateReturns) {
-    //        convertedParams.Type = 'PASTDUE'
-    //        convertedParams.ReportType = 'PAST_DUE';
-    //        convertedParams.Days = parameters.DaysPastDue;
-    //        convertedParams.headerText = `${parameters.DaysPastDue} Days Past Due`;
-    //    }
-    //    if (parameters.DueBack) {
-    //        convertedParams.Type = 'DUEBACK'
-    //        convertedParams.ReportType = 'DUE_IN';
-    //        convertedParams.Days = parameters.DueBackFewer;
-    //        convertedParams.headerText = `Due Back in ${parameters.DueBackFewer} Days`;
-    //    }
-    //    if (parameters.DueBackOn) {
-    //        convertedParams.Type = 'DUEBACK'
-    //        convertedParams.ReportType = 'DUE_DATE';
-    //        convertedParams.headerText = `Due Back on ${parameters.DueBackDate}`;
-    //        convertedParams.DueBackDate = parameters.DueBackDate;
-    //    }
-    //    convertedParams.OrderedByContactId = parameters.ContactId;
-    //    convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-    //    convertedParams.WarehouseId = parameters.WarehouseId;
-    //    convertedParams.DepartmentId = parameters.DepartmentId;
-    //    convertedParams.CustomerId = parameters.CustomerId;
-    //    convertedParams.DealId = parameters.DealId;
-    //    convertedParams.InventoryTypeId = parameters.InventoryTypeId;
-    //    //convertedParams.ShowUnit = parameters.ShowUnit;
-    //    //convertedParams.ShowReplacement = parameters.ShowReplacement;
-    //    //convertedParams.ShowBarCode = parameters.ShowBarCode;
-    //    //convertedParams.ShowSerial = parameters.ShowSerial;
-    //
-    //    return convertedParams;
-    //}
     //----------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
