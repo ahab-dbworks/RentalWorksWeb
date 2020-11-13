@@ -938,7 +938,8 @@ class CustomReportLayout {
             const tableName = $table.parents('.table-wrapper').attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
             FwFormField.setValueByDataField($form, 'CellStyleField', $column.attr('style') || '');
-            this.showHideControlProperties($form, 'td');
+            const rowType = $column.parents('tr').attr('data-row');
+            this.showHideControlProperties($form, rowType == 'sub-detail' ? 'sub-detail' : 'td');
         });
 
         //header row
@@ -1187,6 +1188,12 @@ class CustomReportLayout {
                 $controlProperties.children(`[data-datafield="CellStyleField"]`).show();
                 $controlProperties.show();
                 break;
+            case 'sub-detail':
+                $controlProperties.children(`:not('[data-datafield="CellStyleField"]'):not('[data-datafield="CaptionField"]')`).hide();
+                $controlProperties.children(`[data-datafield="CellStyleField"], [data-datafield="CaptionField"]`).show();
+                $controlProperties.find('.delete-column').parent('div').show();
+                $controlProperties.show();
+                break;
             case 'hide':
                 $controlProperties.hide();
                 break;
@@ -1309,15 +1316,13 @@ class CustomReportLayout {
                     linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
-                    //$newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}-sub${subHeaderRowIndex}"></th>`);
-                    $newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}"></th>`);
+                    $newColumn = jQuery(`<th data-linkedcolumn="${linkedColumn}-sub${subHeaderRowIndex}"></th>`);
                     $row.append($newColumn);
                     jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subHeaderRowIndex]).append($newColumn.clone().addClass('new-column')); //add to row on designer
                     subHeaderRowIndex++;
                     break;
                 case 'sub-detail':
-                    //$newColumn = jQuery(`<td data-linkedcolumn="${linkedColumn}-sub${subDetailRowIndex}"></td>`);
-                    $newColumn = jQuery(`<td data-linkedcolumn="${linkedColumn}"></td>`);
+                    $newColumn = jQuery(`<td data-linkedcolumn="${linkedColumn}-sub${subDetailRowIndex}"></td>`);
                     $row.append($newColumn);
                     jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[subDetailRowIndex]).append($newColumn.clone().addClass('new-column')); //add to row on designer
                     subDetailRowIndex++;
