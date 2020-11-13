@@ -22,7 +22,7 @@ const incomingDeliveryInstructionsTemplate = `
             </div>
           </div>
           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="CompanyIdField" data-savesetting="false" style="display:none;"></div>
-          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="IncomingDeliveryId" data-savesetting="false" style="display:none;"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="InDeliveryId" data-savesetting="false" style="display:none;"></div>
         </div>
       </div>
     </div>

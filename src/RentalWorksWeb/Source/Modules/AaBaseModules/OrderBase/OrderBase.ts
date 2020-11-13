@@ -3085,9 +3085,9 @@ class OrderBase {
                 const module = this.Module;
 
                 let $report;
-                if (tag === 'Outgoing') {
+                if (tag === 'Out') {
                     $report = OutgoingDeliveryInstructionsController.openForm();
-                } else if (tag === 'Incoming') {
+                } else if (tag === 'In') {
                     $report = IncomingDeliveryInstructionsController.openForm();
                 }
                 FwModule.openSubModuleTab($form, $report);
@@ -3100,7 +3100,7 @@ class OrderBase {
                 FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
 
                 const $tab = FwTabs.getTabByElement($report);
-                $tab.find('.caption').html(`Print ${module} ${tag}going Delivery Instructions `);
+                $tab.find('.caption').html(`Print ${tag === 'In' ? 'Incoming' :'Outgoing' } Delivery Instructions `);
             }
 
             const isModified = $form.attr('data-modified');
