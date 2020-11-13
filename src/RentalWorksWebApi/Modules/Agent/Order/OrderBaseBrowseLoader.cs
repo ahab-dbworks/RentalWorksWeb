@@ -298,6 +298,7 @@ namespace WebApi.Modules.Agent.Order
                     select.AddWhere(" (" + TableAlias + ".rental = 'T' or " + TableAlias + ".sales = 'T' or " + TableAlias + ".rentalsale = 'T')");
                     select.AddParameter("@stagingwhid", stagingWarehouseId);
                 }
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
             else if (GetMiscFieldAsBoolean("Exchange", request).GetValueOrDefault(false))
             {
@@ -312,6 +313,7 @@ namespace WebApi.Modules.Agent.Order
                     select.AddParameter("@exchangewhid", exchangeWarehouseId);
                 }
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(exchangeWarehouseId) ? "" : " and mi.warehouseid = @exchangewhid") + ")");
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
             else if (GetMiscFieldAsBoolean("CheckIn", request).GetValueOrDefault(false))
             {
@@ -324,6 +326,7 @@ namespace WebApi.Modules.Agent.Order
                     select.AddWhere(" ((warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @checkinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.returntowarehouseid = @checkinwhid))");
                     select.AddParameter("@checkinwhid", checkInWarehouseId);
                 }
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
             else if (GetMiscFieldAsBoolean("LossAndDamage", request).GetValueOrDefault(false))
             {
@@ -342,6 +345,7 @@ namespace WebApi.Modules.Agent.Order
                     select.AddParameter("@lddealid", lossAndDamageDealId);
                 }
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(lossAndDamageWarehouseId) ? "" : " and mi.warehouseid = @ldwhid") + " and ot.itemstatus = 'O'" + ")");
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
             else if (GetMiscFieldAsBoolean("Migrate", request).GetValueOrDefault(false))
             {
@@ -369,6 +373,7 @@ namespace WebApi.Modules.Agent.Order
                 }
                 //select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(lossAndDamageWarehouseId) ? "" : " and mi.warehouseid = @ldwhid") + ")");
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + " and ot.itemstatus = 'O'" + ")");  // has Rentals Out
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
 
             string contactId = GetUniqueIdAsString("ContactId", request) ?? "";
@@ -376,6 +381,7 @@ namespace WebApi.Modules.Agent.Order
             {
                 select.AddWhere("exists (select * from ordercontact oc where oc.orderid = " + TableAlias + ".orderid and oc.contactid = @contactid)");
                 select.AddParameter("@contactid", contactId);
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
 
             string inventoryId = GetUniqueIdAsString("InventoryId", request) ?? "";
@@ -395,6 +401,7 @@ namespace WebApi.Modules.Agent.Order
                 }
 
                 select.AddParameter("@masterid", inventoryId);
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
 
             string itemId = GetUniqueIdAsString("ItemId", request) ?? "";
@@ -402,6 +409,7 @@ namespace WebApi.Modules.Agent.Order
             {
                 select.AddWhere("exists (select * from masteritem mi join ordertran ot on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and ot.rentalitemid = @itemid)");
                 select.AddParameter("@itemid", itemId);
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
 
 
@@ -453,6 +461,7 @@ namespace WebApi.Modules.Agent.Order
                         myWhere.AppendLine(")");
                         select.AddWhere(myWhere.ToString());
                         select.AddParameter("@myusersid", this.UserSession.UsersId);
+                        select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
                     }
                 }
             }

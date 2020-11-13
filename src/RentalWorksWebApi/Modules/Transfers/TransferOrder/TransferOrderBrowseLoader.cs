@@ -134,6 +134,7 @@ namespace WebApi.Modules.Transfers.TransferOrder
                 }
 
                 select.AddParameter("@masterid", inventoryId);
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
 
             string itemId = GetUniqueIdAsString("ItemId", request) ?? "";
@@ -141,6 +142,7 @@ namespace WebApi.Modules.Transfers.TransferOrder
             {
                 select.AddWhere("exists (select * from masteritem mi join ordertran ot on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and ot.rentalitemid = @itemid)");
                 select.AddParameter("@itemid", itemId);
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
 
             if ((request != null) && (request.activeviewfields != null))
@@ -192,6 +194,7 @@ namespace WebApi.Modules.Transfers.TransferOrder
                     select.AddWhere(" ((fromwarehouseid = @transferoutwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @transferoutwhid))");
                     select.AddParameter("@transferoutwhid", transferOutWarehouseId);
                 }
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
             else if (GetMiscFieldAsBoolean("TransferIn", request).GetValueOrDefault(false))
             {
@@ -203,6 +206,7 @@ namespace WebApi.Modules.Transfers.TransferOrder
                     select.AddWhere(" ((warehouseid = @transferinwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.returntowarehouseid = @transferinwhid))");
                     select.AddParameter("@transferinwhid", transferInWarehouseId);
                 }
+                select.UseOptionRecompile = true;  // recompile each time to avoid parameter sniffing
             }
 
 
