@@ -16,7 +16,7 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
 {
     public class IncomingDeliveryInstructionsRequest : AppReportRequest
     {
-        public string IncomingDeliveryId { get; set; }
+        public string InDeliveryId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

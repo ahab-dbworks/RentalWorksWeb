@@ -16,7 +16,7 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deliveryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string IncomingDeliveryId { get; set; } = "";
+        public string InDeliveryId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deliverytype", modeltype: FwDataTypes.Text)]
         public string DeliveryType { get; set; }
@@ -258,7 +258,7 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddWhereIn("deliveryId", request.IncomingDeliveryId);
+                    select.AddWhereIn("deliveryId", request.InDeliveryId);
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }

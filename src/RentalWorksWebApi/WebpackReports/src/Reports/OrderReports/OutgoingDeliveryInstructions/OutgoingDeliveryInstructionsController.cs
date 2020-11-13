@@ -16,7 +16,7 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
 {
     public class OutgoingDeliveryInstructionsRequest : AppReportRequest
     {
-        public string OutgoingDeliveryId { get; set; }
+        public string OutDeliveryId { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
