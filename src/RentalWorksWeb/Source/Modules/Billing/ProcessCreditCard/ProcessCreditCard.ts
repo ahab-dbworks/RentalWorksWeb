@@ -139,7 +139,7 @@ class ProcessCreditCard{
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Name" data-datafield="Customer" data-enabled="false"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo"  data-enabled="false""></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo" data-enabled="false"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false"></div>
                         </div>
                       </div>
@@ -148,29 +148,46 @@ class ProcessCreditCard{
                           <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="Totals" data-datafield="totalsItems"></div>
                         </div>
                         <div class="totalsitemspanel weeklyPanel" style="display:none">
-                        
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Gross Total" data-datafield="Totals_Weekly_GrossTotal" data-enabled="false"></div>
+                            </div>
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Discount" data-datafield="Totals_Weekly_Discount" data-enabled="false"></div>
+                            </div>
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-datafield="Totals_Weekly_SubTotal" data-enabled="false"></div>
+                            </div>
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax (X.XXX%)" data-datafield="Totals_Weekly_Tax" data-enabled="false"></div>
+                            </div>
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Grand Total" data-datafield="Totals_Weekly_GrandTotal" data-enabled="false"></div>
+                            </div>
                         </div>
                         <div class="totalsitemspanel periodPanel" style="display:none">
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield=""  data-enabled="false""></div>
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Gross Total" data-datafield="Totals_Period_GrossTotal" data-enabled="false"></div>
                             </div>
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield=""  data-enabled="false""></div>
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Discount" data-datafield="Totals_Period_Discount" data-enabled="false"></div>
                             </div>
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield=""  data-enabled="false""></div>
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-datafield="Totals_Period_SubTotal" data-enabled="false"></div>
                             </div>
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield=""  data-enabled="false""></div>
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax (X.XXX%)" data-datafield="Totals_Period_Tax" data-enabled="false"></div>
+                            </div>
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Grand Total" data-datafield="Totals_Period_GrandTotal" data-enabled="false"></div>
                             </div>
                         </div>
                         <div class="totalsitemspanel replacementPanel" style="display:none">                      
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield=""  data-enabled="false""></div>
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield="Totals_Replacement_TotalReplacementCost" data-enabled="false"></div>
                             </div>
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deposit Percentage" data-datafield=""  data-enabled="false""></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deposit Due" data-datafield="" data-enabled="false"></div>
+                              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Percentage" data-datafield="Totals_Replacement_DepositPercentage" data-enabled="false"></div>
+                              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Due" data-datafield="Totals_Replacement_DepositDue" data-enabled="false"></div>
                             </div>
                         </div>
                       </div>
@@ -178,26 +195,27 @@ class ProcessCreditCard{
                     <div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PIN Pad" style="max-width:700px">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer No" data-datafield="CustomerNo"  data-enabled="false"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Name" data-datafield="Customer" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PIN Pad Code" data-datafield="PINPad_Code"  data-enabled="false"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo"  data-enabled="false""></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="PINPad_Description" data-enabled="false"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="PINPad_Type" data-enabled="false"></div>
                         </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Payment Amount" style="max-width:700px">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo"  data-enabled="false""></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Amount" data-datafield="Payment_TotalAmount" data-enabled="false"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo"  data-enabled="false""></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit" data-datafield="Payment_Deposit" data-enabled="false"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo"  data-enabled="false""></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Remaining Amount" data-datafield="Payment_RemainingAmount" data-enabled="false"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount to Pay" data-datafield="Payment_AmountToPay"></div>
                         </div>
                       </div>
                     </div>

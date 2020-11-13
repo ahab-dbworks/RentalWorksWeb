@@ -43,6 +43,86 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "TYgFeAFq0cdB", IsReadOnly: true)]
         public string Customer { get; set; }
+
+
+        // PIN Pad
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "CUobIw2BFXC7", IsReadOnly: true)]
+        public string PINPad_Code { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "5Lwe4qcWQVgw", IsReadOnly: true)]
+        public string PINPad_Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "j1m70WLfcPxq", IsReadOnly: true)]
+        public string PINPad_Type { get; set; }
+
+        // Weekly Totals
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "IWRGxYILCM4P", IsReadOnly: true)]
+        public decimal Totals_Weekly_GrossTotal { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "pCuKUlp4lSMT", IsReadOnly: true)]
+        public decimal Totals_Weekly_Discount { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "b5dbVblvbyCL", IsReadOnly: true)]
+        public decimal Totals_Weekly_SubTotal { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "vsq9rUJtVoxp", IsReadOnly: true)]
+        public decimal Totals_Weekly_Tax { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "mebV3K40l8FC", IsReadOnly: true)]
+        public decimal Totals_Weekly_GrandTotal { get; set; }
+
+        // Period Totals
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "VH0BCIO1aSpD", IsReadOnly: true)]
+        public decimal Totals_Period_GrossTotal { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "3pMylt7XIX0R", IsReadOnly: true)]
+        public decimal Totals_Period_Discount { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "9yCADMCxVXoT", IsReadOnly: true)]
+        public decimal Totals_Period_SubTotal { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "5j1nJGpDYI2N", IsReadOnly: true)]
+        public decimal Totals_Period_Tax { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "8FQ0aR37RhBe", IsReadOnly: true)]
+        public decimal Totals_Period_GrandTotal { get; set; }
+
+        // Replacement Totals
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "8FQ0aR37RhBe", IsReadOnly: true)]
+        public decimal Totals_Replacement_TotalReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "8FQ0aR37RhBe", IsReadOnly: true)]
+        public decimal Totals_Replacement_DepositPercentage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "8FQ0aR37RhBe", IsReadOnly: true)]
+        public decimal Totals_Replacement_DepositDue { get; set; }
+
+        // Payment Amount
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "D1yvp9JsUzCO", IsReadOnly: true)]
+        public decimal Payment_TotalAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "FNmV0PuQN23R", IsReadOnly: true)]
+        public decimal Payment_Deposit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "k5LSmx5qpgKc", IsReadOnly: true)]
+        public decimal Payment_RemainingAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "1RHRnXKTzHCn", IsReadOnly: true)]
+        public decimal Payment_AmountToPay { get; set; }
+
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request)
         {
