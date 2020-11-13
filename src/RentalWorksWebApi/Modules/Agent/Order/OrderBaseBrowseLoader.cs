@@ -221,6 +221,14 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "marketsegmentjob", modeltype: FwDataTypes.Text)]
         public string MarketSegmentJob { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliveryid", modeltype: FwDataTypes.Text)]
+        public string InDeliveryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string NumberColor
         {

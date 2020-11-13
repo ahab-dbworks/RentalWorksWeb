@@ -342,9 +342,6 @@ namespace WebApi.Modules.Agent.Order
 
 
 
-        [FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text)]
-        public string OutDeliveryId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliverydeliverytype", modeltype: FwDataTypes.Text)]
         public string OutDeliveryDeliveryType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -529,9 +526,6 @@ namespace WebApi.Modules.Agent.Order
 
 
 
-        [FwSqlDataField(column: "indeliveryid", modeltype: FwDataTypes.Text)]
-        public string InDeliveryId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliverydeliverytype", modeltype: FwDataTypes.Text)]
         public string InDeliveryDeliveryType { get; set; }
         //------------------------------------------------------------------------------------ 
