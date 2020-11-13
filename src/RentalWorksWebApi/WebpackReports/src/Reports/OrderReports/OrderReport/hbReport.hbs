@@ -185,7 +185,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" {{#ifCond ItemClass '===' "GH"}}class="headerRow"{{/ifCond}} {{#ifCond ItemClass '===' "T"}}class="textRow"{{/ifCond}} {{#ifCond ItemClass '===' "ST"}}class="subTotalRow"{{/ifCond}}>
+      <tr data-row="detail" data-rowtype="{{RowType}}" data-isbold="{{Bold}}" class="{{#ifCond ItemClass '===' 'GH'}}headerRow{{/ifCond}}{{#ifCond ItemClass '===' 'T'}}textRow{{/ifCond}}{{#ifCond ItemClass '===' 'ST'}}subTotalRow{{/ifCond}}">
         <td data-linkedcolumn="ICode" data-value="{{ICode}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="Description" data-value="{{Description}}" style="text-indent: {{IndentLevel}}em;"></td>
         <td data-linkedcolumn="QuantityOrdered" class="number" data-value="{{QuantityOrdered}}"></td>
@@ -583,7 +583,7 @@
       <tr data-row="sub-detail" data-sort="true">
         <td data-linkedcolumn="ICode" class="alignRight"><div class="note-label">Note:&nbsp;</div></td>
         <td colspan="5"><div class="note-cell">{{Notes}}</div></td>
-        <td data-linkedcolumn="PeriodExtended">&nbsp;</tddata-linkedcolumn="PeriodExtended">
+        <td data-linkedcolumn="PeriodExtended">&nbsp;</td>
       </tr>
       {{/if}}
       {{/ifEquals}}
