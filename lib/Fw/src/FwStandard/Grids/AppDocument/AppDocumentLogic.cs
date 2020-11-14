@@ -112,14 +112,12 @@ namespace FwStandard.Grids.AppDocument
                 FwAppImageLogic appImageLogic = new FwAppImageLogic(this.AppConfig);
                 if (e.SaveMode == TDataRecordSaveMode.smUpdate)
                 {
-                    // delete any existing images
-                    //ag 10/28/2020 - should not delete images based on uniqueid
-                    //await appImageLogic.DeleteAsync(this.appDocument.UniqueId1, this.appDocument.UniqueId2, "");
+                    // delete any files, since business rules only allow 1 file
+                    await appImageLogic.DeleteAsync(this.appDocument.AppDocumentId, string.Empty, string.Empty, "F");
                 }
 
                 // add the new image
-                //await appImageLogic.AddAsync(appDocument.UniqueId1, appDocument.UniqueId2, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl, e.SqlConnection);
-                await appImageLogic.AddAsync(appDocument.AppDocumentId, string.Empty, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl, e.SqlConnection);  // AppImage.UniqueId1 needs to be the AppDocumentId
+                await appImageLogic.AddAsync(this.appDocument.AppDocumentId, string.Empty, string.Empty, string.Empty, this.Extension, "F", this.FileDataUrl, e.SqlConnection);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -669,12 +667,22 @@ namespace FwStandard.Grids.AppDocument
                         await qry.ExecuteNonQueryAsync();
                     }
 
-                    // update the Document
-                    var date = DateTime.Now;
-                    this.AttachDate = date.ToString("yyyy-MM-dd");
-                    this.AttachTime = date.ToString("hh:mm:ss");
-                    this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
-                    await this.SaveAsync(saveMode: TDataRecordSaveMode.smUpdate);
+                    // update the appdocument dates
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        var date = DateTime.Now;
+                        qry.Add("update appdocument");
+                        qry.Add("set");
+                        qry.Add("  attachdate = @attachdate,");
+                        qry.Add("  attachtime = @attachtime,");
+                        qry.Add("  datestamp = @datestamp");
+                        qry.Add("where appdocumentid = @appdocumentid");
+                        qry.AddParameter("@appdocumentid", this.DocumentId);
+                        qry.AddParameter("@attachdate", date.ToString("yyyy-MM-dd"));
+                        qry.AddParameter("@attachtime", date.ToString("hh:mm:ss"));
+                        qry.AddParameter("@datestamp", date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"));
+                        await qry.ExecuteNonQueryAsync();
+                    }
 
                     transaction.Commit();
                 }

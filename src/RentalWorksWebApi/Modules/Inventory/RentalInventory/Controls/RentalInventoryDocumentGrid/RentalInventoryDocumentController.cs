@@ -1,4 +1,4 @@
-﻿using FwCore.Controllers;
+using FwCore.Controllers;
 using FwCore.Grids.AppDocument;
 using FwStandard.AppManager;
 using FwStandard.Grids.AppDocument;
@@ -333,7 +333,7 @@ namespace WebApi.Modules.Inventory.RentalInventory
         /// <returns></returns>
         [HttpDelete("{inventoryid}/document/{documentid}/file")]
         [FwControllerMethod(Id: "6dNTtYUnqGbu", FwControllerActionTypes.ControlEdit, ParentId: "DCfBWlHhvSDH")]
-        public async Task<ActionResult<bool>> DeleteImageAsync([FromRoute]string inventoryid, [FromRoute]string documentid)
+        public async Task<ActionResult<bool>> DeleteFileAsync([FromRoute]string inventoryid, [FromRoute]string documentid)
         {
             try
             {
