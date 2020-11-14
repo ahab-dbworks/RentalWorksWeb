@@ -1,20 +1,147 @@
-﻿<!--OutgoingDelivery-->
+﻿<!--IncomingDelivery-->
+<div data-section="header">
+  <div class="rpt-flexrow" style="margin: 0 0 25px 0;">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span>{{System}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-title"><span>{{Report}}</span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
+    </div>
+  </div>
+</div> <!--end header-->
 {{#each this}}
+<div class="rpt-flexrow top-row">
+
+  <div class="rpt-flexcolumn" style="flex: 0 0 321px;
+    margin-right: 10px;">
+    <table>
+      <tr>
+        <td style="width:90px;" class="shaded-block">Order No.:</td>
+        <td class="">{{OnlineOrderNumber}}</td>
+      </tr>
+      <tr>
+        <td style="width:55px;" class="shaded-block">Agent:</td>
+        <td class="">{{Agent}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="rpt-flexcolumn" style="flex: 0 0 321px;
+    margin: 0px 10px;">
+    <table>
+      <tr>
+        <td style="width:55px;" class="shaded-block">Description:</td>
+        <td class="">{{OnlineOrderStatus}}</td>
+      </tr>
+      <tr>
+        <td style="width:55px;" class="shaded-block">Phone:</td>
+        <td class="">{{AgentPhone}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="rpt-flexcolum" style="flex: 0 0 321px;
+    margin-left: 10px;">
+    <table>
+      <tr>
+        <td style="width:90px;;" class="shaded-block">Deal:</td>
+        <td class="">{{Deal}}</td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <div class="rpt-nested-flexrow rpt-header-left"><span></span></div>
+  </div>
+  <div class="rpt-flexcolumn">
+    <div class="rpt-nested-flexrow rpt-title"><span>{{TargetShipDate}}</span></div>
+    <div class="rpt-nested-flexrow rpt-title"><span>{{TargetShipTime}}</span></div>
+  </div>
+  <div class="rpt-flexcolumn">
+  </div>
+</div>
+
 <div data-section="header">
   <div class="rpt-flexrow">
-    <div class="rpt-flexcolumn"></div>
-    <div class="rpt-flexcolumn" style="font-size: 4em; align-items: center;">
-      <div class="rpt-nested-flexrow">
-        <div class="logo-container"><span><img data-visible="{{#if ../Logosrc}}true{{/if}}" class="logo" src="{{../Logosrc}}" alt="logo" /></span></div>
-      </div>
-      <div class="rpt-nested-flexrow"><span class="order-no">{{OrderNumber}}</span></div>
-      <div class="rpt-nested-flexrow"><span class="location">{{Location}}</span></div>
-      <div class="rpt-nested-flexrow"><span>Attn: {{Attention}}</span></div>
-      <div class="rpt-nested-flexrow"><span>{{Address1}}</span></div>
-      <div class="rpt-nested-flexrow"><span data-visible="{{#if Address2}}true{{/if}}">{{Address2}}</span></div>
-      <div class="rpt-nested-flexrow"><span>{{CityStateZipCode}}</span></div>
+    <div class="rpt-flexcolumn section-box" style="flex:0 0 553px;margin: 0 3px 0 0;">
+      <table>
+        <tr>
+          <td style="width:55px;" class="shaded-block">SHIP TO:</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Attention:</td>
+          <td class="">{{FromAttention}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Location:</td>
+          <td class="">{{FromLocation}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Address:</td>
+          <td class="">{{FromAddress1}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block"></td>
+          <td class="">{{FromAddress2}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">City:</td>
+          <td class="">{{FromCity}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">State:</td>
+          <td class="">{{FromState}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Zip Code:</td>
+          <td class="">{{FromZip}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Country:</td>
+          <td class="">{{FromCountry}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Phone:</td>
+          <td class="">{{FromContactPhone}}</td>
+        </tr>
+      </table>
     </div>
-    <div class="rpt-flexcolumn"></div>
+
+    <div style="min-width:0;"></div>
+
+    <div class="rpt-flexcolumn section-box" style="flex: 0 0 553px;">
+      <table>
+        <tr>
+          <td style="width:55px;" class="shaded-block">SHIPPING:</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Carrier:</td>
+          <td class="">{{Carrier}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Ship Via:</td>
+          <td class="">{{ShipVia}}</td>
+        </tr>
+        <tr>
+          <td style="width:55px;" class="shaded-block">Total Weight:</td>
+          <td class="">{{FromAddress1}}</td>
+        </tr>
+        <tr>
+          <td style="width:85px;" class="shaded-block">Replacement Value:</td>
+          <td class="">{{FromCity}}</td>
+        </tr>
+        <tr>
+          <td style="width:85px;" class="shaded-block">Manifest Value:</td>
+          <td class="">{{FromState}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
 {{/each}}

@@ -20,9 +20,12 @@ span.location {
     font-size: 1.2em;
 }
 
-span.order-no {
-    font-weight: 700;
-    font-size: 1.4em;
+.section-box {
+    border: 1px solid black;
+}
+.top-row {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 @page { // removes footer from pdf
