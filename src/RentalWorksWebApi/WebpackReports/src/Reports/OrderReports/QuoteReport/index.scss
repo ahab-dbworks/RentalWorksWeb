@@ -1,1 +1,122 @@
-﻿
+﻿/*Quote Report*/
+tbody {
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+        vertical-align: top;
+    }
+}
+
+.sub-header tr > td {
+    padding: 0;
+    width: 33.3%;
+}
+
+.att-text-align {
+    padding-left: 75px;
+}
+
+.sub-header-left {
+    align-self: flex-start;
+}
+
+.sub-header-center {
+    align-self: center;
+}
+
+.sub-header-right {
+    align-self: flex-end;
+}
+
+.header-center {
+    align-self: center;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.header-right {
+    align-self: flex-end;
+    font-size: 15px;
+}
+
+.header-left {
+    align-self: flex-start;
+    font-size: 15px;
+}
+
+body {
+    font-size: 15px;
+    padding: 10px;
+}
+
+.rectype-header td {
+    font-weight: bold;
+    padding: 5px;
+    white-space: nowrap;
+    border-bottom: 2px solid #000000;
+}
+
+span {
+    .marker {
+        background-color: yellow;
+    }
+}
+
+.qrcode {
+    height: 75px;
+    width: 100px;
+}
+
+.headerRow {
+    background-color: #f1f8e9;
+}
+
+tr.headerRow td:not([data-linkedcolumn="Description"]):after {
+    content: "";
+}
+
+.textRow {
+    font-weight: normal;
+    font-style: italic;
+}
+
+tr.textRow td:not([data-linkedcolumn="Description"]):after {
+    content: "";
+}
+
+.subTotalRow {
+    background-color: #c8e6c9;
+}
+
+tr.subTotalRow td:not([data-linkedcolumn="Description"]):not([data-linkedcolumn="PeriodExtended"]):after {
+    content: "";
+}
+
+.grandTotalRow {
+    margin-top: 25px;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+/* Report Colors */
+
+.sub {
+    border-top: 2px solid #027cc5;
+    border-bottom: 2px solid #027cc5;
+    background-color: #e3f2fd;
+}
+
+.sectionBorder {
+    border-top: 2px solid #027cc5;
+}
+
+.shaded-activity-total {
+    background-color: #e3f2fd;
+    font-weight: 600;
+    vertical-align: top;
+}

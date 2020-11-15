@@ -1,92 +1,4 @@
 ﻿<!--Order Report-->
-<style type="text/css">
-  tbody {
-    td: after
-
-  {
-    content: attr(data-value);
-  }
-
-  td {
-    padding: 3px;
-    vertical-align: top;
-  }
-
-  }
-
-  body {
-    font-size: 15px;
-    padding: 10px;
-  }
-
-  .alignRight {
-    text-align: right;
-  }
-
-
-  /********************************** Header section **********************************/
-  .sub {
-    border-top: 2px solid #027cc5;
-    border-bottom: 2px solid #027cc5;
-    background-color: #e3f2fd;
-  }
-  .sectionBorder {
-    border-top: 2px solid #027cc5;
-  }
-  /*************************************************************************************/
-
-  /***************** RecType headers (Rental, Sales, Miscellaneous, etc) ***************/
-  .sub-header tr > td {
-    padding: 0;
-    width: 33.3%;
-  }
-  /*************************************************************************************/
-
-  /****** Column headers for each section  (ie. I-Code, Description, Rate, etc.) *******/
-  .rectype-header td {
-    font-weight: bold;
-    padding: 5px;
-    white-space: nowrap;
-    border-bottom: 2px solid #000000;
-  }
-  /*************************************************************************************/
-
-  /******************************** Special Header Rows ********************************/
-  .headerRow {
-    background-color: #f1f8e9;
-  }
-  tr.headerRow td:not([data-linkedcolumn="Description"]):after {
-    content: "";
-  }
-  /*************************************************************************************/
-
-  /******************************** Special Text Rows **********************************/
-  .textRow {
-    font-weight: normal;
-    font-style: italic;
-  }
-  tr.textRow td:not([data-linkedcolumn="Description"]):after {
-    content: "";
-  }
-  /*************************************************************************************/
-
-  /****************************** Special Sub-Total Rows *******************************/
-  .subTotalRow {
-    background-color: #c8e6c9;
-  }
-  tr.subTotalRow td:not([data-linkedcolumn="Description"]):not([data-linkedcolumn="PeriodExtended"]):after {
-    content: "";
-  }
-  /*************************************************************************************/
-
-  /********************************* Grand Total Table *********************************/
-  .grandTotalTable {
-    margin-top: 25px;
-  }
-  /*************************************************************************************/
-
-
-</style>
 <div data-section="header">
   <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
     <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
@@ -736,13 +648,6 @@
     {{/each}}
   </table>
 </div>
-<!--<div data-section="footer">
-  <div class="rpt-flexrow">
-    <div class="rpt-flexcolumn">
-      <div class="rpt-nested-flexrow"><span id="notes"></span></div>
-    </div>
-  </div>
-</div>-->
 {{#if Notes}}
 <div id="notesRow" colspan="7">
   <div style="font-weight:700;margin:20px 0 0 0;"></div>
