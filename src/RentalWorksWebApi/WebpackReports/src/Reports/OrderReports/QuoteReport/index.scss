@@ -10,6 +10,10 @@ tbody {
     }
 }
 
+.rpt-nested-flexrow > span {
+    padding: 2px;
+}
+
 .sub-header tr > td {
     padding: 0;
     width: 33.3%;
@@ -119,4 +123,17 @@ tr.subTotalRow td:not([data-linkedcolumn="Description"]):not([data-linkedcolumn=
     background-color: #e3f2fd;
     font-weight: 600;
     vertical-align: top;
+}
+
+.shaded-totals {
+    background-color: #ffffff;
+}
+
+.grandTotalAllActivities {
+    background-color: #e8f5e9;
+    width: 110px;
+    text-align: right;
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding: 10px 0px 6px 0px;
 }

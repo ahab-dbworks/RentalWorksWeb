@@ -10,6 +10,10 @@ tbody {
     }
 }
 
+.rpt-nested-flexrow > span {
+    padding: 2px;
+}
+
 .sub-header tr > td {
     padding: 0;
     width: 33.3%;
@@ -73,6 +77,7 @@ span {
 .headerRow {
     background-color: #f1f8e9;
 }
+
 tr.headerRow td:not([data-linkedcolumn="Description"]):after {
     content: "";
 }
@@ -81,6 +86,7 @@ tr.headerRow td:not([data-linkedcolumn="Description"]):after {
     font-weight: normal;
     font-style: italic;
 }
+
 tr.textRow td:not([data-linkedcolumn="Description"]):after {
     content: "";
 }
@@ -88,6 +94,7 @@ tr.textRow td:not([data-linkedcolumn="Description"]):after {
 .subTotalRow {
     background-color: #c8e6c9;
 }
+
 tr.subTotalRow td:not([data-linkedcolumn="Description"]):not([data-linkedcolumn="PeriodExtended"]):after {
     content: "";
 }
@@ -118,4 +125,15 @@ tr.subTotalRow td:not([data-linkedcolumn="Description"]):not([data-linkedcolumn=
     vertical-align: top;
 }
 
+.shaded-totals {
+    background-color: #ffffff;
+}
 
+.grandTotalAllActivities {
+    background-color: #e8f5e9;
+    width: 110px;
+    text-align: right;
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding: 10px 0px 6px 0px;
+}

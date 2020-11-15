@@ -98,7 +98,7 @@
   <!-- Issued To / Outgoing /Incoming -->
   <div class="rpt-flexrow" style="margin-top:25px;">
     <div class="rpt-flexcolumn" style="flex:0 0 422px;margin-right:10px;">
-      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:400px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;">Issued To</span></div>
+      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:400px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;font-weight:700;">Issued To</span></div>
       <div class="rpt-nested-flexrow"><span style="font-weight:700;">{{IssuedToCompany}}</span></div>
       <div data-visible="{{#if IssuedToAttention1}}true{{/if}}" class="rpt-nested-flexrow"><span>{{IssuedToAttention1}}</span></div>
       <div data-visible="{{#if IssuedToAttention2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{IssuedToAttention2}}</span></div>
@@ -119,8 +119,8 @@
       </div>
     </div>
     <div class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
-      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:300px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;">Outgoing ({{OutDeliveryType}})</span></div>
-      <div class="rpt-nested-flexrow"><span>{{OutDeliveryLocation}}</span></div>
+      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:300px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;font-weight:700;">Outgoing ({{OutDeliveryType}})</span></div>
+      <div class="rpt-nested-flexrow"><span style="font-weight:700;">Location: </span><span>{{OutDeliveryLocation}}</span></div>
       <div data-visible="{{#if OutDeliveryAttention}}true{{/if}}" class="rpt-nested-flexrow"><span style="font-weight:700;">Attention: </span><span>{{OutDeliveryAttention}}</span></div>
       <div class="rpt-nested-flexrow"><span>{{OutDeliveryAddress1}}</span></div>
       <div data-visible="{{#if OutDeliveryAddress2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{OutDeliveryAddress2}}</span></div>
@@ -136,8 +136,8 @@
       </div>
     </div>
     <div data-visible="{{#ifCond RentalItems.length '>' 0}}true{{/ifCond}}" class="rpt-flexcolumn" style="flex:0 0 321px;margin:0px 10px;">
-      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:300px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;">Incoming ({{InDeliveryType}})</span></div>
-      <div class="rpt-nested-flexrow"><span>{{InDeliveryLocation}}</span></div>
+      <div class="rpt-nested-flexrow"><span class="sub text" style="min-width:300px;text-align:left;padding:5px;border-top: 2px solid #027cc5;border-bottom: 2px solid #027cc5;background-color: #e3f2fd;font-weight:700;">Incoming ({{InDeliveryType}})</span></div>
+      <div class="rpt-nested-flexrow"><span style="font-weight:700;">Location: </span><span>{{InDeliveryLocation}}</span></div>
       <div data-visible="{{#if InDeliveryAttention}}true{{/if}}" class="rpt-nested-flexrow"><span style="font-weight:700;">Attention: </span><span>{{InDeliveryAttention}}</span></div>
       <div class="rpt-nested-flexrow"><span>{{InDeliveryAddress1}}</span></div>
       <div data-visible="{{#if InDeliveryAddress2}}true{{/if}}" class="rpt-nested-flexrow"><span>{{InDeliveryAddress2}}</span></div>
