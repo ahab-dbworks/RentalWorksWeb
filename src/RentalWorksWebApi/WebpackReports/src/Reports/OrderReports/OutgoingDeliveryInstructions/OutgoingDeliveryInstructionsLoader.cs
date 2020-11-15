@@ -102,8 +102,8 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
         [FwSqlDataField(column: "tocrossstreets", modeltype: FwDataTypes.Text)]
         public string ToCrossStreets { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "tometric", modeltype: FwDataTypes.Boolean)]
-        public bool? ToMetric { get; set; }
+        [FwSqlDataField(column: "tometric", modeltype: FwDataTypes.Text)]
+        public string ToMetric { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tocontact", modeltype: FwDataTypes.Text)]
         public string ToContact { get; set; }
@@ -246,23 +246,45 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(OutgoingDeliveryInstructionsRequest request)
+        //public async Task<FwJsonDataTable> RunReportAsync(OutgoingDeliveryInstructionsRequest request)
+        //{
+        //    FwJsonDataTable dt = null;
+        //    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+        //    {
+        //        FwSqlSelect select = new FwSqlSelect();
+        //        select.EnablePaging = false;
+        //        select.UseOptionRecompile = true;
+        //        using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
+        //        {
+        //            SetBaseSelectQuery(select, qry);
+        //            select.Parse();
+        //            select.AddWhereIn("deliveryId", request.OutDeliveryId);
+        //            dt = await qry.QueryToFwJsonTableAsync(select, false);
+        //        }
+        //    }
+        //    return dt;
+        //}
+        //------------------------------------------------------------------------------------ 
+        public async Task<OutgoingDeliveryInstructionsLoader> RunReportAsync(OutgoingDeliveryInstructionsRequest request)
         {
-            FwJsonDataTable dt = null;
+            OutgoingDeliveryInstructionsLoader report = null;
+            Task<OutgoingDeliveryInstructionsLoader> taskReport;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlSelect select = new FwSqlSelect();
-                select.EnablePaging = false;
-                select.UseOptionRecompile = true;
+                await conn.OpenAsync();
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    SetBaseSelectQuery(select, qry);
-                    select.Parse();
-                    select.AddWhereIn("deliveryId", request.OutDeliveryId);
-                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    qry.Add("select *                           ");
+                    qry.Add(" from  " + TableName + " d         ");
+                    qry.Add(" where d.deliveryid = @deliveryid  ");
+                    qry.AddParameter("@deliveryid", request.OutDeliveryId);
+                    AddPropertiesAsQueryColumns(qry);
+                    taskReport = qry.QueryToTypedObjectAsync<OutgoingDeliveryInstructionsLoader>();
+                    await Task.WhenAll(new Task[] { taskReport });
+                    report = taskReport.Result;
                 }
             }
-            return dt;
+            return report;
         }
         //------------------------------------------------------------------------------------ 
     }
