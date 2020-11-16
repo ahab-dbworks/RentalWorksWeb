@@ -725,7 +725,7 @@ class CustomReportLayout {
             }
 
             switch (fieldname) {
-                case 'HeaderCaption':
+                case 'HeaderField':
                     if (typeof $headerField != 'undefined') {
                         const headerFor = jQuery($headerField.parents('[data-section="header"]')).attr('data-headerfor') || '';
                         $headerField.text(value);
@@ -1060,9 +1060,9 @@ class CustomReportLayout {
             $reportSection = $headerField.closest('[data-section]');
             this.highlightElement($form, $headerField);
             this.showHideControlProperties($form, 'header');
-            $form.find('[data-datafield="HeaderCaption"]').show();
+            $form.find('[data-datafield="HeaderField"]').show();
             const value = $headerField.text();
-            FwFormField.setValueByDataField($form, 'HeaderCaption', value);
+            FwFormField.setValueByDataField($form, 'HeaderField', value);
             const styling = $headerField.attr('style') || '';
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
             const elementClass = $headerField.attr('class') || '';
@@ -1076,7 +1076,7 @@ class CustomReportLayout {
             $reportSection = $this.closest('[data-section]');
             this.highlightElement($form, $this);
             this.showHideControlProperties($form, 'header');
-            $form.find('[data-datafield="HeaderCaption"]').hide();
+            $form.find('[data-datafield="HeaderField"]').hide();
             const styling = $headerField.attr('style') || '';
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
             const elementClass = $headerField.attr('class') || '';
