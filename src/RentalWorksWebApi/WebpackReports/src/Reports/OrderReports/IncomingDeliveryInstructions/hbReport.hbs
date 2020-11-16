@@ -12,14 +12,13 @@
     </div>
   </div>
 </div> <!--end header-->
-{{#each this}}
+
 <div class="rpt-flexrow top-row">
 
-  <div class="rpt-flexcolumn" style="flex: 0 0 321px;
-    margin-right: 10px;">
+  <div class="rpt-flexcolumn" style="flex: 0 0 321px;margin-right: 10px;">
     <table>
       <tr>
-        <td style="width:90px;" class="shaded-block">Order No.:</td>
+        <td style="width:90px;" class="shaded-block">Order No:</td>
         <td class="">{{OnlineOrderNumber}}</td>
       </tr>
       <tr>
@@ -29,11 +28,10 @@
     </table>
   </div>
 
-  <div class="rpt-flexcolumn" style="flex: 0 0 321px;
-    margin: 0px 10px;">
+  <div class="rpt-flexcolumn" style="flex: 0 0 321px;margin: 0px 10px;">
     <table>
       <tr>
-        <td style="width:55px;" class="shaded-block">Description:</td>
+        <td style="width:75px;" class="shaded-block">Description:</td>
         <td class="">{{OnlineOrderStatus}}</td>
       </tr>
       <tr>
@@ -43,11 +41,10 @@
     </table>
   </div>
 
-  <div class="rpt-flexcolum" style="flex: 0 0 321px;
-    margin-left: 10px;">
+  <div class="rpt-flexcolum" style="flex: 0 0 321px;margin-left: 10px;">
     <table>
       <tr>
-        <td style="width:90px;;" class="shaded-block">Deal:</td>
+        <td style="width:32px;" class="shaded-block">Deal:</td>
         <td class="">{{Deal}}</td>
       </tr>
     </table>
@@ -60,8 +57,9 @@
     <div class="rpt-nested-flexrow rpt-header-left"><span></span></div>
   </div>
   <div class="rpt-flexcolumn">
-    <div class="rpt-nested-flexrow rpt-title"><span>{{TargetShipDate}}</span></div>
-    <div class="rpt-nested-flexrow rpt-title"><span>{{TargetShipTime}}</span></div>
+    <div>
+      <div class="rpt-nested-flexrow section-box target"><span>Target Ship Date: {{TargetShipDate}}&nbsp;{{TargetShipTime}}</span></div>
+    </div>
   </div>
   <div class="rpt-flexcolumn">
   </div>
@@ -69,56 +67,56 @@
 
 <div data-section="header">
   <div class="rpt-flexrow">
-    <div class="rpt-flexcolumn section-box" style="flex:0 0 553px;margin: 0 3px 0 0;">
+    <div class="rpt-flexcolumn section-box" style="flex:0 0 540px;margin: 0 35px 0 0;">
       <table>
         <tr>
-          <td style="width:55px;" class="shaded-block">SHIP TO:</td>
+          <td colspan="2" class="shaded-block top-label">SHIP TO:</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Attention:</td>
-          <td class="">{{FromAttention}}</td>
+          <td class="">{{ToAttention}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Location:</td>
-          <td class="">{{FromLocation}}</td>
+          <td class="">{{ToLocation}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Address:</td>
-          <td class="">{{FromAddress1}}</td>
+          <td class="">{{ToAddress1}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block"></td>
-          <td class="">{{FromAddress2}}</td>
+          <td class="">{{ToAddress2}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">City:</td>
-          <td class="">{{FromCity}}</td>
+          <td class="">{{ToCity}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">State:</td>
-          <td class="">{{FromState}}</td>
+          <td class="">{{ToState}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Zip Code:</td>
-          <td class="">{{FromZip}}</td>
+          <td class="">{{ToZip}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Country:</td>
-          <td class="">{{FromCountry}}</td>
+          <td class="">{{ToCountry}}</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Phone:</td>
-          <td class="">{{FromContactPhone}}</td>
+          <td class="">{{ToContactPhone}}</td>
         </tr>
       </table>
     </div>
 
     <div style="min-width:0;"></div>
 
-    <div class="rpt-flexcolumn section-box" style="flex: 0 0 553px;">
+    <div class="rpt-flexcolumn section-box" style="flex: 0 0 540px;">
       <table>
         <tr>
-          <td style="width:55px;" class="shaded-block">SHIPPING:</td>
+          <td colspan="2" class="shaded-block top-label">SHIPPING:</td>
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Carrier:</td>
@@ -130,18 +128,17 @@
         </tr>
         <tr>
           <td style="width:55px;" class="shaded-block">Total Weight:</td>
-          <td class="">{{FromAddress1}}</td>
+          <td class="">{{ToAddress1}}</td>
         </tr>
         <tr>
           <td style="width:85px;" class="shaded-block">Replacement Value:</td>
-          <td class="">{{FromCity}}</td>
+          <td class="">{{ToCity}}</td>
         </tr>
         <tr>
           <td style="width:85px;" class="shaded-block">Manifest Value:</td>
-          <td class="">{{FromState}}</td>
+          <td class="">{{ToState}}</td>
         </tr>
       </table>
     </div>
   </div>
 </div>
-{{/each}}

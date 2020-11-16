@@ -29,7 +29,6 @@ export class IncomingDeliveryInstructions extends WebpackReport {
                             } else {
                                 document.getElementById('pageBody').innerHTML = hbReport(data);
                             }
-                            console.log('rpt: ', data)
                             this.onRenderReportCompleted();
                         })
                         .catch((ex) => {
