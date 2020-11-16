@@ -38,6 +38,7 @@ namespace WebApi.Modules.Agent.Order
 
         private DealLogic insertingDeal = null;  // this object is loaded once during "Validate" (for speed) and used downstream 
         private bool _changeRatesToNewCurrency = false;
+        private bool _hasPick = false;
 
         //------------------------------------------------------------------------------------
         public OrderBaseLogic()
@@ -1705,6 +1706,39 @@ namespace WebApi.Modules.Agent.Order
                     }
                 }
             }
+
+
+
+            //justin hoffman 11/13/2020 if Pick Date is excluded from the Activity List (ie. the activity is disabled per Order Type), then clear the stale value here before saving
+            if (ActivityDatesAndTimes.Count > 0)
+            {
+                _hasPick = false;
+                foreach (OrderDatesLogic d in ActivityDatesAndTimes)
+                {
+                    if (d.Date != null)
+                    {
+                        //get the Activity Type from the true source: OrderTypeDateType
+                        OrderTypeDateTypeLogic otdt = new OrderTypeDateTypeLogic();
+                        otdt.SetDependencies(AppConfig, UserSession);
+                        otdt.OrderTypeDateTypeId = d.OrderTypeDateTypeId;
+                        if (otdt.LoadAsync<OrderTypeDateTypeLogic>(e.SqlConnection).Result)
+                        {
+                            if (otdt.ActivityType.Equals(RwConstants.ACTIVITY_TYPE_PICK))
+                            {
+                                _hasPick = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!_hasPick)
+                {
+                    PickDate = null;
+                    PickTime = "";
+                }
+            }
+
+
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
@@ -1730,6 +1764,12 @@ namespace WebApi.Modules.Agent.Order
 
                 newPickDate = PickDate ?? orig.PickDate;
                 newPickTime = PickTime ?? orig.PickTime;
+                if (!_hasPick)
+                {
+                    newPickDate = null;
+                    newPickTime = "";
+                }
+
                 newEstimatedStartDate = EstimatedStartDate ?? orig.EstimatedStartDate;
                 newEstimatedStartTime = EstimatedStartTime ?? orig.EstimatedStartTime;
                 newEstimatedStopDate = EstimatedStopDate ?? orig.EstimatedStopDate;

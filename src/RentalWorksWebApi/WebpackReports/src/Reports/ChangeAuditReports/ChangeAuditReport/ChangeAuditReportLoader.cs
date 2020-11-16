@@ -60,16 +60,13 @@ namespace WebApi.Modules.Reports.ChangeAuditReports.ChangeAuditReport
                     select.Parse();
                     select.AddWhereIn("modulename", request.ModuleName);
                     select.AddWhereIn("webusersid", request.WebUsersId);
-                    //select.AddParameter("@fromdate", request.FromDate);
-                    //select.AddParameter("@todate", request.ToDate.AddDays(1));
-                    //select.AddParameter("@modulename", request.ModuleName);
-                    //select.AddParameter("@webusersid", request.WebUsersId);
-                    select.AddParameter("@keyword", request.Keyword);
+                    select.AddParameter("@keyword1", request.Keyword);
+                    select.AddParameter("@keyword2", request.Keyword.Replace(" " , ""));
                     addDateFilterToSelect("datestamp", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("datestamp", request.ToDate.AddDays(1), select, "<", "todate");
                     if (request.Keyword.Length > 0)
                     {
-                        select.AddWhere("(upper(json) like '%' + @keyword + '%' or upper(recordtitle) like '%' + @keyword + '%')");
+                        select.AddWhere("(upper(json) like '%' + @keyword1 + '%' or upper(recordtitle) like '%' + @keyword1 + '%' or upper(json) like '%' + @keyword2 + '%' or upper(recordtitle) like '%' + @keyword2 + '%')");
                     }
                     select.AddOrderBy("modulename, username, datestamp");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

@@ -168,17 +168,13 @@ namespace FwStandard.BusinessLogic
             if (conn == null)
             {
                 conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString);
-                //conn.GetConnection().Open();
             }
-            //using (SqlTransaction transaction = conn.BeginTransaction())
-            //{
             // generate appimageid
             var appimageid = await FwSqlData.GetNextIdAsync(conn, this._appConfig.DatabaseSettings);
 
             // insert appimage
             using (FwSqlCommand cmd = new FwSqlCommand(conn, this._appConfig.DatabaseSettings.QueryTimeout))
             {
-                //cmd.Transaction = transaction;
                 cmd.Add("insert into appimage(appimageid, uniqueid1, uniqueid2, uniqueid3, description, extension, rectype, width, height, thumbnail, image, datestamp)");
                 cmd.Add("values(@appimageid, @uniqueid1, @uniqueid2, @uniqueid3, @description, @extension, @rectype, @width, @height, @thumbnail, @image, @datestamp)");
                 cmd.AddParameter("@appimageid", appimageid);
@@ -187,7 +183,7 @@ namespace FwStandard.BusinessLogic
                 cmd.AddParameter("@uniqueid3", uniqueid3);
                 cmd.AddParameter("@description", description);
                 cmd.AddParameter("@extension", extension);
-                cmd.AddParameter("@rectype", rectype);   // always seems to be 'F' in TransWorks
+                cmd.AddParameter("@rectype", rectype);
                 cmd.AddParameter("@height", height);
                 cmd.AddParameter("@width", width);
                 cmd.AddParameter("@thumbnail", thumbnail);
@@ -195,8 +191,6 @@ namespace FwStandard.BusinessLogic
                 cmd.AddParameter("@datestamp", datestamp.GetSqlValue());
                 await cmd.ExecuteNonQueryAsync();
             }
-            //transaction.Commit();
-            //}
         }
         //------------------------------------------------------------------------------------        
         public async Task DeleteAsync(string appimageid)
@@ -213,7 +207,7 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------        
-        public async Task DeleteAsync(string uniqueid1, string uniqueid2, string uniqueid3)
+        public async Task DeleteAsync(string uniqueid1, string uniqueid2, string uniqueid3, string rectype)
         {
             using (FwSqlConnection conn = new FwSqlConnection(this._appConfig.DatabaseSettings.ConnectionString))
             {
@@ -223,9 +217,11 @@ namespace FwStandard.BusinessLogic
                     cmd.Add("where uniqueid1 = @uniqueid1");
                     cmd.Add("  and uniqueid2 = @uniqueid2");
                     cmd.Add("  and uniqueid3 = @uniqueid3");
+                    cmd.Add("  and rectype = @rectype");
                     cmd.AddParameter("@uniqueid1", uniqueid1);
                     cmd.AddParameter("@uniqueid2", uniqueid2);
                     cmd.AddParameter("@uniqueid3", uniqueid3);
+                    cmd.AddParameter("@rectype", rectype);
                     await cmd.ExecuteNonQueryAsync();
                 }
             }

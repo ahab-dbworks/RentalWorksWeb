@@ -111,6 +111,10 @@ namespace WebApi
         public const string ORDER_STATUS_FILTER_STILL_OUT = "STILLOUT";
         public const string ORDER_STATUS_FILTER_IN_ONLY = "INONLY";
 
+        public const string PURCHASE_ORDER_STATUS_FILTER_NOT_YET_RECEIVED = "NOTYETRECEIVED";
+        public const string PURCHASE_ORDER_STATUS_FILTER_RECEIVED = "RECEIVED";
+        public const string PURCHASE_ORDER_STATUS_FILTER_RETURNED = "RETURNED";
+
         public const string SEARCH_MODE_PREFERENCE_LIST = "LIST";
         public const string SEARCH_MODE_PREFERENCE_HYBRID = "HYBRID";
         public const string SEARCH_MODE_PREFERENCE_GRID = "GRID";

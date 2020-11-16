@@ -592,6 +592,129 @@ abstract class CheckInBase implements IModule {
             const $checkedInItemsGrid = $form.find('div[data-name="CheckedInItemGrid"]');
             FwBrowse.search($checkedInItemsGrid);
         });
+
+        //Check-In all
+        $form.find('.check-in-all').on('click', async e => {
+            const $grid = $form.find('[data-name="CheckInQuantityItemsGrid"]');
+            const $items = $grid.find('tbody tr');
+            const $confirmation = FwConfirmation.renderConfirmation("Checking In All..", '');
+            FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${$items.length}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;"><span class="recordno">1</span> of ${$items.length}<div>`);
+            try {
+                for (let i = 0; i < $items.length; i++) {
+                    $confirmation.find('.recordno').html((i + 1).toString());
+                    $confirmation.find('.progress').attr('value', (i + 1).toString());
+                    const $row = jQuery($items[i]);
+                    await this.checkInAll($form, $grid, $row);
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+            finally {
+                errorMsg.html('');
+                FwConfirmation.destroyConfirmation($confirmation);
+                await FwBrowse.search($grid);
+            }
+        });
+
+        //Cancel Check-In All
+        $form.find('.cancel-check-in-all').on('click', async e => {
+            const $grid = $form.find('[data-name="CheckInQuantityItemsGrid"]');
+            const $items = $grid.find('tbody tr');
+            const $confirmation = FwConfirmation.renderConfirmation('Cancelling Check-In All..', '');
+            FwConfirmation.addControls($confirmation, `<div style="text-align:center;"><progress class="progress" max="${$items.length}" value="0"></progress></div><div style="margin:10px 0 0 0;text-align:center;"><span class="recordno">1</span> of ${$items.length}<div>`);
+            try {
+                for (let i = 0; i < $items.length; i++) {
+                    $confirmation.find('.recordno').html((i + 1).toString());
+                    $confirmation.find('.progress').attr('value', (i + 1).toString());
+                    const $row = jQuery($items[i]);
+                    await this.cancelCheckInAll($form, $grid, $row);
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+            finally {
+                errorMsg.html('');
+                FwConfirmation.destroyConfirmation($confirmation);
+                await FwBrowse.search($grid);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    async checkInAll($form: JQuery, $grid: JQuery, $row: JQuery): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                const errorMsg = $form.find('.error-msg:not(.qty)');
+                const qtyOut = parseInt($row.find('[data-browsedatafield="QuantityOut"] .fieldvalue').text());
+                const qty = parseInt(FwBrowse.getValueByDataField($grid, $row, 'Quantity'));
+                if (qtyOut > 0) {
+                    const request = new FwAjaxRequest<any>();
+                    request.data = {
+                        ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                        OrderItemId: FwBrowse.getValueByDataField($grid, $row, 'OrderItemId'),
+                        Code: $row.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext'),
+                        Quantity: qtyOut,
+                        ModuleType: 'O',
+                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId')
+                    };
+                    request.url = applicationConfig.apiurl + "api/v1/checkin/checkinitem";
+                    request.httpMethod = 'POST';
+                    const response = await FwAjax.callWebApi<any, any>(request);
+                    if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                        FwBrowse.setFieldValue($grid, $row, 'Quantity', { value: response.InventoryStatus.QuantityOrdered });
+                        FwBrowse.setFieldValue($grid, $row, 'QuantityOut', { value: 0, text: "0" });
+                        resolve();
+                    }
+                    else {
+                        FwFunc.playErrorSound();
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                        $row.find('[data-browsedatafield="Quantity"] input').val(qty);
+                        reject(response);
+                    }
+                } else {
+                    resolve();
+                }
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    async cancelCheckInAll($form: JQuery, $grid: JQuery, $row: JQuery): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                const errorMsg = $form.find('.error-msg:not(.qty)');
+                const qty = parseInt(FwBrowse.getValueByDataField($grid, $row, 'Quantity'));
+                if (qty > 0) {
+                    const request = new FwAjaxRequest<any>();
+                    request.data = {
+                        ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                        OrderItemId: FwBrowse.getValueByDataField($grid, $row, 'OrderItemId'),
+                        Code: $row.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext'),
+                        Quantity: - qty,
+                        ModuleType: 'O',
+                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId')
+                    };
+                    request.url = applicationConfig.apiurl + "api/v1/checkin/checkinitem";
+                    request.httpMethod = 'POST';
+                    const response = await FwAjax.callWebApi<any, any>(request);
+                    if (request.xmlHttpRequest.status === 200 || request.xmlHttpRequest.status === 404) {
+                        FwBrowse.setFieldValue($grid, $row, 'Quantity', { value: 0 });
+                        FwBrowse.setFieldValue($grid, $row, 'QuantityOut', { value: response.InventoryStatus.QuantityOut, text: response.InventoryStatus.QuantityOut });
+                        resolve();
+                    }
+                    else {
+                        FwFunc.playErrorSound();
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                        $row.find('[data-browsedatafield="Quantity"] input').val(qty);
+                        reject(response);
+                    }
+                } else {
+                    resolve();
+                }
+            } catch (ex) {
+                reject(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     checkInItem($form, checkInTranType?: string) {
@@ -779,8 +902,8 @@ abstract class CheckInBase implements IModule {
                   </div>
                   <div class="formrow">
                     <div class="fwformcontrol optionsbutton" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+                    <div class="fwformcontrol check-in-all" data-type="button" style="float:left; margin-left:10px;">Check-In All</div>
+                    <div class="fwformcontrol cancel-check-in-all" data-type="button" style="float:left; margin-left:10px;">Cancel Check-In All</div>
                   </div>
                   <div class="flexrow optionlist all-orders" style="display:none;">
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show all ACTIVE Orders for this ${Constants.Modules.Agent.children.Deal.caption}" data-datafield="AllOrdersForDeal" style="flex:0 1 350px;"></div>

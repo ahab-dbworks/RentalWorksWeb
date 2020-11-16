@@ -268,3 +268,8 @@ body {
 [data-visible]:not([data-visible="true"]) {
     display: none;
 }
+
+[data-section="header"] span:after,
+[data-section="footer"] span:after {
+    content: "\a0";
+}
