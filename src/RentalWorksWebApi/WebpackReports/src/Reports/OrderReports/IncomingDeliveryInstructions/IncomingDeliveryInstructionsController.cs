@@ -67,9 +67,7 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
             {
                 IncomingDeliveryInstructionsLoader l = new IncomingDeliveryInstructionsLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
-                FwJsonDataTable dt = await l.RunReportAsync(request);
-                l.HideDetailColumnsInSummaryDataTable(request, dt);
-                return new OkObjectResult(dt);
+                return new OkObjectResult(await l.RunReportAsync(request));
             }
             catch (Exception ex)
             {

@@ -14,7 +14,7 @@ export class IncomingDeliveryInstructions extends WebpackReport {
                     const logoObject: any = response;
                     Ajax.post<DataTable>(`${apiUrl}/api/v1/incomingdeliveryinstructions/runreport`, authorizationHeader, parameters)
                         .then((response: DataTable) => {
-                            const data: any = DataTable.toObjectList(response);
+                            const data: any = response;
                             data.Report = 'Incoming Delivery Instructions'
                             this.setReportMetadata(parameters, data, response);
                             if (logoObject.LogoImage != '') {

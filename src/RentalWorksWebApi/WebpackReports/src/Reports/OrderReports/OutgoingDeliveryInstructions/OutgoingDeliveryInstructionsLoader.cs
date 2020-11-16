@@ -246,25 +246,6 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        //public async Task<FwJsonDataTable> RunReportAsync(OutgoingDeliveryInstructionsRequest request)
-        //{
-        //    FwJsonDataTable dt = null;
-        //    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
-        //    {
-        //        FwSqlSelect select = new FwSqlSelect();
-        //        select.EnablePaging = false;
-        //        select.UseOptionRecompile = true;
-        //        using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
-        //        {
-        //            SetBaseSelectQuery(select, qry);
-        //            select.Parse();
-        //            select.AddWhereIn("deliveryId", request.OutDeliveryId);
-        //            dt = await qry.QueryToFwJsonTableAsync(select, false);
-        //        }
-        //    }
-        //    return dt;
-        //}
-        //------------------------------------------------------------------------------------ 
         public async Task<OutgoingDeliveryInstructionsLoader> RunReportAsync(OutgoingDeliveryInstructionsRequest request)
         {
             OutgoingDeliveryInstructionsLoader report = null;

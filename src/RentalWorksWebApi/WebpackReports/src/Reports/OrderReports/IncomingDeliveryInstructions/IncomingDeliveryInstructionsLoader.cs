@@ -102,8 +102,8 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
         [FwSqlDataField(column: "tocrossstreets", modeltype: FwDataTypes.Text)]
         public string ToCrossStreets { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "tometric", modeltype: FwDataTypes.Boolean)]
-        public bool? ToMetric { get; set; }
+        [FwSqlDataField(column: "tometric", modeltype: FwDataTypes.Text)]
+        public string ToMetric { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tocontact", modeltype: FwDataTypes.Text)]
         public string ToContact { get; set; }
@@ -246,23 +246,26 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(IncomingDeliveryInstructionsRequest request)
+        public async Task<IncomingDeliveryInstructionsLoader> RunReportAsync(IncomingDeliveryInstructionsRequest request)
         {
-            FwJsonDataTable dt = null;
+            IncomingDeliveryInstructionsLoader report = null;
+            Task<IncomingDeliveryInstructionsLoader> taskReport;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlSelect select = new FwSqlSelect();
-                select.EnablePaging = false;
-                select.UseOptionRecompile = true;
+                await conn.OpenAsync();
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    SetBaseSelectQuery(select, qry);
-                    select.Parse();
-                    select.AddWhereIn("deliveryId", request.InDeliveryId);
-                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    qry.Add("select *                           ");
+                    qry.Add(" from  " + TableName + " d         ");
+                    qry.Add(" where d.deliveryid = @deliveryid  ");
+                    qry.AddParameter("@deliveryid", request.InDeliveryId);
+                    AddPropertiesAsQueryColumns(qry);
+                    taskReport = qry.QueryToTypedObjectAsync<IncomingDeliveryInstructionsLoader>();
+                    await Task.WhenAll(new Task[] { taskReport });
+                    report = taskReport.Result;
                 }
             }
-            return dt;
+            return report;
         }
         //------------------------------------------------------------------------------------ 
     }
