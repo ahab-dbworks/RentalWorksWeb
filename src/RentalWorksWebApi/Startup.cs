@@ -38,10 +38,10 @@ namespace WebApi
             FwAppManager.CurrentProductEdition = "E";
             FwAppManager.Tree.LoadFromWebApi();
             FwAppManager.Tree.LoadAllGroupTrees().Wait();
-            if (this.ApplicationConfig.EnableAvailabilityService)
-            {
-                services.AddHostedService<AvailabilityService>();
-            }
+            //if (this.ApplicationConfig.EnableAvailabilityService)
+            //{
+            //    services.AddHostedService<AvailabilityService>();
+            //}
             if (this.ApplicationConfig.EnableBillingScheduleService)
             {
                 services.AddHostedService<BillingScheduleService>();
