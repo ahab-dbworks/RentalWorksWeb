@@ -621,6 +621,10 @@ class OrderItemGrid {
             FwBrowse.setFieldValue($control, $generatedtr, 'QuantityOrdered', { value: '1', text: '1' });
             FwBrowse.setFieldValue($control, $generatedtr, 'ItemId', { value: '', text: '' });
 
+            if (controller === 'PurchaseOrderController') {
+                FwBrowse.setFieldValue($control, $generatedtr, 'UnitId', { value: FwBrowse.getValueByDataField($control, $tr, 'UnitId'), text: FwBrowse.getValueByDataField($control, $tr, 'Unit') });
+            }
+
             if ($generatedtr.hasClass("newmode")) {
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
