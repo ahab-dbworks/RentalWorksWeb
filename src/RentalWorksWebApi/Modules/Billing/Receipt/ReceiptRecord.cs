@@ -32,7 +32,7 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
         public decimal? PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, required: true)]
+        [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30, required: true)]
         public string CheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char")]
