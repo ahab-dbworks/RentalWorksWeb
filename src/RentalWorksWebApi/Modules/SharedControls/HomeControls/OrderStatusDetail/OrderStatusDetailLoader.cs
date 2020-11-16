@@ -250,6 +250,8 @@ namespace WebApi.Modules.HomeControls.OrderStatusDetail
 
             switch (filterStatus)
             {
+
+                //Orders and Containers
                 case RwConstants.ORDER_STATUS_FILTER_STAGED_ONLY:
                     select.AddWhere("(outcontractid = '')");
                     break;
@@ -262,6 +264,18 @@ namespace WebApi.Modules.HomeControls.OrderStatusDetail
                 case RwConstants.ORDER_STATUS_FILTER_IN_ONLY:
                     select.AddWhere("(incontractid > '')");
                     break;
+
+                //Purchase Orders
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_NOT_YET_RECEIVED:
+                    select.AddWhere("(outcontractid = '')");
+                    break;
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_RECEIVED:
+                    select.AddWhere("(outcontractid > '')");
+                    break;
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_RETURNED:
+                    select.AddWhere("(incontractid > '')");
+                    break;
+
                 default: break;
             }
 

@@ -267,6 +267,8 @@ namespace WebApi.Modules.HomeControls.OrderStatusSummary
 
             switch (filterStatus)
             {
+
+                //Orders and Containers
                 case RwConstants.ORDER_STATUS_FILTER_STAGED_ONLY: select.AddWhere("(stageqtyfilter <> 0)");
                     break;
                 case RwConstants.ORDER_STATUS_FILTER_NOT_YET_STAGED: select.AddWhere("(notyetstagedqtyfilter > 0)");
@@ -275,9 +277,20 @@ namespace WebApi.Modules.HomeControls.OrderStatusSummary
                     break;
                 case RwConstants.ORDER_STATUS_FILTER_IN_ONLY: select.AddWhere("(inqtyfilter <> 0)");
                     break;
+
+                //Purchase Orders
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_NOT_YET_RECEIVED:
+                    select.AddWhere("(qtyreceived = 0)");
+                    break;
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_RECEIVED:
+                    select.AddWhere("(qtyreceived > 0)");
+                    break;
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_RETURNED:
+                    select.AddWhere("(qtyreturned > 0)");
+                    break;
                 default: break;
             }
-            
+
         }
         //------------------------------------------------------------------------------------ 
         private string getICodeColor(string itemClass)
