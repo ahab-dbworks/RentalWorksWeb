@@ -52,6 +52,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "billableperiods", modeltype: FwDataTypes.DecimalStringNoTrailingZeros)]
         public string BillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billableperiodunits", modeltype: FwDataTypes.Text)]
+        public string BillablePeriodUnits { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string Rate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -255,6 +258,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
         public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "indentlevel", modeltype: FwDataTypes.Integer)]
+        public int? IndentLevel { get; set; }
+        //------------------------------------------------------------------------------------
         public async Task<List<T>> LoadItems<T>(OrderReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -275,8 +281,33 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                                                  "AverageWeeklyExtended", "AverageWeeklyExtendedSubTotal",
                                                  "MonthlyGrossExtended", "MonthlyGrossExtendedSubTotal", "MonthlyDiscountAmount", "MonthlyDiscountAmountSubTotal", "MonthlyExtended", "MonthlyExtendedSubTotal","MonthlyTax", "MonthlyTax1", "MonthlyTax2", "MonthlyTaxSubTotal", "MonthlyExtendedWithTax", "MonthlyExtendedWithTaxSubTotal",
                                                  "PeriodGrossExtended", "PeriodGrossExtendedSubTotal", "PeriodDiscountAmount", "PeriodDiscountAmountSubTotal", "PeriodExtended", "PeriodExtendedSubTotal", "PeriodTaxNoCurrency", "PeriodTax", "PeriodTax1", "PeriodTax2", "PeriodTaxSubTotal", "PeriodExtendedWithTax", "PeriodExtendedWithTaxSubTotal", };
-            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "TaxRate1", "TaxRate2", "CurrencyId", "OfficeLocationDefaultCurrencyId", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields, nameHeaderColumns: new string[] { "BillablePeriodUnits", "TaxRate1", "TaxRate2", "CurrencyId", "OfficeLocationDefaultCurrencyId", "CurrencyCode", "CurrencySymbol" }, includeGroupColumnValueInFooter: true, totalFor: "");
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+
+            //after the RecType totals and Grand Total are summed above, now move any "XYZSubTotal" value into its corresponding "XYZ" field
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string itemClass = ((row[dt.GetColumnNo("ItemClass")])??"").ToString();
+                        if (itemClass.Equals(RwConstants.ITEMCLASS_SUBTOTAL))
+                        {
+                            for (int c = 0; c < dt.Columns.Count; c++)
+                            {
+                                if (dt.ColumnNameByIndex[c].EndsWith("SubTotal"))
+                                {
+                                    string subTotalColumnName = dt.ColumnNameByIndex[c];
+                                    string nonSubTotalColumnName = subTotalColumnName.Replace("SubTotal", "");
+                                    row[dt.GetColumnNo(nonSubTotalColumnName)] = row[c];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
 
             List<T> items = new List<T>();
             bool hasDiscount = false;
@@ -311,7 +342,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         }
 
                         FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
-                        if (isDecimal)
+
+                        if (propType.Equals(FwDataTypes.Boolean))
+                        {
+                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
+                        }
+                        else if ((isDecimal) && (property.PropertyType == typeof(string)))
                         {
                             decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
                             string stringValue = d.ToString("N", numberFormat);
@@ -321,13 +357,10 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                             }
                             property.SetValue(item, stringValue);
                         }
-                        else if (propType.Equals(FwDataTypes.Boolean))
-                        {
-                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
-                        }
                         else
                         {
-                            property.SetValue(item, (value ?? "").ToString());
+                            //property.SetValue(item, (value ?? "").ToString());
+                            property.SetValue(item, value);
                         }
 
                         if (fieldName.Equals("HasDiscount"))
@@ -450,9 +483,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
-    public class UsedSaleOrderItemReportLoader : OrderItemReportLoader
+    public class RentalSaleOrderItemReportLoader : OrderItemReportLoader
     {
-        public UsedSaleOrderItemReportLoader()
+        public RentalSaleOrderItemReportLoader()
         {
             recType = RwConstants.RECTYPE_USED_SALE;
         }
@@ -1277,7 +1310,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         public List<LaborOrderItemReportLoader> LaborItems { get; set; } = new List<LaborOrderItemReportLoader>(new LaborOrderItemReportLoader[] { new LaborOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
-        public List<UsedSaleOrderItemReportLoader> UsedSaleItems { get; set; } = new List<UsedSaleOrderItemReportLoader>(new UsedSaleOrderItemReportLoader[] { new UsedSaleOrderItemReportLoader() });
+        public List<RentalSaleOrderItemReportLoader> RentalSaleItems { get; set; } = new List<RentalSaleOrderItemReportLoader>(new RentalSaleOrderItemReportLoader[] { new RentalSaleOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
         public List<LossAndDamageOrderItemReportLoader> LossAndDamageItems { get; set; } = new List<LossAndDamageOrderItemReportLoader>(new LossAndDamageOrderItemReportLoader[] { new LossAndDamageOrderItemReportLoader() });
         //------------------------------------------------------------------------------------ 
@@ -1340,11 +1373,11 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                     LaborItems.SetDependencies(AppConfig, UserSession);
                     taskLaborOrderItems = LaborItems.LoadItems<LaborOrderItemReportLoader>(request);
 
-                    //used sale items
-                    Task<List<UsedSaleOrderItemReportLoader>> taskUsedSaleOrderItems;
-                    UsedSaleOrderItemReportLoader UsedSaleItems = new UsedSaleOrderItemReportLoader();
-                    UsedSaleItems.SetDependencies(AppConfig, UserSession);
-                    taskUsedSaleOrderItems = UsedSaleItems.LoadItems<UsedSaleOrderItemReportLoader>(request);
+                    //rental sale items
+                    Task<List<RentalSaleOrderItemReportLoader>> taskRentalSaleOrderItems;
+                    RentalSaleOrderItemReportLoader RentalSaleItems = new RentalSaleOrderItemReportLoader();
+                    RentalSaleItems.SetDependencies(AppConfig, UserSession);
+                    taskRentalSaleOrderItems = RentalSaleItems.LoadItems<RentalSaleOrderItemReportLoader>(request);
 
                     //loss and damage items
                     Task<List<LossAndDamageOrderItemReportLoader>> taskLossAndDamageOrderItems;
@@ -1366,7 +1399,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
 
 
-                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskUsedSaleOrderItems, taskLossAndDamageOrderItems, taskNotesOrderItems, taskHiatusDates });
+                    await Task.WhenAll(new Task[] { taskOrder, taskOrderItems, taskRentalOrderItems, taskSalesOrderItems, taskMiscOrderItems, taskLaborOrderItems, taskRentalSaleOrderItems, taskLossAndDamageOrderItems, taskNotesOrderItems, taskHiatusDates });
 
                     Order = taskOrder.Result;
 
@@ -1377,7 +1410,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
                         Order.SalesItems = taskSalesOrderItems.Result;
                         Order.MiscItems = taskMiscOrderItems.Result;
                         Order.LaborItems = taskLaborOrderItems.Result;
-                        Order.UsedSaleItems = taskUsedSaleOrderItems.Result;
+                        Order.RentalSaleItems = taskRentalSaleOrderItems.Result;
                         Order.LossAndDamageItems = taskLossAndDamageOrderItems.Result;
                         Order.Notes = taskNotesOrderItems.Result;
                         Order.HiatusDates = taskHiatusDates.Result;

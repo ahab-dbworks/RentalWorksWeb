@@ -1,5 +1,3 @@
-
-
 using FwStandard.AppManager;
 using FwStandard.Models;
 using FwStandard.Reporting;
@@ -14,25 +12,22 @@ using WebApi.Data;
 using WebApi.Modules.Agent.Order;
 using static FwCore.Controllers.FwDataController;
 
-namespace WebApi.Modules.Reports.ManifestReport
+namespace WebApi.Modules.Reports.OrderValueSheetReport
 {
-    public class ManifestReportRequest : AppReportRequest
+    public class OrderValueSheetReportRequest : AppReportRequest
     {
         public string OrderId { get; set; }
-        public string rentalValueSelector { get; set; }
-        public string salesValueSelector { get; set; }
-        public string manifestFilter { get; set; }
-        public string manifestReportItems { get; set; }
+        public string RentalValue { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "8lSfSBPXlYh5")]
-    public class ManifestReportController : AppReportController
+    public class OrderValueSheetReportController : AppReportController
     {
-        public ManifestReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ManifestReportLoader); }
-        protected override string GetReportFileName(FwReportRenderRequest request) { return "ManifestReport"; }
+        public OrderValueSheetReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderValueSheetReportLoader); }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "OrderValueSheetReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Manifest"; }
+        protected override string GetReportFriendlyName() { return "OrderValueSheet"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -45,10 +40,10 @@ namespace WebApi.Modules.Reports.ManifestReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "ManifestReport";
+            return "OrderValueSheetReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/manifestreport/render 
+        // POST api/v1/ordervaluesheet/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "wj6jqn59eJEy")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -60,20 +55,20 @@ namespace WebApi.Modules.Reports.ManifestReport
             return actionResult;
         }
         ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/manifestreport/exportexcelxlsx
+        //// POST api/v1/ordervaluesheet/exportexcelxlsx
         //[HttpPost("exportexcelxlsx")]
         //[FwControllerMethod(Id: "fBLkHuI0p4EA")]
-        //public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ManifestReportRequest request)
+        //public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderValueSheetReportRequest request)
         //{
         //    ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
         //    FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
         //    return await DoExportExcelXlsxFileAsync(dt, request);
         //}
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/manifestreport/runreport 
+        // POST api/v1/ordervaluesheet/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "gQbBa1zghqTv")]
-        public async Task<ActionResult<ManifestHeaderLoader>> RunReportAsync([FromBody]ManifestReportRequest request)
+        public async Task<ActionResult<OrderValueSheetReportLoader>> RunReportAsync([FromBody]OrderValueSheetReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -81,9 +76,9 @@ namespace WebApi.Modules.Reports.ManifestReport
             }
             try
             {
-                ManifestReportLoader l = new ManifestReportLoader();
+                OrderValueSheetReportLoader l = new OrderValueSheetReportLoader();
                 l.SetDependencies(this.AppConfig, UserSession);
-                ManifestHeaderLoader Order = await l.RunReportAsync(request);
+                OrderValueSheetReportLoader Order = await l.RunReportAsync(request);
                 //l.HideSummaryColumnsInDataTable(request, dt);
                 return new OkObjectResult(Order);
             }
@@ -93,12 +88,13 @@ namespace WebApi.Modules.Reports.ManifestReport
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/manifestreport/validateorder/browse 
+        // POST api/v1/ordervaluesheet/validateorder/browse 
         [HttpPost("validateorder/browse")]
         [FwControllerMethod(Id: "Rldp65t3h8LM", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OrderLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

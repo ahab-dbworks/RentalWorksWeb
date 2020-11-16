@@ -5,7 +5,7 @@
 });
 
 const quoteTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Quote" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuoteReportController">
+<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Quote Document" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuoteReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -38,6 +38,7 @@ class QuoteReport extends FwWebApiReport {
     constructor() {
         super('QuoteReport', 'api/v1/quotereport', quoteTemplate);
         this.reportOptions.HasDownloadExcel = false;
+        this.designerProvisioned = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

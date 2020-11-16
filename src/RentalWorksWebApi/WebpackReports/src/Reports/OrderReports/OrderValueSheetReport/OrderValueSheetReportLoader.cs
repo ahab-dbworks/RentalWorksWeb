@@ -7,11 +7,13 @@ using System.Data;
 using System.Reflection;
 using FwStandard.Data;
 using System.Collections.Generic;
+using System.Globalization;
+using System;
 
-namespace WebApi.Modules.Reports.ManifestReport
+namespace WebApi.Modules.Reports.OrderValueSheetReport
 {
     [FwSqlTable("dbo.funcvaluesheetweb(@orderid, @rentalvalue, @salesvalue, @filterby, @mode)")]
-    public class ManifestReportLoader : AppReportLoader
+    public class OrderValueSheetReportItemLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
@@ -36,10 +38,10 @@ namespace WebApi.Modules.Reports.ManifestReport
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quantity", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity { get; set; }
+        public string Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubQuantity { get; set; }
+        public string SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
         public string OrderItemId { get; set; }
@@ -47,8 +49,8 @@ namespace WebApi.Modules.Reports.ManifestReport
         [FwSqlDataField(column: "countryoforigin", modeltype: FwDataTypes.Text)]
         public string CountryOfOrigin { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "valueperitem", modeltype: FwDataTypes.Decimal)]
-        public decimal? ValuePerItem { get; set; }
+        [FwSqlDataField(column: "valueperitem", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string ValuePerItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
@@ -65,134 +67,175 @@ namespace WebApi.Modules.Reports.ManifestReport
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string MfgPartNo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "valueextended", modeltype: FwDataTypes.Decimal)]
-        public decimal? ValueExtended { get; set; }
+        [FwSqlDataField(column: "valueextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string ValueExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightlbs", modeltype: FwDataTypes.Integer)]
-        public int? WeightLbs { get; set; }
+        public string WeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightoz", modeltype: FwDataTypes.Integer)]
-        public int? WeightOz { get; set; }
+        public string WeightOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightkg", modeltype: FwDataTypes.Integer)]
-        public int? WeightKg { get; set; }
+        public string WeightKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weightgr", modeltype: FwDataTypes.Integer)]
-        public int? WeightGr { get; set; }
+        public string WeightGr { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightlbs", modeltype: FwDataTypes.Integer)]
-        public int? ExtendedWeightLbs { get; set; }
+        public string ExtendedWeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightoz", modeltype: FwDataTypes.Integer)]
-        public int? ExtendedWeightOz { get; set; }
+        public string ExtendedWeightOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightkg", modeltype: FwDataTypes.Integer)]
-        public int? ExtendedWeightKg { get; set; }
+        public string ExtendedWeightKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extweightgr", modeltype: FwDataTypes.Integer)]
-        public int? ExtendedWeightGr { get; set; }
+        public string ExtendedWeightGr { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "manifestshippingcontainer", modeltype: FwDataTypes.Boolean)]
-        public bool? ManifestShippingContainer { get; set; }
+        public bool? OrderValueSheetShippingContainer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "manifeststandaloneitem", modeltype: FwDataTypes.Boolean)]
-        public bool? ManifestStandAloneItem { get; set; }
+        public bool? OrderValueSheetStandAloneItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordervaluetotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? OrderValueTotal { get; set; }
+        [FwSqlDataField(column: "ordervaluetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string OrderValueTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderreplacementtotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? OrderReplacementTotal { get; set; }
+        [FwSqlDataField(column: "orderreplacementtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string OrderReplacementTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ownedvaluetotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? OwnedValueTotal { get; set; }
+        [FwSqlDataField(column: "ownedvaluetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string OwnedValueTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ownedreplacementtotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? OwnedReplacementTotal { get; set; }
+        [FwSqlDataField(column: "ownedreplacementtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string OwnedReplacementTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subvaluetotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubValueTotal { get; set; }
+        [FwSqlDataField(column: "subvaluetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string SubValueTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subreplacementtotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? SubReplacementTotal { get; set; }
+        [FwSqlDataField(column: "subreplacementtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public string SubReplacementTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "shippingcontainertotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? ShippingContainerTotal { get; set; }
+        public string ShippingContainerTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "shippingitemtotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? ShippingItemTotal { get; set; }
+        public string ShippingItemTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "piececounttotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? PieceCountTotal { get; set; }
+        public string PieceCountTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "standaloneitemtotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? StandAloneItemTotal { get; set; }
+        public string StandAloneItemTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> GetItemsTable(ManifestReportRequest request)
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string Currency { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<List<OrderValueSheetReportItemLoader>> LoadItems(OrderValueSheetReportRequest request)
         {
-                useWithNoLock = false;
-                FwJsonDataTable dt = null;
-                if (request.manifestReportItems == "SUMMARY")
-                {
-                    request.rentalValueSelector = "REPLACEMENT COST";
-                }
-                else
-                {
-                    request.rentalValueSelector = "UNIT VALUE";
-                }
-                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlSelect select = new FwSqlSelect();
-                    select.EnablePaging = false;
-                    select.UseOptionRecompile = true;
-                    using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
-                    {
-                        SetBaseSelectQuery(select, qry);
-                        select.Parse();
-                        select.AddParameter("@orderid", request.OrderId);
-                        select.AddParameter("@rentalvalue", request.rentalValueSelector);
-                        select.AddParameter("@salesvalue", /*request.salesValueSelector*/ "SELL PRICE");
-                        select.AddParameter("@filterby", /*request.manifestFilter*/ "ALL");
-                        select.AddParameter("@mode", request.manifestReportItems);
-                        dt = await qry.QueryToFwJsonTableAsync(select, false);
-                    }
-                }
-            string[] totalFields = new string[] { "ValueExtended", "Quantity", "ExtendedWeightLbs", "ExtendedWeightOz" };
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            return dt;
-        }
-        //-------------------------------------------------------------------------------------
-        public async Task<ManifestHeaderLoader> RunReportAsync(ManifestReportRequest request)
-        {
-            ManifestHeaderLoader Order = null;
             useWithNoLock = false;
-            if (request.manifestReportItems == "SUMMARY")
-            {
-                request.rentalValueSelector = "REPLACEMENT COST";
-            }
-            else
-            {
-                request.rentalValueSelector = "UNIT VALUE";
-            }
+            FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                await conn.OpenAsync();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintheader", this.AppConfig.DatabaseSettings.ReportTimeout))
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                select.UseOptionRecompile = true;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
-                    AddPropertiesAsQueryColumns(qry);
-                    Task<ManifestHeaderLoader> taskOrder = qry.QueryToTypedObjectAsync<ManifestHeaderLoader>();
-                    Order = taskOrder.Result;
-                }
+                    SetBaseSelectQuery(select, qry);
+                    select.Parse();
+                    select.AddParameter("@orderid", request.OrderId);
+                    select.AddParameter("@rentalvalue", request.RentalValue);
+                    select.AddParameter("@salesvalue", /*request.salesValueSelector*/ "SELL PRICE");
+                    select.AddParameter("@filterby", /*request.manifestFilter*/ "ALL");
+                    select.AddParameter("@mode", request.IsSummary.GetValueOrDefault(false) ? "SUMMARY" : "DETAIL");
 
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                }
             }
-            Order.ItemsTable = await GetItemsTable(request);
-            return Order;
+            string[] totalFields = new string[] { "Quantity", "ExtendedWeightLbs", "ExtendedWeightOz", "ValueExtended", };
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+            List<OrderValueSheetReportItemLoader> items = new List<OrderValueSheetReportItemLoader>();
+            foreach (List<object> row in dt.Rows)
+            {
+                OrderValueSheetReportItemLoader item = (OrderValueSheetReportItemLoader)Activator.CreateInstance(typeof(OrderValueSheetReportItemLoader));
+                PropertyInfo[] properties = item.GetType().GetProperties();
+
+                bool isSubOrGrandTotalRow = (row[dt.GetColumnNo("RowType")].ToString().Equals("grandtotal") || row[dt.GetColumnNo("RowType")].ToString().Equals("RecTypeDisplayfooter"));
+                string currencySymbol = dt.Rows[0][dt.GetColumnNo("CurrencySymbol")].ToString();
+                string currencyCode = dt.Rows[0][dt.GetColumnNo("CurrencyCode")].ToString();
+                //string currencyId = dt.Rows[0][dt.GetColumnNo("CurrencyId")].ToString();
+                //string officeLocationDefaultCurrencyId = "";//dt.Rows[0][dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString();
+                //bool isForeignCurrency = false;// ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationDefaultCurrencyId)));
+
+                foreach (var property in properties)
+                {
+                    string fieldName = property.Name;
+                    int columnIndex = dt.GetColumnNo(fieldName);
+                    if (!columnIndex.Equals(-1))
+                    {
+                        object value = row[dt.GetColumnNo(fieldName)];
+                        FwDataTypes propType = dt.Columns[columnIndex].DataType;
+                        bool isDecimal = false;
+                        NumberFormatInfo numberFormat = new CultureInfo("en-US", false).NumberFormat;
+
+                        // we need the 8-digit precision for summing above. But now that we have our sums, we need to go back down to 2-digit display
+                        if (propType.Equals(FwDataTypes.DecimalString8Digits))
+                        {
+                            propType = FwDataTypes.DecimalString2Digits;
+                        }
+
+                        FwSqlCommand.FwDataTypeIsDecimal(propType, value, ref isDecimal, ref numberFormat);
+                        if (isDecimal)
+                        {
+                            decimal d = FwConvert.ToDecimal((value ?? "0").ToString());
+                            string stringValue = d.ToString("N", numberFormat);
+                            if (isSubOrGrandTotalRow)
+                            {
+                                stringValue = "(" + currencyCode + ") " + currencySymbol + " " + stringValue;
+                            }
+                            property.SetValue(item, stringValue);
+                        }
+                        else if (propType.Equals(FwDataTypes.Boolean))
+                        {
+                            property.SetValue(item, FwConvert.ToBoolean((value ?? "").ToString()));
+                        }
+                        else
+                        {
+                            property.SetValue(item, (value ?? "").ToString());
+                        }
+
+                    }
+                }
+                items.Add(item);
+            }
+
+            return items;
+
         }
-        //------------------------------------------------------------------------------------ 
+        //-------------------------------------------------------------------------------------
     }
-        public class ManifestHeaderLoader : AppReportLoader
+
+    public class OrderValueSheetReportLoader : AppReportLoader
     {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
@@ -287,12 +330,35 @@ namespace WebApi.Modules.Reports.ManifestReport
         [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
         public string BillingDates { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------
-        public FwJsonDataTable ItemsTable { get; set; }
+        public List<OrderValueSheetReportItemLoader> Items { get; set; } = new List<OrderValueSheetReportItemLoader>(new OrderValueSheetReportItemLoader[] { new OrderValueSheetReportItemLoader() });
+        //------------------------------------------------------------------------------------
+        public async Task<OrderValueSheetReportLoader> RunReportAsync(OrderValueSheetReportRequest request)
+        {
+            OrderValueSheetReportLoader Order = null;
+            useWithNoLock = false;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                await conn.OpenAsync();
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintheader", this.AppConfig.DatabaseSettings.ReportTimeout))
+                {
+                    qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
+                    AddPropertiesAsQueryColumns(qry);
+                    Task<OrderValueSheetReportLoader> taskOrder = qry.QueryToTypedObjectAsync<OrderValueSheetReportLoader>();
+                    Order = taskOrder.Result;
+                }
+
+                //items
+                Task<List<OrderValueSheetReportItemLoader>> taskItems;
+                OrderValueSheetReportItemLoader Items = new OrderValueSheetReportItemLoader();
+                Items.SetDependencies(AppConfig, UserSession);
+                taskItems = Items.LoadItems(request);
+                Order.Items = taskItems.Result;
+            }
+            return Order;
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

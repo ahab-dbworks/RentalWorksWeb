@@ -10,8 +10,8 @@ tbody {
     }
 }
 
-tbody[data-rowtype="detail"]:nth-child(even) {
-    /*background-color: #DCDCDC;*/
+.rpt-nested-flexrow > span {
+    padding: 2px;
 }
 
 .sub-header tr > td {
@@ -78,17 +78,29 @@ span {
     background-color: #f1f8e9;
 }
 
+tr.headerRow td:not([data-linkedcolumn="Description"]):after {
+    content: "";
+}
+
 .textRow {
     font-weight: normal;
     font-style: italic;
+}
+
+tr.textRow td:not([data-linkedcolumn="Description"]):after {
+    content: "";
 }
 
 .subTotalRow {
     background-color: #c8e6c9;
 }
 
+tr.subTotalRow td:not([data-linkedcolumn="Description"]):not([data-linkedcolumn="PeriodExtended"]):after {
+    content: "";
+}
+
 .grandTotalRow {
-  margin-top: 25px;
+    margin-top: 25px;
 }
 
 .alignRight {
@@ -96,14 +108,6 @@ span {
 }
 
 /* Report Colors */
-.rptNumberSection {
-    background-color: #e3f2fd;
-    color: #027cc5;
-    border: 2px solid #212121;
-    padding: 5px 10px;
-    font-size: 26px;
-    text-align: center;
-}
 
 .sub {
     border-top: 2px solid #027cc5;

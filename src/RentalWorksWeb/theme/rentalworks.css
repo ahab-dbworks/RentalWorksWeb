@@ -726,6 +726,8 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 /* Custom Reports */
 #reportDesigner .highlight { background-color:#d1efd2 !important;border:2px solid #4caf5040 !important;}
+#reportDesigner img {border: 2px solid #99d6fd;}
+#reportDesigner img:before {content: "[Image] "; font-weight: bold;}
 #reportDesigner .header-section > span,
 #reportDesigner .table-section > span,
 #reportDesigner .footer-section > span {font-weight:bold; font-size:1.2em; text-decoration:underline;}
@@ -741,7 +743,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner table {border:1px solid #e0e0e0; margin-top:1em;}
 #reportDesigner table tbody td:after { content: attr(data-value); }
 #reportDesigner table .new-column:after { content: "[New Column]"; color:#f44336; }
-#reportDesigner table #columnHeader tr th { background:#cfecfe;border: 2px solid #abdfff;font-size:.9em;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+#reportDesigner table #columnHeader tr th { background:#cfecfe;border: 2px solid #abdfff;font-size:.9em;height:2em;position:relative;cursor:pointer;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;min-width:2em;}
 #reportDesigner table #columnHeader tr th:hover { box-shadow: 0 5px 9px 0 rgba(0, 0, 0, 0.2);cursor: pointer;margin: 5px; }
 #reportDesigner table tr[data-row="header"] td {background:#fff;border: 2px solid #cee5f3;cursor:pointer;font-size:.9em;font-weight: 600;height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 #reportDesigner table tr[data-row="detail"] td {background:#edf7ff;border: 2px solid #cee5f3;cursor:default;font-size:.9em;font-weight: 600;height:2em;position:relative;box-sizing:border-box;padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
@@ -774,11 +776,13 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner .footer-wrapper .rpt-header-left,
 #reportDesigner .header-wrapper .rpt-header-left {align-self: flex-start;font-size: 13px;font-weight: bold;}
 #reportDesigner .footer-wrapper .title,
-#reportDesigner .header-wrapper .title {color: #027cc5;align-self: center;font-family: Arial, sans-serif;font-size: 38px;font-weight: bold;}
+#reportDesigner .header-wrapper .title {color: #027cc5;align-self: center;font-family: Arial, sans-serif;font-size: 38px;font-weight: bold;background:white;}
 #reportDesigner .footer-wrapper .sub-title,
 #reportDesigner .header-wrapper .sub-title {align-self: center;font-family: Arial, sans-serif;font-size: 15px;font-weight: bold;}
 #reportDesigner .footer-wrapper .meta-header,
 #reportDesigner .header-wrapper .meta-header {background-color: #e3f2fd;font-weight: 600;border-bottom: .2em solid #027cc5;border-top: .2em solid #027cc5;padding: 8px;}
+#reportDesigner [data-section="header"] span:after,
+#reportDesigner [data-section="footer"] span:after {content: "\a0";}
 
 .modulefields div {cursor:pointer;}
 .modulefields div:nth-child(odd) {background-color: #f1f1f1;}
