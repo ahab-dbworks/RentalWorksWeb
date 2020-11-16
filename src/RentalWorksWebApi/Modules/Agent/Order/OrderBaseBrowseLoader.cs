@@ -326,7 +326,8 @@ namespace WebApi.Modules.Agent.Order
             else if (GetMiscFieldAsBoolean("CheckIn", request).GetValueOrDefault(false))
             {
                 //justin - wip
-                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_ACTIVE);
+                //select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_ACTIVE);
+                select.AddWhere("(status = '" + RwConstants.ORDER_STATUS_ACTIVE + "' or exists (select * from ordertranview ot with (nolock) where ot.orderid = " + TableAlias + ".orderid and ot.rectype = '" + RwConstants.RECTYPE_SALE + "' and ot.itemstatus = '" + RwConstants.ORDERTRAN_ITEMSTATUS_OUT + "'" + "))");
 
                 string checkInWarehouseId = GetMiscFieldAsString("CheckInWarehouseId", request);
                 if (!string.IsNullOrEmpty(checkInWarehouseId))
