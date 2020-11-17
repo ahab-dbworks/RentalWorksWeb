@@ -16,11 +16,13 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select dod.orderid                     ");
-                qry.Add(" from  dealorderdetail dod             ");
-                qry.Add(" where recalcbillingschedule <> 'F'    ");
-                //qry.Add(" and orderid = 'Y000YCOM'    ");
-                qry.Add(" option (recompile)                    ");
+                qry.Add(" select dod.orderid                                        ");
+                qry.Add(" from dealorderdetail dod                                  ");
+                qry.Add(" join dealorder o on(dod.orderid = o.orderid)              ");
+                qry.Add(" where recalcbillingschedule <> 'F'                        ");
+                qry.Add(" and(o.status not in ('CLOSED', 'SNAPSHOT', 'CANCELLED'))  ");
+                qry.Add(" and(o.ordertype = 'O')                                    ");
+
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
                 foreach (List<object> row in dt.Rows)
@@ -29,20 +31,17 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
 
                     using (FwSqlCommand qry2 = new FwSqlCommand(conn, "getorderbillingscheduleweb", appConfig.DatabaseSettings.QueryTimeout))
                     {
-                        qry2.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                        qry2.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                        await qry2.ExecuteNonQueryAsync();
-                        //AddPropertiesAsQueryColumns(qry);
-                        //dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                        try
+                        {
+                            qry2.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                            qry2.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                            await qry2.ExecuteNonQueryAsync();
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
                     }
-                    //string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-                    //string classification = row[dt.GetColumnNo("class")].ToString();
-                    //float qty = FwConvert.ToFloat(row[dt.GetColumnNo("qty")].ToString());
-                    //bool isPackageOwned = FwConvert.ToBoolean(row[dt.GetColumnNo("ispackageowned")].ToString());
-                    //bool isInOwnedPackage = FwConvert.ToBoolean(row[dt.GetColumnNo("isinownedpackage")].ToString());
-                    //bool noAvail = FwConvert.ToBoolean(row[dt.GetColumnNo("noavail")].ToString());
-                    //bool preCache = (((qty != 0) || isPackageOwned || isInOwnedPackage) && (!noAvail));
-                    //RequestRecalc(inventoryId, warehouseId, classification, preCache);
                 }
             }
             return success;
