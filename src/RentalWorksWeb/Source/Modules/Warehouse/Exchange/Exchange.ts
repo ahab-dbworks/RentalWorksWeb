@@ -219,7 +219,6 @@ class Exchange {
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, response => {
                         if (response.success) {
-                            FwFunc.playSuccessSound();
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'WarehouseIdOut', response.ItemStatus.WarehouseId, response.ItemStatus.Warehouse);
@@ -228,6 +227,7 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'ConsignorIdOut', response.ItemStatus.ConsignorId, response.ItemStatus.Consignor);
                             $form.find('div.error-msg.check-out').html('');
                             $form.find('.out').removeClass('error');
+                            FwFunc.playSuccessSound();
                             let fields = $form.find('.fwformfield');
                             for (let i = 0; i < fields.length; i++) {
                                 if (jQuery(fields[i]).attr('data-datafield').match(/^((?!DepartmentId$|DealId$|OrderId$|Description$).)*$/g)) {
@@ -277,7 +277,6 @@ class Exchange {
                             }
                             $form.find('div.error-msg.check-in').html('');
                             $form.find('.in').removeClass('error');
-                            FwFunc.playSuccessSound();
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                             FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
                             FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
@@ -290,6 +289,7 @@ class Exchange {
                             FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
                             FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
+                            FwFunc.playSuccessSound();
                         } else {
                             FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'ICodeIn', response.ItemStatus.ICode);

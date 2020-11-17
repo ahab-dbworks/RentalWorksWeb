@@ -1,12 +1,12 @@
 class Exchange {
-    Module:                    string = 'Exchange';
-    apiurl:                    string = 'api/v1/exchange';
-    caption:                   string = Constants.Modules.Warehouse.children.Exchange.caption;
-    nav:                       string = Constants.Modules.Warehouse.children.Exchange.nav;
-    id:                        string = Constants.Modules.Warehouse.children.Exchange.id;
-    ContractId:                string = '';
-    ExchangeResponse:          any    = {};
-    Type:                      string = 'Order';
+    Module: string = 'Exchange';
+    apiurl: string = 'api/v1/exchange';
+    caption: string = Constants.Modules.Warehouse.children.Exchange.caption;
+    nav: string = Constants.Modules.Warehouse.children.Exchange.nav;
+    id: string = Constants.Modules.Warehouse.children.Exchange.id;
+    ContractId: string = '';
+    ExchangeResponse: any = {};
+    Type: string = 'Order';
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -68,8 +68,8 @@ class Exchange {
             const contractId = ExchangeController.ContractId;
             if (contractId != '') {
                 const $confirmation = FwConfirmation.renderConfirmation('Cancel Exchange', 'Cancelling this Exchange Session will cause all transacted items to be cancelled. Continue?');
-                const $yes          = FwConfirmation.addButton($confirmation, 'Yes', false);
-                const $no           = FwConfirmation.addButton($confirmation, 'No', true);
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                const $no = FwConfirmation.addButton($confirmation, 'No', true);
 
                 $yes.on('click', () => {
                     try {
@@ -211,7 +211,6 @@ class Exchange {
                 try {
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, response => {
                         if (response.success) {
-                            FwFunc.playSuccessSound();
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'WarehouseIdOut', response.ItemStatus.WarehouseId, response.ItemStatus.Warehouse);
@@ -220,6 +219,7 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'ConsignorIdOut', response.ItemStatus.ConsignorId, response.ItemStatus.Consignor);
                             $form.find('div.error-msg.check-out').html('');
                             $form.find('.out').removeClass('error');
+                            FwFunc.playSuccessSound();
                             let fields = $form.find('.fwformfield');
                             for (let i = 0; i < fields.length; i++) {
                                 if (jQuery(fields[i]).attr('data-datafield').match(/^((?!DepartmentId$|DealId$|OrderId$|Description$).)*$/g)) {
@@ -269,7 +269,6 @@ class Exchange {
                             }
                             $form.find('div.error-msg.check-in').html('');
                             $form.find('.in').removeClass('error');
-                            FwFunc.playSuccessSound();
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                             FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
                             FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
@@ -282,6 +281,7 @@ class Exchange {
                             FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
                             FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').focus();
+                            FwFunc.playSuccessSound();
                         } else {
                             FwFormField.setValueByDataField($form, 'DescriptionIn', response.ItemStatus.Description);
                             FwFormField.setValueByDataField($form, 'ICodeIn', response.ItemStatus.ICode);
@@ -319,13 +319,13 @@ class Exchange {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         FwBrowse.renderGrid({
-            nameGrid:         'ExchangeItemGrid',
-            gridSecurityId:   'Azkpehs1tvl',
+            nameGrid: 'ExchangeItemGrid',
+            gridSecurityId: 'Azkpehs1tvl',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {

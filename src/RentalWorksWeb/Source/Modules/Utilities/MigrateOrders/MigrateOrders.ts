@@ -165,8 +165,8 @@ class MigrateOrders {
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
-                        FwFunc.playErrorSound();
                         $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                        FwFunc.playErrorSound();
                     } else {
                         FwFunc.playSuccessSound();
                     }
@@ -208,9 +208,9 @@ class MigrateOrders {
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
-                        FwFunc.playErrorSound();
                         $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                         FwFormField.enable($form.find('.finalize-migration'));
+                        FwFunc.playErrorSound();
                     } else {
                         FwFunc.playSuccessSound();
                         if (response.Contracts.length > 0) {

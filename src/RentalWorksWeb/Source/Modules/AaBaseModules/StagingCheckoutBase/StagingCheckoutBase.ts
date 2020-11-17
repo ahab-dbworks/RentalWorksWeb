@@ -637,8 +637,8 @@ abstract class StagingCheckoutBase {
                     FwFunc.playSuccessSound();
                 }
                 else {
-                    FwFunc.playErrorSound();
                     errorMsg.html(`<div><span>${errorMessages.join('<br>')}</span></div>`);
+                    FwFunc.playErrorSound();
                 }
             });
 
@@ -691,21 +691,21 @@ abstract class StagingCheckoutBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
                     if (response.success === true && response.status != 107) {
                         errorMsg.html('');
-                        FwFunc.playSuccessSound();
                         $form.find('.partial-contract-barcode input').val('');
                         $form.find('.partial-contract-quantity input').val('');
                         $form.find('.partial-contract-barcode input').select();
                         debouncedRefreshBothGrids();
+                        FwFunc.playSuccessSound();
                     }
                     if (response.status === 107) {
                         errorMsg.html('');
-                        FwFunc.playSuccessSound();
                         $form.find('.partial-contract-quantity input').focus();
+                        FwFunc.playSuccessSound();
                     }
                     if (response.success === false && response.status !== 107) {
-                        FwFunc.playErrorSound();
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('.partial-contract-barcode input').focus();
+                        FwFunc.playErrorSound();
                     }
                 }, null, null);
             } else {
@@ -983,18 +983,18 @@ abstract class StagingCheckoutBase {
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                     if (response.success === true && response.status != 107) {
-                        FwFunc.playSuccessSound();
-                        this.addItemFieldValues($form, response);
-                        debouncedRefreshGrid();
                         FwFormField.setValueByDataField($form, 'Code', '');
                         $form.find('[data-datafield="Code"] input').select();
+                        this.addItemFieldValues($form, response);
+                        debouncedRefreshGrid();
+                        FwFunc.playSuccessSound();
                     }
                     if (response.status === 107) {
-                        FwFunc.playSuccessSound();
                         this.addItemFieldValues($form, response);
                         FwFormField.setValueByDataField($form, 'Quantity', 0);
-                        //FwFormField.setValueByDataField($form, 'Code', '');
                         $form.find('div[data-datafield="Quantity"] input').select();
+                        //FwFormField.setValueByDataField($form, 'Code', '');
+                        FwFunc.playSuccessSound();
                     }
                     if (response.ShowAddItemToOrder === true) {
                         FwFunc.playErrorSound();
@@ -1063,20 +1063,20 @@ abstract class StagingCheckoutBase {
 
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                         if (response.success === true) {
-                            FwFunc.playSuccessSound();
-                            this.addItemFieldValues($form, response);
-                            debouncedRefreshGrid();
                             FwFormField.setValueByDataField($form, 'Quantity', 0);
                             FwFormField.setValueByDataField($form, 'Code', '');
                             $form.find('[data-datafield="Code"] input').select();
+                            this.addItemFieldValues($form, response);
+                            debouncedRefreshGrid();
+                            FwFunc.playSuccessSound();
                         }
                         if (response.ShowAddItemToOrder === true) {
-                            FwFunc.playErrorSound();
-                            this.addItemFieldValues($form, response);
-                            this.showAddItemToOrder = true;
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                             $form.find('[data-datafield="ApplyToAllStaged"]').show();
+                            this.addItemFieldValues($form, response);
+                            this.showAddItemToOrder = true;
+                            FwFunc.playErrorSound();
                         } else {
                             $form.find('[data-datafield="ApplyToAllStaged"]').hide();
                         }
@@ -1085,10 +1085,10 @@ abstract class StagingCheckoutBase {
                             $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                         }
                         if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
-                            FwFunc.playErrorSound();
-                            this.addItemFieldValues($form, response);
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('[data-datafield="Code"] input').select();
+                            this.addItemFieldValues($form, response);
+                            FwFunc.playErrorSound();
                         }
                         if (response.ShowStageIncompleteContainer === true) {
                             $form.find('.stage-incomplete-container').data('triggeredevent', { datafield: 'Quantity', keycode: e.which }).show();
@@ -1238,12 +1238,12 @@ abstract class StagingCheckoutBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, response => {
                     errorMsgQty.html('');
                     if (response.success === false) {
-                        FwFunc.playErrorSound();
                         errorMsgQty.html(`<div><span>${response.msg}</span></div>`);
+                        FwFunc.playErrorSound();
                     } else {
-                        FwFunc.playSuccessSound();
                         const $stageQuantityItemGrid = $form.find('div[data-name="StageQuantityItemGrid"]');
                         FwBrowse.search($stageQuantityItemGrid);
+                        FwFunc.playSuccessSound();
                     }
                 }, response => {
                     FwFunc.showError(response);
@@ -1263,12 +1263,12 @@ abstract class StagingCheckoutBase {
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectall`, request, FwServices.defaultTimeout, response => {
                 errorMsgQty.html('');
                 if (response.success === false) {
-                    FwFunc.playErrorSound();
                     errorMsgQty.html(`<div><span>${response.msg}</span></div>`);
+                    FwFunc.playErrorSound();
                 } else {
-                    FwFunc.playSuccessSound();
                     const $stageQuantityItemGrid = $form.find('div[data-name="StageQuantityItemGrid"]');
                     FwBrowse.search($stageQuantityItemGrid);
+                    FwFunc.playSuccessSound();
                 }
             }, response => {
                 FwFunc.showError(response);
@@ -1375,7 +1375,6 @@ abstract class StagingCheckoutBase {
                 $form.find('div.AddItemToOrder').html('');
                 $form.find('[data-datafield="ApplyToAllStaged"]').hide();
                 if (response.success) {
-                    FwFunc.playSuccessSound();
                     if (gridView === 'STAGE') {
                         const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
                         FwBrowse.search($stagedItemGrid);
@@ -1383,10 +1382,11 @@ abstract class StagingCheckoutBase {
                         const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                         FwBrowse.search($checkOutPendingItemGrid);
                     }
+                    FwFunc.playSuccessSound();
                 }
                 else if (response.success === false) {
-                    FwFunc.playErrorSound();
                     errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                    FwFunc.playErrorSound();
                 }
             }
             catch (ex) {
@@ -1451,10 +1451,10 @@ abstract class StagingCheckoutBase {
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
                 if (response.success === true && response.status != 107) {
                     errorMsg.html('');
-                    FwFunc.playSuccessSound();
                     $form.find('.partial-contract-barcode input').val('');
                     $form.find('.partial-contract-quantity input').val('');
                     $form.find('.partial-contract-barcode input').select();
+                    FwFunc.playSuccessSound();
                     setTimeout(() => {
                         FwBrowse.search($checkedOutItemGrid);
                         FwBrowse.search($stagedItemGrid);
@@ -1462,13 +1462,13 @@ abstract class StagingCheckoutBase {
                 }
                 if (response.status === 107) {
                     errorMsg.html('');
-                    FwFunc.playSuccessSound();
                     $form.find('.partial-contract-quantity input').focus();
+                    FwFunc.playSuccessSound();
                 }
                 if (response.success === false && response.status !== 107) {
-                    FwFunc.playErrorSound();
                     errorMsg.html(`<div><span>${response.msg}</span></div>`);
                     $form.find('.partial-contract-barcode input').focus();
+                    FwFunc.playErrorSound();
                 }
             }, null, null);
         } else {

@@ -2520,8 +2520,8 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
-                FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer); 
-                FwFormField.setValueByDataField($form, 'CustomerNumber', response.CustomerNumber); 
+                FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer);
+                FwFormField.setValueByDataField($form, 'CustomerNumber', response.CustomerNumber);
 
 
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
@@ -3777,7 +3777,7 @@ class OrderBase {
                         case 'CALMONTH':
                             endDate = moment(startDate).endOf('month').format('MM-DD-YYYY');
                             break;
-                        case 'EPISODIC': 
+                        case 'EPISODIC':
                             //Will need a new validation that is not yet defined.
                             break;
                     }
