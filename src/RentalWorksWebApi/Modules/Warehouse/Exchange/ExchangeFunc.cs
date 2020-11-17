@@ -3,15 +3,57 @@ using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.Warehouse.Exchange
 {
-
+    //------------------------------------------------------------------------------------ 
+    public class ExchangeContractRequest
+    {
+        public string OrderId;
+        public string DealId;
+        public string DepartmentId;
+        public string WarehouseId;
+    }
+    //------------------------------------------------------------------------------------ 
+    public class ExchangeContractResponse
+    {
+        public string ContractId;
+    }
+    //------------------------------------------------------------------------------------ 
+    public class ExchangeItemRequest
+    {
+        public string ContractId;
+        public string OrderId;
+        public string DealId;
+        public string DepartmentId;
+        public string WarehouseId;
+        public string InCode;
+        public int? Quantity;
+        public string OutCode;
+    }
+    //------------------------------------------------------------------------------------ 
+    public class ExchangeItemInResponse : ExchangeItemSpStatusResponse
+    {
+        public string ContractId;
+        public string InCode;
+        public int? Quantity;
+    }
+    //------------------------------------------------------------------------------------ 
+    public class ExchangeItemOutResponse : ExchangeItemSpStatusResponse
+    {
+        public string ContractId;
+        public string InCode;
+        public int? Quantity;
+        public string OutCode;
+    }
+    //------------------------------------------------------------------------------------ 
     public class ExchangeItemStatus
     {
         public string InventoryId;
         public string ICode;
         public string AvailableFor;
+        public string InventoryClass;
         public string Description;
         public string WarehouseId;
         public string Warehouse;
@@ -22,8 +64,7 @@ namespace WebApi.Modules.Warehouse.Exchange
         public string ConsignorId;
         public string Consignor;
     }
-
-
+    //------------------------------------------------------------------------------------ 
     public class ExchangeItemSpStatusResponse : TSpStatusResponse
     {
         public string OrderId;
@@ -36,19 +77,20 @@ namespace WebApi.Modules.Warehouse.Exchange
         //public string OrderItemId;
         //public int QuantityStaged;
     }
-
+    //------------------------------------------------------------------------------------ 
     public static class ExchangeFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> CreateExchangeContract(FwApplicationConfig appConfig, FwUserSession userSession, string OrderId, string DealId, string DepartmentId)
+        public static async Task<string> CreateExchangeContract(FwApplicationConfig appConfig, FwUserSession userSession, ExchangeContractRequest request)
         {
             string contractId = "";
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "createexchangecontract", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, DealId);
-                qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, DepartmentId);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, request.DealId);
+                qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.DepartmentId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@exchangecontractid", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
@@ -72,17 +114,18 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
          
          */
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<ExchangeItemSpStatusResponse> ExchangeItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, /*string orderId, string dealId, string departmentId,*/ string inCode, int? quantity, string outCode)
+        public static async Task<ExchangeItemSpStatusResponse> ExchangeItem(FwApplicationConfig appConfig, FwUserSession userSession, ExchangeItemRequest request)
         {
             ExchangeItemSpStatusResponse response = new ExchangeItemSpStatusResponse();
 
-            if (string.IsNullOrEmpty(outCode))  //user is supplying an In Code.  We are validating the code to provide metadata about the item
+            if (string.IsNullOrEmpty(request.OutCode))  //user is supplying an In Code.  We are validating the code to provide metadata about the item
             {
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "getinbarcodeexchangeiteminfo", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@exchangecontractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
-                    qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, inCode);
+                    qry.AddParameter("@exchangecontractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
+                    qry.AddParameter("@barcode", SqlDbType.NVarChar, ParameterDirection.Input, request.InCode);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     //qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                     //qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, dealId);
                     //qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, departmentId);
@@ -109,6 +152,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     qry.AddParameter("@returniteminternalchar", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemmasterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@returnitemmasterclass", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemavailfor", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemdescription", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnitemorderno", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -126,6 +170,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     response.DepartmentId = qry.GetParameter("@returnitemdepartmentid").ToString().TrimEnd();
                     response.ItemStatus.InventoryId = qry.GetParameter("@returnitemmasterid").ToString().TrimEnd();
                     response.ItemStatus.ICode = qry.GetParameter("@returnitemmasterno").ToString().TrimEnd();
+                    response.ItemStatus.InventoryClass = qry.GetParameter("@returnitemmasterclass").ToString().TrimEnd();
                     response.ItemStatus.AvailableFor = qry.GetParameter("@returnitemavailfor").ToString().TrimEnd();
                     response.ItemStatus.Description = qry.GetParameter("@returnitemdescription").ToString().TrimEnd();
                     response.ItemStatus.WarehouseId = qry.GetParameter("@returnitemwarehouseid").ToString().TrimEnd();
@@ -146,9 +191,10 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "exchangebc", appConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@exchangecontractid", SqlDbType.NVarChar, ParameterDirection.Input, contractId);
-                    qry.AddParameter("@inbarcode", SqlDbType.NVarChar, ParameterDirection.Input, inCode);
-                    qry.AddParameter("@outbarcode", SqlDbType.NVarChar, ParameterDirection.Input, outCode);
+                    qry.AddParameter("@exchangecontractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
+                    qry.AddParameter("@inbarcode", SqlDbType.NVarChar, ParameterDirection.Input, request.InCode);
+                    qry.AddParameter("@outbarcode", SqlDbType.NVarChar, ParameterDirection.Input, request.OutCode);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                     //if (quantity != null)
                     //{
                     //    qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
@@ -178,6 +224,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     qry.AddParameter("@outpono", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmasterid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmasterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@outmasterclass", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outavailfor", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outmaster", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@outwarehouseid", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -205,6 +252,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     //response.DepartmentId = qry.GetParameter("@returnitemdepartmentid").ToString().TrimEnd();
                     response.ItemStatus.InventoryId = qry.GetParameter("@outmasterid").ToString().TrimEnd();
                     response.ItemStatus.ICode = qry.GetParameter("@outmasterno").ToString().TrimEnd();
+                    response.ItemStatus.InventoryClass = qry.GetParameter("@outmasterclass").ToString().TrimEnd();
                     response.ItemStatus.AvailableFor = qry.GetParameter("@outavailfor").ToString().TrimEnd();
                     response.ItemStatus.Description = qry.GetParameter("@outmaster").ToString().TrimEnd();
                     response.ItemStatus.WarehouseId = qry.GetParameter("@outwarehouseid").ToString().TrimEnd();
@@ -225,6 +273,12 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     response.msg = qry.GetParameter("@msg").ToString();
                 }
             }
+
+            if (response.success)
+            {
+                InventoryAvailabilityFunc.RequestRecalc(response.ItemStatus.InventoryId, response.ItemStatus.WarehouseId, response.ItemStatus.InventoryClass);
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

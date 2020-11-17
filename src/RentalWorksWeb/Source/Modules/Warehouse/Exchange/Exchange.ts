@@ -1,12 +1,12 @@
 class Exchange {
-    Module:                    string = 'Exchange';
-    apiurl:                    string = 'api/v1/exchange';
-    caption:                   string = Constants.Modules.Warehouse.children.Exchange.caption;
-    nav:                       string = Constants.Modules.Warehouse.children.Exchange.nav;
-    id:                        string = Constants.Modules.Warehouse.children.Exchange.id;
-    ContractId:                string = '';
-    ExchangeResponse:          any    = {};
-    Type:                      string = 'Order';
+    Module: string = 'Exchange';
+    apiurl: string = 'api/v1/exchange';
+    caption: string = Constants.Modules.Warehouse.children.Exchange.caption;
+    nav: string = Constants.Modules.Warehouse.children.Exchange.nav;
+    id: string = Constants.Modules.Warehouse.children.Exchange.id;
+    ContractId: string = '';
+    ExchangeResponse: any = {};
+    Type: string = 'Order';
     //----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasSave = false;
@@ -43,11 +43,13 @@ class Exchange {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
         const department = JSON.parse(sessionStorage.getItem('department'));
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid, department.department);
+        FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
 
         if (department.department === 'RENTALS') {
             $form.find('div[data-validationname="RentalInventoryValidation"]').show();
@@ -68,8 +70,8 @@ class Exchange {
             const contractId = ExchangeController.ContractId;
             if (contractId != '') {
                 const $confirmation = FwConfirmation.renderConfirmation('Cancel Exchange', 'Cancelling this Exchange Session will cause all transacted items to be cancelled. Continue?');
-                const $yes          = FwConfirmation.addButton($confirmation, 'Yes', false);
-                const $no           = FwConfirmation.addButton($confirmation, 'No', true);
+                const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                const $no = FwConfirmation.addButton($confirmation, 'No', true);
 
                 $yes.on('click', () => {
                     try {
@@ -144,11 +146,17 @@ class Exchange {
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        const department = JSON.parse(sessionStorage.getItem('department'));
-        const contractRequest: any = {}
-        contractRequest['DepartmentId'] = department.departmentid;
+        const departmentId = FwFormField.getValueByDataField($form, "DepartmentId");
+        const warehouseId = FwFormField.getValueByDataField($form, "WarehouseId");
+        const contractRequest: any = {
+            DepartmentId: departmentId,
+            WarehouseId: warehouseId
+        }
 
-        const exchangeRequest: any = {};
+        const exchangeRequest: any = {
+            DepartmentId: departmentId,
+            WarehouseId: warehouseId
+        };
         // Deal Id
         $form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
             contractRequest['OrderId'] = FwFormField.getValueByDataField($form, "OrderId");
@@ -319,13 +327,13 @@ class Exchange {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         FwBrowse.renderGrid({
-            nameGrid:         'ExchangeItemGrid',
-            gridSecurityId:   'Azkpehs1tvl',
+            nameGrid: 'ExchangeItemGrid',
+            gridSecurityId: 'Azkpehs1tvl',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -363,7 +371,7 @@ class Exchange {
     resetForm($form) {
         const fields = $form.find('.fwformfield');
         for (let i = 0; i < fields.length; i++) {
-            if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
+            if ((jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') && (jQuery(fields[i]).attr('data-datafield') !== 'WarehouseId')) {
                 FwFormField.setValue2(jQuery(fields[i]), '', '');
             }
         }
@@ -396,6 +404,7 @@ class Exchange {
                 ${typeHTML}
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 200px;" data-enabled="false"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="flex:1 1 200px;" data-enabled="false"></div>
                 </div>
             </div>
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check-In">

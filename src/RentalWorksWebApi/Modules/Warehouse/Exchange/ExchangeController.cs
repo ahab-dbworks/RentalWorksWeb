@@ -15,77 +15,13 @@ using WebApi.Modules.Agent.Order;
 
 namespace WebApi.Modules.Warehouse.Exchange
 {
-
-    //------------------------------------------------------------------------------------ 
-    public class ExchangeContractRequest
-    {
-        public string OrderId;
-        public string DealId;
-        public string DepartmentId;
-    }
-
-    public class ExchangeContractResponse
-    {
-        public string ContractId;
-    }
-    //------------------------------------------------------------------------------------ 
-
-
-
-    //------------------------------------------------------------------------------------ 
-    public class ExchangeItemInRequest
-    {
-        public string ContractId;
-        public string OrderId;
-        public string DealId;
-        public string DepartmentId;
-        public string InCode;
-        public int? Quantity;
-    }
-
-    public class ExchangeItemInResponse : ExchangeItemSpStatusResponse
-    {
-        public string ContractId;
-        public string InCode;
-        public int? Quantity;
-    }
-    //------------------------------------------------------------------------------------ 
-
-
-
-    //------------------------------------------------------------------------------------ 
-    public class ExchangeItemOutRequest
-    {
-        public string ContractId;
-        public string OrderId;
-        public string DealId;
-        public string DepartmentId;
-        public string InCode;
-        public int? Quantity;
-        public string OutCode;
-    }
-
-    public class ExchangeItemOutResponse : ExchangeItemSpStatusResponse
-    {
-        public string ContractId;
-        public string InCode;
-        public int? Quantity;
-        public string OutCode;
-    }
-    //------------------------------------------------------------------------------------ 
-
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"IQS4rxzIVFl")]
     public class ExchangeController : AppDataController
     {
         public ExchangeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-
-
         //------------------------------------------------------------------------------------ 
-
-
         // GET api/v1/exchange/suspendedsessionsexist
         [HttpGet("suspendedsessionsexist")]
         [FwControllerMethod(Id: "DetgPNBfyCRRX", ActionType: FwControllerActionTypes.Browse)]
@@ -101,20 +37,14 @@ namespace WebApi.Modules.Warehouse.Exchange
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
-
-
         // POST api/v1/exchange/exchangeitemin
         [HttpPost("exchangeitemin")]
         [FwControllerMethod(Id:"XOvqlNHRQs3", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<ExchangeItemInResponse>> ExchangeItemIn([FromBody]ExchangeItemInRequest request)
+        public async Task<ActionResult<ExchangeItemInResponse>> ExchangeItemIn([FromBody]ExchangeItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -138,12 +68,18 @@ namespace WebApi.Modules.Warehouse.Exchange
                 {
                     if (((!string.IsNullOrEmpty(request.OrderId)) || (!string.IsNullOrEmpty(request.DealId))) && (!string.IsNullOrEmpty(request.DepartmentId)))
                     {
-                        string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, request.OrderId, request.DealId, request.DepartmentId);
-                        response.ContractId = ContractId;
+                        ExchangeContractRequest contractRequest = new ExchangeContractRequest();
+                        contractRequest.OrderId = request.OrderId;
+                        contractRequest.DealId = request.DealId;
+                        contractRequest.DepartmentId = request.DepartmentId;
+                        contractRequest.WarehouseId = request.WarehouseId;
+                        string contractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, contractRequest);
+                        response.ContractId = contractId;
+                        request.ContractId = contractId;
                     }
                 }
 
-                ExchangeItemSpStatusResponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId, */request.InCode, request.Quantity, "");
+                ExchangeItemSpStatusResponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request);
                 response.Deal = exchangeItemResponse.Deal;
                 response.OrderNumber = exchangeItemResponse.OrderNumber;
                 response.OrderDescription = exchangeItemResponse.OrderDescription;
@@ -155,8 +91,19 @@ namespace WebApi.Modules.Warehouse.Exchange
                 {
                     if (((!string.IsNullOrEmpty(exchangeItemResponse.OrderId)) || (!string.IsNullOrEmpty(exchangeItemResponse.DealId))) && (!string.IsNullOrEmpty(exchangeItemResponse.DepartmentId)))
                     {
-                        string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, exchangeItemResponse.OrderId, exchangeItemResponse.DealId, exchangeItemResponse.DepartmentId);
-                        response.ContractId = ContractId;
+                        //string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, exchangeItemResponse.OrderId, exchangeItemResponse.DealId, exchangeItemResponse.DepartmentId);
+                        //response.ContractId = ContractId;
+                        //response.OrderId = exchangeItemResponse.OrderId;
+                        //response.DealId = exchangeItemResponse.DealId;
+                        //response.DepartmentId = exchangeItemResponse.DepartmentId;
+
+                        ExchangeContractRequest contractRequest = new ExchangeContractRequest();
+                        contractRequest.OrderId = exchangeItemResponse.OrderId;
+                        contractRequest.DealId = exchangeItemResponse.DealId;
+                        contractRequest.DepartmentId = exchangeItemResponse.DepartmentId;
+                        contractRequest.WarehouseId = request.WarehouseId;
+                        string contractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, contractRequest);
+                        response.ContractId = contractId;
                         response.OrderId = exchangeItemResponse.OrderId;
                         response.DealId = exchangeItemResponse.DealId;
                         response.DepartmentId = exchangeItemResponse.DepartmentId;
@@ -168,21 +115,14 @@ namespace WebApi.Modules.Warehouse.Exchange
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
-        //------------------------------------------------------------------------------------ 
-
-
         //------------------------------------------------------------------------------------ 
         // POST api/v1/exchange/exchangeitemout
         [HttpPost("exchangeitemout")]
         [FwControllerMethod(Id:"5QUCeNc5L0u", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<ExchangeItemOutResponse>> ExchangeItemOut([FromBody]ExchangeItemOutRequest request)
+        public async Task<ActionResult<ExchangeItemOutResponse>> ExchangeItemOut([FromBody]ExchangeItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -217,13 +157,18 @@ namespace WebApi.Modules.Warehouse.Exchange
                     {
                         if (((!string.IsNullOrEmpty(request.OrderId)) || (!string.IsNullOrEmpty(request.DealId))) && (!string.IsNullOrEmpty(request.DepartmentId)))
                         {
-                            string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, request.OrderId, request.DealId, request.DepartmentId);
-                            response.ContractId = ContractId;
+                            ExchangeContractRequest contractRequest = new ExchangeContractRequest();
+                            contractRequest.OrderId = request.OrderId;
+                            contractRequest.DealId = request.DealId;
+                            contractRequest.DepartmentId = request.DepartmentId;
+                            contractRequest.WarehouseId = request.WarehouseId;
+                            string contractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, contractRequest);
+                            response.ContractId = contractId;
+                            request.ContractId = contractId;
                         }
                     }
 
-
-                    ExchangeItemSpStatusResponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId,*/ request.InCode, request.Quantity, request.OutCode);
+                    ExchangeItemSpStatusResponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request);
                     response.Deal = exchangeItemResponse.Deal;
                     response.OrderNumber = exchangeItemResponse.OrderNumber;
                     response.OrderDescription = exchangeItemResponse.OrderDescription;
@@ -238,17 +183,10 @@ namespace WebApi.Modules.Warehouse.Exchange
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
-
-
-
         // POST api/v1/exchange/startexchangecontract
         [HttpPost("startexchangecontract")]
         [FwControllerMethod(Id:"m7wzxum9Fjk", ActionType: FwControllerActionTypes.Browse)]
@@ -260,18 +198,14 @@ namespace WebApi.Modules.Warehouse.Exchange
             }
             try
             {
-                string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, request.OrderId, request.DealId, request.DepartmentId);
+                string ContractId = await ExchangeFunc.CreateExchangeContract(AppConfig, UserSession, request);
                 ExchangeContractResponse response = new ExchangeContractResponse();
                 response.ContractId = ContractId;
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -305,11 +239,7 @@ namespace WebApi.Modules.Warehouse.Exchange
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -328,6 +258,6 @@ namespace WebApi.Modules.Warehouse.Exchange
         {
             return await DoBrowseAsync<OrderLogic>(browseRequest);
         }
-
+        //------------------------------------------------------------------------------------
     }
 }
