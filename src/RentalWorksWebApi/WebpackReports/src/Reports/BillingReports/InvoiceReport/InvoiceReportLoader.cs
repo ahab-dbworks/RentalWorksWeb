@@ -605,6 +605,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
         public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customeremail", modeltype: FwDataTypes.Text)]
+        public string CustomerEmail { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custtype", modeltype: FwDataTypes.Text)]
         public string CustomerType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -622,6 +625,9 @@ namespace WebApi.Modules.Reports.Billing.InvoiceReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealphone", modeltype: FwDataTypes.Text)]
         public string DealPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealemail", modeltype: FwDataTypes.Text)]
+        public string DealEmail { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
