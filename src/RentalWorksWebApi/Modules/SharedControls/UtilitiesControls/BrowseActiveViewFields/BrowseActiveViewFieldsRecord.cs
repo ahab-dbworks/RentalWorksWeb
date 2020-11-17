@@ -37,7 +37,7 @@ namespace WebApi.Modules.UtilitiesControls.BrowseActiveViewFields
         //------------------------------------------------------------------------------------    
         public void DeleteOthers(FwSqlConnection conn = null)
         {
-            bool b = BrowseActiveViewFieldsFunc.DeleteOthers(AppConfig, UserSession, ModuleName, OfficeLocationId, WebUserId, conn).Result;
+            bool b = BrowseActiveViewFieldsFunc.DeleteOthers(AppConfig, UserSession, ModuleName, OfficeLocationId, WebUserId, Id, conn).Result;
         }
         //------------------------------------------------------------------------------------    
     }
