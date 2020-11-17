@@ -546,7 +546,7 @@ class Contact {
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Expire Password" data-datafield="ExpirePassword" style="flex:1 1 150px;margin-top:10px;"></div>
                         <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Expires In (Days)" data-datafield="ExpireDays" style="flex:1 1 125px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Change" data-datafield="PasswordLastUpdated" data-enabled="false" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Last Change" data-datafield="PasswordLastUpdated" data-enabled="false" style="flex:1 1 125px;"></div>
                       </div>
                     </div>
                   </div>
