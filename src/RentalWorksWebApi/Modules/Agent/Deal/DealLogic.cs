@@ -1,5 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
+using System;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Agent.Deal
@@ -130,7 +132,7 @@ namespace WebApi.Modules.Agent.Deal
         [FwLogicProperty(Id:"qJWJGegtsy0x", IsReadOnly:true)]
         public string DealStatus { get; set; }
 
-        [FwLogicProperty(Id:"YyKZJ7g2EqCq")]
+        [FwLogicProperty(Id:"YyKZJ7g2EqCq", DisableDirectAssign: true, DisableDirectModify: true)]
         public string StatusAsOf { get { return deal.StatusAsOf; } set { deal.StatusAsOf = value; } }
 
         [FwLogicProperty(Id:"bhW4Xx46xyMf")]
@@ -552,6 +554,15 @@ namespace WebApi.Modules.Agent.Deal
                 if ((string.IsNullOrEmpty(DealNumber)) || (DealNumber.Equals(tmpDealNumber)))
                 {
                     bool x = deal.SetNumber(e.SqlConnection).Result;
+                }
+                StatusAsOf = FwConvert.ToShortDate(DateTime.Today);
+            }
+            else  // updating
+            {
+                DealLogic orig = (DealLogic)e.Original;
+                if ((DealStatusId != null) && (!DealStatusId.Equals(orig.DealStatusId)))
+                {
+                    StatusAsOf = FwConvert.ToShortDate(DateTime.Today);
                 }
             }
         }

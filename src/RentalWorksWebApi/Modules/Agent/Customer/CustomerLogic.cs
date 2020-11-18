@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
+using FwStandard.SqlServer;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -122,7 +123,7 @@ namespace WebApi.Modules.Agent.Customer
         [FwLogicProperty(Id: "XQpZso1m6zlQ", IsReadOnly: true)]
         public string CustomerStatus { get; set; }
 
-        [FwLogicProperty(Id: "g0L7OKtqHApq")]
+        [FwLogicProperty(Id: "g0L7OKtqHApq", DisableDirectAssign: true, DisableDirectModify: true)]
         public string StatusAsOf { get { return customer.StatusAsOf; } set { customer.StatusAsOf = value; } }
 
         [FwLogicProperty(Id: "df7kF8e0kJLf")]
@@ -493,6 +494,15 @@ namespace WebApi.Modules.Agent.Customer
                 if ((string.IsNullOrEmpty(CustomerNumber)) || (CustomerNumber.Equals(tmpCustomerNumber)))
                 {
                     bool x = customer.SetNumber(e.SqlConnection).Result;
+                }
+                StatusAsOf = FwConvert.ToShortDate(DateTime.Today);
+            }
+            else  // updating
+            {
+                CustomerLogic orig = (CustomerLogic)e.Original;
+                if ((CustomerStatusId != null) && (!CustomerStatusId.Equals(orig.CustomerStatusId)))
+                {
+                    StatusAsOf = FwConvert.ToShortDate(DateTime.Today);
                 }
             }
         }
