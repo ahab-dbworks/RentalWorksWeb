@@ -22,7 +22,7 @@ namespace WebApi.Modules.Billing.Billing
         public bool? ShowOrdersWithPendingPO { get; set; }
         public bool? BillIfComplete { get; set; }
         public bool? CombinePeriods { get; set; }
-        public bool? IncludeTotals { get; set; }
+        //public bool? IncludeTotals { get; set; }
     }
 
     public class PopulateBillingResponse : TSpStatusResponse
@@ -82,7 +82,7 @@ namespace WebApi.Modules.Billing.Billing
                     qry.AddParameter("@pending", SqlDbType.NVarChar, ParameterDirection.Input, request.ShowOrdersWithPendingPO);
                     qry.AddParameter("@combineperiods", SqlDbType.NVarChar, ParameterDirection.Input, request.CombinePeriods);
                     qry.AddParameter("@billifcomplete", SqlDbType.NVarChar, ParameterDirection.Input, request.BillIfComplete);
-                    qry.AddParameter("@includetotals", SqlDbType.NVarChar, ParameterDirection.Input, request.IncludeTotals);
+                    //qry.AddParameter("@includetotals", SqlDbType.NVarChar, ParameterDirection.Input, request.IncludeTotals);
                     //               @flatorder       char(01) = 'F',
                     //               @flatbill        char(01) = 'F',
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
