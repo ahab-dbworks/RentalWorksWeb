@@ -18,12 +18,6 @@
                 case 'P':
                     peekForm = 'PartsInventory';
                     break;
-                case 'M':
-                    peekForm = 'MiscRate';
-                    break;
-                case 'L':
-                    peekForm = 'LaborRate';
-                    break;
             }
             $td.attr('data-peekForm', peekForm);
         });
