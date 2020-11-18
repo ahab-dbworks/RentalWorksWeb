@@ -694,8 +694,8 @@ abstract class StagingCheckoutBase {
                         $form.find('.partial-contract-barcode input').val('');
                         $form.find('.partial-contract-quantity input').val('');
                         $form.find('.partial-contract-barcode input').select();
-                        debouncedRefreshBothGrids();
                         FwFunc.playSuccessSound();
+                        debouncedRefreshBothGrids();
                     }
                     if (response.status === 107) {
                         errorMsg.html('');
@@ -734,8 +734,8 @@ abstract class StagingCheckoutBase {
                             responseCount++;
 
                             if (responseCount === $selectedCheckBoxes.length) {
-                                debouncedRefreshBothGrids();
                                 FwFunc.playSuccessSound();
+                                debouncedRefreshBothGrids();
                             }
                         }, function onError(response) {
                             FwFunc.showError(response);
@@ -769,8 +769,8 @@ abstract class StagingCheckoutBase {
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/${url}`, request, FwServices.defaultTimeout, response => {
-                debouncedRefreshBothGrids();
                 FwFunc.playSuccessSound();
+                debouncedRefreshBothGrids();
             }, function onError(response) {
                 FwFunc.showError(response);
                 FwFunc.playErrorSound();

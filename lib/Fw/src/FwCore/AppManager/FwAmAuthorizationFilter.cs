@@ -90,6 +90,7 @@ namespace FwCore.AppManager
 
                                 var methodIdFilter = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == AuthenticationClaimsTypes.MethodIdFilter).Value;
                                 List<string> methodIds = new List<string>(methodIdFilter.Split(",", StringSplitOptions.RemoveEmptyEntries));
+                                if (!methodIds.Contains(methodIdFilter))
                                 {
                                     context.Result = new ForbidResult();
                                 }

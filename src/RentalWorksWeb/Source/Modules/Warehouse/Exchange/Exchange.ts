@@ -230,7 +230,7 @@ class Exchange {
                             FwFunc.playSuccessSound();
                             let fields = $form.find('.fwformfield');
                             for (let i = 0; i < fields.length; i++) {
-                                if (jQuery(fields[i]).attr('data-datafield').match(/^((?!DepartmentId$|DealId$|OrderId$|Description$).)*$/g)) {
+                                if (jQuery(fields[i]).attr('data-datafield').match(/^((?!DepartmentId$|DealId$|OrderId$|WarehouseId$|Description$).)*$/g)) {
                                     FwFormField.setValue2(jQuery(fields[i]), '', '');
                                 }
                             }

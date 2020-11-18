@@ -87,7 +87,9 @@ class Base {
                                     if (responseJwt.resetpassword) {
                                         sessionStorage.setItem('resetPasswordToken', responseJwt.access_token);
                                         sessionStorage.setItem('redirectPath', 'changepassword');
-                                        program.navigate('changepassword');
+                                        window.setTimeout(() => {
+                                            program.navigate('changepassword');
+                                        }, 0);
                                     } else {
                                         sessionStorage.setItem('apiToken', responseJwt.access_token);
                                         await program.loadSession($loginWindow);

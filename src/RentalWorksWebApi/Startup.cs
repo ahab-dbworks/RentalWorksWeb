@@ -16,7 +16,6 @@ using System.IO;
 using System.Reflection;
 using WebApi.ApplicationManager;
 using WebApi.Middleware;
-using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi
@@ -38,9 +37,13 @@ namespace WebApi
             FwAppManager.CurrentProductEdition = "E";
             FwAppManager.Tree.LoadFromWebApi();
             FwAppManager.Tree.LoadAllGroupTrees().Wait();
-            if (this.ApplicationConfig.EnableAvailabilityService)
+            if (!this.ApplicationConfig.DisableAvailabilityService)
             {
                 services.AddHostedService<AvailabilityService>();
+            }
+            if (!this.ApplicationConfig.DisableBillingScheduleService)
+            {
+                services.AddHostedService<BillingScheduleService>();
             }
             if (true /* is Visitek */)
             {
