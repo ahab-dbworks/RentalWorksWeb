@@ -3766,10 +3766,10 @@ class OrderBase {
                     startDate = response.PeriodStart;
                     switch (billingCycleType) {
                         case 'WEEKLY':
-                            endDate = moment(startDate).add(7, 'days').format('MM-DD-YYYY');
+                            endDate = moment(startDate).add(6, 'days').format('MM-DD-YYYY');
                             break;
                         case 'BIWEEKLY':
-                            endDate = moment(startDate).add(14, 'days').format('MM-DD-YYYY');
+                            endDate = moment(startDate).add(13, 'days').format('MM-DD-YYYY');
                             break;
                         case 'MONTHLY':
                             endDate = moment(startDate).add(1, 'month').subtract(1, 'days').format('MM-DD-YYYY');
