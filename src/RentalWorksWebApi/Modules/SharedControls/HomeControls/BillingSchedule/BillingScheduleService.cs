@@ -10,8 +10,7 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
     internal class BillingScheduleService : IHostedService, IDisposable
     {
         private FwApplicationConfig appConfig;
-        private const int TIMER_DELAY_START = 2;     //delay all timers to allow service to start before timers kick in
-        private const int SECONDS_PER_MINUTE = 60;
+        private const int CHECK_INTERVAL_SECONDS = 10;
 
         //keep fresh
         private System.Timers.Timer keepFreshTimer;
@@ -24,7 +23,7 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
         //-------------------------------------------------------------------------------------------------------
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            keepFreshTimer = new System.Timers.Timer(1000 * 10);
+            keepFreshTimer = new System.Timers.Timer(1000 * CHECK_INTERVAL_SECONDS);
             keepFreshTimer.Elapsed += KeepFreshTimer_Elapsed;
             keepFreshTimer.Start();
             return Task.CompletedTask;
@@ -37,7 +36,7 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
         //-------------------------------------------------------------------------------------------------------
         private void EnableKeepFreshTimer()
         {
-            keepFreshTimer.Interval = 1000 * 10;
+            keepFreshTimer.Interval = 1000 * CHECK_INTERVAL_SECONDS;
             keepFreshTimer?.Start();
         }
         //-------------------------------------------------------------------------------------------------------

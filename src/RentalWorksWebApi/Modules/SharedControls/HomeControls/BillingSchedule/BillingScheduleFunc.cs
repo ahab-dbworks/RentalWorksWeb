@@ -9,24 +9,25 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
 {
     public static class BillingScheduleFunc
     {
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<bool> KeepBillingScheduleCacheFresh(FwApplicationConfig appConfig)
         {
             bool success = true;
-            Console.WriteLine("Keeping Billing Schedule fresh.");
+            Console.WriteLine("About to check for Orders that need Billing Schedule recalculated");
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add(" select dod.orderid                                        ");
-                qry.Add(" from dealorderdetail dod                                  ");
-                qry.Add(" join dealorder o on(dod.orderid = o.orderid)              ");
-                qry.Add(" where recalcbillingschedule <> 'F'                        ");
-                qry.Add(" and(o.status not in ('CLOSED', 'SNAPSHOT', 'CANCELLED'))  ");
-                qry.Add(" and(o.ordertype = 'O')                                    ");
-
+                qry.Add("select orderid                               ");
+                qry.Add(" from  orderneedrecalcbillingscheduleview    ");
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
+                Console.WriteLine($"Found {dt.TotalRows.ToString()} Orders that need Billing Schedule recalculated");
+                int x = 0;
                 foreach (List<object> row in dt.Rows)
                 {
+                    x++;
+                    Console.WriteLine($"About to recalculate Billing Schedule for {x.ToString()} of {dt.TotalRows.ToString()}");
+
                     string orderId = row[dt.GetColumnNo("orderid")].ToString();
 
                     using (FwSqlCommand qry2 = new FwSqlCommand(conn, "getorderbillingscheduleweb", appConfig.DatabaseSettings.QueryTimeout))
@@ -39,12 +40,13 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
                         }
                         catch (Exception e)
                         {
-
+                            // do nothing here.  Just skip this Order and go to the next one in the list
                         }
                     }
                 }
             }
             return success;
         }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
