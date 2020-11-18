@@ -40,9 +40,16 @@ const updateSourceCode = async (dirPath) => {
             let validationTemplateFile = fse.readFileSync(pathValidationTemplate, 'utf8');
             const matchesName = /data-name="(\w+)"/.exec(validationTemplateFile);
             const validationName = matchesName[1].replace('Validation', '');
-            validationTemplateFile = validationTemplateFile.replace(/data-name="(\w+)"/, `${matchesName[0]} data-primarymodule="${validationName}"`)
-            fse.writeFileSync(pathValidationTemplate, validationTemplateFile);
-            //console.log(validationTemplateFile);
+            
+            // remove any data-primarymoduletags
+            //validationTemplateFile = validationTemplateFile.replace(/data-primarymodule="(\w+)"\s/g, '')
+            
+            // add a data-primarymodule tag to a validation if it doesn't have one
+            if (!/data-primarymodule="(\w+)"\s/.test(validationTemplateFile)) {
+                validationTemplateFile = validationTemplateFile.replace(/data-name="(\w+)"/, `${matchesName[0]} data-primarymodule="${validationName}"`)
+                fse.writeFileSync(pathValidationTemplate, validationTemplateFile);
+                //console.log(validationTemplateFile);
+            }
         }
     }
 }
