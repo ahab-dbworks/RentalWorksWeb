@@ -2,23 +2,23 @@
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 
 class Order extends OrderBase {
-    Module:               string = 'Order';
-    apiurl:               string = 'api/v1/order';
-    caption:              string = Constants.Modules.Agent.children.Order.caption;
-    nav:                  string = Constants.Modules.Agent.children.Order.nav;
-    id:                   string = Constants.Modules.Agent.children.Order.id;
-    lossDamageSessionId:  string = '';
+    Module: string = 'Order';
+    apiurl: string = 'api/v1/order';
+    caption: string = Constants.Modules.Agent.children.Order.caption;
+    nav: string = Constants.Modules.Agent.children.Order.nav;
+    id: string = Constants.Modules.Agent.children.Order.id;
+    lossDamageSessionId: string = '';
     successSoundFileName: string;
-    errorSoundFileName:   string;
-    ActiveViewFields:     any = {};
-    ActiveViewFieldsId:   string;
-    DefaultOrderType:     string;
+    errorSoundFileName: string;
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
+    DefaultOrderType: string;
     DefaultOrderTypeId: string;
     totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
     //-----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
-        screen.$view      = FwModule.getModuleControl(`${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
 
         const $browse = this.openBrowse();
 
@@ -45,7 +45,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
-        $browse     = FwModule.openBrowse($browse);
+        $browse = FwModule.openBrowse($browse);
 
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
             if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
@@ -53,7 +53,7 @@ class Order extends OrderBase {
             }
         });
 
-        $browse.data('ondatabind', request =>  {
+        $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;
         });
 
@@ -70,10 +70,10 @@ class Order extends OrderBase {
         }
 
         const department = JSON.parse(sessionStorage.getItem('department'));;
-        const location   = JSON.parse(sessionStorage.getItem('location'));;
+        const location = JSON.parse(sessionStorage.getItem('location'));;
 
         FwAppData.apiMethod(true, 'GET', `api/v1/departmentlocation/${department.departmentid}~${location.locationid}`, null, FwServices.defaultTimeout, response => {
-            this.DefaultOrderType   = response.DefaultOrderType;
+            this.DefaultOrderType = response.DefaultOrderType;
             this.DefaultOrderTypeId = response.DefaultOrderTypeId;
         }, null, null);
 
@@ -88,7 +88,7 @@ class Order extends OrderBase {
     //    const $complete  = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
     //    const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
     //    const $closed    = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
-      
+
     //    let viewSubitems: Array<JQuery> = [];
     //    viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
     //    FwMenu.addViewBtn(options.$menu, 'View', viewSubitems, true, "Status");
@@ -240,7 +240,7 @@ class Order extends OrderBase {
     //------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
-        $form     = FwModule.openForm($form, mode);
+        $form = FwModule.openForm($form, mode);
 
         const $submodulePickListBrowse = this.openPickListBrowse($form);
         $form.find('.picklist').append($submodulePickListBrowse);
@@ -252,26 +252,26 @@ class Order extends OrderBase {
         //$form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
 
         FwFormField.loadItems($form.find('div[data-datafield="weightselector"]'), [
-            { value: 'IMPERIAL', caption: 'Imperial', checked: true},
-            { value: 'METRIC',   caption: 'Metric' }
+            { value: 'IMPERIAL', caption: 'Imperial', checked: true },
+            { value: 'METRIC', caption: 'Metric' }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
-            { value: 'SHIP',    text: 'Ship to Customer' },
+            { value: 'SHIP', text: 'Ship to Customer' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
         FwFormField.loadItems($form.find('div[data-datafield="InDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
-            { value: 'SHIP',    text: 'Customer Ship' },
+            { value: 'SHIP', text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
         ], true);
 
-        var deliverAddressTypes = [{ value: 'DEAL',      caption: 'Job' },
-                                   { value: 'VENUE',     caption: 'Venue' },
-                                   { value: 'WAREHOUSE', caption: 'Warehouse' },
-                                   { value: 'OTHER',     caption: 'Other' }];
+        var deliverAddressTypes = [{ value: 'DEAL', caption: 'Job' },
+        { value: 'VENUE', caption: 'Venue' },
+        { value: 'WAREHOUSE', caption: 'Warehouse' },
+        { value: 'OTHER', caption: 'Other' }];
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), deliverAddressTypes);
         FwFormField.loadItems($form.find('div[data-datafield="InDeliveryAddressType"]'), deliverAddressTypes);
 
@@ -292,11 +292,11 @@ class Order extends OrderBase {
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
 
-            const usersid    = sessionStorage.getItem('usersid');
-            const name       = sessionStorage.getItem('name');
+            const usersid = sessionStorage.getItem('usersid');
+            const name = sessionStorage.getItem('name');
             const department = JSON.parse(sessionStorage.getItem('department'));
-            const office     = JSON.parse(sessionStorage.getItem('location'));
-            const warehouse  = JSON.parse(sessionStorage.getItem('warehouse'));
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
@@ -316,10 +316,10 @@ class Order extends OrderBase {
         $print.prepend('<i class="material-icons">print</i>');
         $print.on('click', function () {
             try {
-                var $form       = jQuery(this).closest('.fwform');
+                var $form = jQuery(this).closest('.fwform');
                 var orderNumber = FwFormField.getValue($form, 'div[data-datafield="OrderNumber"]');
-                var orderId     = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
-                var $report     = OrderReportController.openForm();
+                var orderId = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
+                var $report = OrderReportController.openForm();
 
                 FwModule.openSubModuleTab($form, $report);
 
@@ -336,9 +336,9 @@ class Order extends OrderBase {
         $search.prepend('<i class="material-icons">search</i>');
         $search.on('click', function () {
             try {
-                let $form   = jQuery(this).closest('.fwform');
+                let $form = jQuery(this).closest('.fwform');
                 let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-                
+
                 if (orderId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else if (!jQuery(this).hasClass('disabled')) {
@@ -530,7 +530,7 @@ class Order extends OrderBase {
         FwBrowse.renderGrid({
             nameGrid: 'OrderItemGrid',
             gridSelector: '.lossdamagegrid div[data-grid="OrderItemGrid"]',
-            gridSecurityId: 'RFgCJpybXoEb', 
+            gridSecurityId: 'RFgCJpybXoEb',
             moduleSecurityId: this.id,
             $form: $form,
             pageSize: 10,
@@ -867,9 +867,9 @@ class Order extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        let status        = FwFormField.getValueByDataField($form, 'Status');
-        let hasNotes      = FwFormField.getValueByDataField($form, 'HasNotes');
-        let rentalTab     = $form.find('.rentaltab'),
+        let status = FwFormField.getValueByDataField($form, 'Status');
+        let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
+        let rentalTab = $form.find('.rentaltab'),
             lossDamageTab = $form.find('.lossdamagetab');
 
         this.dynamicColumns($form);
@@ -922,7 +922,7 @@ class Order extends OrderBase {
         //Defaults Address information when user selects a deal
         $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
             const dealid = FwFormField.getValueByDataField($form, 'DealId');
-            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));   
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             if ($form.attr('data-mode') === 'NEW') {
                 FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealid}`, null, FwServices.defaultTimeout, response => {
@@ -950,7 +950,7 @@ class Order extends OrderBase {
         $form
             .on('click', '[data-type="tab"]', event => {
                 if ($form.attr('data-mode') !== 'NEW') {
-                    const $tab      = jQuery(event.currentTarget);
+                    const $tab = jQuery(event.currentTarget);
                     const tabpageid = jQuery(event.currentTarget).data('tabpageid');
 
                     if ($tab.hasClass('audittab') == false) {
@@ -978,10 +978,10 @@ class Order extends OrderBase {
                 }
             })
             .on('change', 'div[data-datafield="PickDate"], div[data-datafield="EstimatedStartDate"], div[data-datafield="EstimatedStopDate"]', event => {
-                var $element           = jQuery(event.currentTarget);
-                var PickDate           = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+                var $element = jQuery(event.currentTarget);
+                var PickDate = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
                 var EstimatedStartDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
-                var EstimatedStopDate  = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+                var EstimatedStopDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
 
                 if ($element.attr('data-datafield') === 'EstimatedStartDate' && EstimatedStartDate < PickDate) {
                     $form.find('div[data-datafield="EstimatedStartDate"]').addClass('error');
@@ -1026,8 +1026,8 @@ class Order extends OrderBase {
             })
             .on('click', '.addresscopy', event => {
                 var $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', 'Copy Outgoing Address into Incoming Address?');
-                var $yes          = FwConfirmation.addButton($confirmation, 'Copy', true);
-                var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+                var $yes = FwConfirmation.addButton($confirmation, 'Copy', true);
+                var $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
                 $yes.on('click', function () {
                     FwFormField.setValueByDataField($form, 'InDeliveryToLocation', FwFormField.getValueByDataField($form, 'OutDeliveryToLocation'));
@@ -1065,8 +1065,8 @@ class Order extends OrderBase {
                 $element.data('prevValue', FwFormField.getValueByDataField($form, $element.attr('data-datafield')));
             })
             .on('change', 'div[data-datafield="OutDeliveryDeliveryType"], div[data-datafield="InDeliveryDeliveryType"]', event => {
-                let $element  = jQuery(event.currentTarget);
-                let newValue  = FwFormField.getValue2($element);
+                let $element = jQuery(event.currentTarget);
+                let newValue = FwFormField.getValue2($element);
                 let prevValue = $element.data('prevValue');
 
                 switch ($element.attr('data-datafield')) {
@@ -1089,7 +1089,7 @@ class Order extends OrderBase {
             .on('change', 'div[data-datafield="OrderTypeId"]', event => {
                 this.dynamicColumns($form);
             })
-        ;
+            ;
     }
     //----------------------------------------------------------------------------------------------
     setWarehouseAddress($form: any, prefix: string): void {
@@ -1102,13 +1102,13 @@ class Order extends OrderBase {
                 this.updateDeliveryAddress($form, prefix, response);
                 $form.data('warehousedata', {
                     'Attention': response.Attention,
-                    'Address1':  response.Address1,
-                    'Address2':  response.Address2,
-                    'City':      response.City,
-                    'State':     response.State,
-                    'Zip':       response.Zip,
+                    'Address1': response.Address1,
+                    'Address2': response.Address2,
+                    'City': response.City,
+                    'State': response.State,
+                    'Zip': response.Zip,
                     'CountryId': response.CountryId,
-                    'Country':   response.Country
+                    'Country': response.Country
                 });
             }, null, null);
         }
@@ -1127,11 +1127,11 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     updateDeliveryAddress($form: any, prefix: string, data: any): void {
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, data.Attention);
-        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`,  data.Address1);
-        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`,  data.Address2);
-        FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`,      data.City);
-        FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`,     data.State);
-        FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`,   data.Zip);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, data.Address1);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, data.Address2);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, data.City);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, data.State);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, data.Zip);
         FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, data.CountryId, data.Country);
     }
     //----------------------------------------------------------------------------------------------
@@ -1290,8 +1290,8 @@ class Order extends OrderBase {
             });
             // Complete Session
             $popup.find('.complete-session').on('click', event => {
-            let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
-            $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
+                let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
                 let request: any = {};
                 request.SourceOrderId = FwFormField.getValueByDataField($form, 'OrderId');
                 request.SessionId = this.lossDamageSessionId
@@ -1314,15 +1314,15 @@ class Order extends OrderBase {
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
-                        FwFunc.playErrorSound();
                         $popup.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                        FwFunc.playErrorSound();
                     } else {
                         FwFunc.playSuccessSound();
                         FwBrowse.search($lossAndDamageItemGridControl);
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                    }, $lossAndDamageItemGrid);
+                }, $lossAndDamageItemGrid);
             });
             // Select None
             $popup.find('.selectnone').on('click', e => {
@@ -1343,7 +1343,7 @@ class Order extends OrderBase {
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                    }, $lossAndDamageItemGrid);
+                }, $lossAndDamageItemGrid);
             });
             //Options button
             $popup.find('.options-button').on('click', e => {
@@ -1403,7 +1403,7 @@ class Order extends OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form);
-                }, $form);
+            }, $form);
         }
     }
     //----------------------------------------------------------------------------------------------

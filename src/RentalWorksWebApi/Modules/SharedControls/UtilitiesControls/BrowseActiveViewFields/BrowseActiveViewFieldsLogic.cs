@@ -39,10 +39,11 @@ namespace WebApi.Modules.UtilitiesControls.BrowseActiveViewFields
         //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
-            {
-                browseActiveViewFields.DeleteOthers(e.SqlConnection);
-            }
+            //if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            //{
+            //    browseActiveViewFields.DeleteOthers(e.SqlConnection);
+            //}
+            browseActiveViewFields.DeleteOthers(e.SqlConnection);
         }
         //------------------------------------------------------------------------------------ 
     }

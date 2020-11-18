@@ -12,7 +12,7 @@ namespace WebApi.Modules.UtilitiesControls.BrowseActiveViewFields
     {
         //-------------------------------------------------------------------------------------------------------
 
-        public static async Task<bool> DeleteOthers(FwApplicationConfig appConfig, FwUserSession userSession, string ModuleName, string OfficeLocationId, string WebUserId, FwSqlConnection conn = null)
+        public static async Task<bool> DeleteOthers(FwApplicationConfig appConfig, FwUserSession userSession, string ModuleName, string OfficeLocationId, string WebUserId, int? id, FwSqlConnection conn = null)
         {
             bool success = false;
             if (conn == null)
@@ -25,9 +25,17 @@ namespace WebApi.Modules.UtilitiesControls.BrowseActiveViewFields
             qry.Add(" where modulename = @modulename");
             qry.Add(" and   locationid = @locationid");
             qry.Add(" and   webusersid = @webusersid");
+            if (id != null)
+            {
+                qry.Add(" and   id <> @id");
+            }
             qry.AddParameter("@modulename", ModuleName);
             qry.AddParameter("@locationid", OfficeLocationId);
             qry.AddParameter("@webusersid", WebUserId);
+            if (id != null)
+            {
+                qry.AddParameter("@id", id);
+            }
             await qry.ExecuteNonQueryAsync();
             success = true;
 

@@ -110,12 +110,12 @@ namespace WebApi.Modules.Settings.OrderTypeDateType
                 }
 
                 string activityType = ActivityType;
-                if (string.IsNullOrEmpty(activityType))
+                if (string.IsNullOrEmpty(activityType) && (orig != null))
                 {
                     activityType = orig.ActivityType;
                 }
 
-                if (!enabled.GetValueOrDefault(false))
+                if ((!enabled.GetValueOrDefault(false)) && (!string.IsNullOrEmpty(activityType)))
                 {
                     if ((activityType.Equals(RwConstants.ACTIVITY_TYPE_START)) || (activityType.Equals(RwConstants.ACTIVITY_TYPE_STOP)))
                     {

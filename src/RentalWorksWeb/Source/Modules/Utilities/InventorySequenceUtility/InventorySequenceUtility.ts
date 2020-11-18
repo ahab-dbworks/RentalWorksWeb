@@ -510,6 +510,22 @@ class InventorySequenceUtility {
                 options.hasEdit = false;
                 options.hasNew = false;
                 options.hasDelete = false;
+                const $optionscolumn = FwMenu.addSubMenuColumn(options.$menu);
+                const $optionsgroup = FwMenu.addSubMenuGroup($optionscolumn, 'Options', 'securityid1');
+                FwMenu.addSubMenuItem($optionsgroup, 'Sort By I-Code', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        InventorySequenceItemsGridController.sortItems($form, options.$browse, 'ICode');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwMenu.addSubMenuItem($optionsgroup, 'Sort By Description', '', (e: JQuery.ClickEvent) => {
+                    try {
+                        InventorySequenceItemsGridController.sortItems($form, options.$browse, 'Description');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
             },
             onDataBind: (request: any) => {
                 // defined in afterLoad

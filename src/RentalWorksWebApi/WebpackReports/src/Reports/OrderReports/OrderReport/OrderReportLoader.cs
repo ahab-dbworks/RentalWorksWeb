@@ -741,6 +741,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customernumber", modeltype: FwDataTypes.Text)]
+        public string CustomerNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customeremail", modeltype: FwDataTypes.Text)]
+        public string CustomerEmail { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -749,6 +755,9 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealemail", modeltype: FwDataTypes.Text)]
+        public string DealEmail { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorwithno", modeltype: FwDataTypes.Text)]
         public string VendorAndVendorNumber { get; set; }
@@ -1007,9 +1016,6 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "confirmeddatetime", modeltype: FwDataTypes.Date)]
         public string ConfirmedDateTime { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customernumber", modeltype: FwDataTypes.Text)]
-        public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderunit", modeltype: FwDataTypes.Text)]
         public string OrderUnit { get; set; }

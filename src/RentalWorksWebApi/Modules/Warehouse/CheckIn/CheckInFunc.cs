@@ -4,6 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.Warehouse.CheckIn
 {
@@ -58,6 +59,8 @@ namespace WebApi.Modules.Warehouse.CheckIn
         public string DepartmentId;
         public string Department;
         public string InventoryId;
+        public string InventoryClass;
+        public string WarehouseId;
         public string OrderItemId;
         public string VendorId;
         public OrderInventoryStatusCheckIn InventoryStatus = new OrderInventoryStatusCheckIn();
@@ -180,6 +183,8 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 //qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@masterclass", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@isicode", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@allowneworder", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -200,6 +205,8 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 response.DepartmentId = qry.GetParameter("@departmentid").ToString();
                 response.Department = qry.GetParameter("@department").ToString();
                 response.InventoryId = qry.GetParameter("@masterid").ToString();
+                response.InventoryClass = qry.GetParameter("@masterclass").ToString();
+                response.WarehouseId = qry.GetParameter("@warehouseid").ToString();
                 response.VendorId = qry.GetParameter("@vendorid").ToString();
                 response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
                 response.ShowNewOrder = qry.GetParameter("@allowneworder").ToString().Equals("T");
@@ -220,6 +227,11 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 if ((response.status == 0) && ((request.Quantity == null) || (request.Quantity == 0)) && (qry.GetParameter("@isicode").ToString().Equals("T")))
                 {
                     response.status = 107;
+                }
+
+                if (response.success)
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(response.InventoryId, response.WarehouseId, response.InventoryClass);
                 }
 
             }
@@ -243,6 +255,10 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@ordertranid", SqlDbType.Int, ParameterDirection.Input, request.OrderTranId.GetValueOrDefault(0));
                 qry.AddParameter("@internalchar", SqlDbType.NVarChar, ParameterDirection.Input, request.InternalChar);
                 await qry.ExecuteNonQueryAsync();
+
+                string classification = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "master", "masterid", request.InventoryId, "class").Result;
+                string warehouseId = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "contract", "contractid", request.ContractId, "warehouseid").Result;
+                InventoryAvailabilityFunc.RequestRecalc(request.InventoryId, warehouseId, classification);
             }
             return response;
         }

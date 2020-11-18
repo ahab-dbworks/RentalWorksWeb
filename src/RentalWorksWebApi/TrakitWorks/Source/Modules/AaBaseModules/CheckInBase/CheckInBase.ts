@@ -1,10 +1,10 @@
 abstract class CheckInBase implements IModule {
-    Module:                    string;
-    apiurl:                    string;
-    caption:                   string;
-    nav:                       string;
-    id:                        string;
-    Type:                      string;
+    Module: string;
+    apiurl: string;
+    caption: string;
+    nav: string;
+    id: string;
+    Type: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(): IModuleScreen {
         const screen: IModuleScreen = {};
@@ -114,14 +114,14 @@ abstract class CheckInBase implements IModule {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         FwBrowse.renderGrid({
-            nameGrid:         'CheckedInItemGrid',
-            gridSecurityId:   'RanTH3xgxNy',
+            nameGrid: 'CheckedInItemGrid',
+            gridSecurityId: 'RanTH3xgxNy',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             pageSize: 9999,  // for regression test to be able to select all rows and cancel them
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
 
                 FwMenu.addSubMenuItem(options.$groupActions, 'Cancel Selected Items', '8bSrfYlth57y', (e: JQuery.ClickEvent) => {
@@ -145,13 +145,13 @@ abstract class CheckInBase implements IModule {
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'CheckInExceptionGrid',
-            gridSecurityId:   '3S49xMb3FrcD',
+            nameGrid: 'CheckInExceptionGrid',
+            gridSecurityId: '3S49xMb3FrcD',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -162,13 +162,13 @@ abstract class CheckInBase implements IModule {
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'CheckInOrderGrid',
-            gridSecurityId:   'HSZSZp9Ovrpq',
+            nameGrid: 'CheckInOrderGrid',
+            gridSecurityId: 'HSZSZp9Ovrpq',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -179,13 +179,13 @@ abstract class CheckInBase implements IModule {
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'CheckInSwapGrid',
-            gridSecurityId:   'hA3FE9ProwUn',
+            nameGrid: 'CheckInSwapGrid',
+            gridSecurityId: 'hA3FE9ProwUn',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -196,13 +196,13 @@ abstract class CheckInBase implements IModule {
         });
 
         FwBrowse.renderGrid({
-            nameGrid:         'CheckInQuantityItemsGrid',
-            gridSecurityId:   'BfClP5w8rjl7',
+            nameGrid: 'CheckInQuantityItemsGrid',
+            gridSecurityId: 'BfClP5w8rjl7',
             moduleSecurityId: this.id,
-            $form:            $form,
+            $form: $form,
             addGridMenu: (options: IAddGridMenuOptions) => {
-                options.hasNew    = false;
-                options.hasEdit   = false;
+                options.hasNew = false;
+                options.hasEdit = false;
                 options.hasDelete = false;
             },
             onDataBind: (request: any) => {
@@ -230,8 +230,8 @@ abstract class CheckInBase implements IModule {
                     FwFunc.playSuccessSound();
                 }
                 else {
-                    FwFunc.playErrorSound();
                     errorMsg.html(`<div><span>${errorMessages.join('<br>')}</span></div>`);
+                    FwFunc.playErrorSound();
                 }
             });
 
@@ -259,7 +259,7 @@ abstract class CheckInBase implements IModule {
             const vendorId = FwBrowse.getValueByDataField(null, $tr, 'VendorId');
             const qty = FwBrowse.getValueByDataField(null, $tr, 'Quantity');
             const description = FwBrowse.getValueByDataField(null, $tr, 'Description');
-   
+
             const request = {
                 OrderTranId: orderTranId,
                 InternalChar: internalChar,
@@ -635,7 +635,6 @@ abstract class CheckInBase implements IModule {
 
         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/checkinitem`, request, FwServices.defaultTimeout, response => {
             if (response.success) {
-                FwFunc.playSuccessSound();
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                 FwFormField.setValueByDataField($form, 'ICode', response.InventoryStatus.ICode);
                 FwFormField.setValueByDataField($form, 'InventoryDescription', response.InventoryStatus.Description);
@@ -646,6 +645,7 @@ abstract class CheckInBase implements IModule {
                 FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
                 FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
                 $form.find('.suspendedsession').hide();
+                FwFunc.playSuccessSound();
 
                 if (this.Module == 'CheckIn') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                 if (checkInTranType !== 'SwapItem') {
@@ -661,8 +661,8 @@ abstract class CheckInBase implements IModule {
                 $form.find('[data-datafield="BarCode"] input').select();
 
                 if (response.status === 107) {
-                    FwFunc.playSuccessSound();
                     $form.find('[data-datafield="Quantity"] input').select();
+                    FwFunc.playSuccessSound();
                 }
 
                 if (checkInTranType === 'Quantity') {
@@ -671,11 +671,11 @@ abstract class CheckInBase implements IModule {
                 }
             } else if (!response.success) {
                 if (response.ShowSwap) {
-                    FwFunc.playNotificationSound();
                     $form.find('.swapitem').show();
+                    FwFunc.playNotificationSound();
                 } else {
-                    FwFunc.playErrorSound();
                     $form.find('.swapitem').hide();
+                    FwFunc.playErrorSound();
                 }
                 $form.find('.error-msg:not(.qty)').html(`<div><span>${response.msg}</span></div>`);
                 $form.find('[data-datafield="BarCode"] input').select();

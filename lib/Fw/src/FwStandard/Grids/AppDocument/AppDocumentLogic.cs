@@ -436,7 +436,20 @@ namespace FwStandard.Grids.AppDocument
                     this.AttachDate = date.ToString("yyyy-MM-dd");
                     this.AttachTime = date.ToString("hh:mm:ss");
                     this.DateStamp = date.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
-                    await this.SaveAsync(saveMode: TDataRecordSaveMode.smUpdate);
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.Add("update appdocument");
+                        qry.Add("set attachdate = @attachdate,");
+                        qry.Add("    attachtime = @attachtime,");
+                        qry.Add("    datestamp = @datestamp");
+                        qry.Add("where appdocumentid = @appdocumentid");
+                        qry.Add("  and uniqueid1 in (" + validateUniqueid1Query + ")");
+                        qry.AddParameter("@appdocumentid", this.DocumentId);
+                        qry.AddParameter("@attachdate", this.AttachDate);
+                        qry.AddParameter("@attachtime", this.AttachTime);
+                        qry.AddParameter("@datestamp", this.DateStamp);
+                        await qry.ExecuteNonQueryAsync();
+                    }
 
                     string appImageId = await FwSqlData.GetNextIdAsync(conn, this.AppConfig.DatabaseSettings);
 
