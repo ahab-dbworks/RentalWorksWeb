@@ -52,7 +52,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             {
                 ProcessCreditCardLogic logic = FwBusinessLogic.CreateBusinessLogic<ProcessCreditCardLogic>(this.AppConfig, this.UserSession);
                 logic.ProcessCreditCardService = this._processCreditCardService;
-                var response = logic.ProcessPaymentAsync(request);
+                var response = await logic.ProcessPaymentAsync(request);
                 return new OkObjectResult(response);
 
             }
