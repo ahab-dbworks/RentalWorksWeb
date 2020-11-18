@@ -994,9 +994,18 @@ class CustomReportLayout {
             if (typeof $reportSection != 'undefined') {
                 const $emptyContainer = jQuery(`<div class="rpt-flexrow" style="min-height:100px;"></div>`);
                 this.addReportHeaderSorting($form, $emptyContainer);
-                jQuery($reportSection).append($emptyContainer);
+                if (typeof $headerField != 'undefined') {
+                    if ($headerField.hasClass('rpt-flexrow')) {
+                        $emptyContainer.insertAfter($headerField);
+                    } else {
+                        $emptyContainer.insertAfter($headerField.closest('.rpt-flexrow'));
+                    }
+                } else {
+                    jQuery($reportSection).append($emptyContainer);
+                }
                 this.updateReportHeader($form, $reportSection);
                 this.highlightElement($form, $emptyContainer);
+                $headerField = $emptyContainer;
             }
         });
 
@@ -1007,9 +1016,23 @@ class CustomReportLayout {
                 const $emptyCol = jQuery(`<div class="rpt-flexcolumn"></div>`);
                 if ($reportSection.find('.rpt-flexrow').length > 0) {
                     this.addReportHeaderColSorting($form, $emptyCol);
-                    jQuery($reportSection.find('.rpt-flexrow:last-of-type')).append($emptyCol);
+
+                    if (typeof $headerField != 'undefined') {
+                        if ($headerField.hasClass('rpt-flexrow')) {
+                            $headerField.append($emptyCol);
+                        }
+                        else if ($headerField.hasClass('rpt-flexcolumn')) {
+                            $emptyCol.insertAfter($headerField);
+                        } else {
+                            $emptyCol.insertAfter($headerField.closest('.rpt-flexcolumn'));
+                        }
+                    } else {
+                        jQuery($reportSection.find('.rpt-flexrow:last-of-type')).append($emptyCol);
+                    }
+
                     this.updateReportHeader($form, $reportSection);
                     this.highlightElement($form, $emptyCol);
+                    $headerField = $emptyCol;
                 } else {
                     FwFunc.showError('Container not found.  A container must be added before adding a new column.');
                 }
@@ -1023,9 +1046,24 @@ class CustomReportLayout {
                 const $emptyRow = jQuery(`<div class="rpt-nested-flexrow"></div>`);
                 if ($reportSection.find('.rpt-flexcolumn').length > 0) {
                     this.addNestedFlexrowSorting($form, $emptyRow, false);
-                    jQuery($reportSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
+
+                    if (typeof $headerField != 'undefined') {
+                        if ($headerField.hasClass('rpt-flexrow')) {
+                            FwFunc.showError('Column not found.  A column must be added before adding a new row.');
+                        } else if ($headerField.hasClass('rpt-flexcolumn')) {
+                            $headerField.append($emptyRow);
+                        } else if ($headerField.hasClass('rpt-nested-flexrow')) {
+                            $emptyRow.insertAfter($headerField);
+                        } else {
+                            $emptyRow.insertAfter($headerField.closest('.rpt-nested-flexrow'));
+                        }
+                    } else {
+                        jQuery($reportSection.find('.rpt-flexcolumn:last-of-type')).append($emptyRow);
+                    }
+
                     this.updateReportHeader($form, $reportSection);
                     this.highlightElement($form, $emptyRow);
+                    $headerField = $emptyRow;
                 } else {
                     FwFunc.showError('Column not found.  A column must be added before adding a new row.');
                 }
@@ -1037,7 +1075,29 @@ class CustomReportLayout {
             if (typeof $reportSection != 'undefined') {
                 const $emptyText = jQuery(`<span>New Text Field</span>`);
                 if ($reportSection.find('.rpt-nested-flexrow').length > 0) {
-                    jQuery($reportSection.find('.rpt-nested-flexrow:last')).append($emptyText);
+
+                    if (typeof $headerField != 'undefined') {
+                        if ($headerField.hasClass('rpt-flexrow')) {
+                            if ($headerField.find('.rpt-nested-flexrow').length > 0) {
+                                jQuery($headerField.find('.rpt-nested-flexrow:last')).append($emptyText);
+                            } else {
+                                FwFunc.showError('Row not found.  A row must be added before adding a new text field.');
+                            }
+                        } else if ($headerField.hasClass('rpt-flexcolumn')) {
+                            if ($headerField.find('.rpt-nested-flexrow').length > 0) {
+                                jQuery($headerField.find('.rpt-nested-flexrow:last')).append($emptyText);
+                            } else {
+                                FwFunc.showError('Row not found.  A row must be added before adding a new text field.');
+                            }
+                        } else if ($headerField.hasClass('rpt-nested-flexrow')) {
+                            $headerField.append($emptyText);
+                        } else {
+                            jQuery($headerField.closest('.rpt-nested-flexrow')).append($emptyText);
+                        }
+                    } else {
+                        jQuery($reportSection.find('.rpt-nested-flexrow:last')).append($emptyText);
+                    }
+
                     this.updateReportHeader($form, $reportSection);
                     $emptyText.click();
                 } else {
