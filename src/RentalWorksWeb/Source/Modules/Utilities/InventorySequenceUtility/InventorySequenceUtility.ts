@@ -66,6 +66,7 @@ class InventorySequenceUtility {
                 request.searchfieldvalues = ["T"];
             });
             this.unselectGridRows($form, 'rectype');
+            this.disableSortMode($form, $inventoryTypeGrid);
             FwBrowse.search($inventoryTypeGrid)
                 .then(() => {
                     $categoryGrid.data('ondatabind', request => {
@@ -79,6 +80,7 @@ class InventorySequenceUtility {
                         request.searchfields = ["Inactive"];
                         request.searchfieldvalues = ["T"];
                     });
+                    this.disableSortMode($form, $categoryGrid);
                     FwBrowse.search($categoryGrid)
                         .then(() => {
                             $subCategoryGrid.data('ondatabind', request => {
@@ -91,6 +93,7 @@ class InventorySequenceUtility {
                                 request.searchfields = ["Inactive"];
                                 request.searchfieldvalues = ["T"];
                             });
+                            this.disableSortMode($form, $subCategoryGrid);
                             FwBrowse.search($subCategoryGrid)
                                 .then(() => {
                                     $itemsGrid.data('ondatabind', request => {
@@ -105,6 +108,7 @@ class InventorySequenceUtility {
                                         request.searchfields = ["Inactive"];
                                         request.searchfieldvalues = ["T"];
                                     });
+                                    this.disableSortMode($form, $itemsGrid);
                                     FwBrowse.search($itemsGrid);
                                 });
                         });
@@ -126,6 +130,7 @@ class InventorySequenceUtility {
                     request.searchfieldvalues = ["T"];
                 });
                 this.unselectGridRows($form, 'inventorytype');
+                this.disableSortMode($form, $categoryGrid);
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         $subCategoryGrid.data('ondatabind', request => {
@@ -138,6 +143,7 @@ class InventorySequenceUtility {
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
                         });
+                        this.disableSortMode($form, $subCategoryGrid);
                         FwBrowse.search($subCategoryGrid)
                             .then(() => {
                                 $itemsGrid.data('ondatabind', request => {
@@ -152,6 +158,7 @@ class InventorySequenceUtility {
                                     request.searchfields = ["Inactive"];
                                     request.searchfieldvalues = ["T"];
                                 });
+                                this.disableSortMode($form, $itemsGrid);
                                 FwBrowse.search($itemsGrid);
                             });
                     });
@@ -173,6 +180,7 @@ class InventorySequenceUtility {
                     request.searchfieldvalues = ["T"];
                 });
                 this.unselectGridRows($form, 'inventorytype');
+                this.disableSortMode($form, $categoryGrid);
                 FwBrowse.search($categoryGrid)
                     .then(() => {
                         $subCategoryGrid.data('ondatabind', request => {
@@ -185,6 +193,7 @@ class InventorySequenceUtility {
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
                         });
+                        this.disableSortMode($form, $subCategoryGrid);
                         FwBrowse.search($subCategoryGrid)
                             .then(() => {
                                 $itemsGrid.data('ondatabind', request => {
@@ -199,6 +208,7 @@ class InventorySequenceUtility {
                                     request.searchfields = ["Inactive"];
                                     request.searchfieldvalues = ["T"];
                                 });
+                                this.disableSortMode($form, $itemsGrid);
                                 FwBrowse.search($itemsGrid);
                             });
                     })
@@ -221,6 +231,7 @@ class InventorySequenceUtility {
                     request.searchfieldvalues = ["T"];
                 });
                 this.unselectGridRows($form, 'category');
+                this.disableSortMode($form, $subCategoryGrid);
                 FwBrowse.search($subCategoryGrid)
                     .then(() => {
                         $itemsGrid.data('ondatabind', request => {
@@ -235,6 +246,7 @@ class InventorySequenceUtility {
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
                         });
+                        this.disableSortMode($form, $itemsGrid);
                         FwBrowse.search($itemsGrid);
                     });
             } catch (ex) {
@@ -255,6 +267,7 @@ class InventorySequenceUtility {
                     request.searchfieldvalues = ["T"];
                 });
                 this.unselectGridRows($form, 'category');
+                this.disableSortMode($form, $subCategoryGrid);
                 FwBrowse.search($subCategoryGrid)
                     .then(() => {
                         $itemsGrid.data('ondatabind', request => {
@@ -269,6 +282,7 @@ class InventorySequenceUtility {
                             request.searchfields = ["Inactive"];
                             request.searchfieldvalues = ["T"];
                         });
+                        this.disableSortMode($form, $itemsGrid);
                         FwBrowse.search($itemsGrid)
                     });
             } catch (ex) {
@@ -292,6 +306,7 @@ class InventorySequenceUtility {
                     request.searchfieldvalues = ["T"];
                 });
                 this.unselectGridRows($form, 'subcategory');
+                this.disableSortMode($form, $itemsGrid);
                 FwBrowse.search($itemsGrid);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -313,6 +328,7 @@ class InventorySequenceUtility {
                     request.searchfieldvalues = ["T"];
                 });
                 this.unselectGridRows($form, 'subcategory');
+                this.disableSortMode($form, $itemsGrid);
                 FwBrowse.search($itemsGrid)
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -373,6 +389,12 @@ class InventorySequenceUtility {
         if (eventGrid === 'subcategory') {
             FwBrowse.unselectAllRows($itemsGrid);
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    disableSortMode($form: JQuery, $grid: JQuery) {
+        $grid.find('.manual-sort, .sorting').hide();
+        $grid.find('.btn-manualsort').show();
+        $grid.removeClass('sort-mode');
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
