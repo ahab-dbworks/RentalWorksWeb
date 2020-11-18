@@ -2598,10 +2598,6 @@ class FwBrowseClass {
                         this.setFieldViewMode($control, $tr, $field);
                     }
 
-                    if ($control.hasClass('sort-mode')) {
-                        $tr.find('td.manual-sort').show();
-                    }
-
                     //this.setFieldViewMode($control, $tr, $field);
 
                     // if you want to dynamically change something on a .field or td:
@@ -2624,6 +2620,12 @@ class FwBrowseClass {
                     let funcAfterRenderRow: ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => void = $control.data(AFTER_RENDER_ROW);
                     funcAfterRenderRow($tr, dt, rowIndex);
                 }
+            }
+
+            if ($control.hasClass('sort-mode')) {
+                $control.find('.manual-sort, .sorting').hide();
+                $control.find('.btn-manualsort').show();
+                $control.removeClass('sort-mode');
             }
 
             $control.find('.runtime table').append($tbody);
