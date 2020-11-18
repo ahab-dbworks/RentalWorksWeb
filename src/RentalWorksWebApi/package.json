@@ -22,6 +22,7 @@
     "quikscan-2-rebuild-typescript": "cd ./QuikScan && npx tsc --build --clean && npx tsc --build && cd .. && echo Done",
     "quikscan-3-build-app": "node node-build build quikscan dev && echo Done",
     "rebuild": "node node-build build all dev all && echo Done",
+    "installhotfixes": "node ./tools/installhotfixes.js",
     "api-run": "node node-build run api dev all"
   },
   "author": "Database Works",
