@@ -16,6 +16,8 @@ using System.IO;
 using System.Reflection;
 using WebApi.ApplicationManager;
 using WebApi.Middleware;
+using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
+using WebApi.Modules.HomeControls.BillingSchedule;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi
