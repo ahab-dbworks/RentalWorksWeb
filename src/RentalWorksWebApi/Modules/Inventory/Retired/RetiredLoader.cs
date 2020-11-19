@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Retired
+namespace WebApi.Modules.Inventory.Retired
 {
     [FwSqlTable("retiredwebview")]
     public class RetiredLoader : AppDataLoadRecord

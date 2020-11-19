@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.BankAccount
+namespace WebApi.Modules.Billing.BankAccount
 {
     [FwSqlTable("account")]
     public class BankAccountRecord : AppDataReadWriteRecord

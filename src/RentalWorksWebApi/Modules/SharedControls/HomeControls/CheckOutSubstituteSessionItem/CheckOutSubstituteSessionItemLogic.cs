@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-using WebApi.Modules.Home.SearchSessionItem;
+using WebApi.Modules.HomeControls.SearchSessionItem;
 
 namespace WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem
 {

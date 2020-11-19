@@ -7,7 +7,7 @@ using WebApi.Modules.HomeControls.VendorInvoicePayment;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using WebApi.Modules.Billing.VendorInvoice;
-using WebApi.Modules.Home.BankAccount;
+using WebApi.Modules.Billing.BankAccount;
 
 namespace WebApi.Modules.Billing.Payment
 {

@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.InvoiceBatch
+namespace WebApi.Modules.Billing.InvoiceBatch
 {
     [FwLogic(Id: "0O44iwDR9eny")]
     public class InvoiceBatchLogic : AppBusinessLogic
