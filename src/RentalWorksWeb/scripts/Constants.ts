@@ -393,6 +393,14 @@ var Constants = {
                         MailList:     { id: 'vUT6JZ1Owu5n', caption: 'Mail List',     nav: 'module/maillist',     nodetype: 'Module', description: '' },
                     }
                 },
+                CreditCardSettings: {
+                    caption: 'Credit Card',
+                    id: 'Settings.CreditCardSettings',
+                    nodetype: 'Category',
+                    children: {
+                        PinPad: { id: 'xUmWV9uuIpae', caption: 'Credit Card Pin Pad', nav: 'module/creditcardpinpad', nodetype: 'Module', description: '' }
+                    }
+                },
                 CurrencySettings: {
                     caption: 'Currency',
                     id: 'Settings.CurrencySettings',
