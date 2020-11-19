@@ -1,6 +1,6 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.CreditCardPinPad
+namespace WebApi.Modules.Settings.CreditCard.CreditCardPinPad
 {
     [FwLogic(Id: "")]
     public class CreditCardPinPadLogic : AppBusinessLogic

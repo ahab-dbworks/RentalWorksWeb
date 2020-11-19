@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.CreditCardPinPad
+namespace WebApi.Modules.Settings.CreditCard.CreditCardPinPad
 {
     [FwSqlTable("creditcardpinpad")]
     public class CreditCardPinPadLoader : AppDataLoadRecord

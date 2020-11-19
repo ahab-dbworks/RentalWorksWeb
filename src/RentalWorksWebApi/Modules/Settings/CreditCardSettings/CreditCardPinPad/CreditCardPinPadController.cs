@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Settings.CreditCardPinPad
+namespace WebApi.Modules.Settings.CreditCard.CreditCardPinPad
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
-    [FwController(Id: "xUmWV9uuIpae")]
+    [FwController(Id: "wnNXVnqIrCgF")]
     public class CreditCardPinPadController : AppDataController
     {
         //------------------------------------------------------------------------------------ 
