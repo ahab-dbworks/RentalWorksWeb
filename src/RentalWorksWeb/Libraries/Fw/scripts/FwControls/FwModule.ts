@@ -1208,6 +1208,7 @@ class FwModule {
             let $tabpage = $tabcontrol.find('#' + $tab.attr('data-tabpageid'));
 
             const isSubModule = $tab.hasClass('submodule');
+            const tabIsActive = $tab.hasClass('active');
             if (isSubModule) {
                 var $parenttab, subtabids;
                 $parenttab = jQuery(`#${$tab.data('parenttabid')}`);
@@ -1220,26 +1221,33 @@ class FwModule {
                 }
             }
 
-            const $newTab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
-            const tabIsActive = $tab.hasClass('active');
+            //const $newTab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
+            let $newActiveTab;
+            const tabsToTheRight: boolean = $tab.next().length > 0;
+            if (isSubModule && tabIsActive) {
+                $newActiveTab = $parenttab;
+            } else if (tabsToTheRight) {
+                $newActiveTab = $tab.next();
+            } else {
+                $newActiveTab = $tab.prev();
+            }
             FwTabs.removeTab($tab);
 
-            // remove 'elipsis menu' if less than 2 forms open
-            const $openForms = jQuery('#fw-app-body').find('div[data-type="form"]');
-            if ($openForms.length < 2) {
-                jQuery('#moduletabs').find('.closetabbutton').html('');
-            }
-
             if (tabIsActive) {
-                FwTabs.setActiveTab($tabcontrol, $newTab);
-                const newTabType = $newTab.attr('data-tabtype');
+                FwTabs.setActiveTab($tabcontrol, $newActiveTab);
+                const newTabType = $newActiveTab.attr('data-tabtype');
                 if (newTabType === 'BROWSE') {
-                    $tabpage = $tabcontrol.find(`#${$newTab.attr('data-tabpageid')}`);
+                    $tabpage = $tabcontrol.find(`#${$newActiveTab.attr('data-tabpageid')}`);
                     const $browse = $tabpage.find('.fwbrowse[data-type="Browse"]');
                     if (refreshRootTab) {
                         FwBrowse.databind($browse);
                     }
                 }
+            }
+            // remove 'elipsis menu' if less than 2 forms open
+            const $openForms = jQuery('#fw-app-body').find('div[data-type="form"]');
+            if ($openForms.length < 2) {
+                jQuery('#moduletabs').find('.closetabbutton').html('');
             }
         }
     }
