@@ -198,7 +198,7 @@ html.theme-material #fw-app #fw-app-header .app-usercontrols.nondefaultlocation 
 
 #fw-app-body .programlogo {
     flex-wrap: wrap;
-    width: 99%;
+    width: 100%;
 }
 
 #fw-app-body .programlogo .chart-container {
