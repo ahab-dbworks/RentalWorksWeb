@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.InvoiceBatch
+namespace WebApi.Modules.Billing.InvoiceBatch
 {
     [FwSqlTable("invoicechgbatchview")]
     public class InvoiceBatchLoader : AppDataLoadRecord

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using FwStandard.AppManager;
 using WebApi.Modules.Utilities.GLDistribution;
 
-namespace WebApi.Modules.Home.Retired
+namespace WebApi.Modules.Inventory.Retired
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

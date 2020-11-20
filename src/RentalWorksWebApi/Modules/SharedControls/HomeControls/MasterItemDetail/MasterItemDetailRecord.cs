@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.MasterItemDetail
+namespace WebApi.Modules.HomeControls.MasterItemDetail
 {
     [FwSqlTable("masteritemdetail")]
     public class MasterItemDetailRecord : AppDataReadWriteRecord

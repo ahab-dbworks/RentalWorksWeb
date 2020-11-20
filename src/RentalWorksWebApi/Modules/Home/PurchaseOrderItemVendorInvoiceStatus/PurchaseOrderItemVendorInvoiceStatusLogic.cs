@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
+namespace WebApi.Modules.Agent.PurchaseOrderItemVendorInvoiceStatus
 {
     [FwLogic(Id: "1vU56flyJJvk")]
     public class PurchaseOrderItemVendorInvoiceStatusLogic : AppBusinessLogic
