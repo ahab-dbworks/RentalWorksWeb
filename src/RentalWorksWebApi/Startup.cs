@@ -7,15 +7,18 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.IO;
 using System.Reflection;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using WebApi.ApplicationManager;
 using WebApi.Middleware;
+using WebApi.Middleware.SOAP;
+using WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture;
 using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
 using WebApi.Modules.HomeControls.BillingSchedule;
 using WebApi.Modules.HomeControls.InventoryAvailability;
@@ -50,12 +53,22 @@ namespace WebApi
             if (true /* is Visitek */)
             {
                 services.AddScoped<IProcessCreditCardService, VisitekProcessCreditCardService>();
+                if (this.HostingEnvironment.IsDevelopment())
+                {
+                    services.AddSingleton<MockVisitekPaymentCaptureService>();
+                }
             }
         }
         //------------------------------------------------------------------------------------
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.ApplicationConfigMiddleware();
+            if (env.IsDevelopment())
+            {
+                var binding = new BasicHttpBinding(BasicHttpSecurityMode.None);
+                //binding.MessageVersion = MessageVersion.Soap12WSAddressing10;
+                app.UseSOAPEndpoint<MockVisitekPaymentCaptureService>("/MockVisitekProcessCardPayment.svc", binding);
+            }
             base.Configure(app, env, loggerFactory);
         }
         //------------------------------------------------------------------------------------

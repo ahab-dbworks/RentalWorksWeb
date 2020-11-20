@@ -128,7 +128,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         {
             Console.WriteLine(request);
             //ProcessPaymentResponse response = await InventoryFunc.RetireInventory(AppConfig, UserSession, request);
-            ProcessCreditCardResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(request);
+            ProcessCreditCardResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
             if (true)
             {
                 // ProcessDepetingDeposit

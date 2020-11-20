@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FwStandard.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
 {
     public interface IProcessCreditCardService
     {
-        Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request);
+        Task<ProcessCreditCardResponse> ProcessPaymentAsync(FwApplicationConfig appConfig, ProcessCreditCardRequest request);
     }
 }
