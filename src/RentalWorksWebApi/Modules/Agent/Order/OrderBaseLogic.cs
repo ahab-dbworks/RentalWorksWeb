@@ -23,6 +23,7 @@ using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.HomeControls.CompanyTaxOption;
 using FwStandard.Models;
 using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
+using WebApi.Modules.Warehouse.Contract;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1748,6 +1749,11 @@ namespace WebApi.Modules.Agent.Order
             //insert into orderstatushistory(orderid, usersid, status, functionname, statusdatetime, action, datestamp)
             //values(@orderid, @usersid, @status, @functionname, @statusdatetime, @action, getutcdate())
 
+            OrderBaseLogic orig = null;
+            if (e.Original != null)
+            {
+                orig = ((OrderBaseLogic)e.Original);
+            }
 
             string newPickDate = "", newEstimatedStartDate = "", newEstimatedStopDate = "", newPickTime = "", newEstimatedStartTime = "", newEstimatedStopTime = "", newBillingStartDate = "", newBillingEndDate = "";
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
@@ -1760,7 +1766,6 @@ namespace WebApi.Modules.Agent.Order
             }
             else // updating
             {
-                OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
 
                 newPickDate = PickDate ?? orig.PickDate;
                 newPickTime = PickTime ?? orig.PickTime;
@@ -1823,10 +1828,8 @@ namespace WebApi.Modules.Agent.Order
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if (e.Original != null)
+                if (orig != null)
                 {
-                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
-
                     if (((newPickDate != orig.PickDate)) ||
                         ((newPickTime != orig.PickTime)) ||
                         ((newEstimatedStartDate != orig.EstimatedStartDate)) ||
@@ -1870,9 +1873,8 @@ namespace WebApi.Modules.Agent.Order
             {
                 bool datesChanged = false;
 
-                if (e.Original != null)
+                if (orig != null)
                 {
-                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
                     datesChanged = ((newEstimatedStartDate != orig.EstimatedStartDate) ||
                                     (newEstimatedStopDate != orig.EstimatedStopDate) ||
                                     (newBillingStartDate != orig.BillingStartDate) ||
@@ -1899,9 +1901,8 @@ namespace WebApi.Modules.Agent.Order
                 }
                 else // updating
                 {
-                    if (e.Original != null)
+                    if (orig != null)
                     {
-                        OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
                         origPoNumber = orig.PoNumber;
                         poNumber = PoNumber ?? orig.PoNumber;
                         poAmount = PoAmount ?? orig.PoAmount;
@@ -1927,7 +1928,30 @@ namespace WebApi.Modules.Agent.Order
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-               // Issue 3110
+                // Issue 3110
+                if ((DealId != null) && (DealId.Equals(orig.DealId)))  // if the user has changed the Deal
+                {
+                    //we need to change the Deal on all Contracts related to this Order
+
+                    // create a browse request which will help find all Contracts related to this Order
+                    BrowseRequest contractBrowseRequest = new BrowseRequest();
+                    contractBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    contractBrowseRequest.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());  // ie. OrderId
+
+                    // use the browse request above and the "selectASync" method of the ContractLogic class to get a List of all Contracts related to this Order
+                    ContractLogic contractSelector = new ContractLogic();
+                    contractSelector.SetDependencies(AppConfig, UserSession);
+                    List<ContractLogic> contracts = contractSelector.SelectAsync<ContractLogic>(contractBrowseRequest, e.SqlConnection).Result;
+
+                    //iterate through each Contract in the List
+                    foreach (ContractLogic cOrig in contracts)
+                    {
+                        ContractLogic cNew = cOrig.MakeCopy<ContractLogic>();                      // make a clone/copy of the Contract (cNew) so we can keep a full copy of the original (cOrig) in memory
+                        cNew.SetDependencies(AppConfig, UserSession);                              // set some dependencies on the new object
+                        cNew.DealId = DealId;                                                      // change the DealId
+                        int i = cNew.SaveAsync(original: cOrig, conn: e.SqlConnection).Result;     // apply the change. Include cOrig so the change will be fully audited
+                    }
+                }
             }
 
 
