@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
 {
-    [FwSqlTable("deliveryview")]
+    [FwSqlTable("deliverywebview")]
     public class IncomingDeliveryInstructionsLoader : AppReportLoader
     {
         //------------------------------------------------------------------------------------ 
@@ -242,6 +242,69 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "venue", modeltype: FwDataTypes.Text)]
         public string Venue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        public string AgentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agentname", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agentphone", modeltype: FwDataTypes.Text)]
+        public string AgentPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        public string Deal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
+        public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weightlbs", modeltype: FwDataTypes.Decimal)]
+        public string WeightPounds { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weightoz", modeltype: FwDataTypes.Decimal)]
+        public string WeightOunces { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weightkg", modeltype: FwDataTypes.Decimal)]
+        public string WeightKilograms { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weightgr", modeltype: FwDataTypes.Decimal)]
+        public string WeightGrams { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weightus", modeltype: FwDataTypes.Text)]
+        public string WeightUS { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weightmetric", modeltype: FwDataTypes.Text)]
+        public string WeightMetric { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "caseweightlbs", modeltype: FwDataTypes.Decimal)]
+        public string CaseWeightPounds { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "caseweightoz", modeltype: FwDataTypes.Decimal)]
+        public string CaseWeightOunces { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "caseweightkg", modeltype: FwDataTypes.Decimal)]
+        public string CaseWeightKilograms { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "caseweightgr", modeltype: FwDataTypes.Decimal)]
+        public string CaseWeightGrams { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "caseweightus", modeltype: FwDataTypes.Text)]
+        public string CaseWeightUS { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "caseweightmetric", modeltype: FwDataTypes.Text)]
+        public string CaseWeightMetric { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
+        public string ManifestValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementvalue", modeltype: FwDataTypes.Decimal)]
+        public string ReplacementValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
