@@ -248,7 +248,7 @@ class ProcessCreditCard {
                         <div style="min-width:350px">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PIN Pad" style="max-width:700px">
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PIN Pad Code" data-datafield="PINPad_Code"  data-enabled="false"></div>
+                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PIN Pad Code" data-datafield="PINPad_Code" data-displayfield="Code" data-validationname="CreditCardPinPadValidation"  ></div>
                             </div>
                             <div class="flexrow">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="PINPad_Description" data-enabled="false"></div>

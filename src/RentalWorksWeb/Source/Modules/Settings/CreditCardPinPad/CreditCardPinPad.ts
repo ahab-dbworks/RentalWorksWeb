@@ -2,8 +2,8 @@
     Module: string = 'CreditCardPinPad';
     apiurl: string = 'api/v1/creditcardpinpad';
     caption: string = Constants.Modules.Settings.children.CreditCardSettings.caption;
-    nav: string = Constants.Modules.Settings.children.CreditCardSettings.children.PinPad.nav;
-    id: string = Constants.Modules.Settings.children.CreditCardSettings.children.PinPad.id;
+    nav: string = Constants.Modules.Settings.children.CreditCardSettings.children.CreditCardPinPad.nav;
+    id: string = Constants.Modules.Settings.children.CreditCardSettings.children.CreditCardPinPad.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};

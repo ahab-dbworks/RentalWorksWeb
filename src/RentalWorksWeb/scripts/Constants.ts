@@ -398,7 +398,7 @@ var Constants = {
                     id: 'Settings.CreditCardSettings',
                     nodetype: 'Category',
                     children: {
-                        PinPad: { id: 'wnNXVnqIrCgF', caption: 'Credit Card Pin Pad', nav: 'module/creditcardpinpad', nodetype: 'Module', description: '' }
+                        CreditCardPinPad: { id: 'wnNXVnqIrCgF', caption: 'Credit Card Pin Pad', nav: 'module/creditcardpinpad', nodetype: 'Module', description: '' }
                     }
                 },
                 CurrencySettings: {
