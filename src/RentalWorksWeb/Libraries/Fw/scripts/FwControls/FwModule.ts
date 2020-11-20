@@ -418,7 +418,7 @@ class FwModule {
         const nodeAuditGrid = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'xepjGBf0rdL');
         if (nodeAuditGrid !== null && nodeAuditGrid.properties.visible === 'T') {
             let $keys = $form.find('.fwformfield[data-type="key"]');
-            if ($keys.length !== 0) {
+            if ((typeof $form.attr('data-hasaudittab') === 'undefined' && $keys.length !== 0) || (typeof $form.attr('data-hasaudittab') !== 'undefined' && $form.attr('data-hasaudittab') === 'true')) {
                 auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
                 const moduleControllerName = $form.data('controller');
                 if (moduleControllerName !== undefined) {
