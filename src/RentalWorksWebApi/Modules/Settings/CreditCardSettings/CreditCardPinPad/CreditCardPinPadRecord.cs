@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Settings.CreditCard.CreditCardPinPad
+namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPinPad
 {
     [FwSqlTable("creditcardpinpad")]
     public class CreditCardPinPadRecord : AppDataReadWriteRecord
