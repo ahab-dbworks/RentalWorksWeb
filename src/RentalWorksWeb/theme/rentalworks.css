@@ -197,8 +197,9 @@ html.theme-material #fw-app #fw-app-header .app-usercontrols.nondefaultlocation 
 #fw-app-header .app-usercontrols .officelocation .locationcolor {width: 1em;height: 1em;margin: auto 4px auto 0;}
 
 #fw-app-body .programlogo {
+    display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: 99%;
 }
 
 #fw-app-body .programlogo .chart-container {
