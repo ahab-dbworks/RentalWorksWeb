@@ -1929,7 +1929,7 @@ namespace WebApi.Modules.Agent.Order
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 // Issue 3110
-                if ((DealId != null) && (DealId.Equals(orig.DealId)))  // if the user has changed the Deal
+                if ((DealId != null) && (!DealId.Equals(orig.DealId)))  // if the user has changed the Deal
                 {
                     //we need to change the Deal on all Contracts related to this Order
 
