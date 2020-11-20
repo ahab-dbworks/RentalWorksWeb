@@ -2428,6 +2428,8 @@ class OrderBase {
                     FwFormField.setValueByDataField($form, `${key}`, defaultActivities[key] === 'true');
                 }
                 $form.find(`.fwformfield.activity input`).change();
+            } else {
+                this.changeDepartmentForOrder($form, $tr);
             }
 
             const enableProjects = FwBrowse.getValueByDataField($form, $tr, 'EnableProjects');
@@ -2505,62 +2507,75 @@ class OrderBase {
 
         //Defaults Address information when user selects a deal
         $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
-            const dealId = FwFormField.getValueByDataField($form, 'DealId');
-            const type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
+            //const updateFields = ($tr) => {
+                const dealId = FwFormField.getValueByDataField($form, 'DealId');
+                const type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
+                const office = JSON.parse(sessionStorage.getItem('location'));
+                const currencyId = FwBrowse.getValueByDataField(null, $tr, 'CurrencyId') || office.defaultcurrencyid;
+                const currencyCode = FwBrowse.getValueByDataField(null, $tr, 'CurrencyCode') || office.defaultcurrencycode;
+                FwFormField.setValueByDataField($form, 'RateType', type);
+                $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
+                FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
+                FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
+                FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
+                FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
-            const office = JSON.parse(sessionStorage.getItem('location'));
-            const currencyId = FwBrowse.getValueByDataField(null, $tr, 'CurrencyId') || office.defaultcurrencyid;
-            const currencyCode = FwBrowse.getValueByDataField(null, $tr, 'CurrencyCode') || office.defaultcurrencycode;
-            FwFormField.setValueByDataField($form, 'RateType', type);
-            $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
-            FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', $tr.find('.field[data-browsedatafield="BillingCycleId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="BillingCycle"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
-            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
-
-            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
-                FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer);
-                FwFormField.setValueByDataField($form, 'CustomerNumber', response.CustomerNumber);
+                FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
+                    FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer);
+                    FwFormField.setValueByDataField($form, 'CustomerNumber', response.CustomerNumber);
 
 
-                FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
-                FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
-                FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
-                FwFormField.setValueByDataField($form, 'IssuedToAddress2', response.BillToAddress2);
-                FwFormField.setValueByDataField($form, 'IssuedToCity', response.BillToCity);
-                FwFormField.setValueByDataField($form, 'IssuedToState', response.BillToState);
-                FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
-                FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
-                FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
-                if (response.BillToAddressType === 'DEAL') {
-                    FwFormField.setValueByDataField($form, `IssuedToName`, response.Deal);
-                } else if (response.BillToAddressType === 'CUSTOMER') {
-                    FwFormField.setValueByDataField($form, `IssuedToName`, response.Customer);
-                }
-
-                if ($form.attr('data-mode') === 'NEW') {
-                    FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
-                    FwFormField.setValueByDataField($form, 'InDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
-                    if (response.DefaultOutgoingDeliveryType === 'DELIVER' || response.DefaultOutgoingDeliveryType === 'SHIP') {
-                        FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
-                        this.fillDeliveryAddressFieldsforDeal($form, 'Out', response);
-                    }
-                    else if (response.DefaultOutgoingDeliveryType === 'PICK UP') {
-                        FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
-                        this.getWarehouseAddress($form, 'Out');
+                    FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
+                    FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
+                    FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
+                    FwFormField.setValueByDataField($form, 'IssuedToAddress2', response.BillToAddress2);
+                    FwFormField.setValueByDataField($form, 'IssuedToCity', response.BillToCity);
+                    FwFormField.setValueByDataField($form, 'IssuedToState', response.BillToState);
+                    FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
+                    FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
+                    FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
+                    if (response.BillToAddressType === 'DEAL') {
+                        FwFormField.setValueByDataField($form, `IssuedToName`, response.Deal);
+                    } else if (response.BillToAddressType === 'CUSTOMER') {
+                        FwFormField.setValueByDataField($form, `IssuedToName`, response.Customer);
                     }
 
-                    if (response.DefaultIncomingDeliveryType === 'DELIVER' || response.DefaultIncomingDeliveryType === 'SHIP') {
-                        FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
-                        this.getWarehouseAddress($form, 'In');
-                    }
-                    else if (response.DefaultIncomingDeliveryType === 'PICK UP') {
-                        FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
-                        this.fillDeliveryAddressFieldsforDeal($form, 'In', response);
-                    }
-                }
-            }, null, null);
+                    if ($form.attr('data-mode') === 'NEW') {
+                        FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
+                        FwFormField.setValueByDataField($form, 'InDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
+                        if (response.DefaultOutgoingDeliveryType === 'DELIVER' || response.DefaultOutgoingDeliveryType === 'SHIP') {
+                            FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
+                            this.fillDeliveryAddressFieldsforDeal($form, 'Out', response);
+                        }
+                        else if (response.DefaultOutgoingDeliveryType === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
+                            this.getWarehouseAddress($form, 'Out');
+                        }
+
+                        if (response.DefaultIncomingDeliveryType === 'DELIVER' || response.DefaultIncomingDeliveryType === 'SHIP') {
+                            FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
+                            this.getWarehouseAddress($form, 'In');
+                        }
+                        else if (response.DefaultIncomingDeliveryType === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
+                            this.fillDeliveryAddressFieldsforDeal($form, 'In', response);
+                        }
+                    } 
+                }, null, null);
+            //}
+
+            //const status = FwFormField.getValueByDataField($form, 'Status');
+            //if (this.Module === 'Order') {
+            //    const statuses: any = ["COMPLETE", "CONFIRMED"];
+            //    if (statuses.includes(status)) {
+            //        this.changeDealForOrder($form, $tr);
+            //    } else {
+            //        updateFields($tr);
+            //    }
+            //} else {
+            //    updateFields($tr);
+            //}
         });
         // Out / In DeliveryType radio in Deliver tab
         $form.find('.delivery-type-radio').on('change', event => {
@@ -4892,6 +4907,114 @@ class OrderBase {
 
         //stops field event bubbling
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
+    }
+    //----------------------------------------------------------------------------------------------
+    changeDealForOrder($form: any, $tr: any) {
+        const deal = FwBrowse.getValueByDataField($form, $tr, 'Deal');
+        const dealId = FwBrowse.getValueByDataField($form, $tr, 'DealId');
+
+        const $confirmation = FwConfirmation.renderConfirmation('Update Deal?', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '500px');
+        const originalDeal = FwFormField.getTextByDataField($form, 'DealId');
+        const originalDealId = FwFormField.getValueByDataField($form, 'DealId');
+
+        const html = [];
+        html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Old Deal" data-datafield="OldDeal" data-enabled="false" style="width:480px; float:left;"></div>`);
+        html.push(`  </div>`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="NewDeal" data-enabled="false" style="width:480px;float:left;"></div>`);
+        html.push(`  </div>`);
+        html.push(`</div>`);
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        const $apply = FwConfirmation.addButton($confirmation, `Apply`, false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        FwFormField.setValueByDataField($confirmation, 'OldDeal', originalDeal);
+        FwFormField.setValueByDataField($confirmation, 'NewDeal', deal);
+
+        // apply
+        $apply.on('click', e => {
+            //const updateAllRates = FwFormField.getValueByDataField($confirmation, 'UpdateAllRatesToNewCurrency');
+            //if (updateAllRates === 'UPDATE') {
+            //    const confirmUpdateRates = FwFormField.getValueByDataField($confirmation, 'ConfirmUpdateAllRatesToNewCurrency');
+            //    if (confirmUpdateRates === 'UPDATE RATES') {
+            //        FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', FwFormField.getValueByDataField($confirmation, 'UpdateAllRatesToNewCurrency'));
+            //        FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', FwFormField.getValueByDataField($confirmation, 'ConfirmUpdateAllRatesToNewCurrency'));
+            //        FwConfirmation.destroyConfirmation($confirmation);
+            //        FwNotification.renderNotification('SUCCESS', 'Rates will be updated after save.');
+            //    } else if (confirmUpdateRates !== 'UPDATE RATES') {
+            //        FwNotification.renderNotification('ERROR', 'You must type "UPDATE RATES" to save a new currency or click "Cancel".');
+            //    }
+            //} else if (updateAllRates === 'LEAVE') {
+            //    FwConfirmation.destroyConfirmation($confirmation);
+            //    //FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+            //    FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+            //}
+        });
+        // cancel
+        $no.on('click', e => {
+            FwConfirmation.destroyConfirmation($confirmation);
+            FwFormField.setValueByDataField($form, 'DealId', originalDealId, originalDeal);
+            //FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+            //FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+            //FwNotification.renderNotification('INFO', `Currency has been reset to ${originalCurrencyCode}.`);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    changeDepartmentForOrder($form: any, $tr: any) {
+        const department = FwBrowse.getValueByDataField($form, $tr, 'Department');
+        const departmentId = FwBrowse.getValueByDataField($form, $tr, 'DepartmentId');
+
+        const $confirmation = FwConfirmation.renderConfirmation('Update Department?', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '500px');
+        const originalDepartment = FwFormField.getTextByDataField($form, 'DepartmentId');
+        const originalDepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
+
+        const html = [];
+        html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Old Department" data-datafield="OldDepartment" data-enabled="false" style="width:480px; float:left;"></div>`);
+        html.push(`  </div>`);
+        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Department" data-datafield="NewDepartment" data-enabled="false" style="width:480px;float:left;"></div>`);
+        html.push(`  </div>`);
+        html.push(`</div>`);
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        const $apply = FwConfirmation.addButton($confirmation, `Apply`, false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        FwFormField.setValueByDataField($confirmation, 'OldDepartment', originalDepartment);
+        FwFormField.setValueByDataField($confirmation, 'NewDepartment', department);
+
+        // apply
+        $apply.on('click', e => {
+            //const updateAllRates = FwFormField.getValueByDataField($confirmation, 'UpdateAllRatesToNewCurrency');
+            //if (updateAllRates === 'UPDATE') {
+            //    const confirmUpdateRates = FwFormField.getValueByDataField($confirmation, 'ConfirmUpdateAllRatesToNewCurrency');
+            //    if (confirmUpdateRates === 'UPDATE RATES') {
+            //        FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', FwFormField.getValueByDataField($confirmation, 'UpdateAllRatesToNewCurrency'));
+            //        FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', FwFormField.getValueByDataField($confirmation, 'ConfirmUpdateAllRatesToNewCurrency'));
+            //        FwConfirmation.destroyConfirmation($confirmation);
+            //        FwNotification.renderNotification('SUCCESS', 'Rates will be updated after save.');
+            //    } else if (confirmUpdateRates !== 'UPDATE RATES') {
+            //        FwNotification.renderNotification('ERROR', 'You must type "UPDATE RATES" to save a new currency or click "Cancel".');
+            //    }
+            //} else if (updateAllRates === 'LEAVE') {
+            //    FwConfirmation.destroyConfirmation($confirmation);
+            //    //FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+            //    FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+            //}
+        });
+        // cancel
+        $no.on('click', e => {
+            FwConfirmation.destroyConfirmation($confirmation);
+            FwFormField.setValueByDataField($form, 'DepartmentId', originalDepartmentId, originalDepartment);
+            //FwFormField.setValueByDataField($form, 'UpdateAllRatesToNewCurrency', false);
+            //FwFormField.setValueByDataField($form, 'ConfirmUpdateAllRatesToNewCurrency', '');
+            //FwNotification.renderNotification('INFO', `Currency has been reset to ${originalCurrencyCode}.`);
+        });
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {

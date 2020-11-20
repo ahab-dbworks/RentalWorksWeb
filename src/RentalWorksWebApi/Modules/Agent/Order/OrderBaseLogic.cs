@@ -1925,6 +1925,12 @@ namespace WebApi.Modules.Agent.Order
                 }
             }
 
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+               // Issue 3110
+            }
+
+
             //after save - do work in the database
             {
                 TSpStatusResponse r = OrderFunc.AfterSaveQuoteOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
