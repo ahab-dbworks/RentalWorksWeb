@@ -1,16 +1,8 @@
-using WebApi.Logic;
 using FwStandard.AppManager;
-using System.Collections.Generic;
-using FwStandard.BusinessLogic;
-using WebApi.Modules.Settings.SystemSettings.SystemSettings;
-using WebApi.Modules.HomeControls.VendorInvoicePayment;
-using FwStandard.Models;
-using FwStandard.SqlServer;
-using WebApi.Modules.Billing.VendorInvoice;
-using WebApi.Modules.Home.BankAccount;
-using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
+using WebApi.Logic;
+using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
 
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
