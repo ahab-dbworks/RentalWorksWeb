@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.Retired
+namespace WebApi.Modules.Inventory.Retired
 {
     [FwSqlTable("retired")]
     public class RetiredRecord : AppDataReadWriteRecord

@@ -1,7 +1,7 @@
 ﻿class CreditCardPinPad {
     Module: string = 'CreditCardPinPad';
     apiurl: string = 'api/v1/creditcardpinpad';
-    caption: string = Constants.Modules.Settings.children.CreditCardSettings.caption;
+    caption: string = Constants.Modules.Settings.children.CreditCardSettings.children.CreditCardPinPad.caption;
     nav: string = Constants.Modules.Settings.children.CreditCardSettings.children.CreditCardPinPad.nav;
     id: string = Constants.Modules.Settings.children.CreditCardSettings.children.CreditCardPinPad.id;
     //----------------------------------------------------------------------------------------------

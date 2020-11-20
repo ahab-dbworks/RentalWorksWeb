@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
+namespace WebApi.Modules.Agent.PurchaseOrderItemVendorInvoiceStatus
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]

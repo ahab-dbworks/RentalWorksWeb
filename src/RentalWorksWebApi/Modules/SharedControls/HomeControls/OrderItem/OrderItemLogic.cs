@@ -6,7 +6,7 @@ using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.HomeControls.InventoryAvailability;
 using WebApi.Modules.HomeControls.MasterItem;
-using WebApi.Modules.Home.MasterItemDetail;
+using WebApi.Modules.HomeControls.MasterItemDetail;
 using FwStandard.Models;
 using System;
 using WebApi.Modules.Agent.PurchaseOrder;

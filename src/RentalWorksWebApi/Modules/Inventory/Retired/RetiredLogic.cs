@@ -1,6 +1,6 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.Retired
+namespace WebApi.Modules.Inventory.Retired
 {
     [FwLogic(Id: "idPPk9q7Wgb14")]
     public class RetiredLogic : AppBusinessLogic

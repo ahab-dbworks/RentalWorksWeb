@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.BankAccount
+namespace WebApi.Modules.Billing.BankAccount
 {
     [FwSqlTable("accountview")]
     public class BankAccountLoader : AppDataLoadRecord

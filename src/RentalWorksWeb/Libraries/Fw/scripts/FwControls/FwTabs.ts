@@ -160,18 +160,27 @@
             })
             .off('click', '> .tabs > .tabcontainer > .tab .delete')
             .on('click', '> .tabs > .tabcontainer > .tab .delete', function (event) {
-                var $tab, $tabControl, $newactivetab, isactivetab, $form;
+                let $newactivetab, isactivetab;
                 try {
                     event.stopPropagation();
-                    $tab = jQuery(this).closest('.tab');
-                    $form = jQuery('#' + $tab.attr('data-tabpageid')).find('.fwform');
-                    $tabControl = jQuery('#moduletabs');
+                    const $tab = jQuery(this).closest('.tab');
+                    const $form = jQuery('#' + $tab.attr('data-tabpageid')).find('.fwform');
+                    const $tabControl = jQuery('#moduletabs');
 
                     if (typeof $form !== 'undefined') {
                         FwModule.closeForm($form, $tab);
                     } else {
                         isactivetab = $tab.hasClass('active');
-                        $newactivetab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
+                        const isSubModule = $tab.hasClass('submodule');
+                        const tabsToTheRight: boolean = $tab.next().length > 0;
+                        if (isSubModule && isactivetab) {
+                            $newactivetab = $tab.prev();
+                        } else if (tabsToTheRight) {
+                            $newactivetab = $tab.next();
+                        } else {
+                            $newactivetab = $tab.prev();
+                        }
+                        //$newactivetab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
                         FwTabs.removeTab($tab);
                         if (isactivetab) {
                             FwTabs.setActiveTab($control, $newactivetab);

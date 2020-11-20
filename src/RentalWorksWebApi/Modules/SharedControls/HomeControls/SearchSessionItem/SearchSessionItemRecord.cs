@@ -1,7 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.SearchSessionItem
+namespace WebApi.Modules.HomeControls.SearchSessionItem
 {
     [FwSqlTable("tmpsearchsession")]
     public class SearchSessionItemRecord : AppDataReadWriteRecord

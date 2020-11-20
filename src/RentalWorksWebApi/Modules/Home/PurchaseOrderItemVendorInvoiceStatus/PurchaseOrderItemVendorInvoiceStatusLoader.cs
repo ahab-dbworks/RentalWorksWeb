@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.PurchaseOrderItemVendorInvoiceStatus
+namespace WebApi.Modules.Agent.PurchaseOrderItemVendorInvoiceStatus
 {
     [FwSqlTable("poitemtotalwebview")]
     public class PurchaseOrderItemVendorInvoiceStatusLoader : AppDataLoadRecord

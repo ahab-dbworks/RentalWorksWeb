@@ -2,7 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 
-namespace WebApi.Modules.Home.BankAccount
+namespace WebApi.Modules.Billing.BankAccount
 {
     [FwLogic(Id: "xNv1wTFLxsDXn")]
     public class BankAccountLogic : AppBusinessLogic
