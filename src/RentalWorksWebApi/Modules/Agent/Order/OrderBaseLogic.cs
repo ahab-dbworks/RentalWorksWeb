@@ -24,6 +24,7 @@ using WebApi.Modules.HomeControls.CompanyTaxOption;
 using FwStandard.Models;
 using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
 using WebApi.Modules.Warehouse.Contract;
+using WebApi.Modules.Billing.Invoice;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1951,13 +1952,32 @@ namespace WebApi.Modules.Agent.Order
                         cNew.DealId = DealId;                                                      // change the DealId
                         int i = cNew.SaveAsync(original: cOrig, conn: e.SqlConnection).Result;     // apply the change. Include cOrig so the change will be fully audited
                     }
+
+                    BrowseRequest invoiceBrowseRequest = new BrowseRequest();
+                    invoiceBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    invoiceBrowseRequest.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+
+                    InvoiceLogic invoiceSelector = new InvoiceLogic();
+                    invoiceSelector.SetDependencies(AppConfig, UserSession);
+                    List<InvoiceLogic> invoices = invoiceSelector.SelectAsync<InvoiceLogic>(invoiceBrowseRequest, e.SqlConnection).Result;
+
+                    foreach(InvoiceLogic iOrig in invoices)
+                    {
+                        InvoiceLogic iNew = iOrig.MakeCopy<InvoiceLogic>();
+                        iNew.SetDependencies(AppConfig, UserSession);
+                        iNew.DealId = DealId;                                                      
+                        int i = iNew.SaveAsync(original: iOrig, conn: e.SqlConnection).Result;
+                    }
                 }
-            }
 
+                if ((DepartmentId != null) && (!DepartmentId.Equals(orig.DepartmentId)))  // if the user has changed the Department
+                {
+                    //
+                }
 
-            //after save - do work in the database
-            {
-                TSpStatusResponse r = OrderFunc.AfterSaveQuoteOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+                //after save - do work in the database
+                {
+                    TSpStatusResponse r = OrderFunc.AfterSaveQuoteOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
             }
         }
         //------------------------------------------------------------------------------------
