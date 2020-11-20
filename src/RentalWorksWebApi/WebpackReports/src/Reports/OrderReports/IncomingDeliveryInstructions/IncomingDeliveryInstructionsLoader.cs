@@ -246,6 +246,9 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------ 

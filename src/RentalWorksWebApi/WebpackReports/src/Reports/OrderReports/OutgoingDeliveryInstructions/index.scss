@@ -24,11 +24,28 @@ span.location {
     border: 1px solid black;
 }
 
+.section-box.target {
+    margin: 15px 0 15px 0;
+    padding: 13px;
+    font-weight: 700;
+    text-align: center;
+}
+
 .top-row {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
 
+.top-label {
+    width: 540px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
 @page { // removes footer from pdf
     margin: 0;
+}
+
+body {
+    font-size: 1.2em;
 }

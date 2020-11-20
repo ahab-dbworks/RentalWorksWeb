@@ -16,6 +16,8 @@ export class OutgoingDeliveryInstructions extends WebpackReport {
                         .then((response: DataTable) => {
                             //const data: any = DataTable.toObjectList(response);
                             const data: any = response;
+                            data.Report = 'Outgoing Delivery Instructions'
+
                             this.setReportMetadata(parameters, data, response);
                             if (logoObject.LogoImage != '') {
                                 data.Logosrc = logoObject.LogoImage;
