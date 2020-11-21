@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPinPad
         public int? CreditCardPinPadId { get { return creditCardPinPad.CreditCardPinPadId; } set { creditCardPinPad.CreditCardPinPadId = value; } }
         [FwLogicProperty(Id: "sqmDQWRNs5cl")]
         public string Code { get { return creditCardPinPad.Code; } set { creditCardPinPad.Code = value; } }
-        [FwLogicProperty(Id: "TBF48nRWILIa")]
+        [FwLogicProperty(Id: "TBF48nRWILIa", IsRecordTitle: true)]
         public string Description { get { return creditCardPinPad.Description; } set { creditCardPinPad.Description = value; } }
         [FwLogicProperty(Id: "jsAFaDl03klc")]
         public bool? Inactive { get { return creditCardPinPad.Inactive; } set { creditCardPinPad.Inactive = value; } }
