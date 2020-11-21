@@ -93,7 +93,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         public decimal Totals_Replacement_DepositPercentage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "8FQ0aR37RhBe", IsReadOnly: true)]
-        public decimal Totals_Replacement_DepositDue { get { return Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage; } }
+        public decimal Totals_Replacement_DepositDue { get { return (Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage) / 100.00; } }
 
         // Payment Amount
         //------------------------------------------------------------------------------------ 
