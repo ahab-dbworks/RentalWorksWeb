@@ -7,9 +7,12 @@ namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
 {
     public class ProcessCreditCardRequest
     {
-        public string CustomerId { get; set; }
-        public string PaymentId { get; set; }
-        public string Amount { get; set; }
+        public string PINPad_Code { get; set; } = string.Empty;
+        public string Payment_AmountToPay { get; set; } = string.Empty;
+        public string OrderNo { get; set; } = string.Empty;
+        public string StoreCode { get; set; } = string.Empty;
+        public string SalesPersonCode { get; set; } = string.Empty;
+        public string CustomerNo { get; set; } = string.Empty;
     }
     public class ProcessCreditCardResponse
     {

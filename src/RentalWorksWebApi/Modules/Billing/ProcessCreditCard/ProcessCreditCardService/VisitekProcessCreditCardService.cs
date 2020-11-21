@@ -35,13 +35,13 @@ namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
             ProcessCreditCardResponse result = null;
             try
             {
-                string pINPadNo = "1";
-                int transactionTypeOpt = 1;
-                string amount = "1";
-                string docRefNo = "1";
-                string storeCode = "1";
-                string salespersonCode = "1";
-                string billToCustomerNo = "1";
+                string pINPadNo = request.PINPad_Code;
+                int transactionTypeOpt = 0;
+                string amount = request.Payment_AmountToPay;
+                string docRefNo = request.OrderNo;
+                string storeCode = request.StoreCode;
+                string salespersonCode = request.SalesPersonCode;
+                string billToCustomerNo = request.CustomerNo;
                 var content = new StringContent(
 $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:pay=""urn:microsoft-dynamics-schemas/codeunit/PaymentCapture"">
    <soapenv:Header/>

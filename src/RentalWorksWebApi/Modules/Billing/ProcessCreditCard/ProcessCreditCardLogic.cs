@@ -93,7 +93,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         public decimal Totals_Replacement_DepositPercentage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "8FQ0aR37RhBe", IsReadOnly: true)]
-        public decimal Totals_Replacement_DepositDue { get { return (Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage) / 100.00; } }
+        public decimal Totals_Replacement_DepositDue { get { return (Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage) / 100.00m; } }
 
         // Payment Amount
         //------------------------------------------------------------------------------------ 
@@ -103,15 +103,19 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         [FwLogicProperty(Id: "1RHRnXKTzHCn", IsReadOnly: true)]
         public decimal Payment_AmountToPay { get; set; }
 
+        [FwLogicProperty(Id: "HBOwtIcgc4b8", IsReadOnly: true)]
+        public string PINPad_Code { get; set; } = string.Empty;
+
+        [FwLogicProperty(Id: "dFUcOGXkkVa7", IsReadOnly: true)]
+        public string PINPad_Description { get; set; } = string.Empty;
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request)
         {
-            Console.WriteLine(request);
-            //ProcessPaymentResponse response = await InventoryFunc.RetireInventory(AppConfig, UserSession, request);
             ProcessCreditCardResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
             if (true)
             {
                 // ProcessDepetingDeposit
+                //ProcessPaymentResponse response = await InventoryFunc.RetireInventory(AppConfig, UserSession, request);
             }
             return response;
         }

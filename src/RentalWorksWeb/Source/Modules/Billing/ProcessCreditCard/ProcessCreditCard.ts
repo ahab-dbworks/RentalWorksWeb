@@ -59,9 +59,14 @@ class VisitekProcessCreditCard implements IProcessCreditCard {
                 const request = new FwAjaxRequest();
                 request.httpMethod = 'POST';
                 request.setWebApiUrl('/api/v1/processcreditcard/processcreditcard');
-                const datafields = FwReport.getParameters($form);
+                //const datafields = FwReport.getParameters($form);
                 request.data = {
-                    datafields: datafields
+                    PINPad_Code: FwFormField.getValueByDataField($form, 'PINPad_Code'),
+                    Payment_AmountToPay: FwFormField.getValueByDataField($form, 'Payment_AmountToPay'),
+                    OrderNo: FwFormField.getValueByDataField($form, 'OrderNo'),
+                    StoreCode: '',
+                    SalesPersonCode: '',
+                    CustomerNo: FwFormField.getValueByDataField($form, 'CustomerNo')
                 };
                 request.$elementToBlock = jQuery('body');
                 var response = await FwAjax.callWebApi<any, any>(request);
@@ -150,17 +155,20 @@ class ProcessCreditCard {
         
         FwModule.loadForm(this.Module, $form);
 
+        // setup the Totals switch
         const $totalsItems = FwFormField.getDataField($form, 'totalsItems');
         FwFormField_togglebuttons.loadItems($totalsItems, [
             { caption: 'Weekly', value: 'Weekly', checked: false },
             { caption: 'Period', value: 'Period', checked: false },
             { caption: 'Replacement', value: 'Replacement', checked: true }
         ]);
-
         $totalsItems.find('.fwformfield-value').on('change', (e: JQuery.ChangeEvent) => {
-            this.updateTotalItemsPanels($form);        
+            this.updateTotalItemsPanels($form);
         });
-        this.updateTotalItemsPanels($form);
+        setTimeout(() => {
+            FwFormField.setValueByDataField($form, 'totalsItems', 'Replacement');
+            this.updateTotalItemsPanels($form);
+        }, 40);
 
         return $form;
     };
@@ -172,12 +180,15 @@ class ProcessCreditCard {
         switch (value) {
             case 'Weekly':
                 $form.find('.weeklyPanel').show();
+                FwFormField.setValueByDataField($form, 'Payment_TotalAmount', FwFormField.getValueByDataField($form, 'Totals_Weekly_GrandTotal'));
                 break;
             case 'Period':
                 $form.find('.periodPanel').show();
+                FwFormField.setValueByDataField($form, 'Payment_TotalAmount', FwFormField.getValueByDataField($form, 'Totals_Period_GrandTotal'));
                 break;
             case 'Replacement':
                 $form.find('.replacementPanel').show();
+                FwFormField.setValueByDataField($form, 'Payment_TotalAmount', FwFormField.getValueByDataField($form, 'Totals_Replacement_DepositDue'));
                 break;
         }
     }
@@ -268,8 +279,8 @@ class ProcessCreditCard {
                                   <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield="Totals_Replacement_ReplacementCost" data-enabled="false"></div>
                                 </div>
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Percentage" data-datafield="Deposit_Percentage" data-enabled="false"></div>
-                                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Due" data-datafield="Totals_Replacement_DepositDue" data-enabled="false"></div>
+                                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Percentage" data-datafield="Totals_Replacement_DepositPercentage" data-enabled="false"></div>
+                                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit Due" data-datafield="Totals_Replacement_DepositDue" data-enabled="false"></div>
                                 </div>
                             </div>
                           </div>
@@ -277,10 +288,10 @@ class ProcessCreditCard {
                         <div style="min-width:350px">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PIN Pad" style="max-width:700px">
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield PINPad_Code" data-caption="PIN Pad Code" data-datafield="" data-displayfield="Code" data-validationname="CreditCardPinPadValidation"  ></div>
+                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PIN Pad Code" data-datafield="PINPad_Code" data-displayfield="Code" data-validationname="CreditCardPinPadValidation" data-required="true"></div>
                             </div>
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield PINPad_Description" data-caption="Description" data-datafield="" data-enabled="false"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="PINPad_Description" data-enabled="false"></div>
                             </div>
                             <div class="flexrow">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="PINPad_Type" data-enabled="false"></div>
@@ -291,13 +302,7 @@ class ProcessCreditCard {
                               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Amount" data-datafield="Payment_TotalAmount" data-enabled="false"></div>
                             </div>
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit" data-datafield="Payment_Deposit" data-enabled="false"></div>
-                            </div>
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Remaining Amount" data-datafield="Payment_RemainingAmount" data-enabled="false"></div>
-                            </div>
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount to Pay" data-datafield="Payment_AmountToPay"></div>
+                              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount to Pay" data-datafield="Payment_AmountToPay" data-required="true"></div>
                             </div>
                           </div>
                         </div>
