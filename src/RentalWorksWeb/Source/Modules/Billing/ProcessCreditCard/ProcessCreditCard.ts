@@ -263,9 +263,9 @@ class ProcessCreditCard {
                                   <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Grand Total" data-datafield="Totals_Period_GrandTotal" data-enabled="false"></div>
                                 </div>
                             </div>
-                            <div class="totalsitemspanel replacementPanel" style="display:none">                      
+                            <div class="totalsitemspanel replacementPanel" style="display:none">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield="Totals_Replacement_Cost" data-enabled="false"></div>
+                                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield="Totals_Replacement_ReplacementCost" data-enabled="false"></div>
                                 </div>
                                 <div class="flexrow">
                                   <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Percentage" data-datafield="Deposit_Percentage" data-enabled="false"></div>

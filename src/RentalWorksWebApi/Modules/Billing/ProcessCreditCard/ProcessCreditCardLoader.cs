@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using WebApi.Data;
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
-    [FwSqlTable("loadercte")]
+    //[FwSqlTable("loadercte")]
     [FwSqlTable("processcreditcardloadview")]
     public class ProcessCreditCardLoader : AppDataLoadRecord
     {
@@ -94,7 +94,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "depositper_centage", modeltype: FwDataTypes.Decimal)]
-        public decimal Totals_Replacement_DepositDue { get {return Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage}; }
+        public decimal Totals_Replacement_DepositDue { get { return Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage;  } }
         //------------------------------------------------------------------------------------ 
 
 
