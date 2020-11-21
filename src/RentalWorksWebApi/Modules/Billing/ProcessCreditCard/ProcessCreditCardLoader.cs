@@ -84,10 +84,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         public decimal Totals_Replacement_DepositPercentage { get; set; }
         //------------------------------------------------------------------------------------ 
 
-        [FwSqlDataField(column: "depositper_centage", modeltype: FwDataTypes.Decimal)]
-        public decimal Totals_Replacement_DepositDue { get { return Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage;  } }
-        //------------------------------------------------------------------------------------ 
-
 
         // Payment Amount
         //------------------------------------------------------------------------------------ 
