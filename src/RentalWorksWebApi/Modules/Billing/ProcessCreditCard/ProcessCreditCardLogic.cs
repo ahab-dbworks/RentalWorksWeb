@@ -39,12 +39,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
 
         // PIN Pad
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "CUobIw2BFXC7", IsReadOnly: true)]
-        public string PINPad_Code { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "5Lwe4qcWQVgw", IsReadOnly: true)]
-        public string PINPad_Description { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "j1m70WLfcPxq", IsReadOnly: true)]
         public string PINPad_Type { get { return "SALES"; } }
 
