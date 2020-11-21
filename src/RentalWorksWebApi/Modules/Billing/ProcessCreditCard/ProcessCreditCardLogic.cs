@@ -99,19 +99,19 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         public decimal Totals_Replacement_DepositPercentage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "8FQ0aR37RhBe", IsReadOnly: true)]
-        public decimal Totals_Replacement_DepositDue { get; set; }
+        public decimal Totals_Replacement_DepositDue { get { return Totals_Replacement_ReplacementCost * Totals_Replacement_DepositPercentage; } }
 
         // Payment Amount
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "D1yvp9JsUzCO", IsReadOnly: true)]
         public decimal Payment_TotalAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "FNmV0PuQN23R", IsReadOnly: true)]
-        public decimal Payment_Deposit { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "k5LSmx5qpgKc", IsReadOnly: true)]
-        public decimal Payment_RemainingAmount { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwLogicProperty(Id: "FNmV0PuQN23R", IsReadOnly: true)]
+        //public decimal Payment_Deposit { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwLogicProperty(Id: "k5LSmx5qpgKc", IsReadOnly: true)]
+        //public decimal Payment_RemainingAmount { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "1RHRnXKTzHCn", IsReadOnly: true)]
         public decimal Payment_AmountToPay { get; set; }
 

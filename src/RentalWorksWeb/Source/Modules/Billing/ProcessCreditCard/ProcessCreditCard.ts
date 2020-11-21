@@ -265,10 +265,10 @@ class ProcessCreditCard {
                             </div>
                             <div class="totalsitemspanel replacementPanel" style="display:none">                      
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield="Totals_Replacement_TotalReplacementCost" data-enabled="false"></div>
+                                  <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Replacement Cost" data-datafield="Totals_Replacement_Cost" data-enabled="false"></div>
                                 </div>
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Percentage" data-datafield="Totals_Replacement_DepositPercentage" data-enabled="false"></div>
+                                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Percentage" data-datafield="Deposit_Percentage" data-enabled="false"></div>
                                   <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Deposit Due" data-datafield="Totals_Replacement_DepositDue" data-enabled="false"></div>
                                 </div>
                             </div>
