@@ -49,9 +49,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         [FwSqlDataField(column: "pinpad_description", modeltype: FwDataTypes.Text)]
         public string PINPad_Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pinpad_type", modeltype: FwDataTypes.Text)]
-        public string PINPad_Type { get; set; }
-
+        
         // Weekly Totals
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totals_weekly_grosstotal", modeltype: FwDataTypes.Decimal)]
