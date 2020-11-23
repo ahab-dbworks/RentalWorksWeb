@@ -450,6 +450,9 @@ class OrderItemGrid {
             const isMiscClass = FwBrowse.getValueByDataField($control, $generatedtr, 'ItemClass');
             if (isMiscClass === 'M') {
                 $generatedtr.find('[data-browsedatafield="Price"]').attr('data-formreadonly', 'false');
+                $generatedtr.find('[data-browsedatafield="Price2"]').attr('data-formreadonly', 'false');
+                $generatedtr.find('[data-browsedatafield="Price3"]').attr('data-formreadonly', 'false');
+                $generatedtr.find('[data-browsedatafield="Price4"]').attr('data-formreadonly', 'false');
             }
         });
 
