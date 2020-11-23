@@ -303,10 +303,10 @@ namespace WebApi.Modules.Reports.IncomingDeliveryInstructions
         [FwSqlDataField(column: "caseweightmetric", modeltype: FwDataTypes.Text)]
         public string CaseWeightMetric { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string ManifestValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "replacementvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string ReplacementValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
