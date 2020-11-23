@@ -4873,7 +4873,7 @@ class OrderBase {
         addNewFieldsToDataObj($form, newDateFields);
 
         $form.data('beforesave', request => {
-            if ($form.find('.activity-dates:visible').length > 0) {
+            //if ($form.find('.activity-dates:visible').length > 0) {
                 const activityDatesAndTimes = [];
                 const $rows = $form.find('.date-row');
                 for (let i = 0; i < $rows.length; i++) {
@@ -4887,7 +4887,7 @@ class OrderBase {
                     });
                 }
                 request['ActivityDatesAndTimes'] = activityDatesAndTimes;
-            }
+            //}
         });
 
         //stops field event bubbling
