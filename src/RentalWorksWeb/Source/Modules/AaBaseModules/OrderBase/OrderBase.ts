@@ -3079,7 +3079,6 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    printValueSheet($form: any) {
     printDeliveryInstructions($form, tag: string) {
         try {
             const print = () => {
@@ -3121,7 +3120,7 @@ class OrderBase {
         }
     }
     //----------------------------------------------------------------------------------------------
-    printManifest($form: any) {
+    printValueSheet($form: any) {
         try {
             const module = this.Module;
             const orderIdText = FwFormField.getValueByDataField($form, `${module}Number`);
