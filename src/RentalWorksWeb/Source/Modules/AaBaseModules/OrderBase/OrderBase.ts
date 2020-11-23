@@ -2256,6 +2256,7 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
+        let dealObj = {}, departmentObj = {};
         //let weeklyType = $form.find(".weeklyType");
         //let monthlyType = $form.find(".monthlyType");
         //let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
@@ -2478,17 +2479,31 @@ class OrderBase {
         $form.find(".periodType input").prop('checked', true);
 
         // ----------
+        $form.find('[data-datafield="DepartmentId"]').on('change', e => {
+            departmentObj = {
+                Name: FwFormField.getTextByDataField($form, 'DepartmentId'),
+                Id: $form.find('[data-datafield="DepartmentId"]').attr('data-originalvalue')
+            }
+        });
+
         $form.find('div[data-datafield="DepartmentId"]').data('onchange', $tr => {
             const status = FwFormField.getValueByDataField($form, 'Status');
             if (this.Module === 'Order') {
                 const statuses: any = ["COMPLETE", "CONFIRMED"];
                 if (statuses.includes(status)) {
-                    this.changeDepartmentForOrder($form, $tr);
+                    this.changeDepartmentForOrder($form, $tr, departmentObj);
                 } else {
                     this.defaultFieldsOnDepartmentChange($form, $tr);
                 }
             } else {
                 this.defaultFieldsOnDepartmentChange($form, $tr);
+            }
+        });
+
+        $form.find('[data-datafield="DealId"]').on('change', e => {
+            dealObj = {
+                Name: FwFormField.getTextByDataField($form, 'DealId'),
+                Id: $form.find('[data-datafield="DealId"]').attr('data-originalvalue')
             }
         });
 
@@ -2498,7 +2513,7 @@ class OrderBase {
             if (this.Module === 'Order') {
                 const statuses: any = ["COMPLETE", "CONFIRMED"];
                 if (statuses.includes(status)) {
-                    this.changeDealForOrder($form, $tr);
+                    this.changeDealForOrder($form, $tr, dealObj);
                 } else {
                     this.defaultFieldsOnDealChange($form, $tr);
                 }
@@ -4919,14 +4934,11 @@ class OrderBase {
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
     }
     //----------------------------------------------------------------------------------------------
-    changeDealForOrder($form: any, $tr: any) {
-        const deal = FwBrowse.getValueByDataField($form, $tr, 'Deal');
-        const dealId = FwBrowse.getValueByDataField($form, $tr, 'DealId');
+    changeDealForOrder($form: any, $tr: any, oldDeal: any) {
+        const newDeal = FwBrowse.getValueByDataField($form, $tr, 'Deal');
 
         const $confirmation = FwConfirmation.renderConfirmation('Update Deal?', '');
         $confirmation.find('.fwconfirmationbox').css('width', '500px');
-        const originalDeal = FwFormField.getTextByDataField($form, 'DealId');
-        const originalDealId = FwFormField.getValueByDataField($form, 'DealId');
 
         const html = [];
         html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
@@ -4941,28 +4953,26 @@ class OrderBase {
         FwConfirmation.addControls($confirmation, html.join(''));
         const $apply = FwConfirmation.addButton($confirmation, `Apply`, false);
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        FwFormField.setValueByDataField($confirmation, 'OldDeal', originalDeal);
-        FwFormField.setValueByDataField($confirmation, 'NewDeal', deal);
+        FwFormField.setValueByDataField($confirmation, 'OldDeal', oldDeal.Name);
+        FwFormField.setValueByDataField($confirmation, 'NewDeal', newDeal);
 
         // apply
         $apply.on('click', e => {
+            FwConfirmation.destroyConfirmation($confirmation);
             this.defaultFieldsOnDealChange($form, $tr);
         });
         // cancel
         $no.on('click', e => {
             FwConfirmation.destroyConfirmation($confirmation);
-            FwFormField.setValueByDataField($form, 'DealId', originalDealId, originalDeal);
+            FwFormField.setValueByDataField($form, 'DealId', oldDeal.Id, oldDeal.Name);
         });
     }
     //----------------------------------------------------------------------------------------------
-    changeDepartmentForOrder($form: any, $tr: any) {
+    changeDepartmentForOrder($form: any, $tr: any, oldDepartment: any) {
         const department = FwBrowse.getValueByDataField($form, $tr, 'Department');
-        const departmentId = FwBrowse.getValueByDataField($form, $tr, 'DepartmentId');
 
         const $confirmation = FwConfirmation.renderConfirmation('Update Department?', '');
         $confirmation.find('.fwconfirmationbox').css('width', '500px');
-        const originalDepartment = FwFormField.getTextByDataField($form, 'DepartmentId');
-        const originalDepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
 
         const html = [];
         html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
@@ -4977,17 +4987,18 @@ class OrderBase {
         FwConfirmation.addControls($confirmation, html.join(''));
         const $apply = FwConfirmation.addButton($confirmation, `Apply`, false);
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        FwFormField.setValueByDataField($confirmation, 'OldDepartment', originalDepartment);
+        FwFormField.setValueByDataField($confirmation, 'OldDepartment', oldDepartment.Name);
         FwFormField.setValueByDataField($confirmation, 'NewDepartment', department);
 
         // apply
         $apply.on('click', e => {
+            FwConfirmation.destroyConfirmation($confirmation);
             this.defaultFieldsOnDepartmentChange($form, $tr);
         });
         // cancel
         $no.on('click', e => {
             FwConfirmation.destroyConfirmation($confirmation);
-            FwFormField.setValueByDataField($form, 'DepartmentId', originalDepartmentId, originalDepartment);
+            FwFormField.setValueByDataField($form, 'DepartmentId', oldDepartment.Id, oldDepartment.Name);
         });
     }
     //----------------------------------------------------------------------------------------------
