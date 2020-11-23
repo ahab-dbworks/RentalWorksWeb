@@ -1153,6 +1153,15 @@ class CustomReportLayout {
                 }
             }
         });
+
+        //Field Search
+        $form.find('[data-datafield="FieldSearch"]').on('change', e => {
+            this.searchFields($form);
+        });
+
+        $form.find('i.field-search').on('click', e => {
+            this.searchFields($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     setControlValues($form: JQuery, $column: JQuery) {
@@ -1896,6 +1905,25 @@ class CustomReportLayout {
             jQuery($table.find(`tbody tr[data-row="${rowType}"]`)[rowIndex]).find('td').attr('colspan', maxColspan);
         }
     }
+    //----------------------------------------------------------------------------------------------
+    searchFields($form: JQuery) {
+        const searchValue = FwFormField.getValueByDataField($form, 'FieldSearch').toUpperCase();
+        const $fieldsList = $form.find('.header-fields-drag');
+        if (searchValue != '') {
+            const $fields = $fieldsList.find('span');
+            for (let i = 0; i < $fields.length; i++) {
+                const $field = jQuery($fields[i]);
+                const text = $field.text().toUpperCase();
+                if (text.indexOf(searchValue) != -1) {
+                    $field.show();
+                } else {
+                    $field.hide();
+                }
+            }
+        } else {
+            $fieldsList.find('span').show();
+        }
+    };
     //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------
