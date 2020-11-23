@@ -3106,7 +3106,7 @@ class OrderBase {
             const isModified = $form.attr('data-modified');
             if (isModified === 'true') {
                 const $confirmation = FwConfirmation.renderConfirmation('Unsaved Changes on Form', "Any unsaved changes related to your Delivery Instructions will not be reflected in print. Continue to print or cancel and save changes?");
-                const $yes = FwConfirmation.addButton($confirmation, `Print Label`, false);
+                const $yes = FwConfirmation.addButton($confirmation, `Print Instructions`, false);
                 const $no = FwConfirmation.addButton($confirmation, 'Cancel');
                 $yes.on('click', e => {
                     FwConfirmation.destroyConfirmation($confirmation);
