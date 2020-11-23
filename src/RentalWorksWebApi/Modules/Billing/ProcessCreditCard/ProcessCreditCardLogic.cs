@@ -1,8 +1,11 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
+using WebApi.Modules.Billing.Receipt;
 
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
@@ -108,14 +111,37 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
 
         [FwLogicProperty(Id: "dFUcOGXkkVa7", IsReadOnly: true)]
         public string PINPad_Description { get; set; } = string.Empty;
+        
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request)
         {
             ProcessCreditCardResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
-            if (true)
+            if (response.Status == "APPROVED")
             {
-                // ProcessDepetingDeposit
-                //ProcessPaymentResponse response = await InventoryFunc.RetireInventory(AppConfig, UserSession, request);
+                ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(this.AppConfig, this.UserSession);
+                //receipt.OrderId = this.OrderId;
+                receipt.AppliedById = this.UserSession.UsersId;
+                receipt.ChargeBatchId = string.Empty;
+                receipt.CheckNumber = "auth code";
+                receipt.CreateDepletingDeposit = true;
+                receipt.CreateOverpayment = false;
+                //receipt.CurrencyId = this.CurrencyId;
+                //receipt.CustomerDepositCheckNumber = this.CustomerDepositId;
+                //receipt.CustomerDepositId = this.CustomerDepositId;
+                //receipt.CustomerId = this.CustomerId;
+                //receipt.DealDepositCheckNumber = this.DealDepositCheckNumber;
+                //receipt.DealDepositId = this.DealDepositId;
+                //receipt.DealId = this.DealId;
+                //receipt.LocationId = this.LocationId;
+                //receipt.PaymentAmount = request.Payment_AmountToPay;
+                receipt.PaymentBy = "DEAL";
+                receipt.PaymentMemo = "";
+                receipt.PaymentTypeId = "";
+                receipt.PaymentTypeType = "CREDIT CARD";
+                receipt.RecType = "P";
+                receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
+                receipt.ReceiptId = string.Empty;
+                //await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
             }
             return response;
         }

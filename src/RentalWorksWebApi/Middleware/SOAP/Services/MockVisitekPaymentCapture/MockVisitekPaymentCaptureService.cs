@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using FwStandard.SqlServer;
+using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture
@@ -14,7 +15,15 @@ namespace WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture
         public MockVisitekProcessCardPayment_Result ProcessCardPayment(string pINPadNo, int transactionTypeOpt, string amount, string docRefNo, string storeCode, string salespersonCode, string billToCustomerNo)
         {
             MockVisitekProcessCardPayment_Result result = new MockVisitekProcessCardPayment_Result();
-            result.return_value = "APPROVED";
+            decimal paymentAmount = FwConvert.ToDecimal(amount);
+            if (paymentAmount > 100)
+            {
+                result.return_value = "APPROVED";
+            }
+            else
+            {
+                result.return_value = "DECLINED";
+            }
             return result;
         }
     }
