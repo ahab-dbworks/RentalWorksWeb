@@ -169,6 +169,9 @@ namespace WebApi.Modules.Billing.Receipt
         [FwLogicProperty(Id: "3gacIXqCngz3T")]
         public string CustomerDepositCheckNumber { get; set; }
 
+        [FwLogicProperty(Id: "UX70epptKCKf")]
+        public string OrderId { get; set; }
+
 
         //------------------------------------------------------------------------------------ 
         private void OnBeforeValidate(object sender, BeforeValidateEventArgs e)

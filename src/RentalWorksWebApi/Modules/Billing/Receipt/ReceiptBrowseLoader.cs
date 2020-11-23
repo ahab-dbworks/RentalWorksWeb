@@ -65,6 +65,9 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
+        public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string CurrencyColor
         {

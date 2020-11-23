@@ -80,6 +80,10 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string OrderId { get; set; }
+
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -61,5 +61,8 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "overpaymentid", modeltype: FwDataTypes.Text)]
         public string OverPaymentId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
+        public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------
     }
 }
