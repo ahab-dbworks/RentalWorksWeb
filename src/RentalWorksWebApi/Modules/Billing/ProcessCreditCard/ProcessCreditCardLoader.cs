@@ -83,22 +83,22 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         [FwSqlDataField(column: "totals_replacement_depositpercentage", modeltype: FwDataTypes.Decimal)]
         public decimal Totals_Replacement_DepositPercentage { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loccode", modeltype: FwDataTypes.Text)]
+        public string LocationCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string AgentBarcode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        public string LocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
 
-
-        // Payment Amount
-        //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "payment_totalamount", modeltype: FwDataTypes.Decimal)]
-        //public decimal Payment_TotalAmount { get; set; }
-        //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "payment_deposit", modeltype: FwDataTypes.Decimal)]
-        //public decimal Payment_Deposit { get; set; }
-        //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "payment_remainingamount", modeltype: FwDataTypes.Decimal)]
-        //public decimal Payment_RemainingAmount { get; set; }
-        //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "payment_amounttopay", modeltype: FwDataTypes.Decimal)]
-        //public decimal Payment_AmountToPay { get; set; }
-        //------------------------------------------------------------------------------------ 
 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
