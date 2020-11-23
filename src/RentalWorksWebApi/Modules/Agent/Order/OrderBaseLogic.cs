@@ -25,6 +25,7 @@ using FwStandard.Models;
 using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
 using WebApi.Modules.Warehouse.Contract;
 using WebApi.Modules.Billing.Invoice;
+using WebApi.Modules.Agent.PurchaseOrder;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1930,7 +1931,9 @@ namespace WebApi.Modules.Agent.Order
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 // Issue 3110
-                if ((DealId != null) && (!DealId.Equals(orig.DealId)))  // if the user has changed the Deal
+                bool dealChanged = (DealId != null) && (!DealId.Equals(orig.DealId));
+                bool departmentChanged = (DepartmentId != null) && (!DepartmentId.Equals(orig.DepartmentId));
+                if (dealChanged || departmentChanged)  // if the user has changed the Deal or Department
                 {
                     //we need to change the Deal on all Contracts related to this Order
 
@@ -1949,8 +1952,38 @@ namespace WebApi.Modules.Agent.Order
                     {
                         ContractLogic cNew = cOrig.MakeCopy<ContractLogic>();                      // make a clone/copy of the Contract (cNew) so we can keep a full copy of the original (cOrig) in memory
                         cNew.SetDependencies(AppConfig, UserSession);                              // set some dependencies on the new object
-                        cNew.DealId = DealId;                                                      // change the DealId
+                        if (dealChanged)
+                        {                                                         // change the DealId
+                            cNew.DealId = DealId;
+                        }
+                        if (departmentChanged)
+                        {
+                            cNew.DepartmentId = DepartmentId;
+                        }
                         int i = cNew.SaveAsync(original: cOrig, conn: e.SqlConnection).Result;     // apply the change. Include cOrig so the change will be fully audited
+                    }
+
+                    BrowseRequest poBrowseRequest = new BrowseRequest();
+                    poBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    poBrowseRequest.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+
+                    PurchaseOrderLogic poSelector = new PurchaseOrderLogic();
+                    poSelector.SetDependencies(AppConfig, UserSession);
+                    List<PurchaseOrderLogic> purchaseOrders = poSelector.SelectAsync<PurchaseOrderLogic>(poBrowseRequest, e.SqlConnection).Result;
+
+                    foreach (PurchaseOrderLogic poOrig in purchaseOrders)
+                    {
+                        PurchaseOrderLogic poNew = poOrig.MakeCopy<PurchaseOrderLogic>();
+                        poNew.SetDependencies(AppConfig, UserSession);
+                        if (dealChanged)
+                        { 
+                            poNew.DealId = DealId;
+                        }
+                        if (departmentChanged)
+                        {
+                            poNew.DepartmentId = DepartmentId;
+                        }
+                        int i = poNew.SaveAsync(original: poOrig, conn: e.SqlConnection).Result;
                     }
 
                     BrowseRequest invoiceBrowseRequest = new BrowseRequest();
@@ -1961,23 +1994,26 @@ namespace WebApi.Modules.Agent.Order
                     invoiceSelector.SetDependencies(AppConfig, UserSession);
                     List<InvoiceLogic> invoices = invoiceSelector.SelectAsync<InvoiceLogic>(invoiceBrowseRequest, e.SqlConnection).Result;
 
-                    foreach(InvoiceLogic iOrig in invoices)
+                    foreach (InvoiceLogic iOrig in invoices)
                     {
                         InvoiceLogic iNew = iOrig.MakeCopy<InvoiceLogic>();
                         iNew.SetDependencies(AppConfig, UserSession);
-                        iNew.DealId = DealId;                                                      
+                        if (dealChanged)
+                        {
+                            iNew.DealId = DealId;
+                        }
+                        if (departmentChanged)
+                        {
+                            iNew.DepartmentId = DepartmentId;
+                        }
                         int i = iNew.SaveAsync(original: iOrig, conn: e.SqlConnection).Result;
                     }
                 }
+            }
 
-                if ((DepartmentId != null) && (!DepartmentId.Equals(orig.DepartmentId)))  // if the user has changed the Department
-                {
-                    //
-                }
-
-                //after save - do work in the database
-                {
-                    TSpStatusResponse r = OrderFunc.AfterSaveQuoteOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
+            //after save - do work in the database
+            {
+                TSpStatusResponse r = OrderFunc.AfterSaveQuoteOrder(AppConfig, UserSession, this.GetPrimaryKeys()[0].ToString(), e.SqlConnection).Result;
             }
         }
         //------------------------------------------------------------------------------------
