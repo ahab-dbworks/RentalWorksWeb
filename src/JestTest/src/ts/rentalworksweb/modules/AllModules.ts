@@ -39,7 +39,9 @@ export { TransferOut } from '../modules/FrontEnds';
 export { TransferIn } from '../modules/FrontEnds';
 
 //Home - Billing
+export { BankAccount } from '../modules/Home';
 export { Invoice } from '../modules/Home';
+export { Payment} from '../modules/Home';
 export { Receipt } from '../modules/Home';
 export { VendorInvoice } from '../modules/Home';
 
