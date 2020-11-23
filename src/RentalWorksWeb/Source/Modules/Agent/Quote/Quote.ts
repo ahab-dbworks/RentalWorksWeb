@@ -1516,6 +1516,10 @@ class Quote extends OrderBase {
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="OutDeliveryDeliveryNotes"></div>
                         </div>
+                        <div class="flexrow">
+                          <div class="fwformcontrol prnt-deliv-instruct out" data-type="button" style="flex:0 1 230px;margin:16px 10px 0px 5px;text-align:center;">Print Delivery Instructions</div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OutDeliveryId" style="display:none;"></div>
+                        </div>
                       </div>
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Online Order">
                         <div class="flexrow">
@@ -1583,6 +1587,10 @@ class Quote extends OrderBase {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="InDeliveryDeliveryNotes"></div>
+                        </div>
+                        <div class="flexrow">
+                          <div class="fwformcontrol prnt-deliv-instruct in" data-type="button" style="flex:0 1 230px;margin:16px 10px 0px 5px;text-align:center;">Print Delivery Instructions</div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InDeliveryId" style="display:none;"></div>
                         </div>
                       </div>
                     </div>

@@ -229,6 +229,7 @@ var Constants = {
                     caption: 'Order Reports',
                     nodetype: 'Category',
                     children: {
+                        IncomingDeliveryInstructions: { id: '9OT5LSvhJaTk3', caption: 'Incoming Delivery Instructions', nav: 'reports/incomingdeliveryinstructions', nodetype: 'Module', description: 'Print Incoming Delivery Instructions' },
                         IncomingShippingLabel:      { id: 'U2RQ1fjYwkIZ6', caption: 'Incoming Shipping Label',     nav: 'reports/incomingshippinglabel',      nodetype: 'Module', description: 'Print Incoming Shipping Label' },
                         LateReturnsReport:          { id: 'gOtEnqxlXIOt',  caption: 'Late Return / Due Back',      nav: 'reports/latereturnsreport',          nodetype: 'Module', description: 'List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.' },
                         OrderValueSheetReport:      { id: '8lSfSBPXlYh5',  caption: 'Order Value Sheet',           nav: 'reports/ordervaluesheetreport',      nodetype: 'Module', description: 'Print a Value Sheet / Manifest of all Rental and Sale items on an Order' },
@@ -237,6 +238,7 @@ var Constants = {
                         OrderStatusDetailReport:    { id: 'EY9uBXnssjv1',  caption: 'Order Status Detail',         nav: 'reports/orderstatusdetailreport',    nodetype: 'Module', description: 'Gets status detail for specified order.' },
                         OrderStatusSummaryReport:   { id: '44jjIwel6TP0d', caption: 'Order Status Summary',        nav: 'reports/orderstatussummaryreport',   nodetype: 'Module', description: 'Gets status summary for specified order.' },
                         OutgoingShippingLabel:      { id: 'tzTGi6kzrelFp', caption: 'Outgoing Shipping Label',     nav: 'reports/outgoingshippinglabel',      nodetype: 'Module', description: 'Print Outgoing Shipping Label' },
+                        OutgoingDeliveryInstructions: { id: 'meEd0XqsUjqNZ', caption: 'Outgoing Delivery Instructions', nav: 'reports/outgoingdeliveryinstructions', nodetype: 'Module', description: 'Print Outgoing Delivery Instructions' },
                         OutstandingSubRentalReport: { id: 'NCFNATdQRx5E',  caption: 'Outstanding Sub-Rental',      nav: 'reports/outstandingsubrentalreport', nodetype: 'Module', description: 'List all Sub-Rental items currently Staged, Out, or in Holding.' },
                         PickListReport:             { id: 'Rk38wHmvgXTg',  caption: 'Pick List',                   nav: 'reports/picklistreport',             nodetype: 'Module', description: 'Pick List document.' },
                         QuikActivityReport:         { id: '4hamhMOWKXD9',  caption: 'QuikActivity',                nav: 'reports/quikactivityreport',         nodetype: 'Module', description: 'List all Quote, Order, Transfer, Purchase, and Repair activities over a specific date range.' },

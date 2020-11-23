@@ -49,7 +49,7 @@ namespace WebApi.Modules.Reports.OrderReports.IncomingShippingLabel
         // POST api/v1/incomingshippinglabel/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "U2rXfWApGDmZf")]
-        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
+        public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody] FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
             ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
@@ -69,7 +69,7 @@ namespace WebApi.Modules.Reports.OrderReports.IncomingShippingLabel
         // POST api/v1/incomingshippinglabel/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "u4XetZnLWwpio")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]IncomingShippingLabelRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody] IncomingShippingLabelRequest request)
         {
             if (!ModelState.IsValid)
             {
