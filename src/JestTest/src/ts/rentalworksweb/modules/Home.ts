@@ -3440,6 +3440,43 @@ export class TransferReceipt extends HomeModule {
     //---------------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------------
+export class BankAccount extends HomeModule {
+    //---------------------------------------------------------------------------------------
+    constructor() {
+        super();
+        this.moduleName = 'BankAccount';
+        this.moduleGroupName = 'Billing';
+        this.moduleId = 'xJzM0aYJ70srp';
+        this.moduleCaption = 'Bank Account';
+
+        this.defaultNewRecordToExpect = {
+            AccountName: "",
+            Location: "GlobalScope.User~ME.OfficeLocation",
+            CurrencyCode: "USD",
+            Inactive: false,
+        }
+
+        this.newRecordsToCreate = [
+            {
+                record: {
+                    AccountName: `GlobalScope.TestToken~1.TestToken`,
+                },
+                seekObject: {
+                    AccountName: "GlobalScope.TestToken~1.TestToken",
+                },
+            }
+        ];
+        this.newRecordsToCreate[0].recordToExpect = {
+            AccountName: this.newRecordsToCreate[0].record.AccountName.toUpperCase(),
+            Location: "GlobalScope.User~ME.OfficeLocation",
+            CurrencyCode: "USD",
+            Inactive: false,
+        }
+
+    }
+    //---------------------------------------------------------------------------------------
+}
+//---------------------------------------------------------------------------------------
 export class Invoice extends HomeModule {
     //---------------------------------------------------------------------------------------
     constructor() {
@@ -3498,6 +3535,18 @@ export class Receipt extends HomeModule {
         this.moduleGroupName = 'Billing';
         this.moduleId = 'q4PPGLusbFw';
         this.moduleCaption = 'Receipts';
+    }
+    //---------------------------------------------------------------------------------------
+}
+//---------------------------------------------------------------------------------------
+export class Payment extends HomeModule {
+    //---------------------------------------------------------------------------------------
+    constructor() {
+        super();
+        this.moduleName = 'Payment';
+        this.moduleGroupName = 'Billing';
+        this.moduleId = 'Y7YC6NpLqX8kx';
+        this.moduleCaption = 'Payments';
     }
     //---------------------------------------------------------------------------------------
 }

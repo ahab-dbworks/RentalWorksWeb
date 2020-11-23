@@ -2,7 +2,7 @@
     Contact, Customer, Deal, Order, Project, PurchaseOrder, Quote, Vendor,
     Asset, PartsInventory, PhysicalInventory, RentalInventory, RepairOrder, SalesInventory,
     Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
-    Invoice, Receipt, VendorInvoice,
+    BankAccount, Invoice, Receipt, Payment, VendorInvoice,
 } from './modules/AllModules';
 import { ShallowRegressionBaseTest } from './RwwShallowRegressionBase';
 
@@ -42,8 +42,10 @@ export class ShallowRegressionHomeTest extends ShallowRegressionBaseTest {
         this.ShallowRegressionOnModule(new TransferReceipt());
 
         //Home - Billing
+        this.ShallowRegressionOnModule(new BankAccount());
         this.ShallowRegressionOnModule(new Invoice());
         this.ShallowRegressionOnModule(new Receipt());
+        this.ShallowRegressionOnModule(new Payment());
         this.ShallowRegressionOnModule(new VendorInvoice());
 
     }

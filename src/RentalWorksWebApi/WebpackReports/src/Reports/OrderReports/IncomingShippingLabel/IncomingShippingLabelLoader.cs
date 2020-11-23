@@ -105,7 +105,7 @@ namespace WebApi.Modules.Reports.OrderReports.IncomingShippingLabel
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddWhereIn("orderid", request.OrderId); 
+                    select.AddWhereIn("orderid", request.OrderId);
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }

@@ -1,6 +1,6 @@
 import {
     Contract, PickList, Container, Manifest, TransferOrder, TransferReceipt,
-    Invoice, Receipt, VendorInvoice,
+    BankAccount, Invoice, Receipt, Payment, VendorInvoice,
     DefaultSettings, 
     InventorySettings, 
     Warehouse,
@@ -34,7 +34,9 @@ export class MediumRegressionHomeTest extends MediumRegressionBaseTest {
         this.MediumRegressionOnModule(new TransferReceipt());
 
         //Home - Billing
+        this.MediumRegressionOnModule(new BankAccount());
         this.MediumRegressionOnModule(new Invoice());
+        this.MediumRegressionOnModule(new Payment());
         this.MediumRegressionOnModule(new Receipt());
         this.MediumRegressionOnModule(new VendorInvoice());
 

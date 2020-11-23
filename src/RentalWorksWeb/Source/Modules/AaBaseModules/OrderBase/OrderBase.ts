@@ -2688,6 +2688,19 @@ class OrderBase {
                 FwFunc.showError(ex);
             }
         });
+        //Print Delivery Instructions
+        $form.find('.prnt-deliv-instruct').on('click', e => {
+            try {
+                let tag = 'Out';
+                const $this = jQuery(e.currentTarget);
+                if ($this.hasClass('in')) {
+                    tag = 'In';
+                }
+                this.printDeliveryInstructions($form, tag);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         //profit & loss toggle buttons
         $form.find('.profit-loss-total input').off('change').on('change', e => {
@@ -3053,6 +3066,47 @@ class OrderBase {
             if (isModified === 'true') {
                 const $confirmation = FwConfirmation.renderConfirmation('Unsaved Changes on Form', "Any unsaved changes related to your shipping label will not be reflected in print. Continue to print or cancel and save changes?");
                 const $yes = FwConfirmation.addButton($confirmation, `Print Label`, false);
+                const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                $yes.on('click', e => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    print();
+                });
+            } else {
+                print();
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    printDeliveryInstructions($form, tag: string) {
+        try {
+            const print = () => {
+                const module = this.Module;
+
+                let $report;
+                if (tag === 'Out') {
+                    $report = OutgoingDeliveryInstructionsController.openForm();
+                } else if (tag === 'In') {
+                    $report = IncomingDeliveryInstructionsController.openForm();
+                }
+                FwModule.openSubModuleTab($form, $report);
+
+                const deliveryId = FwFormField.getValueByDataField($form, `${tag}DeliveryId`);
+                FwFormField.setValueByDataField($report, `${tag}DeliveryId`, deliveryId);
+                const orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
+                FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, deliveryId, orderNumber);
+                const dealId = FwFormField.getValue($form, `div[data-datafield="DealId"]`);
+                FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
+
+                const $tab = FwTabs.getTabByElement($report);
+                $tab.find('.caption').html(`Print ${tag === 'In' ? 'Incoming' :'Outgoing' } Delivery Instructions `);
+            }
+
+            const isModified = $form.attr('data-modified');
+            if (isModified === 'true') {
+                const $confirmation = FwConfirmation.renderConfirmation('Unsaved Changes on Form', "Any unsaved changes related to your Delivery Instructions will not be reflected in print. Continue to print or cancel and save changes?");
+                const $yes = FwConfirmation.addButton($confirmation, `Print Instructions`, false);
                 const $no = FwConfirmation.addButton($confirmation, 'Cancel');
                 $yes.on('click', e => {
                     FwConfirmation.destroyConfirmation($confirmation);
@@ -4873,7 +4927,7 @@ class OrderBase {
         addNewFieldsToDataObj($form, newDateFields);
 
         $form.data('beforesave', request => {
-            if ($form.find('.activity-dates:visible').length > 0) {
+            //if ($form.find('.activity-dates:visible').length > 0) {
                 const activityDatesAndTimes = [];
                 const $rows = $form.find('.date-row');
                 for (let i = 0; i < $rows.length; i++) {
@@ -4887,7 +4941,7 @@ class OrderBase {
                     });
                 }
                 request['ActivityDatesAndTimes'] = activityDatesAndTimes;
-            }
+            //}
         });
 
         //stops field event bubbling
