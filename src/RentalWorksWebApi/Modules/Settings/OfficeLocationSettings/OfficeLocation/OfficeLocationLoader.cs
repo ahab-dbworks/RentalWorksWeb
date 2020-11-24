@@ -5,20 +5,9 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
-    //[FwSqlTable("locationview")]
-    [FwSqlTable("locationview_cte")]
+    [FwSqlTable("locationview")]
     public class OfficeLocationLoader : AppDataLoadRecord
     {
-        public OfficeLocationLoader()
-        {
-            this.Cte.AppendLine("locationview_cte as (");
-            this.Cte.AppendLine("  select lv.*,");
-            this.Cte.AppendLine("  autoapplydepletingdeposittoinvoice = 'T',");
-            this.Cte.AppendLine("  depositreplacmentvaluepercent = 2.35");
-            this.Cte.AppendLine("  from locationview lv with (nolock)");
-            this.Cte.AppendLine(")");
-        }
-
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string LocationId { get; set; } = "";
