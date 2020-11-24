@@ -162,6 +162,12 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "autoapplydepletingdeposittoinvoice", modeltype: FwDataTypes.Boolean)]
+        public bool AutoApplyDepletingDepositToInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depositreplacmentvaluepercent", modeltype: FwDataTypes.Decimal)]
+        public decimal DepositReplacmentValuePercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveInvoiceMessageASync(string invoiceMessage)
         {
             return await AppFunc.SaveNoteAsync(AppConfig, UserSession, LocationId, RwConstants.LOCATION_INVOICE_MESSAGE_UNIQUEID2, "", invoiceMessage);

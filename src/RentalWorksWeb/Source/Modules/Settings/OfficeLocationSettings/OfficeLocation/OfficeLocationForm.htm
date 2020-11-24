@@ -127,9 +127,15 @@
 
       <div data-type="tabpage" id="invoicemessagetabpage" class="tabpage" data-tabid="invoicemessagetab">
         <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Office Location Tax Reference Numbers">
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Auto apply depleting deposit to the invoice when processed" data-datafield="AutoApplyDepletingDepositToInvoice" style="flex:1 1 0;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deposit Replacement Value (%)" data-datafield="DepositReplacmentValuePercent" style="flex:1 1 0;"></div>
+            </div>
+          </div>
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice Message">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="editor" class="fwcontrol fwformfield" data-caption="Editor" data-datafield="InvoiceMessage" style="width:900px;"></div>
+              <div data-control="FwFormField" data-type="editor" class="fwcontrol fwformfield" data-caption="Editor" data-datafield="InvoiceMessage"></div>
             </div>
           </div>
         </div>

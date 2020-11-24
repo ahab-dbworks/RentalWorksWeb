@@ -5,9 +5,20 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
 {
-    [FwSqlTable("locationview")]
+    //[FwSqlTable("locationview")]
+    [FwSqlTable("locationview_cte")]
     public class OfficeLocationLoader : AppDataLoadRecord
     {
+        public OfficeLocationLoader()
+        {
+            this.Cte.AppendLine("locationview_cte as (");
+            this.Cte.AppendLine("  select lv.*,");
+            this.Cte.AppendLine("  autoapplydepletingdeposittoinvoice = 'T',");
+            this.Cte.AppendLine("  depositreplacmentvaluepercent = 2.35");
+            this.Cte.AppendLine("  from locationview lv with (nolock)");
+            this.Cte.AppendLine(")");
+        }
+
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string LocationId { get; set; } = "";
@@ -179,6 +190,13 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "autoapplydepletingdeposittoinvoice", modeltype: FwDataTypes.Boolean)]
+        public bool AutoApplyDepletingDepositToInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depositreplacmentvaluepercent", modeltype: FwDataTypes.Decimal)]
+        public decimal DepositReplacmentValuePercent { get; set; }
+
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

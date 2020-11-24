@@ -180,6 +180,12 @@ namespace WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation
         public bool? WarnIfTermsAndConditionsNotOnFile { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwLogicProperty(Id: "Kxsb2n0gTVN8")]
+        public bool AutoApplyDepletingDepositToInvoice { get { return location.AutoApplyDepletingDepositToInvoice; } set { location.AutoApplyDepletingDepositToInvoice = value; } }
+
+        [FwLogicProperty(Id: "FQdlltRrW2Kb")]
+        public decimal DepositReplacmentValuePercent { get { return location.DepositReplacmentValuePercent; } set { location.DepositReplacmentValuePercent = value; } }
+
         [FwLogicProperty(Id: "NGVDXcxGHbnEs")]
         public string InvoiceMessage { get; set; }
 
