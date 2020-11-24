@@ -2123,7 +2123,6 @@ class OrderItemGrid {
                         InventoryPackageInventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryPackageInventoryId'),
                         Quantity: qty
                     }
-                    //$items.push(item);
                     $items.unshift(item); //justin hoffman 11/11/2020, changed push to unshift to reverse the sequence of the array #3296
                 }
             }
@@ -2136,7 +2135,7 @@ class OrderItemGrid {
                     $popup.find('.close-modal').click();
                     FwBrowse.databind($control);
                 },
-                ex => FwFunc.showError(ex), $control);
+                ex => FwFunc.showError(ex), $popup);
         });
     }
 }
