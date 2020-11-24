@@ -428,7 +428,7 @@
                         InventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryId'),
                         Quantity: qty
                     }
-                    $items.push(item);
+                    $items.unshift(item);
                 }
             }
 
@@ -440,7 +440,7 @@
                     $popup.find('.close-modal').click();
                     FwBrowse.databind($control);
                 },
-                ex => FwFunc.showError(ex), $control);
+                ex => FwFunc.showError(ex), $popup);
         });
     }
     //----------------------------------------------------------------------------------------------

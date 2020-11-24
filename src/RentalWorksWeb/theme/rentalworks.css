@@ -767,7 +767,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner .footer-wrapper .rpt-flexrow > *,
 #reportDesigner .header-wrapper .rpt-flexrow > * {flex: 1 1 0;min-width: 16em;}
 #reportDesigner .footer-wrapper .rpt-flexcolumn,
-#reportDesigner .header-wrapper .rpt-flexcolumn {display: flex;flex-direction: column;}
+#reportDesigner .header-wrapper .rpt-flexcolumn {display: flex;flex-direction: column; border:1px dotted #dcdcdc; padding-right:1em;}
 #reportDesigner .footer-wrapper .rpt-title,
 #reportDesigner .header-wrapper .rpt-title {align-self: center;font-size: 17px;font-weight: bold;}
 #reportDesigner .footer-wrapper .rpt-header-center,

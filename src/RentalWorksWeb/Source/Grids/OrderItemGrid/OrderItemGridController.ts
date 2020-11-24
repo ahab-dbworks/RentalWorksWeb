@@ -210,7 +210,11 @@ class OrderItemGrid {
             let checkedCount = 0;
             $checkboxes.each((i, e) => {
                 const dataField = jQuery(e).attr('data-datafield');
-                const val = $tr.find(`.field[data-browsedatafield="${dataField}"] input`).prop('checked');
+                let val = $tr.find(`.field[data-browsedatafield="${dataField}"] input`).prop('checked');
+                if (typeof val === 'undefined') { // on certain row types such as Headers, Subtotals, etc the checkbox is loading at first without an input so gather the originalvalue in those situations
+                    val = $tr.find(`.field[data-browsedatafield="${dataField}"]`).attr('data-originalvalue');
+                    val = (val == 'true');
+                }
                 val === true ? checkedCount++ : '';
                 FwFormField.setValueByDataField($confirmation, dataField, val);
             });
@@ -2119,7 +2123,6 @@ class OrderItemGrid {
                         InventoryPackageInventoryId: FwBrowse.getValueByDataField($completeKitGrid, jQuery($trs[i]), 'InventoryPackageInventoryId'),
                         Quantity: qty
                     }
-                    //$items.push(item);
                     $items.unshift(item); //justin hoffman 11/11/2020, changed push to unshift to reverse the sequence of the array #3296
                 }
             }
@@ -2132,7 +2135,7 @@ class OrderItemGrid {
                     $popup.find('.close-modal').click();
                     FwBrowse.databind($control);
                 },
-                ex => FwFunc.showError(ex), $control);
+                ex => FwFunc.showError(ex), $popup);
         });
     }
 }
