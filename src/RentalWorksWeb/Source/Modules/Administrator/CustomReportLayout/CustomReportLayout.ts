@@ -1127,6 +1127,7 @@ class CustomReportLayout {
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
             const elementClass = $headerField.attr('class') || '';
             FwFormField.setValueByDataField($form, 'HeaderClass', elementClass);
+            this.updateDeleteButtonText($form, $headerField);
         });
 
         $form.on('click', '#reportDesigner [data-section="header"] div, #reportDesigner [data-section="footer"] div', e => {
@@ -1141,6 +1142,7 @@ class CustomReportLayout {
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
             const elementClass = $headerField.attr('class') || '';
             FwFormField.setValueByDataField($form, 'HeaderClass', elementClass);
+            this.updateDeleteButtonText($form, $headerField);
         });
 
         //Delete header element
@@ -1924,6 +1926,18 @@ class CustomReportLayout {
             $fieldsList.find('span').show();
         }
     };
+    //----------------------------------------------------------------------------------------------
+    updateDeleteButtonText($form: JQuery, $element: JQuery) {
+        let btnCaption = 'Delete Component';
+        if ($element.hasClass('rpt-nested-flexrow') || $element.hasClass('rpt-flexrow')) {
+            btnCaption = 'Delete Row';
+        } else if ($element.hasClass('rpt-flexcolumn')) {
+            btnCaption = 'Delete Column';
+        } else if ($element[0].nodeName === 'SPAN') {
+            btnCaption = `Delete ${$element.text().replace('{{', '').replace('}}', '')} Field`;
+        }
+        $form.find('.delete-component').text(btnCaption);
+    }
     //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------
