@@ -1,8 +1,8 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data; 
+using WebApi.Data;
 using System.Collections.Generic;
 using WebApi;
 using WebApi.Logic;
@@ -263,19 +263,23 @@ namespace WebApi.Modules.HomeControls.OrderStatusSummary
             AddFilterFieldToSelect("Description", "description", select, request);
 
             select.AddParameter("@orderid", orderId);
-            
+
 
             switch (filterStatus)
             {
 
                 //Orders and Containers
-                case RwConstants.ORDER_STATUS_FILTER_STAGED_ONLY: select.AddWhere("(stageqtyfilter <> 0)");
+                case RwConstants.ORDER_STATUS_FILTER_STAGED_ONLY:
+                    select.AddWhere("(stageqtyfilter <> 0)");
                     break;
-                case RwConstants.ORDER_STATUS_FILTER_NOT_YET_STAGED: select.AddWhere("(notyetstagedqtyfilter > 0)");
+                case RwConstants.ORDER_STATUS_FILTER_NOT_YET_STAGED:
+                    select.AddWhere("(notyetstagedqtyfilter > 0)");
                     break;
-                case RwConstants.ORDER_STATUS_FILTER_STILL_OUT: select.AddWhere("(stilloutqty <> 0)");
+                case RwConstants.ORDER_STATUS_FILTER_STILL_OUT:
+                    select.AddWhere("(stilloutqty <> 0)");
                     break;
-                case RwConstants.ORDER_STATUS_FILTER_IN_ONLY: select.AddWhere("(inqtyfilter <> 0)");
+                case RwConstants.ORDER_STATUS_FILTER_IN_ONLY:
+                    select.AddWhere("(inqtyfilter <> 0)");
                     break;
 
                 //Purchase Orders
@@ -326,4 +330,4 @@ namespace WebApi.Modules.HomeControls.OrderStatusSummary
         }
         //------------------------------------------------------------------------------------
     }
-} 
+}
