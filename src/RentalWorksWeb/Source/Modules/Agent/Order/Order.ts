@@ -228,6 +228,13 @@ class Order extends OrderBase {
             $form.find('.invoice-submodule').append(this.openSubModuleBrowse($form, 'Invoice'));
         }
 
+        // Receipt submodule
+        let nodeReceipt = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'q4PPGLusbFw');
+        if (nodeReceipt !== undefined && nodeReceipt.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.receipttab'));
+            $form.find('.receipt-submodule').append(this.openSubModuleBrowse($form, 'Receipt'));
+        }
+
         const $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
 
         // Hides Add, Search, and Sub-Worksheet buttons on grid
@@ -854,6 +861,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="delivershiptab" class="tab delivershiptab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
               <div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Value Sheet"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule invoicetab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
+              <div data-type="tab" id="receipttab" class="tab submodule receipttab" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
               <div data-type="tab" id="repairtab" class="tab submodule repairtab" data-tabpageid="repairtabpage" data-caption="Repair"></div>
               <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
@@ -2189,6 +2197,9 @@ class Order extends OrderBase {
 
               <!-- INVOICE tab -->
               <div data-type="tabpage" id="invoicetabpage" class="tabpage invoice-submodule rwSubModule" data-tabid="invoicetab"></div>
+
+              <!-- RECEIPT tab -->
+              <div data-type="tabpage" id="receipttabpage" class="tabpage receipt-submodule rwSubModule" data-tabid="receipttab"></div>
 
               <!-- REPAIR TAB -->
               <div data-type="tabpage" id="repairtabpage" class="tabpage submodule repair-submodule rwSubModule" data-tabid="repairtab"></div>
