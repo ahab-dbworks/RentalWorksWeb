@@ -67,13 +67,13 @@ class VisitekProcessCreditCard implements IProcessCreditCard {
                 $confirmation.find('.title').text('PIN Pad');
                 $confirmation.find('.request').hide();
                 $confirmation.find('.response').show();
-                if (response.Message && response.Message === 'APPROVED') {
-                    $confirmation.find('.Result .fwformfield-value').css({
+                if (response.ReturnValue === 'APPROVED') {
+                    $confirmation.find('.response .Result .fwformfield-value').css({
                         backgroundColor: '#a6d785'
                     })
                 }
-                else if (response.Message && response.Message === 'DECLINED') {
-                    $confirmation.find('.Result .fwformfield-value').css({
+                else if (response.ReturnValue === 'DECLINED') {
+                    $confirmation.find('.response .Result .fwformfield-value').css({
                         backgroundColor: '#ff8a80'
                     })
                 }
