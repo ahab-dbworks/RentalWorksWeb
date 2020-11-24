@@ -50,8 +50,8 @@
 
     //--------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
-        return 
-`<div data-name="CreditCardPinPad" data-control="FwBrowse" data-type="Browse" id="CreditCardPinPadBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CreditCardPinPadController" data-hasinactive="true">
+        const template: string =  
+`<div data-name="CreditCardPinPad" data-control="FwBrowse" data-type="Browse" class="fwcontrol fwbrowse" data-controller="CreditCardPinPadController" data-hasinactive="true">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-datafield="CreditCardPinPadId" data-browsedatatype="key"></div>
     <div class="field" data-datafield="Inactive" data-browsedatatype="text" data-visible="false"></div>
@@ -63,10 +63,11 @@
     <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text"></div>
   </div>
 </div>`;
+        return template;
     }
     //--------------------------------------------------------------------------------------------
     getFormTemplate(): string {
-        return 
+        const template: string =   
 `<div id="creditcardpinpadform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Credit Card Pin Pad" data-controller="CreditCardPinPadController">
   <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-datafield="CreditCardPinPadId"></div>
   <div id="activityform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -89,6 +90,7 @@
     </div>
   </div>
 </div>`;
+        return template;
     }
     //----------------------------------------------------------------------------------------------
 }
