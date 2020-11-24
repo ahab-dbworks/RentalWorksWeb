@@ -6,23 +6,17 @@ namespace WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture
 {
     public class MockVisitekPaymentCaptureService : IMockVisitekPaymentCaptureService
     {
-        //public MockVisitekProcessCardPayment_Result ProcessCardPayment(MockVisitekProcessCardPayment ProcessCardPayment)
-        //{
-        //    MockVisitekProcessCardPayment_Result result = new MockVisitekProcessCardPayment_Result();
-        //    result.return_value = "APPROVED";
-        //    return result;
-        //}
         public MockVisitekProcessCardPayment_Result ProcessCardPayment(string pINPadNo, int transactionTypeOpt, string amount, string docRefNo, string storeCode, string salespersonCode, string billToCustomerNo)
         {
             MockVisitekProcessCardPayment_Result result = new MockVisitekProcessCardPayment_Result();
             decimal paymentAmount = FwConvert.ToDecimal(amount);
             if (paymentAmount > 0.01m)
             {
-                result.return_value = "APPROVED";
+                result.return_value = "DECLINED";
             }
             else
             {
-                result.return_value = "DECLINED";
+                result.return_value = "APPROVED";
             }
             return result;
         }
