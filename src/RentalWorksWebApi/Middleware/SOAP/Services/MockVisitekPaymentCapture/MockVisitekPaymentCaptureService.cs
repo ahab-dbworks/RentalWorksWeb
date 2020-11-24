@@ -16,7 +16,7 @@ namespace WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture
         {
             MockVisitekProcessCardPayment_Result result = new MockVisitekProcessCardPayment_Result();
             decimal paymentAmount = FwConvert.ToDecimal(amount);
-            if (paymentAmount > 100)
+            if (paymentAmount > 0.01m)
             {
                 result.return_value = "APPROVED";
             }
