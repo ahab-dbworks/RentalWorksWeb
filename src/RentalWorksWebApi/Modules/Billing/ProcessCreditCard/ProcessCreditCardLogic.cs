@@ -129,33 +129,68 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request)
         {
+            string paymenttypeid = string.Empty;
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                this.OrderId = request.OrderId;
+                await this.LoadAsync<ProcessCreditCardLogic>(conn);
+
+                if (string.IsNullOrEmpty(this.CurrencyId))
+                {
+                    throw new Exception("Unable to Process Payment: Currency is required on the Order record.");
+                }
+                if (string.IsNullOrEmpty(this.DealId))
+                {
+                    throw new Exception("Unable to Process Payment: Deal is required on the Order record.");
+                }
+                if (string.IsNullOrEmpty(this.LocationId))
+                {
+                    throw new Exception("Unable to Process Payment: LocationId is required on the Order record.");
+                }
+                if(request.PaymentAmount <= 0)
+                {
+                    throw new Exception("Unable to Process Payment: Payment Amount must be greater than 0.");
+                }
+                paymenttypeid = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "paytype", "upper(paytype)", "CREDIT CARD", "paytypeid");
+                if (string.IsNullOrEmpty(paymenttypeid))
+                {
+                    throw new Exception("Unable to Process Payment: Please create a Payment Type with the name \"CREDIT CARD\".");
+                }
+            }
+            request.StoreCode = this.LocationCode;
+            request.SalesPersonCode = this.AgentBarcode;
             ProcessCreditCardResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
-            if (response.Status == "APPROVED")
+            if (response.Status == "SUCCESS" && response.ReturnValue == "APPROVED")
             {
                 ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(this.AppConfig, this.UserSession);
-                //receipt.OrderId = this.OrderId;
+                receipt.OrderId = request.OrderId;
                 receipt.AppliedById = this.UserSession.UsersId;
                 receipt.ChargeBatchId = string.Empty;
                 receipt.CheckNumber = "auth code";
                 receipt.CreateDepletingDeposit = true;
                 receipt.CreateOverpayment = false;
-                //receipt.CurrencyId = this.CurrencyId;
-                //receipt.CustomerDepositCheckNumber = this.CustomerDepositId;
-                //receipt.CustomerDepositId = this.CustomerDepositId;
-                //receipt.CustomerId = this.CustomerId;
-                //receipt.DealDepositCheckNumber = this.DealDepositCheckNumber;
-                //receipt.DealDepositId = this.DealDepositId;
-                //receipt.DealId = this.DealId;
-                //receipt.LocationId = this.LocationId;
-                //receipt.PaymentAmount = request.Payment_AmountToPay;
+                receipt.CurrencyId = this.CurrencyId;
+                receipt.CustomerDepositCheckNumber = string.Empty;
+                receipt.CustomerDepositId = string.Empty;
+                receipt.CustomerId = string.Empty;
+                receipt.DealDepositCheckNumber = string.Empty;
+                receipt.DealDepositId = string.Empty;
+                receipt.DealId = this.DealId;
+                receipt.LocationId = this.LocationId;
+                receipt.PaymentAmount = request.PaymentAmount;
                 receipt.PaymentBy = "DEAL";
-                receipt.PaymentMemo = "";
-                receipt.PaymentTypeId = "";
+                receipt.PaymentMemo = string.Empty;
+                receipt.PaymentTypeId = paymenttypeid;
                 receipt.PaymentTypeType = "CREDIT CARD";
                 receipt.RecType = "P";
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
-                //await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
+                receipt.ModifiedById = this.UserSession.UsersId;
+                
+                // need to log
+                //response.ReturnValue
+
+                await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
             }
             return response;
         }

@@ -35,10 +35,10 @@ namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
             ProcessCreditCardResponse result = null;
             try
             {
-                string pINPadNo = request.PINPad_Code;
+                string pINPadNo = request.PINPadCode;
                 int transactionTypeOpt = 0;
-                string amount = request.Payment_AmountToPay;
-                string docRefNo = request.OrderNo;
+                string amount = request.PaymentAmount.ToString();
+                string docRefNo = request.OrderId;
                 string storeCode = request.StoreCode;
                 string salespersonCode = request.SalesPersonCode;
                 string billToCustomerNo = request.CustomerNo;
@@ -74,13 +74,11 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
                         return_value = match.Groups[1].Value;
                         result = new ProcessCreditCardResponse();
                         result.Status = "SUCCESS";
-                        result.Message = return_value;
+                        result.ReturnValue = return_value;
                     }
                     else
                     {
-                        result = new ProcessCreditCardResponse();
-                        result.Status = "ERROR";
-                        result.Message = "Unable to parse response:\n" + responseString;
+                        throw new Exception("Unable to parse response:\n" + responseString);
                     }
                 }
             }
@@ -88,7 +86,7 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
             {
                 result = new ProcessCreditCardResponse();
                 result.Status = "ERROR";
-                result.Message = ex.Message + ex.StackTrace;
+                result.ReturnValue = ex.Message + ex.StackTrace;
             }
             return result;
         }   

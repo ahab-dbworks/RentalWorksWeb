@@ -56,12 +56,10 @@ class VisitekProcessCreditCard implements IProcessCreditCard {
                 request.setWebApiUrl('/api/v1/processcreditcard/processcreditcard');
                 //const datafields = FwReport.getParameters($form);
                 request.data = {
-                    PINPad_Code: FwFormField.getValueByDataField($form, 'PINPad_Code'),
-                    Payment_AmountToPay: FwFormField.getValueByDataField($form, 'Payment_AmountToPay'),
-                    OrderNo: FwFormField.getValueByDataField($form, 'OrderNo'),
-                    StoreCode: '',
-                    SalesPersonCode: '',
-                    CustomerNo: FwFormField.getValueByDataField($form, 'CustomerNo')
+                    CustomerNo: FwFormField.getValueByDataField($form, 'CustomerNo'),
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    PINPadCode: FwFormField.getValueByDataField($form, 'PINPad_Code'),
+                    PaymentAmount: FwFormField.getValueByDataField($form, 'Payment_AmountToPay')
                 };
                 request.$elementToBlock = jQuery('body');
                 var response = await FwAjax.callWebApi<any, any>(request);

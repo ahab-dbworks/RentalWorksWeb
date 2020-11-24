@@ -170,7 +170,7 @@ namespace WebApi.Modules.Billing.Receipt
         public string CustomerDepositCheckNumber { get; set; }
 
         [FwLogicProperty(Id: "UX70epptKCKf")]
-        public string OrderId { get; set; }
+        public string OrderId { get { return receipt.OrderId; } set { receipt.OrderId = value; } }
 
 
         //------------------------------------------------------------------------------------ 
