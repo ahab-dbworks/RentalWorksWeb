@@ -111,7 +111,18 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
 
         [FwLogicProperty(Id: "dFUcOGXkkVa7", IsReadOnly: true)]
         public string PINPad_Description { get; set; } = string.Empty;
-        
+
+
+        [FwLogicProperty(Id: "dFUcOGXkkVa7", IsReadOnly: true)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "SWSReDvLhdGM", IsReadOnly: true)]
+        public string LocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "eSIJIjRBXpLt", IsReadOnly: true)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request)
         {
