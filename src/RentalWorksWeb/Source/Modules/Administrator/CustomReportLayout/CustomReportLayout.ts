@@ -329,6 +329,10 @@ class CustomReportLayout {
             this.codeMirror.refresh();
         });
 
+        $form.on('click', '.report-preview[data-type="tab"]', e => {
+            this.renderPreviewTab($form, $reportTemplate);
+        });
+
         //Reload General Tab
         $form.on('click', '[data-type="tab"][data-caption="General"]', e => {
             this.renderDesignerTab($form);
@@ -476,7 +480,9 @@ class CustomReportLayout {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                 this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumnName}"]`));
             },
-            animation: 100
+            animation: 100,
+            invertSwap: true,
+            invertedSwapThreshold: .5
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -495,7 +501,9 @@ class CustomReportLayout {
                 },
                 delay: 500,
                 animation: 100,
-                dragoverBubble: true
+                dragoverBubble: true,
+                invertSwap: true,
+                invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-flexcolumn').length > 0) {
@@ -520,7 +528,9 @@ class CustomReportLayout {
                 },
                 delay: 500,
                 animation: 100,
-                dragoverBubble: true
+                dragoverBubble: true,
+                invertSwap: true,
+                invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-nested-flexrow').length > 0) {
@@ -558,7 +568,9 @@ class CustomReportLayout {
                 delay: 500,
                 animation: 100,
                 fallbackOnBody: true,
-                dragoverBubble: true
+                dragoverBubble: true,
+                invertSwap: true,
+                invertedSwapThreshold: .5
             });
         }
     }
@@ -1924,6 +1936,11 @@ class CustomReportLayout {
             $fieldsList.find('span').show();
         }
     };
+    //----------------------------------------------------------------------------------------------
+    renderPreviewTab($form: JQuery, $reportTemplate: JQuery) {
+        let html = FwFormField.getValueByDataField($form, 'Html');
+        $form.find(`#previewReport`).empty().append(html);
+    }
     //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------
