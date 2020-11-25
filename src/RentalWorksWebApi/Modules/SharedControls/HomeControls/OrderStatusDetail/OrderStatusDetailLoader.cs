@@ -275,7 +275,7 @@ namespace WebApi.Modules.HomeControls.OrderStatusDetail
                 case RwConstants.PURCHASE_ORDER_STATUS_FILTER_RETURNED:
                     select.AddWhere("(incontractid > '')");
                     break;
-                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_NOT_BARCODED:
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_NOT_YET_BARCODED:
                     //select.AddWhere("(qtybarcoded = 0)");
                     break;
 
