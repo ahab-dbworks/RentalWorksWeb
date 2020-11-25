@@ -96,6 +96,10 @@ namespace FwStandard.SqlServer
             {
                 isTrue = false;
             }
+            else if (fieldValue is System.Boolean)
+            {
+                isTrue = (bool)fieldValue;
+            }
             else if (fieldValue is System.Byte)
             {
                 isTrue = (Convert.ToByte(fieldValue) == 1);
@@ -135,7 +139,7 @@ namespace FwStandard.SqlServer
             else if (fieldValue is System.String)
             {
                 isTrue = (Convert.ToString(fieldValue).Trim().ToUpper() == "T");
-            }
+            } 
             else
             {
                 throw new Exception("ToBoolean() has not been implemented for this data type");
