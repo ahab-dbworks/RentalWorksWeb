@@ -1571,10 +1571,13 @@ namespace FwStandard.BusinessLogic
         {
             // Add the audit record on another thread without blocking
             _ = Task.Run(async () =>
+                {
+                    if (this.UserSession != null)
                     {
                         await WebAuditJsonFunc.AddAuditAsync(this.AppConfig, this.UserSession, original, this);
-                    });
-        }
+                    }
+                });
+    }
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> DeleteAsync(FwSqlConnection conn = null)
         {
