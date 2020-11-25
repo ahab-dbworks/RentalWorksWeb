@@ -37,7 +37,6 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                     response.msg = qry.GetParameter("@msg").ToString();
                 }
             }
-
             if (!string.IsNullOrEmpty(batchId))
             {
                 response.Batch = new InvoiceProcessBatchLogic();
@@ -45,8 +44,75 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                 response.Batch.BatchId = batchId;
                 await response.Batch.LoadAsync<InvoiceProcessBatchLogic>();
             }
-
+            if (response.success)
+            {
+                await InvoiceProcessBatchFunc.AutoProcessDepletingDeposit(appConfig, userSession, request, response);
+            }
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task AutoProcessDepletingDeposit(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchRequest request, InvoiceProcessBatchResponse response)
+        {
+            response.AutoProcessDepeletingDeposit = true;
+            bool autoapplydepletingdeposittoinvoice = false;
+            string invoiceId = string.Empty;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 autoapplydepletingdeposittoinvoice");
+                    qry.Add("from location with (nolock)");
+                    qry.Add("where locationid = @locationid");
+                    qry.AddParameter("@locationid", request.LocationId);
+                    await qry.ExecuteAsync();
+                    autoapplydepletingdeposittoinvoice = qry.GetField("autoapplydepletingdeposittoinvoice").ToBoolean();
+                }
+                if (autoapplydepletingdeposittoinvoice)
+                {
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.Add("select invoiceid");
+                        qry.Add("from   invoicechgbatch with (nolock)");
+                        qry.Add("where  chgbatchid = @chgbatchid");
+                        qry.AddParameter("@chgbatchid", response.Batch.BatchId);
+                        var dt = await qry.QueryToFwJsonTableAsync();
+                        for (int x = 0; x < dt.Rows.Count; x++)
+                        {
+                            invoiceId = dt.GetValue(x, "invoiceid").ToString();
+                            await InvoiceProcessBatchFunc.ApplyAutoProcessDepletingDeposit(appConfig, userSession, request, response, invoiceId, conn);
+
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task ApplyAutoProcessDepletingDeposit(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchRequest request, InvoiceProcessBatchResponse response, string invoiceId, FwSqlConnection conn)
+        {
+            string orderId = string.Empty;
+            string arId = string.Empty;
+
+            using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+            {
+                qry.Add("select top 1 orderid"); // need to check on all the orders
+                qry.Add("from   orderinvoice with (nolock)");
+                qry.Add("where  invoiceid = @invoiceid");
+                qry.AddParameter("@invoiceid", invoiceId);
+                await qry.ExecuteAsync();
+                orderId = qry.GetField("orderid").ToString().TrimEnd();
+            }
+            using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+            {
+                qry.Add("select top 1 arid"); // how do i know it is not applied
+                qry.Add("from   ar with (nolock)");
+                qry.Add("where  orderid = @orderid");
+                qry.AddParameter("@orderid", orderId);
+                await qry.ExecuteAsync();
+                arId = qry.GetField("arid").ToString().TrimEnd();
+            }
+            //apppy the deposit to the invoice
+
         }
         //-------------------------------------------------------------------------------------------------------
         //public static async Task<ExportInvoiceResponse> Export(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchLogic batch)
@@ -155,4 +221,5 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
         //}
         //-------------------------------------------------------------------------------------------------------
     }
+    //-------------------------------------------------------------------------------------------------------
 }

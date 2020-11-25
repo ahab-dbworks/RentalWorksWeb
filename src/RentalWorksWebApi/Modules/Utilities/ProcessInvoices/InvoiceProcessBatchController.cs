@@ -19,7 +19,8 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
 
     public class InvoiceProcessBatchResponse : TSpStatusResponse
     {
-        public InvoiceProcessBatchLogic Batch;
+        public InvoiceProcessBatchLogic Batch { get; set; }
+        public bool AutoProcessDepeletingDeposit { get; set; }
     }
 
     public class ExportInvoiceRequest

@@ -36,6 +36,5 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
         public int? RecordCount { get; set; }
         [FwLogicProperty(Id: "JzjEMUwK6DfFH", IsReadOnly: true)]
         public string DateStamp { get; set; }
-        //------------------------------------------------------------------------------------ 
     }
 }
