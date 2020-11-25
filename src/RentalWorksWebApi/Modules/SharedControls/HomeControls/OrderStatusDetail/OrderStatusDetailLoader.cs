@@ -1,8 +1,8 @@
-using FwStandard.Data; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
+using FwStandard.Data;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data; 
+using WebApi.Data;
 using System.Collections.Generic;
 using WebApi;
 using WebApi.Logic;
@@ -275,6 +275,9 @@ namespace WebApi.Modules.HomeControls.OrderStatusDetail
                 case RwConstants.PURCHASE_ORDER_STATUS_FILTER_RETURNED:
                     select.AddWhere("(incontractid > '')");
                     break;
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_NOT_BARCODED:
+                    //select.AddWhere("(qtybarcoded = 0)");
+                    break;
 
                 default: break;
             }
@@ -285,7 +288,7 @@ namespace WebApi.Modules.HomeControls.OrderStatusDetail
                 {
                     StringBuilder activeOrderTransWhere = new StringBuilder();
                     activeOrderTransWhere.Append(" ( ");
-                    activeOrderTransWhere.Append("     (itemstatus = '" + RwConstants.ORDERTRAN_ITEMSTATUS_OUT    + "') or ");
+                    activeOrderTransWhere.Append("     (itemstatus = '" + RwConstants.ORDERTRAN_ITEMSTATUS_OUT + "') or ");
                     activeOrderTransWhere.Append("     (itemstatus = '" + RwConstants.ORDERTRAN_ITEMSTATUS_STAGED + "') or ");
                     activeOrderTransWhere.Append("     (issuspendin = 'T')                                              or ");
                     activeOrderTransWhere.Append("     (itemclass = '" + RwConstants.ITEMCLASS_KIT + "')                   ");

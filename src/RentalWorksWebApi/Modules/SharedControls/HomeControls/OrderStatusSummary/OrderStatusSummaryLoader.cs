@@ -292,6 +292,9 @@ namespace WebApi.Modules.HomeControls.OrderStatusSummary
                 case RwConstants.PURCHASE_ORDER_STATUS_FILTER_RETURNED:
                     select.AddWhere("(qtyreturned > 0)");
                     break;
+                case RwConstants.PURCHASE_ORDER_STATUS_FILTER_NOT_BARCODED:
+                    //select.AddWhere("(qtybarcoded = 0)");
+                    break;
                 default: break;
             }
 
