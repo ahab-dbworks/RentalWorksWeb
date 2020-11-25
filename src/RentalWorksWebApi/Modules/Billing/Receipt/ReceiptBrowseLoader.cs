@@ -87,6 +87,7 @@ namespace WebApi.Modules.Billing.Receipt
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("DealId", "dealid", select, request);
+            addFilterToSelect("OrderId", "orderid", select, request);
             //addFilterToSelect("CustomerId", "customerid", select, request);
 
             string customerId = GetUniqueIdAsString("CustomerId", request) ?? "";
