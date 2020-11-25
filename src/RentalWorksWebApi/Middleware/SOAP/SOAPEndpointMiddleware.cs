@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FwStandard.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +21,16 @@ namespace WebApi.Middleware.SOAP
         private readonly string _endpointPath;
         private readonly MessageEncoder _messageEncoder;
         private readonly ServiceDescription _service;
+        private readonly FwApplicationConfig _appConfig;
 
-        public SOAPEndpointMiddleware(RequestDelegate next, Type serviceType, string path, MessageEncoder encoder)
+        public SOAPEndpointMiddleware(RequestDelegate next, Type serviceType, string path, MessageEncoder encoder, IOptions<FwApplicationConfig> appConfig)
         {
             _next = next;
             _serviceType = serviceType;
             _endpointPath = path;
             _messageEncoder = encoder;
             _service = new ServiceDescription(serviceType);
+            _appConfig = appConfig.Value;
         }
         public async Task Invoke(HttpContext httpContext, IServiceProvider serviceProvider)
         {
@@ -54,12 +58,18 @@ namespace WebApi.Middleware.SOAP
                 // Invoking the operation
                 // Get service type
                 var serviceInstance = serviceProvider.GetService(_service.ServiceType);
+                var appConfigPropertyInfo = serviceInstance.GetType().GetProperty("AppConfig");
+                if (appConfigPropertyInfo != null)
+                {
+                    appConfigPropertyInfo.SetValue(serviceInstance, _appConfig);
+                }
 
                 // Get operation arguments from message
                 var arguments = GetRequestArguments(requestMessage, operation);
 
                 // Invoke Operation method
-                var responseObject = operation.DispatchMethod.Invoke(serviceInstance, arguments.ToArray());
+                dynamic responseObjectTask = operation.DispatchMethod.Invoke(serviceInstance, arguments.ToArray());
+                object responseObject = await responseObjectTask;
 
                 // Encode responseObject into the response message
                 // Create response message
