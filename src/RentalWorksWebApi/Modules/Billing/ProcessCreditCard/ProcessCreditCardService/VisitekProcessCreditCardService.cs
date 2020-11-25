@@ -67,7 +67,7 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
                 using (var reader = new StreamReader(responseStream))
                 {
                     string responseString = reader.ReadToEnd();
-                    Regex regexReturnValue = new Regex(@"<\w*:*return_value>(\w*)</\w*:*return_value>");
+                    Regex regexReturnValue = new Regex(@"<\w*:*return_value>(.*)</\w*:*return_value>");
                     Match match = regexReturnValue.Match(responseString);
                     if (match.Groups.Count > 1)
                     {

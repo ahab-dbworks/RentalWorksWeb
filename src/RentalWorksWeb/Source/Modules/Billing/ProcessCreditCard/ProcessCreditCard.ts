@@ -104,7 +104,7 @@ class ProcessCreditCard {
                 break;
             case 'Replacement':
                 $form.find('.replacementPanel').show();
-                FwFormField.setValueByDataField($form, 'Payment_TotalAmount', FwFormField.getValueByDataField($form, 'Totals_Replacement_DepositDue'));
+                FwFormField.setValueByDataField($form, 'Payment_TotalAmount', FwFormField.getValueByDataField($form, 'Totals_Replacement_DepositPercentage'));
                 break;
         }
     }
