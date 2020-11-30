@@ -293,7 +293,7 @@ namespace WebApi.Modules.HomeControls.OrderStatusSummary
                     select.AddWhere("(qtyreturned > 0)");
                     break;
                 case RwConstants.PURCHASE_ORDER_STATUS_FILTER_NOT_YET_BARCODED:
-                    //select.AddWhere("(qtybarcoded = 0)");
+                    select.AddWhere("(qtyneedbarcode > 0)");
                     break;
                 default: break;
             }
