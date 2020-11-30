@@ -1934,7 +1934,15 @@ class CustomReportLayout {
         } else if ($element.hasClass('rpt-flexcolumn')) {
             btnCaption = 'Delete Column';
         } else if ($element[0].nodeName === 'SPAN') {
-            btnCaption = `Delete ${$element.text().replace('{{', '').replace('}}', '')} Field`;
+            //btnCaption = `Delete ${$element.text().replace('{{', '').replace('}}', '')} Field`;
+            let fieldText: string = $element.text();
+            if (fieldText.indexOf('{{') >= 0) {
+                btnCaption = `Delete ${fieldText.replace('{{', '').replace('}}', '')} Field`;
+            }
+            else {
+                fieldText = fieldText.replace(':', '');
+                btnCaption = `Delete ${fieldText} Text`;
+            }
         }
         $form.find('.delete-component').text(btnCaption);
     }
