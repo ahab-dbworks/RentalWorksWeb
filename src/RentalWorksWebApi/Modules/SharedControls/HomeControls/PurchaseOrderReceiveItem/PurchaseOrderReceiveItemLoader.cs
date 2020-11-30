@@ -143,7 +143,7 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             if (!showFullyReceived)
-            { 
+            {
                 select.AddWhere("((qtyremaining > 0) or (qty <> 0))");
             }
 
@@ -152,7 +152,6 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
 
             select.AddParameter("@poid", PurchaseOrderId);
             select.AddParameter("@receivecontractid", ContractId);
-
         }
         //------------------------------------------------------------------------------------ 
     }
