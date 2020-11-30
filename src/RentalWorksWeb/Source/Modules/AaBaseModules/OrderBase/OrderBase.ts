@@ -2487,14 +2487,11 @@ class OrderBase {
         });
 
         $form.find('div[data-datafield="DepartmentId"]').data('onchange', $tr => {
-            const status = FwFormField.getValueByDataField($form, 'Status');
-            if (this.Module === 'Order') {
-                const statuses: any = ["COMPLETE", "CONFIRMED"];
-                if (statuses.includes(status)) {
-                    this.changeDepartmentForOrder($form, $tr, departmentObj);
-                } else {
-                    this.defaultFieldsOnDepartmentChange($form, $tr);
-                }
+            const hasContracts = FwFormField.getValueByDataField($form, 'HasContracts');
+            const hasInvoices = FwFormField.getValueByDataField($form, 'HasInvoices');
+            const hasSubPurchaseOrders = FwFormField.getValueByDataField($form, 'HasSubPurchaseOrders');
+            if (hasContracts || hasInvoices || hasSubPurchaseOrders) {
+                this.changeDepartmentForOrder($form, $tr, departmentObj);
             } else {
                 this.defaultFieldsOnDepartmentChange($form, $tr);
             }
@@ -2509,18 +2506,16 @@ class OrderBase {
 
         //Defaults Address information when user selects a deal
         $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
-            const status = FwFormField.getValueByDataField($form, 'Status');
-            if (this.Module === 'Order') {
-                const statuses: any = ["COMPLETE", "CONFIRMED"];
-                if (statuses.includes(status)) {
-                    this.changeDealForOrder($form, $tr, dealObj);
-                } else {
-                    this.defaultFieldsOnDealChange($form, $tr);
-                }
+            const hasContracts = FwFormField.getValueByDataField($form, 'HasContracts');
+            const hasInvoices = FwFormField.getValueByDataField($form, 'HasInvoices');
+            const hasSubPurchaseOrders = FwFormField.getValueByDataField($form, 'HasSubPurchaseOrders');
+            if (hasContracts || hasInvoices || hasSubPurchaseOrders) {
+                this.changeDealForOrder($form, $tr, dealObj);
             } else {
                 this.defaultFieldsOnDealChange($form, $tr);
             }
         });
+
         // Out / In DeliveryType radio in Deliver tab
         $form.find('.delivery-type-radio').on('change', event => {
             this.deliveryTypeAddresses($form, event);
