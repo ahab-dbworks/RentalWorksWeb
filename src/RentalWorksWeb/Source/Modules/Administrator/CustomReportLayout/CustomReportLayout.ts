@@ -191,6 +191,7 @@ class CustomReportLayout {
         $headerFields.empty();
         FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/emptyobject`, null, FwServices.defaultTimeout,
             response => {
+                $form.data('emptyobjresponse', response);
                 let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                 let allValidFields: any = [];
                 const fieldsToExclude = ['DateStamp', 'RecordTitle', '_Custom', '_Fields', 'DateFields'];
@@ -330,7 +331,7 @@ class CustomReportLayout {
         });
 
         $form.on('click', '.report-preview[data-type="tab"]', e => {
-            this.renderPreviewTab($form, $reportTemplate);
+            this.renderPreviewTab($form);
         });
 
         //Reload General Tab
@@ -1937,9 +1938,21 @@ class CustomReportLayout {
         }
     };
     //----------------------------------------------------------------------------------------------
-    renderPreviewTab($form: JQuery, $reportTemplate: JQuery) {
-        let html = FwFormField.getValueByDataField($form, 'Html');
-        $form.find(`#previewReport`).empty().append(html);
+    renderPreviewTab($form: JQuery) {
+        $form.find(`#previewReport`).empty();
+        //const context = $form.data('emptyobjresponse');
+        //if (typeof context != 'undefined') {
+        //    const html = FwFormField.getValueByDataField($form, 'Html');
+        //    const template = Handlebars.compile(html);
+        //    const preview = template(context);
+        //    $form.find(`#previewReport`).append(preview);
+        //}
+        const $sections = $form.find('.header-wrapper, .table-wrapper, .footer-wrapper').clone(false);
+        for (let i = 0; i < $sections.length; i++) {
+            const sectionContent: any = $sections[i].outerHTML;
+            const sectionContentNoBraces = sectionContent.replaceAll('{{', '').replaceAll('}}', '');
+            $form.find(`#previewReport`).append(sectionContentNoBraces);
+        }
     }
     //----------------------------------------------------------------------------------------------
 };

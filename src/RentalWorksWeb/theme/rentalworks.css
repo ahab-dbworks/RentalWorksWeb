@@ -760,14 +760,21 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #reportDesigner table tr.preview .placeholder { border:2px dashed #4caf50 !important; text-align:center;}
 
 /* Custom Report Header Section (note: copied from webpackreports.scss) */
+[data-controller="CustomReportLayoutController"] .report-layout .table-wrapper table {width: -webkit-fill-available;}
 [data-controller="CustomReportLayoutController"] .report-layout .header-wrapper .rpt-flexrow,
-[data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-flexrow {display: flex;flex-wrap: nowrap;justify-content: space-between;/*width: 1110px;*/ border:1px dotted #e9ebec;}
+[data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-flexrow {display: flex;flex-wrap: nowrap;justify-content: space-between;}
+[data-controller="CustomReportLayoutController"] #reportDesigner .report-layout .header-wrapper .rpt-flexrow,
+[data-controller="CustomReportLayoutController"] #reportDesigner .report-layout .footer-wrapper .rpt-flexrow,
+[data-controller="CustomReportLayoutController"] #reportDesigner .report-layout .footer-wrapper .rpt-flexcolumn,
+[data-controller="CustomReportLayoutController"] #reportDesigner .report-layout .header-wrapper .rpt-flexcolumn,
+[data-controller="CustomReportLayoutController"] #reportDesigner .report-layout .header-wrapper .rpt-nested-flexrow,
+[data-controller="CustomReportLayoutController"] #reportDesigner .report-layout .footer-wrapper .rpt-nested-flexrow { border: 1px dotted #dcdcdc;}
 [data-controller="CustomReportLayoutController"] .report-layout .header-wrapper .rpt-nested-flexrow,
-[data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-nested-flexrow {display: flex;flex-wrap: nowrap;min-height: 1em; border:1px dotted #dcdcdc; padding-right:15px;}
+[data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-nested-flexrow {display: flex;flex-wrap: nowrap;min-height: 1em;  padding-right:15px;}
 [data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-flexrow > *,
 [data-controller="CustomReportLayoutController"] .report-layout .header-wrapper .rpt-flexrow > * {flex: 1 1 0;min-width: 16em;}
 [data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-flexcolumn,
-[data-controller="CustomReportLayoutController"] .report-layout .header-wrapper .rpt-flexcolumn {display: flex;flex-direction: column; border:1px dotted #dcdcdc; padding-right:1em;}
+[data-controller="CustomReportLayoutController"] .report-layout .header-wrapper .rpt-flexcolumn {display: flex;flex-direction: column; padding-right:1em;}
 [data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-title,
 [data-controller="CustomReportLayoutController"] .report-layout .header-wrapper .rpt-title {align-self: center;font-size: 17px;font-weight: bold;}
 [data-controller="CustomReportLayoutController"] .report-layout .footer-wrapper .rpt-header-center,
