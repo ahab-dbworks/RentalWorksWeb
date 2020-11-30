@@ -279,7 +279,7 @@ class ReceiveFromVendor {
 
             $receiveItemsGridControl.data('ondatabind', request => {
                 request.uniqueids = {
-                    ShowFullyReceived: `${itemsFullyReceived}`,
+                    ShowFullyReceived: itemsFullyReceived,
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,

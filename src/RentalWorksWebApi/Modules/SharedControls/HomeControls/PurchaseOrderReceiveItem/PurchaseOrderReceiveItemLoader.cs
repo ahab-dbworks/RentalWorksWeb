@@ -106,7 +106,7 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
         {
 
             useWithNoLock = false;
-
+            bool showFullyReceived = GetUniqueIdAsBoolean("ShowFullyReceived", request) ?? false; 
             if (string.IsNullOrEmpty(PurchaseOrderId))
             {
                 if ((request != null) && (request.uniqueids != null))
@@ -138,10 +138,23 @@ namespace WebApi.Modules.HomeControls.PurchaseOrderReceiveItem
                     PurchaseOrderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", PurchaseOrderItemId, "orderid").Result;
                 }
             }
+
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("ShowFullyReceived"))
+                {
+                    if (showFullyReceived)
+                    {
+                        select.AddWhere("(qtyremaining > 0)");
+                    }
+                }
+            }
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
 
             select.AddParameter("@poid", PurchaseOrderId);
             select.AddParameter("@receivecontractid", ContractId);
