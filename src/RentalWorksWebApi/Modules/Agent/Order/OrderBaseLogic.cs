@@ -1212,8 +1212,25 @@ namespace WebApi.Modules.Agent.Order
         public decimal? LossAndDamageExtendedTotal { get; set; }
 
 
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "a4M3WLLCuQor", IsReadOnly: true)]
         public bool? HasNotes { get; set; }
+        [FwLogicProperty(Id: "UCBVHdYSlNWOG", IsReadOnly: true)]
+        public bool? HasDocuments { get; set; }
+        [FwLogicProperty(Id: "MKXsV3qoAy2E3", IsReadOnly: true)]
+        public bool? HasEmailHistory { get; set; }
+        [FwLogicProperty(Id: "qfHtJrT9Z3vV8", IsReadOnly: true)]
+        public bool? HasContacts { get; set; }
+        [FwLogicProperty(Id: "HFdQ4bnyuf7AA", IsReadOnly: true)]
+        public bool? HasSubPurchaseOrders { get; set; }
+        [FwLogicProperty(Id: "PmGrnYEgKxvby", IsReadOnly: true)]
+        public bool? HasPickLists { get; set; }
+        [FwLogicProperty(Id: "p0xDe2JpE9gop", IsReadOnly: true)]
+        public bool? HasContracts { get; set; }
+        [FwLogicProperty(Id: "hPidrVvNmiygL", IsReadOnly: true)]
+        public bool? HasInvoices { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         [FwLogicProperty(Id: "Y20WXdv5U5cV0", IsReadOnly: true)]
         public decimal? TotalReplacementCost { get; set; }
@@ -1935,7 +1952,25 @@ namespace WebApi.Modules.Agent.Order
                 bool departmentChanged = (DepartmentId != null) && (!DepartmentId.Equals(orig.DepartmentId));
                 if (dealChanged || departmentChanged)  // if the user has changed the Deal or Department
                 {
-                    //we need to change the Deal on all Contracts related to this Order
+                    //we need to change the Deal on all Contracts, Sub PO's, and Invoices related to this Order
+
+                    DealLogic newDeal = null;
+                    DepartmentLogic newDepartment = null;
+                    if (dealChanged)
+                    {                        
+                        newDeal = new DealLogic();
+                        newDeal.SetDependencies(AppConfig, UserSession);
+                        newDeal.DealId = DealId;
+                        bool b = newDeal.LoadAsync<DealLogic>(e.SqlConnection).Result;
+                    }
+
+                    if (departmentChanged)
+                    {
+                        newDepartment = new DepartmentLogic();
+                        newDepartment.SetDependencies(AppConfig, UserSession);
+                        newDepartment.DepartmentId = DepartmentId;
+                        bool b = newDepartment.LoadAsync<DepartmentLogic>(e.SqlConnection).Result;
+                    }
 
                     // create a browse request which will help find all Contracts related to this Order
                     BrowseRequest contractBrowseRequest = new BrowseRequest();
@@ -1955,10 +1990,12 @@ namespace WebApi.Modules.Agent.Order
                         if (dealChanged)
                         {                                                         // change the DealId
                             cNew.DealId = DealId;
+                            cNew.Deal = newDeal.Deal;
                         }
                         if (departmentChanged)
                         {
                             cNew.DepartmentId = DepartmentId;
+                            cNew.Department = newDepartment.Department;
                         }
                         int i = cNew.SaveAsync(original: cOrig, conn: e.SqlConnection).Result;     // apply the change. Include cOrig so the change will be fully audited
                     }
@@ -1978,10 +2015,12 @@ namespace WebApi.Modules.Agent.Order
                         if (dealChanged)
                         { 
                             poNew.DealId = DealId;
+                            poNew.Deal = newDeal.Deal;
                         }
                         if (departmentChanged)
                         {
                             poNew.DepartmentId = DepartmentId;
+                            poNew.Department = newDepartment.Department;
                         }
                         int i = poNew.SaveAsync(original: poOrig, conn: e.SqlConnection).Result;
                     }
@@ -2001,10 +2040,12 @@ namespace WebApi.Modules.Agent.Order
                         if (dealChanged)
                         {
                             iNew.DealId = DealId;
+                            iNew.Deal = newDeal.Deal;
                         }
                         if (departmentChanged)
                         {
                             iNew.DepartmentId = DepartmentId;
+                            iNew.Department = newDepartment.Department;
                         }
                         int i = iNew.SaveAsync(original: iOrig, conn: e.SqlConnection).Result;
                     }

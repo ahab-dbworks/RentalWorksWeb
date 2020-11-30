@@ -4465,10 +4465,19 @@ class OrderBase {
 
 
         // color the Notes tab if notes exist
-        const hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
-        if (hasNotes) {
-            FwTabs.setTabColor($form.find('.notestab'), '#FFFF8d');
-        }
+        //const hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
+        //if (hasNotes) {
+        //    FwTabs.setTabColor($form.find('.notestab'), '#FFFF8d');
+        //}
+
+        this.highlightTab($form, 'notestab', 'HasNotes');
+        this.highlightTab($form, 'documentstab', 'HasDocuments');
+        this.highlightTab($form, 'emailhistorytab', 'HasEmailHistory');
+        this.highlightTab($form, 'contactstab', 'HasContacts');
+        this.highlightTab($form, 'subpurchaseordertab', 'HasSubPurchaseOrders');
+        this.highlightTab($form, 'picklisttab', 'HasPickLists');
+        this.highlightTab($form, 'contracttab', 'HasContracts');
+        this.highlightTab($form, 'invoicetab', 'HasInvoices');
 
         // color the Rental tab if RentalItems exist
         const hasRentalItem = FwFormField.getValueByDataField($form, 'HasRentalItem');
@@ -5068,7 +5077,14 @@ class OrderBase {
         this.getTab($form, tabClass).hide();
     }
     //----------------------------------------------------------------------------------------------
-
+    highlightTab($form: JQuery, tabClass: string, fieldName: string) {
+        // color the tab if records exist
+        const hasRecords = FwFormField.getValueByDataField($form, fieldName);
+        if (hasRecords) {
+            FwTabs.setTabColor(this.getTab($form, tabClass), '#FFFF8d');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
 }
 class PickStartStop {
     PickDate: string;
