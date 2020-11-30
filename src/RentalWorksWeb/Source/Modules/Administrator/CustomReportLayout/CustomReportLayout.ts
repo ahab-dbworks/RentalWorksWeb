@@ -232,7 +232,7 @@ class CustomReportLayout {
 
                 for (let i = 0; i < allValidFields.length; i++) {
                     modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].value}</div>`);
-                    $headerFields.append(`<span>${allValidFields[i].value}</span>`);
+                    $headerFields.append(`<span data-fieldname="${allValidFields[i].value}">${allValidFields[i].value}</span>`);
                     if (allValidFields[i].hasOwnProperty("NestedItems")) {
                         for (const key of Object.keys(allValidFields[i].NestedItems)) {
                             if (key != '_Custom') {
@@ -547,9 +547,14 @@ class CustomReportLayout {
                     //
                 },
                 onEnd: e => {
-                    if (jQuery(e.item).parent().hasClass('rpt-nested-flexrow')) {
+                    const $item = jQuery(e.item);
+                    if ($item.parent().hasClass('rpt-nested-flexrow')) {
                         if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
-                            jQuery(e.item).text(`{{${jQuery(e.item).text()}}}`);
+                            if (typeof $item.attr('data-parentfield') != 'undefined') {
+                                $item.text(`{{${$item.attr('data-parentfield')}.${jQuery(e.item).text()}}}`);
+                            } else {
+                                $item.text(`{{${jQuery(e.item).text()}}}`);
+                            }
                         }
                         const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                         this.updateReportHeader($form, $reportHeaderSection);
@@ -1918,6 +1923,10 @@ class CustomReportLayout {
                 const text = $field.text().toUpperCase();
                 if (text.indexOf(searchValue) != -1) {
                     $field.show();
+                    if (typeof $field.attr('data-parentfield') != 'undefined') {
+                        const $parentField = $fields.filter(`span[data-fieldname="${$field.attr('data-parentfield')}"]`);
+                        $parentField.show();
+                    }
                 } else {
                     $field.hide();
                 }
