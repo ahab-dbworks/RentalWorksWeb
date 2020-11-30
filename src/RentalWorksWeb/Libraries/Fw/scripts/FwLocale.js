@@ -49,7 +49,7 @@ class FwLocaleClass {
         return (localFormat) ? localmoment.format('L') : localmoment.format('YYYY-MM-DD');
     }
     getTime(time, time12) {
-        var localmoment;
+        let localmoment;
         if (time) {
             localmoment = moment(time, 'HH:mm');
         }
@@ -59,7 +59,7 @@ class FwLocaleClass {
         const options = {
             hour: '2-digit',
             minute: '2-digit',
-            hour12: (time12) ? time12 : false
+            hour12: (time12) ? time12 : false,
         };
         return Intl.DateTimeFormat(this.Locale, options).format(localmoment);
     }
