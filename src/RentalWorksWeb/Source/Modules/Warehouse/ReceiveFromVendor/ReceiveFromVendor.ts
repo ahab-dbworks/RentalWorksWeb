@@ -273,13 +273,13 @@ class ReceiveFromVendor {
         $optionToggle.on('click', () => {
             $form.find('.options').toggle();
         });
-        $form.find('div[data-datafield="ItemsFullyReceived"]').on('change', e => {
-            const itemsFullyReceived: boolean = FwFormField.getValueByDataField($form, 'ItemsFullyReceived');
+        $form.find('div[data-datafield="ShowFullyReceived"]').on('change', e => {
+            const showFullyReceived: boolean = FwFormField.getValueByDataField($form, 'ShowFullyReceived');
             const $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
 
             $receiveItemsGridControl.data('ondatabind', request => {
                 request.uniqueids = {
-                    ShowFullyReceived: itemsFullyReceived,
+                    ShowFullyReceived: showFullyReceived,
                     ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
                     PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                     WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
@@ -406,7 +406,7 @@ class ReceiveFromVendor {
                         <div data-control="FwFormField" data-type="checkbox" class="options fwcontrol fwformfield" data-caption="Automatically Create CHECK-OUT Contract for Sub Rental and Sub Sale items received" data-datafield="AutomaticallyCreateCheckOut" style="flex:1 1 150px;"></div>
                     </div>
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="options fwcontrol fwformfield" data-caption="Show items that have been fully received" data-datafield="ItemsFullyReceived" style="flex:1 1 150px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="options fwcontrol fwformfield" data-caption="Show items that have been fully received" data-datafield="ShowFullyReceived" style="flex:1 1 150px;"></div>
                     </div>
                 </div>
             </div>
