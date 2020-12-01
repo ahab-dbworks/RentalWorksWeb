@@ -156,6 +156,7 @@ class CustomReportLayout {
             let modulehtml;
             const reportName = $this.val();
             const reportCaption = $this.text();
+            $form.data('changelist', []);
             if (reportName.length) {
                 FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${reportName}`, null, FwServices.defaultTimeout,
                     response => {
@@ -599,6 +600,13 @@ class CustomReportLayout {
         let $cachedRow, newHTML, rowIndex;
         const updateType = $form.data('updatetype');
         if (typeof updateType != 'undefined' && typeof updateType == 'string') {
+            //add html to list of changes
+            let changelist = $form.data('changelist');
+            if (typeof changelist === 'undefined') {
+                changelist = [];
+            }
+            changelist.push(this.html);
+            $form.data('changelist', changelist);
             const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
             this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser  
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
@@ -718,6 +726,9 @@ class CustomReportLayout {
             let $row, linkedColumn, rowType, linkedRow;
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
+            if (fieldname === "TableName") {
+                return false;
+            }
             const value = FwFormField.getValue2($property);
 
             if (typeof $column != 'undefined') {
@@ -769,7 +780,7 @@ class CustomReportLayout {
                         const oldField = $column.attr('data-valuefield');
 
                         //if (rowType === 'linked-sub-header') {
-                            //$table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
+                        //$table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
                         //}
 
                         //$column.removeClass('new-column');
@@ -1169,6 +1180,11 @@ class CustomReportLayout {
         $form.find('i.field-search').on('click', e => {
             this.searchFields($form);
         });
+
+        //Undo Changes
+        $form.find('.undo [data-type="button"]').on('click', e => {
+            this.undo($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     setControlValues($form: JQuery, $column: JQuery) {
@@ -1331,7 +1347,7 @@ class CustomReportLayout {
                     linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
-                    if (typeof changes != 'undefined' && changes.rowtype == 'sub-header' ) {
+                    if (typeof changes != 'undefined' && changes.rowtype == 'sub-header') {
                         $designerRow = jQuery($table.find('tr[data-row="sub-header"]')[subHeaderRowIndex]).clone();
                         $designerRow.find('.highlight').removeClass('highlight');
                         html = $designerRow.get(subHeaderRowIndex).innerHTML.trim();
@@ -1954,6 +1970,27 @@ class CustomReportLayout {
             }
         }
         $form.find('.delete-component').text(btnCaption);
+    }
+    //----------------------------------------------------------------------------------------------
+    undo($form: JQuery) {
+        const changelist = $form.data('changelist');
+        if (typeof changelist != 'undefined' && changelist.length > 0) {
+            const previousHtml = changelist[changelist.length - 1];
+            FwFormField.setValueByDataField($form, 'Html', previousHtml);
+            this.codeMirror.setValue(previousHtml);
+            this.updateChangeList($form);
+            this.renderDesignerTab($form);
+        } else {
+            FwNotification.renderNotification(`ERROR`, 'There are no changes to undo.');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    updateChangeList($form: JQuery) {
+        const changelist = $form.data('changelist');
+        if (typeof changelist != 'undefined' && changelist.length > 0) {
+            changelist.pop();
+            $form.data('changelist', changelist);
+        };
     }
     //----------------------------------------------------------------------------------------------
 };
