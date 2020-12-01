@@ -2481,7 +2481,7 @@ class OrderBase {
         // ----------
         $form.find('[data-datafield="DepartmentId"]').on('change', e => {
             departmentObj = {
-                Name: FwFormField.getTextByDataField($form, 'DepartmentId'),
+                Name: FwFormField.getValueByDataField($form, 'Department'),
                 Id: $form.find('[data-datafield="DepartmentId"]').attr('data-originalvalue')
             }
         });
@@ -2499,7 +2499,7 @@ class OrderBase {
 
         $form.find('[data-datafield="DealId"]').on('change', e => {
             dealObj = {
-                Name: FwFormField.getTextByDataField($form, 'DealId'),
+                Name: FwFormField.getValueByDataField($form, 'Deal'),
                 Id: $form.find('[data-datafield="DealId"]').attr('data-originalvalue')
             }
         });
@@ -4247,6 +4247,7 @@ class OrderBase {
         FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
         FwFormField.setValueByDataField($form, 'CurrencyId', currencyId, currencyCode);
         FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
+        FwFormField.setValue($form, 'div[data-datafield="Deal"]', $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
 
         FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
             FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer);
@@ -4297,6 +4298,8 @@ class OrderBase {
         FwFormField.setValue($form, 'div[data-datafield="DisableEditingMiscellaneousRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingMiscellaneousRate"]').attr('data-originalvalue')));
         FwFormField.setValue($form, 'div[data-datafield="DisableEditingRentalSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingRentalSaleRate"]').attr('data-originalvalue')));
         FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
+        FwFormField.setValue($form, 'div[data-datafield="Department"]', $tr.find('.field[data-browsedatafield="Department"]').attr('data-originalvalue'));
+
         if ($form.attr('data-mode') === 'NEW') {
             const defaultActivities: any = {};
             defaultActivities['Rental'] = $tr.find('.field[data-browsedatafield="DefaultActivityRental"]').attr('data-originalvalue');
@@ -4941,7 +4944,7 @@ class OrderBase {
     changeDealForOrder($form: any, $tr: any, oldDeal: any) {
         const newDeal = FwBrowse.getValueByDataField($form, $tr, 'Deal');
 
-        const $confirmation = FwConfirmation.renderConfirmation('Update Deal?', '');
+        const $confirmation = FwConfirmation.renderConfirmation('Update Deal', '');
         $confirmation.find('.fwconfirmationbox').css('width', '500px');
 
         const html = [];
@@ -4952,6 +4955,7 @@ class OrderBase {
         html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
         html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="NewDeal" data-enabled="false" style="width:480px;float:left;"></div>`);
         html.push(`  </div>`);
+        html.push(`  <div style="padding:.5em;">Are you sure you want to change the Deal on this Order? This will update all Contracts, Sub Purchase Orders, and Invoices related to this Order.</div>`);
         html.push(`</div>`);
 
         FwConfirmation.addControls($confirmation, html.join(''));
@@ -4975,7 +4979,7 @@ class OrderBase {
     changeDepartmentForOrder($form: any, $tr: any, oldDepartment: any) {
         const department = FwBrowse.getValueByDataField($form, $tr, 'Department');
 
-        const $confirmation = FwConfirmation.renderConfirmation('Update Department?', '');
+        const $confirmation = FwConfirmation.renderConfirmation('Update Department', '');
         $confirmation.find('.fwconfirmationbox').css('width', '500px');
 
         const html = [];
@@ -4986,6 +4990,7 @@ class OrderBase {
         html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
         html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Department" data-datafield="NewDepartment" data-enabled="false" style="width:480px;float:left;"></div>`);
         html.push(`  </div>`);
+        html.push(`  <div style="padding:.5em;">Are you sure you want to change the Department on this Order? This will update all Contracts, Sub Purchase Orders, and Invoices related to this Order.</div>`);
         html.push(`</div>`);
 
         FwConfirmation.addControls($confirmation, html.join(''));
