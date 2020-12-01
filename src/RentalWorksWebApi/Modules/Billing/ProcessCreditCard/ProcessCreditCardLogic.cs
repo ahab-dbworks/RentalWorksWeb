@@ -179,12 +179,12 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             ProcessCreditCardPaymentResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
             string[] returnValues = response.ReturnValue.Split("|", StringSplitOptions.None);
             string status = returnValues[0];
-            string statusText = returnValues[1];
-            string cardEntryMode = returnValues[2];
-            string cardType = returnValues[3];
-            string cardNumber = returnValues[4];
-            string authorizationCode = returnValues[5];
-            decimal amount = Convert.ToDecimal(returnValues[6]);
+            //string statusText = returnValues[1];
+            //string cardEntryMode = returnValues[2];
+            //string cardType = returnValues[3];
+            //string cardNumber = returnValues[4];
+            //string authorizationCode = returnValues[5];
+            //decimal amount = Convert.ToDecimal(returnValues[6]);
 
             if (response.Status == "SUCCESS" && status.ToUpper() == "APPROVED")
             {
