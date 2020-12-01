@@ -640,7 +640,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistribution.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CreditCardPinPad\CreditCardPinPad.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\ProcessCreditCard\iProcessCreditCard\iProcessCreditCard.ts" />
-    <TypeScriptCompile Include="Source\Modules\Billing\ProcessCreditCard\iProcessCreditCard\VisitekProcessCreditCard.ts" />
+    <TypeScriptCompile Include="Source\Modules\Billing\ProcessCreditCard\iProcessCreditCard\VistekProcessCreditCard.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormat.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\Venue\Venue.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilitySettings\Building\Building.ts" />

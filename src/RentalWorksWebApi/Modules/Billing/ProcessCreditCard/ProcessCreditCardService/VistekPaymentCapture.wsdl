@@ -1,0 +1,90 @@
+<definitions targetNamespace="urn:microsoft-dynamics-schemas/codeunit/PaymentCapture" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:microsoft-dynamics-schemas/codeunit/PaymentCapture">
+	<types>
+		<schema elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/PaymentCapture" xmlns="http://www.w3.org/2001/XMLSchema">
+			<element name="ProcessCardPayment">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="pINPadNo" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="transactionTypeOpt" type="int"/>
+						<element minOccurs="1" maxOccurs="1" name="amount" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="docRefNo" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="storeCode" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="salespersonCode" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="billToCustomerNo" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="pPaymentRefNo" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="pCardType" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="pCardNo" type="string"/>
+						<element minOccurs="1" maxOccurs="1" name="pAuthCode" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ProcessCardPayment_Result">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="return_value" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="GetApiKey">
+				<complexType>
+					<sequence/>
+				</complexType>
+			</element>
+			<element name="GetApiKey_Result">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="return_value" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="ProcessCardPayment">
+		<part name="parameters" element="tns:ProcessCardPayment"/>
+	</message>
+	<message name="ProcessCardPayment_Result">
+		<part name="parameters" element="tns:ProcessCardPayment_Result"/>
+	</message>
+	<message name="GetApiKey">
+		<part name="parameters" element="tns:GetApiKey"/>
+	</message>
+	<message name="GetApiKey_Result">
+		<part name="parameters" element="tns:GetApiKey_Result"/>
+	</message>
+	<portType name="PaymentCapture_Port">
+		<operation name="ProcessCardPayment">
+			<input name="ProcessCardPayment" message="tns:ProcessCardPayment"/>
+			<output name="ProcessCardPayment_Result" message="tns:ProcessCardPayment_Result"/>
+		</operation>
+		<operation name="GetApiKey">
+			<input name="GetApiKey" message="tns:GetApiKey"/>
+			<output name="GetApiKey_Result" message="tns:GetApiKey_Result"/>
+		</operation>
+	</portType>
+	<binding name="PaymentCapture_Binding" type="tns:PaymentCapture_Port">
+		<binding transport="http://schemas.xmlsoap.org/soap/http" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		<operation name="ProcessCardPayment">
+			<operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PaymentCapture:ProcessCardPayment" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input name="ProcessCardPayment">
+				<body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output name="ProcessCardPayment_Result">
+				<body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+		</operation>
+		<operation name="GetApiKey">
+			<operation soapAction="urn:microsoft-dynamics-schemas/codeunit/PaymentCapture:GetApiKey" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<input name="GetApiKey">
+				<body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</input>
+			<output name="GetApiKey_Result">
+				<body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="PaymentCapture">
+		<port name="PaymentCapture_Port" binding="tns:PaymentCapture_Binding">
+			<address location="https://10.1.8.103:8047/TEST_NAV80/WS/Vistek%20Live/Codeunit/PaymentCapture" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		</port>
+	</service>
+</definitions>

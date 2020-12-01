@@ -5,8 +5,8 @@ interface IProcessCreditCard {
 //----------------------------------------------------------------------------------------------
 function ProcessCreditCardFactory(type: string): IProcessCreditCard {
     switch (type) {
-        case "Visitek":
-            return new VisitekProcessCreditCard();
+        case "Vistek":
+            return new VistekProcessCreditCard();
         default:
             return null;
     }

@@ -4,8 +4,11 @@ using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
 using WebApi.Modules.Billing.Receipt;
+using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
@@ -127,7 +130,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------
-        public async Task<ProcessCreditCardResponse> ProcessPaymentAsync(ProcessCreditCardRequest request)
+        public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(ProcessCreditCardPaymentRequest request)
         {
             string paymenttypeid = string.Empty;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
@@ -156,10 +159,24 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                 {
                     throw new Exception("Unable to Process Payment: Please create a Payment Type with the name \"CREDIT CARD\".");
                 }
+                if (string.IsNullOrEmpty(this.LocationCode))
+                {
+                    OfficeLocationLogic locationLogic = FwBusinessLogic.CreateBusinessLogic<OfficeLocationLogic>(this.AppConfig, this.UserSession);
+                    locationLogic.LocationId = this.LocationId;
+                    await locationLogic.LoadAsync<OfficeLocationLogic>(conn);
+                    throw new Exception($"Unable to Process Payment: LocationCode must be configured on the Office Location record for Location: \"{locationLogic.Location}\"");
+                }
+                if (string.IsNullOrEmpty(this.AgentBarcode))
+                {
+                    OrderLogic orderLogic = FwBusinessLogic.CreateBusinessLogic<OrderLogic>(this.AppConfig, this.UserSession);
+                    orderLogic.OrderId = this.OrderId;
+                    await orderLogic.LoadAsync<OrderLogic>(conn);
+                    throw new Exception($"Unable to Process Payment: AgentBarcode is required on the User record for: \"{orderLogic.Agent}\"");
+                }
             }
             request.StoreCode = this.LocationCode;
             request.SalesPersonCode = this.AgentBarcode;
-            ProcessCreditCardResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
+            ProcessCreditCardPaymentResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
             if (response.Status == "SUCCESS" && response.ReturnValue == "APPROVED")
             {
                 ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(this.AppConfig, this.UserSession);

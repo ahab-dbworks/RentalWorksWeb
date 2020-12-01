@@ -25,7 +25,7 @@ class ProcessCreditCard {
                     return;
                 }
 
-                const processor = ProcessCreditCardFactory('Visitek')
+                const processor = ProcessCreditCardFactory('Vistek')
                 processor.process(options.$form);
             }
             catch (ex) {
@@ -104,7 +104,7 @@ class ProcessCreditCard {
                 break;
             case 'Replacement':
                 $form.find('.replacementPanel').show();
-                FwFormField.setValueByDataField($form, 'Payment_TotalAmount', FwFormField.getValueByDataField($form, 'Totals_Replacement_DepositPercentage'));
+                FwFormField.setValueByDataField($form, 'Payment_TotalAmount', FwFormField.getValueByDataField($form, 'Totals_Replacement_DepositDue'));
                 break;
         }
     }

@@ -38,9 +38,9 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/processcreditcard/processcreditcard
-        [HttpPost("processcreditcard")]
+        [HttpPost("processcreditcardpayment")]
         [FwControllerMethod(Id: "pvc2YoVG316N", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<ProcessCreditCardResponse>> ProcessCreditCardAsync([FromBody]ProcessCreditCardRequest request) 
+        public async Task<ActionResult<ProcessCreditCardPaymentResponse>> ProcessCreditCardAsync([FromBody]ProcessCreditCardPaymentRequest request) 
         {
             await Task.CompletedTask;
 

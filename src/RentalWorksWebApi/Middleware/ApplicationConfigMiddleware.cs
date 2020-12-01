@@ -127,7 +127,6 @@ namespace WebApi.Middleware
                     await httpContext.Response.WriteAsync(this.GetApplicationConfigText(appConfig));
                     return;
                 }
-                await _next(httpContext); // Call the pipeline
             }
             catch (Exception ex)
             {
@@ -140,6 +139,7 @@ namespace WebApi.Middleware
                 await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiException));
                 return;
             }
+            await _next(httpContext); // Call the pipeline
         }
 
         string GetApplicationConfigText(object configObj)

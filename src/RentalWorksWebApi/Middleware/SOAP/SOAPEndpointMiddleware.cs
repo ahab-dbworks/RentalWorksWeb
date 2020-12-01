@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,52 +37,60 @@ namespace WebApi.Middleware.SOAP
         {
             if (httpContext.Request.Path.Equals(_endpointPath, StringComparison.Ordinal))
             {
-                Message responseMessage;
-
-                // Read request message
-                var requestMessage = _messageEncoder.ReadMessage(httpContext.Request.Body, 0x10000, httpContext.Request.ContentType);
-
-                // Get requested action and invoke
-                var soapAction = httpContext.Request.Headers["SOAPAction"].ToString().Trim('\"');
-                if (!string.IsNullOrEmpty(soapAction))
+                try
                 {
-                    requestMessage.Headers.Action = soapAction;
-                }
+                    Message responseMessage;
 
-                // Lookup operation and invoke
-                var operation = _service.Operations.Where(o => o.SoapAction.Equals(requestMessage.Headers.Action, StringComparison.Ordinal)).FirstOrDefault();
-                if (operation == null)
+                    // Read request message
+                    var requestMessage = _messageEncoder.ReadMessage(httpContext.Request.Body, 0x10000, httpContext.Request.ContentType);
+
+                    // Get requested action and invoke
+                    var soapAction = httpContext.Request.Headers["SOAPAction"].ToString().Trim('\"');
+                    if (!string.IsNullOrEmpty(soapAction))
+                    {
+                        requestMessage.Headers.Action = soapAction;
+                    }
+
+                    // Lookup operation and invoke
+                    var operation = _service.Operations.Where(o => o.SoapAction.Equals(requestMessage.Headers.Action, StringComparison.Ordinal)).FirstOrDefault();
+                    if (operation == null)
+                    {
+                        throw new InvalidOperationException($"No operation found for specified action: {requestMessage.Headers.Action}");
+                    }
+
+                    // Invoking the operation
+                    // Get service type
+                    var serviceInstance = serviceProvider.GetService(_service.ServiceType);
+                    var appConfigPropertyInfo = serviceInstance.GetType().GetProperty("AppConfig");
+                    if (appConfigPropertyInfo != null)
+                    {
+                        appConfigPropertyInfo.SetValue(serviceInstance, _appConfig);
+                    }
+
+                    // Get operation arguments from message
+                    var arguments = GetRequestArguments(requestMessage, operation);
+
+                    // Invoke Operation method
+                    dynamic responseObjectTask = operation.DispatchMethod.Invoke(serviceInstance, arguments.ToArray());
+                    object responseObject = await responseObjectTask;
+
+                    // Encode responseObject into the response message
+                    // Create response message
+                    var resultName = operation.DispatchMethod.ReturnParameter.GetCustomAttribute<MessageParameterAttribute>()?.Name ?? operation.Name + "Result";
+                    var bodyWriter = new ServiceBodyWriter(operation.Contract.Namespace, operation.Name + "Response", resultName, responseObject);
+                    responseMessage = Message.CreateMessage(_messageEncoder.MessageVersion, operation.ReplyAction, bodyWriter);
+
+                    httpContext.Response.ContentType = httpContext.Request.ContentType; // _messageEncoder.ContentType;
+                    httpContext.Response.Headers["SOAPAction"] = responseMessage.Headers.Action;
+
+                    _messageEncoder.WriteMessage(responseMessage, httpContext.Response.Body);
+                }
+                catch (Exception ex)
                 {
-                    throw new InvalidOperationException($"No operation found for specified action: {requestMessage.Headers.Action}");
+                    httpContext.Response.StatusCode = 500;
+                    await httpContext.Response.WriteAsync(ex.Message + ex.StackTrace);
+                    return;
                 }
-
-                // Invoking the operation
-                // Get service type
-                var serviceInstance = serviceProvider.GetService(_service.ServiceType);
-                var appConfigPropertyInfo = serviceInstance.GetType().GetProperty("AppConfig");
-                if (appConfigPropertyInfo != null)
-                {
-                    appConfigPropertyInfo.SetValue(serviceInstance, _appConfig);
-                }
-
-                // Get operation arguments from message
-                var arguments = GetRequestArguments(requestMessage, operation);
-
-                // Invoke Operation method
-                dynamic responseObjectTask = operation.DispatchMethod.Invoke(serviceInstance, arguments.ToArray());
-                object responseObject = await responseObjectTask;
-
-                // Encode responseObject into the response message
-                // Create response message
-                var resultName = operation.DispatchMethod.ReturnParameter.GetCustomAttribute<MessageParameterAttribute>()?.Name ?? operation.Name + "Result";
-                var bodyWriter = new ServiceBodyWriter(operation.Contract.Namespace, operation.Name + "Response", resultName, responseObject);
-                responseMessage = Message.CreateMessage(_messageEncoder.MessageVersion, operation.ReplyAction, bodyWriter);
-
-                httpContext.Response.ContentType = httpContext.Request.ContentType; // _messageEncoder.ContentType;
-                httpContext.Response.Headers["SOAPAction"] = responseMessage.Headers.Action;
-
-                _messageEncoder.WriteMessage(responseMessage, httpContext.Response.Body);
-
             }
             else
             {

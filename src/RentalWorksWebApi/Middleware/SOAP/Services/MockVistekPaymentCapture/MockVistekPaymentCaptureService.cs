@@ -4,12 +4,12 @@ using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture
+namespace WebApi.Middleware.SOAP.Services.MockVistekPaymentCapture
 {
-    public class MockVisitekPaymentCaptureService : IMockVisitekPaymentCaptureService
+    public class MockVistekPaymentCaptureService : IMockVistekPaymentCaptureService
     {
         public FwApplicationConfig AppConfig { get; set; } = null;
-        public async Task<MockVisitekProcessCardPayment_Result> ProcessCardPayment(string pINPadNo, int transactionTypeOpt, string amount, string docRefNo, string storeCode, string salespersonCode, string billToCustomerNo)
+        public async Task<MockVistekProcessCardPayment_Result> ProcessCardPayment(string pINPadNo, int transactionTypeOpt, string amount, string docRefNo, string storeCode, string salespersonCode, string billToCustomerNo, string pPaymentRefNo, string pCardType, string pCardNo, string pAuthCode)
         {
             decimal totals_weekly_grandtotal = 0;
             decimal totals_period_grandtotal = 0;
@@ -34,7 +34,7 @@ namespace WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture
                 }
             }
             
-            MockVisitekProcessCardPayment_Result result = new MockVisitekProcessCardPayment_Result();
+            MockVistekProcessCardPayment_Result result = new MockVistekProcessCardPayment_Result();
             decimal paymentAmount = FwConvert.ToDecimal(amount);
             if ((paymentAmount == totals_weekly_grandtotal) || 
                 (paymentAmount == totals_period_grandtotal) ||
@@ -48,12 +48,5 @@ namespace WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture
             }
             return result;
         }
-    }
-
-    [ServiceContract(Namespace = "urn:microsoft-dynamics-schemas/codeunit/PaymentCapture", ConfigurationName = "VisitekPaymentCaptureService.PaymentCapture_Port")]
-    public interface IMockVisitekPaymentCaptureService
-    {
-        [OperationContract(Action = "urn:microsoft-dynamics-schemas/codeunit/PaymentCapture:ProcessCardPayment", ReplyAction = "*")]
-        Task<MockVisitekProcessCardPayment_Result> ProcessCardPayment(string pINPadNo, int transactionTypeOpt, string amount, string docRefNo, string storeCode, string salespersonCode, string billToCustomerNo);
     }
 }

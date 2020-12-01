@@ -20,7 +20,7 @@ using System.ServiceModel.Channels;
 using WebApi.ApplicationManager;
 using WebApi.Middleware;
 using WebApi.Middleware.SOAP;
-using WebApi.Middleware.SOAP.Services.MockVisitekPaymentCapture;
+using WebApi.Middleware.SOAP.Services.MockVistekPaymentCapture;
 using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
 using WebApi.Modules.HomeControls.BillingSchedule;
 using WebApi.Modules.HomeControls.InventoryAvailability;
@@ -70,7 +70,7 @@ namespace WebApi
                     Startup.EnableReceipts = qry.GetField("enablereceipts").ToBoolean();
                 }
 
-                // if Receipts is enabled, then out create payments types needed for Credit Card Processing
+                // if Receipts is enabled, then create payments types needed for Credit Card Processing
                 if (Startup.EnableReceipts)
                 {
                     using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
@@ -143,12 +143,12 @@ namespace WebApi
                 if (Startup.ClientCode == "VISTEK")
                 {
                     // Register a VisitekProcessCreditCardService as the implementation of IProcessCreditCardService for the Process Credit Card Utility
-                    services.AddScoped<IProcessCreditCardService, VisitekProcessCreditCardService>();
+                    services.AddScoped<IProcessCreditCardService, VistekProcessCreditCardService>();
                     
                     // Host a local SOAP service that mocks the Visitek credit card processing service
                     if (this.HostingEnvironment.IsDevelopment())
                     {
-                        services.AddSingleton<MockVisitekPaymentCaptureService>();
+                        services.AddSingleton<MockVistekPaymentCaptureService>();
                     }
                 }
             }
@@ -160,9 +160,11 @@ namespace WebApi
             app.ApplicationConfigMiddleware();
             if (env.IsDevelopment())
             {
-                var binding = new BasicHttpBinding(BasicHttpSecurityMode.None);
-                //binding.MessageVersion = MessageVersion.Soap12WSAddressing10;
-                app.UseSOAPEndpoint<MockVisitekPaymentCaptureService>("/MockVisitekProcessCardPayment.svc", binding);
+                if (Startup.ClientCode == "VISTEK")
+                {
+                    var binding = new BasicHttpBinding(BasicHttpSecurityMode.None);
+                    app.UseSOAPEndpoint<MockVistekPaymentCaptureService>("/MockVistekProcessCardPayment.svc", binding);
+                }
             }
             base.Configure(app, env, loggerFactory);
         }

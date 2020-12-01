@@ -86,6 +86,7 @@
 
   <ItemGroup>
     <Compile Remove="ApplicationManager\ApplicationSecurity.cs" />
+    <Compile Remove="Middleware\SOAP\Services\MockVistekPaymentCapture\MockVistekProcessCardPayment.cs" />
     <Compile Remove="Modules\Agent\Customer\Controls\CustomerDocumentGrid\CustomerDocumentLoader.cs" />
     <Compile Remove="Modules\Agent\Customer\Controls\CustomerDocumentGrid\CustomerDocumentLogic.cs" />
     <Compile Remove="Modules\SharedControls\AdministratorControls\Test\TestController.cs" />
