@@ -463,7 +463,8 @@ class CustomReportLayout {
                 const $column = jQuery(e.item);
                 $column.removeAttr('draggable');
                 const linkedColumnName = $column.attr('data-linkedcolumn');
-                const $tr = jQuery(e.currentTarget);
+                //const $tr = jQuery(e.currentTarget);
+                const $tr = jQuery(e.target);
 
                 $form.data('columnsmoved', {
                     oldIndex: e.oldIndex,
@@ -482,8 +483,8 @@ class CustomReportLayout {
                 this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumnName}"]`));
             },
             animation: 100,
-            invertSwap: true,
-            invertedSwapThreshold: .5
+            //invertSwap: true,
+            //invertedSwapThreshold: .5
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -500,11 +501,11 @@ class CustomReportLayout {
                     const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                     this.updateReportHeader($form, $reportHeaderSection);
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                dragoverBubble: true,
-                invertSwap: true,
-                invertedSwapThreshold: .5
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-flexcolumn').length > 0) {
@@ -527,11 +528,11 @@ class CustomReportLayout {
                     const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                     this.updateReportHeader($form, $reportHeaderSection);
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                dragoverBubble: true,
-                invertSwap: true,
-                invertedSwapThreshold: .5
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-nested-flexrow').length > 0) {
@@ -559,19 +560,20 @@ class CustomReportLayout {
                 },
                 onEnd: e => {
                     if (jQuery(e.item).parent().hasClass('rpt-nested-flexrow')) {
-                        if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
+                        //if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
+                        if (jQuery(e.target).hasClass('header-fields-drag')) {
                             jQuery(e.item).text(`{{${jQuery(e.item).text()}}}`);
                         }
                         const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                         this.updateReportHeader($form, $reportHeaderSection);
                     }
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                fallbackOnBody: true,
-                dragoverBubble: true,
-                invertSwap: true,
-                invertedSwapThreshold: .5
+                //fallbackOnBody: true,
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
         }
     }
