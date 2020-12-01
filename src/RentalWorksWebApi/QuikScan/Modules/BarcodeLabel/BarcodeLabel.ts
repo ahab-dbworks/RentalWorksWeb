@@ -879,6 +879,17 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     };
 
     screen.load = function () {
+        program.setScanTarget('');
+        program.setScanTargetLpNearfield('');
+        program.onScanBarcode = function (barcode, barcodeType) {
+            try {
+                screen.$view.find('.page-barcodesearch .option[data-value="BARCODE"]').click();
+                screen.$view.find('.page-barcodesearch .searchbox').val(barcode).change();
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }
+
         for (var key in screen.pages) {
             var page = screen.pages[key];
             if (typeof page.init === 'function') {
@@ -888,10 +899,14 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
         screen.getBarcodeLabels(function () {
             screen.pages.menu.forward();
         });
+
+        program.setScanTarget('.ui-search .fwmobilesearch .searchbox');
     };
 
     screen.unload = function () {
-        //program.setScanTarget('.ui-search .fwmobilesearch .searchbox');
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTargetLpNearfield('');
+        program.onScanBarcode = null;
     };
     
     return screen;
