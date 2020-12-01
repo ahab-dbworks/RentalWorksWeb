@@ -94,14 +94,14 @@ class VistekProcessCreditCard implements IProcessCreditCard {
                         FwFormField.setValueByDataField($confirmation, 'CardEntryMode', cardEntryMode);
                         FwFormField.setValueByDataField($confirmation, 'CardType', cardType);
                         FwFormField.setValueByDataField($confirmation, 'Amount', amount);
-                        if (status === 'Approved') {
+                        if (status.toUpperCase() === 'APPROVED') {
                             $confirmation.find('.response .Result .fwformfield-value')
                                 .val('APPROVED')
                                 .css({
                                     backgroundColor: '#a6d785'
                                 });
                         }
-                        else if (status === 'Declined') {
+                        else if (status.toUpperCase() === 'DECLINED') {
                             $confirmation.find('.response .Result .fwformfield-value').css({
                                 backgroundColor: '#ff8a80'
                             });

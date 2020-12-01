@@ -70,7 +70,7 @@ class ProcessCreditCard {
             { caption: 'Period', value: 'Period', checked: false },
             { caption: 'Replacement', value: 'Replacement', checked: true }
         ]);
-        $totalsItems.find('.fwformfield-value').on('change', (e: JQuery.ChangeEvent) => {
+        $totalsItems.on('click', (e: JQuery.ClickEvent) => {
             this.updateTotalItemsPanels($form);
         });
 

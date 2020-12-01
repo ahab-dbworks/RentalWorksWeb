@@ -177,7 +177,16 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             request.StoreCode = this.LocationCode;
             request.SalesPersonCode = this.AgentBarcode;
             ProcessCreditCardPaymentResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
-            if (response.Status == "SUCCESS" && response.ReturnValue == "APPROVED")
+            string[] returnValues = response.ReturnValue.Split("|", StringSplitOptions.None);
+            string status = returnValues[0];
+            string statusText = returnValues[1];
+            string cardEntryMode = returnValues[2];
+            string cardType = returnValues[3];
+            string cardNumber = returnValues[4];
+            string authorizationCode = returnValues[5];
+            decimal amount = Convert.ToDecimal(returnValues[6]);
+
+            if (response.Status == "SUCCESS" && status.ToUpper() == "APPROVED")
             {
                 ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(this.AppConfig, this.UserSession);
                 receipt.OrderId = request.OrderId;
