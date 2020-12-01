@@ -150,6 +150,11 @@ class TransferOrder {
 
         this.events($form);
         this.renderSearchButton($form);
+
+        $form.data('beforesave', request => {
+            delete request['TransferDate']; // Removing StatusDate from request since it's value is maintained at the API level
+        });
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------

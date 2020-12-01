@@ -222,6 +222,10 @@ class Invoice {
         this.events($form);
         this.renderPrintButton($form);
 
+        $form.data('beforesave', request => {
+            delete request['StatusDate']; // Removing StatusDate from request since it's value is maintained at the API level
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -1496,7 +1500,7 @@ class Invoice {
         }
     }
     //----------------------------------------------------------------------------------------------
-    async doVoidInvoice($control: JQuery, invoiceId: string, isLastIndex:boolean, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): Promise<void> {
+    async doVoidInvoice($control: JQuery, invoiceId: string, isLastIndex: boolean, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
             try {
                 const request = new FwAjaxRequest<any>();
