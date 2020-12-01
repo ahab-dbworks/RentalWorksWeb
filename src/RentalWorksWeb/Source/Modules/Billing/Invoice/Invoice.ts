@@ -193,7 +193,7 @@ class Invoice {
             FwFormField.setValueByDataField($form, 'BillingStartDate', today);
             FwFormField.setValueByDataField($form, 'BillingEndDate', today);
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
-            FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
+            //FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
             FwFormField.enable($form.find('[data-datafield="RateType"]'));
             FwFormField.setValueByDataField($form, 'StatusDate', today);
 

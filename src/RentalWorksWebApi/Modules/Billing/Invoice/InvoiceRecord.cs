@@ -26,7 +26,7 @@ namespace WebApi.Modules.Billing.Invoice
         [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
+        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
