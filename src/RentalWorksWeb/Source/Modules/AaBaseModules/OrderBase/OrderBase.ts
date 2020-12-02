@@ -4955,7 +4955,7 @@ class OrderBase {
         html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
         html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="NewDeal" data-enabled="false" style="width:480px;float:left;"></div>`);
         html.push(`  </div>`);
-        html.push(`  <div style="padding:.5em;">Are you sure you want to change the Deal on this Order? This will update all Contracts, Sub Purchase Orders, and Invoices related to this Order.</div>`);
+        html.push(`  <div style="padding:.5em;">Are you sure you want to change the Deal on this ${this.Module}? This will update all Contracts, Sub Purchase Orders, and Invoices related to this ${this.Module}.</div>`);
         html.push(`</div>`);
 
         FwConfirmation.addControls($confirmation, html.join(''));
@@ -4990,7 +4990,7 @@ class OrderBase {
         html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
         html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Department" data-datafield="NewDepartment" data-enabled="false" style="width:480px;float:left;"></div>`);
         html.push(`  </div>`);
-        html.push(`  <div style="padding:.5em;">Are you sure you want to change the Department on this Order? This will update all Contracts, Sub Purchase Orders, and Invoices related to this Order.</div>`);
+        html.push(`  <div style="padding:.5em;">Are you sure you want to change the Department on this ${this.Module}? This will update all Contracts, Sub Purchase Orders, and Invoices related to this ${this.Module}.</div>`);
         html.push(`</div>`);
 
         FwConfirmation.addControls($confirmation, html.join(''));
