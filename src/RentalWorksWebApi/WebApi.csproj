@@ -12,7 +12,7 @@
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWebApi</FwApplicationDirectory>
     <AssemblyName>WebApi</AssemblyName>
     <RootNamespace>WebApi</RootNamespace>
-    <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>4.0</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <Company>Database Works, Inc</Company>
     <Product>RentalWorks WebApi</Product>
