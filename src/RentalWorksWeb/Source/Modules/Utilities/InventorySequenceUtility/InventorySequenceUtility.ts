@@ -569,16 +569,16 @@ class InventorySequenceUtility {
                     </div>
                   </div>
                   <div class="flexrow" style="max-width:2105px;">
-                    <div class="flexcolumn" style="flex:0 1 525px;">
+                    <div class="flexcolumn" style="flex:0 1 475px;">
                       <div data-control="FwGrid" data-grid="InventorySequenceTypeGrid"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 525px;">
+                    <div class="flexcolumn" style="flex:0 1 475px;">
                       <div data-control="FwGrid" data-grid="InventorySequenceCategoryGrid"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 525px;">
+                    <div class="flexcolumn" style="flex:0 1 300px;">
                       <div data-control="FwGrid" data-grid="InventorySequenceSubCategoryGrid"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 525px;">
+                    <div class="flexcolumn" style="flex:0 1 500px;">
                       <div data-control="FwGrid" data-grid="InventorySequenceItemsGrid"></div>
                     </div>
                   </div>

@@ -19,6 +19,6 @@
     "@types/jquery": "3.3.29",
     "@types/mustache": "0.8.30",
     "@types/node": "10.5.3",
-    "typescript": "3.9.7"
+    "typescript": "4.0.5"
   }
 }

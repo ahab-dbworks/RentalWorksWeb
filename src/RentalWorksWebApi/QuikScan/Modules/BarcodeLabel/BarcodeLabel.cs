@@ -34,10 +34,9 @@ namespace RentalWorksQuikScan.Modules
                     select.PageSize = request.pagesize;
                     select.Add("select masterno, master, barcode, statustype, statusdate, color, icode=masterno, description=master, mfgserial, rfid");
                     select.Add("from dbo.funcrentalitem(@locationid,'')");
-                    select.Add("where trackedby in ('BARCODE')");
-                    select.Add("  and statustype <> 'RETIRED'");
-                    select.Add("  and barcode > ''");
+                    select.Add("where barcode > ''");
                     select.Add("  and warehouseid = @warehouseid");
+                    select.Add("  and statustype <> 'RETIRED'");
                     switch ((string)request.searchmode)
                     {
                         case "ICODE":
