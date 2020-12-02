@@ -1319,6 +1319,28 @@ class OrderBase {
 
     }
     //----------------------------------------------------------------------------------------------
+    controlMutuallyExclusiveActivities($form: JQuery) {
+        const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
+        const salesVal = FwFormField.getValueByDataField($form, 'Sales');
+        const rentalSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+        const hasRentalSaleItem = FwFormField.getValueByDataField($form, 'HasRentalSaleItem');
+        const hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
+        let lossDamageVal: boolean = false;
+        if (this.Module === 'Order') {
+            lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
+            if (rentalVal|| salesVal || rentalSaleVal ) {
+                FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
+            } else if (!rentalVal && !salesVal && !rentalSaleVal && !hasLossAndDamageItem) {
+                FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
+            }
+        }
+        if (rentalVal || lossDamageVal) {
+            FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
+        } else if (!rentalVal && !lossDamageVal && !hasRentalSaleItem) {
+            FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = jQuery(this.getFormTemplate());
         //FwTabs.hideTab($form.find('.emailhistorytab'));
@@ -1419,6 +1441,7 @@ class OrderBase {
 
             // show/hide tabs based on Activity boxes checked
             this.showHideActivityTabs($form);
+            this.controlMutuallyExclusiveActivities($form);
 
             /*
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
@@ -3100,7 +3123,7 @@ class OrderBase {
                 FwFormField.setValue($report, `div[data-datafield="CompanyIdField"]`, dealId);
 
                 const $tab = FwTabs.getTabByElement($report);
-                $tab.find('.caption').html(`Print ${tag === 'In' ? 'Incoming' :'Outgoing' } Delivery Instructions `);
+                $tab.find('.caption').html(`Print ${tag === 'In' ? 'Incoming' : 'Outgoing'} Delivery Instructions `);
             }
 
             const isModified = $form.attr('data-modified');
@@ -4570,30 +4593,38 @@ class OrderBase {
         });
 
         // Enable/Disable checkboxes and show/hide Profit & Loss sections
+        //const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
+        //const salesVal = FwFormField.getValueByDataField($form, 'Sales');
+        //const rentalSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
+        //const laborVal = FwFormField.getValueByDataField($form, 'Labor');
+        //const miscVal = FwFormField.getValueByDataField($form, 'Miscellaneous');
+        //let lossDamageVal: boolean = false;
+        //if (rentalVal === true || salesVal === true || rentalSaleVal === true) {
+        //    FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
+        //} else if (rentalVal === false && salesVal === false && rentalSaleVal === false) {
+        //    FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
+        //}
+        //if (this.Module === 'Order') {
+        //    lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
+        //} 
+        //if (rentalVal || lossDamageVal) {
+        //    FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
+        //} else if (!rentalVal && !lossDamageVal && !hasRentalSaleItem) {
+        //    FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
+        //}
+        this.controlMutuallyExclusiveActivities($form);
+
+
+
+        // show/hide Profit & Loss sections
         const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
         const salesVal = FwFormField.getValueByDataField($form, 'Sales');
         const rentalSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
         const laborVal = FwFormField.getValueByDataField($form, 'Labor');
         const miscVal = FwFormField.getValueByDataField($form, 'Miscellaneous');
-        let lossDamageVal;
-        if (rentalVal === true || salesVal === true || rentalSaleVal === true) {
-            FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
-        } else if (rentalVal === false && salesVal === false && rentalSaleVal === false) {
-            FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-        }
+        let lossDamageVal: boolean = false;
         if (this.Module === 'Order') {
             lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
-            if (rentalVal || lossDamageVal) {
-                FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
-            } else if (!rentalVal && !lossDamageVal) {
-                FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
-            }
-        } else {
-            if (rentalVal) {
-                FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
-            } else if (!rentalVal && !lossDamageVal) {
-                FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
-            }
         }
 
         //const quikSearchMenuId = this.menuSearchId;
@@ -4928,19 +4959,19 @@ class OrderBase {
 
         $form.data('beforesave', request => {
             //if ($form.find('.activity-dates:visible').length > 0) {
-                const activityDatesAndTimes = [];
-                const $rows = $form.find('.date-row');
-                for (let i = 0; i < $rows.length; i++) {
-                    const $row = jQuery($rows[i]);
-                    activityDatesAndTimes.push({
-                        OrderTypeDateTypeId: FwFormField.getValue2($row.find('[data-datafield="OrderTypeDateTypeId"]'))
-                        , Date: FwFormField.getValue2($row.find('[data-datafield="Date"]'))
-                        , Time: FwFormField.getValue2($row.find('[data-datafield="Time"]'))
-                        , IsProductionActivity: FwFormField.getValue2($row.find('[data-datafield="IsProductionActivity"]'))
-                        , IsMilestone: FwFormField.getValue2($row.find('[data-datafield="IsMilestone"]'))
-                    });
-                }
-                request['ActivityDatesAndTimes'] = activityDatesAndTimes;
+            const activityDatesAndTimes = [];
+            const $rows = $form.find('.date-row');
+            for (let i = 0; i < $rows.length; i++) {
+                const $row = jQuery($rows[i]);
+                activityDatesAndTimes.push({
+                    OrderTypeDateTypeId: FwFormField.getValue2($row.find('[data-datafield="OrderTypeDateTypeId"]'))
+                    , Date: FwFormField.getValue2($row.find('[data-datafield="Date"]'))
+                    , Time: FwFormField.getValue2($row.find('[data-datafield="Time"]'))
+                    , IsProductionActivity: FwFormField.getValue2($row.find('[data-datafield="IsProductionActivity"]'))
+                    , IsMilestone: FwFormField.getValue2($row.find('[data-datafield="IsMilestone"]'))
+                });
+            }
+            request['ActivityDatesAndTimes'] = activityDatesAndTimes;
             //}
             delete request['StatusDate']; // Removing StatusDate from request since it's value is maintained at the API level
         });
