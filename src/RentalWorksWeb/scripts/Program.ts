@@ -263,6 +263,7 @@ class Program extends FwApplication {
                     defaulticodemask:                    responseGetInventorySettings.ICodeMask,
                     userassignedicodes:                  responseGetInventorySettings.UserAssignedICodes,
                     enable3weekpricing:                  responseGetInventorySettings.Enable3WeekPricing,
+                    enabletieredweekpricing:             responseGetInventorySettings.EnableTieredWeekPricing,
                     defaultrentalsaleretiredreasonid:    responseGetInventorySettings.DefaultRentalSaleRetiredReasonId,
                     defaultrentalsaleretiredreason:      responseGetInventorySettings.DefaultRentalSaleRetiredReason,
                     defaultlossanddamageretiredreasonid: responseGetInventorySettings.DefaultLossAndDamageRetiredReasonId,
