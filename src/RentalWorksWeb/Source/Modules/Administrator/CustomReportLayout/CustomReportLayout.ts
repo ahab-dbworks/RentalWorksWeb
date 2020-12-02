@@ -695,11 +695,16 @@ class CustomReportLayout {
                         this.addRowColumnSorting($form, $table, tableName, $tr.get(0), 'columnheader');
                         break;
                     case 'deleterow':
-                        const linkedColumn = $th.attr('data-linkedcolumn');
-                        const $cachedRowsToDelete = $wrapper.find(`${tableNameSelector} tr [data-linkedcolumn="${linkedColumn}"]`).parents('tr');
-                        const $designerRowsToDelete = $table.find(`[data-linkedcolumn="${linkedColumn}"]`).parents('tr');
-                        $cachedRowsToDelete.remove();
-                        $designerRowsToDelete.remove();
+                        try {
+                            const $row = $th.parents('tr');
+                            const rowIndex = $row.index();
+                            const tableSectionSelector = $row.parents('thead').length === 1 ? 'thead' : 'tbody';
+                            const $cachedRowsToDelete = $wrapper.find(`${tableNameSelector} ${tableSectionSelector} tr`)[rowIndex];
+                            $cachedRowsToDelete.remove();
+                            $row.remove();
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
                         break;
                     case 'style':
                         this.updateElementStyle($form, $wrapper, tableNameSelector, $tr, $th);
@@ -949,11 +954,6 @@ class CustomReportLayout {
             const linkedColumn = $column.attr('data-linkedColumn');
             this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumn}"]`));
             this.showHideControlProperties($form, 'table');
-            if ($column.parents('tr').index()) {
-                $form.find('.delete-row').parent('div').show();
-            } else {
-                $form.find('.delete-row').parent('div').hide();
-            }
         });
 
         //allow td styling
@@ -1298,7 +1298,7 @@ class CustomReportLayout {
             case 'sub-detail':
                 $controlProperties.children(`:not('[data-datafield="CellStyleField"]'):not('[data-datafield="CaptionField"]')`).hide();
                 $controlProperties.children(`[data-datafield="CellStyleField"], [data-datafield="CaptionField"]`).show();
-                $controlProperties.find('.delete-column').parent('div').show();
+                $controlProperties.find('.delete-column, .delete-row').parent('div').show();
                 $controlProperties.show();
                 break;
             case 'hide':
