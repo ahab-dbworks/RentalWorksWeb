@@ -487,20 +487,22 @@ class FwModule {
             .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {
                 var fields, $tab, $tabpage;
                 event.stopPropagation();
-
-                $tabpage = $form.parent();
-                $tab = jQuery('#' + $tabpage.attr('data-tabid'));
-                fields = FwModule.getFormFields($form, false);
-                if (Object.keys(fields).length > 0) {
-                    $tab.find('.modified').html('*');
-                    $form.attr('data-modified', 'true');
-                    $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-                    $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
-                } else {
-                    $tab.find('.modified').html('');
-                    $form.attr('data-modified', 'false');
-                    $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
-                    $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
+                const disableModifiedCheck = (typeof $form.attr('data-disablemodifiedbehavior') !== 'undefined' && $form.attr('data-disablemodifiedbehavior') === 'true');
+                if (!disableModifiedCheck) {
+                    $tabpage = $form.parent();
+                    $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+                    fields = FwModule.getFormFields($form, false);
+                    if (Object.keys(fields).length > 0) {
+                        $tab.find('.modified').html('*');
+                        $form.attr('data-modified', 'true');
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                        $form.find('.btn[data-type="RefreshMenuBarButton"]').addClass('disabled');
+                    } else {
+                        $tab.find('.modified').html('');
+                        $form.attr('data-modified', 'false');
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+                        $form.find('.btn[data-type="RefreshMenuBarButton"]').removeClass('disabled');
+                    }
                 }
             })
             .on('change', '.fwformfield[data-noduplicate="true"]', function () {
