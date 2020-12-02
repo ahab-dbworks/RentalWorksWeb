@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/processcreditcard$/, action: function (match: RegExpExecArray) { return ProcessCreditCardController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/processcreditcard$/, action: function (match: RegExpExecArray) { return ProcessCreditCardController.getModuleScreen(); } });
 
 //----------------------------------------------------------------------------------------------
 class ProcessCreditCard {
@@ -81,13 +81,18 @@ class ProcessCreditCard {
             FwFormField.setValueByDataField($form, 'PINPad_Description', description);
         });
 
-        setTimeout(() => {
-            FwFormField.setValueByDataField($form, 'totalsItems', 'Replacement');
-            this.updateTotalItemsPanels($form);
-        }, 40);
+        $form.find('.btnApply').on('click', (e: JQuery.ClickEvent) => {
+            const payment_TotalAmount = FwFormField.getValueByDataField($form, 'Payment_TotalAmount');
+            FwFormField.setValueByDataField($form, 'Payment_AmountToPay', payment_TotalAmount);
+        });
 
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form: JQuery, response: any) {
+        FwFormField.setValueByDataField($form, 'totalsItems', 'Replacement');
+        this.updateTotalItemsPanels($form);
+    }
     //----------------------------------------------------------------------------------------------
     updateTotalItemsPanels($form: JQuery) {
         $form.find('.totalsitemspanel').hide();
@@ -131,7 +136,7 @@ class ProcessCreditCard {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-            <div class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form"  data-hasaudittab="false"  data-controller="ProcessCreditCardController">
+            <div class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form"  data-hasaudittab="false" data-disablemodifiedbehavior="true" data-controller="ProcessCreditCardController">
               <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-datafield="OrderId"></div>
               <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div class="tabs">
@@ -216,6 +221,7 @@ class ProcessCreditCard {
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Payment Amount" style="max-width:700px">
                             <div class="flexrow">
                               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total Amount" data-datafield="Payment_TotalAmount" data-enabled="false"></div>
+                              <div class="fwformcontrol btnApply" data-type="button" style="text-align:center;width:75px;margin:17px 0 0 10px;"><i class="material-icons" style="transform: rotate(-90deg);vertical-align: middle;margin: 0 4px 0 0;">keyboard_return</i>Apply</div>
                             </div>
                             <div class="flexrow">
                               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount to Pay" data-datafield="Payment_AmountToPay" data-required="true"></div>
