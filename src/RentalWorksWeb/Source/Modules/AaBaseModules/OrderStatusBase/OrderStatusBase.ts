@@ -1,10 +1,10 @@
 ﻿abstract class OrderStatusBase {
-    Module:  string;
-    apiurl:  string;
+    Module: string;
+    apiurl: string;
     caption: string;
-    nav:     string;
-    id:      string;
-    Type:    string;
+    nav: string;
+    id: string;
+    Type: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -220,7 +220,7 @@
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
                 };
-            }, 
+            },
             beforeInit: ($fwgrid: JQuery, $browse: JQuery) => {
                 if (this.Type === 'PurchaseOrder') {
                     $browse.find('div[data-datafield="OutDateTime"]').attr('data-caption', 'Receive Date/Time');
@@ -352,7 +352,7 @@
                 }
                 if (barCode !== "") {
                     request.searchfieldoperators.push("like");
-                    request.searchfields.push("BarCodeSerialRfid"); 
+                    request.searchfields.push("BarCodeSerialRfid");
                     request.searchfieldvalues.push(barCode);
                 }
             })
@@ -552,7 +552,7 @@
             html += `<div data-value="StagedOnly" data-caption="Staged Only"></div><div data-value="NotYetStaged" data-caption="Not Yet Staged"></div><div data-value="StillOut" data-caption="In Container"></div><div data-value="InOnly" data-caption="Removed from Container"></div>`;
         }
         else if (this.Type === 'PurchaseOrder') {
-            html += `<div data-value="NotYetReceived" data-caption="Not Yet Received"></div><div data-value="Received" data-caption="Received"></div><div data-value="Returned" data-caption="Returned"></div>`;
+            html += `<div data-value="NotYetReceived" data-caption="Not Yet Received"></div><div data-value="Received" data-caption="Received"></div><div data-value="Returned" data-caption="Returned"></div><div data-value="NotYetBarcoded" data-caption="Not Yet Barcoded"></div>`;
         }
         else {
             html += `<div data-value="StagedOnly" data-caption="Staged Only"></div><div data-value="NotYetStaged" data-caption="Not Yet Staged"></div><div data-value="StillOut" data-caption="Still Out"></div><div data-value="InOnly" data-caption="In Only"></div>`;

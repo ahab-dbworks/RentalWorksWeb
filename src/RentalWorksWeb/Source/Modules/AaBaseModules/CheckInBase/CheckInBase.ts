@@ -654,7 +654,8 @@ abstract class CheckInBase implements IModule {
                         Code: $row.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext'),
                         Quantity: qtyOut,
                         ModuleType: 'O',
-                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId')
+                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId'),
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                     };
                     request.url = applicationConfig.apiurl + "api/v1/checkin/checkinitem";
                     request.httpMethod = 'POST';
@@ -692,7 +693,8 @@ abstract class CheckInBase implements IModule {
                         Code: $row.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext'),
                         Quantity: - qty,
                         ModuleType: 'O',
-                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId')
+                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId'),
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                     };
                     request.url = applicationConfig.apiurl + "api/v1/checkin/checkinitem";
                     request.httpMethod = 'POST';
@@ -736,6 +738,7 @@ abstract class CheckInBase implements IModule {
         let contractId = FwFormField.getValueByDataField($form, 'ContractId');
 
         request.Code = FwFormField.getValueByDataField($form, 'BarCode');
+        request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         if (contractId) {
             request.ContractId = contractId;
         }
@@ -829,7 +832,7 @@ abstract class CheckInBase implements IModule {
               <div data-type="tab" id="orderstab" class="orderstab tab" data-tabpageid="orderstabpage" data-caption="Orders" style="display:none;"></div>
               <div data-type="tab" id="quantityitemstab" class="quantityitemstab tab" data-tabpageid="quantityitemstabpage" data-caption="Quantity Items"></div>
               <div data-type="tab" id="swapitemtab" class="swapitemtab tab" data-tabpageid="swapitemtabpage" data-caption="Swapped Items" style="display:none;"></div>
-              <div data-type="tab" id="exceptionstab" class="exceptionstab tab" data-tabpageid="exceptionstabpage" data-caption="Exceptions"></div>
+              <div data-type="tab" id="exceptionstab" class="exceptionstab tab" data-tabpageid="exceptionstabpage" data-caption="Pending Items"></div>
             </div>
             <div class="tabpages">
               <div data-type="tabpage" id="checkintabpage" class="tabpage" data-tabid="checkintab">

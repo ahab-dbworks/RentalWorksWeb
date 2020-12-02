@@ -156,6 +156,7 @@ class CustomReportLayout {
             let modulehtml;
             const reportName = $this.val();
             const reportCaption = $this.text();
+            $form.data('changelist', []);
             if (reportName.length) {
                 FwAppData.apiMethod(true, 'GET', `api/v1/customreportlayout/template/${reportName}`, null, FwServices.defaultTimeout,
                     response => {
@@ -232,7 +233,7 @@ class CustomReportLayout {
 
                 for (let i = 0; i < allValidFields.length; i++) {
                     modulefields.append(`<div data-iscustomfield=${allValidFields[i].IsCustom}>${allValidFields[i].value}</div>`);
-                    $headerFields.append(`<span>${allValidFields[i].value}</span>`);
+                    $headerFields.append(`<span data-fieldname="${allValidFields[i].value}">${allValidFields[i].value}</span>`);
                     if (allValidFields[i].hasOwnProperty("NestedItems")) {
                         for (const key of Object.keys(allValidFields[i].NestedItems)) {
                             if (key != '_Custom') {
@@ -547,9 +548,14 @@ class CustomReportLayout {
                     //
                 },
                 onEnd: e => {
-                    if (jQuery(e.item).parent().hasClass('rpt-nested-flexrow')) {
+                    const $item = jQuery(e.item);
+                    if ($item.parent().hasClass('rpt-nested-flexrow')) {
                         if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
-                            jQuery(e.item).text(`{{${jQuery(e.item).text()}}}`);
+                            if (typeof $item.attr('data-parentfield') != 'undefined') {
+                                $item.text(`{{${$item.attr('data-parentfield')}.${jQuery(e.item).text()}}}`);
+                            } else {
+                                $item.text(`{{${jQuery(e.item).text()}}}`);
+                            }
                         }
                         const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                         this.updateReportHeader($form, $reportHeaderSection);
@@ -594,6 +600,13 @@ class CustomReportLayout {
         let $cachedRow, newHTML, rowIndex;
         const updateType = $form.data('updatetype');
         if (typeof updateType != 'undefined' && typeof updateType == 'string') {
+            //add html to list of changes
+            let changelist = $form.data('changelist');
+            if (typeof changelist === 'undefined') {
+                changelist = [];
+            }
+            changelist.push(this.html);
+            $form.data('changelist', changelist);
             const $wrapper = jQuery('<div class="custom-report-wrapper"></div>');
             this.html = this.html.split('{{').join('<!--{{').split('}}').join('}}-->');      //comments out handlebars as a work-around for the displacement by the HTML parser  
             $wrapper.append(this.html);                                                      //append the original HTML to the wrapper.  this is done to combine the loose elements.
@@ -713,6 +726,9 @@ class CustomReportLayout {
             let $row, linkedColumn, rowType, linkedRow;
             const $property = jQuery(e.currentTarget);
             const fieldname = $property.attr('data-datafield');
+            if (fieldname === "TableName") {
+                return false;
+            }
             const value = FwFormField.getValue2($property);
 
             if (typeof $column != 'undefined') {
@@ -764,7 +780,7 @@ class CustomReportLayout {
                         const oldField = $column.attr('data-valuefield');
 
                         //if (rowType === 'linked-sub-header') {
-                            //$table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
+                        //$table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
                         //}
 
                         //$column.removeClass('new-column');
@@ -1127,6 +1143,7 @@ class CustomReportLayout {
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
             const elementClass = $headerField.attr('class') || '';
             FwFormField.setValueByDataField($form, 'HeaderClass', elementClass);
+            this.updateDeleteButtonText($form, $headerField);
         });
 
         $form.on('click', '#reportDesigner [data-section="header"] div, #reportDesigner [data-section="footer"] div', e => {
@@ -1141,6 +1158,7 @@ class CustomReportLayout {
             FwFormField.setValueByDataField($form, 'HeaderFieldStyle', styling);
             const elementClass = $headerField.attr('class') || '';
             FwFormField.setValueByDataField($form, 'HeaderClass', elementClass);
+            this.updateDeleteButtonText($form, $headerField);
         });
 
         //Delete header element
@@ -1161,6 +1179,11 @@ class CustomReportLayout {
 
         $form.find('i.field-search').on('click', e => {
             this.searchFields($form);
+        });
+
+        //Undo Changes
+        $form.find('.undo [data-type="button"]').on('click', e => {
+            this.undo($form);
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -1324,7 +1347,7 @@ class CustomReportLayout {
                     linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
-                    if (typeof changes != 'undefined' && changes.rowtype == 'sub-header' ) {
+                    if (typeof changes != 'undefined' && changes.rowtype == 'sub-header') {
                         $designerRow = jQuery($table.find('tr[data-row="sub-header"]')[subHeaderRowIndex]).clone();
                         $designerRow.find('.highlight').removeClass('highlight');
                         html = $designerRow.get(subHeaderRowIndex).innerHTML.trim();
@@ -1916,6 +1939,10 @@ class CustomReportLayout {
                 const text = $field.text().toUpperCase();
                 if (text.indexOf(searchValue) != -1) {
                     $field.show();
+                    if (typeof $field.attr('data-parentfield') != 'undefined') {
+                        const $parentField = $fields.filter(`span[data-fieldname="${$field.attr('data-parentfield')}"]`);
+                        $parentField.show();
+                    }
                 } else {
                     $field.hide();
                 }
@@ -1924,6 +1951,47 @@ class CustomReportLayout {
             $fieldsList.find('span').show();
         }
     };
+    //----------------------------------------------------------------------------------------------
+    updateDeleteButtonText($form: JQuery, $element: JQuery) {
+        let btnCaption = 'Delete Component';
+        if ($element.hasClass('rpt-nested-flexrow') || $element.hasClass('rpt-flexrow')) {
+            btnCaption = 'Delete Row';
+        } else if ($element.hasClass('rpt-flexcolumn')) {
+            btnCaption = 'Delete Column';
+        } else if ($element[0].nodeName === 'SPAN') {
+            //btnCaption = `Delete ${$element.text().replace('{{', '').replace('}}', '')} Field`;
+            let fieldText: string = $element.text();
+            if (fieldText.indexOf('{{') >= 0) {
+                btnCaption = `Delete ${fieldText.replace('{{', '').replace('}}', '')} Field`;
+            }
+            else {
+                fieldText = fieldText.replace(':', '');
+                btnCaption = `Delete ${fieldText} Text`;
+            }
+        }
+        $form.find('.delete-component').text(btnCaption);
+    }
+    //----------------------------------------------------------------------------------------------
+    undo($form: JQuery) {
+        const changelist = $form.data('changelist');
+        if (typeof changelist != 'undefined' && changelist.length > 0) {
+            const previousHtml = changelist[changelist.length - 1];
+            FwFormField.setValueByDataField($form, 'Html', previousHtml);
+            this.codeMirror.setValue(previousHtml);
+            this.updateChangeList($form);
+            this.renderDesignerTab($form);
+        } else {
+            FwNotification.renderNotification(`ERROR`, 'There are no changes to undo.');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    updateChangeList($form: JQuery) {
+        const changelist = $form.data('changelist');
+        if (typeof changelist != 'undefined' && changelist.length > 0) {
+            changelist.pop();
+            $form.data('changelist', changelist);
+        };
+    }
     //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------

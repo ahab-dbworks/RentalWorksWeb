@@ -533,6 +533,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "enable3weekpricing", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Enable3WeekPricing { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enabletieredweekpricing", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? EnableTieredWeekPricing { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultdealporeq", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? DefaultDealPoRequired { get; set; }
         //------------------------------------------------------------------------------------ 

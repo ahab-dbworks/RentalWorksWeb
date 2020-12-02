@@ -25,7 +25,7 @@ namespace WebApi.Modules.Warehouse.PurchaseOrderStatus
         // POST api/v1/purchaseorderstatus/validatepurchaseorder/browse 
         [HttpPost("validatepurchaseorder/browse")]
         [FwControllerMethod(Id: "cB0COOZ7xE0u", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidatePurchaseOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePurchaseOrderBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<PurchaseOrderLogic>(browseRequest);
         }
@@ -33,7 +33,7 @@ namespace WebApi.Modules.Warehouse.PurchaseOrderStatus
         // POST api/v1/purchaseorderstatus/validateinventorytype/browse 
         [HttpPost("validateinventorytype/browse")]
         [FwControllerMethod(Id: "lBitUsz0BcWc", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateInventoryTypeBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<InventoryTypeLogic>(browseRequest);
         }
@@ -41,7 +41,7 @@ namespace WebApi.Modules.Warehouse.PurchaseOrderStatus
         // POST api/v1/purchaseorderstatus/validatecategory/browse 
         [HttpPost("validatecategory/browse")]
         [FwControllerMethod(Id: "ORkMw1uU0CUd", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateCategoryBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RentalCategoryLogic>(browseRequest);
         }
@@ -49,7 +49,7 @@ namespace WebApi.Modules.Warehouse.PurchaseOrderStatus
         // POST api/v1/purchaseorderstatus/validatesubcategory/browse 
         [HttpPost("validatesubcategory/browse")]
         [FwControllerMethod(Id: "miAhKPlvkKFN", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<SubCategoryLogic>(browseRequest);
         }
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Warehouse.PurchaseOrderStatus
         // POST api/v1/purchaseorderstatus/validateicode/browse 
         [HttpPost("validateicode/browse")]
         [FwControllerMethod(Id: "i45cgx54WZ2f", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateIcodeBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RentalInventoryLogic>(browseRequest);
         }
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Warehouse.PurchaseOrderStatus
         // POST api/v1/purchaseorderstatus/validatewarehouse/browse 
         [HttpPost("validatewarehouse/browse")]
         [FwControllerMethod(Id: "DWkaBouC381p", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody]BrowseRequest browseRequest)
+        public async Task<ActionResult<FwJsonDataTable>> ValidateWarehouseBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<WarehouseLogic>(browseRequest);
         }

@@ -193,7 +193,7 @@ class Invoice {
             FwFormField.setValueByDataField($form, 'BillingStartDate', today);
             FwFormField.setValueByDataField($form, 'BillingEndDate', today);
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
-            FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
+            //FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
             FwFormField.enable($form.find('[data-datafield="RateType"]'));
             FwFormField.setValueByDataField($form, 'StatusDate', today);
 
@@ -221,6 +221,10 @@ class Invoice {
 
         this.events($form);
         this.renderPrintButton($form);
+
+        $form.data('beforesave', request => {
+            delete request['StatusDate']; // Removing StatusDate from request since it's value is maintained at the API level
+        });
 
         return $form;
     }
@@ -1496,7 +1500,7 @@ class Invoice {
         }
     }
     //----------------------------------------------------------------------------------------------
-    async doVoidInvoice($control: JQuery, invoiceId: string, isLastIndex:boolean, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): Promise<void> {
+    async doVoidInvoice($control: JQuery, invoiceId: string, isLastIndex: boolean, onVoidSuccess: (response: any) => void, onVoidFailure?: (response: any) => void): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
             try {
                 const request = new FwAjaxRequest<any>();

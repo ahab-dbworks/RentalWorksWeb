@@ -11,95 +11,88 @@
       <div class="rpt-nested-flexrow rpt-header-right"><span>{{Company}}</span></div>
     </div>
   </div>
-</div> <!--end header-->
 
-<div class="rpt-flexrow top-row">
+  <div class="rpt-flexrow top-row">
 
-  <div class="rpt-flexcolumn" style="flex: 0 0 321px;margin-right: 10px;">
-    <div class="rpt-nested-flexrow">
-      <span style="min-width:93px;" class="shaded-block">Order No:</span>
-      <span>{{OrderNumber}}</span>
+    <div class="rpt-flexcolumn" style="flex: 0 0 321px;margin-right: 10px;">
+      <div class="rpt-nested-flexrow">
+        <span style="min-width:100px;" class="shaded-block">Order No:</span>
+        <span>{{OrderNumber}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="min-width:100px;" class="shaded-block">Agent:</span>
+        <span>{{Agent}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="min-width:100px;" class="shaded-block">Phone:</span>
+        <span>{{AgentPhone}}</span>
+      </div>
     </div>
-    <div class="rpt-nested-flexrow">
-      <span style="min-width:93px;" class="shaded-block">Agent:</span>
-      <span>{{Agent}}</span>
-    </div>
-  </div>
 
-  <div class="rpt-flexcolumn" style="flex: 0 0 321px;margin: 0px 10px;">
-    <div class="rpt-nested-flexrow">
-      <span style="min-width:116px;" class="shaded-block">Description:</span>
-      <span>{{OrderDescription}}</span>
-    </div>
-    <div class="rpt-nested-flexrow">
-      <span style="min-width:116px;" class="shaded-block">Phone:</span>
-      <span>{{AgentPhone}}</span>
-    </div>
-  </div>
-
-  <div class="rpt-flexcolumn" style="flex: 0 0 321px;margin-left: 10px;">
-    <div class="rpt-nested-flexrow">
-
-      <span style="min-width:51px;" class="shaded-block">Deal:</span>
-      <span>{{Deal}}</span>
+    <div class="rpt-flexcolumn" style="flex: 0 0 700px;margin: 0px 10px;">
+      <div class="rpt-nested-flexrow">
+        <span style="min-width:116px;" class="shaded-block">Description:</span>
+        <span>{{OrderDescription}}</span>
+      </div>
+      <div class="rpt-nested-flexrow">
+        <span style="min-width:116px;" class="shaded-block">Deal:</span>
+        <span>{{Deal}}</span>
+      </div>
     </div>
   </div>
 
-</div>
-
-<div class="rpt-flexrow">
-  <div class="rpt-flexcolumn">
-    <div class="rpt-nested-flexrow rpt-header-left"><span></span></div>
-  </div>
-  <div class="rpt-flexcolumn">
-    <div>
-      <div class="rpt-nested-flexrow section-box target"><span>Target Ship Date: {{TargetShipDate}}&nbsp;{{TargetShipTime}}</span></div>
+  <div class="rpt-flexrow">
+    <div class="rpt-flexcolumn">
+      <div class="rpt-nested-flexrow rpt-header-left"><span></span></div>
+    </div>
+    <div class="rpt-flexcolumn">
+      <div>
+        <div class="rpt-nested-flexrow section-box target nowrap"><span>Target {{DeliveryTypeTitleCase}} Date: {{TargetShipDate}}&nbsp;{{TargetShipTime}}</span></div>
+      </div>
+    </div>
+    <div class="rpt-flexcolumn">
     </div>
   </div>
-  <div class="rpt-flexcolumn">
-  </div>
-</div>
 
-<div data-section="header">
   <div class="rpt-flexrow">
     <div class="rpt-flexcolumn section-box" style="flex:0 0 540px;margin: 0 35px 0 0;">
       <div class="rpt-nested-flexrow">
-        <span colspan="2" class="shaded-block top-label">SHIP TO:</span>
+        <span colspan="2" class="shaded-block top-label">{{DeliveryType}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">Attention:</span>
+        <span style="min-width:100px;" class="shaded-block">Attention:</span>
         <span>{{ToAttention}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">Location:</span>
+        <span style="min-width:100px;" class="shaded-block">Location:</span>
         <span>{{ToLocation}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">Address:</span>
+        <span style="min-width:100px;" class="shaded-block">Address:</span>
         <span>{{ToAddress1}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block"></span>
+        <span style="min-width:100px;" class="shaded-block"></span>
         <span>{{ToAddress2}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">City:</span>
+        <span style="min-width:100px;" class="shaded-block">City:</span>
         <span>{{ToCity}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">State:</span>
+        <span style="min-width:100px;" class="shaded-block">State:</span>
         <span>{{ToState}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">Zip Code:</span>
+        <span style="min-width:100px;" class="shaded-block">Zip Code:</span>
         <span>{{ToZip}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">Country:</span>
+        <span style="min-width:100px;" class="shaded-block">Country:</span>
         <span>{{ToCountry}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:93px;" class="shaded-block">Phone:</span>
+        <span style="min-width:100px;" class="shaded-block">Phone:</span>
         <span>{{ToContactPhone}}</span>
       </div>
     </div>
@@ -108,36 +101,36 @@
 
     <div class="rpt-flexcolumn section-box" style="flex: 0 0 540px;">
       <div class="rpt-nested-flexrow">
-        <span colspan="2" class="shaded-block top-label">SHIPPING:</span>
+        <span colspan="2" class="shaded-block top-label">SHIPPING</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:184px;" class="shaded-block">Carrier:</span>
+        <span style="min-width:190px;" class="shaded-block">Carrier:</span>
         <span>{{Carrier}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:184px;" class="shaded-block">Ship Via:</span>
+        <span style="min-width:190px;" class="shaded-block">Ship Via:</span>
         <span>{{ShipVia}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:184px;" class="shaded-block">Case Weight:</span>
+        <span style="min-width:190px;" class="shaded-block">Case Weight:</span>
         <span>{{CaseWeightUS}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:184px;" class="shaded-block">Total Weight:</span>
+        <span style="min-width:190px;" class="shaded-block">Total Weight:</span>
         <span>{{WeightUS}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:184px;" class="shaded-block">Replacement Value:</span>
+        <span style="min-width:190px;" class="shaded-block">Replacement Value:</span>
         <span>{{ReplacementValue}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:184px;" class="shaded-block">Manifest Value:</span>
+        <span style="min-width:190px;" class="shaded-block">Manifest Value:</span>
         <span>{{ManifestValue}}</span>
       </div>
       <div class="rpt-nested-flexrow">
-        <span style="min-width:184px;height:86px;" class="shaded-block"></span>
+        <span style="min-width:190px;height:86px;" class="shaded-block"></span>
         <span></span>
       </div>
     </div>
   </div>
-</div>
+</div> <!--end header-->

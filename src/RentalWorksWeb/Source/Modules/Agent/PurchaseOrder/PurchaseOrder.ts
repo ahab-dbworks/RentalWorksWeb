@@ -3041,6 +3041,7 @@ class PurchaseOrder implements IModule {
                 }
                 request['ActivityDatesAndTimes'] = activityDatesAndTimes;
             }
+            delete request['StatusDate']; // Removing StatusDate from request since it's value is maintained at the API level
         });
 
         //stops field event bubbling

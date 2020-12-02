@@ -59,7 +59,7 @@ namespace WebApi.Middleware
                 this._regexQuikScanProdApplicationConfig = new Regex($"^{quikscanProdVirtualDirectory}/applicationconfig.js$");
                 this._regexQuikScanDevApplicationConfig = new Regex($"^{quikscanDevVirtualDirectory}/applicationconfig.js$");
             }
-            
+
             string pathVersion = Path.Combine(Environment.CurrentDirectory, "version.txt");
             if (File.Exists(pathVersion))
             {
@@ -67,8 +67,9 @@ namespace WebApi.Middleware
             }
         }
 
-        public async Task Invoke(HttpContext httpContext) {
-            
+        public async Task Invoke(HttpContext httpContext)
+        {
+
             try
             {
                 // dynamically generate RentalWorks ApplicationConfig.js
@@ -87,6 +88,7 @@ namespace WebApi.Middleware
                     //webAppConfig.version = this._version;
 
                     httpContext.Response.StatusCode = 200;
+                    httpContext.Response.ContentType = "text/javascript";
                     await httpContext.Response.WriteAsync(this.GetApplicationConfigText(appConfig));
                     return;
                 }
@@ -105,6 +107,7 @@ namespace WebApi.Middleware
                     //webAppConfig.version = this._version;
 
                     httpContext.Response.StatusCode = 200;
+                    httpContext.Response.ContentType = "text/javascript";
                     await httpContext.Response.WriteAsync(this.GetApplicationConfigText(appConfig));
                     return;
                 }
@@ -122,8 +125,9 @@ namespace WebApi.Middleware
                         appConfig.apiurl = this._appConfig.PublicBaseUrl;
                     }
                     //mobileAppConfig.version = this._version;
-                    
+
                     httpContext.Response.StatusCode = 200;
+                    httpContext.Response.ContentType = "text/javascript";
                     await httpContext.Response.WriteAsync(this.GetApplicationConfigText(appConfig));
                     return;
                 }
@@ -157,7 +161,7 @@ namespace WebApi.Middleware
             // populate a dictionary with the stripped down JSON object
             Dictionary<string, object> appConfigObj = new Dictionary<string, object>();
             JsonConvert.PopulateObject(jsonAppConfig.ToString(), appConfigObj);
-            
+
             // generate the applicationConfig file
             StringBuilder sb = new StringBuilder();
             foreach (var item in appConfigObj)
@@ -178,7 +182,7 @@ namespace WebApi.Middleware
             return sb.ToString();
         }
     }
-    
+
     public static class ApplicationConfigMiddlewareExtensions
     {
         public static IApplicationBuilder ApplicationConfigMiddleware(this IApplicationBuilder builder)

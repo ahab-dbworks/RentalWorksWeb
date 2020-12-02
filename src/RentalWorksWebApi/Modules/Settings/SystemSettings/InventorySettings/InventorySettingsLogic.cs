@@ -40,6 +40,9 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
         [FwLogicProperty(Id: "yzYEXi36QjGvF")]
         public bool? Enable3WeekPricing { get { return sysControl.Enable3WeekPricing; } set { sysControl.Enable3WeekPricing = value; } }
 
+        [FwLogicProperty(Id: "14PwldBA7v4Hp")]
+        public bool? EnableTieredWeekPricing { get { return sysControl.EnableTieredWeekPricing; } set { sysControl.EnableTieredWeekPricing = value; } }
+
         [FwLogicProperty(Id: "WiSc1DOZ71ece")]
         public string SalesCheckOutRetiredReasonId { get { return sysControl.SalesCheckOutRetiredReasonId; } set { sysControl.SalesCheckOutRetiredReasonId = value; } }
 
@@ -100,52 +103,38 @@ namespace WebApi.Modules.Settings.SystemSettings.InventorySettings
                 isValid = false;
                 validateMsg = "Cannot add new records to " + this.BusinessLogicModuleName;
             }
-            //else // dmUpdate
-            //{
-            //    InventorySettingsLogic orig = (InventorySettingsLogic)original;
-            //
-            //    if (RentalQuantityInventoryValueMethod != null)
-            //    {
-            //        if (!RentalQuantityInventoryValueMethod.Equals(orig.RentalQuantityInventoryValueMethod))
-            //        {
-            //            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_RENT }).Result;
-            //            if (purchasesExist)
-            //            {
-            //                isValid = false;
-            //                validateMsg = "Cannot change the Rental Quantity Inventory Valuation Method once Rental Inventory has been purchased.";
-            //            }
-            //        }
-            //    }
-            //
-            //
-            //    if (SalesQuantityInventoryValueMethod != null)
-            //    {
-            //        if (!SalesQuantityInventoryValueMethod.Equals(orig.SalesQuantityInventoryValueMethod))
-            //        {
-            //            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_SALE }).Result;
-            //            if (purchasesExist)
-            //            {
-            //                isValid = false;
-            //                validateMsg = "Cannot change the Sales Quantity Inventory Valuation Method once Sales Inventory has been purchased.";
-            //            }
-            //        }
-            //    }
-            //
-            //    if (PartsQuantityInventoryValueMethod != null)
-            //    {
-            //        if (!PartsQuantityInventoryValueMethod.Equals(orig.PartsQuantityInventoryValueMethod))
-            //        {
-            //            bool purchasesExist = AppFunc.DataExistsAsync(AppConfig, "purchasewebview", new string[] { "availfor" }, new string[] { RwConstants.INVENTORY_AVAILABLE_FOR_PARTS }).Result;
-            //            if (purchasesExist)
-            //            {
-            //                isValid = false;
-            //                validateMsg = "Cannot change the Parts Quantity Inventory Valuation Method once Parts Inventory has been purchased.";
-            //            }
-            //        }
-            //    }
-            //
-            //}
+            else // dmUpdate
+            {
+                InventorySettingsLogic orig = (InventorySettingsLogic)original;
 
+                bool enable3WeekPricing = false;
+                bool enableTieredWeekPricing = false;
+
+                if (Enable3WeekPricing == null)  // not specified
+                {
+                    enable3WeekPricing = orig.Enable3WeekPricing.GetValueOrDefault(false);
+                }
+                else
+                {
+                    enable3WeekPricing = Enable3WeekPricing.GetValueOrDefault(false);
+                }
+
+                if (EnableTieredWeekPricing == null)  // not specified
+                {
+                    enableTieredWeekPricing = orig.EnableTieredWeekPricing.GetValueOrDefault(false);
+                }
+                else
+                {
+                    enableTieredWeekPricing = EnableTieredWeekPricing.GetValueOrDefault(false);
+                }
+
+
+                if (enable3WeekPricing && enableTieredWeekPricing)
+                {
+                    isValid = false;
+                    validateMsg = "Cannot enable both 3-Week Pricing AND Tiered Week Pricing.";
+                }
+            }
 
             return isValid;
         }

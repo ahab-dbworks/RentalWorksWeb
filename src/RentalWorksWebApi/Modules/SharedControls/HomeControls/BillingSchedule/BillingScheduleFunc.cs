@@ -38,7 +38,7 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
                             qry2.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, "");
                             await qry2.ExecuteNonQueryAsync();
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             // do nothing here.  Just skip this Order and go to the next one in the list
                         }

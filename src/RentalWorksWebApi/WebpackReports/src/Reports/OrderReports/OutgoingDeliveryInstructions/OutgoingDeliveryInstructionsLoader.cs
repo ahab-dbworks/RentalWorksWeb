@@ -21,6 +21,8 @@ namespace WebApi.Modules.Reports.OutgoingDeliveryInstructions
         [FwSqlDataField(column: "deliverytype", modeltype: FwDataTypes.Text)]
         public string DeliveryType { get; set; }
         //------------------------------------------------------------------------------------ 
+        public string DeliveryTypeTitleCase { get { return FwConvert.ToTitleCase(DeliveryType.ToLower()); } }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requireddate", modeltype: FwDataTypes.Date)]
         public string RequiredDate { get; set; }
         //------------------------------------------------------------------------------------ 
