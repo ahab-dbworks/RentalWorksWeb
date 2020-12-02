@@ -31,6 +31,7 @@ namespace WebApi.Modules.Warehouse.CheckIn
         public string OrderId;
         public string OrderItemId;
         public string VendorId;
+        public string WarehouseId;
         public int? Quantity;
         public bool? AddOrderToContract;
         public bool? SwapItem;
@@ -163,6 +164,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@incontractid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.ContractId);
                 qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@userswarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.OrderItemId);
                 if (request.Quantity != null)
                 {

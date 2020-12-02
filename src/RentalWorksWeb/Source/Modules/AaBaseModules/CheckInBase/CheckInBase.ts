@@ -654,7 +654,8 @@ abstract class CheckInBase implements IModule {
                         Code: $row.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext'),
                         Quantity: qtyOut,
                         ModuleType: 'O',
-                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId')
+                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId'),
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                     };
                     request.url = applicationConfig.apiurl + "api/v1/checkin/checkinitem";
                     request.httpMethod = 'POST';
@@ -692,7 +693,8 @@ abstract class CheckInBase implements IModule {
                         Code: $row.find('[data-browsedatafield="InventoryId"]').attr('data-originaltext'),
                         Quantity: - qty,
                         ModuleType: 'O',
-                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId')
+                        VendorId: FwBrowse.getValueByDataField($grid, $row, 'VendorId'),
+                        WarehouseId: JSON.parse(sessionStorage.getItem('warehouse')).warehouseid,
                     };
                     request.url = applicationConfig.apiurl + "api/v1/checkin/checkinitem";
                     request.httpMethod = 'POST';
@@ -736,6 +738,7 @@ abstract class CheckInBase implements IModule {
         let contractId = FwFormField.getValueByDataField($form, 'ContractId');
 
         request.Code = FwFormField.getValueByDataField($form, 'BarCode');
+        request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         if (contractId) {
             request.ContractId = contractId;
         }
