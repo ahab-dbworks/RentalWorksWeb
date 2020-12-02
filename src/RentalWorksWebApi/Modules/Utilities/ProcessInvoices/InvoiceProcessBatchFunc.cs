@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi;
 using WebApi.Modules.Settings.FiscalYear;
+using WebApi.Modules.Billing.Receipt;
+using System.Collections.Generic;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Utilities.InvoiceProcessBatch
 {
@@ -61,7 +64,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select top 1 autoapplydepletingdeposittoinvoice");
+                    qry.Add("select top 1 autoapplydepletingdeposittoinvoice");//syscontrol
                     qry.Add("from location with (nolock)");
                     qry.Add("where locationid = @locationid");
                     qry.AddParameter("@locationid", request.LocationId);
@@ -91,7 +94,13 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
         public static async Task ApplyAutoProcessDepletingDeposit(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchRequest request, InvoiceProcessBatchResponse response, string invoiceId, FwSqlConnection conn)
         {
             string orderId = string.Empty;
-            string arId = string.Empty;
+            string dealdepositId = string.Empty;
+            string currencyId = string.Empty;
+            decimal pmtAmt = 0.0m;
+            string paymentTypeId = string.Empty;
+            string dealId = string.Empty;
+            string locationId = string.Empty;
+
 
             using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
             {
@@ -102,16 +111,59 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                 await qry.ExecuteAsync();
                 orderId = qry.GetField("orderid").ToString().TrimEnd();
             }
+
             using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
             {
-                qry.Add("select top 1 arid"); // how do i know it is not applied
+                qry.Add("select top 1 dealdepositid = arid, currencyid, pmtamt, locationid"); // how do i know it is not applied
                 qry.Add("from   ar with (nolock)");
                 qry.Add("where  orderid = @orderid");
                 qry.AddParameter("@orderid", orderId);
+                qry.AddParameter("@rectype", "D");
                 await qry.ExecuteAsync();
-                arId = qry.GetField("arid").ToString().TrimEnd();
+                dealdepositId = qry.GetField("dealdepositid").ToString().TrimEnd();
+                currencyId = qry.GetField("currencyid").ToString().TrimEnd();
+                pmtAmt = qry.GetField("pmtamt").ToDecimal();
+                locationId = qry.GetField("locationid").ToString().TrimEnd();
+
+                paymentTypeId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "paytype", "pmttype", "DEPLETING DEPOSIT", "paytypeid")).ToString();
+                dealId  = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", orderId, "dealid")).ToString();
+
+                ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(appConfig, userSession);
+                receipt.OrderId = orderId;
+                receipt.AppliedById = userSession.UsersId;
+                receipt.ChargeBatchId = string.Empty;
+                receipt.CheckNumber = "";
+                receipt.CreateDepletingDeposit = false;
+                receipt.CreateOverpayment = false;
+                receipt.CurrencyId = currencyId;
+                receipt.CustomerDepositCheckNumber = string.Empty;
+                receipt.CustomerDepositId = string.Empty;
+                receipt.CustomerId = string.Empty;
+                receipt.DealDepositCheckNumber = string.Empty;
+                receipt.DealDepositId = dealdepositId;
+                receipt.DealId = dealId;
+                receipt.LocationId = locationId;
+                receipt.PaymentAmount = pmtAmt;
+                receipt.PaymentBy = "DEAL";
+                receipt.PaymentMemo = string.Empty;
+                receipt.PaymentTypeId = paymentTypeId;
+                receipt.PaymentTypeType = "";
+                receipt.RecType = "P";
+                receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
+                receipt.ReceiptId = string.Empty;
+                receipt.ModifiedById = userSession.UsersId;
+
+                ReceiptInvoice receiptInvoice = new ReceiptInvoice();
+                receiptInvoice.InvoiceReceiptId = "";
+                receiptInvoice.InvoiceId = invoiceId;
+                receiptInvoice.Amount = pmtAmt; // consume min(totalinvoice, pmt)
+
+                receipt.InvoiceDataList = new List<ReceiptInvoice>();
+                receipt.InvoiceDataList.Add(receiptInvoice);
+
+                await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
+
             }
-            //apppy the deposit to the invoice
 
         }
         //-------------------------------------------------------------------------------------------------------

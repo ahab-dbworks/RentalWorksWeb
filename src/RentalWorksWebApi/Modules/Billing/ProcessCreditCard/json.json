@@ -1,0 +1,37 @@
+{
+  "ReceiptId": "",
+  "PaymentBy": "DEAL",
+  "ReceiptDate": "2020-12-01",
+  "DealId": "A00006CF",
+  "Deal": "ANGRY DOG PRODUCTIONS 2019",
+  "CustomerId": "",
+  "Customer": "",
+  "PaymentTypeId": "A0003PKD",
+  "PaymentType": "DEPLETING DEPOSIT",
+  "PaymentTypeType": "DEPLETING DEPOSIT",
+  "CheckNumber": "",
+  "DealDepositId": "A0000C83",
+  "DealDepositCheckNumber": "auth code",
+  "CustomerDepositId": "",
+  "CustomerDepositCheckNumber": "",
+  "CurrencyId": "0000000E",
+  "CurrencyCode": "USD",
+  "CurrencySymbol": "",
+  "PaymentAmount": "132.00",
+  "RecType": "P",
+  "LocationId": "0000000F",
+  "Location": "LOS ANGELES",
+  "AppliedById": "0000000K",
+  "AppliedBy": "AHAB, AHAB",
+  "CreateOverpayment": "false",
+  "CreateDepletingDeposit": "false",
+  "PaymentMemo": "",
+  "ChargeBatchId": "",
+  "InvoiceDataList": [
+    {
+      "InvoiceReceiptId": "",
+      "InvoiceId": "A0000C7G",
+      "Amount": 132
+    }
+  ]
+}

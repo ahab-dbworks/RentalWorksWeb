@@ -90,6 +90,7 @@ namespace WebApi.Modules.HomeControls.CustomerCredit
 
             addFilterToSelect("RecType", "rectype", select, request);
             addFilterToSelect("LocationId", "locationid", select, request);
+            addFilterToSelect("DealId", "dealid", select, request);
 
             bool? remainingOnly = GetUniqueIdAsBoolean("RemainingOnly", request);
 

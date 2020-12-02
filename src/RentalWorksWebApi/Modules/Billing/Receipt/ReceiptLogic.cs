@@ -171,7 +171,8 @@ namespace WebApi.Modules.Billing.Receipt
 
         [FwLogicProperty(Id: "UX70epptKCKf")]
         public string OrderId { get { return receipt.OrderId; } set { receipt.OrderId = value; } }
-
+        [FwLogicProperty(Id: "xewDNF3kqsEC")]
+        public string AuthorizationCode { get { return receipt.AuthorizationCode; } set { receipt.AuthorizationCode = value; } }
 
         //------------------------------------------------------------------------------------ 
         private void OnBeforeValidate(object sender, BeforeValidateEventArgs e)

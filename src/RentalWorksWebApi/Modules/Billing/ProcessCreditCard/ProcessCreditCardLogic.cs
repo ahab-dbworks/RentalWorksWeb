@@ -183,7 +183,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             //string cardEntryMode = returnValues[2];
             //string cardType = returnValues[3];
             //string cardNumber = returnValues[4];
-            //string authorizationCode = returnValues[5];
+            string authorizationCode = returnValues[5];
             //decimal amount = Convert.ToDecimal(returnValues[6]);
 
             if (response.Status == "SUCCESS" && status.ToUpper() == "APPROVED")
@@ -208,10 +208,11 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                 receipt.PaymentMemo = string.Empty;
                 receipt.PaymentTypeId = paymenttypeid;
                 receipt.PaymentTypeType = "CREDIT CARD";
-                receipt.RecType = "P";
+                receipt.RecType = "D";
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
                 receipt.ModifiedById = this.UserSession.UsersId;
+                receipt.AuthorizationCode = authorizationCode;
                 
                 // need to log
                 //response.ReturnValue
@@ -223,3 +224,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------
     }
 }
+
+
+

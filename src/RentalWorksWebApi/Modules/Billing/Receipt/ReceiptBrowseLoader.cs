@@ -68,6 +68,9 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "authorizationcode", modeltype: FwDataTypes.Text)]
+        public string AuthorizationCode { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string CurrencyColor
         {
@@ -88,7 +91,6 @@ namespace WebApi.Modules.Billing.Receipt
             select.Parse();
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("OrderId", "orderid", select, request);
-            //addFilterToSelect("CustomerId", "customerid", select, request);
 
             string customerId = GetUniqueIdAsString("CustomerId", request) ?? "";
 

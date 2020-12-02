@@ -82,7 +82,9 @@ namespace WebApi.Modules.Billing.Receipt
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string OrderId { get; set; }
-
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "authorizationcode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string AuthorizationCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
