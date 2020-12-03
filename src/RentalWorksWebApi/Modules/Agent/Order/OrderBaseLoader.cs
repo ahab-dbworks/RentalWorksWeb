@@ -966,6 +966,36 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "hasnotes", modeltype: FwDataTypes.Boolean)]
         public bool? HasNotes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasdocuments", modeltype: FwDataTypes.Boolean)]
+        public bool? HasDocuments { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasemailhistory", modeltype: FwDataTypes.Boolean)]
+        public bool? HasEmailHistory { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hascontacts", modeltype: FwDataTypes.Boolean)]
+        public bool? HasContacts { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hassubpos", modeltype: FwDataTypes.Boolean)]
+        public bool? HasSubPurchaseOrders { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "haspicklists", modeltype: FwDataTypes.Boolean)]
+        public bool? HasPickLists { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hascontracts", modeltype: FwDataTypes.Boolean)]
+        public bool? HasContracts { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hassuspendedcontracts", modeltype: FwDataTypes.Boolean)]
+        public bool? HasSuspendedContracts { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmultiordercontracts", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMultiOrderContracts { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasinvoices", modeltype: FwDataTypes.Boolean)]
+        public bool? HasInvoices { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmultiorderinvoices", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMultiOrderInvoices { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "totalreplacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? TotalReplacementCost { get; set; }
