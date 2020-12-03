@@ -1566,6 +1566,45 @@ namespace WebApi.Modules.Agent.Order
                 }
             }
 
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    bool dealChanged = (DealId != null) && (!DealId.Equals(lOrig.DealId));
+                    bool departmentChanged = (DepartmentId != null) && (!DepartmentId.Equals(lOrig.DepartmentId));
+                    if (dealChanged || departmentChanged)  // if the user has changed the Deal or Department
+                    {
+                        if (isValid)
+                        {
+                            if (lOrig.HasMultiOrderContracts.GetValueOrDefault(false))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change the {(dealChanged ? "Deal" : "")}{(dealChanged && departmentChanged ? " or " : "")}{(departmentChanged ? "Department" : "")} because Multi-Order Contracts exist.";
+                            }
+                        }
+                        if (isValid)
+                        {
+                            if (lOrig.HasMultiOrderInvoices.GetValueOrDefault(false))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change the {(dealChanged ? "Deal" : "")}{(dealChanged && departmentChanged ? " or " : "")}{(departmentChanged ? "Department" : "")} because Multi-Order Invoices exist.";
+                            }
+                        }
+                        if (isValid)
+                        {
+                            if (lOrig.HasSuspendedContracts.GetValueOrDefault(false))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change the {(dealChanged ? "Deal" : "")}{(dealChanged && departmentChanged ? " or " : "")}{(departmentChanged ? "Department" : "")} because Suspended Contracts exist.";
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
             return isValid;
         }
         //------------------------------------------------------------------------------------
@@ -1963,7 +2002,7 @@ namespace WebApi.Modules.Agent.Order
                     DealLogic newDeal = null;
                     DepartmentLogic newDepartment = null;
                     if (dealChanged)
-                    {                        
+                    {
                         newDeal = new DealLogic();
                         newDeal.SetDependencies(AppConfig, UserSession);
                         newDeal.DealId = DealId;
@@ -2019,7 +2058,7 @@ namespace WebApi.Modules.Agent.Order
                         PurchaseOrderLogic poNew = poOrig.MakeCopy<PurchaseOrderLogic>();
                         poNew.SetDependencies(AppConfig, UserSession);
                         if (dealChanged)
-                        { 
+                        {
                             poNew.DealId = DealId;
                             poNew.Deal = newDeal.Deal;
                         }
