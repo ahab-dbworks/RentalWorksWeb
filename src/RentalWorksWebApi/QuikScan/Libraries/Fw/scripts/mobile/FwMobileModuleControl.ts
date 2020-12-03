@@ -135,7 +135,7 @@
             $menu.hide();
             $menu.find('.menu-dropdown-btn').each(function(index, element) {
                  // mv 5/6/19 needed to track the visible state this way for iPod 5 devices, since they were treating css 'display' as 'none' when the menu was 'display:none'
-                if (jQuery(this).data('visible') === true) {
+                if (jQuery(this).data('visible') !== false) {
                     $menu.show();
                 }
             });
