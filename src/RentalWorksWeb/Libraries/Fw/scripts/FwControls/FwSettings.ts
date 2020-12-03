@@ -641,37 +641,17 @@ class FwSettingsClass {
                     $panelBody.find(`#${matches[k]}`).show();
                 }
             }
+
             $body.find('.recordSearch').on('keypress', e => {
                 if (e.which === 13) {
                     recordSearch(e);
                 }
-            })
+            });
+
             $body.find('.input-group-addon').on('click', e => {
                 recordSearch(e);
-            })
-            $body.find('.input-group-addon')
-                .on('click', e => {
-                    const dataKeys = [];
-                    const query = jQuery.trim($body.find('.recordSearch').val()).toUpperCase();
-                    const matches = [];
-                    const $panelBody = jQuery(this).closest('.panel-body')
-                    for (let key in response[0]) {
-                        if (key !== 'DateStamp' && key !== 'RecordTitle' && key !== '_Custom' && key !== 'Inactive' && key !== rowId) {
-                            dataKeys.push(key)
-                        }
-                    }
-                    for (let i = 0; i < dataKeys.length; i++) {
-                        for (let j = 0; j < response.length; j++) {
-                            if (typeof response[j][dataKeys[i]] === 'string' && response[j][dataKeys[i]].toUpperCase().indexOf(query) !== -1) {
-                                matches.push(response[j][rowId]);
-                            }
-                        }
-                    }
-                    $panelBody.find('.panel-record').hide();
-                    for (let k = 0; k < matches.length; k++) {
-                        $panelBody.find('#' + matches[k]).show();
-                    }
-                })
+            });
+
             $control
                 .on('click', '.row-heading', function (e) {
                     e.stopPropagation();
@@ -1131,14 +1111,17 @@ class FwSettingsClass {
                                         $panelBody.find(`#${matches[k]}`).show();
                                     }
                                 }
+
                                 $body.find('.recordSearch').on('keypress', e => {
                                     if (e.which === 13) {
                                         recordSearch(e);
                                     }
-                                })
+                                });
+
                                 $body.find('.input-group-addon').on('click', e => {
                                     recordSearch(e);
-                                })
+                                });
+
                             }, null, $modulecontainer);
                         }
 
