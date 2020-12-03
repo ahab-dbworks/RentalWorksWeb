@@ -353,13 +353,6 @@ routes.push({
         return RwBaseController.getHubSpotInstallScreen();
     }
 });
-//hubspot oauth screen
-routes.push({
-    pattern: /hubspotoauth$/,
-    action: function (match: RegExpExecArray) {
-        return RwBaseController.getHubSpotOauthCallbackScreen();
-    }
-});
 routes.push({
     pattern: /^default/,
     action: function (match: RegExpExecArray) {

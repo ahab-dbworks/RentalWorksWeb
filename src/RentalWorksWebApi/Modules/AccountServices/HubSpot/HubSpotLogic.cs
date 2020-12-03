@@ -31,8 +31,11 @@ namespace WebApi.Modules.AccountServices.HubSpot
             HubSpotTokensFormData body = new HubSpotTokensFormData();
             body.properties = new Dictionary<string, string>();
             //move HubSpot meta data to a config file 
-            body.properties.Add("client_id", this.AppConfig.HubSpotSettings.ClientId);
-            body.properties.Add("client_secret", this.AppConfig.HubSpotSettings.ClientSecret);
+
+            // need to fix
+            throw new NotImplementedException("Not Implemented: client_id and client_secret need to get loaded from Hubspot Plugin Settings.");
+            //body.properties.Add("client_id", this.AppConfig.HubSpotSettings.ClientId);
+            //body.properties.Add("client_secret", this.AppConfig.HubSpotSettings.ClientSecret);
             body.properties.Add("redirect_uri", this.AppConfig.PublicBaseUrl + "webdev");
             body.properties.Add("grant_type", "authorization_code");
             body.properties.Add("code", request.authorizationCode);
