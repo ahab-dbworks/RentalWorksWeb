@@ -39,6 +39,9 @@ export abstract class WebpackReport {
             case 'PrintHtml':
                 (<WebpackReport>(<any>window).report).renderReport(message.apiUrl, message.authorizationHeader, message.request.parameters);
                 break;
+            case 'Designer':
+                (<WebpackReport>(<any>window).report).renderDesignerPreview(message.apiUrl, message.authorizationHeader, message.request.parameters);
+                break;
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -118,11 +121,24 @@ export abstract class WebpackReport {
         HandlebarsHelpers.registerHelpers(parameters.isCustomReport);
         if (parameters.isCustomReport) {
             parameters.CustomReport = Handlebars.compile(parameters.ReportTemplate);
-        }
 
-        if (parameters.action === 'DesignerPreview') {
+            if (parameters.IsDesignerPreview) {
+                document.getElementById('pageBody').innerHTML = parameters.CustomReport(parameters);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    renderDesignerPreview(apiUrl: string, authorizationHeader: string, parameters: any): void {
+        let htmlElements = document.getElementsByTagName('html');
+        htmlElements[0].classList.add('preview');
+
+        parameters.isCustomReport = parameters.ReportTemplate != undefined;
+        HandlebarsHelpers.registerHelpers(parameters.isCustomReport);
+        if (parameters.isCustomReport) {
+            parameters.CustomReport = Handlebars.compile(parameters.ReportTemplate);
             document.getElementById('pageBody').innerHTML = parameters.CustomReport(parameters);
         }
+        console.log('parameters: ', parameters);
     }
     //----------------------------------------------------------------------------------------------
     onRenderReportCompleted() {
@@ -146,7 +162,7 @@ export abstract class WebpackReport {
 }
 
 export type RenderMode = 'Html' | 'Pdf' | 'Email';
-export type ActionType = 'None' | 'Preview' | 'PrintHtml';
+export type ActionType = 'None' | 'Preview' | 'PrintHtml' | 'Designer';
 
 export class ReportPageMessage {
     action: ActionType = 'None';

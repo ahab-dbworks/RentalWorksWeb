@@ -330,7 +330,7 @@ class CustomReportLayout {
             this.codeMirror.refresh();
         });
 
-        $form.on('click', '.report-preview[data-type="tab"]', e => {
+        $form.on('click', '.preview', e => {
             this.renderPreviewTab($form);
         });
 
@@ -1949,14 +1949,14 @@ class CustomReportLayout {
         //    const preview = template(context);
         //    $form.find(`#previewReport`).append(preview);
         //}
-        const html = FwFormField.getValueByDataField($form, 'Html');
+
         //const $sections = $form.find('.header-wrapper, .table-wrapper, .footer-wrapper').clone(false);
         //for (let i = 0; i < $sections.length; i++) {
         //    const sectionContent: any = $sections[i].outerHTML;
         //    const sectionContentNoBraces = sectionContent.replaceAll('{{', '').replaceAll('}}', '');
         //    $form.find(`#previewReport`).append(sectionContentNoBraces);
         //}
-
+        const html = FwFormField.getValueByDataField($form, 'Html');
         const reportName = FwFormField.getValueByDataField($form, 'BaseReport');
         const urlHtmlReport = `${applicationConfig.apiurl}Reports/${reportName}/index.html`;
         const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
@@ -1980,19 +1980,39 @@ class CustomReportLayout {
             companyName = sessionStorage.getItem('clientCode');
         }
 
+        const emptyObj = $form.data('emptyobjresponse');
+        Object.keys(emptyObj).forEach(key => {
+            if (key !== 'DateFields' && key !== 'RowType') {
+                if (!Array.isArray(emptyObj[key])) {
+                    emptyObj[key] = key
+                } else {
+                    if (emptyObj[key].length > 0) {
+                        Object.keys(emptyObj[key][0]).forEach(key2 => {
+                            emptyObj[key][0][key2] = key2
+                        });
+                    }
+                }
+            }
+        });
         const request: any = new RenderRequest();
         request.renderMode = 'Html';
-        request.parameters = $form.data('emptyobjresponse');
-        Object.keys(request.parameters).forEach(key => { if (key !== 'DateFields' && key !== 'RowType') { request.parameters[key] = key } });
-        request.parameters.ReportTemplate = html;
-        request.parameters.companyName = companyName;
-        request.parameters.systemName = systemName;
-        request.parameters.action = 'DesignerPreview';
 
+        if (typeof emptyObj["Items"] != 'undefined') {
+            //for reports with nested items (Order, Quote, etc)
+            request.parameters = emptyObj;
+        } else {
+            request.parameters = [emptyObj];
+        }
+
+        request.parameters.ReportTemplate = html;
+        request.parameters.Company = companyName;
+        request.parameters.System = systemName;
+        request.parameters.Report = $form.find('option:selected').text() + ' Report';
         request.parameters.isCustomReport = true;
+        request.parameters.IsDesignerPreview = true;
 
         const reportPageMessage = new ReportPageMessage();
-        reportPageMessage.action = 'Preview';
+        reportPageMessage.action = 'Designer';
         reportPageMessage.apiUrl = apiUrl;
         reportPageMessage.authorizationHeader = authorizationHeader;
         reportPageMessage.request = request;
