@@ -779,7 +779,7 @@ class CustomReportLayout {
                         const oldField = $column.attr('data-valuefield');
 
                         //if (rowType === 'linked-sub-header') {
-                            //$table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
+                        //$table.find(`#columnHeader th[data-linkedcolumn="${linkedColumn}"]`).removeClass('new-column');
                         //}
 
                         //$column.removeClass('new-column');
@@ -1339,7 +1339,7 @@ class CustomReportLayout {
                     linkedSubHeaderRowIndex++;
                     break;
                 case 'sub-header':
-                    if (typeof changes != 'undefined' && changes.rowtype == 'sub-header' ) {
+                    if (typeof changes != 'undefined' && changes.rowtype == 'sub-header') {
                         $designerRow = jQuery($table.find('tr[data-row="sub-header"]')[subHeaderRowIndex]).clone();
                         $designerRow.find('.highlight').removeClass('highlight');
                         html = $designerRow.get(subHeaderRowIndex).innerHTML.trim();
@@ -1984,11 +1984,15 @@ class CustomReportLayout {
         Object.keys(emptyObj).forEach(key => {
             if (key !== 'DateFields' && key !== 'RowType') {
                 if (!Array.isArray(emptyObj[key])) {
-                    emptyObj[key] = key
+                    emptyObj[key] = key;
                 } else {
                     if (emptyObj[key].length > 0) {
                         Object.keys(emptyObj[key][0]).forEach(key2 => {
-                            emptyObj[key][0][key2] = key2
+                            if (key2 !== 'RowType') {
+                                emptyObj[key][0][key2] = key2;
+                            } else {
+                                emptyObj[key][0][key2] = "detail";
+                            }
                         });
                     }
                 }
