@@ -24,7 +24,12 @@ namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
     public class ProcessCreditCardPaymentResponse
     {
         public string Status { get; set; } = string.Empty;
-        public string ReturnValue { get; set; } = string.Empty;
+        public string StatusText { get; set; } = string.Empty;
+        public string CardEntryMode { get; set; } = string.Empty;
+        public string CardType { get; set; } = string.Empty;
+        public string CardNumber { get; set; } = string.Empty;
+        public string AuthorizationCode { get; set; } = string.Empty;
+        public decimal Amount { get; set; } = 0;
     }
 
 

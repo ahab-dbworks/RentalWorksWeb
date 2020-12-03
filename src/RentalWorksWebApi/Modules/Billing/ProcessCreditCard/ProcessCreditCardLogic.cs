@@ -132,7 +132,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(ProcessCreditCardPaymentRequest request)
         {
-            string paymenttypeid = string.Empty;
+            string paymentTypeId = string.Empty;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 this.OrderId = request.OrderId;
@@ -154,8 +154,8 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                 {
                     throw new Exception("Unable to Process Payment: Payment Amount must be greater than 0.");
                 }
-                paymenttypeid = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "paytype", "upper(paytype)", "CREDIT CARD", "paytypeid");
-                if (string.IsNullOrEmpty(paymenttypeid))
+                paymentTypeId = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "paytype", "upper(paytype)", "CREDIT CARD", "paytypeid");
+                if (string.IsNullOrEmpty(paymentTypeId))
                 {
                     throw new Exception("Unable to Process Payment: Please create a Payment Type with the name \"CREDIT CARD\".");
                 }
@@ -176,19 +176,12 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             }
             request.StoreCode = this.LocationCode;
             request.SalesPersonCode = this.AgentBarcode;
-            ProcessCreditCardPaymentResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, request);
-            string[] returnValues = response.ReturnValue.Split("|", StringSplitOptions.None);
-            string status = returnValues[0];
-            //string statusText = returnValues[1];
-            //string cardEntryMode = returnValues[2];
-            //string cardType = returnValues[3];
-            //string cardNumber = returnValues[4];
-            string authorizationCode = returnValues[5];
-            //decimal amount = Convert.ToDecimal(returnValues[6]);
+            ProcessCreditCardPaymentResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, this.UserSession, this, paymentTypeId, request);
 
-            if (response.Status == "SUCCESS" && status.ToUpper() == "APPROVED")
+            if (response.Status.ToUpper() == "APPROVED")
             {
-                ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(this.AppConfig, this.UserSession);
+                ReceiptLogic receipt = new ReceiptLogic();
+                receipt.SetDependencies(this.AppConfig, this.UserSession);
                 receipt.OrderId = request.OrderId;
                 receipt.AppliedById = this.UserSession.UsersId;
                 receipt.ChargeBatchId = string.Empty;
@@ -206,19 +199,20 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                 receipt.PaymentAmount = request.PaymentAmount;
                 receipt.PaymentBy = "DEAL";
                 receipt.PaymentMemo = string.Empty;
-                receipt.PaymentTypeId = paymenttypeid;
+                receipt.PaymentTypeId = paymentTypeId;
                 receipt.PaymentTypeType = "CREDIT CARD";
                 receipt.RecType = "D";
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
                 receipt.ModifiedById = this.UserSession.UsersId;
-                receipt.AuthorizationCode = authorizationCode;
-                
+                receipt.AuthorizationCode = response.AuthorizationCode;
+
                 // need to log
-                //response.ReturnValue
+                //result.ReturnValue
 
                 await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
             }
+
             return response;
         }
         //------------------------------------------------------------------------------------

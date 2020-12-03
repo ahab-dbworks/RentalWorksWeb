@@ -9,6 +9,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
 {
     public interface IProcessCreditCardService
     {
-        Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(FwApplicationConfig appConfig, ProcessCreditCardPaymentRequest request);
+        Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(FwApplicationConfig appConfig, FwUserSession userSession, ProcessCreditCardLogic processCreditCardLogic, string paymentTypeid, ProcessCreditCardPaymentRequest request);
     }
 }

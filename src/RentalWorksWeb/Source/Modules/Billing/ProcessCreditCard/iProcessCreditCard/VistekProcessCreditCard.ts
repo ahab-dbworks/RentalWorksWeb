@@ -75,37 +75,22 @@ class VistekProcessCreditCard implements IProcessCreditCard {
                     $confirmation.find('.title').text('PIN Pad');
                     $confirmation.find('.request').hide();
                     $confirmation.find('.response').show();
-                    if (response.ReturnValue.length > 0) {
-                        const returnValues: string[] = response.ReturnValue.split('|');
-                        if (returnValues.length !== 7) {
-                            throw new Error('Invalid return value: ' + response.ReturnValue);
-                        }
-                        const status = returnValues[0];
-                        const statusText = returnValues[1];
-                        const cardEntryMode = returnValues[2];
-                        const cardType = returnValues[3];
-                        const cardNumber = returnValues[4];
-                        const authorizationCode = returnValues[5];
-                        const amount = returnValues[6];
-
-                        //Approved | APPROVED | Captured | VISA |************ 0085 | 119994 | { amount }
-                        FwFormField.setValueByDataField($confirmation, 'Result', statusText);
-                        FwFormField.setValueByDataField($confirmation, 'AuthorizationCode', authorizationCode);
-                        FwFormField.setValueByDataField($confirmation, 'CardEntryMode', cardEntryMode);
-                        FwFormField.setValueByDataField($confirmation, 'CardType', cardType);
-                        FwFormField.setValueByDataField($confirmation, 'Amount', amount);
-                        if (status.toUpperCase() === 'APPROVED') {
-                            $confirmation.find('.response .Result .fwformfield-value')
-                                .val('APPROVED')
-                                .css({
-                                    backgroundColor: '#a6d785'
-                                });
-                        }
-                        else if (status.toUpperCase() === 'DECLINED') {
-                            $confirmation.find('.response .Result .fwformfield-value').css({
-                                backgroundColor: '#ff8a80'
+                    FwFormField.setValueByDataField($confirmation, 'Result', response.StatusText);
+                    FwFormField.setValueByDataField($confirmation, 'AuthorizationCode', response.AuthorizationCode);
+                    FwFormField.setValueByDataField($confirmation, 'CardEntryMode', response.CardEntryMode);
+                    FwFormField.setValueByDataField($confirmation, 'CardType', response.CardType);
+                    FwFormField.setValueByDataField($confirmation, 'Amount', response.Amount);
+                    if (response.Status.toUpperCase() === 'APPROVED') {
+                        $confirmation.find('.response .Result .fwformfield-value')
+                            .val('APPROVED')
+                            .css({
+                                backgroundColor: '#a6d785'
                             });
-                        }
+                    }
+                    else if (response.Status.toUpperCase() === 'DECLINED') {
+                        $confirmation.find('.response .Result .fwformfield-value').css({
+                            backgroundColor: '#ff8a80'
+                        });
                     }
                     $btnProcess.remove();
                     $btnCancel.text('Close');

@@ -1,4 +1,6 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using System;
 using System.IO;
 using System.Net;
@@ -6,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using WebApi.Modules.Billing.Receipt;
 
 namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
 {
@@ -20,7 +23,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
             this.Client = client;
         }
 
-        public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(FwApplicationConfig appConfig, ProcessCreditCardPaymentRequest request)
+        public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(FwApplicationConfig appConfig, FwUserSession userSession, ProcessCreditCardLogic processCreditCardLogic, string paymentTypeId, ProcessCreditCardPaymentRequest request)
         {
             ProcessCreditCardPaymentResponse result = null;
             int transactionTypeOpt = (int)request.TransactionType;
@@ -101,15 +104,21 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
                 {
                     return_value = match.Groups[1].Value;
                     result = new ProcessCreditCardPaymentResponse();
-                    result.Status = "SUCCESS";
-                    result.ReturnValue = return_value;
+                    string[] returnValues = return_value.Split("|", StringSplitOptions.None);
+                    result.Status = returnValues[0];
+                    result.StatusText = returnValues[1];
+                    result.CardEntryMode = returnValues[2];
+                    result.CardType = returnValues[3];
+                    result.CardNumber = returnValues[4];
+                    result.AuthorizationCode = returnValues[5];
+                    result.Amount = Convert.ToDecimal(returnValues[6]);
+                    return result;
                 }
                 else
                 {
                     throw new Exception("Unable to parse response:\n" + responseString);
                 }
             }
-            return result;
         }   
     }
 
