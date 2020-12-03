@@ -913,23 +913,32 @@ class CustomReportLayout {
         //delete table row
         $form.on('click', '.delete-row', e => {
             if (typeof $column !== 'undefined') {
-                $row = $column.parents('tr');
-                let rowIndex = $row.index();
-                if (rowIndex) {
-                    const linkedColumn = jQuery($column).attr('data-linkedcolumn');
-                    const $linkedColumns = $table.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                    $linkedColumns.siblings().addClass('highlight');
-                    const $confirmation = FwConfirmation.renderConfirmation(`Delete Row`, `Delete the highlighted row(s)?`);
-                    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-                    FwConfirmation.addButton($confirmation, 'No', true);
+                try {
+                    $row = $column.parents('tr');
+                    if ($row.attr('data-row') != 'main-header' && $row.attr('data-row') != 'linked-sub-header') {
+                        let rowIndex = $row.index();
+                        if (rowIndex) {
+                            //const linkedColumn = jQuery($column).attr('data-linkedcolumn');
+                            //const $linkedColumns = $table.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                            //$linkedColumns.siblings().addClass('highlight');
+                            this.highlightElement($form, $row.children());
+                            const $confirmation = FwConfirmation.renderConfirmation(`Delete Row`, `Delete the highlighted row(s)?`);
+                            const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                            FwConfirmation.addButton($confirmation, 'No', true);
 
-                    $yes.on('click', () => {
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        //delete row 
-                        $form.data('updatetype', 'deleterow');
-                        $form.data('deleterow', { rowindex1: rowIndex })
-                        this.updateHTML($form, $table, $row, $column);
-                    });
+                            $yes.on('click', () => {
+                                FwConfirmation.destroyConfirmation($confirmation);
+                                //delete row 
+                                $form.data('updatetype', 'deleterow');
+                                $form.data('deleterow', { rowindex1: rowIndex })
+                                this.updateHTML($form, $table, $row, $column);
+                            });
+                        }
+                    } else {
+                        FwNotification.renderNotification(`ERROR`, 'The main-header and linked-sub-header rows cannot be deleted.');
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
                 }
             }
         });
