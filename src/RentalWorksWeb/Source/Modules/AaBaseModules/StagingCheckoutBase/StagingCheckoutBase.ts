@@ -961,12 +961,13 @@ abstract class StagingCheckoutBase {
         // BarCode / I-Code change
         $form.find('[data-datafield="Code"] input').on('keydown', e => {
             if (e.which == 9 || e.which == 13) {
+                const code = FwFormField.getValueByDataField($form, 'Code');
+                FwFormField.setValueByDataField($form, 'Code', ''); // BarCode being cleared out prior to request
                 errorMsg.html('');
                 $form.find('div.AddItemToOrder').html('');
                 this.showAddItemToOrder = false;
                 const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                const code = FwFormField.getValueByDataField($form, 'Code');
                 const request: any = {
                     OrderId: orderId,
                     Code: code,
@@ -981,7 +982,6 @@ abstract class StagingCheckoutBase {
                     request.StageIncompleteContainer = true;
                 }
 
-                FwFormField.setValueByDataField($form, 'Code', ''); // BarCode being cleared out prior to request
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                     if (response.success === true && response.status != 107) {
                         $form.find('[data-datafield="Code"] input').select();
@@ -1027,6 +1027,7 @@ abstract class StagingCheckoutBase {
                         $form.find('[data-datafield="Code"] input').select();
                     }
                     if (response.ShowStageIncompleteContainer === true) {
+                        FwFormField.setValueByDataField($form, 'Code', code);
                         $form.find('.stage-incomplete-container').data('triggeredevent', { datafield: 'Code', keycode: e.which }).show();
                     } else {
                         $form.find('.stage-incomplete-container').hide();
@@ -1065,17 +1066,16 @@ abstract class StagingCheckoutBase {
                         request.StageIncompleteContainer = true;
                     }
 
-                    FwFormField.setValueByDataField($form, 'Code', ''); // BarCode being cleared out prior to request
                     FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
                         if (response.success === true) {
                             FwFormField.setValueByDataField($form, 'Quantity', 0);
+                            FwFormField.setValueByDataField($form, 'Code', '');
                             $form.find('[data-datafield="Code"] input').select();
                             this.addItemFieldValues($form, response);
                             debouncedRefreshGrid();
                             FwFunc.playSuccessSound();
                         }
                         if (response.ShowAddItemToOrder === true) {
-                            FwFormField.setValueByDataField($form, 'Code', code);
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="${this.Module}Controller.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                             $form.find('[data-datafield="ApplyToAllStaged"]').show();
@@ -1091,7 +1091,6 @@ abstract class StagingCheckoutBase {
                         }
                         if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
-                            FwFormField.setValueByDataField($form, 'Code', code);
                             $form.find('[data-datafield="Code"] input').select();
                             this.addItemFieldValues($form, response);
                             FwFunc.playErrorSound();
@@ -1104,7 +1103,6 @@ abstract class StagingCheckoutBase {
                         $form.removeData('stageincompletecontainer');
                     }, response => {
                         FwFunc.showError(response);
-                        FwFormField.setValueByDataField($form, 'Code', code);
                         $form.find('[data-datafield="Code"] input').select();
                     }, $form);
                 }
