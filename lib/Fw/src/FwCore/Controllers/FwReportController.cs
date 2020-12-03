@@ -15,6 +15,7 @@ using static FwCore.Controllers.FwDataController;
 using PuppeteerSharp;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace FwCore.Controllers
 {
@@ -280,6 +281,18 @@ namespace FwCore.Controllers
                 Type type = loaderType;
                 FwReportLoader l = (FwReportLoader)Activator.CreateInstance(type);
                 l.SetDependencies(AppConfig, UserSession);
+
+                PropertyInfo[] properties = l.GetType().GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    if (property.Name.Equals("RowType"))
+                    {
+                        property.SetValue(l, "detail");
+                        break;
+                    }
+                }
+
+
                 return new OkObjectResult(l);
             }
             catch (Exception ex)
