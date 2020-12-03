@@ -16,6 +16,7 @@ using PuppeteerSharp;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Collections;
 
 namespace FwCore.Controllers
 {
@@ -282,16 +283,35 @@ namespace FwCore.Controllers
                 FwReportLoader l = (FwReportLoader)Activator.CreateInstance(type);
                 l.SetDependencies(AppConfig, UserSession);
 
-                PropertyInfo[] properties = l.GetType().GetProperties();
-                foreach (PropertyInfo property in properties)
+                foreach (PropertyInfo property in l.GetType().GetProperties())
                 {
+                    // get the type of this property
+                    Type propertyType = property.PropertyType;
+
                     if (property.Name.Equals("RowType"))
                     {
                         property.SetValue(l, "detail");
-                        break;
+                    }
+
+                    // if the property is a List, then get the type of the items in the List.  Find the RowType property and set it to "detail"
+                    if (typeof(IList).IsAssignableFrom(propertyType))
+                    {
+                        IList theList = property.GetValue(l, null) as IList;
+
+                        foreach (var listItem in theList)
+                        {
+                            PropertyInfo[] listItemProperties = listItem.GetType().GetProperties();
+                            foreach (PropertyInfo listItemProperty in listItemProperties)
+                            {
+                                if (listItemProperty.Name.Equals("RowType"))
+                                {
+                                    listItemProperty.SetValue(listItem, "detail");
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
-
 
                 return new OkObjectResult(l);
             }
