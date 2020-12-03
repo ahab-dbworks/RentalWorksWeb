@@ -223,11 +223,6 @@
             };
         });
 
-        //install hubspot
-        $form.find('.install-hubspot').on('click', e => {
-            program.navigate('hubspotinstall');
-        });
-
         //favorites search
         $form.find('[data-datafield="FavoriteSearch"]').on('change', e => {
             this.searchFavorites($form);

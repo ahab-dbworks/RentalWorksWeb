@@ -184,24 +184,6 @@ class Base {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    getHubSpotOauthCallbackScreen() {
-        let viewModel = {};
-        let properties = {};
-        let screen: any = {};
-        // get query param code to send in a request to exchange for an auth token
-        let callBackParams = new URLSearchParams(window.location.search);
-        let callBackCode = callBackParams.get('code');
-
-        console.log(callBackCode, 'code');
-
-        screen = FwBasePages.getHubSpotOauthCallback(viewModel);
-        screen.viewModel = viewModel;
-        screen.properties = properties;
-
-
-        return program.navigate('default');
-    }
-    //----------------------------------------------------------------------------------------------
     getChangePasswordScreen() {
         let viewModel = {
             captionEmail: RwLanguages.translate('E-mail / Username'),
