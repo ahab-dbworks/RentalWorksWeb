@@ -984,8 +984,17 @@ namespace WebApi.Modules.Agent.Order
         [FwSqlDataField(column: "hascontracts", modeltype: FwDataTypes.Boolean)]
         public bool? HasContracts { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hassuspendedcontracts", modeltype: FwDataTypes.Boolean)]
+        public bool? HasSuspendedContracts { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmultiordercontracts", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMultiOrderContracts { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasinvoices", modeltype: FwDataTypes.Boolean)]
         public bool? HasInvoices { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasmultiorderinvoices", modeltype: FwDataTypes.Boolean)]
+        public bool? HasMultiOrderInvoices { get; set; }
         //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "totalreplacementcost", modeltype: FwDataTypes.Decimal)]

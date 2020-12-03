@@ -1227,8 +1227,14 @@ namespace WebApi.Modules.Agent.Order
         public bool? HasPickLists { get; set; }
         [FwLogicProperty(Id: "p0xDe2JpE9gop", IsReadOnly: true)]
         public bool? HasContracts { get; set; }
+        [FwLogicProperty(Id: "CI70FfG1qPiMN", IsReadOnly: true)]
+        public bool? HasSuspendedContracts { get; set; }
+        [FwLogicProperty(Id: "uPt0kmqunpEXk", IsReadOnly: true)]
+        public bool? HasMultiOrderContracts { get; set; }
         [FwLogicProperty(Id: "hPidrVvNmiygL", IsReadOnly: true)]
         public bool? HasInvoices { get; set; }
+        [FwLogicProperty(Id: "DsbADegJwjfLv", IsReadOnly: true)]
+        public bool? HasMultiOrderInvoices { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
