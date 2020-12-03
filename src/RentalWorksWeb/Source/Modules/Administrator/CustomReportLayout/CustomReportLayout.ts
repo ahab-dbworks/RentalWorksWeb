@@ -1941,7 +1941,7 @@ class CustomReportLayout {
     };
     //----------------------------------------------------------------------------------------------
     renderPreviewTab($form: JQuery) {
-        $form.find(`#previewReport`).empty();
+        //$form.find(`#previewReport`).empty();
         //const context = $form.data('emptyobjresponse');
         //if (typeof context != 'undefined') {
         //    const html = FwFormField.getValueByDataField($form, 'Html');
@@ -1949,11 +1949,68 @@ class CustomReportLayout {
         //    const preview = template(context);
         //    $form.find(`#previewReport`).append(preview);
         //}
-        const $sections = $form.find('.header-wrapper, .table-wrapper, .footer-wrapper').clone(false);
-        for (let i = 0; i < $sections.length; i++) {
-            const sectionContent: any = $sections[i].outerHTML;
-            const sectionContentNoBraces = sectionContent.replaceAll('{{', '').replaceAll('}}', '');
-            $form.find(`#previewReport`).append(sectionContentNoBraces);
+        const html = FwFormField.getValueByDataField($form, 'Html');
+        //const $sections = $form.find('.header-wrapper, .table-wrapper, .footer-wrapper').clone(false);
+        //for (let i = 0; i < $sections.length; i++) {
+        //    const sectionContent: any = $sections[i].outerHTML;
+        //    const sectionContentNoBraces = sectionContent.replaceAll('{{', '').replaceAll('}}', '');
+        //    $form.find(`#previewReport`).append(sectionContentNoBraces);
+        //}
+
+        const reportName = FwFormField.getValueByDataField($form, 'BaseReport');
+        const urlHtmlReport = `${applicationConfig.apiurl}Reports/${reportName}/index.html`;
+        const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
+        const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
+
+        let companyName = 'UNKNOWN COMPANY';
+        let systemName = 'UNKNOWN SYSTEM';
+        if (sessionStorage.getItem('controldefaults') !== null) {
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            if (typeof controlDefaults !== 'undefined') {
+                if (typeof controlDefaults.companyname === 'string') {
+                    companyName = controlDefaults.companyname;
+                }
+                if (typeof controlDefaults.systemname === 'string') {
+                    systemName = controlDefaults.systemname;
+                }
+            }
+        }
+
+        if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
+            companyName = sessionStorage.getItem('clientCode');
+        }
+
+        const request: any = new RenderRequest();
+        request.renderMode = 'Html';
+        request.parameters = $form.data('emptyobjresponse');
+        Object.keys(request.parameters).forEach(key => { if (key !== 'DateFields' && key !== 'RowType') { request.parameters[key] = key } });
+        request.parameters.ReportTemplate = html;
+        request.parameters.companyName = companyName;
+        request.parameters.systemName = systemName;
+        request.parameters.action = 'DesignerPreview';
+
+        request.parameters.isCustomReport = true;
+
+        const reportPageMessage = new ReportPageMessage();
+        reportPageMessage.action = 'Preview';
+        reportPageMessage.apiUrl = apiUrl;
+        reportPageMessage.authorizationHeader = authorizationHeader;
+        reportPageMessage.request = request;
+
+        const win = window.open(urlHtmlReport);
+        if (!win) {
+            throw 'Disable your popup blocker for this site.';
+        } else {
+            const sendMessage = (event) => {
+                const message = event.data;
+                if (message === urlHtmlReport) {
+                    win.postMessage(reportPageMessage, urlHtmlReport);
+                }
+                if (message === 'ReportUnload') {
+                    window.removeEventListener('message', sendMessage)
+                }
+            }
+            window.addEventListener('message', sendMessage)
         }
     }
     //----------------------------------------------------------------------------------------------

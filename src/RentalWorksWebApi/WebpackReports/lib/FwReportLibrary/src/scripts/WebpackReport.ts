@@ -119,6 +119,10 @@ export abstract class WebpackReport {
         if (parameters.isCustomReport) {
             parameters.CustomReport = Handlebars.compile(parameters.ReportTemplate);
         }
+
+        if (parameters.action === 'DesignerPreview') {
+            document.getElementById('pageBody').innerHTML = parameters.CustomReport(parameters);
+        }
     }
     //----------------------------------------------------------------------------------------------
     onRenderReportCompleted() {
