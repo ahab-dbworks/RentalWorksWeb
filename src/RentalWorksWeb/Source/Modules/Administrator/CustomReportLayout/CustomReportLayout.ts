@@ -698,7 +698,16 @@ class CustomReportLayout {
                         try {
                             const $row = $th.parents('tr');
                             const rowIndex = $row.index();
-                            const tableSectionSelector = $row.parents('thead').length === 1 ? 'thead' : 'tbody';
+                            let tableSectionSelector;
+                            if ($row.parents('thead').length === 1) {
+                                tableSectionSelector = 'thead';
+
+                                //remove detail row when removing header row
+                                $wrapper.find(`${tableNameSelector} tbody tr[data-row="detail"]`)[rowIndex].remove();
+                                $row.parents('thead').siblings('tbody').find('tr[data-row="detail"]')[rowIndex].remove();
+                            } else {
+                                tableSectionSelector = 'tbody';
+                            }
                             const $cachedRowsToDelete = $wrapper.find(`${tableNameSelector} ${tableSectionSelector} tr`)[rowIndex];
                             $cachedRowsToDelete.remove();
                             $row.remove();
@@ -915,13 +924,21 @@ class CustomReportLayout {
             if (typeof $column !== 'undefined') {
                 try {
                     $row = $column.parents('tr');
-                    if ($row.attr('data-row') != 'main-header' && $row.attr('data-row') != 'linked-sub-header') {
-                        let rowIndex = $row.index();
-                        if (rowIndex) {
+                    const rowType = $row.attr('data-row');
+                    const rowIndex = $row.index();
+                    if ((rowType != 'main-header' && rowType != 'linked-sub-header')
+                        || (rowType === 'main-header' && rowIndex > 0)) {
+                        //if (rowIndex) {
                             //const linkedColumn = jQuery($column).attr('data-linkedcolumn');
                             //const $linkedColumns = $table.find(`[data-linkedcolumn="${linkedColumn}"]`);
                             //$linkedColumns.siblings().addClass('highlight');
-                            this.highlightElement($form, $row.children());
+                        let $elements;
+                        if (rowType === 'main-header') {
+                            $elements = $row.children().add(jQuery($row.parents('thead').siblings('tbody').find('tr[data-row="detail"]')[rowIndex]).children());
+                        } else {
+                            $elements = $row.children();
+                        }
+                        this.highlightElement($form, $elements);
                             const $confirmation = FwConfirmation.renderConfirmation(`Delete Row`, `Delete the highlighted row(s)?`);
                             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
                             FwConfirmation.addButton($confirmation, 'No', true);
@@ -933,7 +950,7 @@ class CustomReportLayout {
                                 $form.data('deleterow', { rowindex1: rowIndex })
                                 this.updateHTML($form, $table, $row, $column);
                             });
-                        }
+                        //}
                     } else {
                         FwNotification.renderNotification(`ERROR`, 'The main-header and linked-sub-header rows cannot be deleted.');
                     }
