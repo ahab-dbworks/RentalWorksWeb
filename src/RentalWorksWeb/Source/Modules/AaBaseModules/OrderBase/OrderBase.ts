@@ -2256,7 +2256,7 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        let dealObj = {}, departmentObj = {};
+        let dealObj: any = {}, departmentObj: any = {};
         //let weeklyType = $form.find(".weeklyType");
         //let monthlyType = $form.find(".monthlyType");
         //let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
@@ -2490,6 +2490,25 @@ class OrderBase {
             const hasContracts = FwFormField.getValueByDataField($form, 'HasContracts');
             const hasInvoices = FwFormField.getValueByDataField($form, 'HasInvoices');
             const hasSubPurchaseOrders = FwFormField.getValueByDataField($form, 'HasSubPurchaseOrders');
+            const hasMultiOrderContracts = FwFormField.getValueByDataField($form, 'HasMultiOrderContracts');
+            const hasMultiOrderInvoices = FwFormField.getValueByDataField($form, 'HasMultiOrderInvoices');
+            const hasSuspendedContracts = FwFormField.getValueByDataField($form, 'HasSuspendedContracts');
+
+            if (hasMultiOrderContracts) {
+                FwNotification.renderNotification('WARNING', 'The Department cannot be changed because Multi-Order Contracts exist.');
+                FwFormField.setValueByDataField($form, 'DepartmentId', departmentObj.Id, departmentObj.Name);
+            }
+            if (hasMultiOrderInvoices) {
+                FwNotification.renderNotification('WARNING', 'The Department cannot be changed because Multi-Order Invoices exist.');
+                FwFormField.setValueByDataField($form, 'DepartmentId', departmentObj.Id, departmentObj.Name);
+                return false;
+            }
+            if (hasSuspendedContracts) {
+                FwNotification.renderNotification('WARNING', 'The Department cannot be changed because Suspended Contracts exist.');
+                FwFormField.setValueByDataField($form, 'DepartmentId', departmentObj.Id, departmentObj.Name);
+                return false;
+            }
+
             if (hasContracts || hasInvoices || hasSubPurchaseOrders) {
                 this.changeDepartmentForOrder($form, $tr, departmentObj);
             } else {
@@ -2509,6 +2528,25 @@ class OrderBase {
             const hasContracts = FwFormField.getValueByDataField($form, 'HasContracts');
             const hasInvoices = FwFormField.getValueByDataField($form, 'HasInvoices');
             const hasSubPurchaseOrders = FwFormField.getValueByDataField($form, 'HasSubPurchaseOrders');
+            const hasMultiOrderContracts = FwFormField.getValueByDataField($form, 'HasMultiOrderContracts');
+            const hasMultiOrderInvoices = FwFormField.getValueByDataField($form, 'HasMultiOrderInvoices');
+            const hasSuspendedContracts = FwFormField.getValueByDataField($form, 'HasSuspendedContracts');
+
+            if (hasMultiOrderContracts) {
+                FwNotification.renderNotification('WARNING', 'The Deal cannot be changed because Multi-Order Contracts exist.');
+                FwFormField.setValueByDataField($form, 'DealId', dealObj.Id, dealObj.Name);
+            }
+            if (hasMultiOrderInvoices) {
+                FwNotification.renderNotification('WARNING', 'The Deal cannot be changed because Multi-Order Invoices exist.');
+                FwFormField.setValueByDataField($form, 'DealId', dealObj.Id, dealObj.Name);
+                return false;
+            }
+            if (hasSuspendedContracts) {
+                FwNotification.renderNotification('WARNING', 'The Deal cannot be changed because Suspended Contracts exist.');
+                FwFormField.setValueByDataField($form, 'DealId', dealObj.Id, dealObj.Name);
+                return false;
+            }
+
             if (hasContracts || hasInvoices || hasSubPurchaseOrders) {
                 this.changeDealForOrder($form, $tr, dealObj);
             } else {
@@ -4942,43 +4980,41 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     changeDealForOrder($form: any, $tr: any, oldDeal: any) {
-        const newDeal = FwBrowse.getValueByDataField($form, $tr, 'Deal');
+            const newDeal = FwBrowse.getValueByDataField($form, $tr, 'Deal');
+            const $confirmation = FwConfirmation.renderConfirmation('Update Deal', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '500px');
 
-        const $confirmation = FwConfirmation.renderConfirmation('Update Deal', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '500px');
+            const html = [];
+            html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
+            html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+            html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Old Deal" data-datafield="OldDeal" data-enabled="false" style="width:480px; float:left;"></div>`);
+            html.push(`  </div>`);
+            html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+            html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="NewDeal" data-enabled="false" style="width:480px;float:left;"></div>`);
+            html.push(`  </div>`);
+            html.push(`  <div style="padding:.5em;">Are you sure you want to change the Deal on this ${this.Module}? This will update all Contracts, Sub Purchase Orders, and Invoices related to this ${this.Module}.</div>`);
+            html.push(`</div>`);
 
-        const html = [];
-        html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
-        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Old Deal" data-datafield="OldDeal" data-enabled="false" style="width:480px; float:left;"></div>`);
-        html.push(`  </div>`);
-        html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-        html.push(`    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="NewDeal" data-enabled="false" style="width:480px;float:left;"></div>`);
-        html.push(`  </div>`);
-        html.push(`  <div style="padding:.5em;">Are you sure you want to change the Deal on this ${this.Module}? This will update all Contracts, Sub Purchase Orders, and Invoices related to this ${this.Module}.</div>`);
-        html.push(`</div>`);
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $apply = FwConfirmation.addButton($confirmation, `Apply`, false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            FwFormField.setValueByDataField($confirmation, 'OldDeal', oldDeal.Name);
+            FwFormField.setValueByDataField($confirmation, 'NewDeal', newDeal);
 
-        FwConfirmation.addControls($confirmation, html.join(''));
-        const $apply = FwConfirmation.addButton($confirmation, `Apply`, false);
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        FwFormField.setValueByDataField($confirmation, 'OldDeal', oldDeal.Name);
-        FwFormField.setValueByDataField($confirmation, 'NewDeal', newDeal);
-
-        // apply
-        $apply.on('click', e => {
-            FwConfirmation.destroyConfirmation($confirmation);
-            this.defaultFieldsOnDealChange($form, $tr);
-        });
-        // cancel
-        $no.on('click', e => {
-            FwConfirmation.destroyConfirmation($confirmation);
-            FwFormField.setValueByDataField($form, 'DealId', oldDeal.Id, oldDeal.Name);
-        });
+            // apply
+            $apply.on('click', e => {
+                FwConfirmation.destroyConfirmation($confirmation);
+                this.defaultFieldsOnDealChange($form, $tr);
+            });
+            // cancel
+            $no.on('click', e => {
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwFormField.setValueByDataField($form, 'DealId', oldDeal.Id, oldDeal.Name);
+            });
     }
     //----------------------------------------------------------------------------------------------
     changeDepartmentForOrder($form: any, $tr: any, oldDepartment: any) {
         const department = FwBrowse.getValueByDataField($form, $tr, 'Department');
-
         const $confirmation = FwConfirmation.renderConfirmation('Update Department', '');
         $confirmation.find('.fwconfirmationbox').css('width', '500px');
 
