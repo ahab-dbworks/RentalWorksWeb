@@ -1328,7 +1328,7 @@ class OrderBase {
         let lossDamageVal: boolean = false;
         if (this.Module === 'Order') {
             lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
-            if (rentalVal|| salesVal || rentalSaleVal ) {
+            if (rentalVal || salesVal || rentalSaleVal) {
                 FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
             } else if (!rentalVal && !salesVal && !rentalSaleVal && !hasLossAndDamageItem) {
                 FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
@@ -4549,7 +4549,7 @@ class OrderBase {
         }
 
         // color the Loss and Damage tab if LossDamageItems exist
-        let hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
+        const hasLossAndDamageItem = FwFormField.getValueByDataField($form, 'HasLossAndDamageItem');
         if (hasLossAndDamageItem) {
             $form.data('hasitems', true);
             const $tab = $form.find('.lossdamagetab');
@@ -4557,6 +4557,7 @@ class OrderBase {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
 
+        this.controlMutuallyExclusiveActivities($form); // Controls Activity checkboxes along with code above ^
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"][data-enabled!="false"]', e => {
@@ -4591,30 +4592,6 @@ class OrderBase {
                 }
             }
         });
-
-        // Enable/Disable checkboxes and show/hide Profit & Loss sections
-        //const rentalVal = FwFormField.getValueByDataField($form, 'Rental');
-        //const salesVal = FwFormField.getValueByDataField($form, 'Sales');
-        //const rentalSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
-        //const laborVal = FwFormField.getValueByDataField($form, 'Labor');
-        //const miscVal = FwFormField.getValueByDataField($form, 'Miscellaneous');
-        //let lossDamageVal: boolean = false;
-        //if (rentalVal === true || salesVal === true || rentalSaleVal === true) {
-        //    FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
-        //} else if (rentalVal === false && salesVal === false && rentalSaleVal === false) {
-        //    FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-        //}
-        //if (this.Module === 'Order') {
-        //    lossDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage');
-        //} 
-        //if (rentalVal || lossDamageVal) {
-        //    FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
-        //} else if (!rentalVal && !lossDamageVal && !hasRentalSaleItem) {
-        //    FwFormField.enable(FwFormField.getDataField($form, 'RentalSale'));
-        //}
-        this.controlMutuallyExclusiveActivities($form);
-
-
 
         // show/hide Profit & Loss sections
         const rentalVal = FwFormField.getValueByDataField($form, 'Rental');

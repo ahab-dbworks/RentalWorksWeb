@@ -695,11 +695,25 @@ class CustomReportLayout {
                         this.addRowColumnSorting($form, $table, tableName, $tr.get(0), 'columnheader');
                         break;
                     case 'deleterow':
-                        const linkedColumn = $th.attr('data-linkedcolumn');
-                        const $cachedRowsToDelete = $wrapper.find(`${tableNameSelector} tr [data-linkedcolumn="${linkedColumn}"]`).parents('tr');
-                        const $designerRowsToDelete = $table.find(`[data-linkedcolumn="${linkedColumn}"]`).parents('tr');
-                        $cachedRowsToDelete.remove();
-                        $designerRowsToDelete.remove();
+                        try {
+                            const $row = $th.parents('tr');
+                            const rowIndex = $row.index();
+                            let tableSectionSelector;
+                            if ($row.parents('thead').length === 1) {
+                                tableSectionSelector = 'thead';
+
+                                //remove detail row when removing header row
+                                $wrapper.find(`${tableNameSelector} tbody tr[data-row="detail"]`)[rowIndex].remove();
+                                $row.parents('thead').siblings('tbody').find('tr[data-row="detail"]')[rowIndex].remove();
+                            } else {
+                                tableSectionSelector = 'tbody';
+                            }
+                            const $cachedRowsToDelete = $wrapper.find(`${tableNameSelector} ${tableSectionSelector} tr`)[rowIndex];
+                            $cachedRowsToDelete.remove();
+                            $row.remove();
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
                         break;
                     case 'style':
                         this.updateElementStyle($form, $wrapper, tableNameSelector, $tr, $th);
@@ -908,23 +922,40 @@ class CustomReportLayout {
         //delete table row
         $form.on('click', '.delete-row', e => {
             if (typeof $column !== 'undefined') {
-                $row = $column.parents('tr');
-                let rowIndex = $row.index();
-                if (rowIndex) {
-                    const linkedColumn = jQuery($column).attr('data-linkedcolumn');
-                    const $linkedColumns = $table.find(`[data-linkedcolumn="${linkedColumn}"]`);
-                    $linkedColumns.siblings().addClass('highlight');
-                    const $confirmation = FwConfirmation.renderConfirmation(`Delete Row`, `Delete the highlighted row(s)?`);
-                    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-                    FwConfirmation.addButton($confirmation, 'No', true);
+                try {
+                    $row = $column.parents('tr');
+                    const rowType = $row.attr('data-row');
+                    const rowIndex = $row.index();
+                    if ((rowType != 'main-header' && rowType != 'linked-sub-header')
+                        || (rowType === 'main-header' && rowIndex > 0)) {
+                        //if (rowIndex) {
+                            //const linkedColumn = jQuery($column).attr('data-linkedcolumn');
+                            //const $linkedColumns = $table.find(`[data-linkedcolumn="${linkedColumn}"]`);
+                            //$linkedColumns.siblings().addClass('highlight');
+                        let $elements;
+                        if (rowType === 'main-header') {
+                            $elements = $row.children().add(jQuery($row.parents('thead').siblings('tbody').find('tr[data-row="detail"]')[rowIndex]).children());
+                        } else {
+                            $elements = $row.children();
+                        }
+                        this.highlightElement($form, $elements);
+                            const $confirmation = FwConfirmation.renderConfirmation(`Delete Row`, `Delete the highlighted row(s)?`);
+                            const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+                            FwConfirmation.addButton($confirmation, 'No', true);
 
-                    $yes.on('click', () => {
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        //delete row 
-                        $form.data('updatetype', 'deleterow');
-                        $form.data('deleterow', { rowindex1: rowIndex })
-                        this.updateHTML($form, $table, $row, $column);
-                    });
+                            $yes.on('click', () => {
+                                FwConfirmation.destroyConfirmation($confirmation);
+                                //delete row 
+                                $form.data('updatetype', 'deleterow');
+                                $form.data('deleterow', { rowindex1: rowIndex })
+                                this.updateHTML($form, $table, $row, $column);
+                            });
+                        //}
+                    } else {
+                        FwNotification.renderNotification(`ERROR`, 'The main-header and linked-sub-header rows cannot be deleted.');
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
                 }
             }
         });
@@ -949,11 +980,6 @@ class CustomReportLayout {
             const linkedColumn = $column.attr('data-linkedColumn');
             this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumn}"]`));
             this.showHideControlProperties($form, 'table');
-            if ($column.parents('tr').index()) {
-                $form.find('.delete-row').parent('div').show();
-            } else {
-                $form.find('.delete-row').parent('div').hide();
-            }
         });
 
         //allow td styling
@@ -1298,7 +1324,7 @@ class CustomReportLayout {
             case 'sub-detail':
                 $controlProperties.children(`:not('[data-datafield="CellStyleField"]'):not('[data-datafield="CaptionField"]')`).hide();
                 $controlProperties.children(`[data-datafield="CellStyleField"], [data-datafield="CaptionField"]`).show();
-                $controlProperties.find('.delete-column').parent('div').show();
+                $controlProperties.find('.delete-column, .delete-row').parent('div').show();
                 $controlProperties.show();
                 break;
             case 'hide':
