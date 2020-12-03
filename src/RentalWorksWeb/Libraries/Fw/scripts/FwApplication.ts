@@ -477,6 +477,24 @@ class FwApplication {
     };
     //---------------------------------------------------------------------------------
     loadDefaultPage() {
+        //look for authentication code as query param to see if this is a hubspot redirect
+        let callBackParams = new URLSearchParams(window.location.search);
+        let callBackCode = callBackParams.get('code');
+        if (callBackCode) {
+            (async () => {
+                const securityTokens:string = await FwAjax.callWebApi({
+                    httpMethod: 'POST',
+                    url: `${applicationConfig.apiurl}api/v1/hubspot/gettokens`,
+                    data: {
+                        authorizationCode: callBackCode
+                    }
+                });
+                console.log(securityTokens);
+                //remove callback code after using
+                window.history.replaceState({},document.title,"/" + "webdev" + "/" + "#" + "/" + "home")
+
+            })();
+        }
         if (FwAppData.verifyHasAuthToken()) {
             if (window.location.hash.replace('#/', '') !== '' && window.location.hash.replace('#/', '') !== 'home') {
                 sessionStorage.setItem('redirectPath', window.location.hash.replace('#/', ''));

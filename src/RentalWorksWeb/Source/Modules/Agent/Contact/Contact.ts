@@ -30,6 +30,7 @@ class Contact {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
+
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
@@ -44,6 +45,17 @@ class Contact {
         } catch (ex) {
             FwFunc.showError(ex);
         }
+        //(async () => {
+        //    const hubspotContacts = await FwAjax.callWebApi<any, any>({
+        //        httpMethod: 'POST',
+        //        url: `${applicationConfig.apiurl}api/v1/hubspot/allcontacts`,
+        //        data: {
+        //            accessToken: 'CI25tqLJLhICAQEYrpWDBCCr5dcFKI_4DTIZAB7pM-oH_68b0D-jA-yqNTrrQFOuwpsOiToaAAoCQQAADIADAAgAAAABAAAAAAAAABjAABNCGQAe6TPqQvimAf4_bhLB3twg6uWFehzAqlg'
+        //        },
+        //        $elementToBlock: $browse
+        //    })
+        //    console.log(JSON.parse(hubspotContacts));
+        //})();
 
         return $browse;
     }

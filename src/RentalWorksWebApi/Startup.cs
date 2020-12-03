@@ -47,6 +47,7 @@ namespace WebApi
             FwAppManager.CurrentProductEdition = "E";
             FwAppManager.Tree.LoadFromWebApi();
             FwAppManager.Tree.LoadAllGroupTrees().Wait();
+            //services.AddHostedService<IntegrationsService>();
             if (!this.ApplicationConfig.DisableAvailabilityService)
             {
                 services.AddHostedService<AvailabilityService>();

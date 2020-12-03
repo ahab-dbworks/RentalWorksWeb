@@ -1,0 +1,14 @@
+﻿.plugins {background-color: #F5F5F5;}
+.plugins .plugin {display:flex;border-bottom:1px solid rgba(0,0,0,0.3);}
+.plugins .plugin .plugin-title {flex:0 0 350px;padding:10px;border-right:1px solid rgba(0,0,0,0.3);}
+.plugins .plugin .plugin-title .title {font-size:20px;}
+/*.plugins .plugin .plugin-title .status {font-size: 12px;padding: 2px 4px;display: inline-block;border-radius: 4px;border: 1px solid rgba(0,0,0,0.3);}
+.plugins .plugin .plugin-title .status.disabled {background-color: #9E9E9E;color: #EEEEEE;}
+.plugins .plugin .plugin-title .status.enabled {background-color: #4CAF50;}*/
+.plugins .plugin .plugin-title .synop {font-size: 14px;color: #424242;width: 250px;}
+.plugins .plugin .plugin-settings {flex:1 0 auto;padding-bottom:10px;}
+.plugins .plugin .plugin-settings .setting {display:flex;align-items:center;padding:10px;}
+.plugins .plugin .plugin-settings .setting .fwformfield-caption {display:none;}
+.plugins .plugin .plugin-settings .setting .setting-caption {flex:0 0 300px;}
+.plugins .plugin .plugin-settings .setting .setting-control {flex:1 0 auto;}
+.plugins .plugin .plugin-settings .plugin-button {margin:5px 0;max-width:50%;color: #fff;background-color:#1976d2;text-align:center;cursor:pointer;border: none;border-radius: 2px;display: inline-block;height: 36px;line-height: 36px;outline: 0;padding: 0 2rem;text-transform: uppercase;vertical-align: middle;-webkit-tap-highlight-color: transparent;text-decoration: none;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);letter-spacing: .5px;transition: .2s ease-out;}

@@ -302,7 +302,6 @@ var program: Program = new Program();
 //---------------------------------------------------------------------------------
 jQuery(function () {
     jQuery('html').css('background-color', 'initial');
-
     if (sessionStorage.getItem('app') !== null && sessionStorage.getItem('app') !== 'rentalworks') {
         program.navigate('logoff');
         return;
@@ -345,6 +344,20 @@ routes.push({
     pattern: /^changepassword$/,
     action: function (match: RegExpExecArray) {
         return RwBaseController.getChangePasswordScreen();
+    }
+});
+//install hubspot screen
+routes.push({
+    pattern: /^hubspotinstall$/,
+    action: function (match: RegExpExecArray) {
+        return RwBaseController.getHubSpotInstallScreen();
+    }
+});
+//hubspot oauth screen
+routes.push({
+    pattern: /hubspotoauth$/,
+    action: function (match: RegExpExecArray) {
+        return RwBaseController.getHubSpotOauthCallbackScreen();
     }
 });
 routes.push({

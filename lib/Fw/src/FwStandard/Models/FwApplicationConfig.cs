@@ -175,6 +175,11 @@ namespace FwStandard.Models
         public string Replacement { get; set; } = string.Empty;
         public bool SkipRemainingRules { get; set; } = false;
     }
+    public class HubSpotSettings
+    {
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+    }
 
     //public class OktaSignInConfig
     //{
