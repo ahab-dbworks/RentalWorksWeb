@@ -654,6 +654,21 @@ namespace WebApi
         public const string WEBUSER_NOTE_TYPE_FAVORITES = "TOOLBAR";
         public const string WEBUSER_NOTE_TYPE_EMAIL_SIGNATURE = "EMAILSIG";
 
+
+        //DATA HEALTH SEVERITY
+        public const string DATA_HEALTH_SEVERITY_CRITICAL = "CRITICAL";
+        public const string DATA_HEALTH_SEVERITY_HIGH = "HIGH";
+        public const string DATA_HEALTH_SEVERITY_MEDIUM = "MEDIUM";
+        public const string DATA_HEALTH_SEVERITY_LOW = "LOW";
+        public const string DATA_HEALTH_SEVERITY_WARNING = "WARNING";
+
+        //DATA HEALTH SEVERITY
+        public const int DATA_HEALTH_SEVERITY_CRITICAL_COLOR = 255;         // red
+        public const int DATA_HEALTH_SEVERITY_HIGH_COLOR = 98559;           // orange 
+        public const int DATA_HEALTH_SEVERITY_MEDIUM_COLOR = 16748574;      // light blue
+        public const int DATA_HEALTH_SEVERITY_LOW_COLOR = 8453892;          // light green
+        public const int DATA_HEALTH_SEVERITY_WARNING_COLOR = 65535;        // yellow
+
     }
 
     public class QuoteOrderCopyRequest

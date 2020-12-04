@@ -20,6 +20,9 @@ namespace WebApi.Modules.Administrator.DataHealth
         [FwSqlDataField(column: "json", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1)]
         public string Json { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "severity", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
+        public string Severity { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 
