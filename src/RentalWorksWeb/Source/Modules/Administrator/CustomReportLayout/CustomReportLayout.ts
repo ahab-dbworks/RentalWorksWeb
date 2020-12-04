@@ -130,7 +130,7 @@ class CustomReportLayout {
         const reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
         this.addValidFields($form, reportName);
         this.renderDesignerTab($form);
-
+        FwFormField.enable($form.find('.preview'));
         //Sets form to modified upon changing code in editor
         this.codeMirror.on('change', function (codeMirror, change) {
             $form.attr('data-modified', 'true');
@@ -1943,101 +1943,88 @@ class CustomReportLayout {
     };
     //----------------------------------------------------------------------------------------------
     renderPreviewTab($form: JQuery) {
-        //$form.find(`#previewReport`).empty();
-        //const context = $form.data('emptyobjresponse');
-        //if (typeof context != 'undefined') {
-        //    const html = FwFormField.getValueByDataField($form, 'Html');
-        //    const template = Handlebars.compile(html);
-        //    const preview = template(context);
-        //    $form.find(`#previewReport`).append(preview);
-        //}
-
-        //const $sections = $form.find('.header-wrapper, .table-wrapper, .footer-wrapper').clone(false);
-        //for (let i = 0; i < $sections.length; i++) {
-        //    const sectionContent: any = $sections[i].outerHTML;
-        //    const sectionContentNoBraces = sectionContent.replaceAll('{{', '').replaceAll('}}', '');
-        //    $form.find(`#previewReport`).append(sectionContentNoBraces);
-        //}
-        const html = FwFormField.getValueByDataField($form, 'Html');
         const reportName = FwFormField.getValueByDataField($form, 'BaseReport');
-        const urlHtmlReport = `${applicationConfig.apiurl}Reports/${reportName}/index.html`;
-        const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
-        const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
+        FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/preview`, null, FwServices.defaultTimeout,
+            response => {
+                const html = FwFormField.getValueByDataField($form, 'Html');
+                const urlHtmlReport = `${applicationConfig.apiurl}Reports/${reportName}/index.html`;
+                const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
+                const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
 
-        let companyName = 'UNKNOWN COMPANY';
-        let systemName = 'UNKNOWN SYSTEM';
-        if (sessionStorage.getItem('controldefaults') !== null) {
-            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
-            if (typeof controlDefaults !== 'undefined') {
-                if (typeof controlDefaults.companyname === 'string') {
-                    companyName = controlDefaults.companyname;
-                }
-                if (typeof controlDefaults.systemname === 'string') {
-                    systemName = controlDefaults.systemname;
-                }
-            }
-        }
-
-        if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
-            companyName = sessionStorage.getItem('clientCode');
-        }
-
-        const emptyObj = $form.data('emptyobjresponse');
-        Object.keys(emptyObj).forEach(key => {
-            if (key !== 'DateFields' && key !== 'RowType') {
-                if (!Array.isArray(emptyObj[key])) {
-                    emptyObj[key] = key;
-                } else {
-                    if (emptyObj[key].length > 0) {
-                        Object.keys(emptyObj[key][0]).forEach(key2 => {
-                            if (key2 !== 'RowType') {
-                                emptyObj[key][0][key2] = key2;
-                            } else {
-                                emptyObj[key][0][key2] = "detail";
-                            }
-                        });
+                let companyName = 'UNKNOWN COMPANY';
+                let systemName = 'UNKNOWN SYSTEM';
+                if (sessionStorage.getItem('controldefaults') !== null) {
+                    const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+                    if (typeof controlDefaults !== 'undefined') {
+                        if (typeof controlDefaults.companyname === 'string') {
+                            companyName = controlDefaults.companyname;
+                        }
+                        if (typeof controlDefaults.systemname === 'string') {
+                            systemName = controlDefaults.systemname;
+                        }
                     }
                 }
-            }
-        });
-        const request: any = new RenderRequest();
-        request.renderMode = 'Html';
 
-        if (typeof emptyObj["Items"] != 'undefined') {
-            //for reports with nested items (Order, Quote, etc)
-            request.parameters = emptyObj;
-        } else {
-            request.parameters = [emptyObj];
-        }
-
-        request.parameters.ReportTemplate = html;
-        request.parameters.Company = companyName;
-        request.parameters.System = systemName;
-        request.parameters.Report = $form.find('[data-datafield="BaseReport"] option:selected').text() + ' Report';
-        request.parameters.isCustomReport = true;
-        request.parameters.IsDesignerPreview = true;
-
-        const reportPageMessage = new ReportPageMessage();
-        reportPageMessage.action = 'Designer';
-        reportPageMessage.apiUrl = apiUrl;
-        reportPageMessage.authorizationHeader = authorizationHeader;
-        reportPageMessage.request = request;
-
-        const win = window.open(urlHtmlReport);
-        if (!win) {
-            throw 'Disable your popup blocker for this site.';
-        } else {
-            const sendMessage = (event) => {
-                const message = event.data;
-                if (message === urlHtmlReport) {
-                    win.postMessage(reportPageMessage, urlHtmlReport);
+                if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
+                    companyName = sessionStorage.getItem('clientCode');
                 }
-                if (message === 'ReportUnload') {
-                    window.removeEventListener('message', sendMessage)
+
+                Object.keys(response).forEach(key => {
+                    if (key !== 'DateFields' && key !== 'RowType') {
+                        if (!Array.isArray(response[key])) {
+                            response[key] = key;
+                        } else {
+                            for (let i = 0; i < response[key].length; i++) {
+                                Object.keys(response[key][i]).forEach(key2 => {
+                                    if (key2 !== 'RowType') {
+                                        response[key][i][key2] = key2;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
+                const request: any = new RenderRequest();
+                request.renderMode = 'Html';
+
+                if (typeof response["Items"] != 'undefined') {
+                    //for reports with nested items (Order, Quote, etc)
+                    request.parameters = response;
+                } else {
+                    request.parameters = [response];
                 }
-            }
-            window.addEventListener('message', sendMessage)
-        }
+
+                request.parameters.ReportTemplate = html;
+                request.parameters.Company = companyName;
+                request.parameters.System = systemName;
+                request.parameters.Report = $form.find('[data-datafield="BaseReport"] option:selected').text() + ' Report';
+                request.parameters.isCustomReport = true;
+                request.parameters.IsDesignerPreview = true;
+
+                const reportPageMessage = new ReportPageMessage();
+                reportPageMessage.action = 'Designer';
+                reportPageMessage.apiUrl = apiUrl;
+                reportPageMessage.authorizationHeader = authorizationHeader;
+                reportPageMessage.request = request;
+
+                const win = window.open(urlHtmlReport);
+                if (!win) {
+                    throw 'Disable your popup blocker for this site.';
+                } else {
+                    const sendMessage = (event) => {
+                        const message = event.data;
+                        if (message === urlHtmlReport) {
+                            win.postMessage(reportPageMessage, urlHtmlReport);
+                        }
+                        if (message === 'ReportUnload') {
+                            window.removeEventListener('message', sendMessage)
+                        }
+                    }
+                    window.addEventListener('message', sendMessage)
+                }
+
+            }, ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
 };
