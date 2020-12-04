@@ -130,7 +130,7 @@ class CustomReportLayout {
         const reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
         this.addValidFields($form, reportName);
         this.renderDesignerTab($form);
-
+        FwFormField.enable($form.find('.preview'));
         //Sets form to modified upon changing code in editor
         this.codeMirror.on('change', function (codeMirror, change) {
             $form.attr('data-modified', 'true');
@@ -166,6 +166,7 @@ class CustomReportLayout {
                             codeMirror.setValue(modulehtml);
                         }
                         this.renderDesignerTab($form);
+                        FwFormField.enable($form.find('.preview'));
                     }, ex => FwFunc.showError(ex), $form);
                 this.addValidFields($form, reportName);
                 const fullName = sessionStorage.getItem('fullname');
@@ -173,6 +174,7 @@ class CustomReportLayout {
             } else {
                 $form.find('.modulefields, #reportDesigner').empty();
                 codeMirror.setValue('');
+                FwFormField.disable($form.find('.preview'));
             }
         });
 
@@ -192,6 +194,7 @@ class CustomReportLayout {
         $headerFields.empty();
         FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/emptyobject`, null, FwServices.defaultTimeout,
             response => {
+                $form.data('emptyobjresponse', response);
                 let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                 let allValidFields: any = [];
                 const fieldsToExclude = ['DateStamp', 'RecordTitle', '_Custom', '_Fields', 'DateFields'];
@@ -330,6 +333,10 @@ class CustomReportLayout {
             this.codeMirror.refresh();
         });
 
+        $form.on('click', '.preview', e => {
+            this.renderPreviewTab($form);
+        });
+
         //Reload General Tab
         $form.on('click', '[data-type="tab"][data-caption="General"]', e => {
             this.renderDesignerTab($form);
@@ -459,7 +466,7 @@ class CustomReportLayout {
                 const $column = jQuery(e.item);
                 $column.removeAttr('draggable');
                 const linkedColumnName = $column.attr('data-linkedcolumn');
-                const $tr = jQuery(e.currentTarget);
+                const $tr = jQuery(e.target);
 
                 $form.data('columnsmoved', {
                     oldIndex: e.oldIndex,
@@ -477,7 +484,9 @@ class CustomReportLayout {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                 this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumnName}"]`));
             },
-            animation: 100
+            animation: 100,
+            //invertSwap: true,
+            //invertedSwapThreshold: .5
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -494,9 +503,11 @@ class CustomReportLayout {
                     const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                     this.updateReportHeader($form, $reportHeaderSection);
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                dragoverBubble: true
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-flexcolumn').length > 0) {
@@ -519,9 +530,11 @@ class CustomReportLayout {
                     const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                     this.updateReportHeader($form, $reportHeaderSection);
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                dragoverBubble: true
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-nested-flexrow').length > 0) {
@@ -550,7 +563,7 @@ class CustomReportLayout {
                 onEnd: e => {
                     const $item = jQuery(e.item);
                     if ($item.parent().hasClass('rpt-nested-flexrow')) {
-                        if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
+                        if (jQuery(e.target).hasClass('header-fields-drag')) {
                             if (typeof $item.attr('data-parentfield') != 'undefined') {
                                 $item.text(`{{${$item.attr('data-parentfield')}.${jQuery(e.item).text()}}}`);
                             } else {
@@ -561,10 +574,12 @@ class CustomReportLayout {
                         this.updateReportHeader($form, $reportHeaderSection);
                     }
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                fallbackOnBody: true,
-                dragoverBubble: true
+                //fallbackOnBody: true,
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
         }
     }
@@ -2017,6 +2032,91 @@ class CustomReportLayout {
             changelist.pop();
             $form.data('changelist', changelist);
         };
+    }
+    //----------------------------------------------------------------------------------------------
+    renderPreviewTab($form: JQuery) {
+        const reportName = FwFormField.getValueByDataField($form, 'BaseReport');
+        FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/preview`, null, FwServices.defaultTimeout,
+            response => {
+                const html = FwFormField.getValueByDataField($form, 'Html');
+                const urlHtmlReport = `${applicationConfig.apiurl}Reports/${reportName}/index.html`;
+                const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
+                const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
+
+                let companyName = 'UNKNOWN COMPANY';
+                let systemName = 'UNKNOWN SYSTEM';
+                if (sessionStorage.getItem('controldefaults') !== null) {
+                    const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+                    if (typeof controlDefaults !== 'undefined') {
+                        if (typeof controlDefaults.companyname === 'string') {
+                            companyName = controlDefaults.companyname;
+                        }
+                        if (typeof controlDefaults.systemname === 'string') {
+                            systemName = controlDefaults.systemname;
+                        }
+                    }
+                }
+
+                if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
+                    companyName = sessionStorage.getItem('clientCode');
+                }
+
+                Object.keys(response).forEach(key => {
+                    if (key !== 'DateFields' && key !== 'RowType') {
+                        if (!Array.isArray(response[key])) {
+                            response[key] = key;
+                        } else {
+                            for (let i = 0; i < response[key].length; i++) {
+                                Object.keys(response[key][i]).forEach(key2 => {
+                                    if (key2 !== 'RowType') {
+                                        response[key][i][key2] = key2;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
+                const request: any = new RenderRequest();
+                request.renderMode = 'Html';
+
+                if (typeof response["Items"] != 'undefined') {
+                    //for reports with nested items (Order, Quote, etc)
+                    request.parameters = response;
+                } else {
+                    request.parameters = [response];
+                }
+
+                request.parameters.ReportTemplate = html;
+                request.parameters.Company = companyName;
+                request.parameters.System = systemName;
+                request.parameters.Report = $form.find('[data-datafield="BaseReport"] option:selected').text() + ' Report';
+                request.parameters.isCustomReport = true;
+                request.parameters.IsDesignerPreview = true;
+
+                const reportPageMessage = new ReportPageMessage();
+                reportPageMessage.action = 'Designer';
+                reportPageMessage.apiUrl = apiUrl;
+                reportPageMessage.authorizationHeader = authorizationHeader;
+                reportPageMessage.request = request;
+
+                const win = window.open(urlHtmlReport);
+                if (!win) {
+                    throw 'Disable your popup blocker for this site.';
+                } else {
+                    const sendMessage = (event) => {
+                        const message = event.data;
+                        if (message === urlHtmlReport) {
+                            win.postMessage(reportPageMessage, urlHtmlReport);
+                        }
+                        if (message === 'ReportUnload') {
+                            window.removeEventListener('message', sendMessage)
+                        }
+                    }
+                    window.addEventListener('message', sendMessage)
+                }
+
+            }, ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
 };
