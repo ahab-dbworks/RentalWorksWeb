@@ -698,15 +698,21 @@ class CustomReportLayout {
                         $form.removeData('rowindex');
                         break;
                     case 'addrow':
-                        const $newHeaderRow = $tr.clone();
-                        const $lastHeaderRow = $wrapper.find(`${tableNameSelector} #columnHeader tr:last`);
-                        $newHeaderRow.find('.new-column').removeClass('new-column');
-                        $newHeaderRow.insertAfter($lastHeaderRow);
-                        const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`);
-                        const $newDetailRow = $table.find(`.new-row[data-row="detail"]`);
-                        const $newDetailRowClone = $newDetailRow.clone();
-                        $newDetailRowClone.find('.new-column').removeClass('new-column');
-                        $newDetailRowClone.insertAfter($lastDetailRow);
+                        const rowType = $tr.attr('data-row');
+                        const $newRow = $tr.clone();
+                        let $rowToInsertAfter;
+                        $newRow.find('.new-column').removeClass('new-column');
+                        if (rowType === 'footer') {
+                            $rowToInsertAfter = $wrapper.find(`${tableNameSelector} tbody tr`)[$tr.index() - 1];
+                        } else {
+                            $rowToInsertAfter = $wrapper.find(`${tableNameSelector} #columnHeader tr:last`);
+                            const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`);
+                            const $newDetailRow = $table.find(`.new-row[data-row="detail"]`);
+                            const $newDetailRowClone = $newDetailRow.clone();
+                            $newDetailRowClone.find('.new-column').removeClass('new-column');
+                            $newDetailRowClone.insertAfter($lastDetailRow);
+                        }
+                        $newRow.insertAfter($rowToInsertAfter);
                         this.addRowColumnSorting($form, $table, tableName, $tr.get(0), 'columnheader');
                         break;
                     case 'deleterow':
@@ -909,11 +915,18 @@ class CustomReportLayout {
             this.showHideControlProperties($form, 'table');
         });
 
-        //add table header rows
+        //add table rows
         $addRow.on('click', e => {
-            $row = this.addNewHeaderRow($form);
-            $form.data('updatetype', 'addrow');
-            this.updateHTML($form, $table, $row);
+            if (typeof $column != 'undefined') {
+                const rowType = $column.parents('tr').attr('data-row');
+                $row = this.addNewRow($form, rowType, $column.parents('tr'));
+                $form.data('updatetype', 'addrow');
+                this.updateHTML($form, $table, $row);
+            } else {
+                $row = this.addNewRow($form, 'main-header');
+                $form.data('updatetype', 'addrow');
+                this.updateHTML($form, $table, $row);
+            }
         });
 
         //delete table header column
@@ -1015,16 +1028,17 @@ class CustomReportLayout {
             e.stopPropagation();
             $column = jQuery(e.currentTarget);
             this.setControlValues($form, $column);
-            this.showHideControlProperties($form, 'footerrow');
+            this.showHideControlProperties($form, 'headerrow');
             $form.data('updatetype', 'headerrow');
         });
 
         //footer row
-        $form.on('click', '.total-name', e => {
+        //$form.on('click', '.total-name', e => {
+        $form.on('click', '[data-row="footer"] td', e => {
             e.stopPropagation();
             $column = jQuery(e.currentTarget);
             this.setControlValues($form, $column);
-            this.showHideControlProperties($form, 'headerrow');
+            this.showHideControlProperties($form, 'footerrow');
             $form.data('updatetype', 'footerrow');
         });
 
@@ -1036,6 +1050,7 @@ class CustomReportLayout {
         });
 
         $form.on('click', '#reportDesigner .table-wrapper', e => {
+            $column = undefined;
             $table = $form.find('.table-wrapper.selected table');
             const tableName = jQuery(e.currentTarget).attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
@@ -1249,8 +1264,8 @@ class CustomReportLayout {
         }
     }
     //----------------------------------------------------------------------------------------------
-    addNewHeaderRow($form: JQuery) {
-        let $table, $row, $row2, $newHeaderRow, $newDetailRow;
+    addNewRow($form: JQuery, type: string, $tr?: JQuery) {
+        let $table, $row, $row2, $newRow, $newDetailRow;
         const tableName = FwFormField.getValueByDataField($form, 'TableName');
 
         if (tableName === '' || tableName === 'Default') {
@@ -1261,29 +1276,38 @@ class CustomReportLayout {
 
         if ($table.length > 0) {
             const colspan = this.getTotalColumnCount($table, true);
-            //build header and detail rows with linkedcolumns
-            const html = [];
-            const detailRowHtml = [];
-            html.push(`<tr data-row="main-header" class="new-row">`);
-            detailRowHtml.push(`<tr class="new-row" data-row="detail" data-rowtype="{{RowType}}">`);
-            for (let i = 0; i < colspan; i++) {
-                const newId = program.uniqueId(8);
-                html.push(`<th class="new-column" data-linkedcolumn="${newId}"></th>`);
-                detailRowHtml.push(`<td class="new-column" data-linkedcolumn="${newId}"></td>`);
+
+            if (type === 'main-header') {
+                //build header and detail rows with linkedcolumns
+                const html = [];
+                const detailRowHtml = [];
+                html.push(`<tr data-row="main-header" class="new-row">`);
+                detailRowHtml.push(`<tr class="new-row" data-row="detail" data-rowtype="{{RowType}}">`);
+                for (let i = 0; i < colspan; i++) {
+                    const newId = program.uniqueId(8);
+                    html.push(`<th class="new-column" data-linkedcolumn="${newId}"></th>`);
+                    detailRowHtml.push(`<td class="new-column" data-linkedcolumn="${newId}"></td>`);
+                }
+                html.push(`</tr>`);
+                detailRowHtml.push(`</tr>`);
+                $newRow = jQuery(html.join(''));
+                $newDetailRow = jQuery(detailRowHtml.join(''));
+                $row = $table.find('thead tr:last');
+
+                //detail row
+                $row2 = $table.find('tr[data-row="detail"]:last');
+
+                $newDetailRow.insertAfter($row2);
+                $newRow.insertAfter($row);
+            } else {
+                if (typeof $tr != 'undefined') {
+                    $newRow = $tr.clone();
+                    $newRow.find('td').removeAttr('data-value');
+                    $newRow.insertAfter($tr);
+                }
             }
-            html.push(`</tr>`);
-            detailRowHtml.push(`</tr>`);
-            $newHeaderRow = jQuery(html.join(''));
-            $newDetailRow = jQuery(detailRowHtml.join(''));
-            $row = $table.find('thead tr:last');
-
-            //detail row
-            $row2 = $table.find('tr[data-row="detail"]:last');
-
-            $newDetailRow.insertAfter($row2);
-            $newHeaderRow.insertAfter($row);
         }
-        return $newHeaderRow;
+        return $newRow;
     }
     //----------------------------------------------------------------------------------------------
     getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
@@ -1323,12 +1347,17 @@ class CustomReportLayout {
             case 'table':
                 $controlProperties.children('.header-controls').hide();
                 $controlProperties.children(`:not('.header-controls')`).show();
+                $controlProperties.find('.addColumn, [data-datafield="TableName"]').show();
                 $controlProperties.show();
                 break;
             case 'headerrow':
             case 'footerrow':
                 $controlProperties.children(`:not('[data-datafield="CellStyleField"]'):not('[data-datafield="CaptionField"]')`).hide();
                 $controlProperties.children(`[data-datafield="CellStyleField"], [data-datafield="CaptionField"]`).show();
+                $controlProperties.find('.delete-row').parent('div').show();
+                $controlProperties.find('.addRow').show();
+                $controlProperties.find('.addRow').parentsUntil('#controlProperties').show();
+                $controlProperties.find('.addColumn, [data-datafield="TableName"]').hide();
                 $controlProperties.show();
                 break;
             case 'td':
