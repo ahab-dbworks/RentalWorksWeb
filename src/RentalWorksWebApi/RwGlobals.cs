@@ -146,6 +146,12 @@ namespace WebApi
         //RATE UPATE UTILITY
         public static string RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR { get; set; }
 
+        //DATA HEALTH SEVERITY
+        public static string DATA_HEALTH_SEVERITY_CRITICAL_COLOR { get; set; }
+        public static string DATA_HEALTH_SEVERITY_HIGH_COLOR { get; set; }
+        public static string DATA_HEALTH_SEVERITY_MEDIUM_COLOR { get; set; }
+        public static string DATA_HEALTH_SEVERITY_LOW_COLOR { get; set; }
+        public static string DATA_HEALTH_SEVERITY_WARNING_COLOR { get; set; }
 
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
@@ -322,8 +328,14 @@ namespace WebApi
             ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_SUB_ITEM_DATE_ESTIMATED_COLOR);
             RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RATE_UPDATE_UTILITY_PENDING_MODIFICATION_COLOR);
 
+            DATA_HEALTH_SEVERITY_CRITICAL_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.DATA_HEALTH_SEVERITY_CRITICAL_COLOR);
+            DATA_HEALTH_SEVERITY_HIGH_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.DATA_HEALTH_SEVERITY_HIGH_COLOR);
+            DATA_HEALTH_SEVERITY_MEDIUM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.DATA_HEALTH_SEVERITY_MEDIUM_COLOR);
+            DATA_HEALTH_SEVERITY_LOW_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.DATA_HEALTH_SEVERITY_LOW_COLOR);
+            DATA_HEALTH_SEVERITY_WARNING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.DATA_HEALTH_SEVERITY_WARNING_COLOR);
 
+
+        }
+        //---------------------------------------------------------------------------
     }
-    //---------------------------------------------------------------------------
-}
 }

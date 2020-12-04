@@ -23,6 +23,9 @@ using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.HomeControls.CompanyTaxOption;
 using FwStandard.Models;
 using WebApi.Modules.Settings.BillingCycleSettings.BillingCycle;
+using WebApi.Modules.Warehouse.Contract;
+using WebApi.Modules.Billing.Invoice;
+using WebApi.Modules.Agent.PurchaseOrder;
 
 namespace WebApi.Modules.Agent.Order
 {
@@ -1209,8 +1212,31 @@ namespace WebApi.Modules.Agent.Order
         public decimal? LossAndDamageExtendedTotal { get; set; }
 
 
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "a4M3WLLCuQor", IsReadOnly: true)]
         public bool? HasNotes { get; set; }
+        [FwLogicProperty(Id: "UCBVHdYSlNWOG", IsReadOnly: true)]
+        public bool? HasDocuments { get; set; }
+        [FwLogicProperty(Id: "MKXsV3qoAy2E3", IsReadOnly: true)]
+        public bool? HasEmailHistory { get; set; }
+        [FwLogicProperty(Id: "qfHtJrT9Z3vV8", IsReadOnly: true)]
+        public bool? HasContacts { get; set; }
+        [FwLogicProperty(Id: "HFdQ4bnyuf7AA", IsReadOnly: true)]
+        public bool? HasSubPurchaseOrders { get; set; }
+        [FwLogicProperty(Id: "PmGrnYEgKxvby", IsReadOnly: true)]
+        public bool? HasPickLists { get; set; }
+        [FwLogicProperty(Id: "p0xDe2JpE9gop", IsReadOnly: true)]
+        public bool? HasContracts { get; set; }
+        [FwLogicProperty(Id: "CI70FfG1qPiMN", IsReadOnly: true)]
+        public bool? HasSuspendedContracts { get; set; }
+        [FwLogicProperty(Id: "uPt0kmqunpEXk", IsReadOnly: true)]
+        public bool? HasMultiOrderContracts { get; set; }
+        [FwLogicProperty(Id: "hPidrVvNmiygL", IsReadOnly: true)]
+        public bool? HasInvoices { get; set; }
+        [FwLogicProperty(Id: "DsbADegJwjfLv", IsReadOnly: true)]
+        public bool? HasMultiOrderInvoices { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
         [FwLogicProperty(Id: "Y20WXdv5U5cV0", IsReadOnly: true)]
         public decimal? TotalReplacementCost { get; set; }
@@ -1540,6 +1566,45 @@ namespace WebApi.Modules.Agent.Order
                 }
             }
 
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    bool dealChanged = (DealId != null) && (!DealId.Equals(lOrig.DealId));
+                    bool departmentChanged = (DepartmentId != null) && (!DepartmentId.Equals(lOrig.DepartmentId));
+                    if (dealChanged || departmentChanged)  // if the user has changed the Deal or Department
+                    {
+                        if (isValid)
+                        {
+                            if (lOrig.HasMultiOrderContracts.GetValueOrDefault(false))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change the {(dealChanged ? "Deal" : "")}{(dealChanged && departmentChanged ? " or " : "")}{(departmentChanged ? "Department" : "")} because Multi-Order Contracts exist.";
+                            }
+                        }
+                        if (isValid)
+                        {
+                            if (lOrig.HasMultiOrderInvoices.GetValueOrDefault(false))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change the {(dealChanged ? "Deal" : "")}{(dealChanged && departmentChanged ? " or " : "")}{(departmentChanged ? "Department" : "")} because Multi-Order Invoices exist.";
+                            }
+                        }
+                        if (isValid)
+                        {
+                            if (lOrig.HasSuspendedContracts.GetValueOrDefault(false))
+                            {
+                                isValid = false;
+                                validateMsg = $"Cannot change the {(dealChanged ? "Deal" : "")}{(dealChanged && departmentChanged ? " or " : "")}{(departmentChanged ? "Department" : "")} because Suspended Contracts exist.";
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
             return isValid;
         }
         //------------------------------------------------------------------------------------
@@ -1748,6 +1813,11 @@ namespace WebApi.Modules.Agent.Order
             //insert into orderstatushistory(orderid, usersid, status, functionname, statusdatetime, action, datestamp)
             //values(@orderid, @usersid, @status, @functionname, @statusdatetime, @action, getutcdate())
 
+            OrderBaseLogic orig = null;
+            if (e.Original != null)
+            {
+                orig = ((OrderBaseLogic)e.Original);
+            }
 
             string newPickDate = "", newEstimatedStartDate = "", newEstimatedStopDate = "", newPickTime = "", newEstimatedStartTime = "", newEstimatedStopTime = "", newBillingStartDate = "", newBillingEndDate = "";
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
@@ -1760,7 +1830,6 @@ namespace WebApi.Modules.Agent.Order
             }
             else // updating
             {
-                OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
 
                 newPickDate = PickDate ?? orig.PickDate;
                 newPickTime = PickTime ?? orig.PickTime;
@@ -1823,10 +1892,8 @@ namespace WebApi.Modules.Agent.Order
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
-                if (e.Original != null)
+                if (orig != null)
                 {
-                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
-
                     if (((newPickDate != orig.PickDate)) ||
                         ((newPickTime != orig.PickTime)) ||
                         ((newEstimatedStartDate != orig.EstimatedStartDate)) ||
@@ -1870,9 +1937,8 @@ namespace WebApi.Modules.Agent.Order
             {
                 bool datesChanged = false;
 
-                if (e.Original != null)
+                if (orig != null)
                 {
-                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
                     datesChanged = ((newEstimatedStartDate != orig.EstimatedStartDate) ||
                                     (newEstimatedStopDate != orig.EstimatedStopDate) ||
                                     (newBillingStartDate != orig.BillingStartDate) ||
@@ -1899,9 +1965,8 @@ namespace WebApi.Modules.Agent.Order
                 }
                 else // updating
                 {
-                    if (e.Original != null)
+                    if (orig != null)
                     {
-                        OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
                         origPoNumber = orig.PoNumber;
                         poNumber = PoNumber ?? orig.PoNumber;
                         poAmount = PoAmount ?? orig.PoAmount;
@@ -1922,6 +1987,113 @@ namespace WebApi.Modules.Agent.Order
                     //if (!response.success)  // need an error message here
                     //{
                     //}
+                }
+            }
+
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                // Issue 3110
+                bool dealChanged = (DealId != null) && (!DealId.Equals(orig.DealId));
+                bool departmentChanged = (DepartmentId != null) && (!DepartmentId.Equals(orig.DepartmentId));
+                if (dealChanged || departmentChanged)  // if the user has changed the Deal or Department
+                {
+                    //we need to change the Deal on all Contracts, Sub PO's, and Invoices related to this Order
+
+                    DealLogic newDeal = null;
+                    DepartmentLogic newDepartment = null;
+                    if (dealChanged)
+                    {
+                        newDeal = new DealLogic();
+                        newDeal.SetDependencies(AppConfig, UserSession);
+                        newDeal.DealId = DealId;
+                        bool b = newDeal.LoadAsync<DealLogic>(e.SqlConnection).Result;
+                    }
+
+                    if (departmentChanged)
+                    {
+                        newDepartment = new DepartmentLogic();
+                        newDepartment.SetDependencies(AppConfig, UserSession);
+                        newDepartment.DepartmentId = DepartmentId;
+                        bool b = newDepartment.LoadAsync<DepartmentLogic>(e.SqlConnection).Result;
+                    }
+
+                    // create a browse request which will help find all Contracts related to this Order
+                    BrowseRequest contractBrowseRequest = new BrowseRequest();
+                    contractBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    contractBrowseRequest.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());  // ie. OrderId
+
+                    // use the browse request above and the "selectASync" method of the ContractLogic class to get a List of all Contracts related to this Order
+                    ContractLogic contractSelector = new ContractLogic();
+                    contractSelector.SetDependencies(AppConfig, UserSession);
+                    List<ContractLogic> contracts = contractSelector.SelectAsync<ContractLogic>(contractBrowseRequest, e.SqlConnection).Result;
+
+                    //iterate through each Contract in the List
+                    foreach (ContractLogic cOrig in contracts)
+                    {
+                        ContractLogic cNew = cOrig.MakeCopy<ContractLogic>();                      // make a clone/copy of the Contract (cNew) so we can keep a full copy of the original (cOrig) in memory
+                        cNew.SetDependencies(AppConfig, UserSession);                              // set some dependencies on the new object
+                        if (dealChanged)
+                        {                                                         // change the DealId
+                            cNew.DealId = DealId;
+                            cNew.Deal = newDeal.Deal;
+                        }
+                        if (departmentChanged)
+                        {
+                            cNew.DepartmentId = DepartmentId;
+                            cNew.Department = newDepartment.Department;
+                        }
+                        int i = cNew.SaveAsync(original: cOrig, conn: e.SqlConnection).Result;     // apply the change. Include cOrig so the change will be fully audited
+                    }
+
+                    BrowseRequest poBrowseRequest = new BrowseRequest();
+                    poBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    poBrowseRequest.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+
+                    PurchaseOrderLogic poSelector = new PurchaseOrderLogic();
+                    poSelector.SetDependencies(AppConfig, UserSession);
+                    List<PurchaseOrderLogic> purchaseOrders = poSelector.SelectAsync<PurchaseOrderLogic>(poBrowseRequest, e.SqlConnection).Result;
+
+                    foreach (PurchaseOrderLogic poOrig in purchaseOrders)
+                    {
+                        PurchaseOrderLogic poNew = poOrig.MakeCopy<PurchaseOrderLogic>();
+                        poNew.SetDependencies(AppConfig, UserSession);
+                        if (dealChanged)
+                        {
+                            poNew.DealId = DealId;
+                            poNew.Deal = newDeal.Deal;
+                        }
+                        if (departmentChanged)
+                        {
+                            poNew.DepartmentId = DepartmentId;
+                            poNew.Department = newDepartment.Department;
+                        }
+                        int i = poNew.SaveAsync(original: poOrig, conn: e.SqlConnection).Result;
+                    }
+
+                    BrowseRequest invoiceBrowseRequest = new BrowseRequest();
+                    invoiceBrowseRequest.uniqueids = new Dictionary<string, object>();
+                    invoiceBrowseRequest.uniqueids.Add("OrderId", GetPrimaryKeys()[0].ToString());
+
+                    InvoiceLogic invoiceSelector = new InvoiceLogic();
+                    invoiceSelector.SetDependencies(AppConfig, UserSession);
+                    List<InvoiceLogic> invoices = invoiceSelector.SelectAsync<InvoiceLogic>(invoiceBrowseRequest, e.SqlConnection).Result;
+
+                    foreach (InvoiceLogic iOrig in invoices)
+                    {
+                        InvoiceLogic iNew = iOrig.MakeCopy<InvoiceLogic>();
+                        iNew.SetDependencies(AppConfig, UserSession);
+                        if (dealChanged)
+                        {
+                            iNew.DealId = DealId;
+                            iNew.Deal = newDeal.Deal;
+                        }
+                        if (departmentChanged)
+                        {
+                            iNew.DepartmentId = DepartmentId;
+                            iNew.Department = newDepartment.Department;
+                        }
+                        int i = iNew.SaveAsync(original: iOrig, conn: e.SqlConnection).Result;
+                    }
                 }
             }
 

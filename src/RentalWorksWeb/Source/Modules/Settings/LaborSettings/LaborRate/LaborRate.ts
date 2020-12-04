@@ -90,7 +90,7 @@ class RwLaborRate {
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        let $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="RateId"] input').val(uniqueids.RateId);
         FwModule.loadForm(this.Module, $form);
 
@@ -102,17 +102,6 @@ class RwLaborRate {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        //const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-        //const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
-        //$rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-        //$rateLocationTaxGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
-        //    };
-        //})
-        //FwBrowse.init($rateLocationTaxGridControl);
-        //FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
-
         FwBrowse.renderGrid({
             nameGrid: 'RateLocationTaxGrid',
             gridSecurityId: 'Bm6TN9A4IRIuT',
@@ -131,17 +120,6 @@ class RwLaborRate {
             //    request.RateId = FwFormField.getValueByDataField($form, 'RateId');
             //}
         });
-
-        //const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
-        //const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
-        //$rateWarehouseGrid.empty().append($rateWarehouseGridControl);
-        //$rateWarehouseGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
-        //    };
-        //})
-        //FwBrowse.init($rateWarehouseGridControl);
-        //FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'RateWarehouseGrid',
@@ -185,17 +163,6 @@ class RwLaborRate {
                 request.CurrencyId = $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue');
             }
         });
-
-        //const $singleRateWarehouseGrid = $form.find('div[data-grid="SingleRateWarehouseGrid"]');
-        //const $singleRateWarehouseGridControl = FwBrowse.loadGridFromTemplate('SingleRateWarehouseGrid');
-        //$singleRateWarehouseGrid.empty().append($singleRateWarehouseGridControl);
-        //$singleRateWarehouseGridControl.data('ondatabind', request => {
-        //    request.uniqueids = {
-        //        RateId: FwFormField.getValueByDataField($form, 'RateId')
-        //    };
-        //})
-        //FwBrowse.init($singleRateWarehouseGridControl);
-        //FwBrowse.renderRuntimeHtml($singleRateWarehouseGridControl);
 
         FwBrowse.renderGrid({
             nameGrid: 'SingleRateWarehouseGrid',
@@ -259,13 +226,7 @@ class RwLaborRate {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
         }
         // Display Single or Recurring Rates Tab
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'SINGLE') {
-            $form.find('.single_rates').show();
-            $form.find('.recurring_rates').hide();
-        } else {
-            $form.find('.single_rates').hide();
-            $form.find('.recurring_rates').show();
-        }
+        this.singleRecurringRates($form);
 
         if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
             FwFormField.enable($form.find('[data-datafield="SubCategoryId"]'));
@@ -304,7 +265,6 @@ class RwLaborRate {
             }
             $tab.addClass('tabGridsLoaded');
         });
-
     }
     //----------------------------------------------------------------------------------------------
     openSubModuleBrowse($form, module: string) {
@@ -327,15 +287,10 @@ class RwLaborRate {
     //---------------------------------------------------------------------------------------------
     events($form: any) {
         // Display Single or Recurring Rates Tab change event
-        $form.find('.rate_type_radio').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'SINGLE') {
-                $form.find('.single_rates').show();
-                $form.find('.recurring_rates').hide();
-            } else {
-                $form.find('.single_rates').hide();
-                $form.find('.recurring_rates').show();
-            }
-        })
+        $form.find('div[data-datafield="RateType"]').on('change', e => {
+            this.singleRecurringRates($form)
+        });
+
         $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
             if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
                 FwFormField.enable($form.find('div[data-datafield="SubCategoryId"]'));
@@ -345,21 +300,18 @@ class RwLaborRate {
                 $form.find('[data-datafield="SubCategoryId"]').attr(`data-required`, `false`);
                 FwFormField.disable($form.find('div[data-datafield="SubCategoryId"]'));
             }
-        })
-
+        });
 
         // G/L Accounts
         $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        })
+        });
         $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        })
+        });
         $form.find('div[data-datafield="ExpenseAccountId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="ExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
-        })
-
-
+        });
     }
 
     //----------------------------------------------------------------------------------------------
@@ -389,6 +341,17 @@ class RwLaborRate {
     //    };
     //}
     //----------------------------------------------------------------------------------------------
+    singleRecurringRates($form: JQuery) {
+        const rateType = FwFormField.getValueByDataField($form, 'RateType');
+        if (rateType === 'SINGLE') {
+            $form.find('.single-rates').show();
+            $form.find('.recurring-rates').hide();
+        }
+        else {
+            $form.find('.single-rates').hide();
+            $form.find('.recurring-rates').show();
+        }
+    }
     //--------------------------------------------------------------------------------------------
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         const laborTypeId = FwFormField.getValueByDataField($form, 'LaborTypeId');
@@ -419,6 +382,5 @@ class RwLaborRate {
         }
     }
 }
-
 //----------------------------------------------------------------------------------------------
 var LaborRateController = new RwLaborRate();

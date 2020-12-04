@@ -15,6 +15,21 @@ namespace WebApi.Modules.Administrator.DataHealth
     {
         public DataHealthController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DataHealthLogic); }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/datahealth/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "0NhDUgf0OlYyx", ActionType: FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Critical", RwGlobals.DATA_HEALTH_SEVERITY_CRITICAL_COLOR);
+            legend.Add("High", RwGlobals.DATA_HEALTH_SEVERITY_HIGH_COLOR);
+            legend.Add("Medium", RwGlobals.DATA_HEALTH_SEVERITY_MEDIUM_COLOR);
+            legend.Add("Low", RwGlobals.DATA_HEALTH_SEVERITY_LOW_COLOR);
+            legend.Add("Warning", RwGlobals.DATA_HEALTH_SEVERITY_WARNING_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/datahealth/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id: "AGDanxcH9qtP", ActionType: FwControllerActionTypes.Browse)]

@@ -83,9 +83,7 @@ class MiscRate {
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="RateId"] input').val(uniqueids.RateId);
         FwModule.loadForm(this.Module, $form);
 
@@ -95,7 +93,6 @@ class MiscRate {
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
 
@@ -222,14 +219,7 @@ class MiscRate {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
         }
         // Display Single or Recurring Rates Tab
-        if (FwFormField.getValueByDataField($form, 'RateType') === 'SINGLE') {
-            $form.find('.single_rates').show();
-            $form.find('.recurring_rates').hide();
-        }
-        else {
-            $form.find('.single_rates').hide();
-            $form.find('.recurring_rates').show();
-        }
+        this.singleRecurringRates($form);
 
         if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
             FwFormField.enable($form.find('[data-datafield="SubCategoryId"]'));
@@ -267,9 +257,6 @@ class MiscRate {
             }
             $tab.addClass('tabGridsLoaded');
         });
-
-
-
     }
     //----------------------------------------------------------------------------------------------
     openSubModuleBrowse($form, module: string) {
@@ -292,15 +279,8 @@ class MiscRate {
     //---------------------------------------------------------------------------------------------
     events($form: any) {
         // Display Single or Recurring Rates Tab change event
-        $form.find('.rate_type_radio').on('change', $tr => {
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'SINGLE') {
-                $form.find('.single_rates').show();
-                $form.find('.recurring_rates').hide();
-            }
-            else {
-                $form.find('.single_rates').hide();
-                $form.find('.recurring_rates').show();
-            }
+        $form.find('div[data-datafield="RateType"]').on('change', e => {
+            this.singleRecurringRates($form);
         })
         $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
             if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
@@ -350,6 +330,18 @@ class MiscRate {
             MiscTypeId: miscTypeId,
             CategoryId: categoryId,
         };
+    }
+    //----------------------------------------------------------------------------------------------
+    singleRecurringRates($form: JQuery) {
+        const rateType = FwFormField.getValueByDataField($form, 'RateType');
+        if (rateType === 'SINGLE') {
+            $form.find('.single-rates').show();
+            $form.find('.recurring-rates').hide();
+        }
+        else {
+            $form.find('.single-rates').hide();
+            $form.find('.recurring-rates').show();
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
