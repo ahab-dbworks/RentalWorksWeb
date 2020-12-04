@@ -16,14 +16,14 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using WebApi.ApplicationManager;
 using WebApi.Middleware;
 using WebApi.Middleware.SOAP;
 using WebApi.Middleware.SOAP.Services.MockVistekPaymentCapture;
-using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
+using WebApi.Modules.Billing.ProcessCreditCard;
 using WebApi.Modules.HomeControls.BillingSchedule;
 using WebApi.Modules.HomeControls.InventoryAvailability;
+using WebApi.Modules.Plugins.VistekCreditCardPayment;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 
 namespace WebApi
@@ -47,7 +47,6 @@ namespace WebApi
             FwAppManager.CurrentProductEdition = "E";
             FwAppManager.Tree.LoadFromWebApi();
             FwAppManager.Tree.LoadAllGroupTrees().Wait();
-            //services.AddHostedService<IntegrationsService>();
             if (!this.ApplicationConfig.DisableAvailabilityService)
             {
                 services.AddHostedService<AvailabilityService>();
@@ -144,7 +143,7 @@ namespace WebApi
                 if (Startup.ClientCode == "VISTEK")
                 {
                     // Register a VisitekProcessCreditCardService as the implementation of IProcessCreditCardService for the Process Credit Card Utility
-                    services.AddScoped<IProcessCreditCardService, VistekProcessCreditCardService>();
+                    services.AddScoped<IProcessCreditCardPlugin, VistekProcessCreditCardPlugin>();
                     
                     // Host a local SOAP service that mocks the Visitek credit card processing service
                     if (this.HostingEnvironment.IsDevelopment())
@@ -179,6 +178,7 @@ namespace WebApi
             options.SwaggerDoc("utilities-v1", new Info { Title = SystemName + "  Utilities API v1", Version = "v1" });
             options.SwaggerDoc("administrator-v1", new Info { Title = SystemName + " Administrator API v1", Version = "v1" });
             options.SwaggerDoc("mobile-v1", new Info { Title = SystemName + " QuikScan API v1", Version = "v1" });
+            options.SwaggerDoc("plugins-v1", new Info { Title = SystemName + "Plugins API v1", Version = "v1" });
         }
         //------------------------------------------------------------------------------------
         protected override void AddSwaggerEndPoints(SwaggerUIOptions options)
@@ -190,6 +190,7 @@ namespace WebApi
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/utilities-v1/swagger.json", SystemName + " Utilities API v1");
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/administrator-v1/swagger.json", SystemName + " Administrator API v1");
             options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/mobile-v1/swagger.json", SystemName + " Mobile API v1");
+            options.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/plugins-v1/swagger.json", SystemName + " Plugins API v1");
         }
         //------------------------------------------------------------------------------------
         protected override void ConfigureStaticFileHosting(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

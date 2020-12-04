@@ -582,7 +582,6 @@
     <Content Include="Source\Modules\Administrator\DuplicateRule\DuplicateRuleBrowse.htm" />
     <Content Include="Source\Modules\Administrator\DuplicateRule\DuplicateRuleForm.htm" />
     <Content Include="Source\Modules\Administrator\PlugIn\PlugIn.css" />
-    <Content Include="Source\Modules\Administrator\PlugIn\PlugInForm.htm" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldBrowse.htm" />

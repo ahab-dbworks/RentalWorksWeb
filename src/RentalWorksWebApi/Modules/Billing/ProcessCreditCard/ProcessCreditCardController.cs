@@ -1,18 +1,11 @@
-
-
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
-using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
-using WebApi.Modules.Inventory.Asset;
-using WebApi.Modules.Inventory.Inventory;
-using WebApi.Modules.Inventory.RentalInventory;
 
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
@@ -21,12 +14,12 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
     [FwController(Id: "yAale9IPIaUC")]
     public class ProcessCreditCardController : AppDataController
     {
-        readonly IProcessCreditCardService _processCreditCardService;
+        readonly IProcessCreditCardPlugin processCreditCardPlugin;
         //------------------------------------------------------------------------------------ 
-        public ProcessCreditCardController(IOptions<FwApplicationConfig> appConfig, IProcessCreditCardService processCreditCardService) : base(appConfig) 
+        public ProcessCreditCardController(IOptions<FwApplicationConfig> appConfig, IProcessCreditCardPlugin processCreditCardPlugin) : base(appConfig) 
         {
             this.logicType = typeof(ProcessCreditCardLogic);
-            this._processCreditCardService = processCreditCardService;
+            this.processCreditCardPlugin = processCreditCardPlugin;
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/processcreditcard/A0000001 
@@ -40,21 +33,18 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         // POST api/v1/processcreditcard/processcreditcard
         [HttpPost("processcreditcardpayment")]
         [FwControllerMethod(Id: "pvc2YoVG316N", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<ProcessCreditCardPaymentResponse>> ProcessCreditCardAsync([FromBody]ProcessCreditCardPaymentRequest request) 
+        public async Task<ActionResult<ProcessCreditCardPaymentResponse>> ProcessCreditCardPaymentAsync([FromBody]ProcessCreditCardPaymentRequest request) 
         {
-            await Task.CompletedTask;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             try
             {
-                ProcessCreditCardLogic logic = FwBusinessLogic.CreateBusinessLogic<ProcessCreditCardLogic>(this.AppConfig, this.UserSession);
-                logic.ProcessCreditCardService = this._processCreditCardService;
+                ProcessCreditCardLogic logic = new ProcessCreditCardLogic();
+                logic.SetDependencies(this.AppConfig, this.UserSession, processCreditCardPlugin);
                 var response = await logic.ProcessPaymentAsync(request);
                 return new OkObjectResult(response);
-
             }
             catch (Exception ex)
             {

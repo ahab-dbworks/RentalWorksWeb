@@ -32,8 +32,6 @@ namespace WebApi.Modules.AccountServices.HubSpot
             body.properties = new Dictionary<string, string>();
             //move HubSpot meta data to a config file 
 
-            // need to fix
-            throw new NotImplementedException("Not Implemented: client_id and client_secret need to get loaded from Hubspot Plugin Settings.");
             //body.properties.Add("client_id", this.AppConfig.HubSpotSettings.ClientId);
             //body.properties.Add("client_secret", this.AppConfig.HubSpotSettings.ClientSecret);
             body.properties.Add("redirect_uri", this.AppConfig.PublicBaseUrl + "webdev");

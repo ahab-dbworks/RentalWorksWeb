@@ -1,12 +1,11 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
-using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Agent.Order;
-using WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService;
 using WebApi.Modules.Billing.Receipt;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
@@ -16,12 +15,18 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
     [FwLogic(Id: "naVthxJ08Q9V")]
     public class ProcessCreditCardLogic : AppBusinessLogic
     {
-        public IProcessCreditCardService ProcessCreditCardService;
+        IProcessCreditCardPlugin processCreditCardPlugin;
         //------------------------------------------------------------------------------------ 
         ProcessCreditCardLoader processCreditCardLoader = new ProcessCreditCardLoader();
         public ProcessCreditCardLogic()
         {
             dataLoader = processCreditCardLoader;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void SetDependencies(FwApplicationConfig appConfig, FwUserSession userSession, IProcessCreditCardPlugin processCreditCardPlugin)
+        {
+            base.SetDependencies(appConfig, userSession);
+            this.processCreditCardPlugin = processCreditCardPlugin;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "DOo10PuNXp8p", IsReadOnly: true, IsRecordTitle: true)]
@@ -127,8 +132,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "eSIJIjRBXpLt", IsReadOnly: true)]
         public string DealId { get; set; }
-        //------------------------------------------------------------------------------------ 
-
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(ProcessCreditCardPaymentRequest request)
         {
@@ -176,7 +179,9 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             }
             request.StoreCode = this.LocationCode;
             request.SalesPersonCode = this.AgentBarcode;
-            ProcessCreditCardPaymentResponse response = await this.ProcessCreditCardService.ProcessPaymentAsync(this.AppConfig, this.UserSession, this, paymentTypeId, request);
+            request.PaymentTypeId = paymentTypeId;
+            this.processCreditCardPlugin.SetDependencies(this.AppConfig, this.UserSession, this);
+            ProcessCreditCardPaymentResponse response = await this.processCreditCardPlugin.ProcessPaymentAsync(request);
 
             if (response.Status.ToUpper() == "APPROVED")
             {

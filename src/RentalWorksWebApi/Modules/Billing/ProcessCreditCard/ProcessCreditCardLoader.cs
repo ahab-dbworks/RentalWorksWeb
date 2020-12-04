@@ -2,28 +2,17 @@ using FwStandard.Data;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using System.Collections.Generic;
 using WebApi.Data;
+
 namespace WebApi.Modules.Billing.ProcessCreditCard
 {
-    //[FwSqlTable("loadercte")]
     [FwSqlTable("processcreditcardloadview")]
     public class ProcessCreditCardLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        public ProcessCreditCardLoader()
+        public ProcessCreditCardLoader() : base()
         {
-            //this.Cte.AppendLine("loadercte as (");
-            //this.Cte.AppendLine("  select");
-            //this.Cte.AppendLine("    title = 'Process Credit Card: ' + orderno,");
-            //this.Cte.AppendLine("    pccv.*,");
-            //this.Cte.AppendLine("    pinpad_code = 'XXXXXX', pinpad_description = 'XXXXXXXXXXX', pinpad_type = 'XXXXXXXXXXX',");
-            //this.Cte.AppendLine("    totals_weekly_grosstotal = 123.45, totals_weekly_discount = 123.45, totals_weekly_subtotal = 123.45, totals_weekly_tax = 123.45, totals_weekly_grandtotal = 123.45,");
-            //this.Cte.AppendLine("    totals_period_grosstotal = 123.45, totals_period_discount = 123.45, totals_period_subtotal = 123.45, totals_period_tax = 123.45, totals_period_grandtotal = 123.45,");
-            //this.Cte.AppendLine("    totals_replacement_totalreplacementcost = 123.45, totals_replacement_depositpercentage = 10.1, totals_replacement_depositdue = 123.45,");
-            //this.Cte.AppendLine("    payment_totalamount = 3423432.12, payment_deposit = 23423.2, payment_remainingamount = 230.23, payment_amounttopay = 0.00");
-            //this.Cte.AppendLine("  from processcreditcardloadview pccv with (nolock)");
-            //this.Cte.AppendLine(")");
+
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

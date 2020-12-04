@@ -21,12 +21,12 @@ class PlugIn implements IModule {
     }
     //---------------------------------------------------------------------------------
     openForm(mode: string) {
-        let $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
         (async () => {
             const isHubSpotConnected = await FwAjax.callWebApi<any, any>({
                 httpMethod: 'POST',
-                url: `${applicationConfig.apiurl}api/v1/plugin/hashubspotrefreshtoken`,
+                url: `${applicationConfig.apiurl}api/v1/hubspotplugin/hashubspotrefreshtoken`,
             }); 
             this.events($form, isHubSpotConnected.hasRefreshToken);
         })()
@@ -63,7 +63,7 @@ class PlugIn implements IModule {
         syncBtn.on('click', async () => {
                 const isHubSpotConnected = await FwAjax.callWebApi<any, any>({
                     httpMethod: 'POST',
-                    url: `${applicationConfig.apiurl}api/v1/plugin/hashubspotrefreshtoken`,
+                    url: `${applicationConfig.apiurl}api/v1/hubspotplugin/hashubspotrefreshtoken`,
                 });
             if (isHubSpotConnected) {
                 const syncContacts = await FwAjax.callWebApi<any, any>({
@@ -99,47 +99,36 @@ class PlugIn implements IModule {
     getFormTemplate(): string {
         let html: string | string[] = [];
         html.push(
-            `<div id="pluginform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Plug-In" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="PlugInController">
+            `<div class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Plug-In" data-hasaudit="false" data-controller="PlugInController">
   <div class="plugins">`);
 
         if (sessionStorage.clientCode === 'VISTEK') {
             html.push(
-    `<div class="plugin vistekprocesscreditcard">
+                `<div class="plugin vistekprocesscreditcard">
       <div class="plugin-title">
-        <div class="title">Vistek Process Credit Card Plugin</div>
+        <div class="title">Vistek Credit Card Plugin</div>
         <div class="synop">Process Credit Card Payments through Vistek's Payment Capture SOAP Service.</div>
       </div>
       <div class="plugin-settings">
         <div class="setting">
-          <div class="setting-caption">Use Fake Credit Card Processor:</div>
+          <div class="setting-caption">Use Emulated Service (Development):</div>
           <div class="setting-control">
             <div data-control="FwFormField" data-type="toggleswitch" class="fwcontrol fwformfield" data-caption="" data-datafield="UseMockVistekPaymentCapture"></div>
           </div>
         </div>
         <div class="setting">
-          <div class="setting-caption">URL of Vistek Payment Capture SOAP Service:</div>
+          <div class="setting-caption">Payment Capture Service URL:</div>
           <div class="setting-control">
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="VistekPaymentCaptureServiceUrl"></div>
-          </div>
-        </div>
-        <div class="setting">
-          <div class="setting-caption">Client ID:</div>
-          <div class="setting-control">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ClientId"></div>
-          </div>
-        </div>
-        <div class="setting">
-          <div class="setting-caption">Client Secret:</div>
-          <div class="setting-control">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ClientSecret"></div>
           </div>
         </div>
       </div>
     </div>`);
         }
 
-    html.push(
-    `<div class="plugin azuread">
+        if (!true) {
+        html.push(
+            `<div class="plugin azuread">
       <div class="plugin-title">
         <div class="title">Azure Active Directory</div>
         <div class="synop">Connect to Microsoft Azure Active Directory to authenticate RentalWorks access against your AD accounts.</div>
@@ -173,7 +162,7 @@ class PlugIn implements IModule {
     </div>`);
 
         html.push(
-    `<div class="plugin hubspot">
+            `<div class="plugin hubspot">
       <div class="plugin-title">
         <div class="title">HubSpot</div>
         <div class="synop">Enables syncing of contacts between RentalWorks and Hubspot</div>
@@ -243,6 +232,7 @@ class PlugIn implements IModule {
         </div>
       </div>
     </div>`);
+    }
 
 html.push(
   `</div>

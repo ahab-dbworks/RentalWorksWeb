@@ -1,6 +1,4 @@
-﻿using FwStandard.BusinessLogic;
-using FwStandard.Models;
-using FwStandard.SqlServer;
+﻿using FwStandard.Models;
 using System;
 using System.IO;
 using System.Net;
@@ -8,23 +6,39 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using WebApi.Modules.Billing.Receipt;
+using WebApi.Modules.Billing.ProcessCreditCard;
 
-namespace WebApi.Modules.Billing.ProcessCreditCard.ProcessCreditCardService
+namespace WebApi.Modules.Plugins.VistekCreditCardPayment
 {
-    public class VistekProcessCreditCardService: IProcessCreditCardService
+    public class VistekProcessCreditCardPlugin: IProcessCreditCardPlugin
     {
-        //FwApplicationConfig AppConfig { get; }
+        protected FwApplicationConfig appConfig;
+        protected FwUserSession userSession;
+        protected ProcessCreditCardLogic processCreditCardLogic;
+
         public HttpClient Client { get; }
 
-        public VistekProcessCreditCardService()
+        public VistekProcessCreditCardPlugin(): base()
         {
             HttpClient client = new HttpClient();
             this.Client = client;
         }
-
-        public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(FwApplicationConfig appConfig, FwUserSession userSession, ProcessCreditCardLogic processCreditCardLogic, string paymentTypeId, ProcessCreditCardPaymentRequest request)
+        public void SetDependencies(FwApplicationConfig appConfig, FwUserSession userSession, ProcessCreditCardLogic processCreditCardLogic)
         {
+            this.appConfig = appConfig;
+            this.userSession = userSession;
+            this.processCreditCardLogic = processCreditCardLogic;
+        }
+
+        public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(ProcessCreditCardPaymentRequest request)
+        {
+            string url = "https://10.1.8.103:8047/TEST_NAV80/WS/Vistek%20Live/Codeunit/PaymentCapture";
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (!string.IsNullOrEmpty(environment) && environment == "Development")
+            {
+                url = $"{appConfig.PublicBaseUrl}MockVistekProcessCardPayment.svc";
+            }
+
             ProcessCreditCardPaymentResponse result = null;
             int transactionTypeOpt = (int)request.TransactionType;
             if (request.TransactionType == ProcessCreditCardPaymentRequest.TransactionTypes.Sale)
@@ -87,7 +101,7 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
         Encoding.UTF8,
         "text/xml");
             content.Headers.Add("SOAPAction", "urn:microsoft-dynamics-schemas/codeunit/PaymentCapture:ProcessCardPayment");
-            var response = await this.Client.PostAsync($"{appConfig.PublicBaseUrl}MockVistekProcessCardPayment.svc", content);
+            var response = await this.Client.PostAsync(url, content);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new Exception(await response.Content.ReadAsStringAsync());
@@ -119,7 +133,7 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
                     throw new Exception("Unable to parse response:\n" + responseString);
                 }
             }
-        }   
+        }
     }
 
 
