@@ -268,7 +268,6 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------ 
-
         [HttpGet("emptyobject")]
         [FwControllerMethod("", FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
         public ActionResult<FwJsonDataTable> GetEmptyObject()
@@ -283,35 +282,35 @@ namespace FwCore.Controllers
                 FwReportLoader l = (FwReportLoader)Activator.CreateInstance(type);
                 l.SetDependencies(AppConfig, UserSession);
 
-                foreach (PropertyInfo property in l.GetType().GetProperties())
-                {
-                    // get the type of this property
-                    Type propertyType = property.PropertyType;
-
-                    if (property.Name.Equals("RowType"))
-                    {
-                        property.SetValue(l, "detail");
-                    }
-
-                    // if the property is a List, then get the type of the items in the List.  Find the RowType property and set it to "detail"
-                    if (typeof(IList).IsAssignableFrom(propertyType))
-                    {
-                        IList theList = property.GetValue(l, null) as IList;
-
-                        foreach (var listItem in theList)
-                        {
-                            PropertyInfo[] listItemProperties = listItem.GetType().GetProperties();
-                            foreach (PropertyInfo listItemProperty in listItemProperties)
-                            {
-                                if (listItemProperty.Name.Equals("RowType"))
-                                {
-                                    listItemProperty.SetValue(listItem, "detail");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                //foreach (PropertyInfo property in l.GetType().GetProperties())
+                //{
+                //    // get the type of this property
+                //    Type propertyType = property.PropertyType;
+                //
+                //    if (property.Name.Equals("RowType"))
+                //    {
+                //        property.SetValue(l, "detail");
+                //    }
+                //
+                //    // if the property is a List, then get the type of the items in the List.  Find the RowType property and set it to "detail"
+                //    if (typeof(IList).IsAssignableFrom(propertyType))
+                //    {
+                //        IList theList = property.GetValue(l, null) as IList;
+                //
+                //        foreach (var listItem in theList)
+                //        {
+                //            PropertyInfo[] listItemProperties = listItem.GetType().GetProperties();
+                //            foreach (PropertyInfo listItemProperty in listItemProperties)
+                //            {
+                //                if (listItemProperty.Name.Equals("RowType"))
+                //                {
+                //                    listItemProperty.SetValue(listItem, "detail");
+                //                    break;
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
 
                 return new OkObjectResult(l);
             }
@@ -321,6 +320,29 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------ 
+        [HttpGet("preview")]
+        [FwControllerMethod("", FwControllerActionTypes.Browse, ValidateSecurityGroup: false)]
+        public ActionResult<FwJsonDataTable> GetPreview()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                Type type = loaderType;
+                FwReportLoader l = (FwReportLoader)Activator.CreateInstance(type);
+                l.SetDependencies(AppConfig, UserSession);
+                l.MakePreview();
+
+                return new OkObjectResult(l);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------         
         protected ObjectResult GetApiExceptionResult(Exception ex)
         {
             FwApiException jsonException = new FwApiException();
