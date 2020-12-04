@@ -165,6 +165,7 @@ class CustomReportLayout {
                             codeMirror.setValue(modulehtml);
                         }
                         this.renderDesignerTab($form);
+                        FwFormField.enable($form.find('.preview'));
                     }, ex => FwFunc.showError(ex), $form);
                 this.addValidFields($form, reportName);
                 const fullName = sessionStorage.getItem('fullname');
@@ -172,6 +173,7 @@ class CustomReportLayout {
             } else {
                 $form.find('.modulefields, #reportDesigner').empty();
                 codeMirror.setValue('');
+                FwFormField.disable($form.find('.preview'));
             }
         });
 
@@ -2011,7 +2013,7 @@ class CustomReportLayout {
         request.parameters.ReportTemplate = html;
         request.parameters.Company = companyName;
         request.parameters.System = systemName;
-        request.parameters.Report = $form.find('option:selected').text() + ' Report';
+        request.parameters.Report = $form.find('[data-datafield="BaseReport"] option:selected').text() + ' Report';
         request.parameters.isCustomReport = true;
         request.parameters.IsDesignerPreview = true;
 
