@@ -131,7 +131,7 @@ class RwHome {
                 if (response.TotalRows > 0) {
                     const $dataHealthContainer = jQuery(`<div class="data-health-container">
                                                             <div class="data-health-notification">
-                                                                <span>${response.TotalRows} new Critical Data Health issues. Click here to review the issues.</span>        
+                                                                <span>${response.TotalRows} new Critical Data Health issue${response.TotalRows === 1 ? "" : "s"}. Click here to review the issue${response.TotalRows === 1 ? "" : "s"}.</span>
                                                                 <i class="material-icons">clear</i>
                                                             </div>
                                                         </div>`)
