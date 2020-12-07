@@ -445,9 +445,9 @@ class TransferOrder {
                 $fwgrid.addClass('R');
                 $fwgrid.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
-            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.checkGridRows($browse, $form);
-            },
+            //afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+            //    this.checkGridRows($browse, $form);
+            //},
             onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
@@ -513,9 +513,9 @@ class TransferOrder {
                 $fwgrid.addClass('S');
                 $fwgrid.find('[data-datafield="Description"]').attr({ 'data-datatype': 'validation', 'data-validationpeek': 'false' });
             },
-            afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
-                this.checkGridRows($browse, $form);
-            },
+            //afterDataBindCallback: ($browse: JQuery, dt: FwJsonDataTable) => {
+            //    this.checkGridRows($browse, $form);
+            //},
             onOverrideNotesTemplate: ($field, controlhtml, $confirmation, $browse, $tr, $ok) => {
                 OrderItemGridController.addPrintNotes($field, controlhtml, $confirmation, $browse, $tr, $ok);
             },
@@ -554,6 +554,16 @@ class TransferOrder {
 
         const $orderItemSalesGrid = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
         FwBrowse.search($orderItemSalesGrid);
+
+
+
+        if (status === 'NEW') {
+            FwFormField.enableDataField($form, 'FromWarehouseId');
+            FwFormField.enableDataField($form, 'ToWarehouseId');
+        } else {
+            FwFormField.disableDataField($form, 'FromWarehouseId');
+            FwFormField.disableDataField($form, 'ToWarehouseId');
+        }
 
         const isRental = FwFormField.getValueByDataField($form, 'Rental');
         const rentalTab = $form.find('.rentalTab');
@@ -633,13 +643,13 @@ class TransferOrder {
         }
     }
     //----------------------------------------------------------------------------------------------
-    checkGridRows($browse, $form) {
-        const gridRowCount = $browse.find('.tablewrapper table tbody tr').length;
-        if (gridRowCount > 0) {
-            FwFormField.disable($form.find('div[data-datafield="FromWarehouseId"]'));
-            FwFormField.disable($form.find('div[data-datafield="ToWarehouseId"]'));
-        }
-    }
+    //checkGridRows($browse, $form) {
+    //    const gridRowCount = $browse.find('.tablewrapper table tbody tr').length;
+    //    if (gridRowCount > 0) {
+    //        FwFormField.disable($form.find('div[data-datafield="FromWarehouseId"]'));
+    //        FwFormField.disable($form.find('div[data-datafield="ToWarehouseId"]'));
+    //    }
+    //}
 };
 //-----------------------------------------------------------------------------------------------------
 var TransferOrderController = new TransferOrder();

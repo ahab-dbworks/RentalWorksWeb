@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.HomeControls.OrderItem;
 
 namespace WebApi.Modules.Transfers.TransferOrder
 {
@@ -67,6 +68,35 @@ namespace WebApi.Modules.Transfers.TransferOrder
                 }
 
             }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> UpdateTransferLineItemsWarehouses(FwApplicationConfig appConfig, FwUserSession userSession, string transferOrderId, string newFromWarehouseId, string newToWarehouseId, FwSqlConnection conn =  null)
+        {
+            bool success = false;
+            BrowseRequest itemBrowseRequest = new BrowseRequest();
+            itemBrowseRequest.uniqueids = new Dictionary<string, object>();
+            itemBrowseRequest.uniqueids.Add("OrderId", transferOrderId);
+            itemBrowseRequest.uniqueids.Add("NoAvailabilityCheck", true);
+
+            OrderItemLogic itemSelector = new OrderItemLogic();
+            itemSelector.SetDependencies(appConfig, userSession);
+            List<OrderItemLogic> items = await itemSelector.SelectAsync<OrderItemLogic>(itemBrowseRequest, conn);
+
+            foreach (OrderItemLogic iOrig in items)
+            {
+                OrderItemLogic iNew = iOrig.MakeCopy<OrderItemLogic>();
+                iNew.SetDependencies(appConfig, userSession);
+                iNew.WarehouseId = newFromWarehouseId;
+                iNew.ReturnToWarehouseId = newToWarehouseId;
+                int rowsAffected = await iNew.SaveAsync(original: iOrig, conn: conn);
+                success = (rowsAffected > 0);
+                if (!success)
+                {
+                    break;
+                }
+            }
+
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
