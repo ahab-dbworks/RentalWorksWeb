@@ -10,6 +10,7 @@ using WebApi.Modules.HomeControls.OrderItem;
 using System.Collections.Generic;
 using WebApi.Modules.HomeControls.CheckOutSubstituteSessionItem;
 using WebApi.Modules.Agent.Order;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.Warehouse.CheckOut
 {
@@ -46,6 +47,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
         public string OrderId { get; set; }
         public string OrderItemId { get; set; }
         public string VendorId { get; set; }
+        public string WarehouseId { get; set; }
         public string ConsignorAgreementId { get; set; }
         public string Code { get; set; }
         public int? Quantity { get; set; }
@@ -96,6 +98,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
     {
         public string ICode { get; set; }
         public string Description { get; set; }
+        public string Classification { get; set; }
         public int QuantityOrdered { get; set; }
         public int QuantitySub { get; set; }
         public int QuantityStaged { get; set; }
@@ -216,6 +219,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
                 qry.AddParameter("@isicode", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@class", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
@@ -235,6 +239,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
 
                 response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
                 response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
+                response.InventoryStatus.Classification = qry.GetParameter("@class").ToString();
                 response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
                 response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
                 response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
@@ -255,6 +260,12 @@ namespace WebApi.Modules.Warehouse.CheckOut
                 {
                     response.status = 107;
                 }
+
+                if (response.success)
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(response.InventoryId, request.WarehouseId, response.InventoryStatus.Classification);
+                }
+
             }
             return response;
         }
@@ -292,6 +303,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
 
                     qry.AddParameter("@masterno", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@description", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@class", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@qtysub", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@qtystaged", SqlDbType.Int, ParameterDirection.Output);
@@ -311,6 +323,7 @@ namespace WebApi.Modules.Warehouse.CheckOut
 
                     response.InventoryStatus.ICode = qry.GetParameter("@masterno").ToString();
                     response.InventoryStatus.Description = qry.GetParameter("@description").ToString();
+                    response.InventoryStatus.Classification = qry.GetParameter("@class").ToString();
                     response.InventoryStatus.QuantityOrdered = qry.GetParameter("@qtyordered").ToInt32();
                     response.InventoryStatus.QuantitySub = qry.GetParameter("@qtysub").ToInt32();
                     response.InventoryStatus.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
@@ -322,6 +335,12 @@ namespace WebApi.Modules.Warehouse.CheckOut
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
+
+                    if (response.success)
+                    {
+                        InventoryAvailabilityFunc.RequestRecalc(response.InventoryId, request.WarehouseId, response.InventoryStatus.Classification);
+                    }
+
                 }
             }
             return response;
