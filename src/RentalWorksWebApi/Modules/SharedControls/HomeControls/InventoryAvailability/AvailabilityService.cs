@@ -9,11 +9,11 @@ using WebApi;
 
 namespace WebApi.Modules.HomeControls.InventoryAvailability
 {
-    internal class AvailabilityService : IHostedService, IDisposable
+    //internal class AvailabilityService : IHostedService, IDisposable
+    public class AvailabilityService : IHostedService, IDisposable
     {
         private FwApplicationConfig appConfig;
-        private AvailabilitySettingsLogic availSettings;
-        private const int TIMER_DELAY_START = 2;     //delay all timers to allow service to start before timers kick in
+        private static AvailabilitySettingsLogic availSettings;
         private const int SECONDS_PER_MINUTE = 60;
 
         //minute timer
@@ -22,10 +22,10 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         private int lastDateRan = -1;
 
         //check need recalc
-        private System.Timers.Timer checkNeedRecalcTimer;
+        private static System.Timers.Timer checkNeedRecalcTimer;
 
         //keep fresh
-        private System.Timers.Timer keepFreshTimer;
+        private static System.Timers.Timer keepFreshTimer;
 
         //-------------------------------------------------------------------------------------------------------
         public AvailabilityService(IOptions<FwApplicationConfig> appConfig)
@@ -46,24 +46,56 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             b = availSettings.LoadAsync<AvailabilitySettingsLogic>().Result;
 
             //timer ticks every 60 seconds in order to detect change in Hours or Days
-            //minuteTimer = new Timer(EveryMinute, null, TimeSpan.FromSeconds(TIMER_DELAY_START), TimeSpan.FromSeconds(SECONDS_PER_MINUTE));
-            minuteTimer = new System.Timers.Timer(1000 * 60);
+            minuteTimer = new System.Timers.Timer(1000 * SECONDS_PER_MINUTE);
             minuteTimer.Elapsed += MinuteTimer_Elapsed;
             minuteTimer.Start();
 
             //timer tickes every 3 seconds to detect changes to Inventory caused by other systems (QuikScan, desktop EXE, database triggers, etc)
             checkNeedRecalcTimer = new System.Timers.Timer(1000 * availSettings.PollForStaleAvailabilitySeconds.GetValueOrDefault(0));
             checkNeedRecalcTimer.Elapsed += CheckNeedRecalcTimer_Elapsed;
-            checkNeedRecalcTimer.Start();
+            EnableCheckNeedRecalcTimer();
 
             //if enabled, this timer will tick ever XX seconds and attempt to keep the availability cache current
             if ((availSettings.KeepAvailabilityCacheCurrent.GetValueOrDefault(false)) && (availSettings.KeepCurrentSeconds.GetValueOrDefault(0) > 0))
             {
                 keepFreshTimer = new System.Timers.Timer(1000 * availSettings.KeepCurrentSeconds.GetValueOrDefault(0));
                 keepFreshTimer.Elapsed += KeepFreshTimer_Elapsed;
-                keepFreshTimer.Start();
+                EnableKeepFreshTimer();
             }
             return Task.CompletedTask;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static void SetPollForStaleAvailabilitySeconds(int? seconds)
+        {
+            availSettings.PollForStaleAvailabilitySeconds = seconds.GetValueOrDefault(0);
+            if (checkNeedRecalcTimer.Enabled)
+            {
+                DisableCheckNeedRecalcTimer();
+                EnableCheckNeedRecalcTimer();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static void SetKeepCurrent(bool? keepCurrent)
+        {
+            if (!availSettings.KeepAvailabilityCacheCurrent.GetValueOrDefault(false) && keepCurrent.GetValueOrDefault(false))
+            {
+                EnableKeepFreshTimer();
+            }
+            else if (availSettings.KeepAvailabilityCacheCurrent.GetValueOrDefault(false) && !keepCurrent.GetValueOrDefault(false))
+            {
+                DisableKeepFreshTimer();
+            }
+            availSettings.KeepAvailabilityCacheCurrent = keepCurrent.GetValueOrDefault(false);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static void SetKeepCurrentSeconds(int? seconds)
+        {
+            availSettings.KeepCurrentSeconds = seconds.GetValueOrDefault(0);
+            if (keepFreshTimer.Enabled)
+            {
+                DisableKeepFreshTimer();
+                EnableKeepFreshTimer();
+            }
         }
         //-------------------------------------------------------------------------------------------------------
         private void DisableMinuteTimer()
@@ -71,12 +103,12 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             minuteTimer?.Stop();
         }
         //-------------------------------------------------------------------------------------------------------
-        private void DisableKeepFreshTimer()
+        private static void DisableKeepFreshTimer()
         {
             keepFreshTimer?.Stop();
         }
         //-------------------------------------------------------------------------------------------------------
-        private void DisableCheckNeedRecalcTimer()
+        private static void DisableCheckNeedRecalcTimer()
         {
             checkNeedRecalcTimer?.Stop();
         }
@@ -86,13 +118,13 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             minuteTimer?.Start();
         }
         //-------------------------------------------------------------------------------------------------------
-        private void EnableKeepFreshTimer()
+        private static void EnableKeepFreshTimer()
         {
             keepFreshTimer.Interval = 1000 * availSettings.KeepCurrentSeconds.GetValueOrDefault(0);
             keepFreshTimer?.Start();
         }
         //-------------------------------------------------------------------------------------------------------
-        private void EnableCheckNeedRecalcTimer()
+        private static void EnableCheckNeedRecalcTimer()
         {
             checkNeedRecalcTimer.Interval = 1000 * availSettings.PollForStaleAvailabilitySeconds.GetValueOrDefault(0);
             checkNeedRecalcTimer?.Start();
@@ -138,7 +170,7 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
         {
             try
             {
-                DisableCheckNeedRecalcTimer(); 
+                DisableCheckNeedRecalcTimer();
                 bool b = InventoryAvailabilityFunc.CheckNeedRecalc(appConfig).Result;
             }
             finally

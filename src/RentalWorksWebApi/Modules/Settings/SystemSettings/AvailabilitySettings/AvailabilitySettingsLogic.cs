@@ -15,6 +15,7 @@ namespace WebApi.Modules.Settings.SystemSettings.AvailabilitySettings
         public AvailabilitySettingsLogic()
         {
             dataRecords.Add(availabilitySettings);
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "MYekyvdKkYNtj", IsPrimaryKey: true)]
@@ -77,6 +78,30 @@ namespace WebApi.Modules.Settings.SystemSettings.AvailabilitySettings
                 }
             }
             return isValid;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                AvailabilitySettingsLogic orig = (AvailabilitySettingsLogic)e.Original;
+
+                if ((PollForStaleAvailabilitySeconds != null) && (!PollForStaleAvailabilitySeconds.Equals(orig.PollForStaleAvailabilitySeconds)))
+                {
+                    AvailabilityService.SetPollForStaleAvailabilitySeconds(PollForStaleAvailabilitySeconds);
+                }
+
+                if ((KeepAvailabilityCacheCurrent != null) && (!KeepAvailabilityCacheCurrent.Equals(orig.KeepAvailabilityCacheCurrent)))
+                {
+                    AvailabilityService.SetKeepCurrent(KeepAvailabilityCacheCurrent);
+                }
+
+                if ((KeepCurrentSeconds != null) && (!KeepCurrentSeconds.Equals(orig.KeepCurrentSeconds)))
+                {
+                    AvailabilityService.SetKeepCurrentSeconds(KeepCurrentSeconds);
+                }
+
+            }
         }
         //------------------------------------------------------------------------------------ 
     }
