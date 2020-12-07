@@ -1257,6 +1257,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "labortaxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxLaborRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordergrosstotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string GrossTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdiscounttotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string DiscountTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordersubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string SubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string Total { get; set; }
         //------------------------------------------------------------------------------------ 
