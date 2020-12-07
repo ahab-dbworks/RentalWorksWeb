@@ -1619,15 +1619,20 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     updateElementStyle($form: JQuery, $cachedReport: JQuery, tableNameSelector: string, $designerRow: JQuery, $column: JQuery) {
-        let style, linkedColumn, rowType, $cachedTd;
+        let style, $cachedTd, tableSectionSelector, rowIndex, colIndex;
         if (typeof $designerRow == 'undefined') {
             $designerRow = $column.parents('tr');
         }
+        if ($designerRow.parents('thead').length === 1) {
+            tableSectionSelector = 'thead';
+        } else {
+            tableSectionSelector = 'tbody';
+        }
+        colIndex = $column.index();
+        rowIndex = $designerRow.index();
         if (typeof $column !== 'undefined') {
-            rowType = $designerRow.attr('data-row');
-            linkedColumn = $column.attr('data-linkedcolumn');
             style = $column.attr('style');
-            $cachedTd = $cachedReport.find(`${tableNameSelector} [data-row="${rowType}"] [data-linkedcolumn="${linkedColumn}"]`);
+            $cachedTd = jQuery(jQuery($cachedReport.find(`${tableNameSelector} ${tableSectionSelector} tr`)[rowIndex]).children().get(colIndex));
             if ($cachedTd.length) {
                 $cachedTd.attr('style', style);
             }
