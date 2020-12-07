@@ -35,6 +35,7 @@ class RwHome {
                 window.firstLoadCompleted = true;
 
                 this.addSystemUpdateNotification(jQuery('#fw-app-header'));
+                this.addDataHealthNotification(jQuery('#fw-app-header'));
                 this.addDuplicateCustomFormAlerts(jQuery('#fw-app-header'));
             }
 
@@ -101,6 +102,49 @@ class RwHome {
                     $sysUpdateContainer.on('click', e => {
                         program.navigate('module/update');
                         $sysUpdateContainer.remove();
+                    });
+                }
+            }).catch((ex) => {
+                if (ex.reason !== 'Timeout') {
+                    FwFunc.showError(ex.message);
+                }
+            });
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    addDataHealthNotification($control) {
+        const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+        if (isWebAdmin === 'true') {
+            FwAjax.callWebApi<any, any>({
+                httpMethod: 'POST',
+                url: `${applicationConfig.apiurl}api/v1/datahealth/browse`,
+                data: {
+                    uniqueids: {
+                        CaptureDate: FwLocale.getDate(),
+                        Severity: 'CRITICAL'
+                    },
+                    searchfieldoperators: ["<>"],
+                    searchfields: ["Inactive"],
+                    searchfieldvalues: ["T"]
+                }
+            }).then((response) => {
+                if (response.TotalRows > 0) {
+                    const $dataHealthContainer = jQuery(`<div class="data-health-container">
+                                                            <div class="data-health-notification">
+                                                                <span>${response.TotalRows} new Critical Data Health issues. Click here to review the issues.</span>        
+                                                                <i class="material-icons">clear</i>
+                                                            </div>
+                                                        </div>`)
+                    jQuery($control).append($dataHealthContainer);
+
+                    $dataHealthContainer.on('click', '.data-health-notification i', e => {
+                        e.stopPropagation();
+                        $dataHealthContainer.remove();
+                    });
+
+                    $dataHealthContainer.on('click', e => {
+                        program.navigate('module/datahealth');
+                        $dataHealthContainer.remove();
                     });
                 }
             }).catch((ex) => {

@@ -571,6 +571,9 @@ class User {
                       <div class="flexrow">
                         <div>Administrators have access to all Settings peek buttons.</div>
                       </div>
+                      <div class="flexrow">
+                        <div>Administrators are notified of Critical Data Health issues.</div>
+                      </div>
                     </div>
                   </div>
                 </div>
