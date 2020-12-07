@@ -6,6 +6,13 @@ class SalesInventory extends InventoryBase {
     id: string = Constants.Modules.Inventory.children.SalesInventory.id;
     AvailableFor: string = "S";
     //----------------------------------------------------------------------------------------------
+    openFormInventory($form: any) {
+        const multiWarehouse = JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse;
+        if (!multiWarehouse) {
+            $form.find('.warehousespecific').hide();
+        }
+    };
+    //----------------------------------------------------------------------------------------------
     setupNewMode($form: any) {
         super.setupNewMode($form);
         FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');  //justin hoffman 10/12/2020 #3177

@@ -24,6 +24,11 @@ class RentalInventory extends InventoryBase {
             this.hideTab($form, 'consignmenttab');
         }
 
+        const multiWarehouse = JSON.parse(sessionStorage.getItem('controldefaults')).multiwarehouse;
+        if (!multiWarehouse) {
+            $form.find('.warehousespecific').hide();
+        }
+
     };
     //----------------------------------------------------------------------------------------------
     setupNewMode($form: any) {
