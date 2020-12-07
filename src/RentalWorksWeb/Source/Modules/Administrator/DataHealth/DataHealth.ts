@@ -63,6 +63,8 @@ class DataHealth {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery, response: any) {
         this.renderJsonData($form, response);
+
+        $form.find('[data-datafield="Severity"] input').css('background-color', response.SeverityColor);
     }
     //----------------------------------------------------------------------------------------------
     renderJsonData($form: JQuery, response: any) {
