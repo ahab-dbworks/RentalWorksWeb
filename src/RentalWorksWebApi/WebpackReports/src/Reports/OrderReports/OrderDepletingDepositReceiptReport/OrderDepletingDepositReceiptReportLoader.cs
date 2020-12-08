@@ -138,7 +138,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
             browseRequestHeader.miscfields = miscfields;
             var taskHeaders = reportHeader.SelectAsync<OrderDepletingDepositReceiptReportLoader>(browseRequestHeader);
 
-            // Load deals
+            // Load orders
             var reportOrders = new OrderDepletingDepositReceiptReportOrderLoader();
             reportOrders.SetDependencies(this.AppConfig, this.UserSession);
             var taskOrders = reportOrders.LoadItems<OrderDepletingDepositReceiptReportOrderLoader>(request);

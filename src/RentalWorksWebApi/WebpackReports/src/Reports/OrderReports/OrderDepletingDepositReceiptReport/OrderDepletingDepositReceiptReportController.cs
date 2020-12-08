@@ -17,7 +17,6 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
     public class OrderDepletingDepositReceiptReportRequest : AppReportRequest
     {
         public string OrderId { get; set; }
-        public string RentalValue { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
