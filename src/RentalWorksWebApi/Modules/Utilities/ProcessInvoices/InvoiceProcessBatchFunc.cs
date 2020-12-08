@@ -114,6 +114,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
 
             using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
             {
+                //reivew the view of the loaded to the reaminaing 
                 qry.Add("select top 1 dealdepositid = arid, currencyid, pmtamt, locationid"); // how do i know it is not applied
                 qry.Add("from   ar with (nolock)");
                 qry.Add("where  orderid = @orderid");
@@ -122,10 +123,10 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                 await qry.ExecuteAsync();
                 dealdepositId = qry.GetField("dealdepositid").ToString().TrimEnd();
                 currencyId = qry.GetField("currencyid").ToString().TrimEnd();
-                pmtAmt = qry.GetField("pmtamt").ToDecimal();
+                pmtAmt = qry.GetField("pmtamt").ToDecimal();  // apply th emin of the dd or invoice amount
                 locationId = qry.GetField("locationid").ToString().TrimEnd();
 
-                paymentTypeId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "paytype", "pmttype", "DEPLETING DEPOSIT", "paytypeid")).ToString();
+                paymentTypeId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "paytype", "pmttype", RwConstants.PAYMENT_TYPE_DEPLETING_DEPOSIT, "paytypeid")).ToString();
                 dealId  = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", orderId, "dealid")).ToString();
 
                 ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(appConfig, userSession);

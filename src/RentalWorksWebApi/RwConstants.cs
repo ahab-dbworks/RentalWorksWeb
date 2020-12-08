@@ -320,6 +320,7 @@ namespace WebApi
 
         public const string PAYMENT_TYPE_TYPE_WRITE_OFF = "WRITE OFF";
         public const string PAYMENT_TYPE_TYPE_REFUND_CHECK = "REFUND CHECK";
+        public const string PAYMENT_TYPE_DEPLETING_DEPOSIT = "DEPLETING DEPOSIT";
 
         public const int RECEIPT_RECTYPE_OVERPAYMENT_COLOR = 8454143;            // yellow
         public const int RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR = 250679;       // green
