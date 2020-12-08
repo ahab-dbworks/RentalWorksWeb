@@ -77,10 +77,9 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
             try
             {
                 OrderDepletingDepositReceiptReportLoader l = new OrderDepletingDepositReceiptReportLoader();
-                l.SetDependencies(this.AppConfig, UserSession);
-                OrderDepletingDepositReceiptReportLoader Order = await l.RunReportAsync(request);
-                //l.HideSummaryColumnsInDataTable(request, dt);
-                return new OkObjectResult(Order);
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                var report = await l.RunReportAsync(request);
+                return new OkObjectResult(report);
             }
             catch (Exception ex)
             {

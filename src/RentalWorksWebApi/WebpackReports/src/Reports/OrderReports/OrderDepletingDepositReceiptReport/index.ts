@@ -28,9 +28,9 @@ export class OrderDepletingDepositReceiptReport extends WebpackReport {
                                 data.Logosrc = logoObject.LogoImage;
                             }
 
-                            const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
-                            const svg = qr.toSvgString(4);
-                            data.OrderNumberQrCode = svg;
+                            //const qr = QrCodeGen.QrCode.encodeText(data.OrderNumber, QrCodeGen.Ecc.MEDIUM);
+                            //const svg = qr.toSvgString(4);
+                            //data.OrderNumberQrCode = svg;
 
                             this.renderFooterHtml(data);
                             if (this.action === 'Preview' || this.action === 'PrintHtml') {
