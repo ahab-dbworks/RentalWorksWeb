@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Web;
 
 namespace FwStandard.SqlServer
@@ -302,6 +303,7 @@ namespace FwStandard.SqlServer
                                 }
                             }
                         }
+                        FormatRow(row);
                         Rows.Insert(rowno, row);
                         rowno++;
                         rowcount++;
@@ -442,6 +444,7 @@ namespace FwStandard.SqlServer
                         //row[indexSumColumns[sumcolno]] = subtotals[sumcolno];    //justin 05/02/2018 (uncommented)
                         subtotals[sumcolno] = 0;
                     }
+                    FormatRow(row);
                     Rows.Insert(rowno + 1, row);
                     rowno++;
                     rowcount++;
@@ -542,6 +545,7 @@ namespace FwStandard.SqlServer
 
 
                     }
+                    FormatRow(row);
                     Rows.Insert(rowno + 1, row);
                     break;
                 }
@@ -585,6 +589,67 @@ namespace FwStandard.SqlServer
                         break;
                 }
             }
+        }
+        //---------------------------------------------------------------------------------------------
+        public void FormatRow(List<object> row)
+        {
+            for (int colno = 0; colno < this.Columns.Count; colno++)
+            {
+                var cell = row[colno];
+                var col = this.Columns[colno];
+                switch (col.DataType)
+                {
+                    case FwDataTypes.CurrencyString:
+                        row[colno] = FwConvert.ToCurrencyString(new FwDatabaseField(cell).ToDecimal());
+                        break;
+                    case FwDataTypes.CurrencyStringNoDollarSign:
+                        row[colno] = FwConvert.ToCurrencyStringNoDollarSign(new FwDatabaseField(cell).ToDecimal());
+                        break;
+                    case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                        row[colno] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(new FwDatabaseField(cell).ToDecimal());
+                        break;
+                    case FwDataTypes.Decimal:
+                        row[colno] = new FwDatabaseField(cell).ToDecimal();
+                        break;
+                    case FwDataTypes.Integer:
+                        row[colno] = new FwDatabaseField(cell).ToInt32();
+                        break;
+                    case FwDataTypes.Percentage:
+                        row[colno] = FwConvert.ToCurrencyStringNoDollarSign(new FwDatabaseField(cell).ToDecimal()) + "%";
+                        break;
+                    case FwDataTypes.DateTime:
+                        row[colno] = new FwDatabaseField(cell).ToDateTime().ToString("yyyy-MM-dd hh:mm:ss tt");
+                        break;
+                    default:
+                        row[colno] = new FwDatabaseField(cell).ToString();
+                        break;
+                }
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+        public List<T> ToList<T>()
+        {
+            List<T> items = new List<T>();
+            List<PropertyInfo> propertyInfos = new List<PropertyInfo>(typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance));
+            for (int j = propertyInfos.Count - 1; j >= 0; j--)
+            {
+                var propertyInfo = propertyInfos[j];
+                if (!this.ColumnIndex.ContainsKey(propertyInfo.Name))
+                {
+                    propertyInfos.RemoveAt(j);
+                }
+            }
+            for (int rowno = 0; rowno < this.Rows.Count; rowno++)
+            {
+                List<object> row = this.Rows[rowno];
+                T item = (T)Activator.CreateInstance(typeof(T));
+                foreach(PropertyInfo propertyInfo in propertyInfos)
+                {
+                    propertyInfo.SetValue(item, this.Rows[rowno][this.ColumnIndex[propertyInfo.Name]]);
+                }
+                items.Add(item);
+            }
+            return items;
         }
         //---------------------------------------------------------------------------------------------
     }
