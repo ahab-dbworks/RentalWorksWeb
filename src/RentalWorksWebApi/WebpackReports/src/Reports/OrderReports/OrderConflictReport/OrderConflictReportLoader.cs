@@ -212,62 +212,67 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
                         {
                             foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
                             {
-                                if (reservation.QuantityReserved.Total != 0)
+                                bool withinDateRange = (reservation.FromDateTime <= request.ToDate) && (reservation.ToDateTime >= request.FromDate);
+
+                                if (withinDateRange)
                                 {
-                                    bool isConflict = ((string.IsNullOrEmpty(request.ConflictType) && (reservation.IsNegativeConflict || reservation.IsPositiveConflict)) ||
-                                                      (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && reservation.IsNegativeConflict) ||
-                                                      (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && reservation.IsPositiveConflict));
+                                    if (reservation.QuantityReserved.Total != 0)
+                                    {
+                                        bool isConflict = ((string.IsNullOrEmpty(request.ConflictType) && (reservation.IsNegativeConflict || reservation.IsPositiveConflict)) ||
+                                                          (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && reservation.IsNegativeConflict) ||
+                                                          (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && reservation.IsPositiveConflict));
 
-                                    bool showOrderOrDeal = true;
-                                    if (showOrderOrDeal)
-                                    {
-                                        if (!string.IsNullOrEmpty(request.OrderId))
+                                        bool showOrderOrDeal = true;
+                                        if (showOrderOrDeal)
                                         {
-                                            showOrderOrDeal = request.OrderId.Contains(reservation.OrderId);
+                                            if (!string.IsNullOrEmpty(request.OrderId))
+                                            {
+                                                showOrderOrDeal = request.OrderId.Contains(reservation.OrderId);
+                                            }
                                         }
-                                    }
-                                    if (showOrderOrDeal)
-                                    {
-                                        if (!string.IsNullOrEmpty(request.DealId))
+                                        if (showOrderOrDeal)
                                         {
-                                            showOrderOrDeal = request.DealId.Contains(reservation.DealId);
+                                            if (!string.IsNullOrEmpty(request.DealId))
+                                            {
+                                                showOrderOrDeal = request.DealId.Contains(reservation.DealId);
+                                            }
                                         }
-                                    }
 
-                                    if (isConflict && showOrderOrDeal)
-                                    {
-                                        OrderConflict conflictRow = new OrderConflict();
-                                        conflictRow[dt.GetColumnNo("RowType")] = "detail";
-                                        conflictRow[dt.GetColumnNo("WarehouseId")] = availData.InventoryWarehouse.WarehouseId;
-                                        conflictRow[dt.GetColumnNo("WarehouseCode")] = availData.InventoryWarehouse.WarehouseCode;
-                                        conflictRow[dt.GetColumnNo("Warehouse")] = availData.InventoryWarehouse.Warehouse;
-                                        conflictRow[dt.GetColumnNo("InventoryTypeId")] = availData.InventoryWarehouse.InventoryTypeId;
-                                        conflictRow[dt.GetColumnNo("InventoryType")] = availData.InventoryWarehouse.InventoryType;
-                                        conflictRow[dt.GetColumnNo("CategoryId")] = availData.InventoryWarehouse.CategoryId;
-                                        conflictRow[dt.GetColumnNo("Category")] = availData.InventoryWarehouse.Category;
-                                        conflictRow[dt.GetColumnNo("SubCategoryId")] = availData.InventoryWarehouse.SubCategoryId;
-                                        conflictRow[dt.GetColumnNo("SubCategory")] = availData.InventoryWarehouse.SubCategory;
-                                        conflictRow[dt.GetColumnNo("InventoryId")] = availData.InventoryWarehouse.InventoryId;
-                                        conflictRow[dt.GetColumnNo("ICode")] = availData.InventoryWarehouse.ICode;
-                                        conflictRow[dt.GetColumnNo("ItemDescription")] = availData.InventoryWarehouse.Description;
-                                        conflictRow[dt.GetColumnNo("Classification")] = availData.InventoryWarehouse.Classification;
-                                        conflictRow[dt.GetColumnNo("AvailabilityByHour")] = availData.InventoryWarehouse.HourlyAvailability;
-                                        conflictRow[dt.GetColumnNo("NoAvailabilityCheck")] = availData.InventoryWarehouse.NoAvailabilityCheck;
-                                        conflictRow[dt.GetColumnNo("Department")] = reservation.Department;
-                                        conflictRow[dt.GetColumnNo("Deal")] = reservation.Deal;
-                                        conflictRow[dt.GetColumnNo("OrderNumber")] = reservation.OrderNumber;
-                                        conflictRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
-                                        conflictRow[dt.GetColumnNo("OrderFromDate")] = FwConvert.ToShortDate(reservation.FromDateTime);
-                                        conflictRow[dt.GetColumnNo("OrderToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
-                                        conflictRow[dt.GetColumnNo("ItemFromDate")] = FwConvert.ToShortDate(reservation.FromDateTime);
-                                        conflictRow[dt.GetColumnNo("ItemToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
-                                        conflictRow[dt.GetColumnNo("QuantitySub")] = reservation.QuantitySub;
-                                        conflictRow[dt.GetColumnNo("QuantityReserved")] = reservation.QuantityReserved.Total;
-                                        TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(reservation.FromDateTime, reservation.ToDateTime);
-                                        conflictRow[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailable.OwnedAndConsigned;
-                                        conflictRow[dt.GetColumnNo("QuantityInRepair")] = availData.InRepair.Total;
-                                        conflictRow[dt.GetColumnNo("ConflictType")] = (reservation.IsNegativeConflict ? RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE_DESCRIPTION : reservation.IsPositiveConflict ? RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE_DESCRIPTION : "");
-                                        conflictRows.Add(conflictRow);
+                                        if (isConflict && showOrderOrDeal)
+                                        {
+                                            OrderConflict conflictRow = new OrderConflict();
+                                            conflictRow[dt.GetColumnNo("RowType")] = "detail";
+                                            conflictRow[dt.GetColumnNo("WarehouseId")] = availData.InventoryWarehouse.WarehouseId;
+                                            conflictRow[dt.GetColumnNo("WarehouseCode")] = availData.InventoryWarehouse.WarehouseCode;
+                                            conflictRow[dt.GetColumnNo("Warehouse")] = availData.InventoryWarehouse.Warehouse;
+                                            conflictRow[dt.GetColumnNo("InventoryTypeId")] = availData.InventoryWarehouse.InventoryTypeId;
+                                            conflictRow[dt.GetColumnNo("InventoryType")] = availData.InventoryWarehouse.InventoryType;
+                                            conflictRow[dt.GetColumnNo("CategoryId")] = availData.InventoryWarehouse.CategoryId;
+                                            conflictRow[dt.GetColumnNo("Category")] = availData.InventoryWarehouse.Category;
+                                            conflictRow[dt.GetColumnNo("SubCategoryId")] = availData.InventoryWarehouse.SubCategoryId;
+                                            conflictRow[dt.GetColumnNo("SubCategory")] = availData.InventoryWarehouse.SubCategory;
+                                            conflictRow[dt.GetColumnNo("InventoryId")] = availData.InventoryWarehouse.InventoryId;
+                                            conflictRow[dt.GetColumnNo("ICode")] = availData.InventoryWarehouse.ICode;
+                                            conflictRow[dt.GetColumnNo("ItemDescription")] = availData.InventoryWarehouse.Description;
+                                            conflictRow[dt.GetColumnNo("Classification")] = availData.InventoryWarehouse.Classification;
+                                            conflictRow[dt.GetColumnNo("AvailabilityByHour")] = availData.InventoryWarehouse.HourlyAvailability;
+                                            conflictRow[dt.GetColumnNo("NoAvailabilityCheck")] = availData.InventoryWarehouse.NoAvailabilityCheck;
+                                            conflictRow[dt.GetColumnNo("Department")] = reservation.Department;
+                                            conflictRow[dt.GetColumnNo("Deal")] = reservation.Deal;
+                                            conflictRow[dt.GetColumnNo("OrderNumber")] = reservation.OrderNumber;
+                                            conflictRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
+                                            conflictRow[dt.GetColumnNo("OrderFromDate")] = FwConvert.ToShortDate(reservation.FromDateTime);
+                                            conflictRow[dt.GetColumnNo("OrderToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
+                                            conflictRow[dt.GetColumnNo("ItemFromDate")] = FwConvert.ToShortDate(reservation.FromDateTime);
+                                            conflictRow[dt.GetColumnNo("ItemToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToShortDate(reservation.ToDateTime));
+                                            conflictRow[dt.GetColumnNo("QuantitySub")] = reservation.QuantitySub;
+                                            conflictRow[dt.GetColumnNo("QuantityReserved")] = reservation.QuantityReserved.Total;
+                                            TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(reservation.FromDateTime, reservation.ToDateTime);
+                                            conflictRow[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailable.OwnedAndConsigned;
+                                            conflictRow[dt.GetColumnNo("QuantityInRepair")] = availData.InRepair.Total;
+                                            conflictRow[dt.GetColumnNo("ConflictType")] = (reservation.IsNegativeConflict ? RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE_DESCRIPTION : reservation.IsPositiveConflict ? RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE_DESCRIPTION : "");
+                                            conflictRows.Add(conflictRow);
+                                        }
                                     }
                                 }
                             }
