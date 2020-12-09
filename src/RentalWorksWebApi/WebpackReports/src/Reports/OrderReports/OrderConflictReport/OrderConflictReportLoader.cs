@@ -212,7 +212,7 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
                         {
                             foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
                             {
-                                bool withinDateRange = (reservation.FromDateTime >= request.FromDate) && (reservation.ToDateTime <= request.ToDate);
+                                bool withinDateRange = (reservation.FromDateTime <= request.ToDate) && (reservation.ToDateTime >= request.FromDate);
 
                                 if (withinDateRange)
                                 {
