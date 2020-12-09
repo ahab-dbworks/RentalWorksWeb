@@ -630,6 +630,44 @@ class OrderItemGrid {
 
             if (controller === 'PurchaseOrderController') {
                 FwBrowse.setFieldValue($control, $generatedtr, 'UnitId', { value: FwBrowse.getValueByDataField($control, $tr, 'UnitId'), text: FwBrowse.getValueByDataField($control, $tr, 'Unit') });
+
+                if (recType === 'R' || recType === 'S' || recType === 'P') {
+                    const poTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
+                    FwAppData.apiMethod(true, 'GET', `api/v1/potype/${poTypeId}`, null, FwServices.defaultTimeout,
+                        response => {
+                            let purchaseDefaultRate, rateFieldName, rate;
+                            switch (recType) {
+                                case 'R':
+                                    purchaseDefaultRate = response.RentalPurchaseDefaultRate;
+                                    break;
+                                case 'S':
+                                case 'P':
+                                    purchaseDefaultRate = response.SalesPurchaseDefaultRate;
+                                    //purchaseDefaultRate = response.PartsPurchaseDefaultRate;
+                                    break;
+                            }
+
+                            switch (purchaseDefaultRate) {
+                                case 'LP':
+                                    rateFieldName = 'Price';
+                                    break;
+                                case 'RC':
+                                    rateFieldName = 'ReplacementCost';
+                                    break;
+                                case 'UV':
+                                    rateFieldName = 'UnitValue';
+                                    break;
+                                case 'DC':
+                                    rateFieldName = 'DefaultCost';
+                                    break;
+                                case 'AC':
+                                    rateFieldName = 'AverageCost';
+                                    break;
+                            }
+                            rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
+                        }, ex => FwFunc.showError(ex), $form);
+                }
             }
 
             if ($generatedtr.hasClass("newmode")) {
