@@ -75,7 +75,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text)]
         public string CheckNo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public decimal? PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "appliedbyid", modeltype: FwDataTypes.Text)]
