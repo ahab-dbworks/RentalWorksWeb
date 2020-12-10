@@ -9,24 +9,30 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Data;
+using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Agent.Order;
+using WebApi.Modules.Billing.Invoice;
+using WebApi.Modules.Billing.Receipt;
 using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
 {
-    public class OrderDepletingDepositReceiptReportRequest : AppReportRequest
+    public class ReceiptReportRequest : AppReportRequest
     {
         public string OrderId { get; set; }
+        public string DealId { get; set; }
+        public string ReceiptId { get; set; }
     }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "PVylYE8XDyxP")]
-    public class OrderDepletingDepositReceiptReportController : AppReportController
+    public class ReceiptReportController : AppReportController
     {
-        public OrderDepletingDepositReceiptReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(OrderDepletingDepositReceiptReportLoader); }
-        protected override string GetReportFileName(FwReportRenderRequest request) { return "OrderDepletingDepositReceiptReport"; }
+        public ReceiptReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { loaderType = typeof(ReceiptReportLoader); }
+        protected override string GetReportFileName(FwReportRenderRequest request) { return "Receipt"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "OrderDepletingDepositReceipt"; }
+        protected override string GetReportFriendlyName() { return "Receipt"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -39,22 +45,20 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "OrderDepletingDepositReceiptReport";
+            return "Receipt";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderdepletingdepositreceiptreport/render 
+        // POST api/v1/receiptreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "tWRwEmIdlh6h")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
-            //ActionResult<FwReportRenderResponse> response = await DoRender(request);
-            //return new OkObjectResult(response);
             ActionResult<FwReportRenderResponse> actionResult = await DoRender(request);
             return actionResult;
         }
         ////------------------------------------------------------------------------------------ 
-        //// POST api/v1/orderdepletingdepositreceiptreport/exportexcelxlsx
+        //// POST api/v1/receiptreport/exportexcelxlsx
         //[HttpPost("exportexcelxlsx")]
         //[FwControllerMethod(Id: "fBLkHuI0p4EA")]
         //public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]OrderValueSheetReportRequest request)
@@ -64,10 +68,10 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         //    return await DoExportExcelXlsxFileAsync(dt, request);
         //}
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderdepletingdepositreceiptreport/runreport 
+        // POST api/v1/receiptreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "9S5OSEPO0RQJ")]
-        public async Task<ActionResult<OrderDepletingDepositReceiptReportLoader>> RunReportAsync([FromBody] OrderDepletingDepositReceiptReportRequest request)
+        public async Task<ActionResult<ReceiptReportLoader>> RunReportAsync([FromBody] ReceiptReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -75,7 +79,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
             }
             try
             {
-                OrderDepletingDepositReceiptReportLoader l = new OrderDepletingDepositReceiptReportLoader();
+                ReceiptReportLoader l = new ReceiptReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 var report = await l.RunReportAsync(request);
                 return new OkObjectResult(report);
@@ -86,12 +90,28 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/orderdepletingdepositreceiptreport/validateorder/browse 
+        // POST api/v1/receiptreport/validateorder/browse 
         [HttpPost("validateorder/browse")]
         [FwControllerMethod(Id: "X0lDVsxbqfsX", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<OrderLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/receiptreport/validatedeal/browse 
+        [HttpPost("validatedeal/browse")]
+        [FwControllerMethod(Id: "9pYpFn7dv8zv", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<DealLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/receiptreport/validatereceipt/browse 
+        [HttpPost("validatereceipt/browse")]
+        [FwControllerMethod(Id: "SNJzDbE57GFp", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidateReceiptBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<ReceiptLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }

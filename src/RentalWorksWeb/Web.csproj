@@ -607,7 +607,7 @@
     <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\PurchaseHistory\PurchaseHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\IncomingDeliveryInstructions\IncomingDeliveryInstructionsController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\OrderDepletingDepositReceiptReport\OrderDepletingDepositReceiptReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ReceiptReport\ReceiptReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OutgoingDeliveryInstructions\OutgoingDeliveryInstructionsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\FixedAssetBookValueReport\FixedAssetBookValueReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\FixedAssetDepreciationReport\FixedAssetDepreciationReportController.ts" />

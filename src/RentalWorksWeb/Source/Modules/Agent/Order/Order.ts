@@ -2825,7 +2825,7 @@ class Order extends OrderBase {
             const orderIdText = FwFormField.getValueByDataField($form, `${module}Number`);
             const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
 
-            const $report = OrderDepletingDepositReceiptReportController.openForm();
+            const $report = ReceiptReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);

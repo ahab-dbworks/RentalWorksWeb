@@ -9,7 +9,7 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class OrderDepletingDepositReceiptReport extends WebpackReport {
+export class ReceiptReport extends WebpackReport {
     //order: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
@@ -18,10 +18,10 @@ export class OrderDepletingDepositReceiptReport extends WebpackReport {
             Ajax.get<DataTable>(`${apiUrl}/api/v1/logosettings/1`, authorizationHeader)
                 .then((response: DataTable) => {
                     const logoObject: any = response;
-                    Ajax.post<any>(`${apiUrl}/api/v1/orderdepletingdepositreceiptreport/runreport`, authorizationHeader, parameters)
+                    Ajax.post<any>(`${apiUrl}/api/v1/receiptreport/runreport`, authorizationHeader, parameters)
                         .then((response: any) => {
                             const data: any = response;
-                            data.Report = "Order Depleting Deposit Receipt";
+                            data.Report = "Receipt";
                             this.setReportMetadata(parameters, data, response);
 
                             if (logoObject.LogoImage != '') {
@@ -63,4 +63,4 @@ export class OrderDepletingDepositReceiptReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new OrderDepletingDepositReceiptReport();
+(<any>window).report = new ReceiptReport();

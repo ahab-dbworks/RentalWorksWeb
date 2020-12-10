@@ -1,0 +1,200 @@
+﻿<!--Receipt Report-->
+
+
+<!-- Header -->
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+  <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
+    {{#if Logosrc}}
+    <div style="height:100px;">
+      <img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" />
+    </div>
+    {{else}}
+    <div></div>
+    {{/if}}
+    <span style="font-weight:600; font-size:15px;">{{OfficeLocationCompany}}</span>
+    <span class="company-header">{{OfficeLocationAddress1}}</span>
+    {{#if OfficeLocationAddress2}}
+    <span class="company-header">{{OfficeLocationAddress2}}</span>
+    {{/if}}
+    <span class="company-header">{{OfficeLocationCityStateZipCodeCountry}}</span>
+    <span class="company-header"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+    {{#if OfficeLocationFax}}
+    <span class="company-header"><span style="font-weight:600;">Fax: </span>{{OfficeLocationFax}}</span>
+    {{/if}}
+  </div>
+  <div class="rpt-flexcolumn" style="flex:0 0 40%;">
+    <div class="sub-title" style="font-size:20px;">{{Department}}</div>
+    <div class="title" style="text-align:center;">
+      {{#ifEquals ReportType "ORDER_DEPLETING_DEPOSIT"}}Depleting Deposit<br />Receipt{{/ifEquals}}
+      {{#ifEquals ReportType "DEAL_DEPLETING_DEPOSIT"}}Depleting Deposit<br />Receipt{{/ifEquals}}
+      {{#ifEquals ReportType "RECEIPT"}}Receipt{{/ifEquals}}
+    </div>
+  </div>
+  <div class="rpt-flexcolumn" style="flex:0 0 30%;">
+    <table>
+      <tr>
+        <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;padding:2em 0 0 0;">Receipt Date:</td>
+        <td style="font-size:18px;text-align:center;padding:2em 0 0 0;">{{ArDate}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="rpt-flexrow" style="padding-left:3px;">
+  <div class="rpt-flexcolumn sectionBorder" style="flex:1 1 auto;margin-right:10px;">
+    <table>
+      <tr>
+        <td style="width:84px;" class="shaded-block">Customer: </td>
+        <td class="meta-content" style="vertical-align:top;">{{Customer}}</td>
+      </tr>
+      <tr>
+        <td style="width:84px;" class="shaded-block">Deal: </td>
+        <td class="meta-content" style="vertical-align:top;">{{Deal}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 300px;margin:0px 10px;">
+    <table>
+      <tr>
+        <td style="width:114px;" class="shaded-block">Payment Type: </td>
+        <td class="meta-content">{{PaymentType}}</td>
+      </tr>
+      <tr>
+        <td style="width:114px;" class="shaded-block">Reference No: </td>
+        <td class="meta-content">{{CheckNo}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="rpt-flexcolumn sectionBorder" style="flex:0 0 100px;margin-left:10px;">
+    <table>
+      <tr>
+        <td style="width:80px;" class="shaded-block">Amount:</td>
+        <td class="">{{PaymentAmount}}</td>
+      </tr>
+      <tr>
+        <td style="width:80px;" class="shaded-block">Currency:</td>
+        <td class="">{{CurrencyCode}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- Orders -->
+{{#ifEquals ReportType "ORDER_DEPLETING_DEPOSIT"}}
+<div data-section="table" data-itemarray="Orders" class="rpt-flexrow" style="margin-top:25px;">
+  <table data-tablename="Detail View">
+    <thead id="columnHeader">
+      <tr><td>&nbsp;</td></tr><!--spacer row-->
+      <tr class="avoid-page-break">
+        <td colspan="7" class="section-header">Order</td>
+      </tr>
+      <tr data-row="main-header">
+        <th data-linkedcolumn="OrdeNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription" class="Description">Order Description</th>
+        <th data-linkedcolumn="PeriodTotal" data-valuefield="PeriodTotal" class="alignRight">Period Total</th>
+        <th data-linkedcolumn="ReplacementCost" data-valuefield="ReplacementCost" class="alignRight">Replacement Cost</th>
+        <th data-linkedcolumn="DepositAmount" data-valuefield="DepositAmount" class="alignRight">Deposit Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Orders}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}" class="description-row">
+        <td data-linkedcolumn="OrdeNumber" data-value="{{OrdeNumber}}" class="nowrap"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}" class="Description"></td>
+        <td data-linkedcolumn="PeriodTotal" data-value="{{PeriodTotal}}" class="alignRight"></td>
+        <td data-linkedcolumn="ReplacementCost" data-value="{{ReplacementCost}}" class="alignRight"></td>
+        <td data-linkedcolumn="DepositAmount" data-value="{{DepositAmount}}" class="alignRight"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer">
+        <td data-linkedcolumn="OrdeNumber" colspan="3"></td>
+        <td class="total-name" style="text-align:right;padding-right:10px;font-weight:bold;">DEPOSIT TOTAL:</td>
+        <td data-linkedcolumn="DepositAmount" class="number TotalDepositAmount" style="min-width:150px;padding-right:3px;" data-value="$ {{DepositAmount}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/ifEquals}}
+
+<!-- Deals -->
+{{#ifEquals ReportType "DEAL_DEPLETING_DEPOSIT"}}
+<div data-section="table" data-itemarray="Orders" class="rpt-flexrow" style="margin-top:25px;">
+  <table data-tablename="Detail View">
+    <thead id="columnHeader">
+      <tr><td>&nbsp;</td></tr><!--spacer row-->
+      <tr class="avoid-page-break">
+        <td colspan="7" class="section-header">Deal</td>
+      </tr>
+      <tr data-row="main-header">
+        <th data-linkedcolumn="DealNumber" data-valuefield="DealNumber">Deal No.</th>
+        <th data-linkedcolumn="DealDescription" data-valuefield="OrderDescription" class="Description" colspan="2">Deal Description</th>
+        <th data-linkedcolumn="DepositAmount" data-valuefield="DepositAmount" class="alignRight">Deposit Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Deals}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}" class="description-row">
+        <td data-linkedcolumn="DealNumber" data-value="{{DealNumber}}" class="nowrap"></td>
+        <td data-linkedcolumn="DealDescription" data-value="{{DealDescription}}" class="Description" colspan="2"></td>
+        <td data-linkedcolumn="DepositAmount" data-value="{{DepositAmount}}" class="alignRight"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer">
+        <td colspan="2"></td>
+        <td class="total-name" style="text-align:right;padding-right:10px;font-weight:bold;">DEPOSIT TOTAL:</td>
+        <td data-linkedcolumn="DepositAmount" class="number TotalDepositAmount" style="min-width:150px;padding-right:3px;" data-value="$ {{DepositAmount}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/ifEquals}}
+
+<!-- Invoices -->
+{{#ifEquals ReportType "RECEIPT"}}
+<div data-section="table" data-itemarray="Invoices" class="rpt-flexrow" style="margin-top:25px;">
+  <table data-tablename="Detail View">
+    <thead id="columnHeader">
+      <tr><td>&nbsp;</td></tr><!--spacer row-->
+      <tr class="avoid-page-break">
+        <td colspan="7" class="section-header">Invoices</td>
+      </tr>
+      <tr data-row="main-header">
+        <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
+        <th data-linkedcolumn="InvoiceDate" data-valuefield="InvoiceDate">Invoice Date</th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription" class="Description">Order Description</th>
+        <th data-linkedcolumn="InvoiceTotal" data-valuefield="InvoiceTotal" class="alignRight">Total</th>
+        <th data-linkedcolumn="Applied" data-valuefield="Applied" class="alignRight">Applied</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each Invoices}}
+      {{#ifEquals RowType "detail"}}
+      <tr data-row="detail" data-rowtype="{{RowType}}" class="description-row">
+        <td data-linkedcolumn="InvoiceNumber" data-value="{{InvoiceNumber}}" class="nowrap"></td>
+        <td data-linkedcolumn="InvoiceDate" data-value="{{InvoiceDate}}" class="nowrap"></td>
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}" class="nowrap"></td>
+        <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}" class="Description"></td>
+        <td data-linkedcolumn="InvoiceTotal" data-value="{{InvoiceTotal}}" class="alignRight"></td>
+        <td data-linkedcolumn="Applied" data-value="{{Applied}}" class="alignRight"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-row="footer">
+        <td colspan="4"></td>
+        <td class="total-name" style="text-align:right;padding-right:10px;font-weight:bold;">DEPOSIT TOTAL:</td>
+        <td data-linkedcolumn="Applied" class="number Applied" style="min-width:150px;padding-right:3px;" data-value="$ {{Applied}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/ifEquals}}
