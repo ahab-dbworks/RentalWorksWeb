@@ -8,21 +8,21 @@
             "name": "Debug QuikScan",
             "request": "launch",
             "type": "pwa-chrome",
-            "url": "http://localhost:57949/quikscandev",
+            "url": "http://localhost:57949/quikscan",
             "webRoot": "${workspaceFolder}/src/RentalWorksWebApi/QuikScan"
         },
         {
             "name": "Debug RentalWorks",
             "request": "launch",
             "type": "pwa-chrome",
-            "url": "http://localhost:57949/webdev",
+            "url": "http://localhost:57949/rentalworks",
             "webRoot": "${workspaceFolder}/src/RentalWorksWeb"
         },
         {
-            "name": "Debug Web",
+            "name": "Debug Web Api",
             "request": "launch",
             "type": "pwa-chrome",
-            "url": "http://localhost:57949",
+            "url": "http://localhost:57949/swagger",
             "webRoot": "${workspaceFolder}/src/RentalWorksWebApi"
         },
         {
