@@ -56,25 +56,13 @@ class Order extends OrderBase {
     }
     //-----------------------------------------------------------------------------------------------
     addFormMenuItems(options: IAddFormMenuOptions): void {
+        // Buttons
         FwMenu.addFormMenuButtons(options);
 
+        // SubMenu Options
         FwMenu.addSubMenuItem(options.$groupOptions, 'Copy Order', 'S3zkxYNnBXzo', (e: JQuery.ClickEvent) => {
             try {
                 this.copyOrderOrQuote(options.$form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order', '1oEwl4qqLQym', (e: JQuery.ClickEvent) => {
-            try {
-                this.printQuoteOrder(options.$form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Value Sheet', '', (e: JQuery.ClickEvent) => {
-            try {
-                this.printValueSheet(options.$form);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -160,7 +148,25 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem(options.$groupOptions, 'Print Order Depleting Deposit Receipt ', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
+        
+        // SubMenu Reports
+        const $colReports = FwMenu.addSubMenuColumn(options.$menu);
+        const $groupReports = FwMenu.addSubMenuGroup($colReports, 'Reports');
+        FwMenu.addSubMenuItem($groupReports, 'Print Order', '1oEwl4qqLQym', (e: JQuery.ClickEvent) => {
+            try {
+                this.printQuoteOrder(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem($groupReports, 'Print Value Sheet', '', (e: JQuery.ClickEvent) => {
+            try {
+                this.printValueSheet(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem($groupReports, 'Print Order Depleting Deposit Receipt ', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
             try {
                 this.printOrderDepletingDepositReceipt(options.$form);
             } catch (ex) {
