@@ -7,9 +7,6 @@
             if (obj.StatusCode && obj.StatusCode === 500) {
                 let html: string | string[] = [];
                 html.push(`<div style="margin:24px;">`);
-                //html.push(`  <div style="margin:10px 0 0 0;font-size:12px;border:1px solid #777777;background-color:#efefef;padding:4px;">`);
-                //html.push(`    <div style="font-size:1.1em">${message}</div>`);
-                //html.push('  </div>');
                 html.push(`  <div style="margin:10px 0 0 0;font-size:16px;">${obj.Message}</div>`);
                 html.push(`  <div style="margin:10px 0 0 0;font-size:11px;border:1px solid #777777;background-color:#efefef;padding:10px;">`);
                 html.push(`    <div style="font-size:14px">${message}</div>`);
