@@ -1,11 +1,11 @@
-﻿routes.push({ pattern: /^module\/plugin$/, action: function (match: RegExpExecArray) { return PlugInController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/plugin$/, action: function (match: RegExpExecArray) { return PlugInController.getModuleScreen(); } });
 
 class PlugIn implements IModule {
-    Module: string = 'PlugIn';
+    Module: string = 'Plugin';
     apiurl: string = 'api/v1/plugin';
-    caption: string = Constants.Modules.Administrator.children.PlugIn.caption;
-    nav: string = Constants.Modules.Administrator.children.PlugIn.nav;
-    id: string = Constants.Modules.Administrator.children.PlugIn.id;
+    caption: string = Constants.Modules.Administrator.children.Plugin.caption;
+    nav: string = Constants.Modules.Administrator.children.Plugin.nav;
+    id: string = Constants.Modules.Administrator.children.Plugin.id;
     //---------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: IModuleScreen = {};
@@ -23,6 +23,8 @@ class PlugIn implements IModule {
     openForm(mode: string) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
+        FwFormField.setValueByDataField($form, 'UseMockVistekPaymentCapture', true)
+        FwFormField.setValueByDataField($form, 'VistekPaymentCaptureServiceUrl', applicationConfig.apiurl + 'MockVistekProcessCardPayment.svc');
         (async () => {
             const isHubSpotConnected = await FwAjax.callWebApi<any, any>({
                 httpMethod: 'POST',
@@ -113,13 +115,13 @@ class PlugIn implements IModule {
         <div class="setting">
           <div class="setting-caption">Use Emulated Service (Development):</div>
           <div class="setting-control">
-            <div data-control="FwFormField" data-type="toggleswitch" class="fwcontrol fwformfield" data-caption="" data-datafield="UseMockVistekPaymentCapture"></div>
+            <div data-control="FwFormField" data-type="toggleswitch" class="fwcontrol fwformfield" data-caption="" data-datafield="UseMockVistekPaymentCapture" data-enabled="false"></div>
           </div>
         </div>
         <div class="setting">
           <div class="setting-caption">Payment Capture Service URL:</div>
           <div class="setting-control">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="VistekPaymentCaptureServiceUrl"></div>
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="VistekPaymentCaptureServiceUrl" data-enabled="false"></div>
           </div>
         </div>
       </div>

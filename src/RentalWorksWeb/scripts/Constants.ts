@@ -25,7 +25,7 @@ var Constants = {
                 EmailTemplate:      { id: 'PMAan9TbkIOf',  caption: 'Email Template',       nav: 'module/emailtemplate',        nodetype: 'Module' },
                 Group:              { id: '0vP4rXxgGL1M',  caption: 'Group',                nav: 'module/group',                nodetype: 'Module' },
                 Hotfix:             { id: 'yeqaGIUYfYNX',  caption: 'Hotfix',               nav: 'module/hotfix',               nodetype: 'Module' },
-                PlugIn:             { id: 'TcXQ0Mt5L0Rf',  caption: 'Plug-In',              nav: 'module/plugin',               nodetype: 'Module' },
+                Plugin:             { id: 'TcXQ0Mt5L0Rf',  caption: 'Plugins',              nav: 'module/plugin',               nodetype: 'Module' },
                 Reports:            { id: 'Reports',       caption: 'Reports',              nav: 'module/reports',              nodetype: 'Module' },
                 Settings:           { id: 'Settings',      caption: 'Settings',             nav: 'module/settings',             nodetype: 'Module' },
                 SystemUpdate:       { id: 'QBpkw2MKnb4yp', caption: 'System Update',        nav: 'module/update',               nodetype: 'Module' },

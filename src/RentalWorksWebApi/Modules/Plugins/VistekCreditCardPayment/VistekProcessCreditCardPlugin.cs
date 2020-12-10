@@ -43,17 +43,12 @@ namespace WebApi.Modules.Plugins.VistekCreditCardPayment
             int transactionTypeOpt = (int)request.TransactionType;
             if (request.TransactionType == ProcessCreditCardPaymentRequest.TransactionTypes.Sale)
             {
-                if (request.PINPadCode.Length == 0) throw new ArgumentException("PINPadeCode is required.");
+                if (request.PINPadCode.Length == 0) throw new ArgumentException("PINPadCode is required.");
                 if (request.PaymentAmount <= 0) throw new ArgumentException("Payment amount must be greater than 0.");
                 if (request.OrderId.Length == 0) throw new ArgumentException("OrderId is required.");
                 if (request.StoreCode.Length == 0) throw new ArgumentException("StoreCode is required.");
                 if (request.SalesPersonCode.Length == 0) throw new ArgumentException("SalesPersonCode is required.");
                 if (request.CustomerNo.Length == 0) throw new ArgumentException("CustomerNo is required.");
-
-                //if (request.PaymentReferenceNo.Length == 0) throw new ArgumentException("PaymentReferenceNo is required.");
-                //if (request.CardType.Length == 0) throw new ArgumentException("CardType is required.");
-                //if (request.CardNo.Length == 0) throw new ArgumentException("CardNo is required.");
-                //if (request.AuthCode.Length == 0) throw new ArgumentException("AuthCode is required.");
             }
             else if (request.TransactionType == ProcessCreditCardPaymentRequest.TransactionTypes.VoidSale)
             {
