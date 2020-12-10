@@ -299,6 +299,12 @@ namespace WebApi.Modules.Reports.OrderReports.OrderConflictReport
 
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
+
+            dt.DateFields.Add("OrderFromDate");
+            dt.DateFields.Add("OrderToDate");
+            dt.DateFields.Add("ItemFromDate");
+            dt.DateFields.Add("ItemToDate");
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 
