@@ -1,8 +1,39 @@
 ﻿export class Ajax {
     static logError(message: string, err: string) {
-        //console.log(message, err.message);
-        document.write(`<div>${message}</div>`);
-        document.write(`<div>${err}</div>`);
+        (<any>window).loggedError = true;
+        try {
+            // if err is a JSON object and StatusCode is 500
+            const obj: any = JSON.parse(err);
+            if (obj.StatusCode && obj.StatusCode === 500) {
+                let html: string | string[] = [];
+                html.push(`<div style="margin:24px;">`);
+                //html.push(`  <div style="margin:10px 0 0 0;font-size:12px;border:1px solid #777777;background-color:#efefef;padding:4px;">`);
+                //html.push(`    <div style="font-size:1.1em">${message}</div>`);
+                //html.push('  </div>');
+                html.push(`  <div style="margin:10px 0 0 0;font-size:16px;">${obj.Message}</div>`);
+                html.push(`  <div style="margin:10px 0 0 0;font-size:11px;border:1px solid #777777;background-color:#efefef;padding:10px;">`);
+                html.push(`    <div style="font-size:14px">${message}</div>`);
+                if (typeof obj.StackTrace === 'string' && obj.StackTrace.length > 0) {
+                    let stackTrace = <string>obj.StackTrace.replace('\r\n', '\n');
+                    let stackTraceLines = stackTrace.split('\n');
+                    for (let i = 0; i < stackTraceLines.length; i++) {
+                        html.push(`    <div style="margin:2px 0 0 2.5em;text-indent:-2em;">${stackTraceLines[i]}</div>`)
+                    }
+                }
+                html.push(`  </div>`);
+                html.push(`</div>`);
+                html = html.join('\n');
+                document.write(html);
+                return;
+            }
+        }
+        catch { }
+
+        // default error rendering
+        document.write(`<div stye="margin:24px;">`);
+        document.write(`  <div>${message}</div>`);
+        document.write(`  <div>${err}</div>`);
+        document.write(`</div>`);
     }
 
     static get<T>(url: string, authorizationHeader: string): Promise<T> {

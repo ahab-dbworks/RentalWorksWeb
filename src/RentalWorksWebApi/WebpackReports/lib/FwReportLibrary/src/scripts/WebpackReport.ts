@@ -134,8 +134,10 @@ export abstract class WebpackReport {
         if (!this.renderReportCompleted) {
             this.renderReportCompleted = true;
             this.renderReportFailed = true;
-
-            Ajax.logError('An error occured while rendering the report.', err);
+            if (typeof (<any>window).loggedError === undefined ||
+                (typeof (<any>window).loggedError !== undefined && (<any>window).loggedError === false)) {
+                Ajax.logError('An error occured while rendering the report.', err);
+            }
         }
     }
     //----------------------------------------------------------------------------------------------

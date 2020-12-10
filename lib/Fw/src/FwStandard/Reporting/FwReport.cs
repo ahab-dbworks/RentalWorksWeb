@@ -47,6 +47,7 @@ namespace FwStandard.Reporting
                     script.AppendLine("}");
                     await page.EvaluateExpressionAsync(script.ToString());
 
+                    pdfOptions.PrintBackground = true;
                     pdfOptions.HeaderTemplate = await page.EvaluateExpressionAsync<string>("report.headerHtml");
                     pdfOptions.FooterTemplate = await page.EvaluateExpressionAsync<string>("report.footerHtml");
                     pdfOptions.HeaderTemplate = (pdfOptions.HeaderTemplate == null) ? string.Empty : pdfOptions.HeaderTemplate;
@@ -117,6 +118,7 @@ namespace FwStandard.Reporting
                         script.AppendLine("  elOutputFormat.setAttribute('data-outputformat', 'pdf');");
                         script.AppendLine("}");
                         await page.EvaluateExpressionAsync(script.ToString());
+                        pdfOptions.PrintBackground = true;
                         streams.PdfStream = await page.PdfStreamAsync(pdfOptions);
                     }
                     return streams;
