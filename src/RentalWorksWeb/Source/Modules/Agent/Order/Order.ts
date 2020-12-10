@@ -251,7 +251,7 @@ class Order extends OrderBase {
         let nodeCredit = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'OCkLGwclipEA');
         if (nodeCredit !== undefined && nodeCredit.properties.visible === 'T') {
             FwTabs.showTab($form.find('.credittab'));
-            $form.find('.credit-submodule').append(this.openSubModuleBrowse($form, 'Credit'));
+            $form.find('.credit-submodule').append(this.openSubModuleBrowse($form, 'DealCredit'));
         }
 
         const $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
