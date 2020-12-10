@@ -1272,7 +1272,7 @@ abstract class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 }
 
-type ActionType = 'None' | 'Preview' | 'PrintHtml';
+type ActionType = 'None' | 'Preview' | 'PrintHtml' | 'Designer';
 type RenderMode = 'Html' | 'Pdf' | 'Email';
 
 class ReportPageMessage {

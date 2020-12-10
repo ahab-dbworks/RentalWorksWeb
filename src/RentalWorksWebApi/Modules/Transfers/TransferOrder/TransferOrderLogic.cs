@@ -482,34 +482,22 @@ namespace WebApi.Modules.Transfers.TransferOrder
         {
             bool isValid = true;
 
-            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            if (isValid)
             {
-                if (original != null)
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
                 {
                     TransferOrderLogic orig = (TransferOrderLogic)original;
                     if (((FromWarehouseId != null) && (!FromWarehouseId.Equals(orig.FromWarehouseId))) ||
                         ((ToWarehouseId != null) && (!ToWarehouseId.Equals(orig.ToWarehouseId))))
                     {
-                        bool hasItem = false;
-                        using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                        if (!orig.Status.Equals(RwConstants.TRANSFER_STATUS_NEW))
                         {
-                            FwSqlCommand qrySt = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout);
-                            qrySt.Add("select hasitem = (case when exists (select * from masteritem mi with (nolock) where mi.orderid = @orderid) then 'T' else 'F' end) ");
-                            qrySt.AddParameter("@orderid", TransferId);
-                            FwJsonDataTable dt = qrySt.QueryToFwJsonTableAsync().Result;
-                            hasItem = FwConvert.ToBoolean(dt.Rows[0][0].ToString());
-                        }
-
-                        if (hasItem)
-                        {
-                            validateMsg = "Cannot change the From Warehouse or To Warehouse after line-items have been added to this Transfer.";
+                            validateMsg = "Cannot change the From Warehouse or To Warehouse after Transfer Order has been Confirmed.";
                             isValid = false;
                         }
-
                     }
                 }
             }
-
 
             return isValid;
         }
@@ -574,38 +562,44 @@ namespace WebApi.Modules.Transfers.TransferOrder
                 transferOrder.InDeliveryId = inDelivery.DeliveryId;
                 int i = transferOrder.SaveAsync(null).Result;
             }
-            else
+            else //smUpdate
             {
-                // this is a modfied Quote/Order
-                if (e.Original != null)
-                {
-                    TransferOrderLogic orig = ((TransferOrderLogic)e.Original);
+                TransferOrderLogic orig = ((TransferOrderLogic)e.Original);
 
-                    if (
-                        ((PickDate != null) && (PickDate != orig.PickDate)) ||
-                        ((PickTime != null) && (PickTime != orig.PickTime)) ||
-                        ((ShipDate != null) && (ShipDate != orig.ShipDate)) ||
-                        ((ShipTime != null) && (ShipTime != orig.ShipTime)) ||
-                        ((RequiredDate != null) && (RequiredDate != orig.RequiredDate)) ||
-                        ((RequiredTime != null) && (RequiredTime != orig.RequiredTime))
-                        )
-                    {
-                        OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
-                        change.OrderId = this.GetPrimaryKeys()[0].ToString();
-                        change.OldPickDate = orig.PickDate;
-                        change.NewPickDate = PickDate ?? orig.PickDate;
-                        change.OldPickTime = orig.PickTime;
-                        change.NewPickTime = PickTime ?? orig.PickTime;
-                        change.OldEstimatedStartDate = orig.ShipDate;
-                        change.NewEstimatedStartDate = ShipDate ?? orig.ShipDate;
-                        change.OldEstimatedStartTime = orig.ShipTime;
-                        change.NewEstimatedStartTime = ShipTime ?? orig.ShipTime;
-                        change.OldEstimatedStopDate = orig.RequiredDate;
-                        change.NewEstimatedStopDate = RequiredDate ?? orig.RequiredDate;
-                        change.OldEstimatedStopTime = orig.RequiredTime;
-                        change.NewEstimatedStopTime = RequiredTime ?? orig.RequiredTime;
-                        bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
-                    }
+                if (
+                    ((PickDate != null) && (PickDate != orig.PickDate)) ||
+                    ((PickTime != null) && (PickTime != orig.PickTime)) ||
+                    ((ShipDate != null) && (ShipDate != orig.ShipDate)) ||
+                    ((ShipTime != null) && (ShipTime != orig.ShipTime)) ||
+                    ((RequiredDate != null) && (RequiredDate != orig.RequiredDate)) ||
+                    ((RequiredTime != null) && (RequiredTime != orig.RequiredTime))
+                    )
+                {
+                    OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
+                    change.OrderId = this.GetPrimaryKeys()[0].ToString();
+                    change.OldPickDate = orig.PickDate;
+                    change.NewPickDate = PickDate ?? orig.PickDate;
+                    change.OldPickTime = orig.PickTime;
+                    change.NewPickTime = PickTime ?? orig.PickTime;
+                    change.OldEstimatedStartDate = orig.ShipDate;
+                    change.NewEstimatedStartDate = ShipDate ?? orig.ShipDate;
+                    change.OldEstimatedStartTime = orig.ShipTime;
+                    change.NewEstimatedStartTime = ShipTime ?? orig.ShipTime;
+                    change.OldEstimatedStopDate = orig.RequiredDate;
+                    change.NewEstimatedStopDate = RequiredDate ?? orig.RequiredDate;
+                    change.OldEstimatedStopTime = orig.RequiredTime;
+                    change.NewEstimatedStopTime = RequiredTime ?? orig.RequiredTime;
+                    bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
+                }
+
+                if (
+                     ((FromWarehouseId != null) && (!FromWarehouseId.Equals(orig.FromWarehouseId))) ||
+                     ((ToWarehouseId != null) && (!ToWarehouseId.Equals(orig.ToWarehouseId)))
+                   )
+                {
+                    string fromWarehouseId = FromWarehouseId ?? orig.FromWarehouseId;
+                    string toWarehouseId = ToWarehouseId ?? orig.ToWarehouseId;
+                    bool b = TransferOrderFunc.UpdateTransferLineItemsWarehouses(AppConfig, UserSession, TransferId, fromWarehouseId, toWarehouseId, e.SqlConnection).Result;
                 }
             }
 

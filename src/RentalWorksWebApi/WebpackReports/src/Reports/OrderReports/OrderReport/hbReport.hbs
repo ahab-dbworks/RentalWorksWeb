@@ -206,22 +206,22 @@
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;">{{PeriodExtended}}</td>
       </tr>
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax1}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax1}}</td>
       </tr>
       {{#ifCond ../Tax2Name '!=' ""}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax2}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax2}}</td>
       </tr>
       {{/ifCond}}
       {{/ifNotEquals}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;" data-value="{{PeriodExtendedWithTax}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;">{{PeriodExtendedWithTax}}</td>
       </tr>
       {{/ifEquals}}
     </tbody>
@@ -281,22 +281,22 @@
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;">{{PeriodExtended}}</td>
       </tr>
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax1}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax1}}</td>
       </tr>
       {{#ifCond ../Tax2Name '!=' ""}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax2}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax2}}</td>
       </tr>
       {{/ifCond}}
       {{/ifNotEquals}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;" data-value="{{PeriodExtendedWithTax}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;">{{PeriodExtendedWithTax}}</td>
       </tr>
       {{/ifEquals}}
     </tbody>
@@ -358,23 +358,23 @@
       {{#ifEquals RowType "RecTypeDisplayfooter"}}
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
-        <td colspan="7" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
+        <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;">{{PeriodExtended}}</td>
       </tr>
       <tr data-row="footer">
-        <td colspan="7" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax1}}"></td>
+        <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax1}}</td>
       </tr>
       {{#ifCond ../Tax2Name '!=' ""}}
       <tr data-row="footer">
-        <td colspan="7" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax2}}"></td>
+        <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax2}}</td>
       </tr>
       {{/ifCond}}
       {{/ifNotEquals}}
       <tr data-row="footer">
-        <td colspan="7" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;" data-value="{{PeriodExtendedWithTax}}"></td>
+        <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;">{{PeriodExtendedWithTax}}</td>
       </tr>
       {{/ifEquals}}
     </tbody>
@@ -440,23 +440,23 @@
       {{#ifEquals RowType "RecTypeDisplayfooter"}}
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
-        <td colspan="8" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
+        <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;">{{PeriodExtended}}</td>
       </tr>
       <tr data-row="footer">
-        <td colspan="8" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax1}}"></td>
+        <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax1}}</td>
       </tr>
       {{#ifCond ../Tax2Name '!=' ""}}
       <tr data-row="footer">
-        <td colspan="8" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax2}}"></td>
+        <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax2}}</td>
       </tr>
       {{/ifCond}}
       {{/ifNotEquals}}
       <tr data-row="footer">
-        <td colspan="8" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;" data-value="{{PeriodExtendedWithTax}}"></td>
+        <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
+        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;">{{PeriodExtendedWithTax}}</td>
       </tr>
       {{/ifEquals}}
     </tbody>
@@ -516,22 +516,22 @@
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;">{{PeriodExtended}}</td>
       </tr>
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax1}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax1}}</td>
       </tr>
       {{#ifCond ../Tax2Name '!=' ""}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax2}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax2}}</td>
       </tr>
       {{/ifCond}}
       {{/ifNotEquals}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;" data-value="{{PeriodExtendedWithTax}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;">{{PeriodExtendedWithTax}}</td>
       </tr>
       {{/ifEquals}}
     </tbody>
@@ -591,22 +591,22 @@
       {{#ifNotEquals PeriodTaxNoCurrency 0}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="padding:11px 5px 3px 6px;border-top:1px solid #000000;">{{RecTypeDisplay}} Sub-Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;" data-value="{{PeriodExtended}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align:right;font-weight:700;border-top: 1px solid black;padding-top:10px;">{{PeriodExtended}}</td>
       </tr>
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax1Name}} ({{TaxRate1}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax1}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax1}}</td>
       </tr>
       {{#ifCond ../Tax2Name '!=' ""}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{../Tax2Name}} ({{TaxRate2}}%)</td>
-        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;" data-value="{{PeriodTax2}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="text-align: right;font-weight: 700;padding: 5px 3px 3px 0;">{{PeriodTax2}}</td>
       </tr>
       {{/ifCond}}
       {{/ifNotEquals}}
       <tr data-row="footer">
         <td colspan="6" class="total-name" style="text-align:right;font-weight:700;padding-top:12px;padding-right:0px;"><span style="background-color: #e3f2fd;font-weight: 600;vertical-align: top;padding:11px 5px 3px 41px;border-top:1px solid #000000;">{{RecTypeDisplay}} Total</span></td>
-        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;" data-value="{{PeriodExtendedWithTax}}"></td>
+        <td data-linkedcolumn="PeriodExtended" style="background-color: #f4ffcc;width: 110px;text-align: right;font-weight: bold;border-top: 1.5px solid black;padding-top: 10px;">{{PeriodExtendedWithTax}}</td>
       </tr>
       {{/ifEquals}}
     </tbody>

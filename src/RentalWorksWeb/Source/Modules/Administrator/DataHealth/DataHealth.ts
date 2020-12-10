@@ -63,6 +63,8 @@ class DataHealth {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery, response: any) {
         this.renderJsonData($form, response);
+
+        $form.find('[data-datafield="Severity"] input').css('background-color', response.SeverityColor);
     }
     //----------------------------------------------------------------------------------------------
     renderJsonData($form: JQuery, response: any) {
@@ -84,7 +86,7 @@ class DataHealth {
                 const $row = jQuery(`<tr class="data-row"></tr>`);
                 for (let j = 0; j < fields.length; j++) {
                     const field = fields[j];
-                    let value = data[i][field] || '';
+                    let value = data[i][field] ?? '';
                     value = value.toString().trim();
                     const td = `<td data-fieldname="${field}">${value}</td>`;
                     $row.append(td);

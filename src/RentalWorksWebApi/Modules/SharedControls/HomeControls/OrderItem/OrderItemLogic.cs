@@ -1448,9 +1448,20 @@ namespace WebApi.Modules.HomeControls.OrderItem
             {
                 bool saved = orderItem.SaveNoteASync(Notes, e.SqlConnection).Result;
             }
-            if ((InventoryId != null) && (WarehouseId != null))
+            //if ((InventoryId != null) && (WarehouseId != null))
+            //{
+            //    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, InventoryClass);
+            //}
+            if (!string.IsNullOrEmpty(InventoryId))
             {
-                InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, InventoryClass);
+                if (!string.IsNullOrEmpty(WarehouseId))
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, WarehouseId, InventoryClass);
+                }
+                if (!string.IsNullOrEmpty(ReturnToWarehouseId))
+                {
+                    InventoryAvailabilityFunc.RequestRecalc(InventoryId, ReturnToWarehouseId, InventoryClass);
+                }
             }
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))

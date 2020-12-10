@@ -1257,6 +1257,15 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
         [FwSqlDataField(column: "labortaxrate2", modeltype: FwDataTypes.DecimalString3Digits)]
         public string TaxLaborRate2 { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordergrosstotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string GrossTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdiscounttotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string DiscountTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordersubtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        public string SubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.DecimalString2Digits)]
         public string Total { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -1336,6 +1345,108 @@ namespace WebApi.Modules.Reports.OrderReports.OrderReport
 
 
 
+        //------------------------------------------------------------------------------------ 
+        public override void MakePreview()
+        {
+            {
+                OrderItemReportLoader itemHeader = new OrderItemReportLoader();
+                itemHeader.RowType = "RecTypeDisplayheader";
+                OrderItemReportLoader itemDetail = new OrderItemReportLoader();
+                itemDetail.RowType = "detail";
+                OrderItemReportLoader itemFooter = new OrderItemReportLoader();
+                itemFooter.RowType = "RecTypeDisplayfoooter";
+                Items.Clear();
+                Items.Add(itemHeader);
+                Items.Add(itemDetail);
+                Items.Add(itemFooter);
+            }
+
+            {
+                RentalOrderItemReportLoader itemHeader = new RentalOrderItemReportLoader();
+                itemHeader.RowType = "RecTypeDisplayheader";
+                RentalOrderItemReportLoader itemDetail = new RentalOrderItemReportLoader();
+                itemDetail.RowType = "detail";
+                RentalOrderItemReportLoader itemFooter = new RentalOrderItemReportLoader();
+                itemFooter.RowType = "RecTypeDisplayfoooter";
+
+                RentalItems.Clear();
+                RentalItems.Add(itemHeader);
+                RentalItems.Add(itemDetail);
+                RentalItems.Add(itemFooter);
+            }
+
+            {
+                SalesOrderItemReportLoader itemHeader = new SalesOrderItemReportLoader();
+                itemHeader.RowType = "RecTypeDisplayheader";
+                SalesOrderItemReportLoader itemDetail = new SalesOrderItemReportLoader();
+                itemDetail.RowType = "detail";
+                SalesOrderItemReportLoader itemFooter = new SalesOrderItemReportLoader();
+                itemFooter.RowType = "RecTypeDisplayfoooter";
+
+                SalesItems.Clear();
+                SalesItems.Add(itemHeader);
+                SalesItems.Add(itemDetail);
+                SalesItems.Add(itemFooter);
+            }
+
+            {
+                MiscOrderItemReportLoader itemHeader = new MiscOrderItemReportLoader();
+                itemHeader.RowType = "RecTypeDisplayheader";
+                MiscOrderItemReportLoader itemDetail = new MiscOrderItemReportLoader();
+                itemDetail.RowType = "detail";
+                MiscOrderItemReportLoader itemFooter = new MiscOrderItemReportLoader();
+                itemFooter.RowType = "RecTypeDisplayfoooter";
+
+                MiscItems.Clear();
+                MiscItems.Add(itemHeader);
+                MiscItems.Add(itemDetail);
+                MiscItems.Add(itemFooter);
+            }
+
+            {
+                LaborOrderItemReportLoader itemHeader = new LaborOrderItemReportLoader();
+                itemHeader.RowType = "RecTypeDisplayheader";
+                LaborOrderItemReportLoader itemDetail = new LaborOrderItemReportLoader();
+                itemDetail.RowType = "detail";
+                LaborOrderItemReportLoader itemFooter = new LaborOrderItemReportLoader();
+                itemFooter.RowType = "RecTypeDisplayfoooter";
+
+                LaborItems.Clear();
+                LaborItems.Add(itemHeader);
+                LaborItems.Add(itemDetail);
+                LaborItems.Add(itemFooter);
+            }
+
+            {
+                RentalSaleOrderItemReportLoader itemHeader = new RentalSaleOrderItemReportLoader();
+                itemHeader.RowType = "RecTypeDisplayheader";
+                RentalSaleOrderItemReportLoader itemDetail = new RentalSaleOrderItemReportLoader();
+                itemDetail.RowType = "detail";
+                RentalSaleOrderItemReportLoader itemFooter = new RentalSaleOrderItemReportLoader();
+                itemFooter.RowType = "RecTypeDisplayfoooter";
+
+                RentalSaleItems.Clear();
+                RentalSaleItems.Add(itemHeader);
+                RentalSaleItems.Add(itemDetail);
+                RentalSaleItems.Add(itemFooter);
+            }
+
+
+            {
+                LossAndDamageOrderItemReportLoader itemHeader = new LossAndDamageOrderItemReportLoader();
+                itemHeader.RowType = "RecTypeDisplayheader";
+                LossAndDamageOrderItemReportLoader itemDetail = new LossAndDamageOrderItemReportLoader();
+                itemDetail.RowType = "detail";
+                LossAndDamageOrderItemReportLoader itemFooter = new LossAndDamageOrderItemReportLoader();
+                itemFooter.RowType = "RecTypeDisplayfoooter";
+
+                LossAndDamageItems.Clear();
+                LossAndDamageItems.Add(itemHeader);
+                LossAndDamageItems.Add(itemDetail);
+                LossAndDamageItems.Add(itemFooter);
+            }
+
+        }
         //------------------------------------------------------------------------------------ 
         public async Task<OrderReportLoader> RunReportAsync(OrderReportRequest request)
         {

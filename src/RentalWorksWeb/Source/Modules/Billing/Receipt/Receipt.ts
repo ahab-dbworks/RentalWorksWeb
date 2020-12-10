@@ -382,7 +382,8 @@ class Receipt {
             const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
             const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             const customerCreditRemaining = FwBrowse.getValueByDataField(null, $tr, 'Remaining');
-            if (paymentTypeType === 'DEPLETING DEPOSIT') {
+            //if (paymentTypeType === 'DEPLETING DEPOSIT') {
+            if ((paymentTypeType === 'DEPLETING DEPOSIT') || (paymentTypeType === 'OVERPAYMENT')) {
                 FwFormField.setValueByDataField($form, 'PaymentAmount', customerCreditRemaining);
                 $form.find('div[data-datafield="PaymentAmount"] input').change();
             }

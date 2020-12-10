@@ -107,7 +107,7 @@ namespace WebApi.Modules.Billing.Receipt
         // GET api/v1/receipt/remainingdepositamounts
         [HttpGet("remainingdepositamounts")]
         [FwControllerMethod(Id: "rewXg7ccffYIe", ActionType: FwControllerActionTypes.Option, Caption: "Get Remaining Deposit Amounts")]
-        public async Task<ActionResult<RemainingDepositAmountsResponse>> GetRemainingDepositAmounts([FromRoute] string CustomerId, string DealId, string OfficeLocationId)
+        public async Task<ActionResult<RemainingDepositAmountsResponse>> GetRemainingDepositAmounts(string CustomerId, string DealId, string OfficeLocationId)
         {
             if (!ModelState.IsValid)
             {

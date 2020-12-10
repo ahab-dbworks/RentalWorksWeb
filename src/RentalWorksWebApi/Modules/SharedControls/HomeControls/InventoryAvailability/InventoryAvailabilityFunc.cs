@@ -2118,6 +2118,15 @@ namespace WebApi.Modules.HomeControls.InventoryAvailability
             const int AVAILABILITY_REQUEST_BATCH_SIZE = 5000;
             bool success = true;
             //Console.WriteLine("keeping availability fresh");
+
+            //check the setting on each run to make sure it hasn't been changed
+            AvailabilitySettingsLogic availSettings = new AvailabilitySettingsLogic();
+            availSettings.SetDependencies(appConfig, null);
+            availSettings.ControlId = RwConstants.CONTROL_ID;
+            await availSettings.LoadAsync<AvailabilitySettingsLogic>();
+            availabilityDaysToCache = availSettings.DaysToCache.GetValueOrDefault(0);
+
+
             DateTime fromDate = DateTime.Today;
             DateTime availabilityThroughDate = DateTime.Today.AddDays(availabilityDaysToCache);
 

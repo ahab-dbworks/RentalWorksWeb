@@ -871,20 +871,21 @@ namespace WebApi.Modules.Billing.Receipt
             }
 
 
-            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
-            {
-                string depId = DealDepositId ?? CustomerDepositId;
-                if (!string.IsNullOrEmpty(depId))
-                {
-                    DepositPaymentLogic dp = new DepositPaymentLogic();
-                    dp.SetDependencies(AppConfig, UserSession);
-                    dp.DepositId = depId;
-                    dp.PaymentId = ReceiptId;
-                    dp.Applied = paymentAmount;
-                    int i1 = dp.SaveAsync(null, conn: e.SqlConnection).Result;
-                }
-                paymentAmount = PaymentAmount.GetValueOrDefault(0);
-            }
+            //12/07/2020 this is handled in arapplydeposit for both DealDepositId or CustomerDepositId
+            //if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            //{
+            //    string depId = DealDepositId ?? CustomerDepositId;
+            //    if (!string.IsNullOrEmpty(depId))
+            //    {
+            //        DepositPaymentLogic dp = new DepositPaymentLogic();
+            //        dp.SetDependencies(AppConfig, UserSession);
+            //        dp.DepositId = depId;
+            //        dp.PaymentId = ReceiptId;
+            //        dp.Applied = paymentAmount;
+            //        int i1 = dp.SaveAsync(null, conn: e.SqlConnection).Result;
+            //    }
+            //    paymentAmount = PaymentAmount.GetValueOrDefault(0);
+            //}
 
 
             //explicitly delete and insert any G/L transactions related to this Receipt

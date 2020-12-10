@@ -664,9 +664,9 @@ namespace WebApi
         public const string DATA_HEALTH_SEVERITY_WARNING = "WARNING";
 
         //DATA HEALTH SEVERITY
-        public const int DATA_HEALTH_SEVERITY_CRITICAL_COLOR = 255;         // red
-        public const int DATA_HEALTH_SEVERITY_HIGH_COLOR = 98559;           // orange 
-        public const int DATA_HEALTH_SEVERITY_MEDIUM_COLOR = 16748574;      // light blue
+        public const int DATA_HEALTH_SEVERITY_CRITICAL_COLOR = 5263615;     // red
+        public const int DATA_HEALTH_SEVERITY_HIGH_COLOR = 39423;           // orange 
+        public const int DATA_HEALTH_SEVERITY_MEDIUM_COLOR = 16763904;      // light blue
         public const int DATA_HEALTH_SEVERITY_LOW_COLOR = 8453892;          // light green
         public const int DATA_HEALTH_SEVERITY_WARNING_COLOR = 65535;        // yellow
 

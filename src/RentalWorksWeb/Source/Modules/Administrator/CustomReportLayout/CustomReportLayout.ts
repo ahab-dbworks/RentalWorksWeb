@@ -130,7 +130,7 @@ class CustomReportLayout {
         const reportName: any = FwFormField.getValueByDataField($form, 'BaseReport');
         this.addValidFields($form, reportName);
         this.renderDesignerTab($form);
-
+        FwFormField.enable($form.find('.preview'));
         //Sets form to modified upon changing code in editor
         this.codeMirror.on('change', function (codeMirror, change) {
             $form.attr('data-modified', 'true');
@@ -166,6 +166,7 @@ class CustomReportLayout {
                             codeMirror.setValue(modulehtml);
                         }
                         this.renderDesignerTab($form);
+                        FwFormField.enable($form.find('.preview'));
                     }, ex => FwFunc.showError(ex), $form);
                 this.addValidFields($form, reportName);
                 const fullName = sessionStorage.getItem('fullname');
@@ -173,6 +174,7 @@ class CustomReportLayout {
             } else {
                 $form.find('.modulefields, #reportDesigner').empty();
                 codeMirror.setValue('');
+                FwFormField.disable($form.find('.preview'));
             }
         });
 
@@ -192,6 +194,7 @@ class CustomReportLayout {
         $headerFields.empty();
         FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/emptyobject`, null, FwServices.defaultTimeout,
             response => {
+                $form.data('emptyobjresponse', response);
                 let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                 let allValidFields: any = [];
                 const fieldsToExclude = ['DateStamp', 'RecordTitle', '_Custom', '_Fields', 'DateFields'];
@@ -330,6 +333,10 @@ class CustomReportLayout {
             this.codeMirror.refresh();
         });
 
+        $form.on('click', '.preview', e => {
+            this.renderPreviewTab($form);
+        });
+
         //Reload General Tab
         $form.on('click', '[data-type="tab"][data-caption="General"]', e => {
             this.renderDesignerTab($form);
@@ -459,7 +466,7 @@ class CustomReportLayout {
                 const $column = jQuery(e.item);
                 $column.removeAttr('draggable');
                 const linkedColumnName = $column.attr('data-linkedcolumn');
-                const $tr = jQuery(e.currentTarget);
+                const $tr = jQuery(e.target);
 
                 $form.data('columnsmoved', {
                     oldIndex: e.oldIndex,
@@ -477,7 +484,9 @@ class CustomReportLayout {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                 this.highlightElement($form, $table.find(`[data-linkedcolumn="${linkedColumnName}"]`));
             },
-            animation: 100
+            animation: 100,
+            //invertSwap: true,
+            //invertedSwapThreshold: .5
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -494,9 +503,11 @@ class CustomReportLayout {
                     const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                     this.updateReportHeader($form, $reportHeaderSection);
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                dragoverBubble: true
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-flexcolumn').length > 0) {
@@ -519,9 +530,11 @@ class CustomReportLayout {
                     const $reportHeaderSection = jQuery(e.item).closest('[data-section]');
                     this.updateReportHeader($form, $reportHeaderSection);
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                dragoverBubble: true
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
 
             if ($element.find('.rpt-nested-flexrow').length > 0) {
@@ -550,7 +563,7 @@ class CustomReportLayout {
                 onEnd: e => {
                     const $item = jQuery(e.item);
                     if ($item.parent().hasClass('rpt-nested-flexrow')) {
-                        if (jQuery(e.currentTarget).hasClass('header-fields-drag')) {
+                        if (jQuery(e.target).hasClass('header-fields-drag')) {
                             if (typeof $item.attr('data-parentfield') != 'undefined') {
                                 $item.text(`{{${$item.attr('data-parentfield')}.${jQuery(e.item).text()}}}`);
                             } else {
@@ -561,10 +574,12 @@ class CustomReportLayout {
                         this.updateReportHeader($form, $reportHeaderSection);
                     }
                 },
-                delay: 500,
+                //delay: 500,
                 animation: 100,
-                fallbackOnBody: true,
-                dragoverBubble: true
+                //fallbackOnBody: true,
+                //dragoverBubble: true,
+                //invertSwap: true,
+                //invertedSwapThreshold: .5
             });
         }
     }
@@ -683,15 +698,21 @@ class CustomReportLayout {
                         $form.removeData('rowindex');
                         break;
                     case 'addrow':
-                        const $newHeaderRow = $tr.clone();
-                        const $lastHeaderRow = $wrapper.find(`${tableNameSelector} #columnHeader tr:last`);
-                        $newHeaderRow.find('.new-column').removeClass('new-column');
-                        $newHeaderRow.insertAfter($lastHeaderRow);
-                        const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`);
-                        const $newDetailRow = $table.find(`.new-row[data-row="detail"]`);
-                        const $newDetailRowClone = $newDetailRow.clone();
-                        $newDetailRowClone.find('.new-column').removeClass('new-column');
-                        $newDetailRowClone.insertAfter($lastDetailRow);
+                        const rowType = $tr.attr('data-row');
+                        const $newRow = $tr.clone();
+                        let $rowToInsertAfter;
+                        $newRow.find('.new-column').removeClass('new-column');
+                        if (rowType === 'footer') {
+                            $rowToInsertAfter = $wrapper.find(`${tableNameSelector} tbody tr`)[$tr.index() - 1];
+                        } else {
+                            $rowToInsertAfter = $wrapper.find(`${tableNameSelector} #columnHeader tr:last`);
+                            const $lastDetailRow = $wrapper.find(`${tableNameSelector} tr[data-row="detail"]:last`);
+                            const $newDetailRow = $table.find(`.new-row[data-row="detail"]`);
+                            const $newDetailRowClone = $newDetailRow.clone();
+                            $newDetailRowClone.find('.new-column').removeClass('new-column');
+                            $newDetailRowClone.insertAfter($lastDetailRow);
+                        }
+                        $newRow.insertAfter($rowToInsertAfter);
                         this.addRowColumnSorting($form, $table, tableName, $tr.get(0), 'columnheader');
                         break;
                     case 'deleterow':
@@ -894,11 +915,18 @@ class CustomReportLayout {
             this.showHideControlProperties($form, 'table');
         });
 
-        //add table header rows
+        //add table rows
         $addRow.on('click', e => {
-            $row = this.addNewHeaderRow($form);
-            $form.data('updatetype', 'addrow');
-            this.updateHTML($form, $table, $row);
+            if (typeof $column != 'undefined') {
+                const rowType = $column.parents('tr').attr('data-row');
+                $row = this.addNewRow($form, rowType, $column.parents('tr'));
+                $form.data('updatetype', 'addrow');
+                this.updateHTML($form, $table, $row);
+            } else {
+                $row = this.addNewRow($form, 'main-header');
+                $form.data('updatetype', 'addrow');
+                this.updateHTML($form, $table, $row);
+            }
         });
 
         //delete table header column
@@ -1000,16 +1028,17 @@ class CustomReportLayout {
             e.stopPropagation();
             $column = jQuery(e.currentTarget);
             this.setControlValues($form, $column);
-            this.showHideControlProperties($form, 'footerrow');
+            this.showHideControlProperties($form, 'headerrow');
             $form.data('updatetype', 'headerrow');
         });
 
         //footer row
-        $form.on('click', '.total-name', e => {
+        //$form.on('click', '.total-name', e => {
+        $form.on('click', '[data-row="footer"] td', e => {
             e.stopPropagation();
             $column = jQuery(e.currentTarget);
             this.setControlValues($form, $column);
-            this.showHideControlProperties($form, 'headerrow');
+            this.showHideControlProperties($form, 'footerrow');
             $form.data('updatetype', 'footerrow');
         });
 
@@ -1021,6 +1050,7 @@ class CustomReportLayout {
         });
 
         $form.on('click', '#reportDesigner .table-wrapper', e => {
+            $column = undefined;
             $table = $form.find('.table-wrapper.selected table');
             const tableName = jQuery(e.currentTarget).attr('data-tablename');
             FwFormField.setValueByDataField($form, 'TableName', tableName, tableName, true);
@@ -1234,8 +1264,8 @@ class CustomReportLayout {
         }
     }
     //----------------------------------------------------------------------------------------------
-    addNewHeaderRow($form: JQuery) {
-        let $table, $row, $row2, $newHeaderRow, $newDetailRow;
+    addNewRow($form: JQuery, type: string, $tr?: JQuery) {
+        let $table, $row, $row2, $newRow, $newDetailRow;
         const tableName = FwFormField.getValueByDataField($form, 'TableName');
 
         if (tableName === '' || tableName === 'Default') {
@@ -1246,29 +1276,38 @@ class CustomReportLayout {
 
         if ($table.length > 0) {
             const colspan = this.getTotalColumnCount($table, true);
-            //build header and detail rows with linkedcolumns
-            const html = [];
-            const detailRowHtml = [];
-            html.push(`<tr data-row="main-header" class="new-row">`);
-            detailRowHtml.push(`<tr class="new-row" data-row="detail" data-rowtype="{{RowType}}">`);
-            for (let i = 0; i < colspan; i++) {
-                const newId = program.uniqueId(8);
-                html.push(`<th class="new-column" data-linkedcolumn="${newId}"></th>`);
-                detailRowHtml.push(`<td class="new-column" data-linkedcolumn="${newId}"></td>`);
+
+            if (type === 'main-header') {
+                //build header and detail rows with linkedcolumns
+                const html = [];
+                const detailRowHtml = [];
+                html.push(`<tr data-row="main-header" class="new-row">`);
+                detailRowHtml.push(`<tr class="new-row" data-row="detail" data-rowtype="{{RowType}}">`);
+                for (let i = 0; i < colspan; i++) {
+                    const newId = program.uniqueId(8);
+                    html.push(`<th class="new-column" data-linkedcolumn="${newId}"></th>`);
+                    detailRowHtml.push(`<td class="new-column" data-linkedcolumn="${newId}"></td>`);
+                }
+                html.push(`</tr>`);
+                detailRowHtml.push(`</tr>`);
+                $newRow = jQuery(html.join(''));
+                $newDetailRow = jQuery(detailRowHtml.join(''));
+                $row = $table.find('thead tr:last');
+
+                //detail row
+                $row2 = $table.find('tr[data-row="detail"]:last');
+
+                $newDetailRow.insertAfter($row2);
+                $newRow.insertAfter($row);
+            } else {
+                if (typeof $tr != 'undefined') {
+                    $newRow = $tr.clone();
+                    $newRow.find('td').removeAttr('data-value');
+                    $newRow.insertAfter($tr);
+                }
             }
-            html.push(`</tr>`);
-            detailRowHtml.push(`</tr>`);
-            $newHeaderRow = jQuery(html.join(''));
-            $newDetailRow = jQuery(detailRowHtml.join(''));
-            $row = $table.find('thead tr:last');
-
-            //detail row
-            $row2 = $table.find('tr[data-row="detail"]:last');
-
-            $newDetailRow.insertAfter($row2);
-            $newHeaderRow.insertAfter($row);
         }
-        return $newHeaderRow;
+        return $newRow;
     }
     //----------------------------------------------------------------------------------------------
     getTotalColumnCount($table: JQuery, isTableHeader: boolean, $row?: JQuery) {
@@ -1308,12 +1347,17 @@ class CustomReportLayout {
             case 'table':
                 $controlProperties.children('.header-controls').hide();
                 $controlProperties.children(`:not('.header-controls')`).show();
+                $controlProperties.find('.addColumn, [data-datafield="TableName"]').show();
                 $controlProperties.show();
                 break;
             case 'headerrow':
             case 'footerrow':
                 $controlProperties.children(`:not('[data-datafield="CellStyleField"]'):not('[data-datafield="CaptionField"]')`).hide();
                 $controlProperties.children(`[data-datafield="CellStyleField"], [data-datafield="CaptionField"]`).show();
+                $controlProperties.find('.delete-row').parent('div').show();
+                $controlProperties.find('.addRow').show();
+                $controlProperties.find('.addRow').parentsUntil('#controlProperties').show();
+                $controlProperties.find('.addColumn, [data-datafield="TableName"]').hide();
                 $controlProperties.show();
                 break;
             case 'td':
@@ -1575,15 +1619,20 @@ class CustomReportLayout {
     }
     //----------------------------------------------------------------------------------------------
     updateElementStyle($form: JQuery, $cachedReport: JQuery, tableNameSelector: string, $designerRow: JQuery, $column: JQuery) {
-        let style, linkedColumn, rowType, $cachedTd;
+        let style, $cachedTd, tableSectionSelector, rowIndex, colIndex;
         if (typeof $designerRow == 'undefined') {
             $designerRow = $column.parents('tr');
         }
+        if ($designerRow.parents('thead').length === 1) {
+            tableSectionSelector = 'thead';
+        } else {
+            tableSectionSelector = 'tbody';
+        }
+        colIndex = $column.index();
+        rowIndex = $designerRow.index();
         if (typeof $column !== 'undefined') {
-            rowType = $designerRow.attr('data-row');
-            linkedColumn = $column.attr('data-linkedcolumn');
             style = $column.attr('style');
-            $cachedTd = $cachedReport.find(`${tableNameSelector} [data-row="${rowType}"] [data-linkedcolumn="${linkedColumn}"]`);
+            $cachedTd = jQuery(jQuery($cachedReport.find(`${tableNameSelector} ${tableSectionSelector} tr`)[rowIndex]).children().get(colIndex));
             if ($cachedTd.length) {
                 $cachedTd.attr('style', style);
             }
@@ -2017,6 +2066,91 @@ class CustomReportLayout {
             changelist.pop();
             $form.data('changelist', changelist);
         };
+    }
+    //----------------------------------------------------------------------------------------------
+    renderPreviewTab($form: JQuery) {
+        const reportName = FwFormField.getValueByDataField($form, 'BaseReport');
+        FwAppData.apiMethod(true, 'GET', `api/v1/${reportName}/preview`, null, FwServices.defaultTimeout,
+            response => {
+                const html = FwFormField.getValueByDataField($form, 'Html');
+                const urlHtmlReport = `${applicationConfig.apiurl}Reports/${reportName}/index.html`;
+                const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
+                const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
+
+                let companyName = 'UNKNOWN COMPANY';
+                let systemName = 'UNKNOWN SYSTEM';
+                if (sessionStorage.getItem('controldefaults') !== null) {
+                    const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+                    if (typeof controlDefaults !== 'undefined') {
+                        if (typeof controlDefaults.companyname === 'string') {
+                            companyName = controlDefaults.companyname;
+                        }
+                        if (typeof controlDefaults.systemname === 'string') {
+                            systemName = controlDefaults.systemname;
+                        }
+                    }
+                }
+
+                if (companyName === '' && sessionStorage.getItem('clientCode') !== null) {
+                    companyName = sessionStorage.getItem('clientCode');
+                }
+
+                Object.keys(response).forEach(key => {
+                    if (key !== 'DateFields' && key !== 'RowType') {
+                        if (!Array.isArray(response[key])) {
+                            response[key] = key;
+                        } else {
+                            for (let i = 0; i < response[key].length; i++) {
+                                Object.keys(response[key][i]).forEach(key2 => {
+                                    if (key2 !== 'RowType') {
+                                        response[key][i][key2] = key2;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
+                const request: any = new RenderRequest();
+                request.renderMode = 'Html';
+
+                if (typeof response["Items"] != 'undefined') {
+                    //for reports with nested items (Order, Quote, etc)
+                    request.parameters = response;
+                } else {
+                    request.parameters = [response];
+                }
+
+                request.parameters.ReportTemplate = html;
+                request.parameters.Company = companyName;
+                request.parameters.System = systemName;
+                request.parameters.Report = $form.find('[data-datafield="BaseReport"] option:selected').text() + ' Report';
+                request.parameters.isCustomReport = true;
+                request.parameters.IsDesignerPreview = true;
+
+                const reportPageMessage = new ReportPageMessage();
+                reportPageMessage.action = 'Designer';
+                reportPageMessage.apiUrl = apiUrl;
+                reportPageMessage.authorizationHeader = authorizationHeader;
+                reportPageMessage.request = request;
+
+                const win = window.open(urlHtmlReport);
+                if (!win) {
+                    throw 'Disable your popup blocker for this site.';
+                } else {
+                    const sendMessage = (event) => {
+                        const message = event.data;
+                        if (message === urlHtmlReport) {
+                            win.postMessage(reportPageMessage, urlHtmlReport);
+                        }
+                        if (message === 'ReportUnload') {
+                            window.removeEventListener('message', sendMessage)
+                        }
+                    }
+                    window.addEventListener('message', sendMessage)
+                }
+
+            }, ex => FwFunc.showError(ex), $form);
     }
     //----------------------------------------------------------------------------------------------
 };

@@ -565,6 +565,7 @@ abstract class StagingCheckoutBase {
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
 
             const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+            const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
             const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
             const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
@@ -577,7 +578,8 @@ abstract class StagingCheckoutBase {
                 OrderItemId: orderItemId,
                 Code: barCode ? barCode : iCode,
                 Quantity: quantity ? quantity : quantityStaged,
-                VendorId: vendorId
+                VendorId: vendorId,
+                WarehouseId: warehouseId
             }
 
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
@@ -1444,12 +1446,14 @@ abstract class StagingCheckoutBase {
 
         const request: any = {};
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
             request.ContractId = this.contractId;
             request.Code = barCodeFieldValue;
             request.OrderId = orderId;
+            request.WarehouseId = warehouseId;
             if (quantityFieldValue !== '') {
                 request.Quantity = quantityFieldValue
             }
@@ -1490,6 +1494,7 @@ abstract class StagingCheckoutBase {
                     request.OrderId = orderId;
                     request.ContractId = this.contractId;
                     request.Quantity = quantity;
+                    request.WarehouseId = warehouseId;
 
                     if (barCode !== '') {
                         request.Code = barCode;
