@@ -88,7 +88,7 @@
         <td colspan="7" class="section-header">Order</td>
       </tr>
       <tr data-row="main-header">
-        <th data-linkedcolumn="OrdeNumber" data-valuefield="OrderNumber">Order No.</th>
+        <th data-linkedcolumn="OrderNumber" data-valuefield="OrderNumber">Order No.</th>
         <th data-linkedcolumn="OrderDescription" data-valuefield="OrderDescription" class="Description">Order Description</th>
         <th data-linkedcolumn="PeriodTotal" data-valuefield="PeriodTotal" class="alignRight">Period Total</th>
         <th data-linkedcolumn="ReplacementCost" data-valuefield="ReplacementCost" class="alignRight">Replacement Cost</th>
@@ -99,7 +99,7 @@
       {{#each Orders}}
       {{#ifEquals RowType "detail"}}
       <tr data-row="detail" data-rowtype="{{RowType}}" class="description-row">
-        <td data-linkedcolumn="OrdeNumber" data-value="{{OrdeNumber}}" class="nowrap"></td>
+        <td data-linkedcolumn="OrderNumber" data-value="{{OrderNumber}}" class="nowrap"></td>
         <td data-linkedcolumn="OrderDescription" data-value="{{OrderDescription}}" class="Description"></td>
         <td data-linkedcolumn="PeriodTotal" data-value="{{PeriodTotal}}" class="alignRight"></td>
         <td data-linkedcolumn="ReplacementCost" data-value="{{ReplacementCost}}" class="alignRight"></td>
@@ -108,7 +108,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
       <tr data-row="footer">
-        <td data-linkedcolumn="OrdeNumber" colspan="3"></td>
+        <td colspan="3"></td>
         <td class="total-name" style="text-align:right;padding-right:10px;font-weight:bold;">DEPOSIT TOTAL:</td>
         <td data-linkedcolumn="DepositAmount" class="number TotalDepositAmount" style="min-width:150px;padding-right:3px;" data-value="$ {{DepositAmount}}"></td>
       </tr>
