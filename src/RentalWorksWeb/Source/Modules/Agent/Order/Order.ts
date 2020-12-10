@@ -241,6 +241,12 @@ class Order extends OrderBase {
             FwTabs.showTab($form.find('.receipttab'));
             $form.find('.receipt-submodule').append(this.openSubModuleBrowse($form, 'Receipt'));
         }
+        // credit submodule
+        let nodeCredit = FwApplicationTree.getNodeById(FwApplicationTree.tree, 'OCkLGwclipEA');
+        if (nodeCredit !== undefined && nodeCredit.properties.visible === 'T') {
+            FwTabs.showTab($form.find('.credittab'));
+            $form.find('.credit-submodule').append(this.openSubModuleBrowse($form, 'Credit'));
+        }
 
         const $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
 
@@ -869,6 +875,7 @@ class Order extends OrderBase {
               <div data-type="tab" id="manifesttab" class="tab manifesttab" data-tabpageid="manifesttabpage" data-caption="Value Sheet"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule invoicetab" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="receipttab" class="tab submodule receipttab" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
+              <div data-type="tab" id="credittab" class="tab submodule credittab" data-tabpageid="credittabpage" data-caption="Credit"></div>
               <div data-type="tab" id="repairtab" class="tab submodule repairtab" data-tabpageid="repairtabpage" data-caption="Repair"></div>
               <div data-type="tab" id="documentstab" class="tab documentstab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
               <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
@@ -2220,6 +2227,9 @@ class Order extends OrderBase {
               <!-- RECEIPT tab -->
               <div data-type="tabpage" id="receipttabpage" class="tabpage receipt-submodule rwSubModule" data-tabid="receipttab"></div>
 
+              <!-- CREDIT tab -->
+              <div data-type="tabpage" id="credittabpage" class="tabpage credit-submodule rwSubModule" data-tabid="credittab"></div>
+
               <!-- REPAIR TAB -->
               <div data-type="tabpage" id="repairtabpage" class="tabpage submodule repair-submodule rwSubModule" data-tabid="repairtab"></div>
 
@@ -2932,3 +2942,6 @@ class Order extends OrderBase {
 }
 //----------------------------------------------------------------------------------------------
 var OrderController = new Order();
+
+
+

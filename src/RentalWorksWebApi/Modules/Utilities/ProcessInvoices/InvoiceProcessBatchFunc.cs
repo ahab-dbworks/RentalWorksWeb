@@ -100,72 +100,82 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
             string paymentTypeId = string.Empty;
             string dealId = string.Empty;
             string locationId = string.Empty;
-
+            decimal applyAmount = 0.0m;
+            decimal remaining = 0.0m;
+            FwJsonDataTable orderInvoice;
+            decimal orderInvoiceSubtotal = 0.0m;
 
             using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
             {
-                qry.Add("select top 1 orderid"); // need to check on all the orders
+                qry.Add("select orderid, orderinvoicesubtotal"); 
                 qry.Add("from   orderinvoice with (nolock)");
                 qry.Add("where  invoiceid = @invoiceid");
                 qry.AddParameter("@invoiceid", invoiceId);
-                await qry.ExecuteAsync();
-                orderId = qry.GetField("orderid").ToString().TrimEnd();
+                orderInvoice = await qry.QueryToFwJsonTableAsync();
+                for (int i = 0; i < orderInvoice.Rows.Count; i++)
+                {
+                    orderId = orderInvoice.GetValue(i, "orderid").ToString().TrimEnd();
+                    orderInvoiceSubtotal = orderInvoice.GetValue(i, "orderinvoicesubtotal").ToDecimal();
+
+
+                    using (FwSqlCommand qryar = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qryar.Add("select top 1 dealdepositid = arid, currencyid, pmtamt, locationid,             ");
+                        qryar.Add("             remaining = ar.pmtamt - isnull((select sum(a.applied)             ");
+                        qryar.Add("                                             from   ardepositpmt a             ");
+                        qryar.Add("                                             where  a.depositid = ar.arid), 0) ");
+                        qryar.Add("from   ar with (nolock)");
+                        qryar.Add("where  orderid = @orderid");
+                        qryar.AddParameter("@orderid", orderId);
+                        qryar.AddParameter("@rectype", "D");
+                        await qry.ExecuteAsync();
+                        dealdepositId = qryar.GetField("dealdepositid").ToString().TrimEnd();
+                        currencyId = qryar.GetField("currencyid").ToString().TrimEnd();
+                        pmtAmt = qryar.GetField("pmtamt").ToDecimal();
+                        remaining = qryar.GetField("remaining").ToDecimal();  
+                        locationId = qry.GetField("locationid").ToString().TrimEnd();
+                        applyAmount = Math.Min(orderInvoiceSubtotal, remaining);
+                        paymentTypeId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "paytype", "pmttype", RwConstants.PAYMENT_TYPE_DEPLETING_DEPOSIT, "paytypeid")).ToString();
+                        dealId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", orderId, "dealid")).ToString();
+
+                        ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(appConfig, userSession);
+                        receipt.OrderId = orderId;
+                        receipt.AppliedById = userSession.UsersId;
+                        receipt.ChargeBatchId = string.Empty;
+                        receipt.CheckNumber = "";
+                        receipt.CreateDepletingDeposit = false;
+                        receipt.CreateOverpayment = false;
+                        receipt.CurrencyId = currencyId;
+                        receipt.CustomerDepositCheckNumber = string.Empty;
+                        receipt.CustomerDepositId = string.Empty;
+                        receipt.CustomerId = string.Empty;
+                        receipt.DealDepositCheckNumber = string.Empty;
+                        receipt.DealDepositId = dealdepositId;
+                        receipt.DealId = dealId;
+                        receipt.LocationId = locationId;
+                        receipt.PaymentAmount = applyAmount;
+                        receipt.PaymentBy = "DEAL";
+                        receipt.PaymentMemo = string.Empty;
+                        receipt.PaymentTypeId = paymentTypeId;
+                        receipt.PaymentTypeType = "";
+                        receipt.RecType = "P";
+                        receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
+                        receipt.ReceiptId = string.Empty;
+                        receipt.ModifiedById = userSession.UsersId;
+
+                        ReceiptInvoice receiptInvoice = new ReceiptInvoice();
+                        receiptInvoice.InvoiceReceiptId = "";
+                        receiptInvoice.InvoiceId = invoiceId;
+                        receiptInvoice.Amount = applyAmount; 
+
+                        receipt.InvoiceDataList = new List<ReceiptInvoice>();
+                        receipt.InvoiceDataList.Add(receiptInvoice);
+
+                        await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
+
+                    }
+                }
             }
-
-            using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
-            {
-                //reivew the view of the loaded to the reaminaing 
-                qry.Add("select top 1 dealdepositid = arid, currencyid, pmtamt, locationid"); // how do i know it is not applied
-                qry.Add("from   ar with (nolock)");
-                qry.Add("where  orderid = @orderid");
-                qry.AddParameter("@orderid", orderId);
-                qry.AddParameter("@rectype", "D");
-                await qry.ExecuteAsync();
-                dealdepositId = qry.GetField("dealdepositid").ToString().TrimEnd();
-                currencyId = qry.GetField("currencyid").ToString().TrimEnd();
-                pmtAmt = qry.GetField("pmtamt").ToDecimal();  // apply th emin of the dd or invoice amount
-                locationId = qry.GetField("locationid").ToString().TrimEnd();
-
-                paymentTypeId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "paytype", "pmttype", RwConstants.PAYMENT_TYPE_DEPLETING_DEPOSIT, "paytypeid")).ToString();
-                dealId  = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", orderId, "dealid")).ToString();
-
-                ReceiptLogic receipt = FwBusinessLogic.CreateBusinessLogic<ReceiptLogic>(appConfig, userSession);
-                receipt.OrderId = orderId;
-                receipt.AppliedById = userSession.UsersId;
-                receipt.ChargeBatchId = string.Empty;
-                receipt.CheckNumber = "";
-                receipt.CreateDepletingDeposit = false;
-                receipt.CreateOverpayment = false;
-                receipt.CurrencyId = currencyId;
-                receipt.CustomerDepositCheckNumber = string.Empty;
-                receipt.CustomerDepositId = string.Empty;
-                receipt.CustomerId = string.Empty;
-                receipt.DealDepositCheckNumber = string.Empty;
-                receipt.DealDepositId = dealdepositId;
-                receipt.DealId = dealId;
-                receipt.LocationId = locationId;
-                receipt.PaymentAmount = pmtAmt;
-                receipt.PaymentBy = "DEAL";
-                receipt.PaymentMemo = string.Empty;
-                receipt.PaymentTypeId = paymentTypeId;
-                receipt.PaymentTypeType = "";
-                receipt.RecType = "P";
-                receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
-                receipt.ReceiptId = string.Empty;
-                receipt.ModifiedById = userSession.UsersId;
-
-                ReceiptInvoice receiptInvoice = new ReceiptInvoice();
-                receiptInvoice.InvoiceReceiptId = "";
-                receiptInvoice.InvoiceId = invoiceId;
-                receiptInvoice.Amount = pmtAmt; // consume min(totalinvoice, pmt)
-
-                receipt.InvoiceDataList = new List<ReceiptInvoice>();
-                receipt.InvoiceDataList.Add(receiptInvoice);
-
-                await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
-
-            }
-
         }
         //-------------------------------------------------------------------------------------------------------
         //public static async Task<ExportInvoiceResponse> Export(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchLogic batch)

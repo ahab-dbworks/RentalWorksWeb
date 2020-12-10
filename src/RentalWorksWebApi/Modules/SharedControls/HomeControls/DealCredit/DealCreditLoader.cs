@@ -76,6 +76,9 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwSqlDataField(column: "remaining", modeltype: FwDataTypes.Decimal)]
         public decimal? Remaining { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
+        public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -88,6 +91,7 @@ namespace WebApi.Modules.HomeControls.DealCredit
             select.AddParameter("@dealid", dealId);
             addFilterToSelect("RecType", "rectype", select, request);
             addFilterToSelect("LocationId", "locationid", select, request);
+            addFilterToSelect("OrderId", "orderid", select, request);
 
             bool? remainingOnly = GetUniqueIdAsBoolean("RemainingOnly", request);
 
