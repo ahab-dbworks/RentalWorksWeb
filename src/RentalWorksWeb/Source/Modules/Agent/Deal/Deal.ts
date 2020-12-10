@@ -36,6 +36,17 @@ class Deal {
     addFormMenuItems(options: IAddFormMenuOptions): void {
         options.hasMultiEdit = false;
         FwMenu.addFormMenuButtons(options);
+
+        // SubMenu Reports
+        const $colReports = FwMenu.addSubMenuColumn(options.$menu);
+        const $groupReports = FwMenu.addSubMenuGroup($colReports, 'Reports');
+        FwMenu.addSubMenuItem($groupReports, 'Print Deal Depleting Deposit Receipt ', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
+            try {
+                this.printDealDepletingDepositReceipt(options.$form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
@@ -1160,6 +1171,24 @@ class Deal {
         } else {
             $form.find('div[data-datafield="CurrencyId"]').attr('data-required', 'true');
             FwFormField.enable($form.find('div[data-datafield="CurrencyId"]'));
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    printDealDepletingDepositReceipt($form: any) {
+        try {
+            const module = this.Module;
+            const dealIdText = FwFormField.getValueByDataField($form, `${module}Number`);
+            const dealId = FwFormField.getValueByDataField($form, `${module}Id`);
+
+            const $report = ReceiptReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="DealId"]`, dealId, dealIdText);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Deal Depleting Depoist Receipt`);
+
+        } catch (ex) {
+            FwFunc.showError(ex);
         }
     }
     //----------------------------------------------------------------------------------------------
