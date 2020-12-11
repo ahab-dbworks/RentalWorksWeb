@@ -1268,7 +1268,7 @@ class PurchaseOrder implements IModule {
                     fieldNames.push(name);
                 }
             }
-            let hiddenSubRentals, hiddenSubSales, hiddenLabor, hiddenMisc, hiddenPurchase, hiddenSubLabor, hiddenSubMisc;
+            let hiddenSubRentals, hiddenSubSales, hiddenLabor, hiddenMisc, hiddenPurchase, hiddenSubLabor, hiddenSubMisc, rentalPurchaseDefaultRate, salesPurchaseDefaultRate;
 
             FwAppData.apiMethod(true, 'GET', "api/v1/potype/" + purchaseOrderTypeId, null, FwServices.defaultTimeout, response => {
                 hiddenSubRentals = fieldNames.filter(function (field) {
@@ -1300,7 +1300,9 @@ class PurchaseOrder implements IModule {
                     hiddenMisc: hiddenMisc,
                     hiddenPurchase: hiddenPurchase,
                     hiddenSubLabor: hiddenSubLabor,
-                    hiddenSubMisc: hiddenSubMisc
+                    hiddenSubMisc: hiddenSubMisc,
+                    rentalPurchaseDefaultRate: response.RentalPurchaseDefaultRate,
+                    salesPurchaseDefaultRate: response.SalesPurchaseDefaultRate
                 }
                 applyPurchaseOrderTypeToColumns($form, this.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
             }, null, null);
