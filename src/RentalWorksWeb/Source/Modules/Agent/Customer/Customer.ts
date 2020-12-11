@@ -663,7 +663,7 @@ class Customer {
               <div data-type="tab" id="credittab" class="tab" data-tabpageid="credittabpage" data-caption="Credit"></div>
               <div data-type="tab" id="insurancetab" class="tab" data-tabpageid="insurancetabpage" data-caption="Insurance"></div>
               <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
-              <div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>
+              <!--<div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>-->
               <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
               <div data-type="tab" id="dealtab" class="tab submodule dealtab" data-tabpageid="dealtabpage" data-caption="Deals"></div>
               <div data-type="tab" id="quotetab" class="tab submodule quotetab" data-tabpageid="quotetabpage" data-caption="Quotes"></div>
@@ -1014,6 +1014,7 @@ class Customer {
               </div>
 
               <!-- OPTIONS TAB -->
+              <!--
               <div data-type="tabpage" id="optionstabpage" class="tabpage" data-tabid="optionstab">
                 <div class="formpage">
                   <div class="flexrow">
@@ -1094,6 +1095,7 @@ class Customer {
                   </div>
                 </div>
               </div>
+              -->
 
               <!-- SHIPPING TAB -->
               <div data-type="tabpage" id="shippingtabpage" class="tabpage" data-tabid="shippingtab">
