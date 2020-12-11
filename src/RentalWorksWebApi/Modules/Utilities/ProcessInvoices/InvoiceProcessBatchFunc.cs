@@ -103,11 +103,11 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
             decimal applyAmount = 0.0m;
             decimal remaining = 0.0m;
             FwJsonDataTable orderInvoice;
-            decimal orderInvoiceSubtotal = 0.0m;
+            decimal orderInvoiceTotal = 0.0m;
 
             using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
             {
-                qry.Add("select orderid, orderinvoicesubtotal"); 
+                qry.Add("select orderid, orderinvoicetotal"); 
                 qry.Add("from   orderinvoice with (nolock)");
                 qry.Add("where  invoiceid = @invoiceid");
                 qry.AddParameter("@invoiceid", invoiceId);
@@ -115,11 +115,12 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                 for (int i = 0; i < orderInvoice.Rows.Count; i++)
                 {
                     orderId = orderInvoice.GetValue(i, "orderid").ToString().TrimEnd();
-                    orderInvoiceSubtotal = orderInvoice.GetValue(i, "orderinvoicesubtotal").ToDecimal();
+                    orderInvoiceTotal = orderInvoice.GetValue(i, "orderinvoicetotal").ToDecimal();
 
 
                     using (FwSqlCommand qryar = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                     {
+                        //what if more than one deposit?
                         qryar.Add("select top 1 dealdepositid = arid, currencyid, pmtamt, locationid,             ");
                         qryar.Add("             remaining = ar.pmtamt - isnull((select sum(a.applied)             ");
                         qryar.Add("                                             from   ardepositpmt a             ");
@@ -128,13 +129,13 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
                         qryar.Add("where  orderid = @orderid");
                         qryar.AddParameter("@orderid", orderId);
                         qryar.AddParameter("@rectype", "D");
-                        await qry.ExecuteAsync();
+                        await qryar.ExecuteAsync();
                         dealdepositId = qryar.GetField("dealdepositid").ToString().TrimEnd();
                         currencyId = qryar.GetField("currencyid").ToString().TrimEnd();
                         pmtAmt = qryar.GetField("pmtamt").ToDecimal();
                         remaining = qryar.GetField("remaining").ToDecimal();  
-                        locationId = qry.GetField("locationid").ToString().TrimEnd();
-                        applyAmount = Math.Min(orderInvoiceSubtotal, remaining);
+                        locationId = qryar.GetField("locationid").ToString().TrimEnd();
+                        applyAmount = Math.Min(orderInvoiceTotal, remaining);
                         paymentTypeId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "paytype", "pmttype", RwConstants.PAYMENT_TYPE_DEPLETING_DEPOSIT, "paytypeid")).ToString();
                         dealId = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", orderId, "dealid")).ToString();
 

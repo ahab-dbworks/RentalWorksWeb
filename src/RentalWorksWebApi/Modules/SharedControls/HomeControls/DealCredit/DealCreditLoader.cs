@@ -89,6 +89,7 @@ namespace WebApi.Modules.HomeControls.DealCredit
             string dealId = GetUniqueIdAsString("DealId", request) ?? "xx~xx~xx";
             select.AddWhere("dealid = @dealid");
             select.AddParameter("@dealid", dealId);
+
             addFilterToSelect("RecType", "rectype", select, request);
             addFilterToSelect("LocationId", "locationid", select, request);
             addFilterToSelect("OrderId", "orderid", select, request);

@@ -170,7 +170,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
                 var receiptReportLoaderRequest = new BrowseRequest();
                 if (!string.IsNullOrEmpty(request.OrderId))
                 {
-                    receiptReportLoaderRequest.uniqueids.Orderid = request.OrderId;
+                    receiptReportLoaderRequest.uniqueids.OrderId = request.OrderId;
                 }
                 if (!string.IsNullOrEmpty(request.DealId))
                 {
