@@ -217,7 +217,7 @@ namespace WebApi.Modules.HomeControls.Inventory
 
             if (string.IsNullOrEmpty(lastPurchaseVendorId))
             {
-                sb.AppendLine(" outer apply(select lastpurchaseprice = 0) lp");
+                sb.AppendLine(" outer apply(select lastpurchaseprice = 0.00) lp");
             }
             else {
                 sb.AppendLine(" outer apply(select top 1 lastpurchaseprice = v.price * ((100.00 - v.discountpct) / 100.00)       ");
