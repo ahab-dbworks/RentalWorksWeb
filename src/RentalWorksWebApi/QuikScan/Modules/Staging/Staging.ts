@@ -2310,11 +2310,15 @@ class StagingControllerClass {
             } else if (screen.getCurrentPage().name === 'staging') {
                 const scanMode = jQuery('#staging-scan').attr('data-mode');
                 if (scanMode === 'PENDING') {
-                    screen.$view.find('#pendingsearch').fwmobilesearch('setsearchmode', 'code');
-                    screen.$view.find('#pendingsearch').fwmobilesearch('setSearchText', strippedCode, false);
+                    const $pendingsearch = screen.$view.find('#pendingsearch');
+                    $pendingsearch.fwmobilesearch('setsearchmode', 'code');
+                    $pendingsearch.fwmobilesearch('setSearchText', strippedCode, false);
+                    $pendingsearch.fwmobilesearch('clearsearchbox');
                 } else if (scanMode === 'STAGEDLIST') {
-                    screen.$view.find('#stagedsearch').fwmobilesearch('setsearchmode', 'code');
-                    screen.$view.find('#stagedsearch').fwmobilesearch('setSearchText', strippedCode, false);
+                    const $stagedsearch = screen.$view.find('#stagedsearch');
+                    $stagedsearch.fwmobilesearch('setsearchmode', 'code');
+                    $stagedsearch.fwmobilesearch('setSearchText', strippedCode, false);
+                    $stagedsearch.fwmobilesearch('clearsearchbox');
                 }
                 if (strippedCode.length > 0) {
                     var requestStageItem = {
