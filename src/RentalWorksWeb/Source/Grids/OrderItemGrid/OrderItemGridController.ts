@@ -277,6 +277,7 @@ class OrderItemGrid {
                     request.uniqueids.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                     request.uniqueids.CurrencyId = FwFormField.getValueByDataField($form, 'CurrencyId');
                     request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+                    request.uniqueids.LastPurchaseVendorId = FwFormField.getValueByDataField($form, 'VendorId');
                 }
                 break;
             case 'UnitId':
@@ -630,44 +631,6 @@ class OrderItemGrid {
 
             if (controller === 'PurchaseOrderController') {
                 FwBrowse.setFieldValue($control, $generatedtr, 'UnitId', { value: FwBrowse.getValueByDataField($control, $tr, 'UnitId'), text: FwBrowse.getValueByDataField($control, $tr, 'Unit') });
-
-                if (recType === 'R' || recType === 'S' || recType === 'P') {
-                    const poTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
-                    FwAppData.apiMethod(true, 'GET', `api/v1/potype/${poTypeId}`, null, FwServices.defaultTimeout,
-                        response => {
-                            let purchaseDefaultRate, rateFieldName, rate;
-                            switch (recType) {
-                                case 'R':
-                                    purchaseDefaultRate = response.RentalPurchaseDefaultRate;
-                                    break;
-                                case 'S':
-                                case 'P':
-                                    purchaseDefaultRate = response.SalesPurchaseDefaultRate;
-                                    //purchaseDefaultRate = response.PartsPurchaseDefaultRate;
-                                    break;
-                            }
-
-                            switch (purchaseDefaultRate) {
-                                case 'LP':
-                                    rateFieldName = 'Price';
-                                    break;
-                                case 'RC':
-                                    rateFieldName = 'ReplacementCost';
-                                    break;
-                                case 'UV':
-                                    rateFieldName = 'UnitValue';
-                                    break;
-                                case 'DC':
-                                    rateFieldName = 'DefaultCost';
-                                    break;
-                                case 'AC':
-                                    rateFieldName = 'AverageCost';
-                                    break;
-                            }
-                            rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
-                            FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
-                        }, ex => FwFunc.showError(ex), $form);
-                }
             }
 
             if ($generatedtr.hasClass("newmode")) {
@@ -714,6 +677,45 @@ class OrderItemGrid {
                     response => {
                         populateDefaults($tr, recType, response);
                     }, ex => FwFunc.showError(ex), $form);
+            } else if (controller === 'PurchaseOrderController') {
+                if (recType === 'R' || recType === 'S' || recType === 'P') {
+                    if (typeof window['PurchaseOrderController'] != 'undefined' && window['PurchaseOrderController'].CachedPurchaseOrderTypes != 'undefined') {
+                        const poTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
+                        let defaultPurchaseRate, rateFieldName, rate;
+                        switch (recType) {
+                            case 'R':
+                                defaultPurchaseRate = PurchaseOrderController.CachedPurchaseOrderTypes[poTypeId]["rentalPurchaseDefaultRate"];
+                                break;
+                            case 'S':
+                            case 'P':
+                                defaultPurchaseRate = PurchaseOrderController.CachedPurchaseOrderTypes[poTypeId]["salesPurchaseDefaultRate"];;
+                                break;
+                        }
+
+                        switch (defaultPurchaseRate) {
+                            case 'LP':
+                                rateFieldName = 'LastPurchasePrice';
+                                break;
+                            case 'RC':
+                                rateFieldName = 'ReplacementCost';
+                                break;
+                            case 'UV':
+                                rateFieldName = 'UnitValue';
+                                break;
+                            case 'DC':
+                                rateFieldName = 'DefaultCost';
+                                break;
+                            case 'AC':
+                                rateFieldName = 'AverageCost';
+                                break;
+                        }
+                        rate = FwBrowse.getValueByDataField($control, $tr, rateFieldName);
+                        FwBrowse.setFieldValue($control, $generatedtr, 'Price', { value: rate.toString() });
+                    }
+                    calculateExtended('Extended');
+                } else {
+                    populateDefaults($tr, recType);
+                }
             } else {
                 populateDefaults($tr, recType);
             }
