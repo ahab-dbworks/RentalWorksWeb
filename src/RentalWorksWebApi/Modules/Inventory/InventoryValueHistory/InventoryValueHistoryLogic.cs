@@ -1,15 +1,15 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Inventory.InventoryQuantityHistory
+namespace WebApi.Modules.Inventory.InventoryValueHistory
 {
     [FwLogic(Id: "0Nx7lax9ZO51")]
-    public class InventoryQuantityHistoryLogic : AppBusinessLogic
+    public class InventoryValueHistoryLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        InventoryQuantityHistoryLoader inventoryQuantityHistoryLoader = new InventoryQuantityHistoryLoader();
-        public InventoryQuantityHistoryLogic()
+        InventoryValueHistoryLoader inventoryValueHistoryLoader = new InventoryValueHistoryLoader();
+        public InventoryValueHistoryLogic()
         {
-            dataLoader = inventoryQuantityHistoryLoader;
+            dataLoader = inventoryValueHistoryLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "0O3bqQ68h9NuV  ", IsReadOnly: true)]

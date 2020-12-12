@@ -3,10 +3,10 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Inventory.InventoryQuantityHistory
+namespace WebApi.Modules.Inventory.InventoryValueHistory
 {
     [FwSqlTable("rptinvusageownhistoryview")]
-    public class InventoryQuantityHistoryLoader : AppDataLoadRecord
+    public class InventoryValueHistoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]

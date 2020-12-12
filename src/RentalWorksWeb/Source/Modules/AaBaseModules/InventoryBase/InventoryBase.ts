@@ -1434,9 +1434,9 @@ abstract class InventoryBase {
             }
         });
         // ----------
-        //Inventory Quantity History Grid
+        //Inventory Value History Grid
         FwBrowse.renderGrid({
-            nameGrid: 'InventoryQuantityHistoryGrid',
+            nameGrid: 'InventoryValueHistoryGrid',
             gridSecurityId: '0NnVn0knqSjPO',
             moduleSecurityId: this.id,
             $form: $form,
