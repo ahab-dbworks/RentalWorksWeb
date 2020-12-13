@@ -113,6 +113,7 @@ var Constants = {
                 CompleteQc:               { id: 'VwNYsEONLutM',  caption: 'Complete QC',            nav: 'module/completeqc',            nodetype: 'Module' },
                 InventoryAdjustment:      { id: 's1R2anReJAUoU', caption: 'Inventory Adjustment',   nav: 'module/inventoryadjustment',   nodetype: 'Module' },
                 InventorySummary:         { id: '84eSG3zrmtitY', caption: 'Inventory Summary',      nav: 'module/inventorysummary',      nodetype: 'Module' },
+                InventoryQuantityHistory: { id: '9fKPUzqojeDu',  caption: 'Inventory Quantity History', nav: 'module/inventoryquantityhistory', nodetype: 'Module' },
                 PartsInventory:           { id: '2WDCohbQV6GU',  caption: 'Parts Inventory',        nav: 'module/partsinventory',        nodetype: 'Module' },
                 PurchaseHistory:          { id: '8XKYiQYXj9BKK', caption: 'Purchase History',       nav: 'module/purchasehistory',       nodetype: 'Module' },
                 PhysicalInventory:        { id: 'JIuxFUWTLDC6',  caption: 'Physical Inventory',     nav: 'module/physicalinventory',     nodetype: 'Module' },
