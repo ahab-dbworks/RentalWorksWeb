@@ -72,7 +72,7 @@ class SystemUpdate {
             }
         });
         // ----------
-        $form.on('click', '#buildDocuments li.pdf', e => {
+        $form.on('click', '#buildDocuments li.pdf, #buildDocUpdates div.pdf', e => {
             const $this = jQuery(e.currentTarget);
             const request: any = {
                 Version: $this.attr('data-buildnumber'),
@@ -159,8 +159,9 @@ class SystemUpdate {
     }
     //----------------------------------------------------------------------------------------------
     getDocuments($form: JQuery): void {
+        const currentVersion = sessionStorage.getItem('serverVersion');
         const request: any = {
-            CurrentVersion: sessionStorage.getItem('serverVersion'),
+            CurrentVersion: currentVersion,
             OnlyIncludeNewerVersions: false,
         };
 
@@ -176,11 +177,25 @@ class SystemUpdate {
         // ----------
         function loadDocuments($form, documents) {
             const $container = $form.find('#buildDocuments');
+            const $updatesContainer = $form.find('#buildDocUpdates');
             const html = [];
+            const versions = [];
+            let isNewerVersion = true;
             for (let i = 0; i < documents.length; i++) {
                 html.push(`<li class="pdf" data-buildnumber="${documents[i].BuildNumber}">${documents[i].BuildNumber}<span class="material-icons">picture_as_pdf</span></li>`)
-            }
 
+                if (documents[i].BuildNumber === currentVersion) {
+                    isNewerVersion = false;
+                } 
+
+                if (isNewerVersion) {
+                    versions.push(`<div class="flexcolumn pdf" data-buildnumber="${documents[i].BuildNumber}" style="cursor:pointer; margin:.3em .8em;">
+                                       <i class="material-icons" style="font-size: 4.5em;align-self:center;">picture_as_pdf</i>
+                                       <span style="font-size:.9em;">v${documents[i].BuildNumber}</span>
+                                    </div>`)
+                }
+            }
+            $updatesContainer.html(versions.join(''));
             $container.html(html.join(''));
         }
     }
