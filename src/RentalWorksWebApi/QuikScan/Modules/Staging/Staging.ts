@@ -1872,14 +1872,12 @@ class StagingControllerClass {
             ;
 
             // refresh the pending list if the Pending Tab is active
-            if (responseStageItem.request.qty > 0) {
-                if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
-                    screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
-                }
-                // refresh the staged list if the Staged Tab list is active
-                else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
-                    screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
-                }
+            if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
+                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
+            }
+            // refresh the staged list if the Staged Tab list is active
+            else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
+                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
             }
 
             jQuery('#staging-popupQty-genericMsg')  .html(responseStageItem.webStageItem.genericMsg);
@@ -2311,12 +2309,12 @@ class StagingControllerClass {
                 const scanMode = jQuery('#staging-scan').attr('data-mode');
                 if (scanMode === 'PENDING') {
                     const $pendingsearch = screen.$view.find('#pendingsearch');
-                    $pendingsearch.fwmobilesearch('setsearchmode', 'code');
+                    //$pendingsearch.fwmobilesearch('setsearchmode', 'code');
                     $pendingsearch.fwmobilesearch('setSearchText', strippedCode, false);
                     $pendingsearch.fwmobilesearch('clearsearchbox');
                 } else if (scanMode === 'STAGEDLIST') {
                     const $stagedsearch = screen.$view.find('#stagedsearch');
-                    $stagedsearch.fwmobilesearch('setsearchmode', 'code');
+                    //$stagedsearch.fwmobilesearch('setsearchmode', 'code');
                     $stagedsearch.fwmobilesearch('setSearchText', strippedCode, false);
                     $stagedsearch.fwmobilesearch('clearsearchbox');
                 }
