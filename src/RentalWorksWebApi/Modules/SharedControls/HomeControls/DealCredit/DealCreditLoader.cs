@@ -76,6 +76,9 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwSqlDataField(column: "remaining", modeltype: FwDataTypes.Decimal)]
         public decimal? Remaining { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

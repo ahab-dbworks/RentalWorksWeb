@@ -48,6 +48,8 @@ namespace WebApi.Modules.HomeControls.DealCredit
         public decimal? Refunded { get; set; }
         [FwLogicProperty(Id: "vrAKkqvs5S6K", IsReadOnly: true)]
         public decimal? Remaining { get; set; }
+        [FwLogicProperty(Id: "MGMEgsJZMrVm", IsReadOnly: true)]
+        public string CurrencySymbol { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
