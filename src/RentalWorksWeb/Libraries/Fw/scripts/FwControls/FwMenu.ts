@@ -160,7 +160,7 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addStandardBtn($control: JQuery, caption: string, securityid?: string): JQuery {
+    addStandardBtn($control: JQuery, caption: string, securityid?: string, onclick?: (event: JQuery.ClickEvent) => void): JQuery {
         let $btn = jQuery();
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
@@ -192,7 +192,33 @@ class FwMenuClass {
         }
 
         $control.find('.buttonbar').append($btn);
+        $btn.on('click', onclick);
+        return $btn;
+    }
+    //---------------------------------------------------------------------------------
+    addStandardBtnWithIcon($control: JQuery, iconhtml: string, caption: string, securityid?: string, onclick?: (event: JQuery.ClickEvent) => void): JQuery {
+        let $btn = jQuery();
+        if ((caption !== '') && (typeof caption !== 'undefined')) {
+            try {
+                const id = program.uniqueId(8);
+                const btnId = `btn${id}`;
+                securityid = (typeof securityid === 'string') ? securityid : '';
+                const btnHtml: Array<string> = [];
+                btnHtml.push(`<div id="${btnId}" class="btn" tabindex="0" data-securityid="${securityid}" data-visible="true">`);
+                btnHtml.push(iconhtml);
+                const addedClass = caption.toLowerCase().replace(/ /g, '');
+                btnHtml.push(`  <div class="btn-text ${addedClass}-btn">${caption}</div>`);
+                btnHtml.push('</div>');
+                $btn = $btn.add(btnHtml.join(''));
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        } else {
+            throw 'FwMenu.addStandardBtn: ' + caption + ' caption is not defined in translation';
+        }
 
+        $control.find('.buttonbar').append($btn);
+        $btn.on('click', onclick);
         return $btn;
     }
     //---------------------------------------------------------------------------------
