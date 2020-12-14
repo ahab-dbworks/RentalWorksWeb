@@ -1302,6 +1302,9 @@ class Receipt {
         try {
             const module = this.Module;
             const $tr = FwBrowse.getSelectedRow($browse);
+            if ($tr.length === 0) {
+                throw 'Select a row to print.';
+            }
             const receiptDate = FwBrowse.getValueByDataField($browse, $tr, 'ReceiptDate');
             const checkNumber = FwBrowse.getValueByDataField($browse, $tr, 'CheckNumber');
             const receiptIdText = `${receiptDate} ${checkNumber}`.trim();
