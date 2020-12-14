@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.HomeControls.InventoryAvailability;
 
 namespace WebApi.Modules.HomeControls.ContractItemDetail
 {
@@ -22,12 +23,15 @@ namespace WebApi.Modules.HomeControls.ContractItemDetail
         public string Reason { get; set; }
         public bool? ReturnToInventory { get; set; }
     }
+
+    public class VoidItemsResponse : TSpStatusResponse { }
+
     public static class ContractItemDetailFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusResponse> VoidItems(FwApplicationConfig appConfig, FwUserSession userSession, VoidItemsRequest request)
+        public static async Task<VoidItemsResponse> VoidItems(FwApplicationConfig appConfig, FwUserSession userSession, VoidItemsRequest request)
         {
-            TSpStatusResponse response = new TSpStatusResponse();
+            VoidItemsResponse response = new VoidItemsResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 foreach (ContractItem Item in request.Items)
@@ -42,12 +46,20 @@ namespace WebApi.Modules.HomeControls.ContractItemDetail
                     qry.AddParameter("@returntoinventory", SqlDbType.NVarChar, ParameterDirection.Input, request.ReturnToInventory.GetValueOrDefault(false));
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@reason", SqlDbType.NVarChar, ParameterDirection.Input, request.Reason);
+                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@class", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
+                    string inventoryId = qry.GetParameter("@masterid").ToString();
+                    string warehouseId = qry.GetParameter("@warehouseid").ToString();
+                    string inventoryClassification = qry.GetParameter("@class").ToString();
+                    InventoryAvailabilityFunc.RequestRecalc(inventoryId, warehouseId, inventoryClassification);
+
                     if (!response.success)
                     {
                         break;
