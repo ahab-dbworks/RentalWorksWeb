@@ -658,7 +658,7 @@ abstract class StagingCheckoutBase {
             FwBrowse.search($stagedItemGrid);
             const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
             FwBrowse.search($checkedOutItemGrid);
-        }, 2000, immediate);
+        }, 1000, immediate);
 
         $form.find('.unstage-all').removeClass('btn-active');
 
@@ -926,7 +926,7 @@ abstract class StagingCheckoutBase {
                 const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
                 FwBrowse.search($checkOutPendingItemGrid);
             }
-        }, 2000, false);
+        }, 1000, false);
 
         $form.find('div.quantity-items-tab').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
