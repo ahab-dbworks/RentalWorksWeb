@@ -1599,7 +1599,23 @@ class PurchaseOrder implements IModule {
             $form.find(".BillingWeeks").show();
         }
 
+        //this.applyDropShip($form);
     };
+    //----------------------------------------------------------------------------------------------
+    applyDropShip($form: JQuery) {
+        const receiveType = FwFormField.getValueByDataField($form, 'ReceiveDeliveryDeliveryType');
+        const returnType = FwFormField.getValueByDataField($form, 'ReturnDeliveryDeliveryType');
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+
+        if (dealId != '') {
+            if (receiveType === 'DELIVER' || receiveType === 'SHIP') {
+                FwFormField.enable($form.find('[data-datafield="ReceiveDeliveryDropShip"], .receive-confirm'));
+            }
+            if (returnType === 'PICK UP') {
+                FwFormField.enable($form.find('[data-datafield="ReturnDeliveryVendorRetrieve"], .return-confirm'));
+            }
+        }
+    }
     //----------------------------------------------------------------------------------------------
     applyCurrencySymbolToTotalFields($form: JQuery, response: any) {
         const $totalFields = $form.find('.totals[data-type="money"], .frame[data-type="money"], .invoicetotals[data-type="money"]');
@@ -2398,6 +2414,7 @@ class PurchaseOrder implements IModule {
                 }
                 $form.find('div[data-datafield="ReturnDeliveryAddressType"]').change();
             }
+            this.applyDropShip($form);
         });
 
         //Track shipment-Receive
@@ -2513,6 +2530,25 @@ class PurchaseOrder implements IModule {
         // Billing Weeks or Month field change
         $form.find('.week_or_month_field').on('change', event => {
             OrderBaseController.adjustBillingEndDate($form, event);
+        });
+
+        //Drop Ship Checkbox
+        $form.find('[data-datafield="ReceiveDeliveryDropShip"]').on('change', e => {
+            if (FwFormField.getValueByDataField($form, 'ReceiveDeliveryDropShip')) {
+                FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'DEAL');
+            }
+        });
+
+        //Vendor Retrieve Checkbox
+        $form.find('[data-datafield="ReturnDeliveryVendorRetrieve"]').on('change', e => {
+            if (FwFormField.getValueByDataField($form, 'ReturnDeliveryVendorRetrieve')) {
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'DEAL');
+            }
+        });
+
+        //Confirm Button 
+        $form.find('.receive-confirm, .return-confirm').on('click', e => {
+            //open confirmation prompt
         });
     };
     //----------------------------------------------------------------------------------------------
