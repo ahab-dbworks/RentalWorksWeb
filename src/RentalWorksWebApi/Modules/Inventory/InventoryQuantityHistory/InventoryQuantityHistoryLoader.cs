@@ -22,7 +22,7 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
-        public string ItemDescription { get; set; }
+        public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
@@ -33,11 +33,14 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "trandatetime", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "trandatetime", modeltype: FwDataTypes.DateTime)]
         public string TransactionDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trantype", modeltype: FwDataTypes.Text)]
         public string TransactionType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
+        public string TransactionDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtytype", modeltype: FwDataTypes.Text)]
         public string QuantityType { get; set; }
@@ -62,9 +65,6 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid1", modeltype: FwDataTypes.Text)]
         public string UniqueId1 { get; set; }

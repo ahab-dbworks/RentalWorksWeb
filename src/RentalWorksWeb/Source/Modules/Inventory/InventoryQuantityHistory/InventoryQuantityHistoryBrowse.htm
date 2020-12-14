@@ -3,19 +3,22 @@
     <div class="field" data-isuniqueid="true" data-datafield="InventoryQuantityHistoryId" data-browsedatatype="key"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="ICode" data-datafield="ICode" data-browsedatatype="text" data-sort="asc"></div>
+    <div class="field" data-caption="I-Code" data-datafield="ICode" data-browsedatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Description" data-datafield="ItemDescription" data-displayfield="Description" data-browsedatatype="text" data-sort="none"></div>
+    <div class="field allowwrap" data-caption="Description" data-datafield="Description" data-displayfield="Description" data-browsedatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-browsedatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Transaction Date/Time" data-datafield="TransactionDateTime" data-browsedatatype="datetime" data-sort="none"></div>
+    <div class="field" data-caption="Transaction Date/Time" data-datafield="TransactionDateTime" data-browsedatatype="text" data-sort="desc"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Transaction Type" data-datafield="TransactionType" data-browsedatatype="text" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Quantity Type" data-datafield="QuantityType" data-browsedatatype="text" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Old Qty" data-datafield="OldQuantity" data-browsedatatype="number" data-sort="none"></div>
@@ -27,11 +30,14 @@
     <div class="field" data-caption="New Qty" data-datafield="NewQuantity" data-browsedatatype="number" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Transaction Description" data-datafield="TransactionDescription" data-browsedatatype="text" data-sort="none"></div>
+  </div>
+  <!--<div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Old Average Cost" data-datafield="OldAverageCost" data-browsedatatype="money" data-sort="none"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="New Average Cost" data-datafield="NewAverageCost" data-browsedatatype="money" data-sort="none"></div>
-  </div>
+  </div>-->
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="User" data-datafield="UserName" data-browsedatatype="text" data-sort="none"></div>
   </div>

@@ -23,7 +23,7 @@ class InventoryQuantityHistory {
         viewWarehouse.push($allWarehouses, $userWarehouse);
         FwMenu.addViewBtn(options.$menu, 'Warehouse', viewWarehouse, true, "WarehouseId");
 
-        const $allTypes = FwMenu.generateDropDownViewBtn('ALL', true, 'all');
+        const $allTypes = FwMenu.generateDropDownViewBtn('ALL', true, 'ALL');
         const $qty = FwMenu.generateDropDownViewBtn('Quantity', false, 'qty');
         const $in = FwMenu.generateDropDownViewBtn('In', false, 'qtyin');
         const $staged = FwMenu.generateDropDownViewBtn('Staged', false, 'qtystaged');

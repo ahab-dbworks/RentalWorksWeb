@@ -21,7 +21,7 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         [FwLogicProperty(Id: "aMPSmT97KyUS", IsReadOnly: true)]
         public string ICode { get; set; }
         [FwLogicProperty(Id: "aoZOu63AwQ3E", IsReadOnly: true)]
-        public string ItemDescription { get; set; }
+        public string Description { get; set; }
         [FwLogicProperty(Id: "AUWVBHuYIj31", IsReadOnly: true)]
         public string WarehouseId { get; set; }
         [FwLogicProperty(Id: "aY1mNPhJlZyF", IsReadOnly: true)]
@@ -32,6 +32,8 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         public string TransactionDateTime { get; set; }
         [FwLogicProperty(Id: "BHMlRkiHCp9L", IsReadOnly: true)]
         public string TransactionType { get; set; }
+        [FwLogicProperty(Id: "CVzwWmKFEbR5", IsReadOnly: true)]
+        public string TransactionDescription { get; set; }
         [FwLogicProperty(Id: "BRHIHQ6Rt54y", IsReadOnly: true)]
         public string QuantityType { get; set; }
         [FwLogicProperty(Id: "buwn5Xd5EcU0", IsReadOnly: true)]
@@ -48,8 +50,6 @@ namespace WebApi.Modules.Inventory.InventoryQuantityHistory
         public string UsersId { get; set; }
         [FwLogicProperty(Id: "Cvvm75UKmE89", IsReadOnly: true)]
         public string UserName { get; set; }
-        [FwLogicProperty(Id: "CVzwWmKFEbR5", IsReadOnly: true)]
-        public string Description { get; set; }
         [FwLogicProperty(Id: "CyKMteq02uLJ", IsReadOnly: true)]
         public string UniqueId1 { get; set; }
         [FwLogicProperty(Id: "dMFcJOGKyK9Z", IsReadOnly: true)]
