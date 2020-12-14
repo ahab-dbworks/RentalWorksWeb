@@ -268,7 +268,7 @@ function formatBytes(bytes, decimals = 2) {
                     reject(err);
                 });
                 archive.pipe(output)
-                archive.directory(webPublishPath, `${productname}Web`);
+                //archive.directory(webPublishPath, `${productname}Web`);
                 archive.directory(webApiPublishPath, `${productname}WebApi`);
                 archive.directory(jestSrcTsPath, 'ts');
                 await archive.finalize();

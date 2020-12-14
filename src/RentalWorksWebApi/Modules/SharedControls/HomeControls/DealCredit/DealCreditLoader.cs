@@ -76,6 +76,9 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwSqlDataField(column: "remaining", modeltype: FwDataTypes.Decimal)]
         public decimal? Remaining { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 

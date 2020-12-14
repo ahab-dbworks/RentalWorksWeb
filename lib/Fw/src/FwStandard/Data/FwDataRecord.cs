@@ -1732,7 +1732,11 @@ namespace FwStandard.Data
                 IDictionary<string, object> uniqueids = ((IDictionary<string, object>)request.uniqueids);
                 if (uniqueids.ContainsKey(uniqueIdFieldName))
                 {
-                    fieldValue = uniqueids[uniqueIdFieldName].ToString();
+                    object valueObj = uniqueids[uniqueIdFieldName];
+                    if (valueObj != null)
+                    {
+                        fieldValue = valueObj.ToString();
+                    }
                 }
             }
             return fieldValue;
@@ -1746,7 +1750,11 @@ namespace FwStandard.Data
                 IDictionary<string, string> filterfields = ((IDictionary<string, string>)request.filterfields);
                 if (filterfields.ContainsKey(filterFieldName))
                 {
-                    fieldValue = filterfields[filterFieldName].ToString();
+                    object valueObj = filterfields[filterFieldName];
+                    if (valueObj != null)
+                    {
+                        fieldValue = valueObj.ToString();
+                    }
                 }
             }
             return fieldValue;
@@ -1760,7 +1768,11 @@ namespace FwStandard.Data
                 IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
                 if (miscfields.ContainsKey(miscFieldName))
                 {
-                    fieldValue = miscfields[miscFieldName].ToString();
+                    object valueObj = miscfields[miscFieldName];
+                    if (valueObj != null)
+                    {
+                        fieldValue = valueObj.ToString();
+                    }
                 }
             }
             return fieldValue;

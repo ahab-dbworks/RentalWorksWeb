@@ -1434,9 +1434,9 @@ abstract class InventoryBase {
             }
         });
         // ----------
-        //Inventory Quantity History Grid
+        //Inventory Value History Grid
         FwBrowse.renderGrid({
-            nameGrid: 'InventoryQuantityHistoryGrid',
+            nameGrid: 'InventoryValueHistoryGrid',
             gridSecurityId: '0NnVn0knqSjPO',
             moduleSecurityId: this.id,
             $form: $form,
@@ -1834,6 +1834,7 @@ abstract class InventoryBase {
                         case 'PurchaseOrder':
                         case 'PurchaseHistory':
                         case 'RetiredHistory':
+                        case 'InventoryQuantityHistory':
                             $browseControl = this.openSubModuleBrowse($form, submoduleName);
                             $tabpage.append($browseControl);
                             FwBrowse.search($browseControl);

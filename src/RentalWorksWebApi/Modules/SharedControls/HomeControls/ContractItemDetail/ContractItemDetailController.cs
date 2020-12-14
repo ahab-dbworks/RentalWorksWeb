@@ -51,7 +51,7 @@ namespace WebApi.Modules.HomeControls.ContractItemDetail
         // POST api/v1/contractitemdetail/voiditems
         [HttpPost("voiditems")]
         [FwControllerMethod(Id: "pbZeqJ3pd8r", ActionType: FwControllerActionTypes.Option)]
-        public async Task<ActionResult<TSpStatusResponse>> VoidItems([FromBody]VoidItemsRequest request)
+        public async Task<ActionResult<VoidItemsResponse>> VoidItems([FromBody]VoidItemsRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -59,16 +59,12 @@ namespace WebApi.Modules.HomeControls.ContractItemDetail
             }
             try
             {
-                TSpStatusResponse response = await ContractItemDetailFunc.VoidItems(AppConfig, UserSession, request);
+                VoidItemsResponse response = await ContractItemDetailFunc.VoidItems(AppConfig, UserSession, request);
                 return response;
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

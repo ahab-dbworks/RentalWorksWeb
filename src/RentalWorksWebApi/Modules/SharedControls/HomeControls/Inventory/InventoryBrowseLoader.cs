@@ -132,6 +132,9 @@ namespace WebApi.Modules.HomeControls.Inventory
         [FwSqlDataField(calculatedColumnSql: "mwr.replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "lp.lastpurchaseprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? LastPurchasePrice { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "mw.qcrequired", modeltype: FwDataTypes.Boolean)]
         public bool? QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -158,6 +161,8 @@ namespace WebApi.Modules.HomeControls.Inventory
 
             string warehouseId = GetUniqueIdAsString("WarehouseId", request);
             string currencyId = GetUniqueIdAsString("CurrencyId", request) ?? "";
+            string lastPurchaseVendorId = GetUniqueIdAsString("LastPurchaseVendorId", request) ?? "";
+
             bool foreignCurrency = false;
             if (string.IsNullOrEmpty(warehouseId))
             {
@@ -209,6 +214,19 @@ namespace WebApi.Modules.HomeControls.Inventory
             sb.AppendLine("              from  warehouse w with (nolock)");
             sb.AppendLine("                         join currency c on (w.currencyid = c.currencyid)");
             sb.AppendLine("              where mw.warehouseid = w.warehouseid) curr");
+
+            if (string.IsNullOrEmpty(lastPurchaseVendorId))
+            {
+                sb.AppendLine(" outer apply(select lastpurchaseprice = 0.00) lp");
+            }
+            else {
+                sb.AppendLine(" outer apply(select top 1 lastpurchaseprice = v.price * ((100.00 - v.discountpct) / 100.00)       ");
+                sb.AppendLine("              from  lastpurchaseview v with (nolock)                                              ");
+                sb.AppendLine("              where v.masterid    = t.masterid                                                    ");
+                sb.AppendLine("              and   v.warehouseid = @warehouseid                                                  ");
+                sb.AppendLine("             order by v.podate desc) lp                                                           ");
+            }
+
             OverrideFromClause = sb.ToString();
 
             base.SetBaseSelectQuery(select, qry, customFields, request);

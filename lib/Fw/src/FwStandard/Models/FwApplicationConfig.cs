@@ -13,12 +13,16 @@ namespace FwStandard.Models
         public DebuggingConfig Debugging { get; set; } = new DebuggingConfig();
         public bool DisableAvailabilityService { get; set; } = false;     // these services should be on by default and only disabled when necessary
         public bool DisableBillingScheduleService { get; set; } = false;  // these services should be on by default and only disabled when necessary
+        
         public string ApplicationPool { get; set; } = string.Empty;  // this field is deprecated. But I am leaving the actual field here for a while to prevent errors on startup for sites that still have this value defined.
+        
         //the following fields are used by the System Update tool to determine where to apply the updates
         public string ApiApplicationPool { get; set; } = string.Empty;  // (previously called "ApplicationPool")
         public string WebApplicationPool { get; set; } = string.Empty;
         public string ApiPath { get; set; } = string.Empty;
         public string WebPath { get; set; } = string.Empty;
+        public bool UseAppsDirectory = false; // set to true when apps are hosted in the apps directory within the API
+        
         public Apps Apps { get; set; } = new Apps();
         public HostedServices HostedServices { get; set; } = new HostedServices();
         

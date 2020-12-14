@@ -170,7 +170,7 @@
     <Content Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridBrowse.htm" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridBrowse.htm" />
-    <Content Include="Source\Grids\InventoryQuantityHistoryGrid\InventoryQuantityHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryValueHistoryGrid\InventoryValueHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\InvoiceContactGrid\InvoiceContactGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridBrowse.htm" />
     <Content Include="Source\Grids\RetiredPurchaseGrid\RetiredPurchaseGridBrowse.htm" />
@@ -364,7 +364,7 @@
     <TypeScriptCompile Include="Source\Grids\ActivityStatusGrid\ActivityStatusGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AlternativeDescriptionGrid\AlternativeDescriptionGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\InventoryQuantityHistoryGrid\InventoryQuantityHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryValueHistoryGrid\InventoryValueHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InvoiceContactGrid\InvoiceContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseRetiredGrid\PurchaseRetiredGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RetiredPurchaseGrid\RetiredPurchaseGridController.ts" />
@@ -602,6 +602,7 @@
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Containers\EmptyContainer\EmptyContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\InventoryPurchaseSession\InventoryPurchaseSession.ts" />
+    <TypeScriptCompile Include="Source\Modules\Inventory\InventoryQuantityHistory\InventoryQuantityHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustment.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\InventorySummary\InventorySummary.ts" />
     <TypeScriptCompile Include="Source\Modules\Inventory\RetiredHistory\RetiredHistory.ts" />
@@ -807,6 +808,7 @@
     <Content Include="Source\Modules\Billing\Payment\PaymentBrowse.htm" />
     <Content Include="Source\Modules\Billing\Payment\PaymentForm.htm" />
     <Content Include="Source\Modules\Home\InventoryPurchaseSession\InventoryPurchaseSessionBrowse.htm" />
+    <Content Include="Source\Modules\Inventory\InventoryQuantityHistory\InventoryQuantityHistoryBrowse.htm" />
     <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentBrowse.htm" />
     <Content Include="Source\Modules\Inventory\InventoryAdjustment\InventoryAdjustmentForm.htm" />
     <Content Include="Source\Modules\Inventory\InventorySummary\InventorySummaryForm.htm" />

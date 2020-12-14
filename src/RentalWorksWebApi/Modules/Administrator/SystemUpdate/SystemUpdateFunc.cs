@@ -144,6 +144,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
         public const string FTP_PASSWORD = "update";
         public const string FTP_SERVER = "ftp://ftp.dbworks.com";
         public const string SYSTEM_NAME = "RentalWorksWeb";
+        public const string PARAMETER_IGNORE = "IGNORE";
         //-------------------------------------------------------------------------------------------------------
         private static DateTime GetFileDateTimeFromFtp(string fullFtpFileName)
         {
@@ -1186,9 +1187,17 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             string webApplicationPool = string.Empty;
             string webPath = string.Empty;
 
-            if (string.IsNullOrEmpty(appConfig.ApplicationPool))
+            if (appConfig.UseAppsDirectory)
             {
                 //new way
+                apiApplicationPool = appConfig.ApplicationPool;
+                apiPath = GetCurrentApiApplicationPath();
+                webApplicationPool = PARAMETER_IGNORE;   // not needed, will be ignored by the updater service - waiting on confirmation from Matt or Mike on this.
+                webPath = PARAMETER_IGNORE;              // not needed, will be ignored by the updater service
+            }
+            else if (string.IsNullOrEmpty(appConfig.ApplicationPool))
+            {
+                //old way
                 apiApplicationPool = appConfig.ApiApplicationPool;
                 apiPath = appConfig.ApiPath;
                 webApplicationPool = appConfig.WebApplicationPool;
@@ -1196,7 +1205,7 @@ namespace WebApi.Modules.Administrator.SystemUpdate
             }
             else
             {
-                //old way
+                //older way
                 apiApplicationPool = appConfig.ApplicationPool;
                 apiPath = GetCurrentApiApplicationPath();
                 webApplicationPool = GetCurrentWebApplicationPoolName(apiApplicationPool);
