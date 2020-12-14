@@ -30,7 +30,8 @@ class Program extends FwApplication {
         sessionStorage.setItem('warehouse',          JSON.stringify(responseSessionInfo.warehouse));
         sessionStorage.setItem('department',         JSON.stringify(responseSessionInfo.department));
         sessionStorage.setItem('webusersid',         responseSessionInfo.webUser.webusersid);
-        sessionStorage.setItem('userid',             JSON.stringify(responseSessionInfo.webUser));
+        sessionStorage.setItem('userid', JSON.stringify(responseSessionInfo.webUser));
+        sessionStorage.setItem('hascreditcardprocessing', (responseSessionInfo.clientcode === 'VISTEK').toString());
         if (responseSessionInfo.webUser.usertype == 'CONTACT') {
             sessionStorage.setItem('deal', JSON.stringify(responseSessionInfo.deal));
         }

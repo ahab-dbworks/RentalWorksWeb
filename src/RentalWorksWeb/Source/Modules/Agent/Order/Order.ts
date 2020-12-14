@@ -166,13 +166,16 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        FwMenu.addSubMenuItem($groupReports, 'Print Order Depleting Deposit Receipt ', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
-            try {
-                this.printOrderDepletingDepositReceipt(options.$form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        //let hascreditcardprocessing = sessionStorage.getItem('hascreditcardprocessing');
+        //if (typeof hascreditcardprocessing === 'string' && hascreditcardprocessing === 'true') {
+        //    FwMenu.addSubMenuItem($groupReports, 'Print Receipts', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
+        //        try {
+        //            this.printOrderDepletingDepositReceipt(options.$form);
+        //        } catch (ex) {
+        //            FwFunc.showError(ex);
+        //        }
+        //    });
+        //}
     }
     //-----------------------------------------------------------------------------------------------
     getModuleScreen() {

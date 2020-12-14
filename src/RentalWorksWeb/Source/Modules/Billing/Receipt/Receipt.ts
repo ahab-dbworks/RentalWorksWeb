@@ -26,6 +26,53 @@ class Receipt {
         const viewLocation = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
+
+        // Add Print button on toolbar
+        FwMenu.addStandardBtnWithIcon(options.$menu, '<i class="material-icons">print</i>', 'Print', 'PVylYE8XDyxP', (e) => {
+            try {
+                this.printReceiptInvoicesFromBrowse(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        // Add Print button on submenu
+        FwMenu.addSubMenuItem(options.$menu, 'Print', 'PVylYE8XDyxP', (e) => {
+            try {
+                this.printReceiptInvoicesFromBrowse(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //-----------------------------------------------------------------------------------------------
+    addFormMenuItems(options: IAddFormMenuOptions): void {
+        const $colReports = FwMenu.addSubMenuColumn(options.$menu);
+        const $groupReports = FwMenu.addSubMenuGroup($colReports, 'Reports');
+
+        let hascreditcardprocessing = sessionStorage.getItem('hascreditcardprocessing');
+        options.hasMultiEdit = false;
+        FwMenu.addFormMenuButtons(options);
+
+        if (typeof hascreditcardprocessing === 'string' && hascreditcardprocessing === 'true') {
+            // Add print button on toolbar
+            FwMenu.addStandardBtnWithIcon(options.$menu, '<i class="material-icons">print</i>', 'Print', 'PVylYE8XDyxP', (e) => {
+                try {
+                    this.printReceiptInvoicesFromForm(options.$form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+
+            // Add Print button on submenu
+            FwMenu.addSubMenuItem($groupReports, 'Print Receipt', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
+                try {
+                    this.printReceiptInvoicesFromForm(options.$form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -1231,6 +1278,45 @@ class Receipt {
                 }
                 , ex => FwFunc.showError(ex), $browse);
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    printReceiptInvoicesFromForm($form: any) {
+        try {
+            const module = this.Module;
+            const receiptIdText = (FwFormField.getValueByDataField($form, `ReceiptDate`) + ' ' + FwFormField.getValueByDataField($form, `CheckNumber`)).trim();
+            const receiptId = FwFormField.getValueByDataField($form, `ReceiptId`);
+
+            const $report = ReceiptReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="ReceiptId"]`, receiptId, receiptIdText);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Receipt`);
+
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    printReceiptInvoicesFromBrowse($browse: any) {
+        try {
+            const module = this.Module;
+            const $tr = FwBrowse.getSelectedRow($browse);
+            const receiptDate = FwBrowse.getValueByDataField($browse, $tr, 'ReceiptDate');
+            const checkNumber = FwBrowse.getValueByDataField($browse, $tr, 'CheckNumber');
+            const receiptIdText = `${receiptDate} ${checkNumber}`.trim();
+            const receiptId = FwBrowse.getValueByDataField($browse, $tr, 'ReceiptId');
+
+            const $report = ReceiptReportController.openForm();
+            FwModule.openSubModuleTab($browse, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="ReceiptId"]`, receiptId, receiptIdText);
+            const $tab = FwTabs.getTabByElement($report);
+            $tab.find('.caption').html(`Print Receipt`);
+
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
 }

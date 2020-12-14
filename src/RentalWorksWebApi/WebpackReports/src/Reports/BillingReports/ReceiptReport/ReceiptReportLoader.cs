@@ -316,9 +316,9 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         public DepletingDepositReceiptReportInvoiceLoader()
         {
             this.Cte.AppendLine("invoicearwebrptview_cte as (");
-            this.Cte.AppendLine("  select *,");
+            this.Cte.AppendLine("  select iar.*,");
             this.Cte.AppendLine("    rowtype='detail'");
-            this.Cte.AppendLine("  from invoicearwebrptview with (nolock)");
+            this.Cte.AppendLine("  from invoicearwebrptview iar with (nolock)");
             this.Cte.AppendLine(")");
         }
         //------------------------------------------------------------------------------------ 
