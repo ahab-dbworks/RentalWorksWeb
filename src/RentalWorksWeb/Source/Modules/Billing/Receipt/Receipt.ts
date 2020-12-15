@@ -63,11 +63,28 @@ class Receipt {
                     FwFunc.showError(ex);
                 }
             });
+            // Add print button on toolbar
+            FwMenu.addStandardBtn(options.$menu, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e) => {
+                try {
+                    this.addDepletingDeposit(options.$form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+
 
             // Add Print button on submenu
             FwMenu.addSubMenuItem($groupReports, 'Print Receipt', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
                 try {
                     this.printReceiptInvoicesFromForm(options.$form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            // Add Print button on submenu
+            FwMenu.addSubMenuItem($groupReports, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e: JQuery.ClickEvent) => {
+                try {
+                    this.addDepletingDeposit(options.$form);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -1320,6 +1337,17 @@ class Receipt {
         } catch (ex) {
             FwFunc.showError(ex);
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    addDepletingDeposit($browse: any) {
+        try {
+            const mode = 'EDIT';
+            const $addDepletingDepositForm = ProcessCreditCardController.openForm(mode, orderInfo);
+            FwModule.openSubModuleTab($form, $addDepletingDepositForm );
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+        
     }
     //----------------------------------------------------------------------------------------------
 }
