@@ -28,10 +28,10 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         //}
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "arid", modeltype: FwDataTypes.Text)]
-        public string ArId { get; set; }
+        public string ReceiptId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ardate", modeltype: FwDataTypes.Date)]
-        public string ArDate { get; set; }
+        public string ReceiptDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string LocationId { get; set; }
@@ -73,7 +73,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         public string PayTypeExportPaymentMethod { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text)]
-        public string CheckNo { get; set; }
+        public string CheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.DecimalString2Digits)]
         public string PaymentAmount { get; set; }
@@ -86,6 +86,9 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean)]
         public bool? RecType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
+        public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
@@ -152,14 +155,10 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         //------------------------------------------------------------------------------------
         public async Task<ReceiptReportLoader> RunReportAsync(ReceiptReportRequest request)
         {
-            bool hasOrderId = !string.IsNullOrEmpty(request.OrderId);
-            bool hasDealId = !string.IsNullOrEmpty(request.DealId);
             bool hasReceiptId = !string.IsNullOrEmpty(request.ReceiptId);
-            bool hasArgument = hasOrderId || hasDealId || hasReceiptId;
-            bool hasOnlyOneArgument = hasOrderId ^ hasDealId ^ hasReceiptId; // XOR
-            if (!hasArgument || !hasOnlyOneArgument)
+            if (!hasReceiptId)
             {
-                throw new ArgumentException("Must supply either an OrderId, DealId, or ReceiptId.");
+                throw new ArgumentException("ReceiptId ia required");
             }
             
             ReceiptReportLoader report;
@@ -168,14 +167,6 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
                 var reportHeader = new ReceiptReportLoader();
                 reportHeader.SetDependencies(this.AppConfig, this.UserSession);
                 var receiptReportLoaderRequest = new BrowseRequest();
-                if (!string.IsNullOrEmpty(request.OrderId))
-                {
-                    receiptReportLoaderRequest.uniqueids.OrderId = request.OrderId;
-                }
-                if (!string.IsNullOrEmpty(request.DealId))
-                {
-                    receiptReportLoaderRequest.uniqueids.DealId = request.DealId;
-                }
                 if (!string.IsNullOrEmpty(request.ReceiptId))
                 {
                     receiptReportLoaderRequest.uniqueids.ReceiptId = request.ReceiptId;
@@ -188,36 +179,41 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
                 report = headers[0];
             }
 
-            if (!string.IsNullOrEmpty(request.OrderId))
+            if (report.RecTypeDisplay == "DEPLETING DEPOSIT")
             {
-                // Order Depleting Deposit Report
-                report.ReportType = "ORDER_DEPLETING_DEPOSIT";
-                var orderLoader = new DepletingDepositReceiptReportOrderLoader();
-                orderLoader.SetDependencies(this.AppConfig, this.UserSession);
-                BrowseRequest orderLoaderRequest = new BrowseRequest();
-                orderLoaderRequest.activeviewfields["LocationId"] = new List<string>();
-                orderLoaderRequest.activeviewfields["LocationId"].Add(report.LocationId);
-                orderLoaderRequest.uniqueids.OrderId = request.OrderId;
-                //orderLoaderRequest.orderby = "ReceiptDate desc";
-                var dtOrders = await orderLoader.BrowseAsync(orderLoaderRequest);
-                dtOrders.InsertTotalRow("RowType", "detail", "grandtotal", new string[] { "PeriodTotal", "ReplacementCost", "DepositAmount" });
-                report.Orders = dtOrders.ToList<DepletingDepositReceiptReportOrderLoader>();
+                if (!string.IsNullOrEmpty(report.OrderId))
+                {
+                    // Order Depleting Deposit Report
+                    report.ReportType = "ORDER_DEPLETING_DEPOSIT";
+                    var orderLoader = new DepletingDepositReceiptReportOrderLoader();
+                    orderLoader.SetDependencies(this.AppConfig, this.UserSession);
+                    BrowseRequest orderLoaderRequest = new BrowseRequest();
+                    orderLoaderRequest.activeviewfields["LocationId"] = new List<string>();
+                    orderLoaderRequest.activeviewfields["LocationId"].Add(report.LocationId);
+                    orderLoaderRequest.uniqueids.ReceiptId = report.ReceiptId;
+                    orderLoaderRequest.uniqueids.OrderId = report.OrderId;
+                    //orderLoaderRequest.orderby = "ReceiptDate desc";
+                    var dtOrders = await orderLoader.BrowseAsync(orderLoaderRequest);
+                    dtOrders.InsertTotalRow("RowType", "detail", "grandtotal", new string[] { "PeriodTotal", "ReplacementCost", "DepositAmount" });
+                    report.Orders = dtOrders.ToList<DepletingDepositReceiptReportOrderLoader>();
+                }
+                else
+                {
+                    // Deal Depleting Deposit Report
+                    report.ReportType = "DEAL_DEPLETING_DEPOSIT";
+                    var dealLoader = new DepletingDepositReceiptReportDealLoader();
+                    dealLoader.SetDependencies(this.AppConfig, this.UserSession);
+                    BrowseRequest dealLoaderRequest = new BrowseRequest();
+                    dealLoaderRequest.activeviewfields["LocationId"] = new List<string>();
+                    dealLoaderRequest.activeviewfields["LocationId"].Add(report.LocationId);
+                    dealLoaderRequest.uniqueids.ReceiptId = report.ReceiptId;
+                    dealLoaderRequest.uniqueids.DealId = report.DealId;
+                    var dtDeals = await dealLoader.BrowseAsync(dealLoaderRequest);
+                    dtDeals.InsertTotalRow("RowType", "detail", "grandtotal", new string[] { "DepositAmount" });
+                    report.Deals = dtDeals.ToList<DepletingDepositReceiptReportDealLoader>();
+                }
             }
-            else if (!string.IsNullOrEmpty(request.DealId))
-            {
-                // Deal Depleting Deposit Report
-                report.ReportType = "DEAL_DEPLETING_DEPOSIT";
-                var dealLoader = new DepletingDepositReceiptReportDealLoader();
-                dealLoader.SetDependencies(this.AppConfig, this.UserSession);
-                BrowseRequest dealLoaderRequest = new BrowseRequest();
-                dealLoaderRequest.activeviewfields["LocationId"] = new List<string>();
-                dealLoaderRequest.activeviewfields["LocationId"].Add(report.LocationId);
-                dealLoaderRequest.uniqueids.DealId = request.DealId;
-                var dtDeals = await dealLoader.BrowseAsync(dealLoaderRequest);
-                dtDeals.InsertTotalRow("RowType", "detail", "grandtotal", new string[] { "DepositAmount" });
-                report.Deals = dtDeals.ToList<DepletingDepositReceiptReportDealLoader>();
-            }
-            else if (!string.IsNullOrEmpty(request.ReceiptId))
+            else
             {
                 // Receipt Report
                 report.ReportType = "RECEIPT";
@@ -250,6 +246,9 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
             this.Cte.AppendLine(")");
         }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "arid", modeltype: FwDataTypes.Text)]
+        public string ReceiptId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -275,6 +274,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            this.addFilterToSelect("ReceiptId", "arid", select, request);
             this.addFilterToSelect("OrderId", "orderid", select, request);
         }
     }
@@ -291,6 +291,9 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
             this.Cte.AppendLine(")");
         }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "arid", modeltype: FwDataTypes.Text)]
+        public string ReceiptId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -306,6 +309,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            this.addFilterToSelect("ReceiptId", "arid", select, request);
             this.addFilterToSelect("DealId", "dealid", select, request);
         }
     }

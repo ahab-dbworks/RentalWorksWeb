@@ -1,6 +1,4 @@
 ﻿<!--Receipt Report-->
-
-
 <!-- Header -->
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn" style="flex:0 0 30%;padding-bottom:5px;">
@@ -24,17 +22,14 @@
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 40%;">
     <div class="sub-title" style="font-size:20px;">{{Department}}</div>
-    <div class="title" style="text-align:center;">
-      {{#ifEquals ReportType "ORDER_DEPLETING_DEPOSIT"}}Depleting Deposit<br />Receipt{{/ifEquals}}
-      {{#ifEquals ReportType "DEAL_DEPLETING_DEPOSIT"}}Depleting Deposit<br />Receipt{{/ifEquals}}
-      {{#ifEquals ReportType "RECEIPT"}}Receipt{{/ifEquals}}
-    </div>
+    <div class="title" style="text-align:center;">Receipt</div>
+    <div class="sub-title" style="text-align:center;color:#027cc5;font-size:20px;font-weight:bold;">{{RecTypeDisplay}}</div>
   </div>
   <div class="rpt-flexcolumn" style="flex:0 0 30%;">
     <table>
       <tr>
         <td style="width:50%;color:black;font-size:18px;font-weight:700;text-align:right;padding:2em 0 0 0;">Receipt Date:</td>
-        <td style="font-size:18px;text-align:center;padding:2em 0 0 0;">{{ArDate}}</td>
+        <td style="font-size:18px;text-align:center;padding:2em 0 0 0;">{{ReceiptDate}}</td>
       </tr>
     </table>
   </div>
@@ -60,7 +55,7 @@
       </tr>
       <tr>
         <td style="width:114px;" class="shaded-block">Reference No: </td>
-        <td class="meta-content">{{CheckNo}}</td>
+        <td class="meta-content">{{CheckNumber}}</td>
       </tr>
     </table>
   </div>
@@ -78,8 +73,10 @@
   </div>
 </div>
 
-<!-- Orders -->
-{{#ifEquals ReportType "ORDER_DEPLETING_DEPOSIT"}}
+{{#ifEquals RecTypeDisplay "DEPLETING DEPOSIT"}}
+
+<!-- Orders Depleting Deposits -->
+{{#ifNotEquals OrderId ""}}
 <div data-section="table" data-itemarray="Orders" class="rpt-flexrow" style="margin-top:25px;">
   <table data-tablename="Detail View">
     <thead id="columnHeader">
@@ -117,10 +114,10 @@
     </tbody>
   </table>
 </div>
-{{/ifEquals}}
+{{/ifNotEquals}}
 
-<!-- Deals -->
-{{#ifEquals ReportType "DEAL_DEPLETING_DEPOSIT"}}
+<!-- Deal Depleting Deposits -->
+{{#ifEquals OrderId ""}}
 <div data-section="table" data-itemarray="Orders" class="rpt-flexrow" style="margin-top:25px;">
   <table data-tablename="Detail View">
     <thead id="columnHeader">
@@ -156,14 +153,16 @@
 </div>
 {{/ifEquals}}
 
+{{/ifEquals}}
+
 <!-- Invoices -->
-{{#ifEquals ReportType "RECEIPT"}}
+{{#ifNotEquals RecTypeDisplay "DEPLETING DEPOSIT"}}
 <div data-section="table" data-itemarray="Invoices" class="rpt-flexrow" style="margin-top:25px;">
   <table data-tablename="Detail View">
     <thead id="columnHeader">
       <tr><td>&nbsp;</td></tr><!--spacer row-->
       <tr class="avoid-page-break">
-        <td colspan="7" class="section-header">Invoices</td>
+        <td colspan="7" class="section-header">{{RecTypeDisplay}}</td>
       </tr>
       <tr data-row="main-header">
         <th data-linkedcolumn="InvoiceNumber" data-valuefield="InvoiceNumber">Invoice No.</th>
@@ -197,4 +196,4 @@
     </tbody>
   </table>
 </div>
-{{/ifEquals}}
+{{/ifNotEquals}}

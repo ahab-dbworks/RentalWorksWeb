@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PuppeteerSharp;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Data;
@@ -19,8 +20,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
 {
     public class ReceiptReportRequest : AppReportRequest
     {
-        public string OrderId { get; set; }
-        public string DealId { get; set; }
+        [Required]
         public string ReceiptId { get; set; }
     }
 
@@ -90,21 +90,21 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptreport/validateorder/browse 
-        [HttpPost("validateorder/browse")]
-        [FwControllerMethod(Id: "X0lDVsxbqfsX", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<OrderLogic>(browseRequest);
-        }
-        //------------------------------------------------------------------------------------ 
-        // POST api/v1/receiptreport/validatedeal/browse 
-        [HttpPost("validatedeal/browse")]
-        [FwControllerMethod(Id: "9pYpFn7dv8zv", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody] BrowseRequest browseRequest)
-        {
-            return await DoBrowseAsync<DealLogic>(browseRequest);
-        }
+        //// POST api/v1/receiptreport/validateorder/browse 
+        //[HttpPost("validateorder/browse")]
+        //[FwControllerMethod(Id: "X0lDVsxbqfsX", ActionType: FwControllerActionTypes.Browse)]
+        //public async Task<ActionResult<FwJsonDataTable>> ValidateOrderBrowseAsync([FromBody]BrowseRequest browseRequest)
+        //{
+        //    return await DoBrowseAsync<OrderLogic>(browseRequest);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// POST api/v1/receiptreport/validatedeal/browse 
+        //[HttpPost("validatedeal/browse")]
+        //[FwControllerMethod(Id: "9pYpFn7dv8zv", ActionType: FwControllerActionTypes.Browse)]
+        //public async Task<ActionResult<FwJsonDataTable>> ValidateDealBrowseAsync([FromBody] BrowseRequest browseRequest)
+        //{
+        //    return await DoBrowseAsync<DealLogic>(browseRequest);
+        //}
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receiptreport/validatereceipt/browse 
         [HttpPost("validatereceipt/browse")]
