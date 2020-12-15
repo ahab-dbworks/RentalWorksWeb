@@ -68,6 +68,9 @@ namespace WebApi.Modules.Billing.Receipt
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "authorizationcode", modeltype: FwDataTypes.Text)]
         public string AuthorizationCode { get; set; }
         //------------------------------------------------------------------------------------

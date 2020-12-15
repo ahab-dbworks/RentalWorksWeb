@@ -17,6 +17,9 @@ class DepletingDeposit {
     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Check/Reference No" data-datafield="CheckNumber" data-required="true" style="flex:1 0 150px;"></div>
   </div>
   <div class="flexrow">
+    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrenyId" data-displayfield="CurrencyCode" data-validationname="CurrencyValidation" data-enabled="true" style="flex:1 0 150px;" data-required="true"></div>
+  </div>  
+<div class="flexrow">
     <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount to Apply" data-datafield="PaymentAmount" data-required="true" style="flex:1 0 150px;"></div>
   </div>
   <div class="flexrow">
@@ -28,37 +31,43 @@ class DepletingDeposit {
   </div>
 </div>
 `;
+
         const $adddepletingdeposit = jQuery(html);
         FwFormField.setValueByDataField($adddepletingdeposit, "Deal", dealId, deal);
 
-        const $confirmation = FwConfirmation.renderConfirmation('Depleting Deposit', '');
+        const $confirmation = FwConfirmation.renderConfirmation('Add Depleting Deposit', '');
         FwConfirmation.addJqueryControl($confirmation, $adddepletingdeposit);
         const $btnProcess = FwConfirmation.addButton($confirmation, 'OK', false);
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValueByDataField($adddepletingdeposit, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
+
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
             try {
-                //const request = new FwAjaxRequest();
-                //request.httpMethod = 'POST';
-                //request.setWebApiUrl('/api/v1/receipt/adddepletingdeposit');
-                //request.data = {
-                //    DealId: FwFormField.getValueByDataField($adddepletingdeposit, 'DealId'),
-                //    ReceiptDate: FwFormField.getValueByDataField($adddepletingdeposit, 'ReceiptDate'),
-                //    PaymentTypeId: FwFormField.getValueByDataField($adddepletingdeposit, 'PaymentTypeId'),
-                //    CheckNumber: FwFormField.getValueByDataField($adddepletingdeposit, 'CheckNumber'),
-                //    PaymentAmount: FwFormField.getValueByDataField($adddepletingdeposit, 'PaymentAmount'),
-                //    PaymentMemo: FwFormField.getValueByDataField($adddepletingdeposit, 'PaymentMemo')
-                //};
-                //request.$elementToBlock = jQuery('body');
-                //var response = await FwAjax.callWebApi<any, any>(request);
-                //if (request.xmlHttpRequest.status === 200) {
-                //    if (response.Status === 'ERROR') {
-                //        FwFunc.showWebApiError(request.xmlHttpRequest.status, request.xmlHttpRequest.statusText, request.xmlHttpRequest.responseText, request.url);
-                //        return;
-                //    }
-                //    console.log(response);
-                //    FwConfirmation.destroyConfirmation($confirmation);
-                //} else {
-                //    FwFunc.showWebApiError(request.xmlHttpRequest.status, request.xmlHttpRequest.statusText, request.xmlHttpRequest.responseText, request.url);
-                //}
+                const request = new FwAjaxRequest();
+                request.httpMethod = 'POST';
+                request.setWebApiUrl('/api/v1/receipt/adddepletingdeposit');
+                request.data = {
+                    LocationId: location.locationid,
+                    CurrencyId: FwFormField.getValueByDataField($adddepletingdeposit, 'CurrencyId'),
+                    DealId: FwFormField.getValueByDataField($adddepletingdeposit, 'DealId'),
+                    ReceiptDate: FwFormField.getValueByDataField($adddepletingdeposit, 'ReceiptDate'),
+                    PaymentTypeId: FwFormField.getValueByDataField($adddepletingdeposit, 'PaymentTypeId'),
+                    CheckNumber: FwFormField.getValueByDataField($adddepletingdeposit, 'CheckNumber'),
+                    PaymentAmount: FwFormField.getValueByDataField($adddepletingdeposit, 'PaymentAmount'),
+                    PaymentMemo: FwFormField.getValueByDataField($adddepletingdeposit, 'PaymentMemo')
+                };
+                request.$elementToBlock = jQuery('body');
+                var response = await FwAjax.callWebApi<any, any>(request);
+                if (request.xmlHttpRequest.status === 200) {
+                    if (response.Status === 'ERROR') {
+                        FwFunc.showWebApiError(request.xmlHttpRequest.status, request.xmlHttpRequest.statusText, request.xmlHttpRequest.responseText, request.url);
+                        return;
+                    }
+                    console.log(response);
+                    FwConfirmation.destroyConfirmation($confirmation);
+                } else {
+                    FwFunc.showWebApiError(request.xmlHttpRequest.status, request.xmlHttpRequest.statusText, request.xmlHttpRequest.responseText, request.url);
+                }
                 FwConfirmation.destroyConfirmation($confirmation);
             }
             catch (ex) {

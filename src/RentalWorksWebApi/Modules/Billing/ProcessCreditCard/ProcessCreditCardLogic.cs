@@ -190,7 +190,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                 receipt.OrderId = request.OrderId;
                 receipt.AppliedById = this.UserSession.UsersId;
                 receipt.ChargeBatchId = string.Empty;
-                receipt.CheckNumber = "auth code";
+                receipt.CheckNumber = string.Empty; 
                 receipt.CreateDepletingDeposit = true;
                 receipt.CreateOverpayment = false;
                 receipt.CurrencyId = this.CurrencyId;

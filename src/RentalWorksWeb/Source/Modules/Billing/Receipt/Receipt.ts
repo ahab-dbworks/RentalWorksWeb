@@ -38,7 +38,7 @@ class Receipt {
 
         // Browse SubMenu
         // Options Group
-        FwMenu.addSubMenuItem(options.$colOptions, 'Add Depleting Deposit', 'PVylYE8XDyxP', (e) => {
+        FwMenu.addSubMenuItem(options.$colOptions, 'Add Depleting Deposit', 'kLAPCtGM3zE2', (e) => {
             try {
                 const $form = options.$browse.closest('.fwform');
                 const controllerName = $form.attr('data-controller');
@@ -92,15 +92,6 @@ class Receipt {
                     FwFunc.showError(ex);
                 }
             });
-            //FwMenu.addStandardBtn(options.$menu, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e) => {
-            //    try {
-            //        const dealId = FwFormField.getValueByDataField(options.$form, 'DealId');
-            //        const deal = FwFormField.getTextByDataField(options.$form, 'Deal');
-            //        this.addDepletingDeposit(dealId, deal);
-            //    } catch (ex) {
-            //        FwFunc.showError(ex);
-            //    }
-            //});
 
             // Form SubMenu
             FwMenu.addSubMenuItem($groupReports, 'Print Receipt', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
@@ -110,15 +101,6 @@ class Receipt {
                     FwFunc.showError(ex);
                 }
             });
-            //FwMenu.addSubMenuItem($groupReports, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e: JQuery.ClickEvent) => {
-            //    try {
-            //        const dealId = FwFormField.getValueByDataField(options.$form, 'DealId');
-            //        const deal = FwFormField.getTextByDataField(options.$form, 'Deal');
-            //        this.addDepletingDeposit(dealId, deal);
-            //    } catch (ex) {
-            //        FwFunc.showError(ex);
-            //    }
-            //});
         }
     }
     //----------------------------------------------------------------------------------------------
