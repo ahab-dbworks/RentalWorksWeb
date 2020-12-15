@@ -27,7 +27,7 @@ class Receipt {
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn(options.$menu, 'Location', viewLocation, true, "LocationId");
 
-        // Add Print button on toolbar
+        // Browse Toolbar
         FwMenu.addStandardBtnWithIcon(options.$menu, '<i class="material-icons">print</i>', 'Print', 'PVylYE8XDyxP', (e) => {
             try {
                 this.printReceiptInvoicesFromBrowse(options.$browse);
@@ -36,10 +36,25 @@ class Receipt {
             }
         });
 
-        // Add Print button on submenu
+        // Browse SubMenu
         FwMenu.addSubMenuItem(options.$menu, 'Print', 'PVylYE8XDyxP', (e) => {
             try {
                 this.printReceiptInvoicesFromBrowse(options.$browse);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwMenu.addSubMenuItem(options.$menu, 'Add Depleting Deposit', 'PVylYE8XDyxP', (e) => {
+            try {
+                const $form = options.$browse.closest('.fwform');
+                let orderId = '', orderDescription = '', dealId = '', dealDescription = '';
+                if ($form.length > 0) {
+                    orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                    orderDescription = FwFormField.getTextByDataField($form, 'OrderDescription');
+                    dealId = FwFormField.getValueByDataField($form, 'DealId');
+                    dealDescription = FwFormField.getTextByDataField($form, 'DealDescription');
+                }
+                this.addDepletingDeposit(orderId, orderDescription, dealId, dealDescription);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -55,7 +70,7 @@ class Receipt {
         FwMenu.addFormMenuButtons(options);
 
         if (typeof hascreditcardprocessing === 'string' && hascreditcardprocessing === 'true') {
-            // Add print button on toolbar
+            // Form Toolbar
             FwMenu.addStandardBtnWithIcon(options.$menu, '<i class="material-icons">print</i>', 'Print', 'PVylYE8XDyxP', (e) => {
                 try {
                     this.printReceiptInvoicesFromForm(options.$form);
@@ -63,17 +78,17 @@ class Receipt {
                     FwFunc.showError(ex);
                 }
             });
-            // Add print button on toolbar
-            FwMenu.addStandardBtn(options.$menu, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e) => {
-                try {
-                    this.addDepletingDeposit(options.$form);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
+            //FwMenu.addStandardBtn(options.$menu, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e) => {
+            //    try {
+            //        const dealId = FwFormField.getValueByDataField(options.$form, 'DealId');
+            //        const deal = FwFormField.getTextByDataField(options.$form, 'Deal');
+            //        this.addDepletingDeposit(dealId, deal);
+            //    } catch (ex) {
+            //        FwFunc.showError(ex);
+            //    }
+            //});
 
-
-            // Add Print button on submenu
+            // Form SubMenu
             FwMenu.addSubMenuItem($groupReports, 'Print Receipt', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
                 try {
                     this.printReceiptInvoicesFromForm(options.$form);
@@ -81,14 +96,15 @@ class Receipt {
                     FwFunc.showError(ex);
                 }
             });
-            // Add Print button on submenu
-            FwMenu.addSubMenuItem($groupReports, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e: JQuery.ClickEvent) => {
-                try {
-                    this.addDepletingDeposit(options.$form);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
+            //FwMenu.addSubMenuItem($groupReports, 'Add Depleting Deposit', 'G3bQh1d7rMME', (e: JQuery.ClickEvent) => {
+            //    try {
+            //        const dealId = FwFormField.getValueByDataField(options.$form, 'DealId');
+            //        const deal = FwFormField.getTextByDataField(options.$form, 'Deal');
+            //        this.addDepletingDeposit(dealId, deal);
+            //    } catch (ex) {
+            //        FwFunc.showError(ex);
+            //    }
+            //});
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -1339,11 +1355,9 @@ class Receipt {
         }
     }
     //----------------------------------------------------------------------------------------------
-    addDepletingDeposit($browse: any) {
+    addDepletingDeposit(orderId: string, orderDescription: string, dealId: string, dealDescription: string) {
         try {
-            const mode = 'EDIT';
-            const $addDepletingDepositForm = ProcessCreditCardController.openForm(mode, orderInfo);
-            FwModule.openSubModuleTab($form, $addDepletingDepositForm );
+            DepletingDeposit.showAddDepletingDepositPopup(orderId, orderDescription, dealId, dealDescription);
         } catch (ex) {
             FwFunc.showError(ex);
         }
