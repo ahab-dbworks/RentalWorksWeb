@@ -729,7 +729,7 @@ abstract class CheckInBase implements IModule {
     }
     //----------------------------------------------------------------------------------------------
     checkInItem($form: JQuery, checkInTranType?: string) {
-        const code = FwFormField.getValueByDataField($form, 'BarCode'); // BarCode is being saved and cleared out here in order to speed up scanning spped
+        const code = FwFormField.getValueByDataField($form, 'BarCode'); // BarCode is being saved and cleared out here in order to improve scanning speed and accuracy
         FwFormField.setValueByDataField($form, 'BarCode', '');
 
         const request: any = {
