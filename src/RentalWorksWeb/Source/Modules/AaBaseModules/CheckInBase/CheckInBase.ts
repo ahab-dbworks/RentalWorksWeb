@@ -402,7 +402,7 @@ abstract class CheckInBase implements IModule {
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
                 errorMsg.html('');
-                const checkInTranType = 'BarCode';
+                let checkInTranType = 'BarCode';
                 this.checkInItem($form, checkInTranType);
             }
         });
@@ -410,25 +410,25 @@ abstract class CheckInBase implements IModule {
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
                 errorMsg.html('');
-                const checkInTranType = 'Quantity';
+                let checkInTranType = 'Quantity';
                 this.checkInItem($form, checkInTranType);
             }
         });
         //Add Order to Contract
         $form.find('.addordertocontract').on('click', e => {
             errorMsg.html('');
-            const checkInTranType = 'AddOrderToContract';
+            let checkInTranType = 'AddOrderToContract';
             this.checkInItem($form, checkInTranType);
         });
         //Swap Item
         $form.find('.swapitem').on('click', e => {
             errorMsg.html('');
-            const checkInTranType = 'SwapItem';
+            let checkInTranType = 'SwapItem';
             this.checkInItem($form, checkInTranType);
         });
         //Create Contract
         $form.find('.createcontract').on('click', e => {
-            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId) {
                 FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completecheckincontract/${contractId}`, null, FwServices.defaultTimeout,
                     response => {
@@ -735,15 +735,10 @@ abstract class CheckInBase implements IModule {
         }
 
         $form.find('.swapitem').hide();
-
-        const debouncedItemGrid = FwFunc.debounce(function () {
-            const $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
-            FwBrowse.search($checkedInItemsGridControl);
-        }, 1000, false);
+        let contractId = FwFormField.getValueByDataField($form, 'ContractId');
 
         request.Code = FwFormField.getValueByDataField($form, 'BarCode');
         request.WarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-        const contractId = FwFormField.getValueByDataField($form, 'ContractId');
         if (contractId) {
             request.ContractId = contractId;
         }
@@ -787,7 +782,8 @@ abstract class CheckInBase implements IModule {
                 FwFormField.disable($form.find(`[data-datafield=${idType}Id]`));
                 if (this.Module == 'CheckIn') FwFormField.disable($form.find(`[data-datafield="DealId"]`));
 
-                debouncedItemGrid();
+                let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
+                FwBrowse.search($checkedInItemsGridControl);
                 $form.find('[data-datafield="BarCode"] input').select();
 
                 if (response.status === 107) {
