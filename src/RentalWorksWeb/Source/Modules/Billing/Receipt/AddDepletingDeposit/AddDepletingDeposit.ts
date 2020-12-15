@@ -33,7 +33,7 @@ class DepletingDeposit {
 
         const $confirmation = FwConfirmation.renderConfirmation('Depleting Deposit', '');
         FwConfirmation.addJqueryControl($confirmation, $adddepletingdeposit);
-        const $btnProcess = FwConfirmation.addButton($confirmation, 'Process', false);
+        const $btnProcess = FwConfirmation.addButton($confirmation, 'OK', false);
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
             try {
                 //const request = new FwAjaxRequest();
@@ -66,6 +66,6 @@ class DepletingDeposit {
             }
         });
 
-        const $btnCancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
+        const $btnCancel = FwConfirmation.addButton($confirmation, 'Close', true);
     }
 }

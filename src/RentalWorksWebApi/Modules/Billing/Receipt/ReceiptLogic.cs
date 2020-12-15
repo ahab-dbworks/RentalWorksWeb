@@ -13,6 +13,7 @@ using WebApi.Modules.Settings.SystemSettings;
 using WebApi.Modules.Settings.SystemSettings.SystemSettings;
 using WebApi;
 using WebApi.Modules.Settings.FiscalYear;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Billing.Receipt
 {
@@ -171,6 +172,10 @@ namespace WebApi.Modules.Billing.Receipt
 
         [FwLogicProperty(Id: "UX70epptKCKf")]
         public string OrderId { get { return receipt.OrderId; } set { receipt.OrderId = value; } }
+
+        [FwLogicProperty(Id: "UQL9fksJaCjm", IsReadOnly: true)]
+        public string OrderDescription { get; set; }
+
         [FwLogicProperty(Id: "xewDNF3kqsEC")]
         public string AuthorizationCode { get { return receipt.AuthorizationCode; } set { receipt.AuthorizationCode = value; } }
 
@@ -913,6 +918,15 @@ namespace WebApi.Modules.Billing.Receipt
                 }
 
             }
+        }
+        //------------------------------------------------------------------------------------
+        public static async Task<ReceiptLogic> AddDepletingDeposit(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string dealId)
+        {
+            var receipt = new ReceiptLogic();
+            receipt.SetDependencies(appConfig, userSession);
+
+            await receipt.SaveAsync();
+            return receipt;
         }
         //------------------------------------------------------------------------------------
     }
