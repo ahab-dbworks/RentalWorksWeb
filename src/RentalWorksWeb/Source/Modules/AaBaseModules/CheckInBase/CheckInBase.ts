@@ -88,15 +88,15 @@ abstract class CheckInBase implements IModule {
                 FwBrowse.search($browse);
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
-                    let $tr = jQuery(e.currentTarget);
+                    const $tr = jQuery(e.currentTarget);
                     const orderId = FwBrowse.getValueByDataField($browse, $tr, 'OrderId');
                     const orderNo = FwBrowse.getValueByDataField($browse, $tr, 'OrderNumber');
                     const contractId = FwBrowse.getValueByDataField($browse, $tr, 'ContractId');
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     if (this.Module == 'CheckIn') {
-                        let dealId = FwBrowse.getValueByDataField($browse, $tr, 'DealId');
-                        let dealNumber = FwBrowse.getValueByDataField($browse, $tr, 'DealOrVendor');
+                        const dealId = FwBrowse.getValueByDataField($browse, $tr, 'DealId');
+                        const dealNumber = FwBrowse.getValueByDataField($browse, $tr, 'DealOrVendor');
                         if (dealId !== "") {
                             FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
                         }
