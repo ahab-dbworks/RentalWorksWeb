@@ -166,16 +166,6 @@ class Order extends OrderBase {
                 FwFunc.showError(ex);
             }
         });
-        //let hascreditcardprocessing = sessionStorage.getItem('hascreditcardprocessing');
-        //if (typeof hascreditcardprocessing === 'string' && hascreditcardprocessing === 'true') {
-        //    FwMenu.addSubMenuItem($groupReports, 'Print Receipts', 'PVylYE8XDyxP', (e: JQuery.ClickEvent) => {
-        //        try {
-        //            this.printOrderDepletingDepositReceipt(options.$form);
-        //        } catch (ex) {
-        //            FwFunc.showError(ex);
-        //        }
-        //    });
-        //}
     }
     //-----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -2838,24 +2828,7 @@ class Order extends OrderBase {
         $tab.find('.caption').html('Process Credit Card');
     }
     //----------------------------------------------------------------------------------------------
-    printOrderDepletingDepositReceipt($form: any) {
-        try {
-            const module = this.Module;
-            const orderIdText = FwFormField.getValueByDataField($form, `${module}Number`);
-            const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
-
-            const $report = ReceiptReportController.openForm();
-            FwModule.openSubModuleTab($form, $report);
-
-            FwFormField.setValue($report, `div[data-datafield="OrderId"]`, orderId, orderIdText);
-            const $tab = FwTabs.getTabByElement($report);
-            $tab.find('.caption').html(`Print Order Depleting Depoist Receipt`);
-
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    }
-    //----------------------------------------------------------------------------------------------
+    
     //----------------------------------------------------------------------------------------------
     //browseCancelOption($browse: JQuery) {
     //    try {

@@ -120,7 +120,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
 
                     using (FwSqlCommand qryar = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                     {
-                        //what if more than one deposit?
+                        //what if more than one deposit on the order?
                         qryar.Add("select top 1 dealdepositid = arid, currencyid, pmtamt, locationid,             ");
                         qryar.Add("             remaining = ar.pmtamt - isnull((select sum(a.applied)             ");
                         qryar.Add("                                             from   ardepositpmt a             ");
