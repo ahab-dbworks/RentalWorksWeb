@@ -294,6 +294,46 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 return GetApiExceptionResult(ex);
             }
         }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/purchaseorder/confirmdropship
+        [HttpPost("confirmdropship")]
+        [FwControllerMethod(Id: "5ZYnmC3h5RSd", ActionType: FwControllerActionTypes.Option, Caption: "Confirm Drop Ship")]
+        public async Task<ActionResult<ConfirmDropShipResponse>> ConfirmDropShip([FromBody] ConfirmDropShipRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                ConfirmDropShipResponse response = await PurchaseOrderFunc.ConfirmDropShip(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/purchaseorder/confirmvendorretrieve
+        [HttpPost("confirmvendorretrieve")]
+        [FwControllerMethod(Id: "7ZQuCU7r5I2x", ActionType: FwControllerActionTypes.Option, Caption: "Confirm Vendor Retrieve")]
+        public async Task<ActionResult<ConfirmVendorRetrieveResponse>> ConfirmVendorRetrieve([FromBody] ConfirmVendorRetrieveRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                ConfirmVendorRetrieveResponse response = await PurchaseOrderFunc.ConfirmVendorRetrieve(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------          
         // POST api/v1/purchaseorder/validatevendor/browse
         [HttpPost("validatevendor/browse")]

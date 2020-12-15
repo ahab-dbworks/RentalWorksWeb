@@ -175,6 +175,27 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public PurchaseOrderLogic PurchaseOrder { get; set; }
     }
 
+    public class ConfirmDropShipRequest
+    {
+        public string PurchaseOrderId { get; set; }
+        public string DeliveryId { get; set; }
+    }
+    public class ConfirmDropShipResponse : TSpStatusResponse
+    {
+        public string ReceiveContractIds;
+        public string OutContractIds;
+    }
+    public class ConfirmVendorRetrieveRequest
+    {
+        public string PurchaseOrderId { get; set; }
+        public string DeliveryId { get; set; }
+    }
+    public class ConfirmVendorRetrieveResponse : TSpStatusResponse
+    {
+        public string RetrieveContractIds;
+        public string InContractIds;
+    }
+
 
     public static class PurchaseOrderFunc
     {
@@ -429,6 +450,42 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<ConfirmDropShipResponse> ConfirmDropShip(FwApplicationConfig appConfig, FwUserSession userSession, ConfirmDropShipRequest request)
+        {
+            ConfirmDropShipResponse response = new ConfirmDropShipResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "confirmdropship", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
+                qry.AddParameter("@deliveryid", SqlDbType.NVarChar, ParameterDirection.Input, request.DeliveryId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@receivecontractids", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@outcontractids", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.ReceiveContractIds = qry.GetParameter("@receivecontractids").ToString();
+                response.OutContractIds = qry.GetParameter("@outcontractids").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<ConfirmVendorRetrieveResponse> ConfirmVendorRetrieve(FwApplicationConfig appConfig, FwUserSession userSession, ConfirmVendorRetrieveRequest request)
+        {
+            ConfirmVendorRetrieveResponse response = new ConfirmVendorRetrieveResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "confirmvendorretrieve", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
+                qry.AddParameter("@deliveryid", SqlDbType.NVarChar, ParameterDirection.Input, request.DeliveryId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@retrievecontractids", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@incontractids", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.RetrieveContractIds = qry.GetParameter("@retrievecontractids").ToString();
+                response.InContractIds = qry.GetParameter("@incontractids").ToString();
             }
             return response;
         }

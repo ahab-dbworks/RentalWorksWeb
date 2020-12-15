@@ -2548,13 +2548,17 @@ class PurchaseOrder implements IModule {
 
         //Confirm Button 
         $form.find('.receive-confirm, .return-confirm').on('click', e => {
-            let caption1, caption2;
+            let caption1, caption2, deliveryId, url;
             if (jQuery(e.currentTarget).hasClass('receive-confirm')) {
                 caption1 = 'Drop Ship';
                 caption2 = 'Receive and Out Contracts';
+                deliveryId = FwFormField.getValueByDataField($form, 'ReceiveDeliveryId');
+                url = 'confirmdropship';
             } else {
                 caption1 = 'Vendor Retrieve';
                 caption2 = 'In and Return Contracts';
+                deliveryId = FwFormField.getValueByDataField($form, 'ReturnDeliveryId');
+                url = 'confirmvendorretrieve';
             }
 
             const $confirmation = FwConfirmation.renderConfirmation(`Confirm ${caption1}`, '');
@@ -2577,9 +2581,10 @@ class PurchaseOrder implements IModule {
             $confirm.on('click', e => {
                 const request: any = {};
                 request.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-                request.DeliveryId = '';
-                FwAppData.apiMethod(true, 'GET', `api/v1/`, null, FwServices.defaultTimeout, response => {
-                  //
+                request.DeliveryId = deliveryId;
+                FwAppData.apiMethod(true, 'GET', `api/v1/${url}`, null, FwServices.defaultTimeout, response => {
+                    let contractIds = response.ReceiveContractIds.replace(/\s+/g, '').split(',');
+                    //
                 }, null, $form);
             });
         });
