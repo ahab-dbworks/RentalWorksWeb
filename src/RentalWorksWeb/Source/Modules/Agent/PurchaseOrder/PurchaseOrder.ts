@@ -1599,7 +1599,7 @@ class PurchaseOrder implements IModule {
             $form.find(".BillingWeeks").show();
         }
 
-        //this.applyDropShip($form);
+        this.applyDropShip($form);
     };
     //----------------------------------------------------------------------------------------------
     applyDropShip($form: JQuery) {
@@ -2535,20 +2535,53 @@ class PurchaseOrder implements IModule {
         //Drop Ship Checkbox
         $form.find('[data-datafield="ReceiveDeliveryDropShip"]').on('change', e => {
             if (FwFormField.getValueByDataField($form, 'ReceiveDeliveryDropShip')) {
-                FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'DEAL');
+                FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'DEAL', '', true);
             }
         });
 
         //Vendor Retrieve Checkbox
         $form.find('[data-datafield="ReturnDeliveryVendorRetrieve"]').on('change', e => {
             if (FwFormField.getValueByDataField($form, 'ReturnDeliveryVendorRetrieve')) {
-                FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'DEAL');
+                FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'DEAL', '', true);
             }
         });
 
         //Confirm Button 
         $form.find('.receive-confirm, .return-confirm').on('click', e => {
-            //open confirmation prompt
+            let caption1, caption2;
+            if (jQuery(e.currentTarget).hasClass('receive-confirm')) {
+                caption1 = 'Drop Ship';
+                caption2 = 'Receive and Out Contracts';
+            } else {
+                caption1 = 'Vendor Retrieve';
+                caption2 = 'In and Return Contracts';
+            }
+
+            const $confirmation = FwConfirmation.renderConfirmation(`Confirm ${caption1}`, '');
+            const html: Array<string> = [];
+            html.push('<div class="flexrow">');
+            html.push(' <div class="flexrow">');
+            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No" data-datafield="PurchaseOrderNumber" style="flex:1 1 275px;"></div>');
+            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="Vendor" style="flex:1 1 275px;"></div>');
+            html.push(' </div>');
+            html.push(' <div class="flexrow">');
+            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No" data-datafield="PurchaseOrderNumber" style="flex:1 1 275px;"></div>');
+            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="Vendor" style="flex:1 1 275px;"></div>');
+            html.push(' </div>');
+            html.push(` <div>Click "Confirm ${caption1}" to create the ${caption2} for this Purchase Order.</div>`);
+            html.push('</div>');
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $confirm = FwConfirmation.addButton($confirmation, `Confirm ${caption1}`, false);
+            FwConfirmation.addButton($confirmation, 'Cancel');
+
+            $confirm.on('click', e => {
+                const request: any = {};
+                request.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+                request.DeliveryId = '';
+                FwAppData.apiMethod(true, 'GET', `api/v1/`, null, FwServices.defaultTimeout, response => {
+                  //
+                }, null, $form);
+            });
         });
     };
     //----------------------------------------------------------------------------------------------
