@@ -597,6 +597,7 @@
     <TypeScriptCompile Include="Source\Modules\Billing\BankAccount\BankAccount.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Payment\Payment.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\ProcessCreditCard\ProcessCreditCard.ts" />
+    <TypeScriptCompile Include="Source\Modules\Billing\Receipt\AddDepletingDeposit\AddDepletingDeposit.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CountQuantityInventory\CountQuantityInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ScanBarCodes\ScanBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\Billing\BillingMessage.ts" />
