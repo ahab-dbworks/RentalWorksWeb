@@ -45,7 +45,7 @@ class Refund {
         const $refund = jQuery(html);
         const $confirmation = FwConfirmation.renderConfirmation('Refund', '');
         FwConfirmation.addJqueryControl($confirmation, $refund);
-        const $btnProcess = FwConfirmation.addButton($confirmation, 'OK', false);
+        const $btnProcess = FwConfirmation.addButton($confirmation, 'Process Credit Card', false);
         const location = JSON.parse(sessionStorage.getItem('location'));
         const today = FwFunc.getDate();
 

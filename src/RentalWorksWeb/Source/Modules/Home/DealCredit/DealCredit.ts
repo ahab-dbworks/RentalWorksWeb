@@ -33,19 +33,21 @@ class DealCredit {
 
         // Browse SubMenu
         // Options Group
-        FwMenu.addSubMenuItem(options.$colOptions, 'Refund', 'aVvPPeYAmQEN', (e) => {
+        FwMenu.addSubMenuItem(options.$colOptions, 'Refund Remaining Amount', 'aVvPPeYAmQEN', (e) => {
             try {
                 const $form = options.$browse.closest('.fwform');
                 const controllerName = $form.attr('data-controller');
                 let orderId = '', orderDescription = '', dealId = '', deal = '';
                 if ($form.length > 0) {
                     if (controllerName === 'OrderController') {
+                        //need to get ARID and remaining must be greater than zero
                         orderId = FwFormField.getValueByDataField($form, 'OrderId');
                         orderDescription = FwFormField.getTextByDataField($form, 'Description');
                         dealId = FwFormField.getValueByDataField($form, 'DealId');
                         deal = FwFormField.getTextByDataField($form, 'DealId');
                     }
                     else if (controllerName === 'DealController') {
+                        //need to get ARID and remaining must be greater than zero
                         dealId = FwFormField.getValueByDataField($form, 'DealId');
                         deal = FwFormField.getValueByDataField($form, 'Deal');
                         customerId = FwFormField.getValueByDataField($form, 'CustomerId');
