@@ -37,8 +37,15 @@ class DealCredit {
             try {
                 const $form = options.$browse.closest('.fwform');
                 const controllerName = $form.attr('data-controller');
-                let orderId = '', orderDescription = '', dealId = '', deal = '';
+                let receiptId = '', orderId = '', orderDescription = '', dealId = '', deal = '', customerId = '', customer = '';
                 if ($form.length > 0) {
+                    const $tr = FwBrowse.getSelectedRow(options.$browse);
+                    if ($tr.length > 0) {
+                        receiptId = FwBrowse.getValueByDataField(options.$browse, $tr, 'ReceiptId');
+                    }
+                    if (receiptId === '') {
+                        throw new Error('Please select a credit to refund!');
+                    }
                     if (controllerName === 'OrderController') {
                         //need to get ARID and remaining must be greater than zero
                         orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -57,7 +64,7 @@ class DealCredit {
                         throw new Error(`Refund is not implemented for: ${controllerName}`);
                     }
                 }
-                this.refund(options.$browse, orderId, orderDescription, dealId, deal, customerId, customer);
+                this.refund(options.$browse, receiptId, orderId, orderDescription, dealId, deal, customerId, customer);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -152,9 +159,9 @@ class DealCredit {
            </div>`;
     }
     //----------------------------------------------------------------------------------------------
-    refund($browse: JQuery, orderId: string, orderDescription: string, dealId: string, dealDescription: string, customerId: string, customer: string) {
+    refund($browse: JQuery, receiptId, orderId: string, orderDescription: string, dealId: string, dealDescription: string, customerId: string, customer: string) {
         try {
-            Refund.showRefundPopup($browse, orderId, orderDescription, dealId, dealDescription, customerId, customer);
+            Refund.showRefundPopup($browse, receiptId, orderId, orderDescription, dealId, dealDescription, customerId, customer);
         } catch (ex) {
             FwFunc.showError(ex);
         }
