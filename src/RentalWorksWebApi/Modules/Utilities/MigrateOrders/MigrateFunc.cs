@@ -8,6 +8,7 @@ using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
 using System;
 using WebApi.Modules.Agent.Order;
+using FwStandard.Data;
 
 namespace WebApi.Modules.Utilities.Migrate
 {
@@ -228,7 +229,7 @@ namespace WebApi.Modules.Utilities.Migrate
             {
 
                 FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
-                conn.OpenAsync();
+                await conn.OpenAsync();
 
                 // need to wrap in a transaction
 
@@ -242,8 +243,8 @@ namespace WebApi.Modules.Utilities.Migrate
                     destinationOrder.OfficeLocationId = request.NewOrderOfficeLocationId;
                     destinationOrder.WarehouseId = request.NewOrderWarehouseId;
                     destinationOrder.DealId = request.NewOrderDealId;
-                    destinationOrder.DepartmentId= request.NewOrderDepartmentId;
-                    destinationOrder.OrderTypeId= request.NewOrderOrderTypeId;
+                    destinationOrder.DepartmentId = request.NewOrderDepartmentId;
+                    destinationOrder.OrderTypeId = request.NewOrderOrderTypeId;
                     destinationOrder.Description = request.NewOrderDescription;
                     destinationOrder.RateType = request.NewOrderRateType;
                     destinationOrder.EstimatedStartDate = request.NewOrderFromDate;
@@ -256,8 +257,15 @@ namespace WebApi.Modules.Utilities.Migrate
                     destinationOrder.PoNumber = request.NewOrderPurchaseOrderNumber;
                     destinationOrder.PoAmount = request.NewOrderPurchaseOrderAmount;
                     destinationOrder.Rental = true;
-                    await destinationOrder.SaveAsync(original: null, conn: conn);
-                    destinationOrderValid = (!string.IsNullOrEmpty(destinationOrder.OrderId));
+
+                    FwValidateResult valResult = new FwValidateResult();
+                    await destinationOrder.ValidateBusinessLogicAsync(FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert, null, valResult);  // should not have to call validate directly.  should be done in SaveAsync
+
+                    if (valResult.IsValid)
+                    {
+                        await destinationOrder.SaveAsync(original: null, conn: conn);
+                        destinationOrderValid = (!string.IsNullOrEmpty(destinationOrder.OrderId));
+                    }
 
                     if (destinationOrderValid)
                     {
@@ -283,11 +291,11 @@ namespace WebApi.Modules.Utilities.Migrate
                         }
                         if (destinationOrderValid)
                         {
-                            if ( 
+                            if (
                                  destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_CANCELLED) ||
                                  destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_CLOSED) ||
                                  destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_SNAPSHOT) ||
-                                 destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_HOLD) 
+                                 destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_HOLD)
                                 )
                             {
                                 destinationOrderValid = false;
@@ -342,6 +350,8 @@ namespace WebApi.Modules.Utilities.Migrate
                         }
                     }
                 }
+
+
             }
             return response;
         }

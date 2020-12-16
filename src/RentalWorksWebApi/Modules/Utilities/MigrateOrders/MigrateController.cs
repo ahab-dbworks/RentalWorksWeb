@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Modules.Agent.Deal;
+using WebApi.Modules.Settings.DepartmentLocation;
 using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.RateType;
 
@@ -187,6 +188,14 @@ namespace WebApi.Modules.Utilities.Migrate
         public async Task<ActionResult<FwJsonDataTable>> ValidateSubCategoryBrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync<RateTypeLogic>(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/migrate/department/{departmentid}/location/{locationid}
+        [HttpGet("department/{departmentid}/location/{locationid}")]
+        [FwControllerMethod(Id: "uv7YF2yRry9bC", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<DepartmentLocationLogic>> DepartmentLocation_GetOneAsync([FromRoute] string departmentid, [FromRoute] string locationid)
+        {
+            return await DoGetAsync<DepartmentLocationLogic>($"{departmentid}~{locationid}", typeof(DepartmentLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
     }

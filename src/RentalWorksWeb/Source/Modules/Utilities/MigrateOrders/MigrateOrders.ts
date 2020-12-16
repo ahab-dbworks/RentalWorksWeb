@@ -55,6 +55,10 @@ class MigrateOrders {
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
 
+        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/department/${department.departmentid}/location/${location.locationid}`, null, FwServices.defaultTimeout, response => {
+            FwFormField.setValueByDataField($form, 'CreateNewOrderTypeId', response.DefaultOrderTypeId, response.DefaultOrderType);
+        }, ex => FwFunc.showError(ex), null);
+
         //add order browse
         const $orderBrowse = this.addOrderBrowse($form);
         $form.find('.orderBrowse').append($orderBrowse);
