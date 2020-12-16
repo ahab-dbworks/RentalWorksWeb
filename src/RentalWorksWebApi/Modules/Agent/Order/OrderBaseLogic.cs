@@ -1372,6 +1372,8 @@ namespace WebApi.Modules.Agent.Order
 
             OrderBaseLogic lOrig = null;
             string currencyId = string.Empty;
+            string departmentId = string.Empty;
+            string orderTypeId = string.Empty;
 
             if (isValid)
             {
@@ -1401,6 +1403,8 @@ namespace WebApi.Modules.Agent.Order
                         }
                     }
                     currencyId = CurrencyId;
+                    departmentId = DepartmentId;
+                    orderTypeId = OrderTypeId;
 
                 }
                 else  //  (updating)
@@ -1418,6 +1422,8 @@ namespace WebApi.Modules.Agent.Order
                         }
 
                         currencyId = CurrencyId ?? lOrig.CurrencyId;
+                        departmentId = DepartmentId ?? lOrig.DepartmentId;
+                        orderTypeId = OrderTypeId ?? lOrig.OrderTypeId;
 
                         tempB = (Rental ?? lOrig.Rental);
                         rental = tempB.GetValueOrDefault(false);
@@ -1499,6 +1505,24 @@ namespace WebApi.Modules.Agent.Order
                 {
                     isValid = false;
                     validateMsg = "Currency cannot be blank.";
+                }
+            }
+
+            if (isValid)
+            {
+                if (string.IsNullOrEmpty(departmentId))
+                {
+                    isValid = false;
+                    validateMsg = "Department cannot be blank.";
+                }
+            }
+
+            if (isValid)
+            {
+                if (string.IsNullOrEmpty(orderTypeId))
+                {
+                    isValid = false;
+                    validateMsg = "Order Type cannot be blank.";
                 }
             }
 

@@ -50,6 +50,8 @@ namespace WebApi.Modules.Utilities.Migrate
         public string NewOrderOfficeLocationId { get; set; }
         public string NewOrderWarehouseId { get; set; }
         public string NewOrderDealId { get; set; }
+        public string NewOrderDepartmentId { get; set; }
+        public string NewOrderOrderTypeId { get; set; }
         public string NewOrderDescription { get; set; }
         public string NewOrderRateType { get; set; }
         public string NewOrderFromDate { get; set; }
@@ -187,6 +189,16 @@ namespace WebApi.Modules.Utilities.Migrate
                 response.success = false;
                 response.msg = "New Order Deal is required.";
             }
+            else if (request.MigrateToNewOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.NewOrderDepartmentId)))
+            {
+                response.success = false;
+                response.msg = "New Order Department is required.";
+            }
+            else if (request.MigrateToNewOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.NewOrderOrderTypeId)))
+            {
+                response.success = false;
+                response.msg = "New Order Type is required.";
+            }
             else if (request.MigrateToNewOrder.GetValueOrDefault(false) && (string.IsNullOrEmpty(request.NewOrderDescription)))
             {
                 response.success = false;
@@ -230,6 +242,8 @@ namespace WebApi.Modules.Utilities.Migrate
                     destinationOrder.OfficeLocationId = request.NewOrderOfficeLocationId;
                     destinationOrder.WarehouseId = request.NewOrderWarehouseId;
                     destinationOrder.DealId = request.NewOrderDealId;
+                    destinationOrder.DepartmentId= request.NewOrderDepartmentId;
+                    destinationOrder.OrderTypeId= request.NewOrderOrderTypeId;
                     destinationOrder.Description = request.NewOrderDescription;
                     destinationOrder.RateType = request.NewOrderRateType;
                     destinationOrder.EstimatedStartDate = request.NewOrderFromDate;
@@ -241,6 +255,7 @@ namespace WebApi.Modules.Utilities.Migrate
                     destinationOrder.FlatPo = request.NewOrderFlatPO;
                     destinationOrder.PoNumber = request.NewOrderPurchaseOrderNumber;
                     destinationOrder.PoAmount = request.NewOrderPurchaseOrderAmount;
+                    destinationOrder.Rental = true;
                     await destinationOrder.SaveAsync(original: null, conn: conn);
                     destinationOrderValid = (!string.IsNullOrEmpty(destinationOrder.OrderId));
 
@@ -256,6 +271,30 @@ namespace WebApi.Modules.Utilities.Migrate
                     if (await destinationOrder.LoadAsync<OrderLogic>())
                     {
                         destinationOrderValid = true;
+
+                        if (destinationOrderValid)
+                        {
+                            if (!destinationOrder.Rental.GetValueOrDefault(false))
+                            {
+                                destinationOrderValid = false;
+                                response.success = false;
+                                response.msg = $"Cannot migrate to Order {destinationOrder.OrderNumber} because it is not a Rental Order.";
+                            }
+                        }
+                        if (destinationOrderValid)
+                        {
+                            if ( 
+                                 destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_CANCELLED) ||
+                                 destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_CLOSED) ||
+                                 destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_SNAPSHOT) ||
+                                 destinationOrder.Status.Equals(RwConstants.ORDER_STATUS_HOLD) 
+                                )
+                            {
+                                destinationOrderValid = false;
+                                response.success = false;
+                                response.msg = $"Cannot migrate to Order {destinationOrder.OrderNumber} because its status is {destinationOrder.Status}.";
+                            }
+                        }
                     }
                     else
                     {

@@ -182,6 +182,8 @@ class MigrateOrders {
                 NewOrderOfficeLocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId'),
                 NewOrderWarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
                 NewOrderDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId'),
+                NewOrderDepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId'),
+                NewOrderOrderTypeId: FwFormField.getValueByDataField($form, 'CreateNewOrderTypeId'),
                 NewOrderDescription: FwFormField.getValueByDataField($form, 'NewOrderDescription'),
                 NewOrderRateType: FwFormField.getValueByDataField($form, 'RateType'),
                 NewOrderFromDate: FwFormField.getValueByDataField($form, 'FromDate'),

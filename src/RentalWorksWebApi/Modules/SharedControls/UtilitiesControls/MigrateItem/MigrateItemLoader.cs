@@ -161,9 +161,18 @@ namespace WebApi.Modules.Utilities.MigrateItem
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+
+            bool showSelectedOnly = GetUniqueIdAsBoolean("ShowSelectedOnly", request) ?? false;
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("SessionId", "sessionid", select, request);
+
+            if (showSelectedOnly)
+            {
+                select.AddWhere("(qtyselected > 0)");
+            }
+
         }
         //------------------------------------------------------------------------------------
         private string getICodeColor(string itemClass)
