@@ -48,11 +48,11 @@ class Receipt {
                         orderId = FwFormField.getValueByDataField($form, 'OrderId');
                         orderDescription = FwFormField.getTextByDataField($form, 'Description');
                         dealId = FwFormField.getValueByDataField($form, 'DealId');
-                        deal = FwFormField.getTextByDataField($form, 'Deal');
+                        deal = FwFormField.getTextByDataField($form, 'DealId');
                     }
                     else if (controllerName === 'DealController') {
                         dealId = FwFormField.getValueByDataField($form, 'DealId');
-                        deal = FwFormField.getTextByDataField($form, 'Deal');
+                        deal = FwFormField.getValueByDataField($form, 'Deal');
                     }
                     else {
                         throw new Error(`Add Depleting Deposit is not implemented for: ${controllerName}`);

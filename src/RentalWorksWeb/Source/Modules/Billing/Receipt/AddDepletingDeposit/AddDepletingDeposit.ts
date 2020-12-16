@@ -7,7 +7,7 @@ class DepletingDeposit {
     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 0 150px;" data-required="true"></div>
   </div>
   <div class="flexrow">
-    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-enabled="false" data-datafield="ReceiptDate" style="flex:1 0 150px;"></div>
+    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-enabled="true" data-datafield="ReceiptDate" style="flex:1 0 150px;"></div>
     <div></div>
   </div>
   <div class="flexrow">
@@ -31,14 +31,15 @@ class DepletingDeposit {
   </div>
 </div>
 `;
-
         const $adddepletingdeposit = jQuery(html);
-        FwFormField.setValueByDataField($adddepletingdeposit, "Deal", dealId, deal);
-
         const $confirmation = FwConfirmation.renderConfirmation('Add Depleting Deposit', '');
         FwConfirmation.addJqueryControl($confirmation, $adddepletingdeposit);
         const $btnProcess = FwConfirmation.addButton($confirmation, 'OK', false);
         const location = JSON.parse(sessionStorage.getItem('location'));
+        const today = FwFunc.getDate();
+
+        FwFormField.setValueByDataField($adddepletingdeposit, "ReceiptDate", today);
+        FwFormField.setValueByDataField($adddepletingdeposit, "DealId", dealId, deal);
         FwFormField.setValueByDataField($adddepletingdeposit, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
 
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
