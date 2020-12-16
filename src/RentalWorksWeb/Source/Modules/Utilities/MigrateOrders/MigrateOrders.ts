@@ -202,6 +202,8 @@ class MigrateOrders {
                 CopyRentalRates: FwFormField.getValueByDataField($form, 'CopyRentalRates'),
                 UpdateBillingStopDate: FwFormField.getValueByDataField($form, 'UpdateBillingStopDate'),
                 BillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate'),
+                OfficeLocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId'),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
             }
             FwFormField.disable($form.find('.finalize-migration'));
             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completesession`, request, FwServices.defaultTimeout,

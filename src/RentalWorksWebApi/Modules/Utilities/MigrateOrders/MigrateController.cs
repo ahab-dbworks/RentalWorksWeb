@@ -4,86 +4,14 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
-using WebApi.Logic;
-using WebApi.Modules.Warehouse.Contract;
 using WebApi.Modules.Agent.Deal;
 using WebApi.Modules.Settings.DepartmentSettings.Department;
 using WebApi.Modules.Settings.RateType;
 
 namespace WebApi.Modules.Utilities.Migrate
 {
-
-    public class StartMigrateSessionRequest
-    {
-        public string DealId { get; set; }
-        public string DepartmentId { get; set; }
-        public string OrderIds { get; set; }
-    }
-
-
-    public class StartMigrateSessionResponse : TSpStatusResponse
-    {
-        public string SessionId;
-    }
-
-
-    public class UpdateMigrateItemRequest
-    {
-        public string SessionId;
-        public string OrderId;
-        public string OrderItemId;
-        public string BarCode;
-        public int? Quantity;
-    }
-
-
-    public class UpdateMigrateItemResponse : TSpStatusResponse
-    {
-        public int? NewQuantity;
-    }
-
-
-
-    public class CompleteMigrateSessionRequest
-    {
-        public string SessionId { get; set; }
-        public bool? MigrateToNewOrder { get; set; }
-        public string NewOrderOfficeLocationId { get; set; }
-        public string NewOrderWarehouseId { get; set; }
-        public string NewOrderDealId { get; set; }
-        public string NewOrderDescription { get; set; }
-        public string NewOrderRateType { get; set; }
-        public DateTime? NewOrderFromDate { get; set; }
-        public string NewOrderFromTime { get; set; }
-        public DateTime? NewOrderToDate { get; set; }
-        public string NewOrderToTime { get; set; }
-        public DateTime? NewOrderBillingStopDate { get; set; }
-        public bool? NewOrderPendingPO { get; set; }
-        public bool? NewOrderFlatPO { get; set; }
-        public string NewOrderPurchaseOrderNumber { get; set; }
-        public decimal? NewOrderPurchaseOrderAmount { get; set; }
-        public bool? MigrateToExistingOrder { get; set; }
-        public string ExistingOrderId { get; set; }
-        //public string MigrateDealId { get; set; }  // not used
-        public string InventoryFulfillIncrement { get; set; }   // FULFILL / INCREMENT
-        public string InventoryCheckedOrStaged { get; set; }    // CHECKED / STAGED
-        public bool? CopyLineItemNotes { get; set; }
-        public bool? CopyOrderNotes { get; set; }
-        public bool? CopyRentalRates { get; set; }
-        public bool? UpdateBillingStopDate { get; set; }
-        public DateTime? BillingStopDate { get; set; }
-    }
-
-
-    public class CompleteMigrateSessionResponse : TSpStatusResponse
-    {
-        public List<ContractLogic> Contracts = new List<ContractLogic>();
-    }
-
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
     [FwController(Id: "8NYSNibMVoO")]
@@ -260,5 +188,6 @@ namespace WebApi.Modules.Utilities.Migrate
         {
             return await DoBrowseAsync<RateTypeLogic>(browseRequest);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

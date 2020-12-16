@@ -49,14 +49,29 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwLogicProperty(Id:"kT5loDjrl9iX", IsReadOnly:true)]
         public decimal? QuantityOut { get; set; }
 
-        [FwLogicProperty(Id:"WkswQpSxO74W", IsReadOnly:true)]
+        [FwLogicProperty(Id: "WkswQpSxO74W", IsReadOnly: true)]
         public string VendorId { get; set; }
 
-        [FwLogicProperty(Id:"WkswQpSxO74W", IsReadOnly:true)]
+        [FwLogicProperty(Id: "ltVVJJYkLZcDi", IsReadOnly: true)]
         public string Vendor { get; set; }
 
+        [FwLogicProperty(Id: "KwxeQ0ehZhC3J", IsReadOnly: true)]
+        public string VendorOrConsignorId { get; set; }
+
         [FwLogicProperty(Id:"WkswQpSxO74W", IsReadOnly:true)]
-        public string VendorColor { get; set; }
+        public string VendorOrConsignor { get; set; }
+
+        [FwLogicProperty(Id: "pv80c66nZO6M", IsReadOnly: true)]
+        public string ConsignorId { get; set; }
+
+        [FwLogicProperty(Id: "8HGDuchnJZEVp", IsReadOnly: true)]
+        public string Consignor { get; set; }
+
+        [FwLogicProperty(Id: "io6A9t8I3v9w", IsReadOnly: true)]
+        public string ConsignorAgreementId { get; set; }
+
+        [FwLogicProperty(Id:"WkswQpSxO74W", IsReadOnly:true)]
+        public string VendorOrConsignorColor { get; set; }
 
         [FwLogicProperty(Id:"ecsSflUhvafX", IsReadOnly:true)]
         public string InventoryId { get; set; }
@@ -97,9 +112,6 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwLogicProperty(Id:"vmyACCJNxkmE", IsReadOnly:true)]
         public string RecTypeDisplay { get; set; }
 
-        [FwLogicProperty(Id:"vmyACCJNxkmE", IsReadOnly:true)]
-        public string RecTypeColor { get; set; }
-
         [FwLogicProperty(Id:"EEdKo2YBqwaM", IsReadOnly:true)]
         public string OptionColor { get; set; }
 
@@ -124,11 +136,8 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwLogicProperty(Id:"wFhDwV7UH3HO", IsReadOnly:true)]
         public string ContainerBarCode { get; set; }
 
-        [FwLogicProperty(Id:"pv80c66nZO6M", IsReadOnly:true)]
-        public string ConsignorId { get; set; }
-
-        [FwLogicProperty(Id:"io6A9t8I3v9w", IsReadOnly:true)]
-        public string ConsignorAgreementId { get; set; }
+        [FwLogicProperty(Id: "rrG4OZK6tT9ba", IsReadOnly: true)]
+        public string ItemId { get; set; }
 
     }
 }

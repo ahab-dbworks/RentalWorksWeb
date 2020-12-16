@@ -6,12 +6,81 @@ using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Warehouse.Contract;
-using WebApi;
+using System;
+using WebApi.Modules.Agent.Order;
 
 namespace WebApi.Modules.Utilities.Migrate
 {
 
+    public class StartMigrateSessionRequest
+    {
+        public string DealId { get; set; }
+        public string DepartmentId { get; set; }
+        public string OrderIds { get; set; }
+    }
 
+
+    public class StartMigrateSessionResponse : TSpStatusResponse
+    {
+        public string SessionId;
+    }
+
+
+    public class UpdateMigrateItemRequest
+    {
+        public string SessionId;
+        public string OrderId;
+        public string OrderItemId;
+        public string BarCode;
+        public int? Quantity;
+    }
+
+
+    public class UpdateMigrateItemResponse : TSpStatusResponse
+    {
+        public int? NewQuantity;
+    }
+
+
+
+    public class CompleteMigrateSessionRequest
+    {
+        public string SessionId { get; set; }
+        public bool? MigrateToNewOrder { get; set; }
+        public string NewOrderOfficeLocationId { get; set; }
+        public string NewOrderWarehouseId { get; set; }
+        public string NewOrderDealId { get; set; }
+        public string NewOrderDescription { get; set; }
+        public string NewOrderRateType { get; set; }
+        public string NewOrderFromDate { get; set; }
+        public string NewOrderFromTime { get; set; }
+        public string NewOrderToDate { get; set; }
+        public string NewOrderToTime { get; set; }
+        public string NewOrderBillingStopDate { get; set; }
+        public bool? NewOrderPendingPO { get; set; }
+        public bool? NewOrderFlatPO { get; set; }
+        public string NewOrderPurchaseOrderNumber { get; set; }
+        public decimal? NewOrderPurchaseOrderAmount { get; set; }
+        public bool? MigrateToExistingOrder { get; set; }
+        public string ExistingOrderId { get; set; }
+        //public string MigrateDealId { get; set; }  // not used
+        public string InventoryFulfillIncrement { get; set; }   // FULFILL / INCREMENT
+        //public string InventoryCheckedOrStaged { get; set; }    // CHECKED / STAGED
+        public bool? CopyLineItemNotes { get; set; }
+        public bool? CopyOrderNotes { get; set; }
+        public bool? CopyRentalRates { get; set; }
+        public bool? UpdateBillingStopDate { get; set; }
+        public DateTime? BillingStopDate { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string WarehouseId { get; set; }
+    }
+
+
+    public class CompleteMigrateSessionResponse : TSpStatusResponse
+    {
+        public string ContractIds { get; set; }
+        public List<ContractLogic> Contracts { get; set; } = new List<ContractLogic>();
+    }
     public class SelectAllNoneMigrateItemRequest
     {
         [Required]
@@ -145,56 +214,87 @@ namespace WebApi.Modules.Utilities.Migrate
             }
             else
             {
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+
+                FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+                conn.OpenAsync();
+
+                // need to wrap in a transaction
+
+                bool destinationOrderValid = false;
+
+                OrderLogic destinationOrder = new OrderLogic();
+                destinationOrder.SetDependencies(appConfig, userSession);
+                if (request.MigrateToNewOrder.GetValueOrDefault(false))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "webmigrate", appConfig.DatabaseSettings.QueryTimeout);
+                    // create new Order here
+                    destinationOrder.OfficeLocationId = request.NewOrderOfficeLocationId;
+                    destinationOrder.WarehouseId = request.NewOrderWarehouseId;
+                    destinationOrder.DealId = request.NewOrderDealId;
+                    destinationOrder.Description = request.NewOrderDescription;
+                    destinationOrder.RateType = request.NewOrderRateType;
+                    destinationOrder.EstimatedStartDate = request.NewOrderFromDate;
+                    destinationOrder.EstimatedStartTime = request.NewOrderFromTime;
+                    destinationOrder.EstimatedStopDate = request.NewOrderToDate;
+                    destinationOrder.EstimatedStopTime = request.NewOrderToTime;
+                    destinationOrder.BillingEndDate = request.NewOrderBillingStopDate;
+                    destinationOrder.PendingPo = request.NewOrderPendingPO;
+                    destinationOrder.FlatPo = request.NewOrderFlatPO;
+                    destinationOrder.PoNumber = request.NewOrderPurchaseOrderNumber;
+                    destinationOrder.PoAmount = request.NewOrderPurchaseOrderAmount;
+                    await destinationOrder.SaveAsync(original: null, conn: conn);
+                    destinationOrderValid = (!string.IsNullOrEmpty(destinationOrder.OrderId));
+
+                    if (destinationOrderValid)
+                    {
+                        await destinationOrder.LoadAsync<OrderLogic>();
+                    }
+
+                }
+                else
+                {
+                    destinationOrder.OrderId = request.ExistingOrderId;
+                    if (await destinationOrder.LoadAsync<OrderLogic>())
+                    {
+                        destinationOrderValid = true;
+                    }
+                    else
+                    {
+                        response.success = false;
+                        response.msg = $"Cannot find 'Existing Order' {request.ExistingOrderId}.";
+                    }
+                }
+
+                if (destinationOrderValid)
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "webmigrate2", appConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-                    qry.AddParameter("@migratetoneworder", SqlDbType.NVarChar, ParameterDirection.Input, request.MigrateToNewOrder.GetValueOrDefault(false));
-                    qry.AddParameter("@neworderlocationid", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderOfficeLocationId);
-                    qry.AddParameter("@neworderwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderWarehouseId);
-                    qry.AddParameter("@neworderdealid", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderDealId);
-                    qry.AddParameter("@neworderdesc", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderDescription);
-                    qry.AddParameter("@neworderratetype", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderRateType);
-                    qry.AddParameter("@neworderfromdate", SqlDbType.DateTime, ParameterDirection.Input, request.NewOrderFromDate);
-                    qry.AddParameter("@neworderfromtime", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderFromTime);
-                    qry.AddParameter("@newordertodate", SqlDbType.DateTime, ParameterDirection.Input, request.NewOrderToDate);
-                    qry.AddParameter("@newordertotime", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderToTime);
-                    qry.AddParameter("@neworderbillperiodend", SqlDbType.DateTime, ParameterDirection.Input, request.NewOrderBillingStopDate);
-                    qry.AddParameter("@neworderpendingpo", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderPendingPO.GetValueOrDefault(false));
-                    qry.AddParameter("@neworderflatpo", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderFlatPO.GetValueOrDefault(false));
-                    qry.AddParameter("@neworderpono", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderPurchaseOrderNumber);
-                    qry.AddParameter("@neworderpoamt", SqlDbType.Decimal, ParameterDirection.Input, request.NewOrderPurchaseOrderAmount);
-                    qry.AddParameter("@migratetoexistingorder", SqlDbType.NVarChar, ParameterDirection.Input, request.MigrateToExistingOrder.GetValueOrDefault(false));
-                    qry.AddParameter("@existingorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.ExistingOrderId);
+                    qry.AddParameter("@destorderid", SqlDbType.NVarChar, ParameterDirection.Input, destinationOrder.OrderId);
                     qry.AddParameter("@inventoryfulfillincrement", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryFulfillIncrement);
-                    qry.AddParameter("@inventorycheckedorstaged", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryCheckedOrStaged);
+                    //qry.AddParameter("@inventorycheckedorstaged", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryCheckedOrStaged);
                     qry.AddParameter("@copylineitemnotes", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyLineItemNotes.GetValueOrDefault(false));
                     qry.AddParameter("@copyordernotes", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyOrderNotes.GetValueOrDefault(false));
                     qry.AddParameter("@copyrates", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyRentalRates.GetValueOrDefault(false));
                     qry.AddParameter("@updatebillperiodend", SqlDbType.NVarChar, ParameterDirection.Input, request.UpdateBillingStopDate.GetValueOrDefault(false));
                     qry.AddParameter("@billperiodend", SqlDbType.NVarChar, ParameterDirection.Input, request.BillingStopDate);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@userslocationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@userswarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
+                    qry.AddParameter("@contractids", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
+                    response.ContractIds = qry.GetParameter("@contractids").ToString();
 
                     if (response.success)
                     {
                         response.Contracts = new List<ContractLogic>();
+                        List<string> contractIds = new List<string>(response.ContractIds.Split(','));
 
-                        FwSqlCommand qryContract = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                        qryContract.Add("select c.contractid             ");
-                        qryContract.Add(" from  contract c with (nolock) ");
-                        qryContract.Add(" where c.sessionid = @sessionid ");
-                        qryContract.AddParameter("@sessionid", request.SessionId);
-                        FwJsonDataTable dt = await qryContract.QueryToFwJsonTableAsync();
-
-                        foreach (List<object> row in dt.Rows)
+                        foreach (string contractId in contractIds)
                         {
-                            string contractId = row[dt.GetColumnNo("contractid")].ToString();
                             ContractLogic l = new ContractLogic();
                             l.SetDependencies(appConfig, userSession);
                             l.ContractId = contractId;
