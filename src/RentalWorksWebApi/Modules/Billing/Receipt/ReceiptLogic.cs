@@ -952,5 +952,12 @@ namespace WebApi.Modules.Billing.Receipt
             return receipt;
         }
         //------------------------------------------------------------------------------------
+        public static async Task<ReceiptLogic> RefundAsync(FwApplicationConfig appConfig, FwUserSession userSession, RefundRequest request)
+        {
+            var receipt = new ReceiptLogic();
+            await receipt.SaveAsync();
+            return receipt;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

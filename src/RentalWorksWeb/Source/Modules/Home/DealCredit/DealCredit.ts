@@ -30,6 +30,36 @@ class DealCredit {
         const viewStatus: Array<JQuery> = [];
         viewStatus.push($allStatus, $amountRemaining);
         FwMenu.addViewBtn(options.$menu, 'Status', viewStatus, true, "Status");
+
+        // Browse SubMenu
+        // Options Group
+        FwMenu.addSubMenuItem(options.$colOptions, 'Refund', 'aVvPPeYAmQEN', (e) => {
+            try {
+                const $form = options.$browse.closest('.fwform');
+                const controllerName = $form.attr('data-controller');
+                let orderId = '', orderDescription = '', dealId = '', deal = '';
+                if ($form.length > 0) {
+                    if (controllerName === 'OrderController') {
+                        orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                        orderDescription = FwFormField.getTextByDataField($form, 'Description');
+                        dealId = FwFormField.getValueByDataField($form, 'DealId');
+                        deal = FwFormField.getTextByDataField($form, 'DealId');
+                    }
+                    else if (controllerName === 'DealController') {
+                        dealId = FwFormField.getValueByDataField($form, 'DealId');
+                        deal = FwFormField.getValueByDataField($form, 'Deal');
+                        customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                        customer = FwFormField.getValueByDataField($form, 'CustomerId');
+                    }
+                    else {
+                        throw new Error(`Refund is not implemented for: ${controllerName}`);
+                    }
+                }
+                this.refund(options.$browse, orderId, orderDescription, dealId, deal, customerId, customer);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     };
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -118,6 +148,15 @@ class DealCredit {
              </div>
              <div class="column spacer" data-width="auto" data-visible="true"></div>
            </div>`;
+    }
+    //----------------------------------------------------------------------------------------------
+    refund($browse: JQuery, orderId: string, orderDescription: string, dealId: string, dealDescription: string, customerId: string, customer: string) {
+        try {
+            Refund.showRefundPopup($browse, orderId, orderDescription, dealId, dealDescription, customerId, customer);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+
     }
     //---------------------------------------------------------------------------------------------
 }

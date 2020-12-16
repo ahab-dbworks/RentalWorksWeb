@@ -7,6 +7,7 @@ using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
 using FwStandard.Utilities;
+using WebApi.Modules.Billing.Receipt;
 
 namespace WebApi.Modules.HomeControls.DealCredit
 {
@@ -39,6 +40,14 @@ namespace WebApi.Modules.HomeControls.DealCredit
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/dealcredit/refund
+        [HttpPost("refund")]
+        [FwControllerMethod(Id: "aVvPPeYAmQEN", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] RefundRequest request)
+        {
+            return await ReceiptLogic.RefundAsync(this.AppConfig, this.UserSession, request);
         }
         //------------------------------------------------------------------------------------ 
     }
