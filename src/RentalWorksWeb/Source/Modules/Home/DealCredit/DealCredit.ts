@@ -37,34 +37,42 @@ class DealCredit {
             try {
                 const $form = options.$browse.closest('.fwform');
                 const controllerName = $form.attr('data-controller');
-                let receiptId = '', orderId = '', orderDescription = '', dealId = '', deal = '', customerId = '', customer = '';
+                const request: RequestRefund = {};
+
                 if ($form.length > 0) {
                     const $tr = FwBrowse.getSelectedRow(options.$browse);
                     if ($tr.length > 0) {
-                        receiptId = FwBrowse.getValueByDataField(options.$browse, $tr, 'ReceiptId');
+                        request.receiptId = FwBrowse.getValueByDataField(options.$browse, $tr, 'ReceiptId');
                     }
-                    if (receiptId === '') {
+                    if (request.receiptId === '') {
                         throw new Error('Please select a credit to refund!');
                     }
+                    request.amount = parseFloat(FwBrowse.getValueByDataField(options.$browse, $tr, 'Amount'));
+                    request.applied = parseFloat(FwBrowse.getValueByDataField(options.$browse, $tr, 'Applied'));
+                    request.refund = parseFloat(FwBrowse.getValueByDataField(options.$browse, $tr, 'Refunded'));
+                    request.remaining = parseFloat(FwBrowse.getValueByDataField(options.$browse, $tr, 'Remaining'));
+                    
+                    if (request.remaining <= 0.0) {
+                        throw new Error('No remaining balace to refund.');
+                    }
+                    //need an object
                     if (controllerName === 'OrderController') {
-                        //need to get ARID and remaining must be greater than zero
-                        orderId = FwFormField.getValueByDataField($form, 'OrderId');
-                        orderDescription = FwFormField.getTextByDataField($form, 'Description');
-                        dealId = FwFormField.getValueByDataField($form, 'DealId');
-                        deal = FwFormField.getTextByDataField($form, 'DealId');
+                        request.orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                        request.orderDescription = FwFormField.getTextByDataField($form, 'Description');
+                        request.dealId = FwFormField.getValueByDataField($form, 'DealId');
+                        request.deal = FwFormField.getTextByDataField($form, 'DealId');
                     }
                     else if (controllerName === 'DealController') {
-                        //need to get ARID and remaining must be greater than zero
-                        dealId = FwFormField.getValueByDataField($form, 'DealId');
-                        deal = FwFormField.getValueByDataField($form, 'Deal');
-                        customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                        customer = FwFormField.getValueByDataField($form, 'CustomerId');
+                        request.dealId = FwFormField.getValueByDataField($form, 'DealId');
+                        request.deal = FwFormField.getValueByDataField($form, 'Deal');
+                        request.customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                        request.customer = FwFormField.getValueByDataField($form, 'CustomerId');
                     }
                     else {
                         throw new Error(`Refund is not implemented for: ${controllerName}`);
                     }
                 }
-                this.refund(options.$browse, receiptId, orderId, orderDescription, dealId, deal, customerId, customer);
+                this.refund(options.$browse, request);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -159,15 +167,30 @@ class DealCredit {
            </div>`;
     }
     //----------------------------------------------------------------------------------------------
-    refund($browse: JQuery, receiptId, orderId: string, orderDescription: string, dealId: string, dealDescription: string, customerId: string, customer: string) {
+    refund($browse: JQuery, request: RequestRefund) {
         try {
-            Refund.showRefundPopup($browse, receiptId, orderId, orderDescription, dealId, dealDescription, customerId, customer);
+            Refund.showRefundPopup($browse, request);
         } catch (ex) {
             FwFunc.showError(ex);
         }
 
     }
+
     //---------------------------------------------------------------------------------------------
 }
 
 var DealCreditController = new DealCredit();
+
+type RequestRefund = {
+    receiptId?: string;
+    orderId?: string;
+    orderDescription?: string;
+    dealId?: string;
+    deal?: string;
+    customerId?: string;
+    customer?: string;
+    amount?: number;
+    applied?: number;
+    refund?: number;
+    remaining?: number;
+}  

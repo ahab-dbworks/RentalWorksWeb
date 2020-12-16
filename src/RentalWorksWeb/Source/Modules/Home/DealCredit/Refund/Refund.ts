@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------------------
 class Refund {
-    static showRefundPopup($browse: JQuery, receiptId: string, orderId: string, order: string, dealId: string, deal: string, customerId: string, customer: string) {
+    static showRefundPopup($browse: JQuery, request: RequestRefund) {
         let html =
 `<div style="min-width:350px;max-width:450px;font-size:.8em;">
     <div class="flexrow">
@@ -26,16 +26,16 @@ class Refund {
         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-validationname="CurrencyValidation" data-enabled="true" style="flex:1 0 150px;" data-required="true"></div>
     </div>  
     <div class="flexrow">
-        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit Total" data-datafield="PaymentAmount" data-required="false" data-enabled="false" style="flex:1 0 150px;"></div>
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit Total" data-datafield="DepositTotal" data-required="false" data-enabled="false" style="flex:1 0 150px;"></div>
     </div>  
     <div class="flexrow">
-        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount Applied" data-datafield="PaymentAmount" data-required="false" data-enabled="false" style="flex:1 0 150px;"></div>
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount Applied" data-datafield="AmountApplied" data-required="false" data-enabled="false" style="flex:1 0 150px;"></div>
     </div>  
     <div class="flexrow">
-        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Remaining Amount" data-datafield="PaymentAmount" data-required="false" data-enabled="false" style="flex:1 0 150px;"></div>
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Remaining Amount" data-datafield="RemainingAmount" data-required="false" data-enabled="false" style="flex:1 0 150px;"></div>
     </div>  
     <div class="flexrow">
-        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Refund Amount" data-datafield="PaymentAmount" data-required="true" style="flex:1 0 150px;"></div>
+        <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Refund Amount" data-datafield="RefundAmount" data-required="true" style="flex:1 0 150px;"></div>
     </div>  
 </div>`;
         const $refund = jQuery(html);
@@ -45,8 +45,11 @@ class Refund {
         const location = JSON.parse(sessionStorage.getItem('location'));
         const today = FwFunc.getDate();
 
-        FwFormField.setValueByDataField($confirmation, "Customer", customer);
-        FwFormField.setValueByDataField($confirmation, "Deal", deal);
+        FwFormField.setValueByDataField($confirmation, "Customer", request.customer);
+        FwFormField.setValueByDataField($confirmation, "Deal", request.deal);
+        FwFormField.setValueByDataField($confirmation, "DepositTotal", request.amount);
+        FwFormField.setValueByDataField($confirmation, "AmountApplied", request.applied);
+        FwFormField.setValueByDataField($confirmation, "RemainingAmount", request.remaining);
 
         FwFormField.setValueByDataField($confirmation, "ReceiptDate", today);
         FwFormField.setValueByDataField($confirmation, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
@@ -59,11 +62,11 @@ class Refund {
 
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
             try {
-                const request = new FwAjaxRequest();
-                request.httpMethod = 'POST';
-                request.setWebApiUrl('/api/v1/receipt/refund');
-                request.data = {
-                    ReceiptId: receiptId,
+                const requestrefund = new FwAjaxRequest();
+                requestrefund.httpMethod = 'POST';
+                requestrefund.setWebApiUrl('/api/v1/receipt/refund');
+                requestrefund.data = {
+                    ReceiptId: request.receiptId,
                     LocationId: location.locationid,
                     CurrencyId: FwFormField.getValueByDataField($refund, 'CurrencyId'),
                     DealId: FwFormField.getValueByDataField($refund, 'DealId'),
@@ -73,18 +76,18 @@ class Refund {
                     PaymentAmount: FwFormField.getValueByDataField($refund, 'PaymentAmount'),
                     PaymentMemo: FwFormField.getValueByDataField($refund, 'PaymentMemo')
                 };
-                request.$elementToBlock = jQuery('body');
-                var response = await FwAjax.callWebApi<any, any>(request);
-                if (request.xmlHttpRequest.status === 200) {
+                requestrefund.$elementToBlock = jQuery('body');
+                var response = await FwAjax.callWebApi<any, any>(requestrefund);
+                if (requestrefund.xmlHttpRequest.status === 200) {
                     if (response.Status === 'ERROR') {
-                        FwFunc.showWebApiError(request.xmlHttpRequest.status, request.xmlHttpRequest.statusText, request.xmlHttpRequest.responseText, request.url);
+                        FwFunc.showWebApiError(requestrefund.xmlHttpRequest.status, requestrefund.xmlHttpRequest.statusText, requestrefund.xmlHttpRequest.responseText, requestrefund.url);
                         return;
                     }
                     console.log(response);
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
                 } else {
-                    FwFunc.showWebApiError(request.xmlHttpRequest.status, request.xmlHttpRequest.statusText, request.xmlHttpRequest.responseText, request.url);
+                    FwFunc.showWebApiError(requestrefund.xmlHttpRequest.status, requestrefund.xmlHttpRequest.statusText, requestrefund.xmlHttpRequest.responseText, requestrefund.url);
                 }
                 FwConfirmation.destroyConfirmation($confirmation);
             }
