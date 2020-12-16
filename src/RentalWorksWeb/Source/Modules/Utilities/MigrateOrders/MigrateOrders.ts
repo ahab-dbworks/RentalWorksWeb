@@ -136,7 +136,6 @@ class MigrateOrders {
             this.renderMigrateItemGrid($form);  //starts session
         });
 
-
         const $migrateItemGrid = $form.find('div[data-grid="MigrateItemGrid"]');
         // Select All
         $form.find('.select-all').on('click', e => {
@@ -234,44 +233,46 @@ class MigrateOrders {
     //----------------------------------------------------------------------------------------------
     renderMigrateItemGrid($form) {
         const $migrateItemGrid = $form.find('div[data-grid="MigrateItemGrid"]');
-        const $migrateItemGridControl = FwBrowse.loadGridFromTemplate('MigrateItemGrid');
-        $migrateItemGrid.empty().append($migrateItemGridControl);
-        FwBrowse.init($migrateItemGridControl);
-        FwBrowse.renderRuntimeHtml($migrateItemGridControl);
+        if (typeof $migrateItemGrid.data('sessionId') === 'undefined') {
+            const $migrateItemGridControl = FwBrowse.loadGridFromTemplate('MigrateItemGrid');
+            $migrateItemGrid.empty().append($migrateItemGridControl);
+            FwBrowse.init($migrateItemGridControl);
+            FwBrowse.renderRuntimeHtml($migrateItemGridControl);
 
-        const $orderBrowse = $form.find('.orderBrowse .fwbrowse');
-        const $selectedCheckboxes = $orderBrowse.find('tbody .cbselectrow:checked');
+            const $orderBrowse = $form.find('.orderBrowse .fwbrowse');
+            const $selectedCheckboxes = $orderBrowse.find('tbody .cbselectrow:checked');
 
-        let orderIds: any = [];
-        let sessionId;
-        if ($selectedCheckboxes.length > 0) {
-            for (let i = 0; i < $selectedCheckboxes.length; i++) {
-                const orderId = $selectedCheckboxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
-                if (orderId !== '') {
-                    orderIds.push(orderId);
-                }
-            }
-            orderIds = orderIds.join(',');
-
-            const request: any = {};
-            request.OrderIds = orderIds;
-            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
-            //request.DepartmentId = JSON.parse(sessionStorage.getItem('department')).departmentid;
-            request.DepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
-
-            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/startsession`, request, FwServices.defaultTimeout,
-                response => {
-                    sessionId = response.SessionId;
-                    if (sessionId) {
-                        $migrateItemGrid.data('sessionId', sessionId);
-                        $migrateItemGridControl.data('ondatabind', request => {
-                            request.uniqueids = {
-                                SessionId: sessionId
-                            };
-                        });
-                        FwBrowse.search($migrateItemGridControl);
+            let orderIds: any = [];
+            let sessionId;
+            if ($selectedCheckboxes.length > 0) {
+                for (let i = 0; i < $selectedCheckboxes.length; i++) {
+                    const orderId = $selectedCheckboxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                    if (orderId !== '') {
+                        orderIds.push(orderId);
                     }
-                }, ex => FwFunc.showError(ex), $form);
+                }
+                orderIds = orderIds.join(',');
+
+                const request: any = {};
+                request.OrderIds = orderIds;
+                request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                //request.DepartmentId = JSON.parse(sessionStorage.getItem('department')).departmentid;
+                request.DepartmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
+
+                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/startsession`, request, FwServices.defaultTimeout,
+                    response => {
+                        sessionId = response.SessionId;
+                        if (sessionId) {
+                            $migrateItemGrid.data('sessionId', sessionId);
+                            $migrateItemGridControl.data('ondatabind', request => {
+                                request.uniqueids = {
+                                    SessionId: sessionId
+                                };
+                            });
+                            FwBrowse.search($migrateItemGridControl);
+                        }
+                    }, ex => FwFunc.showError(ex), $form);
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
