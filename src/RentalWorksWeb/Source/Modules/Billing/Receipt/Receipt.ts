@@ -58,7 +58,7 @@ class Receipt {
                         throw new Error(`Add Depleting Deposit is not implemented for: ${controllerName}`);
                     }
                 }
-                this.addDepletingDeposit(orderId, orderDescription, dealId, deal);
+                this.addDepletingDeposit(options.$browse, orderId, orderDescription, dealId, deal);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -1351,9 +1351,9 @@ class Receipt {
         }
     }
     //----------------------------------------------------------------------------------------------
-    addDepletingDeposit(orderId: string, orderDescription: string, dealId: string, dealDescription: string) {
+    addDepletingDeposit($browse: JQuery, orderId: string, orderDescription: string, dealId: string, dealDescription: string) {
         try {
-            DepletingDeposit.showAddDepletingDepositPopup(orderId, orderDescription, dealId, dealDescription);
+            DepletingDeposit.showAddDepletingDepositPopup($browse, orderId, orderDescription, dealId, dealDescription);
         } catch (ex) {
             FwFunc.showError(ex);
         }

@@ -938,9 +938,9 @@ namespace WebApi.Modules.Billing.Receipt
             receipt.DealDepositId = string.Empty;
             receipt.DealId = request.DealId;
             receipt.LocationId = request.LocationId;
-            receipt.PaymentAmount = request.AmountToApply;
+            receipt.PaymentAmount = request.PaymentAmount;
             receipt.PaymentBy = "DEAL";
-            receipt.PaymentMemo = string.Empty;
+            receipt.PaymentMemo = request.PaymentMemo;
             receipt.PaymentTypeId = request.PaymentTypeId;
             receipt.PaymentTypeType = string.Empty;
             receipt.RecType = "D";

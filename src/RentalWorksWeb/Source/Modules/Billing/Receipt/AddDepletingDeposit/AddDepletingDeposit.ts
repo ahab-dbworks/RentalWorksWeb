@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------------------
 class DepletingDeposit {
-    static showAddDepletingDepositPopup(orderId: string, order: string, dealId: string, deal: string) {
+    static showAddDepletingDepositPopup($browse: JQuery, orderId: string, order: string, dealId: string, deal: string) {
         let html =
 `<div style="min-width:350px;font-size:.8em;">
   <div class="flexrow">
@@ -17,7 +17,7 @@ class DepletingDeposit {
     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Check/Reference No" data-datafield="CheckNumber" data-required="true" style="flex:1 0 150px;"></div>
   </div>
   <div class="flexrow">
-    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrenyId" data-displayfield="CurrencyCode" data-validationname="CurrencyValidation" data-enabled="true" style="flex:1 0 150px;" data-required="true"></div>
+    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-validationname="CurrencyValidation" data-enabled="true" style="flex:1 0 150px;" data-required="true"></div>
   </div>  
 <div class="flexrow">
     <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount to Apply" data-datafield="PaymentAmount" data-required="true" style="flex:1 0 150px;"></div>
@@ -38,9 +38,15 @@ class DepletingDeposit {
         const location = JSON.parse(sessionStorage.getItem('location'));
         const today = FwFunc.getDate();
 
-        FwFormField.setValueByDataField($adddepletingdeposit, "ReceiptDate", today);
-        FwFormField.setValueByDataField($adddepletingdeposit, "DealId", dealId, deal);
-        FwFormField.setValueByDataField($adddepletingdeposit, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
+        FwFormField.setValueByDataField($confirmation, "ReceiptDate", today);
+        FwFormField.setValueByDataField($confirmation, "DealId", dealId, deal);
+        FwFormField.setValueByDataField($confirmation, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
+        const $paymentTypeId = FwFormField.getDataField($confirmation, 'PaymentTypeId');
+        $paymentTypeId.data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield: string, $tr: JQuery) => {
+            request.filterfields = {
+                'PaymentTypeType': 'DEPLETING DEPOSIT'
+            }
+        })
 
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
             try {
@@ -66,6 +72,7 @@ class DepletingDeposit {
                     }
                     console.log(response);
                     FwConfirmation.destroyConfirmation($confirmation);
+                    FwBrowse.databind($browse);
                 } else {
                     FwFunc.showWebApiError(request.xmlHttpRequest.status, request.xmlHttpRequest.statusText, request.xmlHttpRequest.responseText, request.url);
                 }

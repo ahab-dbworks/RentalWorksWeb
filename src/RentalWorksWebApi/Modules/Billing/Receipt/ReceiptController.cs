@@ -169,8 +169,8 @@ namespace WebApi.Modules.Billing.Receipt
             return await DoBrowseAsync<GLDistributionLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/receipt/gldistribution/adddepletingdeposit
-        [HttpPost("gldistribution/adddepletingdeposit")]
+        // POST api/v1/receipt/adddepletingdeposit
+        [HttpPost("adddepletingdeposit")]
         [FwControllerMethod(Id: "kLAPCtGM3zE2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> AddDepletingDepositAsync([FromBody] AddDepletingDepositRequest request)
         {
