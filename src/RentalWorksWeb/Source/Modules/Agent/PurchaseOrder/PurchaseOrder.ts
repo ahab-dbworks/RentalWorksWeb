@@ -2563,20 +2563,22 @@ class PurchaseOrder implements IModule {
 
             const $confirmation = FwConfirmation.renderConfirmation(`Confirm ${caption1}`, '');
             const html: Array<string> = [];
-            html.push('<div class="flexrow">');
+            html.push('<div>');
             html.push(' <div class="flexrow">');
-            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No" data-datafield="PurchaseOrderNumber" style="flex:1 1 275px;"></div>');
-            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="Vendor" style="flex:1 1 275px;"></div>');
+            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No" data-datafield="PurchaseOrderNumber" style="flex:1 1 90px;" data-enabled="false"></div>');
+            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="Vendor" style="flex:1 1 275px;" data-enabled="false"></div>');
             html.push(' </div>');
             html.push(' <div class="flexrow">');
-            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="PO No" data-datafield="PurchaseOrderNumber" style="flex:1 1 275px;"></div>');
-            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="Vendor" style="flex:1 1 275px;"></div>');
+            html.push('   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 275px;" data-enabled="false"></div>');
             html.push(' </div>');
-            html.push(` <div>Click "Confirm ${caption1}" to create the ${caption2} for this Purchase Order.</div>`);
+            html.push(` <div style="margin:1em;">Click "Confirm ${caption1}" to create the ${caption2} for this Purchase Order.</div>`);
             html.push('</div>');
             FwConfirmation.addControls($confirmation, html.join(''));
             const $confirm = FwConfirmation.addButton($confirmation, `Confirm ${caption1}`, false);
             FwConfirmation.addButton($confirmation, 'Cancel');
+            FwFormField.setValueByDataField($confirmation, 'PurchaseOrderNumber', FwFormField.getValueByDataField($form, 'PurchaseOrderNumber'));
+            FwFormField.setValueByDataField($confirmation, 'Vendor', FwFormField.getTextByDataField($form, 'VendorId'));
+            FwFormField.setValueByDataField($confirmation, 'Description', FwFormField.getValueByDataField($form, 'Description'));
 
             $confirm.on('click', e => {
                 const request: any = {};
