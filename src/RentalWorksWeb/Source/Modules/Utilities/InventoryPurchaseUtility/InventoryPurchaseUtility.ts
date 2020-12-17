@@ -268,6 +268,11 @@ class InventoryPurchaseUtility {
             gridSecurityId: 'qH0cLrQVt9avI',
             moduleSecurityId: this.id,
             $form: $form,
+            addGridMenu: (options: IAddGridMenuOptions) => {
+                options.hasNew = false;
+                options.hasEdit = true;
+                options.hasDelete = false;
+            },
             onDataBind: (request: any) => {
                 request.uniqueids = {
                     SessionId: $form.data('sessionid')
