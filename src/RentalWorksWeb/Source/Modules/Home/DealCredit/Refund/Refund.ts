@@ -2,13 +2,13 @@
 class Refund {
     static showRefundPopup($browse: JQuery, request: RequestRefund) {
         let html =
-`<div style="min-width:350px;max-width:450px;font-size:.8em;">
+`<div style="width:400px;font-size:.8em;">
     <div class="flexrow">
-        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer No" data-datafield="CustomerNo"  data-enabled="false"></div>
+        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Number" data-datafield="CustomerNumber"  data-enabled="false" style="max-width:100px;"></div>
         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Name" data-datafield="Customer" data-enabled="false"></div>
     </div>
     <div class="flexrow">
-        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="DealNo" data-datafield="DealNo"  data-enabled="false"></div>
+        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal Number" data-datafield="DealNumber"  data-enabled="false" style="max-width:100px;"></div>
         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal Name" data-datafield="Deal" data-enabled="false"></div>
     </div>
     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PIN Pad" style="max-width:700px">
@@ -42,24 +42,6 @@ class Refund {
         const $confirmation = FwConfirmation.renderConfirmation('Refund', '');
         FwConfirmation.addJqueryControl($confirmation, $refund);
         const $btnProcess = FwConfirmation.addButton($confirmation, 'Process Credit Card', false);
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const today = FwFunc.getDate();
-
-        FwFormField.setValueByDataField($confirmation, "Customer", request.customer);
-        FwFormField.setValueByDataField($confirmation, "Deal", request.deal);
-        FwFormField.setValueByDataField($confirmation, "DepositTotal", request.amount);
-        FwFormField.setValueByDataField($confirmation, "AmountApplied", request.applied);
-        FwFormField.setValueByDataField($confirmation, "RemainingAmount", request.remaining);
-
-        FwFormField.setValueByDataField($confirmation, "ReceiptDate", today);
-        FwFormField.setValueByDataField($confirmation, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
-        const $paymentTypeId = FwFormField.getDataField($confirmation, 'PaymentTypeId');
-        $paymentTypeId.data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield: string, $tr: JQuery) => {
-            request.filterfields = {
-                'PaymentTypeType': 'DEPLETING DEPOSIT'
-            }
-        })
-
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
             try {
                 const requestrefund = new FwAjaxRequest();
@@ -97,5 +79,34 @@ class Refund {
         });
 
         const $btnCancel = FwConfirmation.addButton($confirmation, 'Close', true);
+
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const today = FwFunc.getDate();
+
+        FwFormField.setValueByDataField($confirmation, "CustomerNumber", request.customerNumber);
+        FwFormField.setValueByDataField($confirmation, "Customer", request.customer);
+        FwFormField.setValueByDataField($confirmation, "DealNumber", request.dealNumber);
+        FwFormField.setValueByDataField($confirmation, "Deal", request.deal);
+        FwFormField.setValueByDataField($confirmation, "DepositTotal", request.amount);
+        FwFormField.setValueByDataField($confirmation, "AmountApplied", request.applied);
+        FwFormField.setValueByDataField($confirmation, "RemainingAmount", request.remaining);
+
+        FwFormField.setValueByDataField($confirmation, "ReceiptDate", today);
+        FwFormField.setValueByDataField($confirmation, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
+        FwFormField.setValueByDataField($confirmation, 'PINPad_Type', 'REFUND');
+
+        const $paymentTypeId = FwFormField.getDataField($confirmation, 'PaymentTypeId');
+        $paymentTypeId.data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield: string, $tr: JQuery) => {
+            request.filterfields = {
+                'PaymentTypeType': 'DEPLETING DEPOSIT'
+            }
+        });
+
+        var $PINPad_Code = FwFormField.getDataField($confirmation, 'PINPad_Code');
+        $PINPad_Code.data('onchange', ($tr: JQuery, $formfield: JQuery) => {
+            const $browse = $tr.closest('.fwbrowse');
+            const description = FwBrowse.getValueByDataField($browse, $tr, 'Description');
+            FwFormField.setValueByDataField($refund, 'PINPad_Description', description);
+        });
     }
 }

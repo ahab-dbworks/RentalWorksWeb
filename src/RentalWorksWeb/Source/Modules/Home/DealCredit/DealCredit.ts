@@ -44,7 +44,7 @@ class DealCredit {
                     if ($tr.length > 0) {
                         request.receiptId = FwBrowse.getValueByDataField(options.$browse, $tr, 'ReceiptId');
                     }
-                    if (request.receiptId === '') {
+                    if ((request.receiptId === undefined) || (request.receiptId === '')) {
                         throw new Error('Please select a credit to refund!');
                     }
                     request.amount = parseFloat(FwBrowse.getValueByDataField(options.$browse, $tr, 'Amount'));
@@ -61,11 +61,17 @@ class DealCredit {
                         request.orderDescription = FwFormField.getTextByDataField($form, 'Description');
                         request.dealId = FwFormField.getValueByDataField($form, 'DealId');
                         request.deal = FwFormField.getTextByDataField($form, 'DealId');
+                        request.dealNumber = FwFormField.getValueByDataField($form, 'DealNumber');
+                        request.customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                        request.customer = FwFormField.getValueByDataField($form, 'CustomerId');
+                        request.customerNumber = FwFormField.getValueByDataField($form, 'CustomerNumber');
                     }
                     else if (controllerName === 'DealController') {
                         request.dealId = FwFormField.getValueByDataField($form, 'DealId');
+                        request.dealNumber = FwFormField.getValueByDataField($form, 'DealNumber');
                         request.deal = FwFormField.getValueByDataField($form, 'Deal');
                         request.customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                        request.customerNumber = FwFormField.getValueByDataField($form, 'CustomerNumber');
                         request.customer = FwFormField.getValueByDataField($form, 'CustomerId');
                     }
                     else {
@@ -173,9 +179,7 @@ class DealCredit {
         } catch (ex) {
             FwFunc.showError(ex);
         }
-
     }
-
     //---------------------------------------------------------------------------------------------
 }
 
@@ -186,8 +190,10 @@ type RequestRefund = {
     orderId?: string;
     orderDescription?: string;
     dealId?: string;
+    dealNumber?: string;
     deal?: string;
     customerId?: string;
+    customerNumber?: string;
     customer?: string;
     amount?: number;
     applied?: number;
