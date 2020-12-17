@@ -2584,9 +2584,11 @@ class PurchaseOrder implements IModule {
                 const request: any = {};
                 request.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
                 request.DeliveryId = deliveryId;
-                FwAppData.apiMethod(true, 'GET', `api/v1/${url}`, null, FwServices.defaultTimeout, response => {
-                    let contractIds = response.ReceiveContractIds.replace(/\s+/g, '').split(',');
-                    //
+                FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/${url}`, request, FwServices.defaultTimeout, response => {
+                    for (let i = 0; i < response.Contracts.length; i++) {
+                        const $contractForm = ContractController.loadForm({ ContractId: response.Contracts[i].ContractId });
+                        FwModule.openModuleTab($contractForm, '', true, 'FORM', false);
+                    }
                 }, null, $form);
             });
         });

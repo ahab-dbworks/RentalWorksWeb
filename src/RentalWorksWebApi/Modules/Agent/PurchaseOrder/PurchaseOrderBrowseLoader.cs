@@ -55,8 +55,11 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dropship", modeltype: FwDataTypes.Boolean)]
-        public bool? DropShip { get; set; }
+        [FwSqlDataField(column: "receivedeliverydropship", modeltype: FwDataTypes.Boolean)]
+        public bool? ReceiveDeliveryDropShip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returndeliverydropship", modeltype: FwDataTypes.Boolean)]
+        public bool? ReturnDeliveryVendorRetrieve { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "needsapproval", modeltype: FwDataTypes.Boolean)]
         public bool? NeedsApproval { get; set; }
@@ -122,7 +125,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string DescriptionColor
         {
-            get { return determineDescriptionColor(DropShip.GetValueOrDefault(false)); }
+            get { return determineDescriptionColor(ReceiveDeliveryDropShip.GetValueOrDefault(false), ReturnDeliveryVendorRetrieve.GetValueOrDefault(false)); }
             set { }
         }
         //------------------------------------------------------------------------------------ 
@@ -257,9 +260,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
             return (qtyToBarCode > 0 ? RwGlobals.PO_ITEMS_NEED_BARCODE_COLOR : null);
         }
         //------------------------------------------------------------------------------------    
-        private string determineDescriptionColor(bool isDropShip)
+        private string determineDescriptionColor(bool isDropShip, bool isVendorRetrieve)
         {
-            return (isDropShip ? RwGlobals.PO_DROP_SHIP_COLOR : null);
+            return (isDropShip|| isVendorRetrieve ? RwGlobals.PO_DROP_SHIP_COLOR : null);
         }
         //------------------------------------------------------------------------------------    
         private string determineVendorColor(int qtyHolding)
@@ -295,7 +298,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                     foreach (List<object> row in dt.Rows)
                     {
                         row[dt.GetColumnNo("PurchaseOrderNumberColor")] = determinePoNumberColor(FwConvert.ToInt32(row[dt.GetColumnNo("QuantityToBarCode")].ToString()));
-                        row[dt.GetColumnNo("DescriptionColor")] = determineDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("DropShip")].ToString()));
+                        row[dt.GetColumnNo("DescriptionColor")] = determineDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("ReceiveDeliveryDropShip")].ToString()), FwConvert.ToBoolean(row[dt.GetColumnNo("ReturnDeliveryVendorRetrieve")].ToString()));
                         row[dt.GetColumnNo("VendorColor")] = determineVendorColor(FwConvert.ToInt32(row[dt.GetColumnNo("QuantityHolding")].ToString()));
                         row[dt.GetColumnNo("StatusColor")] = determineStatusColor(FwConvert.ToBoolean(row[dt.GetColumnNo("NeedsApproval")].ToString()));
                         row[dt.GetColumnNo("CurrencyColor")] = determineCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());

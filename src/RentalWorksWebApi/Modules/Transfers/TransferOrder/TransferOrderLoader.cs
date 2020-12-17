@@ -175,9 +175,9 @@ namespace WebApi.Modules.Transfers.TransferOrder
         [FwSqlDataField(column: "outdeliverydirection", modeltype: FwDataTypes.Text)]
         public string OutDeliveryDirection { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "outdeliverydropship", modeltype: FwDataTypes.Boolean)]
-        public bool? OutDeliveryDropShip { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "outdeliverydropship", modeltype: FwDataTypes.Boolean)]
+        //public bool? OutDeliveryDropShip { get; set; }
+        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "outdeliveryorderid", modeltype: FwDataTypes.Text)]
         //public string OutDeliveryOrderId { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -353,9 +353,9 @@ namespace WebApi.Modules.Transfers.TransferOrder
         [FwSqlDataField(column: "indeliverydirection", modeltype: FwDataTypes.Text)]
         public string InDeliveryDirection { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "indeliverydropship", modeltype: FwDataTypes.Boolean)]
-        public bool? InDeliveryDropShip { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "indeliverydropship", modeltype: FwDataTypes.Boolean)]
+        //public bool? InDeliveryDropShip { get; set; }
+        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "indeliveryorderid", modeltype: FwDataTypes.Text)]
         //public string InDeliveryOrderId { get; set; }
         ////------------------------------------------------------------------------------------ 

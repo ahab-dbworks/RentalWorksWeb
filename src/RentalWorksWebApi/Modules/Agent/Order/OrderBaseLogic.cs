@@ -786,8 +786,8 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "2UOMh8pmiE7Ja", IsReadOnly: true)]
         public string OutDeliveryFreightTrackingUrl { get; set; }
 
-        [FwLogicProperty(Id: "s4KNcQmn3LxA")]
-        public bool? OutDeliveryDropShip { get { return outDelivery.DropShip; } set { outDelivery.DropShip = value; } }
+        //[FwLogicProperty(Id: "s4KNcQmn3LxA")]
+        //public bool? OutDeliveryDropShip { get { return outDelivery.DropShip; } set { outDelivery.DropShip = value; } }
 
         [FwLogicProperty(Id: "29DbhuIKvrnX")]
         public string OutDeliveryPackageCode { get { return outDelivery.PackageCode; } set { outDelivery.PackageCode = value; } }
@@ -969,8 +969,8 @@ namespace WebApi.Modules.Agent.Order
         [FwLogicProperty(Id: "xwggHLCeRHNUQ", IsReadOnly: true)]
         public string InDeliveryFreightTrackingUrl { get; set; }
 
-        [FwLogicProperty(Id: "U2PvKH1QzI32")]
-        public bool? InDeliveryDropShip { get { return inDelivery.DropShip; } set { inDelivery.DropShip = value; } }
+        //[FwLogicProperty(Id: "U2PvKH1QzI32")]
+        //public bool? InDeliveryDropShip { get { return inDelivery.DropShip; } set { inDelivery.DropShip = value; } }
 
         [FwLogicProperty(Id: "mVbz5KGFGHG3")]
         public string InDeliveryPackageCode { get { return inDelivery.PackageCode; } set { inDelivery.PackageCode = value; } }

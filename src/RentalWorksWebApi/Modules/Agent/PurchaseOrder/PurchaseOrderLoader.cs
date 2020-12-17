@@ -419,9 +419,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "receivedeliverydirection", modeltype: FwDataTypes.Text)]
         public string ReceiveDeliveryDirection { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "receivedeliverydropship", modeltype: FwDataTypes.Boolean)]
-        public bool? ReceiveDeliveryDropShip { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "receivedeliverydropship", modeltype: FwDataTypes.Boolean)]
+        //public bool? ReceiveDeliveryDropShip { get; set; }
+        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "receivedeliveryorderid", modeltype: FwDataTypes.Text)]
         //public string ReceiveDeliveryOrderId { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -600,9 +600,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         [FwSqlDataField(column: "returndeliverydirection", modeltype: FwDataTypes.Text)]
         public string ReturnDeliveryDirection { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "returndeliverydropship", modeltype: FwDataTypes.Boolean)]
-        public bool? ReturnDeliveryDropShip { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "returndeliverydropship", modeltype: FwDataTypes.Boolean)]
+        //public bool? ReturnDeliveryDropShip { get; set; }
+        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "returndeliveryorderid", modeltype: FwDataTypes.Text)]
         //public string ReturnDeliveryOrderId { get; set; }
         ////------------------------------------------------------------------------------------ 

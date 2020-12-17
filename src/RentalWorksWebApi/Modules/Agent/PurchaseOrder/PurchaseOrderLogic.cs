@@ -608,7 +608,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
         public string ReturnDeliveryFreightTrackingUrl { get; set; }
 
         [FwLogicProperty(Id: "CedfxyziQuCOU")]
-        public bool? ReturnDeliveryDropShip { get { return returnDelivery.DropShip; } set { returnDelivery.DropShip = value; } }
+        public bool? ReturnDeliveryVendorRetrieve { get { return returnDelivery.DropShip; } set { returnDelivery.DropShip = value; } }
 
         [FwLogicProperty(Id: "jyxgobQ9OMPuh")]
         public string ReturnDeliveryPackageCode { get { return returnDelivery.PackageCode; } set { returnDelivery.PackageCode = value; } }

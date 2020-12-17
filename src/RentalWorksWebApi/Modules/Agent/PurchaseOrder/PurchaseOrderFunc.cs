@@ -184,6 +184,7 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     {
         public string ReceiveContractIds;
         public string OutContractIds;
+        public List<ContractLogic> Contracts { get; set; }
     }
     public class ConfirmVendorRetrieveRequest
     {
@@ -192,8 +193,9 @@ namespace WebApi.Modules.Agent.PurchaseOrder
     }
     public class ConfirmVendorRetrieveResponse : TSpStatusResponse
     {
-        public string RetrieveContractIds;
+        public string ReturnContractIds;
         public string InContractIds;
+        public List<ContractLogic> Contracts { get; set; }
     }
 
 
@@ -468,6 +470,28 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 await qry.ExecuteNonQueryAsync();
                 response.ReceiveContractIds = qry.GetParameter("@receivecontractids").ToString();
                 response.OutContractIds = qry.GetParameter("@outcontractids").ToString();
+
+                response.Contracts = new List<ContractLogic>();
+                List<string> receiveContractIds = new List<string>(response.ReceiveContractIds.Split(','));
+                List<string> outContractIds = new List<string>(response.OutContractIds.Split(','));
+
+                foreach (string receiveContractId in receiveContractIds)
+                {
+                    ContractLogic l = new ContractLogic();
+                    l.SetDependencies(appConfig, userSession);
+                    l.ContractId = receiveContractId;
+                    await l.LoadAsync<ContractLogic>();
+                    response.Contracts.Add(l);
+                }
+
+                foreach (string outContractId in outContractIds)
+                {
+                    ContractLogic l = new ContractLogic();
+                    l.SetDependencies(appConfig, userSession);
+                    l.ContractId = outContractId;
+                    await l.LoadAsync<ContractLogic>();
+                    response.Contracts.Add(l);
+                }
             }
             return response;
         }
@@ -481,11 +505,32 @@ namespace WebApi.Modules.Agent.PurchaseOrder
                 qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
                 qry.AddParameter("@deliveryid", SqlDbType.NVarChar, ParameterDirection.Input, request.DeliveryId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@retrievecontractids", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@returncontractids", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@incontractids", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
-                response.RetrieveContractIds = qry.GetParameter("@retrievecontractids").ToString();
+                response.ReturnContractIds = qry.GetParameter("@returncontractids").ToString();
                 response.InContractIds = qry.GetParameter("@incontractids").ToString();
+                response.Contracts = new List<ContractLogic>();
+                List<string> returnContractIds = new List<string>(response.ReturnContractIds.Split(','));
+                List<string> inContractIds = new List<string>(response.InContractIds.Split(','));
+
+                foreach (string returnContractId in returnContractIds)
+                {
+                    ContractLogic l = new ContractLogic();
+                    l.SetDependencies(appConfig, userSession);
+                    l.ContractId = returnContractId;
+                    await l.LoadAsync<ContractLogic>();
+                    response.Contracts.Add(l);
+                }
+
+                foreach (string inContractId in inContractIds)
+                {
+                    ContractLogic l = new ContractLogic();
+                    l.SetDependencies(appConfig, userSession);
+                    l.ContractId = inContractId;
+                    await l.LoadAsync<ContractLogic>();
+                    response.Contracts.Add(l);
+                }
             }
             return response;
         }
