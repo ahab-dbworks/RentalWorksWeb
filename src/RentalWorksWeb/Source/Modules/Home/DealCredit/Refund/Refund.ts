@@ -23,9 +23,6 @@ class Refund {
         </div>
     </div>
     <div class="flexrow">
-        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="CurrencyId" data-displayfield="CurrencyCode" data-validationname="CurrencyValidation" data-enabled="true" style="flex:1 0 150px;" data-required="true"></div>
-    </div>  
-    <div class="flexrow">
         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Deposit Total" data-datafield="DepositTotal" data-required="false" data-enabled="false" style="flex:1 0 150px;"></div>
     </div>  
     <div class="flexrow">
@@ -51,7 +48,9 @@ class Refund {
                     ReceiptId: request.receiptId,
                     OrderId: request.orderId,
                     DealId: request.dealId,
-                    RefundAmount: FwFormField.getValueByDataField($refund, 'RefundAmount')
+                    RefundAmount: FwFormField.getValueByDataField($refund, 'RefundAmount'),
+                    PINPad_Code: FwFormField.getValueByDataField($refund, 'PINPad_Code')
+
                 };
                 requestrefund.$elementToBlock = jQuery('body');
                 var response = await FwAjax.callWebApi<any, any>(requestrefund);
@@ -89,13 +88,6 @@ class Refund {
         FwFormField.setValueByDataField($confirmation, "ReceiptDate", today);
         FwFormField.setValueByDataField($confirmation, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
         FwFormField.setValueByDataField($confirmation, 'PINPad_Type', 'REFUND');
-
-        const $paymentTypeId = FwFormField.getDataField($confirmation, 'PaymentTypeId');
-        $paymentTypeId.data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield: string, $tr: JQuery) => {
-            request.filterfields = {
-                'PaymentTypeType': 'DEPLETING DEPOSIT'
-            }
-        });
 
         var $PINPad_Code = FwFormField.getDataField($confirmation, 'PINPad_Code');
         $PINPad_Code.data('onchange', ($tr: JQuery, $formfield: JQuery) => {

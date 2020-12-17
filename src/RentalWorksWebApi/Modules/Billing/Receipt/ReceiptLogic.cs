@@ -954,9 +954,20 @@ namespace WebApi.Modules.Billing.Receipt
             return receipt;
         }
         //------------------------------------------------------------------------------------
+        public static async Task<ReceiptLogic> DoRefundAsync(FwApplicationConfig appConfig, FwUserSession userSession, RefundRequest request)
+        {
+            ReceiptLogic receiptLogic = new ReceiptLogic();
+            receiptLogic.SetDependencies(appConfig, userSession);
+            receiptLogic.ReceiptId = request.ReceiptId;
+            await receiptLogic.LoadAsync<ReceiptLogic>();
+            return await receiptLogic.RefundAsync(request);
+        }
+        //------------------------------------------------------------------------------------ 
         public async Task<ReceiptLogic> RefundAsync(RefundRequest request)
         {
+            var depletingDepositReceiptId = this.ReceiptId; //passed from front end
             var processCreditCardLogic = new ProcessCreditCardLogic();
+
             processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession);
             processCreditCardLogic.OrderId = request.OrderId;
             if (!await processCreditCardLogic.LoadAsync<ReceiptLogic>())
@@ -973,14 +984,14 @@ namespace WebApi.Modules.Billing.Receipt
             ccProcessPaymentRequest.SalesPersonCode = processCreditCardLogic.AgentBarcode;
             ccProcessPaymentRequest.DealNumber = processCreditCardLogic.DealNumber;
             var ccProcessPaymentResponse = await processCreditCardLogic.ProcessPaymentAsync(ccProcessPaymentRequest);
-            if (ccProcessPaymentResponse.Status == "")
+            if (ccProcessPaymentResponse.Status == "Approved")
             {
                 ReceiptLogic receipt = new ReceiptLogic();
                 receipt.SetDependencies(this.AppConfig, this.UserSession);
-                receipt.OrderId = request.OrderId;
+                receipt.OrderId = this.OrderId;
                 receipt.AppliedById = this.UserSession.UsersId;
                 receipt.ChargeBatchId = string.Empty;
-                receipt.CheckNumber = string.Empty;
+                receipt.CheckNumber = this.AuthorizationCode;
                 receipt.CreateDepletingDeposit = false;
                 receipt.CreateOverpayment = false;
                 receipt.CurrencyId = this.CurrencyId;
@@ -994,13 +1005,21 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.PaymentAmount = request.RefundAmount;
                 receipt.PaymentBy = "DEAL";
                 receipt.PaymentMemo = string.Empty;
-                receipt.PaymentTypeId = this.PaymentTypeId;
-                receipt.PaymentTypeType = "CREDIT CARD";
-                receipt.RecType = "R";
+                receipt.PaymentTypeId = "A0003PKF"; //this.PaymentTypeId;
+                receipt.PaymentTypeType = "REFUND CHECK";
+                receipt.RecType = "P";
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
                 receipt.ModifiedById = this.UserSession.UsersId;
                 receipt.AuthorizationCode = this.AuthorizationCode;
+
+                ReceiptCredit receiptCredit = new ReceiptCredit();
+                receiptCredit.CreditId = depletingDepositReceiptId;
+                receiptCredit.Amount = request.RefundAmount;
+
+                receipt.CreditDataList = new List<ReceiptCredit>();
+                receipt.CreditDataList.Add(receiptCredit);
+
                 await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
                 return receipt;
             } else

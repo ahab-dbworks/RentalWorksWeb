@@ -24,7 +24,7 @@ namespace WebApi.Modules.HomeControls.DealCredit
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody] BrowseRequest browseRequest)
         {
             if (FwValidate.IsPropertyDefined(browseRequest.uniqueids, "OrderId"))
-            { 
+            {
                 string orderId = browseRequest.uniqueids.OrderId;
                 using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                 {
@@ -47,11 +47,7 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwControllerMethod(Id: "aVvPPeYAmQEN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] RefundRequest request)
         {
-            ReceiptLogic receiptLogic = new ReceiptLogic();
-            receiptLogic.SetDependencies(this.AppConfig, this.UserSession);
-            receiptLogic.ReceiptId = request.ReceiptId;
-            await receiptLogic.LoadAsync<ReceiptLogic>();
-            return await receiptLogic.RefundAsync(request);
+            return await ReceiptLogic.DoRefundAsync(this.AppConfig, this.UserSession, request);
         }
         //------------------------------------------------------------------------------------ 
     }
