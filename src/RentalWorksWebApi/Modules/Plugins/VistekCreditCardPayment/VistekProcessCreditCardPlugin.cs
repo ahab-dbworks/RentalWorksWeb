@@ -62,7 +62,7 @@ namespace WebApi.Modules.Plugins.VistekCreditCardPayment
                 if (request.StoreCode.Length == 0) throw new ArgumentException("StoreCode is required.");
                 if (request.SalesPersonCode.Length == 0) throw new ArgumentException("SalesPersonCode is required.");
                 if (request.DealNumber.Length == 0) throw new ArgumentException("DalNo is required.");
-                if (request.AuthCode.Length == 0) throw new ArgumentException("AuthCode is required.");
+                if (request.AuthorizationCode.Length == 0) throw new ArgumentException("AuthCode is required.");
                 //if (request.PaymentReferenceNo.Length == 0) throw new ArgumentException("PaymentReferenceNo is required.");
                 //if (request.CardType.Length == 0) throw new ArgumentException("CardType is required.");
                 //if (request.CardNo.Length == 0) throw new ArgumentException("CardNo is required.");
@@ -88,7 +88,7 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
         <pay:pPaymentRefNo>{request.PaymentReferenceNo}</pay:pPaymentRefNo>
         <pay:pCardType>{request.CardType}</pay:pCardType>
         <pay:pCardNo>{request.CardNumber}</pay:pCardNo>
-        <pay:pAuthCode>{request.AuthCode}</pay:pAuthCode>
+        <pay:pAuthCode>{request.AuthorizationCode}</pay:pAuthCode>
     </pay:ProcessCardPayment>
 </soapenv:Body>
 </soapenv:Envelope>",
