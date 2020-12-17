@@ -46,17 +46,12 @@ class Refund {
             try {
                 const requestrefund = new FwAjaxRequest();
                 requestrefund.httpMethod = 'POST';
-                requestrefund.setWebApiUrl('/api/v1/receipt/refund');
+                requestrefund.setWebApiUrl('/api/v1/dealcredit/refund');
                 requestrefund.data = {
                     ReceiptId: request.receiptId,
-                    LocationId: location.locationid,
-                    CurrencyId: FwFormField.getValueByDataField($refund, 'CurrencyId'),
-                    DealId: FwFormField.getValueByDataField($refund, 'DealId'),
-                    ReceiptDate: FwFormField.getValueByDataField($refund, 'ReceiptDate'),
-                    PaymentTypeId: FwFormField.getValueByDataField($refund, 'PaymentTypeId'),
-                    CheckNumber: FwFormField.getValueByDataField($refund, 'CheckNumber'),
-                    PaymentAmount: FwFormField.getValueByDataField($refund, 'PaymentAmount'),
-                    PaymentMemo: FwFormField.getValueByDataField($refund, 'PaymentMemo')
+                    OrderId: request.orderId,
+                    DealId: request.dealId,
+                    RefundAmount: FwFormField.getValueByDataField($refund, 'RefundAmount')
                 };
                 requestrefund.$elementToBlock = jQuery('body');
                 var response = await FwAjax.callWebApi<any, any>(requestrefund);
