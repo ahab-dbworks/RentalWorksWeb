@@ -11,11 +11,11 @@
         public string OrderId { get; set; } = string.Empty;
         public string StoreCode { get; set; } = string.Empty;
         public string SalesPersonCode { get; set; } = string.Empty;
-        public string CustomerNo { get; set; } = string.Empty;
+        public string DealNumber { get; set; } = string.Empty;
         public string PaymentReferenceNo { get; set; } = string.Empty;
         public string CardType { get; set; } = string.Empty;
-        public string CardNo { get; set; } = string.Empty;
-        public string AuthCode { get; set; } = string.Empty;
+        public string CardNumber { get; set; } = string.Empty;
+        public string AuthorizationCode { get; set; } = string.Empty;
     }
     //------------------------------------------------------------------------------------ 
     public class ProcessCreditCardPaymentResponse

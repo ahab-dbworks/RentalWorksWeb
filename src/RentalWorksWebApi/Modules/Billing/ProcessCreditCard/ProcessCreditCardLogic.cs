@@ -30,19 +30,28 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "DOo10PuNXp8p", IsReadOnly: true, IsRecordTitle: true)]
-        override public string RecordTitle { get { return "Process Credit Card: " + this.OrderNo;} }
+        override public string RecordTitle { get { return "Process Credit Card: " + this.OrderNumber;} }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "ggWKjrdYT2dT", IsPrimaryKey: true, IsReadOnly: true)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "LLzut6Ua2fYL", IsReadOnly: true)]
-        public string OrderNo { get; set; }
+        public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "CvprXvdKccuR", IsReadOnly: true)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "eSIJIjRBXpLt", IsReadOnly: true)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "YhT1Io5Kx6Ed", IsReadOnly: true)]
+        public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "hK89KIPlGQHY", IsReadOnly: true)]
+        public string Deal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "CtERH19mN4fo", IsReadOnly: true)]
-        public string CustomerNo { get; set; }
+        public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "TYgFeAFq0cdB", IsReadOnly: true)]
         public string Customer { get; set; }
@@ -129,9 +138,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "SWSReDvLhdGM", IsReadOnly: true)]
         public string LocationId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "eSIJIjRBXpLt", IsReadOnly: true)]
-        public string DealId { get; set; }
         //------------------------------------------------------------------------------------
         public async Task<ProcessCreditCardPaymentResponse> ProcessPaymentAsync(ProcessCreditCardPaymentRequest request)
         {

@@ -19,13 +19,22 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
-        public string OrderNo { get; set; }
+        public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
+        public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        public string Deal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
-        public string CustomerNo { get; set; }
+        public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
@@ -83,9 +92,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string LocationId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
-        public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
 
 

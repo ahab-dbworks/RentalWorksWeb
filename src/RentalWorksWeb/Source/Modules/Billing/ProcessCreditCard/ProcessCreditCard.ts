@@ -148,12 +148,16 @@ class ProcessCreditCard {
                       <div class="flexrow">
                         <div style="min-width:350px">
                           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order" style="max-width:700px">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer No" data-datafield="CustomerNo"  data-enabled="false"></div>
+                            <div class="flexrow" style="display:none;">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer No" data-datafield="CustomerNumber"  data-enabled="false"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Name" data-datafield="Customer" data-enabled="false"></div>
                             </div>
                             <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNo" data-enabled="false"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal No" data-datafield="DealNumber"  data-enabled="false"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal Name" data-datafield="Deal" data-enabled="false"></div>
+                            </div>
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No" data-datafield="OrderNumber" data-enabled="false"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="OrderDescription" data-enabled="false"></div>
                             </div>
                           </div>

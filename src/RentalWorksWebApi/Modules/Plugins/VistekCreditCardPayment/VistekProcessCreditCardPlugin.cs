@@ -48,7 +48,7 @@ namespace WebApi.Modules.Plugins.VistekCreditCardPayment
                 if (request.OrderId.Length == 0) throw new ArgumentException("OrderId is required.");
                 if (request.StoreCode.Length == 0) throw new ArgumentException("StoreCode is required.");
                 if (request.SalesPersonCode.Length == 0) throw new ArgumentException("SalesPersonCode is required.");
-                if (request.CustomerNo.Length == 0) throw new ArgumentException("CustomerNo is required.");
+                if (request.DealNumber.Length == 0) throw new ArgumentException("DealNo is required.");
             }
             else if (request.TransactionType == ProcessCreditCardPaymentRequest.TransactionTypes.VoidSale)
             {
@@ -61,12 +61,11 @@ namespace WebApi.Modules.Plugins.VistekCreditCardPayment
                 if (request.OrderId.Length == 0) throw new ArgumentException("OrderId is required.");
                 if (request.StoreCode.Length == 0) throw new ArgumentException("StoreCode is required.");
                 if (request.SalesPersonCode.Length == 0) throw new ArgumentException("SalesPersonCode is required.");
-                if (request.CustomerNo.Length == 0) throw new ArgumentException("CustomerNo is required.");
-
-                if (request.PaymentReferenceNo.Length == 0) throw new ArgumentException("PaymentReferenceNo is required.");
-                if (request.CardType.Length == 0) throw new ArgumentException("CardType is required.");
-                if (request.CardNo.Length == 0) throw new ArgumentException("CardNo is required.");
+                if (request.DealNumber.Length == 0) throw new ArgumentException("DalNo is required.");
                 if (request.AuthCode.Length == 0) throw new ArgumentException("AuthCode is required.");
+                //if (request.PaymentReferenceNo.Length == 0) throw new ArgumentException("PaymentReferenceNo is required.");
+                //if (request.CardType.Length == 0) throw new ArgumentException("CardType is required.");
+                //if (request.CardNo.Length == 0) throw new ArgumentException("CardNo is required.");
             }
             else if (request.TransactionType == ProcessCreditCardPaymentRequest.TransactionTypes.VoidRefund)
             {
@@ -85,10 +84,10 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
         <pay:docRefNo>{request.OrderId}</pay:docRefNo>
         <pay:storeCode>{request.StoreCode}</pay:storeCode>
         <pay:salespersonCode>{request.SalesPersonCode}</pay:salespersonCode>
-        <pay:billToCustomerNo>{request.CustomerNo}</pay:billToCustomerNo>
+        <pay:billToCustomerNo>{request.DealNumber}</pay:billToCustomerNo>
         <pay:pPaymentRefNo>{request.PaymentReferenceNo}</pay:pPaymentRefNo>
         <pay:pCardType>{request.CardType}</pay:pCardType>
-        <pay:pCardNo>{request.CardNo}</pay:pCardNo>
+        <pay:pCardNo>{request.CardNumber}</pay:pCardNo>
         <pay:pAuthCode>{request.AuthCode}</pay:pAuthCode>
     </pay:ProcessCardPayment>
 </soapenv:Body>

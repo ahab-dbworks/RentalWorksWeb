@@ -4,8 +4,8 @@ class VistekProcessCreditCard implements IProcessCreditCard {
         let html =
             `<div class="request" style="min-width:350px;font-size:.8em;">
   <div class="flexrow">
-    <div style="flex:0 0 130px;">Customer Name:</div>
-    <div>${FwFormField.getValueByDataField($form, 'Customer')}</div>
+    <div style="flex:0 0 130px;">Deal:</div>
+    <div>${FwFormField.getValueByDataField($form, 'Deal')}</div>
   </div>
   <div class="flexrow">
     <div style="flex:0 0 130px;">Order:</div>
@@ -13,7 +13,7 @@ class VistekProcessCreditCard implements IProcessCreditCard {
   </div>
   <div class="flexrow">
     <div style="flex:0 0 130px;">PIN Pad Code:</div>
-    <div>${FwFormField.getValueByDataField($form, 'PINPad_Code')}</div>
+    <div>${FwFormField.getTextByDataField($form, 'PINPad_Code')}</div>
   </div>
   <div class="flexrow">
     <div style="flex:0 0 130px;">PIN Pad Type:</div>
@@ -62,7 +62,7 @@ class VistekProcessCreditCard implements IProcessCreditCard {
                     PINPadCode: FwFormField.getValueByDataField($form, 'PINPad_Code'),
                     PaymentAmount: FwFormField.getValueByDataField($form, 'Payment_AmountToPay'),
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                    CustomerNo: FwFormField.getValueByDataField($form, 'CustomerNo')
+                    DealNumber: FwFormField.getValueByDataField($form, 'DealNumber')
                 };
                 request.$elementToBlock = jQuery('body');
                 var response = await FwAjax.callWebApi<any, any>(request);

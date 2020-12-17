@@ -47,7 +47,11 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwControllerMethod(Id: "aVvPPeYAmQEN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] RefundRequest request)
         {
-            return await ReceiptLogic.RefundAsync(this.AppConfig, this.UserSession, request);
+            ReceiptLogic receiptLogic = new ReceiptLogic();
+            receiptLogic.SetDependencies(this.AppConfig, this.UserSession);
+            receiptLogic.ReceiptId = request.ReceiptId;
+            await receiptLogic.LoadAsync<ReceiptLogic>();
+            return await receiptLogic.RefundAsync(request);
         }
         //------------------------------------------------------------------------------------ 
     }
