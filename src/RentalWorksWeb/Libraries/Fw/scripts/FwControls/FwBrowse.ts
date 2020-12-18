@@ -1287,7 +1287,7 @@ class FwBrowseClass {
                         html.push(`<td class="column manual-sort" style="display:none;"></td>`);
                     }
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
-                    if ($control.attr('data-hasmultirowselect') === 'true') {
+                    if ($control.attr('data-hasmultirowselect') !== 'false') {
                     //html.push(`<td class="column tdselectrow" style="width:20px;${$control.attr('data-hasmultirowediting') === 'true' ? 'display:none;' : ''}"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
                     html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" tabindex="-1" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
                     }
