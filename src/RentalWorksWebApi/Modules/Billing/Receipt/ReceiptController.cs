@@ -174,7 +174,15 @@ namespace WebApi.Modules.Billing.Receipt
         [FwControllerMethod(Id: "kLAPCtGM3zE2", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> AddDepletingDepositAsync([FromBody] AddDepletingDepositRequest request)
         {
-            return await ReceiptLogic.DoDepletingDepositAsync(this.AppConfig, this.UserSession, request);
+            return await ReceiptLogic.AddDepletingDepositAsync(this.AppConfig, this.UserSession, request);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/receipt/creditcarddepletingdeposit
+        [HttpPost("creditcarddepletingdeposit")]
+        [FwControllerMethod(Id: "7PqBsFrW4V9V", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<ReceiptLogic>> CreditCardDepletingDepositAsync([FromBody] CreditCardDepletingDepositRequest request)
+        {
+            return await ReceiptLogic.DoCreditCardDepletingDepositAsync(this.AppConfig, this.UserSession, request);
         }
         //------------------------------------------------------------------------------------ 
     }

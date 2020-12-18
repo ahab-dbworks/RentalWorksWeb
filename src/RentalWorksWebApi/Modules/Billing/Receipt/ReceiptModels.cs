@@ -16,17 +16,21 @@ namespace WebApi.Modules.Billing.Receipt
         public string CurrencyId = string.Empty;
         public string CheckNumber = string.Empty;
         public string PaymentMemo = string.Empty;
-        //PINPadCode: FwFormField.getValueByDataField($form, 'PINPad_Code'),
-        //            PaymentAmount: FwFormField.getValueByDataField($form, 'Payment_AmountToPay'),
-        //            OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-        //            DealNumber: FwFormField.getValueByDataField($form, 'DealNumber')
     }
-    public class RefundRequest
+    public class CreditCardRefundRequest
     {
         public string ReceiptId = string.Empty;
         public string DealId = string.Empty;
         public string OrderId = string.Empty;
         public decimal RefundAmount = 0.0m;
     }
+    public class CreditCardDepletingDepositRequest
+    {
+        public string OrderId = string.Empty;
+        public decimal AmountToPay = 0.0m;
+        public string PinPad_Code = string.Empty;
+        public string DealNumber = string.Empty;
+    }
+
 
 }
