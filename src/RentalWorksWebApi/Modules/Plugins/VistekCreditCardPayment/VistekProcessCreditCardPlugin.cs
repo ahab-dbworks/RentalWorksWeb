@@ -116,7 +116,25 @@ $@"<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/""
                     result.Status = returnValues[0];
                     result.StatusText = returnValues[1];
                     result.CardEntryMode = returnValues[2];
-                    result.CardType = returnValues[3];
+                    string cardType = returnValues[3];
+                    switch(cardType)
+                    {
+                        case "AMEX":
+                            result.CardType = ProcessCreditCardPaymentCardTypes.Amex;
+                            break;
+                        case "VISA":
+                            result.CardType = ProcessCreditCardPaymentCardTypes.Amex;
+                            break;
+                        case "M/C":
+                            result.CardType = ProcessCreditCardPaymentCardTypes.Amex;
+                            break;
+                        case "DSVR":
+                            result.CardType = ProcessCreditCardPaymentCardTypes.Discover;
+                            break;
+                        default:
+                            result.CardType = ProcessCreditCardPaymentCardTypes.Other;
+                            break;
+                    }
                     result.CardNumber = returnValues[4];
                     result.AuthorizationCode = returnValues[5];
                     result.Amount = Convert.ToDecimal(returnValues[6]);

@@ -1,4 +1,10 @@
-﻿namespace WebApi.Modules.Billing.ProcessCreditCard
+﻿using FwStandard.Models;
+using FwStandard.SqlServer;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType;
+
+namespace WebApi.Modules.Billing.ProcessCreditCard
 {
     //------------------------------------------------------------------------------------ 
     public class ProcessCreditCardPaymentRequest
@@ -23,10 +29,60 @@
         public string Status { get; set; } = string.Empty;
         public string StatusText { get; set; } = string.Empty;
         public string CardEntryMode { get; set; } = string.Empty;
-        public string CardType { get; set; } = string.Empty;
+
+        public ProcessCreditCardPaymentCardTypes CardType { get; set; } = ProcessCreditCardPaymentCardTypes.Other;
         public string CardNumber { get; set; } = string.Empty;
         public string AuthorizationCode { get; set; } = string.Empty;
         public decimal Amount { get; set; } = 0;
+        //------------------------------------------------------------------------------------
+        private async Task<Dictionary<string, FwDatabaseField>> GetCreditCardPayTypeAsync(FwApplicationConfig appConfig, FwUserSession userSession, FwSqlConnection conn)
+        {
+            string cardTypeDescription = string.Empty;
+            switch (this.CardType)
+            {
+                case ProcessCreditCardPaymentCardTypes.Visa:
+                    cardTypeDescription = RwConstants.CREDIT_CARD_PAYMENT_TYPE_VISA;
+                    break;
+                case ProcessCreditCardPaymentCardTypes.MasterCard:
+                    cardTypeDescription = RwConstants.CREDIT_CARD_PAYMENT_TYPE_MASTER_CARD;
+                    break;
+                case ProcessCreditCardPaymentCardTypes.Amex:
+                    cardTypeDescription = RwConstants.CREDIT_CARD_PAYMENT_TYPE_AMEX;
+                    break;
+                case ProcessCreditCardPaymentCardTypes.Discover:
+                    cardTypeDescription = RwConstants.CREDIT_CARD_PAYMENT_TYPE_DISCOVER;
+                    break;
+                case ProcessCreditCardPaymentCardTypes.Other:
+                    cardTypeDescription = RwConstants.CREDIT_CARD_PAYMENT_TYPE_OTHER;
+                    break;
+            }
+            var row = await FwSqlCommand.GetRowAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "creditcardpaytypeview", "description", cardTypeDescription, true);
+            return row;
+        }
+        //------------------------------------------------------------------------------------
+
+        public async Task<string> GetChargePayTypeIdAsync(FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                var row = await this.GetCreditCardPayTypeAsync(appConfig, userSession, conn);
+                var chargePaymentTypeId = row["chargepaytypeid"].ToString();
+                return chargePaymentTypeId;
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<string> GetRefundPayTypeIdAsync(FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                var row = await this.GetCreditCardPayTypeAsync(appConfig, userSession, conn);
+                var chargePaymentTypeId = row["refundpaytypeid"].ToString();
+                return chargePaymentTypeId;
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
+    //------------------------------------------------------------------------------------ 
+    public enum ProcessCreditCardPaymentCardTypes { Other, Amex, Visa, MasterCard, Discover }
     //------------------------------------------------------------------------------------ 
 }

@@ -671,11 +671,11 @@ namespace WebApi
         public const int DATA_HEALTH_SEVERITY_WARNING_COLOR = 65535;        // yellow
 
 
-        public const int CREDIT_CARD_PAYMENT_TYPE_VISA = "VISA";
-        public const int CREDIT_CARD_PAYMENT_TYPE_MASTER_CARD = "MASTER CARD";
-        public const int CREDIT_CARD_PAYMENT_TYPE_AMEX = "AMEX";
-        public const int CREDIT_CARD_PAYMENT_TYPE_DISCOVER = "DISCOVER";
-        public const int CREDIT_CARD_PAYMENT_TYPE_OTHER = "OTHER";
+        public const string CREDIT_CARD_PAYMENT_TYPE_VISA = "VISA";
+        public const string CREDIT_CARD_PAYMENT_TYPE_MASTER_CARD = "MASTER CARD";
+        public const string CREDIT_CARD_PAYMENT_TYPE_AMEX = "AMEX";
+        public const string CREDIT_CARD_PAYMENT_TYPE_DISCOVER = "DISCOVER";
+        public const string CREDIT_CARD_PAYMENT_TYPE_OTHER = "OTHER";
 
 
 

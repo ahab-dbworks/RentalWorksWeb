@@ -145,7 +145,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             string paymentTypeId = string.Empty;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                
+
                 this.OrderId = request.OrderId;
                 await this.LoadAsync<ProcessCreditCardLogic>(conn);
 
@@ -161,7 +161,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                 {
                     throw new Exception("Unable to Process Payment: LocationId is required on the Order record.");
                 }
-                if(request.PaymentAmount <= 0)
+                if (request.PaymentAmount <= 0)
                 {
                     throw new Exception("Unable to Process Payment: Payment Amount must be greater than 0.");
                 }
@@ -184,66 +184,47 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                     await orderLogic.LoadAsync<OrderLogic>(conn);
                     throw new Exception($"Unable to Process Payment: AgentBarcode is required on the User record for: \"{orderLogic.Agent}\"");
                 }
+
+                request.StoreCode = this.LocationCode;
+                request.SalesPersonCode = this.AgentBarcode;
+                request.PaymentTypeId = paymentTypeId;
+                this.processCreditCardPlugin.SetDependencies(this.AppConfig, this.UserSession, this);
+                ProcessCreditCardPaymentResponse response = await this.processCreditCardPlugin.ProcessPaymentAsync(request);
+                //response.CardType ,AMEX,DEBIT,M / C,OTHER,VISA,DCVR
+                
+                if (response.Status.ToUpper() == "APPROVED")
+                {
+                    ReceiptLogic receipt = new ReceiptLogic();
+                    receipt.SetDependencies(this.AppConfig, this.UserSession);
+                    receipt.OrderId = request.OrderId;
+                    receipt.AppliedById = this.UserSession.UsersId;
+                    receipt.ChargeBatchId = string.Empty;
+                    receipt.CheckNumber = string.Empty; 
+                    receipt.CreateDepletingDeposit = true;
+                    receipt.CreateOverpayment = false;
+                    receipt.CurrencyId = this.CurrencyId;
+                    receipt.CustomerDepositCheckNumber = string.Empty;
+                    receipt.CustomerDepositId = string.Empty;
+                    receipt.CustomerId = string.Empty;
+                    receipt.DealDepositCheckNumber = string.Empty;
+                    receipt.DealDepositId = string.Empty;
+                    receipt.DealId = this.DealId;
+                    receipt.LocationId = this.LocationId;
+                    receipt.PaymentAmount = request.PaymentAmount;
+                    receipt.PaymentBy = "DEAL";
+                    receipt.PaymentMemo = string.Empty;
+                    receipt.PaymentTypeId = await response.GetChargePayTypeIdAsync(this.AppConfig, this.UserSession);
+                    receipt.PaymentTypeType = "CREDIT CARD";
+                    receipt.RecType = "D";
+                    receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
+                    receipt.ReceiptId = string.Empty;
+                    receipt.ModifiedById = this.UserSession.UsersId;
+                    receipt.AuthorizationCode = response.AuthorizationCode;
+                    await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
+                }
+                
+                return response;
             }
-            request.StoreCode = this.LocationCode;
-            request.SalesPersonCode = this.AgentBarcode;
-            request.PaymentTypeId = paymentTypeId;
-            this.processCreditCardPlugin.SetDependencies(this.AppConfig, this.UserSession, this);
-            ProcessCreditCardPaymentResponse response = await this.processCreditCardPlugin.ProcessPaymentAsync(request);
-            //response.CardType ,AMEX,DEBIT,M / C,OTHER,VISA,DCVR
-            //create enumerated dattype in plugin
-
-            //need case statement to convert enum to desciciption
-            //cardTypeDescription
-            public const int CREDIT_CARD_PAYMENT_TYPE_VISA = "VISA";
-            public const int CREDIT_CARD_PAYMENT_TYPE_MASTER_CARD = "MASTER CARD";
-            public const int CREDIT_CARD_PAYMENT_TYPE_AMEX = "AMEX";
-            public const int CREDIT_CARD_PAYMENT_TYPE_DISCOVER = "DISCOVER";
-
-
-            var row = await FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "creditcardpaytypeview", "description", cardTypeDescription, true);
-            CreditCardPaymentTypeLogic creditCardPaymentType = new CreditCardPaymentTypeLogic();
-            creditCardPaymentType.ChargePaymentTypeId = row["chargepaytypeid"].ToString();
-            creditCardPaymentType.RefundPaymentTypeId = row["refundpaytypeid"].ToString();
-
-
-            /*
-            if (response.Status.ToUpper() == "APPROVED")
-            {
-                ReceiptLogic receipt = new ReceiptLogic();
-                receipt.SetDependencies(this.AppConfig, this.UserSession);
-                receipt.OrderId = request.OrderId;
-                receipt.AppliedById = this.UserSession.UsersId;
-                receipt.ChargeBatchId = string.Empty;
-                receipt.CheckNumber = string.Empty; 
-                receipt.CreateDepletingDeposit = true;
-                receipt.CreateOverpayment = false;
-                receipt.CurrencyId = this.CurrencyId;
-                receipt.CustomerDepositCheckNumber = string.Empty;
-                receipt.CustomerDepositId = string.Empty;
-                receipt.CustomerId = string.Empty;
-                receipt.DealDepositCheckNumber = string.Empty;
-                receipt.DealDepositId = string.Empty;
-                receipt.DealId = this.DealId;
-                receipt.LocationId = this.LocationId;
-                receipt.PaymentAmount = request.PaymentAmount;
-                receipt.PaymentBy = "DEAL";
-                receipt.PaymentMemo = string.Empty;
-                receipt.PaymentTypeId = paymentTypeId;
-                receipt.PaymentTypeType = "CREDIT CARD";
-                receipt.RecType = "D";
-                receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
-                receipt.ReceiptId = string.Empty;
-                receipt.ModifiedById = this.UserSession.UsersId;
-                receipt.AuthorizationCode = response.AuthorizationCode;
-
-                // need to log
-                //result.ReturnValue
-
-                await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
-            }
-            */
-            return response;
         }
         //------------------------------------------------------------------------------------
     }
