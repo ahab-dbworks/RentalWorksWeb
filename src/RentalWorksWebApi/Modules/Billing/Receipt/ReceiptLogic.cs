@@ -922,37 +922,37 @@ namespace WebApi.Modules.Billing.Receipt
             }
         }
         //------------------------------------------------------------------------------------
-        public static async Task<ReceiptLogic> AddDepletingDepositAsync(FwApplicationConfig appConfig, FwUserSession userSession, AddDepletingDepositRequest request)
-        {
-            var receipt = new ReceiptLogic();
-            receipt.SetDependencies(appConfig, userSession);
-            receipt.OrderId = request.OrderId;
-            receipt.AppliedById = userSession.UsersId;
-            receipt.ChargeBatchId = string.Empty;
-            receipt.CheckNumber = request.CheckNumber;
-            receipt.CreateDepletingDeposit = true;
-            receipt.CreateOverpayment = false;
-            receipt.CurrencyId = request.CurrencyId;
-            receipt.CustomerDepositCheckNumber = string.Empty;
-            receipt.CustomerDepositId = string.Empty;
-            receipt.CustomerId = string.Empty;
-            receipt.DealDepositCheckNumber = string.Empty;
-            receipt.DealDepositId = string.Empty;
-            receipt.DealId = request.DealId;
-            receipt.LocationId = request.LocationId;
-            receipt.PaymentAmount = request.PaymentAmount;
-            receipt.PaymentBy = "DEAL";
-            receipt.PaymentMemo = request.PaymentMemo;
-            receipt.PaymentTypeId = request.PaymentTypeId;
-            receipt.PaymentTypeType = string.Empty;
-            receipt.RecType = "D";
-            receipt.ReceiptDate = FwConvert.ToShortDate(request.ReceiptDate);
-            receipt.ReceiptId = string.Empty;
-            receipt.ModifiedById = userSession.UsersId;
-            receipt.AuthorizationCode = string.Empty;
-            await receipt.SaveAsync();
-            return receipt;
-        }
+        //public static async Task<ReceiptLogic> AddDepletingDepositAsync(FwApplicationConfig appConfig, FwUserSession userSession, AddDepletingDepositRequest request)
+        //{
+        //    var receipt = new ReceiptLogic();
+        //    receipt.SetDependencies(appConfig, userSession);
+        //    receipt.OrderId = request.OrderId;
+        //    receipt.AppliedById = userSession.UsersId;
+        //    receipt.ChargeBatchId = string.Empty;
+        //    receipt.CheckNumber = request.CheckNumber;
+        //    receipt.CreateDepletingDeposit = true;
+        //    receipt.CreateOverpayment = false;
+        //    receipt.CurrencyId = request.CurrencyId;
+        //    receipt.CustomerDepositCheckNumber = string.Empty;
+        //    receipt.CustomerDepositId = string.Empty;
+        //    receipt.CustomerId = string.Empty;
+        //    receipt.DealDepositCheckNumber = string.Empty;
+        //    receipt.DealDepositId = string.Empty;
+        //    receipt.DealId = request.DealId;
+        //    receipt.LocationId = request.LocationId;
+        //    receipt.PaymentAmount = request.PaymentAmount;
+        //    receipt.PaymentBy = "DEAL";
+        //    receipt.PaymentMemo = request.PaymentMemo;
+        //    receipt.PaymentTypeId = request.PaymentTypeId;
+        //    receipt.PaymentTypeType = string.Empty;
+        //    receipt.RecType = "D";
+        //    receipt.ReceiptDate = FwConvert.ToShortDate(request.ReceiptDate);
+        //    receipt.ReceiptId = string.Empty;
+        //    receipt.ModifiedById = userSession.UsersId;
+        //    receipt.AuthorizationCode = string.Empty;
+        //    await receipt.SaveAsync();
+        //    return receipt;
+        //}
         //------------------------------------------------------------------------------------
         public static async Task<ReceiptLogic> DoRefundAsync(FwApplicationConfig appConfig, FwUserSession userSession, RefundRequest request)
         {
@@ -1011,7 +1011,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
                 receipt.ModifiedById = this.UserSession.UsersId;
-                receipt.AuthorizationCode = this.AuthorizationCode;
+                receipt.AuthorizationCode = ccProcessPaymentResponse.AuthorizationCode;
 
                 ReceiptCredit receiptCredit = new ReceiptCredit();
                 receiptCredit.CreditId = depletingDepositReceiptId;
@@ -1028,13 +1028,13 @@ namespace WebApi.Modules.Billing.Receipt
             }
         }
         //------------------------------------------------------------------------------------
-        public static async Task<ReceiptLogic> DoDepletingDepositAsync(FwApplicationConfig appConfig, FwUserSession userSession, ProcessCreditCardPaymentRequest request)
+        public static async Task<ReceiptLogic> DoDepletingDepositAsync(FwApplicationConfig appConfig, FwUserSession userSession, AddDepletingDepositRequest request)
         {
             ReceiptLogic receiptLogic = new ReceiptLogic();
             return await receiptLogic.DepletingDepositAsync(request);
         }
         //------------------------------------------------------------------------------------
-        public async Task<ReceiptLogic> DepletingDepositAsync(ProcessCreditCardPaymentRequest request)
+        public async Task<ReceiptLogic> DepletingDepositAsync(AddDepletingDepositRequest request)
         {
             var processCreditCardLogic = new ProcessCreditCardLogic();
 
@@ -1082,7 +1082,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
                 receipt.ModifiedById = this.UserSession.UsersId;
-                //receipt.AuthorizationCode = response.AuthorizationCode;
+                receipt.AuthorizationCode = ccProcessPaymentResponse.AuthorizationCode;
                 await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
                 return receipt;
             }

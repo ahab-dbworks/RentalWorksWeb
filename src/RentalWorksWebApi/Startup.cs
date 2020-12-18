@@ -60,75 +60,76 @@ namespace WebApi
             {
                 int queryTimeout = this.ApplicationConfig.DatabaseSettings.QueryTimeout * 1000;
 
+                //cc-todo - need to remove this code
                 // Check syscontrol if Receipts is enabled
-                using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.Add("select top 1 enablereceipts");
-                    qry.Add("from syscontrol with(nolock)");
-                    qry.Add("where controlid = '1'");
-                    qry.ExecuteAsync().Wait(queryTimeout);
-                    Startup.EnableReceipts = qry.GetField("enablereceipts").ToBoolean();
-                }
-
+                //using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                //{
+                //    qry.Add("select top 1 enablereceipts");
+                //    qry.Add("from syscontrol with(nolock)");
+                //    qry.Add("where controlid = '1'");
+                //    qry.ExecuteAsync().Wait(queryTimeout);
+                //    Startup.EnableReceipts = qry.GetField("enablereceipts").ToBoolean();
+                //}
+                //cc-todo - need to remove this code
                 // if Receipts is enabled, then create payments types needed for Credit Card Processing
-                if (Startup.EnableReceipts)
-                {
-                    using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
-                    {
-                        qry.Add("select");
-                        qry.Add("  hasamex  = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'AMEX'), 0) as bit),");
-                        qry.Add("  hasdebit = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'DEBIT'), 0) as bit),");
-                        qry.Add("  hasmc    = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'M/C'), 0) as bit),");
-                        qry.Add("  hasvisa  = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'VISA'), 0) as bit),");
-                        qry.Add("  hasdcvr  = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'DCVR'), 0) as bit)");
-                        qry.ExecuteAsync().Wait(queryTimeout);
-                        bool hasamex = qry.GetField("hasamex").ToBoolean();
-                        bool hasdebit = qry.GetField("hasdebit").ToBoolean();
-                        bool hasmc = qry.GetField("hasmc").ToBoolean();
-                        bool hasvisa = qry.GetField("hasvisa").ToBoolean();
-                        bool hasdcvr = qry.GetField("hasdcvr").ToBoolean();
-                        if (!hasamex)
-                        {
-                            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
-                            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
-                            paymentTypeLogic.PaymentType = "AMERICAN EXPRESS CARD";
-                            paymentTypeLogic.ShortName = "AMEX";
-                            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
-                        }
-                        if (!hasdebit)
-                        {
-                            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
-                            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
-                            paymentTypeLogic.PaymentType = "DEBIT CARD";
-                            paymentTypeLogic.ShortName = "DEBIT";
-                            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
-                        }
-                        if (!hasmc)
-                        {
-                            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
-                            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
-                            paymentTypeLogic.PaymentType = "MASTER CARD";
-                            paymentTypeLogic.ShortName = "M/C";
-                            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
-                        }
-                        if (!hasvisa)
-                        {
-                            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
-                            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
-                            paymentTypeLogic.PaymentType = "VISA CARD";
-                            paymentTypeLogic.ShortName = "VISA";
-                            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
-                        }
-                        if (!hasdcvr)
-                        {
-                            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
-                            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
-                            paymentTypeLogic.PaymentType = "DISCOVER CARD";
-                            paymentTypeLogic.ShortName = "DCVR";
-                            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
-                        }
-                    }
-                }
+                //if (Startup.EnableReceipts)
+                //{
+                //    using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))
+                //    {
+                //        qry.Add("select");
+                //        qry.Add("  hasamex  = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'AMEX'), 0) as bit),");
+                //        qry.Add("  hasdebit = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'DEBIT'), 0) as bit),");
+                //        qry.Add("  hasmc    = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'M/C'), 0) as bit),");
+                //        qry.Add("  hasvisa  = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'VISA'), 0) as bit),");
+                //        qry.Add("  hasdcvr  = cast(isnull((select top 1 1 from paytype with (nolock) where short = 'DCVR'), 0) as bit)");
+                //        qry.ExecuteAsync().Wait(queryTimeout);
+                //        bool hasamex = qry.GetField("hasamex").ToBoolean();
+                //        bool hasdebit = qry.GetField("hasdebit").ToBoolean();
+                //        bool hasmc = qry.GetField("hasmc").ToBoolean();
+                //        bool hasvisa = qry.GetField("hasvisa").ToBoolean();
+                //        bool hasdcvr = qry.GetField("hasdcvr").ToBoolean();
+                //        if (!hasamex)
+                //        {
+                //            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
+                //            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
+                //            paymentTypeLogic.PaymentType = "AMERICAN EXPRESS CARD";
+                //            paymentTypeLogic.ShortName = "AMEX";
+                //            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
+                //        }
+                //        if (!hasdebit)
+                //        {
+                //            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
+                //            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
+                //            paymentTypeLogic.PaymentType = "DEBIT CARD";
+                //            paymentTypeLogic.ShortName = "DEBIT";
+                //            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
+                //        }
+                //        if (!hasmc)
+                //        {
+                //            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
+                //            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
+                //            paymentTypeLogic.PaymentType = "MASTER CARD";
+                //            paymentTypeLogic.ShortName = "M/C";
+                //            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
+                //        }
+                //        if (!hasvisa)
+                //        {
+                //            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
+                //            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
+                //            paymentTypeLogic.PaymentType = "VISA CARD";
+                //            paymentTypeLogic.ShortName = "VISA";
+                //            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
+                //        }
+                //        if (!hasdcvr)
+                //        {
+                //            PaymentTypeLogic paymentTypeLogic = FwBusinessLogic.CreateBusinessLogic<PaymentTypeLogic>(this.ApplicationConfig, null);
+                //            paymentTypeLogic.PaymentTypeType = "CREDIT CARD";
+                //            paymentTypeLogic.PaymentType = "DISCOVER CARD";
+                //            paymentTypeLogic.ShortName = "DCVR";
+                //            paymentTypeLogic.SaveAsync(null, conn, TDataRecordSaveMode.smInsert).Wait(queryTimeout);
+                //        }
+                //    }
+                //}
 
                 // Load the clientcode from controlclient
                 using (FwSqlCommand qry = new FwSqlCommand(conn, this.ApplicationConfig.DatabaseSettings.QueryTimeout))

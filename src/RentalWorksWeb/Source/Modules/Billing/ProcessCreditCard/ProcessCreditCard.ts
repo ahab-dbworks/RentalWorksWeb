@@ -25,7 +25,7 @@ class ProcessCreditCard {
                     return;
                 }
 
-                const processor = ProcessCreditCardFactory('Vistek')
+                const processor = ProcessCreditCardFactory('Vistek'); // cc-todo need to be based on the active plug-in - need to work on plug-in page page
                 processor.process(options.$form);
             }
             catch (ex) {
