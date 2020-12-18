@@ -38,6 +38,7 @@ namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
             //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            this.AddFilterFieldToSelect("Description", "description", select, request);
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
             //select.AddParameter("@paramstring", paramString); 
