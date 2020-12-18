@@ -27,6 +27,7 @@ class ProcessCreditCard {
 
                 const processor = ProcessCreditCardFactory('Vistek'); // cc-todo need to be based on the active plug-in - need to work on plug-in page page
                 processor.process(options.$form);
+                //cc-todo //need to call  public async Task<ActionResult<ReceiptLogic>> AddDepletingDepositAsync([FromBody] AddDepletingDepositRequest request)
             }
             catch (ex) {
                 FwFunc.showError(ex);
