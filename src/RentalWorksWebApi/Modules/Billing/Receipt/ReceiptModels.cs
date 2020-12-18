@@ -16,6 +16,10 @@ namespace WebApi.Modules.Billing.Receipt
         public string CurrencyId = string.Empty;
         public string CheckNumber = string.Empty;
         public string PaymentMemo = string.Empty;
+        //PINPadCode: FwFormField.getValueByDataField($form, 'PINPad_Code'),
+        //            PaymentAmount: FwFormField.getValueByDataField($form, 'Payment_AmountToPay'),
+        //            OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+        //            DealNumber: FwFormField.getValueByDataField($form, 'DealNumber')
     }
     public class RefundRequest
     {

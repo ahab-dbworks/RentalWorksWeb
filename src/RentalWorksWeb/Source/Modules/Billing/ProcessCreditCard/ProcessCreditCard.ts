@@ -25,9 +25,19 @@ class ProcessCreditCard {
                     return;
                 }
 
-                const processor = ProcessCreditCardFactory('Vistek'); // cc-todo need to be based on the active plug-in - need to work on plug-in page page
-                processor.process(options.$form);
+                //const processor = ProcessCreditCardFactory('Vistek'); // cc-todo need to be based on the active plug-in - need to work on plug-in page page
+                //processor.process(options.$form);
                 //cc-todo //need to call  public async Task<ActionResult<ReceiptLogic>> AddDepletingDepositAsync([FromBody] AddDepletingDepositRequest request)
+                const requestAddDepletingDeposit = new FwAjaxRequest();
+                requestAddDepletingDeposit.setWebApiUrl('/api/v1/receipt/adddepletingdeposit');
+                requestAddDepletingDeposit.httpMethod = 'POST';
+                requestAddDepletingDeposit.$elementToBlock = options.$form;
+                requestAddDepletingDeposit.data = {
+                    PINPadCode: FwFormField.getValueByDataField($form, 'PINPad_Code'),
+                    PaymentAmount: FwFormField.getValueByDataField($form, 'Payment_AmountToPay'),
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                    DealNumber: FwFormField.getValueByDataField($form, 'DealNumber')
+                }
             }
             catch (ex) {
                 FwFunc.showError(ex);
