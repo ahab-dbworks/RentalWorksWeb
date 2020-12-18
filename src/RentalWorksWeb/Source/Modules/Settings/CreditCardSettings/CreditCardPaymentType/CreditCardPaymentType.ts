@@ -59,13 +59,13 @@
     beforeValidate(datafield: string, request: any, $validationbrowse: JQuery, $form: JQuery, $tr: JQuery) {
         switch (datafield) {
             case 'ChargePaymentTypeId':
-                request.uniqueids = {
+                request.filterfields = {
                     PaymentTypeType: 'CREDIT CARD' 
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymenttype`);
                 break;
             case 'RefundPaymentTypeId':
-                request.uniqueids = {
+                request.filterfields = {
                     PaymentTypeType: 'REFUND CHECK'
                 };
                 $validationbrowse.attr('data-apiurl', `${this.apiurl}/validatepaymenttype`);

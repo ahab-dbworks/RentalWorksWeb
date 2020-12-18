@@ -17,7 +17,7 @@ namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
         [FwLogicProperty(Id: "39Va7UxXMhnr", IsPrimaryKey: true)]
         public int? CreditCardPaymentTypeId { get { return creditCardPayType.CreditCardPaymentTypeId; } set { creditCardPayType.CreditCardPaymentTypeId = value; } }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "vXkCma6qThnF")]
+        [FwLogicProperty(Id: "vXkCma6qThnF", IsRecordTitle: true)]
         public string Description { get { return creditCardPayType.Description; } set { creditCardPayType.Description = value; } }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "zO3NNmrVqw14")]

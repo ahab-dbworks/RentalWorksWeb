@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 
 namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
 {
@@ -78,7 +79,7 @@ namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
         [FwControllerMethod(Id: "tG8WOoNDhEhD", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> ValidatePaymentTypeBrowseAsync([FromBody] BrowseRequest browseRequest)
         {
-            return await DoBrowseAsync<CreditCardPaymentTypeLogic>(browseRequest);
+            return await DoBrowseAsync<PaymentTypeLogic>(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
     }
