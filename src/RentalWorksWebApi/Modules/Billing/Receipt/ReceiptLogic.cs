@@ -1028,5 +1028,69 @@ namespace WebApi.Modules.Billing.Receipt
             }
         }
         //------------------------------------------------------------------------------------
+        public static async Task<ReceiptLogic> DoDepletingDepositAsync(FwApplicationConfig appConfig, FwUserSession userSession, ProcessCreditCardPaymentRequest request)
+        {
+            ReceiptLogic receiptLogic = new ReceiptLogic();
+            return await receiptLogic.DepletingDepositAsync(request);
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<ReceiptLogic> DepletingDepositAsync(ProcessCreditCardPaymentRequest request)
+        {
+            var processCreditCardLogic = new ProcessCreditCardLogic();
+
+            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession);
+            processCreditCardLogic.OrderId = request.OrderId;
+            if (!await processCreditCardLogic.LoadAsync<ReceiptLogic>())
+            {
+                throw new Exception("Unable to process Depleting Depoisit.");
+            }
+
+            var ccProcessPaymentRequest = new ProcessCreditCardPaymentRequest();
+            ccProcessPaymentRequest.TransactionType = ProcessCreditCardPaymentRequest.TransactionTypes.Refund;
+            ccProcessPaymentRequest.PINPadCode = processCreditCardLogic.PINPad_Code;
+            ccProcessPaymentRequest.PaymentAmount = request.PaymentAmount;
+            ccProcessPaymentRequest.PaymentReferenceNo = processCreditCardLogic.OrderNumber;
+            ccProcessPaymentRequest.StoreCode = processCreditCardLogic.LocationCode;
+            ccProcessPaymentRequest.SalesPersonCode = processCreditCardLogic.AgentBarcode;
+            ccProcessPaymentRequest.DealNumber = processCreditCardLogic.DealNumber;
+            var ccProcessPaymentResponse = await processCreditCardLogic.ProcessPaymentAsync(ccProcessPaymentRequest);
+
+            if (ccProcessPaymentResponse.Status == "Approved")
+            {
+                ReceiptLogic receipt = new ReceiptLogic();
+                receipt.SetDependencies(this.AppConfig, this.UserSession);
+                receipt.OrderId = request.OrderId;
+                receipt.AppliedById = this.UserSession.UsersId;
+                receipt.ChargeBatchId = string.Empty;
+                receipt.CheckNumber = string.Empty;
+                receipt.CreateDepletingDeposit = true;
+                receipt.CreateOverpayment = false;
+                receipt.CurrencyId = this.CurrencyId;
+                receipt.CustomerDepositCheckNumber = string.Empty;
+                receipt.CustomerDepositId = string.Empty;
+                receipt.CustomerId = string.Empty;
+                receipt.DealDepositCheckNumber = string.Empty;
+                receipt.DealDepositId = string.Empty;
+                receipt.DealId = this.DealId;
+                receipt.LocationId = this.LocationId;
+                receipt.PaymentAmount = request.PaymentAmount;
+                receipt.PaymentBy = "DEAL";
+                receipt.PaymentMemo = string.Empty;
+                receipt.PaymentTypeId = request.PaymentTypeId;
+                receipt.PaymentTypeType = "CREDIT CARD";
+                receipt.RecType = "D";
+                receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
+                receipt.ReceiptId = string.Empty;
+                receipt.ModifiedById = this.UserSession.UsersId;
+                //receipt.AuthorizationCode = response.AuthorizationCode;
+                await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
+                return receipt;
+            }
+            else { 
+                throw new Exception("Unable to process credit card refund!");
+            }
+
+        }
+        //------------------------------------------------------------------------------------
     }
 }

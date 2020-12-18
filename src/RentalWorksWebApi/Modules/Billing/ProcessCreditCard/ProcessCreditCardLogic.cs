@@ -188,7 +188,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             request.PaymentTypeId = paymentTypeId;
             this.processCreditCardPlugin.SetDependencies(this.AppConfig, this.UserSession, this);
             ProcessCreditCardPaymentResponse response = await this.processCreditCardPlugin.ProcessPaymentAsync(request);
-
+            /*
             if (response.Status.ToUpper() == "APPROVED")
             {
                 ReceiptLogic receipt = new ReceiptLogic();
@@ -223,7 +223,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
 
                 await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
             }
-
+            */
             return response;
         }
         //------------------------------------------------------------------------------------
