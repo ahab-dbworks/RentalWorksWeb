@@ -3848,6 +3848,7 @@ export class OrderLocation extends SettingsModule {
         this.moduleId = 'CF58D8C9-95EE-4617-97B9-CAFE200719CC';
         this.moduleCaption = 'Order Location';
 
+
         this.defaultNewRecordToExpect = {
             Location: "",
             Description: "",
