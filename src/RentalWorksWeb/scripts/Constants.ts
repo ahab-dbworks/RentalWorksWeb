@@ -402,6 +402,7 @@ var Constants = {
                     id: 'Settings.CreditCardSettings',
                     nodetype: 'Category',
                     children: {
+                        CreditCardPaymentType: { id: 'XHLACwQDGIzl', caption: 'Credit Card Payment Type', nav: 'module/creditcardpaymenttype', nodetype: 'Module', description: '' },
                         CreditCardPinPad: { id: 'wnNXVnqIrCgF', caption: 'Credit Card Pin Pad', nav: 'module/creditcardpinpad', nodetype: 'Module', description: '' }
                     }
                 },

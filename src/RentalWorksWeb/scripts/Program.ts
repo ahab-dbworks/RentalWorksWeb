@@ -463,6 +463,7 @@ routes.push({ pattern: /^module\/contactevent$/, action: function (match: RegExp
 routes.push({ pattern: /^module\/contacttitle$/, action: function (match: RegExpExecArray) { return ContactTitleController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/maillist$/, action: function (match: RegExpExecArray) { return MailListController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/currency$/, action: function (match: RegExpExecArray) { return CurrencyController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/creditcardpaymenttype$/, action: function (match: RegExpExecArray) { return CreditCardPaymentTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/creditcardpinpad$/, action: function (match: RegExpExecArray) { return CreditCardPinPadController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/scheduletype$/, action: function (match: RegExpExecArray) { return ScheduleTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/poimportance$/, action: function (match: RegExpExecArray) { return POImportanceController.getModuleScreen(); } });

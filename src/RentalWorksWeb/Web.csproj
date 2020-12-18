@@ -643,7 +643,8 @@
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\AccountingSettings\AccountingSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccount.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistribution.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\CreditCardPinPad\CreditCardPinPad.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CreditCardSettings\CreditCardPaymentType\CreditCardPaymentType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CreditCardSettings\CreditCardPinPad\CreditCardPinPad.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\ProcessCreditCard\iProcessCreditCard\iProcessCreditCard.ts" />
     <TypeScriptCompile Include="Source\Modules\Billing\ProcessCreditCard\iProcessCreditCard\VistekProcessCreditCard.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormat.ts" />
@@ -820,6 +821,9 @@
     <Content Include="Source\Modules\Settings\AccountingSettings\GlAccount\GlAccountForm.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistributionBrowse.htm" />
     <Content Include="Source\Modules\Settings\AccountingSettings\GlDistribution\GlDistributionForm.htm" />
+    <Content Include="Source\Modules\Settings\CreditCardSettings\CreditCardPaymentType\CreditCardPaymentTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CreditCardSettings\CreditCardPaymentType\CreditCardPaymentTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\CreditCardSettings\CreditCardPinPad\CreditCardPinPadForm.htm" />
     <Content Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormatBrowse.htm" />
     <Content Include="Source\Modules\Settings\ExportSettings\DataExportFormat\DataExportFormatForm.htm" />
     <Content Include="Source\Modules\Settings\FacilitySettings\Venue\VenueBrowse.htm" />

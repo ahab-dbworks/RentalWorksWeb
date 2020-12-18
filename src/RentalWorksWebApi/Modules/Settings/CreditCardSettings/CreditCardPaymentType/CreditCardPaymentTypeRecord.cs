@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "creditcardpaytypeid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
-        public int? CreditCardPayTypeId { get; set; } = 0;
+        public int? CreditCardPaymentTypeId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100)]
         public string Description { get; set; }

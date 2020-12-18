@@ -72,6 +72,14 @@ namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
         {
             return await DoDeleteAsync<CreditCardPaymentTypeLogic>(id);
         }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/creditcardpaymenttype/validatepaymenttype/browse
+        [HttpPost("validatepaymenttype/browse")]
+        [FwControllerMethod(Id: "tG8WOoNDhEhD", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<FwJsonDataTable>> ValidatePaymentTypeBrowseAsync([FromBody] BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync<CreditCardPaymentTypeLogic>(browseRequest);
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

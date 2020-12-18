@@ -6,12 +6,12 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
 
 {
-    [FwSqlTable("creditcardpaytype")]
+    [FwSqlTable("creditcardpaytypeview")]
     public class CreditCardPaymentTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "creditcardpaytypeid", modeltype: FwDataTypes.Integer, isPrimaryKey: true)]
-        public int? CreditCardPayTypeId { get; set; } = 0;
+        public int? CreditCardPaymentTypeId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
@@ -19,8 +19,14 @@ namespace WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType
         [FwSqlDataField(column: "chargepaytypeid", modeltype: FwDataTypes.Text)]
         public string ChargePaymentTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "chargepaytype", modeltype: FwDataTypes.Text)]
+        public string ChargePaymentType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "refundpaytypeid", modeltype: FwDataTypes.Text)]
         public string RefundPaymentTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "refundpaytype", modeltype: FwDataTypes.Text)]
+        public string RefundPaymentType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
