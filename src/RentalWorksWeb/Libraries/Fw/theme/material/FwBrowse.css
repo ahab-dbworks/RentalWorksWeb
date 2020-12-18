@@ -427,6 +427,7 @@ html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="utcdate"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="utcdatetime"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="percent"] {background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
