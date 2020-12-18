@@ -230,8 +230,7 @@ namespace WebApi.Modules.Utilities.Migrate
 
                 FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
                 await conn.OpenAsync();
-
-                // need to wrap in a transaction
+                // do not enclose this process within a Transaction.  It will break the GetNextId trick within the migrate stored procedure
 
                 bool destinationOrderValid = false;
 

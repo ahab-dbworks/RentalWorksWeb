@@ -12,7 +12,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Utilities.MigrateItem
 {
-    [FwSqlTable("migrateitemwebview")]
+    [FwSqlTable("migrateitemwebview2")]
     public class MigrateItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
