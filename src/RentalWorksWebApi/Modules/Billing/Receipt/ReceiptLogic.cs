@@ -1005,7 +1005,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.PaymentAmount = request.RefundAmount;
                 receipt.PaymentBy = "DEAL";
                 receipt.PaymentMemo = string.Empty;
-                receipt.PaymentTypeId = this.PaymentTypeId;
+                receipt.PaymentTypeId = this.PaymentTypeId;//need to come from creditcardpaytype
                 receipt.PaymentTypeType = "REFUND CHECK";
                 receipt.RecType = "P";
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);

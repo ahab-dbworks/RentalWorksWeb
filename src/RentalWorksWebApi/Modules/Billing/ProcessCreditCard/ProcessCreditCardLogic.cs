@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Agent.Order;
 using WebApi.Modules.Billing.Receipt;
+using WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType;
 using WebApi.Modules.Settings.OfficeLocationSettings.OfficeLocation;
 
 namespace WebApi.Modules.Billing.ProcessCreditCard
@@ -144,6 +145,7 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             string paymentTypeId = string.Empty;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
+                
                 this.OrderId = request.OrderId;
                 await this.LoadAsync<ProcessCreditCardLogic>(conn);
 
@@ -188,6 +190,23 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             request.PaymentTypeId = paymentTypeId;
             this.processCreditCardPlugin.SetDependencies(this.AppConfig, this.UserSession, this);
             ProcessCreditCardPaymentResponse response = await this.processCreditCardPlugin.ProcessPaymentAsync(request);
+            //response.CardType ,AMEX,DEBIT,M / C,OTHER,VISA,DCVR
+            //create enumerated dattype in plugin
+
+            //need case statement to convert enum to desciciption
+            //cardTypeDescription
+            public const int CREDIT_CARD_PAYMENT_TYPE_VISA = "VISA";
+            public const int CREDIT_CARD_PAYMENT_TYPE_MASTER_CARD = "MASTER CARD";
+            public const int CREDIT_CARD_PAYMENT_TYPE_AMEX = "AMEX";
+            public const int CREDIT_CARD_PAYMENT_TYPE_DISCOVER = "DISCOVER";
+
+
+            var row = await FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "creditcardpaytypeview", "description", cardTypeDescription, true);
+            CreditCardPaymentTypeLogic creditCardPaymentType = new CreditCardPaymentTypeLogic();
+            creditCardPaymentType.ChargePaymentTypeId = row["chargepaytypeid"].ToString();
+            creditCardPaymentType.RefundPaymentTypeId = row["refundpaytypeid"].ToString();
+
+
             /*
             if (response.Status.ToUpper() == "APPROVED")
             {
