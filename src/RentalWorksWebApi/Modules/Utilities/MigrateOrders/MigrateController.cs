@@ -158,6 +158,27 @@ namespace WebApi.Modules.Utilities.Migrate
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/migrate/completesession2
+        [HttpPost("completesession2")]
+        [FwControllerMethod(Id: "p8gGwTu7l6lHp", ActionType: FwControllerActionTypes.Browse)]
+        public async Task<ActionResult<CompleteMigrateSessionResponse>> CompleteSession2([FromBody]CompleteMigrateSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CompleteMigrateSessionResponse response = await MigrateFunc.CompleteSession2(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/migrate/validatedeal/browse 
         [HttpPost("validatedeal/browse")]
         [FwControllerMethod(Id: "JykKJ71hmyMm", ActionType: FwControllerActionTypes.Browse)]
