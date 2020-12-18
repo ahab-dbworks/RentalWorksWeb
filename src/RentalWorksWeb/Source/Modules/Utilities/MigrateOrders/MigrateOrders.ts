@@ -54,6 +54,15 @@ class MigrateOrders {
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+        const isTraining = JSON.parse(sessionStorage.getItem('istraining'));
+
+        if (isTraining) {
+            $form.find('.finalize-migration-new').show();
+        }
+
+        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/department/${department.departmentid}/location/${location.locationid}`, null, FwServices.defaultTimeout, response => {
+            FwFormField.setValueByDataField($form, 'CreateNewOrderTypeId', response.DefaultOrderTypeId, response.DefaultOrderType);
+        }, ex => FwFunc.showError(ex), null);
 
         //add order browse
         const $orderBrowse = this.addOrderBrowse($form);
@@ -174,13 +183,16 @@ class MigrateOrders {
         });
 
         //finalize migration
-        $form.find('.finalize-migration').on('click', e => {
+        $form.find('.finalize-migration, .finalize-migration-new').on('click', e => {
+            let endpoint;
             const request: any = {
                 SessionId: $migrateItemGrid.data('sessionId'),
                 MigrateToNewOrder: FwFormField.getValueByDataField($form, 'CreateNewOrder'),
                 NewOrderOfficeLocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId'),
                 NewOrderWarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
                 NewOrderDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId'),
+                NewOrderDepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId'),
+                NewOrderOrderTypeId: FwFormField.getValueByDataField($form, 'CreateNewOrderTypeId'),
                 NewOrderDescription: FwFormField.getValueByDataField($form, 'NewOrderDescription'),
                 NewOrderRateType: FwFormField.getValueByDataField($form, 'RateType'),
                 NewOrderFromDate: FwFormField.getValueByDataField($form, 'FromDate'),
@@ -201,9 +213,19 @@ class MigrateOrders {
                 CopyRentalRates: FwFormField.getValueByDataField($form, 'CopyRentalRates'),
                 UpdateBillingStopDate: FwFormField.getValueByDataField($form, 'UpdateBillingStopDate'),
                 BillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate'),
+                OfficeLocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId'),
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId'),
             }
-            FwFormField.disable($form.find('.finalize-migration'));
-            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/completesession`, request, FwServices.defaultTimeout,
+
+            if (jQuery(e.currentTarget).hasClass('finalize-migration')) {
+                endpoint = 'completesession';
+            } else {
+                endpoint = 'completesession2';
+            }
+
+            FwFormField.disable($form.find('.finalize-migration, .finalize-migration-new'));
+           
+            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/${endpoint}`, request, FwServices.defaultTimeout,
                 response => {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
@@ -225,7 +247,7 @@ class MigrateOrders {
                     }
                 }, ex => {
                     FwFunc.showError(ex);
-                    FwFormField.enable($form.find('.finalize-migration'));
+                    FwFormField.enable($form.find('.finalize-migration, .finalize-migration-new'));
                 },
                 $migrateItemGrid);
         });

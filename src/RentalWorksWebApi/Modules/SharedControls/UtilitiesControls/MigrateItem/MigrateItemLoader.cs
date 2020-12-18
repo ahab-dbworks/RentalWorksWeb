@@ -8,12 +8,18 @@ using System;
 using WebApi;
 using System.Threading.Tasks;
 using System.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Utilities.MigrateItem
 {
-    [FwSqlTable("migrateitemwebview")]
+    [FwSqlTable("migrateitemwebview2")]
     public class MigrateItemLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public MigrateItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -30,18 +36,26 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwSqlDataField(column: "actualmasterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor
+        {
+            get { return getICodeColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
         public string CategoryId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -57,9 +71,28 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string VendorColor { get; set; }
+        [FwSqlDataField(column: "consignorid", modeltype: FwDataTypes.Text)]
+        public string ConsignorId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "consignor", modeltype: FwDataTypes.Text)]
+        public string Consignor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text)]
+        public string ConsignorAgreementId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendororconsignorid", modeltype: FwDataTypes.Text)]
+        public string VendorOrConsignorId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendororconsignor", modeltype: FwDataTypes.Text)]
+        public string VendorOrConsignor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorOrConsignorColor
+        {
+            get { return getVendorOrConsignorColor(VendorId, ConsignorId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -99,9 +132,6 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string RecTypeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
         public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -126,17 +156,55 @@ namespace WebApi.Modules.Utilities.MigrateItem
         [FwSqlDataField(column: "containerbarcode", modeltype: FwDataTypes.Text)]
         public string ContainerBarCode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "consignorid", modeltype: FwDataTypes.Text)]
-        public string ConsignorId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text)]
-        public string ConsignorAgreementId { get; set; }
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
+        public string ItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+
+            bool showSelectedOnly = GetUniqueIdAsBoolean("ShowSelectedOnly", request) ?? false;
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("SessionId", "sessionid", select, request);
+
+            if (showSelectedOnly)
+            {
+                select.AddWhere("(qtyselected > 0)");
+            }
+
+        }
+        //------------------------------------------------------------------------------------
+        private string getICodeColor(string itemClass)
+        {
+            return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDescriptionColor(string itemClass)
+        {
+            return AppFunc.GetItemClassDescriptionColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getVendorOrConsignorColor(string vendorId, string consignorId)
+        {
+            return (!string.IsNullOrEmpty(vendorId) ? RwGlobals.SUB_COLOR : (!string.IsNullOrEmpty(consignorId) ? RwGlobals.CONSIGNMENT_COLOR : null));
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("VendorOrConsignorColor")] = getVendorOrConsignorColor(row[dt.GetColumnNo("VendorId")].ToString(), row[dt.GetColumnNo("ConsignorId")].ToString());
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }
