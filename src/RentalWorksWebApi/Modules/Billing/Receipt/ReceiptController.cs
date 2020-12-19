@@ -13,6 +13,7 @@ using WebApi.Modules.HomeControls.CustomerCredit;
 using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.PaymentSettings.PaymentType;
 using WebApi.Modules.Utilities.GLDistribution;
+using WebApi.Modules.Billing.ProcessCreditCard;
 
 namespace WebApi.Modules.Billing.Receipt
 {
@@ -21,7 +22,12 @@ namespace WebApi.Modules.Billing.Receipt
     [FwController(Id:"q4PPGLusbFw")]
     public class ReceiptController : AppDataController
     {
-        public ReceiptController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReceiptLogic); }
+        readonly IProcessCreditCardPlugin processCreditCardPlugin;
+        public ReceiptController(IOptions<FwApplicationConfig> appConfig, IProcessCreditCardPlugin processCreditCardPlugin) : base(appConfig) 
+        { 
+            logicType = typeof(ReceiptLogic);
+            this.processCreditCardPlugin = processCreditCardPlugin;
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receipt/browse 
         [HttpPost("browse")]
@@ -182,7 +188,7 @@ namespace WebApi.Modules.Billing.Receipt
         [FwControllerMethod(Id: "7PqBsFrW4V9V", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> CreditCardDepletingDepositAsync([FromBody] CreditCardDepletingDepositRequest request)
         {
-            return await ReceiptLogic.DoCreditCardDepletingDepositAsync(this.AppConfig, this.UserSession, request);
+            return await ReceiptLogic.DoCreditCardDepletingDepositAsync(this.AppConfig, this.UserSession, processCreditCardPlugin, request);
         }
         //------------------------------------------------------------------------------------ 
     }

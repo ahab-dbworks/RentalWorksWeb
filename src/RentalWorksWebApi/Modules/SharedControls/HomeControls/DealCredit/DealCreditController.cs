@@ -45,9 +45,9 @@ namespace WebApi.Modules.HomeControls.DealCredit
         // POST api/v1/dealcredit/refund
         [HttpPost("refund")]
         [FwControllerMethod(Id: "aVvPPeYAmQEN", ActionType: FwControllerActionTypes.Browse)]
-        public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] RefundRequest request)
+        public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] CreditCardRefundRequest request)
         {
-            return await ReceiptLogic.DoRefundAsync(this.AppConfig, this.UserSession, request);
+            return await ReceiptLogic.DoCreditCardRefundAsync(this.AppConfig, this.UserSession, request);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -36,10 +36,14 @@ class DepletingDeposit {
         FwConfirmation.addJqueryControl($confirmation, $adddepletingdeposit);
         const $btnProcess = FwConfirmation.addButton($confirmation, 'OK', false);
         const location = JSON.parse(sessionStorage.getItem('location'));
-        const today = FwFunc.getDate();
+        const today = FwFunc.getShortIsoDate();
 
         FwFormField.setValueByDataField($confirmation, "ReceiptDate", today);
-        FwFormField.setValueByDataField($confirmation, "DealId", dealId, deal);
+        if (dealId.length > 0) {
+            FwFormField.setValueByDataField($confirmation, "DealId", dealId, deal);
+        } else {
+            FwFormField.enableDataField($confirmation, 'DealId');
+        }
         FwFormField.setValueByDataField($confirmation, 'CurrencyId', location.defaultcurrencyid, location.defaultcurrencycode);
         const $paymentTypeId = FwFormField.getDataField($confirmation, 'PaymentTypeId');
         $paymentTypeId.data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield: string, $tr: JQuery) => {

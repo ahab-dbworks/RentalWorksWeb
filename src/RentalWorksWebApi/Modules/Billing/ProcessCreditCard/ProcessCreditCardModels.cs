@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Modules.Settings.CreditCardSettings.CreditCardPaymentType;
@@ -66,7 +67,11 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 var row = await this.GetCreditCardPayTypeAsync(appConfig, userSession, conn);
-                var chargePaymentTypeId = row["chargepaytypeid"].ToString();
+                var chargePaymentTypeId = row["chargepaytypeid"].ToString().TrimEnd();
+                if (string.IsNullOrEmpty(chargePaymentTypeId))
+                {
+                    throw new Exception($"Please configure [Settings > Credit Card Payment Type > Charge Payment Type] for: {row["description"].ToString()}");
+                }
                 return chargePaymentTypeId;
             }
         }
@@ -76,8 +81,13 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 var row = await this.GetCreditCardPayTypeAsync(appConfig, userSession, conn);
-                var chargePaymentTypeId = row["refundpaytypeid"].ToString();
-                return chargePaymentTypeId;
+                var refundpaytypeid = row["refundpaytypeid"].ToString().TrimEnd();
+                if (string.IsNullOrEmpty(refundpaytypeid))
+                {
+
+                    throw new Exception($"Please configure [Settings > Credit Card Payment Type > Refund Payment Type] for: {row["description"].ToString()}");
+                }
+                return refundpaytypeid;
             }
         }
         //------------------------------------------------------------------------------------ 

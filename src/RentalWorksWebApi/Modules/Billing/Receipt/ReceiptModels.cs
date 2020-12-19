@@ -22,13 +22,14 @@ namespace WebApi.Modules.Billing.Receipt
         public string ReceiptId = string.Empty;
         public string DealId = string.Empty;
         public string OrderId = string.Empty;
+        public string PINPad_Code = string.Empty;
         public decimal RefundAmount = 0.0m;
     }
     public class CreditCardDepletingDepositRequest
     {
         public string OrderId = string.Empty;
         public decimal AmountToPay = 0.0m;
-        public string PinPad_Code = string.Empty;
+        public string PINPad_Code = string.Empty;
         public string DealNumber = string.Empty;
     }
 

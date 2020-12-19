@@ -123,6 +123,10 @@
         return date;
     }
     //---------------------------------------------------------------------------------
+    static getShortIsoDate() {
+        return new Date().toISOString().substr(0, 10);
+    }
+    //---------------------------------------------------------------------------------
     static getTime = function (showseconds: boolean): string {
         let date, hh, mm, ss, period;
 

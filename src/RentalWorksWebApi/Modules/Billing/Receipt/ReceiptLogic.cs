@@ -41,6 +41,7 @@ namespace WebApi.Modules.Billing.Receipt
         ReceiptRecord receipt = new ReceiptRecord();
         ReceiptLoader receiptLoader = new ReceiptLoader();
         ReceiptBrowseLoader receiptBrowseLoader = new ReceiptBrowseLoader();
+        IProcessCreditCardPlugin processCreditCardPlugin;
 
         public ReceiptLogic()
         {
@@ -53,6 +54,12 @@ namespace WebApi.Modules.Billing.Receipt
             BeforeDelete += OnBeforeDelete;
             ForceSave = true;
             UseTransactionToSave = true;
+        }
+        //------------------------------------------------------------------------------------ 
+        public void SetDependencies(FwApplicationConfig appConfig, FwUserSession userSession, IProcessCreditCardPlugin processCreditCardPlugin)
+        {
+            base.SetDependencies(appConfig, userSession);
+            this.processCreditCardPlugin = processCreditCardPlugin;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "hcdYkju05r4e", IsPrimaryKey: true)]
@@ -978,8 +985,9 @@ namespace WebApi.Modules.Billing.Receipt
             }
 
             var ccProcessPaymentRequest = new ProcessCreditCardPaymentRequest();
+            ccProcessPaymentRequest.OrderId = request.OrderId;
             ccProcessPaymentRequest.TransactionType = ProcessCreditCardPaymentRequest.TransactionTypes.Refund;
-            ccProcessPaymentRequest.PINPadCode = processCreditCardLogic.PINPad_Code;
+            ccProcessPaymentRequest.PINPadCode = request.PINPad_Code;
             ccProcessPaymentRequest.PaymentAmount = request.RefundAmount;
             ccProcessPaymentRequest.PaymentReferenceNo = processCreditCardLogic.OrderNumber;
             ccProcessPaymentRequest.StoreCode = processCreditCardLogic.LocationCode;
@@ -990,10 +998,10 @@ namespace WebApi.Modules.Billing.Receipt
             {
                 ReceiptLogic receipt = new ReceiptLogic();
                 receipt.SetDependencies(this.AppConfig, this.UserSession);
-                receipt.OrderId = this.OrderId;
+                receipt.OrderId = request.OrderId;
                 receipt.AppliedById = this.UserSession.UsersId;
                 receipt.ChargeBatchId = string.Empty;
-                receipt.CheckNumber = this.AuthorizationCode;
+                receipt.CheckNumber = ccProcessPaymentResponse.AuthorizationCode;
                 receipt.CreateDepletingDeposit = false;
                 receipt.CreateOverpayment = false;
                 receipt.CurrencyId = this.CurrencyId;
@@ -1002,7 +1010,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.CustomerId = string.Empty;
                 receipt.DealDepositCheckNumber = string.Empty;
                 receipt.DealDepositId = string.Empty;
-                receipt.DealId = this.DealId;
+                receipt.DealId = request.DealId;
                 receipt.LocationId = this.LocationId;
                 receipt.PaymentAmount = request.RefundAmount;
                 receipt.PaymentBy = "DEAL";
@@ -1030,9 +1038,10 @@ namespace WebApi.Modules.Billing.Receipt
             }
         }
         //------------------------------------------------------------------------------------
-        public static async Task<ReceiptLogic> DoCreditCardDepletingDepositAsync(FwApplicationConfig appConfig, FwUserSession userSession, CreditCardDepletingDepositRequest request)
+        public static async Task<ReceiptLogic> DoCreditCardDepletingDepositAsync(FwApplicationConfig appConfig, FwUserSession userSession, IProcessCreditCardPlugin processCreditCardPlugin, CreditCardDepletingDepositRequest request)
         {
             ReceiptLogic receiptLogic = new ReceiptLogic();
+            receiptLogic.SetDependencies(appConfig, userSession, processCreditCardPlugin);
             return await receiptLogic.CreditCardDepletingDepositAsync(request);
         }
         //------------------------------------------------------------------------------------
@@ -1040,7 +1049,7 @@ namespace WebApi.Modules.Billing.Receipt
         {
             var processCreditCardLogic = new ProcessCreditCardLogic();
 
-            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession);
+            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession, this.processCreditCardPlugin);
             processCreditCardLogic.OrderId = request.OrderId;
             if (!await processCreditCardLogic.LoadAsync<ReceiptLogic>())
             {
@@ -1048,13 +1057,14 @@ namespace WebApi.Modules.Billing.Receipt
             }
 
             var ccProcessPaymentRequest = new ProcessCreditCardPaymentRequest();
-            ccProcessPaymentRequest.TransactionType = ProcessCreditCardPaymentRequest.TransactionTypes.Refund;
-            ccProcessPaymentRequest.PINPadCode = processCreditCardLogic.PINPad_Code;
+            ccProcessPaymentRequest.OrderId = request.OrderId;
+            ccProcessPaymentRequest.TransactionType = ProcessCreditCardPaymentRequest.TransactionTypes.Sale;
+            ccProcessPaymentRequest.PINPadCode = request.PINPad_Code;
             ccProcessPaymentRequest.PaymentAmount = request.AmountToPay;
             ccProcessPaymentRequest.PaymentReferenceNo = processCreditCardLogic.OrderNumber;
             ccProcessPaymentRequest.StoreCode = processCreditCardLogic.LocationCode;
             ccProcessPaymentRequest.SalesPersonCode = processCreditCardLogic.AgentBarcode;
-            ccProcessPaymentRequest.DealNumber = processCreditCardLogic.DealNumber;
+            ccProcessPaymentRequest.DealNumber = request.DealNumber;
             var ccProcessPaymentResponse = await processCreditCardLogic.ProcessPaymentAsync(ccProcessPaymentRequest);
 
             if (ccProcessPaymentResponse.Status == "Approved")
@@ -1067,14 +1077,14 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.CheckNumber = string.Empty;
                 receipt.CreateDepletingDeposit = true;
                 receipt.CreateOverpayment = false;
-                receipt.CurrencyId = this.CurrencyId;
+                receipt.CurrencyId = processCreditCardLogic.CurrencyId;
                 receipt.CustomerDepositCheckNumber = string.Empty;
                 receipt.CustomerDepositId = string.Empty;
                 receipt.CustomerId = string.Empty;
                 receipt.DealDepositCheckNumber = string.Empty;
                 receipt.DealDepositId = string.Empty;
-                receipt.DealId = this.DealId;
-                receipt.LocationId = this.LocationId;
+                receipt.DealId = processCreditCardLogic.DealId;
+                receipt.LocationId = processCreditCardLogic.LocationId;
                 receipt.PaymentAmount = request.AmountToPay;
                 receipt.PaymentBy = "DEAL";
                 receipt.PaymentMemo = string.Empty;

@@ -32,10 +32,16 @@ class ProcessCreditCard {
                 requestAddDepletingDeposit.httpMethod = 'POST';
                 requestAddDepletingDeposit.$elementToBlock = options.$form;
                 requestAddDepletingDeposit.data = {
-                    PINPadCode: FwFormField.getValueByDataField($form, 'PINPad_Code'),
-                    PaymentAmount: FwFormField.getValueByDataField($form, 'Payment_AmountToPay'),
-                    OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                    DealNumber: FwFormField.getValueByDataField($form, 'DealNumber')
+                    PINPad_Code: FwFormField.getValueByDataField(options.$form, 'PINPad_Code'),
+                    AmountToPay: FwFormField.getValueByDataField(options.$form, 'Payment_AmountToPay'),
+                    OrderId: FwFormField.getValueByDataField(options.$form, 'OrderId'),
+                    DealNumber: FwFormField.getValueByDataField(options.$form, 'DealNumber')
+                }
+                const responseAddDepletingDeposit = await FwAjax.callWebApi<any, any>(requestAddDepletingDeposit);
+                if (requestAddDepletingDeposit.xmlHttpRequest.status === 200) {
+                    console.log('success:', responseAddDepletingDeposit);
+                } else {
+                    console.log('fail', responseAddDepletingDeposit);
                 }
             }
             catch (ex) {
