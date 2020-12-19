@@ -963,10 +963,10 @@ namespace WebApi.Modules.Billing.Receipt
             return receipt;
         }
         //------------------------------------------------------------------------------------
-        public static async Task<ReceiptLogic> DoCreditCardRefundAsync(FwApplicationConfig appConfig, FwUserSession userSession, CreditCardRefundRequest request)
+        public static async Task<ReceiptLogic> DoCreditCardRefundAsync(FwApplicationConfig appConfig, FwUserSession userSession, CreditCardRefundRequest request, IProcessCreditCardPlugin processCreditCardPlugin)
         {
             ReceiptLogic receiptLogic = new ReceiptLogic();
-            receiptLogic.SetDependencies(appConfig, userSession);
+            receiptLogic.SetDependencies(appConfig, userSession, processCreditCardPlugin);
             receiptLogic.ReceiptId = request.ReceiptId;
             await receiptLogic.LoadAsync<ReceiptLogic>();
             return await receiptLogic.CreditCardRefundAsync(request);
@@ -977,7 +977,7 @@ namespace WebApi.Modules.Billing.Receipt
             var depletingDepositReceiptId = this.ReceiptId; //passed from front end
             var processCreditCardLogic = new ProcessCreditCardLogic();
 
-            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession);
+            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession, processCreditCardPlugin);
             processCreditCardLogic.OrderId = request.OrderId;
             if (!await processCreditCardLogic.LoadAsync<ReceiptLogic>())
             {

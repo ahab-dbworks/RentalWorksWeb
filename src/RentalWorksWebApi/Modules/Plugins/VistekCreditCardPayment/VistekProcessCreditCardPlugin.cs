@@ -62,10 +62,6 @@ namespace WebApi.Modules.Plugins.VistekCreditCardPayment
                 if (request.StoreCode.Length == 0) throw new ArgumentException("StoreCode is required.");
                 if (request.SalesPersonCode.Length == 0) throw new ArgumentException("SalesPersonCode is required.");
                 if (request.DealNumber.Length == 0) throw new ArgumentException("DalNo is required.");
-                if (request.AuthorizationCode.Length == 0) throw new ArgumentException("AuthCode is required.");
-                //if (request.PaymentReferenceNo.Length == 0) throw new ArgumentException("PaymentReferenceNo is required.");
-                //if (request.CardType.Length == 0) throw new ArgumentException("CardType is required.");
-                //if (request.CardNo.Length == 0) throw new ArgumentException("CardNo is required.");
             }
             else if (request.TransactionType == ProcessCreditCardPaymentRequest.TransactionTypes.VoidRefund)
             {

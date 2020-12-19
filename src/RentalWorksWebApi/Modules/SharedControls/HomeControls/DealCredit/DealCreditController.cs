@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using FwStandard.AppManager;
 using FwStandard.Utilities;
 using WebApi.Modules.Billing.Receipt;
+using WebApi.Modules.Billing.ProcessCreditCard;
 
 namespace WebApi.Modules.HomeControls.DealCredit
 {
@@ -16,7 +17,12 @@ namespace WebApi.Modules.HomeControls.DealCredit
     [FwController(Id: "OCkLGwclipEA")]
     public class DealCreditController : AppDataController
     {
-        public DealCreditController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(DealCreditLogic); }
+        readonly IProcessCreditCardPlugin processCreditCardPlugin;
+        public DealCreditController(IOptions<FwApplicationConfig> appConfig, IProcessCreditCardPlugin processCreditCardPlugin) : base(appConfig)
+        {
+            logicType = typeof(DealCreditLogic);
+            this.processCreditCardPlugin = processCreditCardPlugin;
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/dealcredit/browse 
         [HttpPost("browse")]
@@ -47,7 +53,7 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwControllerMethod(Id: "aVvPPeYAmQEN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] CreditCardRefundRequest request)
         {
-            return await ReceiptLogic.DoCreditCardRefundAsync(this.AppConfig, this.UserSession, request);
+            return await ReceiptLogic.DoCreditCardRefundAsync(this.AppConfig, this.UserSession, request, processCreditCardPlugin);
         }
         //------------------------------------------------------------------------------------ 
     }

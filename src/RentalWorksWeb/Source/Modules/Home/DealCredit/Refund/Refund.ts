@@ -40,8 +40,8 @@ class Refund {
         FwConfirmation.addJqueryControl($confirmation, $refund);
         const $btnProcess = FwConfirmation.addButton($confirmation, 'Process Credit Card', false);
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
+            const requestrefund = new FwAjaxRequest();
             try {
-                const requestrefund = new FwAjaxRequest();
                 requestrefund.httpMethod = 'POST';
                 requestrefund.setWebApiUrl('/api/v1/dealcredit/refund');
                 requestrefund.data = {
@@ -68,7 +68,7 @@ class Refund {
                 FwConfirmation.destroyConfirmation($confirmation);
             }
             catch (ex) {
-                FwFunc.showError(ex);
+                FwFunc.showWebApiError(requestrefund.xmlHttpRequest.status, requestrefund.xmlHttpRequest.statusText, requestrefund.xmlHttpRequest.responseText, requestrefund.xmlHttpRequest.responseURL);
             }
         });
 
