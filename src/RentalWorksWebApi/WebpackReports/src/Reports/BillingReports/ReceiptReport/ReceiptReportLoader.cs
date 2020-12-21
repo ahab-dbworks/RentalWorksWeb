@@ -214,7 +214,12 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
                     report.Deals = dtDeals.ToList<DepletingDepositReceiptReportDealLoader>();
                 }
             }
-            else if (report.RecTypeDisplay != "REFUND")
+            else if (report.RecTypeDisplay != "REFUND CHECK")
+            {
+                // Refund Report
+                report.ReportType = "REFUND CHECK";
+            }
+            else if (report.RecTypeDisplay != "REFUND CHECK")
             {
                 // Receipt Report
                 report.ReportType = "RECEIPT";
