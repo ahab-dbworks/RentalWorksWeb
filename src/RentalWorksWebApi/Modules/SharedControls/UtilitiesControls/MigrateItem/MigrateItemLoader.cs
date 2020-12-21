@@ -170,7 +170,7 @@ namespace WebApi.Modules.Utilities.MigrateItem
 
             if (showSelectedOnly)
             {
-                select.AddWhere("(qtyselected > 0)");
+                select.AddWhere("(quantity > 0)");
             }
 
         }
