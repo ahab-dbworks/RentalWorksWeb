@@ -144,8 +144,6 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         public List<DepletingDepositReceiptReportDealLoader> Deals { get; set; } = new List<DepletingDepositReceiptReportDealLoader>(new DepletingDepositReceiptReportDealLoader[] { new DepletingDepositReceiptReportDealLoader() });
         //------------------------------------------------------------------------------------ 
         public List<DepletingDepositReceiptReportInvoiceLoader> Invoices { get; set; } = new List<DepletingDepositReceiptReportInvoiceLoader>(new DepletingDepositReceiptReportInvoiceLoader[] { new DepletingDepositReceiptReportInvoiceLoader() });
-        //------------------------------------------------------------------------------------ 
-        public List<DealCreditLoader> Credits { get; set; } = new List<DealCreditLoader>(new DealCreditLoader[] { new DealCreditLoader() });
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
