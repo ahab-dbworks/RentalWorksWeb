@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System;
 using FwStandard.Utilities;
 using System.Dynamic;
+using WebApi.Modules.HomeControls.DealCredit;
 
 namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
 {
@@ -75,7 +76,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text)]
         public string CheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "appliedbyid", modeltype: FwDataTypes.Text)]
@@ -143,6 +144,8 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         public List<DepletingDepositReceiptReportDealLoader> Deals { get; set; } = new List<DepletingDepositReceiptReportDealLoader>(new DepletingDepositReceiptReportDealLoader[] { new DepletingDepositReceiptReportDealLoader() });
         //------------------------------------------------------------------------------------ 
         public List<DepletingDepositReceiptReportInvoiceLoader> Invoices { get; set; } = new List<DepletingDepositReceiptReportInvoiceLoader>(new DepletingDepositReceiptReportInvoiceLoader[] { new DepletingDepositReceiptReportInvoiceLoader() });
+        //------------------------------------------------------------------------------------ 
+        public List<DealCreditLoader> Credits { get; set; } = new List<DealCreditLoader>(new DealCreditLoader[] { new DealCreditLoader() });
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -213,7 +216,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
                     report.Deals = dtDeals.ToList<DepletingDepositReceiptReportDealLoader>();
                 }
             }
-            else
+            else if (report.RecTypeDisplay != "REFUND")
             {
                 // Receipt Report
                 report.ReportType = "RECEIPT";
@@ -261,13 +264,13 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodtotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "periodtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string PeriodTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string DepositAmount { get; set; }
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
@@ -303,7 +306,7 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string DealDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string DepositAmount { get; set; }
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -347,10 +350,10 @@ namespace WebApi.Modules.Reports.OrderDepletingDepositReceiptReport
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "applied", modeltype: FwDataTypes.DecimalString2Digits)]
+        [FwSqlDataField(column: "applied", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public string Applied { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
