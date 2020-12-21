@@ -29,14 +29,6 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwControllerMethod(Id: "Mr3OFcb7XiKr", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody] BrowseRequest browseRequest)
         {
-            if (FwValidate.IsPropertyDefined(browseRequest.uniqueids, "OrderId"))
-            {
-                string orderId = browseRequest.uniqueids.OrderId;
-                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    browseRequest.uniqueids.DealId = (await FwSqlCommand.GetDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "dealorder", "orderid", browseRequest.uniqueids.OrderId, "dealid")).ToString();
-                }
-            }
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 

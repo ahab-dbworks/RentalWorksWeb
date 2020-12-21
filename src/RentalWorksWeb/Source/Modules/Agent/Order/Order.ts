@@ -325,6 +325,9 @@ class Order extends OrderBase {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId')
                 }
+                if (module == 'DealCredit') {
+                    request.uniqueids.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                }
             });
         }
         return $browse;
