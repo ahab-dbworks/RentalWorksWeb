@@ -977,7 +977,7 @@ namespace WebApi.Modules.Billing.Receipt
             var depletingDepositReceiptId = this.ReceiptId; //passed from front end
             var processCreditCardLogic = new ProcessCreditCardLogic();
 
-            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession);
+            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession, this.processCreditCardPlugin);
             processCreditCardLogic.OrderId = request.OrderId;
             if (!await processCreditCardLogic.LoadAsync<ReceiptLogic>())
             {
