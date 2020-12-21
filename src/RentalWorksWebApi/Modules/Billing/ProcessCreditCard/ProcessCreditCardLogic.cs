@@ -165,11 +165,6 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
                 {
                     throw new Exception("Unable to Process Payment: Payment Amount must be greater than 0.");
                 }
-                paymentTypeId = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "paytype", "upper(paytype)", "CREDIT CARD", "paytypeid");
-                if (string.IsNullOrEmpty(paymentTypeId))
-                {
-                    throw new Exception("Unable to Process Payment: Please create a Payment Type with the name \"CREDIT CARD\".");
-                }
                 if (string.IsNullOrEmpty(this.LocationCode))
                 {
                     OfficeLocationLogic locationLogic = FwBusinessLogic.CreateBusinessLogic<OfficeLocationLogic>(this.AppConfig, this.UserSession);
@@ -187,41 +182,8 @@ namespace WebApi.Modules.Billing.ProcessCreditCard
 
                 request.StoreCode = this.LocationCode;
                 request.SalesPersonCode = this.AgentBarcode;
-                request.PaymentTypeId = paymentTypeId;
                 this.processCreditCardPlugin.SetDependencies(this.AppConfig, this.UserSession, this);
                 ProcessCreditCardPaymentResponse response = await this.processCreditCardPlugin.ProcessPaymentAsync(request);
-                //response.CardType ,AMEX,DEBIT,M / C,OTHER,VISA,DCVR
-                
-                //if (response.Status.ToUpper() == "APPROVED")
-                //{
-                //    ReceiptLogic receipt = new ReceiptLogic();
-                //    receipt.SetDependencies(this.AppConfig, this.UserSession);
-                //    receipt.OrderId = request.OrderId;
-                //    receipt.AppliedById = this.UserSession.UsersId;
-                //    receipt.ChargeBatchId = string.Empty;
-                //    receipt.CheckNumber = string.Empty; 
-                //    receipt.CreateDepletingDeposit = true;
-                //    receipt.CreateOverpayment = false;
-                //    receipt.CurrencyId = this.CurrencyId;
-                //    receipt.CustomerDepositCheckNumber = string.Empty;
-                //    receipt.CustomerDepositId = string.Empty;
-                //    receipt.CustomerId = string.Empty;
-                //    receipt.DealDepositCheckNumber = string.Empty;
-                //    receipt.DealDepositId = string.Empty;
-                //    receipt.DealId = this.DealId;
-                //    receipt.LocationId = this.LocationId;
-                //    receipt.PaymentAmount = request.PaymentAmount;
-                //    receipt.PaymentBy = "DEAL";
-                //    receipt.PaymentMemo = string.Empty;
-                //    receipt.PaymentTypeId = await response.GetChargePayTypeIdAsync(this.AppConfig, this.UserSession);
-                //    receipt.PaymentTypeType = "CREDIT CARD";
-                //    receipt.RecType = "D";
-                //    receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
-                //    receipt.ReceiptId = string.Empty;
-                //    receipt.ModifiedById = this.UserSession.UsersId;
-                //    receipt.AuthorizationCode = response.AuthorizationCode;
-                //    await receipt.SaveAsync(null, null, TDataRecordSaveMode.smInsert);
-                //}
                 
                 return response;
             }

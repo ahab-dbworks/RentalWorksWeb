@@ -42,9 +42,16 @@ class Refund {
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
             const requestrefund = new FwAjaxRequest();
             try {
+                if (FwFormField.getValueByDataField($refund, 'PINPad_Code') === "") {
+                    throw new Error('Pin Pad is required.');
+                }
+                if (FwFormField.getValueByDataField($refund, 'RefundAmount') <= 0.0) {
+                    throw new Error('Refund Amount is required.');
+                }
+                const requestrefund = new FwAjaxRequest();
                 requestrefund.httpMethod = 'POST';
                 requestrefund.setWebApiUrl('/api/v1/dealcredit/refund');
-                requestrefund.data = {
+                requestrefund.data = <any>{
                     ReceiptId: request.receiptId,
                     OrderId: request.orderId,
                     DealId: request.dealId,
@@ -52,6 +59,7 @@ class Refund {
                     PINPad_Code: FwFormField.getValueByDataField($refund, 'PINPad_Code')
 
                 };
+                
                 requestrefund.$elementToBlock = jQuery('body');
                 var response = await FwAjax.callWebApi<any, any>(requestrefund);
                 if (requestrefund.xmlHttpRequest.status === 200) {

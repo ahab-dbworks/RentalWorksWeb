@@ -33,7 +33,7 @@ class DealCredit {
 
         // Browse SubMenu
         // Options Group
-        FwMenu.addSubMenuItem(options.$colOptions, 'Refund Remaining Amount', 'aVvPPeYAmQEN', (e) => {
+        FwMenu.addSubMenuItem(options.$colOptions, 'Refund', 'aVvPPeYAmQEN', (e) => {
             try {
                 const $form = options.$browse.closest('.fwform');
                 const controllerName = $form.attr('data-controller');

@@ -53,7 +53,7 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwControllerMethod(Id: "aVvPPeYAmQEN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] CreditCardRefundRequest request)
         {
-            return await ReceiptLogic.DoCreditCardRefundAsync(this.AppConfig, this.UserSession, request, processCreditCardPlugin);
+            return await ReceiptLogic.DoCreditCardRefundAsync(this.AppConfig, this.UserSession, processCreditCardPlugin,  request);
         }
         //------------------------------------------------------------------------------------ 
     }

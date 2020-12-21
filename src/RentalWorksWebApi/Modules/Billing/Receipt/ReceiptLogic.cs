@@ -963,7 +963,7 @@ namespace WebApi.Modules.Billing.Receipt
             return receipt;
         }
         //------------------------------------------------------------------------------------
-        public static async Task<ReceiptLogic> DoCreditCardRefundAsync(FwApplicationConfig appConfig, FwUserSession userSession, CreditCardRefundRequest request, IProcessCreditCardPlugin processCreditCardPlugin)
+        public static async Task<ReceiptLogic> DoCreditCardRefundAsync(FwApplicationConfig appConfig, FwUserSession userSession, IProcessCreditCardPlugin processCreditCardPlugin, CreditCardRefundRequest request)
         {
             ReceiptLogic receiptLogic = new ReceiptLogic();
             receiptLogic.SetDependencies(appConfig, userSession, processCreditCardPlugin);
@@ -977,7 +977,7 @@ namespace WebApi.Modules.Billing.Receipt
             var depletingDepositReceiptId = this.ReceiptId; //passed from front end
             var processCreditCardLogic = new ProcessCreditCardLogic();
 
-            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession, processCreditCardPlugin);
+            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession);
             processCreditCardLogic.OrderId = request.OrderId;
             if (!await processCreditCardLogic.LoadAsync<ReceiptLogic>())
             {
@@ -1074,7 +1074,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.OrderId = request.OrderId;
                 receipt.AppliedById = this.UserSession.UsersId;
                 receipt.ChargeBatchId = string.Empty;
-                receipt.CheckNumber = string.Empty;
+                receipt.CheckNumber = ccProcessPaymentResponse.AuthorizationCode;
                 receipt.CreateDepletingDeposit = true;
                 receipt.CreateOverpayment = false;
                 receipt.CurrencyId = processCreditCardLogic.CurrencyId;
