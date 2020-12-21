@@ -251,6 +251,15 @@ class MigrateOrders {
                 },
                 $migrateItemGrid);
         });
+
+        //Options
+        $form.find('.options-button').on('click', e => {
+            $form.find('.options-section').toggle();
+        });
+
+        $form.find('[data-datafield="ShowSelectedOnly"]').on('change', e => {
+            FwBrowse.search($form.find('[data-name="MigrateItemGrid"]'));
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderMigrateItemGrid($form) {
@@ -288,7 +297,8 @@ class MigrateOrders {
                             $migrateItemGrid.data('sessionId', sessionId);
                             $migrateItemGridControl.data('ondatabind', request => {
                                 request.uniqueids = {
-                                    SessionId: sessionId
+                                    SessionId: sessionId,
+                                    ShowSelectedOnly: FwFormField.getValueByDataField($form, 'ShowSelectedOnly')
                                 };
                             });
                             FwBrowse.search($migrateItemGridControl);
