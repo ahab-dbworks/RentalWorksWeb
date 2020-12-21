@@ -33,11 +33,23 @@ class Refund {
     </div>  
     <div class="flexrow">
         <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Refund Amount" data-datafield="RefundAmount" data-required="true" style="flex:1 0 150px;"></div>
+        <div class="fwformcontrol btnApply" data-type="button" style="text-align:center;width:75px;margin:17px 0 0 10px;"><i class="material-icons" style="vertical-align: middle;margin: 0 4px 0 0;">keyboard_return</i>Apply</div>
     </div>  
 </div>`;
         const $refund = jQuery(html);
         const $confirmation = FwConfirmation.renderConfirmation('Refund', '');
         FwConfirmation.addJqueryControl($confirmation, $refund);
+
+        $refund.find('.btnApply').on('click', (e: JQuery.ClickEvent) => {
+            try {
+                const remainingAmount = FwFormField.getValueByDataField($refund, 'RemainingAmount');
+                FwFormField.setValueByDataField($refund, 'RefundAmount', remainingAmount);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+
         const $btnProcess = FwConfirmation.addButton($confirmation, 'Process Credit Card', false);
         $btnProcess.on('click', async (e: JQuery.ClickEvent) => {
             const requestrefund = new FwAjaxRequest();
