@@ -23,15 +23,15 @@
     "fetch": "1.1.0",
     "fs": "0.0.1-security",
     "graceful-fs": "^4.2.4",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "jest-puppeteer": "4.2.0",
     "jquery": "3.4.1",
-    "puppeteer": "1.18.1",
+    "puppeteer": "^1.18.1",
     "ts-jest": "24.0.2",
     "typescript": "3.5.2"
   },
   "devDependencies": {
-    "jest-html-reporter": "^2.6.2"
+    "jest-html-reporter": "^2.8.2"
   },
   "scripts": {
     "test-rentalworkswebapi": "npx jest --config=jest.rentalworkswebapi.config.js -t WebApiTest",

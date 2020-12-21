@@ -16,6 +16,7 @@ export class FwSettingsModule extends FwModuleBase {
     waitBeforeClickingToOpenRecord: number = 300;
     waitBeforeClickingToCloseRecord: number = 1000;
     waitAfterClickingToOpenRecordToCheckForErrors: number = 300;
+    waitAfterNewRecordToCheckDefaultForm: number = 1000;
     waitForNewButtonToGetEvents: number = 2000;     
     waitForCancelButtonToGetEvents: number = 2000;  
     waitForDeleteButtonToGetEvents: number = 6000;  
@@ -431,6 +432,9 @@ export class FwSettingsModule extends FwModuleBase {
                         return caption;
                     })
                     //if (formCaption === `New ${this.moduleCaption}`) {
+
+                    await FwModuleBase.wait(this.waitAfterNewRecordToCheckDefaultForm); 
+
                     createNewResponse.success = true;
                     createNewResponse.errorMessage = "";
                     createNewResponse.defaultRecord = await this.getFormRecord();

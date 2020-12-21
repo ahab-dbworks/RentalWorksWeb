@@ -17,8 +17,8 @@ namespace WebApi.Modules.HomeControls.BillingSchedule
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select orderid                               ");
-                qry.Add(" from  orderneedrecalcbillingscheduleview    ");
+                qry.Add("select orderid                                            ");
+                qry.Add(" from  orderneedrecalcbillingscheduleview with (nolock)   ");
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
                 Console.WriteLine($"Found {dt.TotalRows.ToString()} Orders that need Billing Schedule recalculated");

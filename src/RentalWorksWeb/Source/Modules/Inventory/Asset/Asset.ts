@@ -565,7 +565,7 @@ class RwAsset {
             <div class="field" data-caption="Status" data-datafield="InventoryStatus" data-cellcolor="Color" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" data-width="auto" data-visible="true">
-            <div class="field" data-caption="As Of" data-datafield="StatusDate" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="As Of" data-datafield="StatusDate" data-browsedatatype="date" data-sort="off"></div>
           </div>
           <div class="column flexcolumn" data-width="auto" data-visible="true">
             <div class="field" data-caption="Warehouse / Deal" data-datafield="CurrentLocation" data-browsedatatype="text" data-sort="off"></div>
@@ -652,7 +652,7 @@ class RwAsset {
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="InventoryStatus" data-enabled="false" style="width:175px;"></div>
                           </div>
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status Date" data-datafield="StatusDate" data-enabled="false" style="float:left;width:175px;"></div>
+                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Status Date" data-datafield="StatusDate" data-enabled="false" style="float:left;width:175px;"></div>
                           </div>
                         </div>
                       </div>
