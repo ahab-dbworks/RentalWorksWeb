@@ -1017,7 +1017,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.PaymentMemo = string.Empty;
                 receipt.PaymentTypeId = await ccProcessPaymentResponse.GetRefundPayTypeIdAsync(this.AppConfig, this.UserSession);
                 receipt.PaymentTypeType = "REFUND CHECK";
-                receipt.RecType = "P";
+                receipt.RecType = RwConstants.RECEIPT_RECTYPE_REFUND;
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
                 receipt.ModifiedById = this.UserSession.UsersId;
@@ -1090,7 +1090,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.PaymentMemo = string.Empty;
                 receipt.PaymentTypeId = await ccProcessPaymentResponse.GetChargePayTypeIdAsync(this.AppConfig, this.UserSession);
                 receipt.PaymentTypeType = "CREDIT CARD";
-                receipt.RecType = "D";
+                receipt.RecType = RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT;
                 receipt.ReceiptDate = FwConvert.ToShortDate(DateTime.Now);
                 receipt.ReceiptId = string.Empty;
                 receipt.ModifiedById = this.UserSession.UsersId;
