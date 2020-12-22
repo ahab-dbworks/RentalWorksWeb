@@ -13,7 +13,8 @@
                     const $grid = $tr.parents('[data-grid="MigrateItemGrid"]');
                     const sessionId = $grid.data('sessionId');
                     let request: any = {},
-                        code = $tr.find('[data-browsedatafield="BarCode"]').attr('data-originalvalue'),
+                        //code = $tr.find('[data-browsedatafield="BarCode"]').attr('data-originalvalue'),
+                        code = $tr.find('[data-browsedatafield="ItemId"]').attr('data-originaltext'),
                         orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
                         orderId = $tr.find('[data-browsedatafield="OrderId"]').attr('data-originalvalue'),
                         newValue = jQuery(e.currentTarget).val(),
