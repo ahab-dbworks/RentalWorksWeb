@@ -972,17 +972,32 @@ namespace WebApi.Modules.Billing.Receipt
         public async Task<ReceiptLogic> CreditCardRefundAsync(CreditCardRefundRequest request)
         {
             var depletingDepositReceiptId = this.ReceiptId; //passed from front end
-            var processCreditCardLogic = new ProcessCreditCardLogic();
 
-            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession, this.processCreditCardPlugin);
-            processCreditCardLogic.OrderId = request.OrderId;
-            if (!await processCreditCardLogic.LoadAsync<ReceiptLogic>())
+            // load Receipt
+            var depletingDepositReceipt = new ReceiptLogic();
+            depletingDepositReceipt.SetDependencies(this.AppConfig, this.UserSession, this.processCreditCardPlugin);
+            depletingDepositReceipt.ReceiptId = depletingDepositReceiptId;
+            if (!await depletingDepositReceipt.LoadAsync<ReceiptLogic>())
             {
-                throw new Exception("Unable to process refund [nnJElQI8WDxO].");
+                throw new Exception("Unable to load Depleting Deposit.");
+            }
+            
+            // TODO: OrderId is required for CreditCard processing
+            if (string.IsNullOrEmpty(depletingDepositReceipt.OrderId))
+            {
+                throw new ArgumentException("OrderId is missing on Depleting Deposit Receipt.  Unable to process refund.", "Order Id");
+            }
+            
+            var processCreditCardLogic = new ProcessCreditCardLogic();
+            processCreditCardLogic.SetDependencies(this.AppConfig, this.UserSession, this.processCreditCardPlugin);
+            processCreditCardLogic.OrderId = depletingDepositReceipt.OrderId;
+            if (!await processCreditCardLogic.LoadAsync<ProcessCreditCardLogic>())
+            {
+                throw new Exception("Unable to process refund.");
             }
 
             var ccProcessPaymentRequest = new ProcessCreditCardPaymentRequest();
-            ccProcessPaymentRequest.OrderId = request.OrderId;
+            ccProcessPaymentRequest.OrderId = depletingDepositReceipt.OrderId;
             ccProcessPaymentRequest.TransactionType = ProcessCreditCardPaymentRequest.TransactionTypes.Refund;
             ccProcessPaymentRequest.PINPadCode = request.PINPad_Code;
             ccProcessPaymentRequest.PaymentAmount = request.RefundAmount;
@@ -995,7 +1010,7 @@ namespace WebApi.Modules.Billing.Receipt
             {
                 ReceiptLogic receipt = new ReceiptLogic();
                 receipt.SetDependencies(this.AppConfig, this.UserSession);
-                receipt.OrderId = request.OrderId;
+                receipt.OrderId = depletingDepositReceipt.OrderId;
                 receipt.AppliedById = this.UserSession.UsersId;
                 receipt.ChargeBatchId = string.Empty;
                 receipt.CheckNumber = ccProcessPaymentResponse.AuthorizationCode;
@@ -1007,7 +1022,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.CustomerId = string.Empty;
                 receipt.DealDepositCheckNumber = string.Empty;
                 receipt.DealDepositId = string.Empty;
-                receipt.DealId = request.DealId;
+                receipt.DealId = depletingDepositReceipt.DealId;
                 receipt.LocationId = this.LocationId;
                 receipt.PaymentAmount = request.RefundAmount;
                 receipt.PaymentBy = RwConstants.RECEIPT_PAYMENT_BY_DEAL;
@@ -1031,7 +1046,7 @@ namespace WebApi.Modules.Billing.Receipt
                 return receipt;
             } else
             {
-                throw new Exception("Unable to process credit card refund!");
+                throw new Exception("Credit Card transaction was declined!");
             }
         }
         //------------------------------------------------------------------------------------

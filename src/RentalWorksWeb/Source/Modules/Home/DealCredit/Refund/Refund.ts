@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 class Refund {
     static showRefundPopup($browse: JQuery, request: RequestRefund) {
         let html =
@@ -65,11 +65,8 @@ class Refund {
                 requestrefund.setWebApiUrl('/api/v1/dealcredit/refund');
                 requestrefund.data = <any>{
                     ReceiptId: request.receiptId,
-                    OrderId: request.orderId,
-                    DealId: request.dealId,
                     RefundAmount: FwFormField.getValueByDataField($refund, 'RefundAmount'),
                     PINPad_Code: FwFormField.getValueByDataField($refund, 'PINPad_Code')
-
                 };
                 
                 requestrefund.$elementToBlock = jQuery('body');
