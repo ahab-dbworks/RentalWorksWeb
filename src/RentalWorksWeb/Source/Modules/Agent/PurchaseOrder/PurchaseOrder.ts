@@ -1609,10 +1609,20 @@ class PurchaseOrder implements IModule {
 
         if (dealId != '') {
             if (receiveType === 'DELIVER' || receiveType === 'SHIP') {
-                FwFormField.enable($form.find('[data-datafield="ReceiveDeliveryDropShip"], .receive-confirm'));
+                FwFormField.enable($form.find('[data-datafield="ReceiveDeliveryDropShip"]'));
+                if (FwFormField.getValueByDataField($form, 'ReceiveDeliveryDropShip')) {
+                    FwFormField.enable($form.find('.receive-confirm'));
+                }
+            } else {
+                FwFormField.disable($form.find('[data-datafield="ReceiveDeliveryDropShip"], .receive-confirm'));
             }
             if (returnType === 'PICK UP') {
                 FwFormField.enable($form.find('[data-datafield="ReturnDeliveryVendorRetrieve"], .return-confirm'));
+                if (FwFormField.getValueByDataField($form, 'ReturnDeliveryVendorRetrieve')) {
+                    FwFormField.enable($form.find('.return-confirm'));
+                }
+            } else {
+                FwFormField.disable($form.find('[data-datafield="ReturnDeliveryVendorRetrieve"], .return-confirm'));
             }
         }
     }
@@ -2536,6 +2546,9 @@ class PurchaseOrder implements IModule {
         $form.find('[data-datafield="ReceiveDeliveryDropShip"]').on('change', e => {
             if (FwFormField.getValueByDataField($form, 'ReceiveDeliveryDropShip')) {
                 FwFormField.setValueByDataField($form, 'ReceiveDeliveryAddressType', 'DEAL', '', true);
+                FwFormField.enable($form.find('.receive-confirm'));
+            } else {
+                FwFormField.disable($form.find('.receive-confirm'));
             }
         });
 
@@ -2543,6 +2556,9 @@ class PurchaseOrder implements IModule {
         $form.find('[data-datafield="ReturnDeliveryVendorRetrieve"]').on('change', e => {
             if (FwFormField.getValueByDataField($form, 'ReturnDeliveryVendorRetrieve')) {
                 FwFormField.setValueByDataField($form, 'ReturnDeliveryAddressType', 'DEAL', '', true);
+                FwFormField.enable($form.find('.return-confirm'));
+            } else {
+                FwFormField.disable($form.find('.return-confirm'));
             }
         });
 
@@ -2585,11 +2601,12 @@ class PurchaseOrder implements IModule {
                 request.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
                 request.DeliveryId = deliveryId;
                 FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/${url}`, request, FwServices.defaultTimeout, response => {
+                    FwConfirmation.destroyConfirmation($confirmation);
                     for (let i = 0; i < response.Contracts.length; i++) {
                         const $contractForm = ContractController.loadForm({ ContractId: response.Contracts[i].ContractId });
                         FwModule.openModuleTab($contractForm, '', true, 'FORM', false);
                     }
-                }, null, $form);
+                }, null, $confirmation.find('.fwconfirmationbox'));
             });
         });
     };
