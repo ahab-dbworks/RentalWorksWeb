@@ -2,21 +2,18 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Billing.Invoice;
+using WebApi.Modules.Billing.ProcessCreditCard;
 using WebApi.Modules.HomeControls.DepositPayment;
 using WebApi.Modules.HomeControls.InvoiceReceipt;
-using WebApi.Modules.Settings.PaymentSettings.PaymentType;
-using WebApi.Modules.Settings.SystemSettings;
-using WebApi.Modules.Settings.SystemSettings.SystemSettings;
-using WebApi;
 using WebApi.Modules.Settings.FiscalYear;
-using System.Threading.Tasks;
-using WebApi.Modules.Billing.ProcessCreditCard;
-
-using System;
+using WebApi.Modules.Settings.PaymentSettings.PaymentType;
+using WebApi.Modules.Settings.SystemSettings.SystemSettings;
 
 namespace WebApi.Modules.Billing.Receipt
 {
@@ -795,7 +792,7 @@ namespace WebApi.Modules.Billing.Receipt
                         }
                         invoiceAmountTotal += ri.Amount;
                     }
-                }
+                } 
             }
 
             {
@@ -950,11 +947,11 @@ namespace WebApi.Modules.Billing.Receipt
             receipt.DealId = request.DealId;
             receipt.LocationId = request.LocationId;
             receipt.PaymentAmount = request.PaymentAmount;
-            receipt.PaymentBy = "DEAL";
+            receipt.PaymentBy = RwConstants.RECEIPT_PAYMENT_BY_DEAL;
             receipt.PaymentMemo = request.PaymentMemo;
             receipt.PaymentTypeId = request.PaymentTypeId;
             receipt.PaymentTypeType = string.Empty;
-            receipt.RecType = "D";
+            receipt.RecType = RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT;
             receipt.ReceiptDate = FwConvert.ToShortDate(request.ReceiptDate);
             receipt.ReceiptId = string.Empty;
             receipt.ModifiedById = userSession.UsersId;
@@ -1013,7 +1010,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.DealId = request.DealId;
                 receipt.LocationId = this.LocationId;
                 receipt.PaymentAmount = request.RefundAmount;
-                receipt.PaymentBy = "DEAL";
+                receipt.PaymentBy = RwConstants.RECEIPT_PAYMENT_BY_DEAL;
                 receipt.PaymentMemo = string.Empty;
                 receipt.PaymentTypeId = await ccProcessPaymentResponse.GetRefundPayTypeIdAsync(this.AppConfig, this.UserSession);
                 receipt.PaymentTypeType = "REFUND CHECK";
@@ -1086,7 +1083,7 @@ namespace WebApi.Modules.Billing.Receipt
                 receipt.DealId = processCreditCardLogic.DealId;
                 receipt.LocationId = processCreditCardLogic.LocationId;
                 receipt.PaymentAmount = request.AmountToPay;
-                receipt.PaymentBy = "DEAL";
+                receipt.PaymentBy = RwConstants.RECEIPT_PAYMENT_BY_DEAL;
                 receipt.PaymentMemo = string.Empty;
                 receipt.PaymentTypeId = await ccProcessPaymentResponse.GetChargePayTypeIdAsync(this.AppConfig, this.UserSession);
                 receipt.PaymentTypeType = "CREDIT CARD";

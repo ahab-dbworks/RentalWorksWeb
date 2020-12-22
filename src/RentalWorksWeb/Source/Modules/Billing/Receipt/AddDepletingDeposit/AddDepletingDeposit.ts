@@ -7,7 +7,7 @@ class DepletingDeposit {
     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 0 150px;" data-required="true"></div>
   </div>
   <div class="flexrow">
-    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-enabled="true" data-datafield="ReceiptDate" style="flex:1 0 150px;"></div>
+    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-enabled="false" data-datafield="ReceiptDate" style="flex:1 0 150px;"></div>
     <div></div>
   </div>
   <div class="flexrow">
@@ -60,6 +60,7 @@ class DepletingDeposit {
                 request.data = {
                     LocationId: location.locationid,
                     CurrencyId: FwFormField.getValueByDataField($adddepletingdeposit, 'CurrencyId'),
+                    OrderId: orderId,
                     DealId: FwFormField.getValueByDataField($adddepletingdeposit, 'DealId'),
                     ReceiptDate: FwFormField.getValueByDataField($adddepletingdeposit, 'ReceiptDate'),
                     PaymentTypeId: FwFormField.getValueByDataField($adddepletingdeposit, 'PaymentTypeId'),
