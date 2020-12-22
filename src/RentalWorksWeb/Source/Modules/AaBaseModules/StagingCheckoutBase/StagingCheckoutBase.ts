@@ -440,6 +440,7 @@ abstract class StagingCheckoutBase {
         const $form = args[0];
         const event = args[1];
         $form.find('.error-msg:not(.qty)').html('');
+        $form.find('div[data-datafield="ApplyToAllStaged"] input').prop('checked', false);
 
         const location = JSON.parse(sessionStorage.getItem('location'));
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -817,6 +818,8 @@ abstract class StagingCheckoutBase {
         const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
         const location = JSON.parse(sessionStorage.getItem('location'));
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        $form.find('div[data-datafield="ApplyToAllStaged"] input').prop('checked', false);
+
         let request: any = {};
 
         setTimeout(() => {
