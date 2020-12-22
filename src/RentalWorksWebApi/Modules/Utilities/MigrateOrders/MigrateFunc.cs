@@ -244,7 +244,10 @@ namespace WebApi.Modules.Utilities.Migrate
                     qry.AddParameter("@copyordernotes", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyOrderNotes.GetValueOrDefault(false));
                     qry.AddParameter("@copyrates", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyRentalRates.GetValueOrDefault(false));
                     qry.AddParameter("@updatebillperiodend", SqlDbType.NVarChar, ParameterDirection.Input, request.UpdateBillingStopDate.GetValueOrDefault(false));
-                    qry.AddParameter("@billperiodend", SqlDbType.NVarChar, ParameterDirection.Input, request.BillingStopDate);
+                    //if (request.BillingStopDate != null)
+                    //{
+                    //    qry.AddParameter("@billperiodend", SqlDbType.DateTime, ParameterDirection.Input, request.BillingStopDate);
+                    //}
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -368,10 +371,20 @@ namespace WebApi.Modules.Utilities.Migrate
                         await destinationOrder.SaveAsync(original: null, conn: conn);
                         destinationOrderValid = (!string.IsNullOrEmpty(destinationOrder.OrderId));
                     }
+                    else
+                    {
+                        response.success = false;
+                        response.msg = valResult.ValidateMsg;
+                    }
 
                     if (destinationOrderValid)
                     {
                         await destinationOrder.LoadAsync<OrderLogic>();
+                    }
+                    else
+                    {
+                        response.success = false;
+                        response.msg = "Could not create new Order for Migrate.";
                     }
 
                 }

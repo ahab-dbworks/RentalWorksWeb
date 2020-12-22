@@ -83,12 +83,12 @@
             </div>
           </div>
         </div>
-        <!--<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Migrated Inventory will be">
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Migrated Inventory will be">
           <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryCheckedOrStaged" style="margin:15px 0px;">
             <div data-caption="Checked out to the Destination Order" data-value="CHECKED"></div>
             <div data-caption="Staged to the Destination Order" data-value="STAGED"></div>
           </div>
-        </div>-->
+        </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Migrate Options">
           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes from Source Orders" data-datafield="CopyLineItemNotes"></div>
           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Order Notes from Source Orders" data-datafield="CopyOrderNotes"></div>
@@ -111,6 +111,9 @@
           <div class="flexrow" style="max-width:1600px;">
             <div class="finalize-migration fwformcontrol" data-type="button" style="max-width:175px; margin:.5em 42em;;">Finalize Migration</div>
             <div class="finalize-migration-new fwformcontrol" data-type="button" style="max-width:215px; margin:.5em -40em; background-color:green; display:none;">Finalize Migration (New)</div>
+          </div>
+          <div class="flexrow options-section" style="display:none;">
+            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only show items selected for migration" data-datafield="ShowSelectedOnly" style="flex:1 1 150px;"></div>
           </div>
         </div>
       </div>
