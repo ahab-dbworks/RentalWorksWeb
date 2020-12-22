@@ -9,6 +9,7 @@ using FwStandard.AppManager;
 using FwStandard.Utilities;
 using WebApi.Modules.Billing.Receipt;
 using WebApi.Modules.Billing.ProcessCreditCard;
+using System;
 
 namespace WebApi.Modules.HomeControls.DealCredit
 {
@@ -45,7 +46,18 @@ namespace WebApi.Modules.HomeControls.DealCredit
         [FwControllerMethod(Id: "aVvPPeYAmQEN", ActionType: FwControllerActionTypes.Browse)]
         public async Task<ActionResult<ReceiptLogic>> RefundAsync([FromBody] CreditCardRefundRequest request)
         {
-            return await ReceiptLogic.DoCreditCardRefundAsync(this.AppConfig, this.UserSession, processCreditCardPlugin,  request);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ReceiptLogic.DoCreditCardRefundAsync(this.AppConfig, this.UserSession, processCreditCardPlugin, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

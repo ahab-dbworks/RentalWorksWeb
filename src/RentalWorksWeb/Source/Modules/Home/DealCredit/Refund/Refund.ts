@@ -1,4 +1,4 @@
-//----------------------------------------------------------------------------------------------
+﻿//----------------------------------------------------------------------------------------------
 class Refund {
     static showRefundPopup($browse: JQuery, request: RequestRefund) {
         let html =
@@ -85,7 +85,7 @@ class Refund {
                 FwConfirmation.destroyConfirmation($confirmation);
             }
             catch (ex) {
-                FwFunc.showWebApiError(requestrefund.xmlHttpRequest.status, requestrefund.xmlHttpRequest.statusText, requestrefund.xmlHttpRequest.responseText, requestrefund.xmlHttpRequest.responseURL);
+                FwFunc.showError(ex);
             }
         });
 
