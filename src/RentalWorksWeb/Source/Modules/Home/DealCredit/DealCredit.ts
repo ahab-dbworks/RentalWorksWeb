@@ -72,7 +72,7 @@ class DealCredit {
                         request.deal = FwFormField.getValueByDataField($form, 'Deal');
                         request.customerId = FwFormField.getValueByDataField($form, 'CustomerId');
                         request.customerNumber = FwFormField.getValueByDataField($form, 'CustomerNumber');
-                        request.customer = FwFormField.getValueByDataField($form, 'CustomerId');
+                        request.customer = FwFormField.getTextByDataField($form, 'CustomerId');
                     }
                     else {
                         throw new Error(`Refund is not implemented for: ${controllerName}`);
